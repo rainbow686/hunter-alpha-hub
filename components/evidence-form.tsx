@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { Button } from "./button";
 
-export function EvidenceForm() {
+interface EvidenceFormProps {
+  onSubmitted?: () => void;
+}
+
+export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -26,6 +30,7 @@ export function EvidenceForm() {
       if (response.ok) {
         setStatus("success");
         setFormData({ title: "", description: "", nickname: "", evidenceUrl: "" });
+        onSubmitted?.();
         setTimeout(() => setStatus("idle"), 3000);
       } else {
         setStatus("error");

@@ -1,10 +1,32 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/card";
 import { EvidenceForm } from "@/components/evidence-form";
 import { EvidenceCard } from "@/components/evidence-card";
-import { readEvidence } from "@/lib/data";
+import { Evidence } from "@/lib/types";
 
 export default function EvidencePage() {
-  const evidenceList = readEvidence();
+  const [evidenceList, setEvidenceList] = useState<Evidence[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchEvidence = useCallback(async () => {
+    try {
+      const response = await fetch("/api/evidence");
+      if (response.ok) {
+        const data = await response.json();
+        setEvidenceList(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch evidence:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchEvidence();
+  }, [fetchEvidence]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
@@ -23,7 +45,7 @@ export default function EvidencePage() {
         <div className="lg:col-span-1">
           <Card className="p-6 sticky top-20">
             <h2 className="text-xl font-bold mb-4" style={{ color: "var(--foreground)" }}>Submit Evidence</h2>
-            <EvidenceForm />
+            <EvidenceForm onSubmitted={fetchEvidence} />
           </Card>
         </div>
 
@@ -37,7 +59,11 @@ export default function EvidencePage() {
           </div>
 
           <div className="grid gap-4">
-            {evidenceList.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-8" style={{ color: "var(--muted)" }}>
+                Loading evidence...
+              </div>
+            ) : evidenceList.length > 0 ? (
               evidenceList.map((evidence) => (
                 <EvidenceCard key={evidence.id} evidence={evidence} />
               ))
