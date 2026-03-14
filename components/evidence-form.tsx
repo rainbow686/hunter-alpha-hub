@@ -12,6 +12,7 @@ interface FormErrors {
   description?: string;
   nickname?: string;
   evidenceUrl?: string;
+  importance?: string;
 }
 
 export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
@@ -47,6 +48,9 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
       case "evidenceUrl":
         if (value && !/^https?:\/\/.+$/.test(value)) return "Please enter a valid URL (https://...)";
         break;
+      case "importance":
+        if (!["High", "Medium", "Low"].includes(value)) return "Invalid importance value";
+        break;
     }
     return undefined;
   };
@@ -60,7 +64,7 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
     }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error when user starts typing
