@@ -39,8 +39,10 @@ export function SubscriptionForm() {
         onChange={(e) => setEmail(e.target.value)}
         className="flex-1 rounded-lg px-4 py-3 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
         style={{
-          backgroundColor: "var(--card-bg)",
-          borderColor: "var(--card-border)",
+          backgroundColor: "var(--input-bg)",
+          borderColor: "var(--input-border)",
+          borderWidth: "1px",
+          borderStyle: "solid",
           color: "var(--foreground)",
         }}
         placeholder="Enter your email for identity reveal notifications"

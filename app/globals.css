@@ -11,6 +11,8 @@
   --card-border-hover: #4b5563;
   --muted: #9ca3af;
   --accent: #8b5cf6;
+  --input-bg: rgba(31, 41, 55, 0.5);
+  --input-border: #4b5563;
 }
 
 /* Light theme variables */
@@ -22,6 +24,8 @@
   --card-border-hover: #d1d5db;
   --muted: #6b7280;
   --accent: #7c3aed;
+  --input-bg: rgba(243, 244, 246, 0.8);
+  --input-border: #d1d5db;
 }
 
 body {

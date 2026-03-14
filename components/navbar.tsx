@@ -35,8 +35,8 @@ export function Navbar() {
                   href={item.href}
                   className={`text-sm transition-colors ${
                     pathname === item.href
-                      ? "text-white font-medium"
-                      : "text-gray-400 hover:text-white"
+                      ? "text-white dark:text-gray-900 font-medium"
+                      : "text-gray-400 dark:text-gray-600 hover:text-white dark:hover:text-gray-900"
                   }`}
                 >
                   {item.label}

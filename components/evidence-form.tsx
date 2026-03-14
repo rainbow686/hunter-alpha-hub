@@ -133,8 +133,10 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
               : "focus:border-violet-500 focus:ring-violet-500"
           }`}
           style={{
-            backgroundColor: "var(--card-bg)",
-            borderColor: errors.title ? "#ef4444" : "var(--card-border)",
+            backgroundColor: "var(--input-bg)",
+            borderColor: errors.title ? "#ef4444" : "var(--input-border)",
+            borderWidth: "1px",
+            borderStyle: "solid",
             color: "var(--foreground)",
           }}
           placeholder="Brief description of the evidence"
@@ -162,8 +164,10 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
               : "focus:border-violet-500 focus:ring-violet-500"
           }`}
           style={{
-            backgroundColor: "var(--card-bg)",
-            borderColor: errors.description ? "#ef4444" : "var(--card-border)",
+            backgroundColor: "var(--input-bg)",
+            borderColor: errors.description ? "#ef4444" : "var(--input-border)",
+            borderWidth: "1px",
+            borderStyle: "solid",
             color: "var(--foreground)",
           }}
           placeholder="Provide details about this evidence"
@@ -200,8 +204,10 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
                 : "focus:border-violet-500 focus:ring-violet-500"
             }`}
             style={{
-              backgroundColor: "var(--card-bg)",
-              borderColor: errors.nickname ? "#ef4444" : "var(--card-border)",
+              backgroundColor: "var(--input-bg)",
+              borderColor: errors.nickname ? "#ef4444" : "var(--input-border)",
+              borderWidth: "1px",
+              borderStyle: "solid",
               color: "var(--foreground)",
             }}
             placeholder="Your display name"
@@ -228,8 +234,10 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
                 : "focus:border-violet-500 focus:ring-violet-500"
             }`}
             style={{
-              backgroundColor: "var(--card-bg)",
-              borderColor: errors.evidenceUrl ? "#ef4444" : "var(--card-border)",
+              backgroundColor: "var(--input-bg)",
+              borderColor: errors.evidenceUrl ? "#ef4444" : "var(--input-border)",
+              borderWidth: "1px",
+              borderStyle: "solid",
               color: "var(--foreground)",
             }}
             placeholder="https://..."
