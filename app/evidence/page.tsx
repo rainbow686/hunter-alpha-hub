@@ -12,7 +12,7 @@ export default function EvidencePage() {
         <h1 className="text-4xl font-bold mb-4">
           <span className="gradient-text">Evidence Wall</span>
         </h1>
-        <p className="text-gray-400 max-w-xl mx-auto">
+        <p className="max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
           Submit and browse community-sourced evidence about Hunter Alpha.
           Each clue brings us closer to solving the mystery.
         </p>
@@ -22,7 +22,7 @@ export default function EvidencePage() {
         {/* Submit Form */}
         <div className="lg:col-span-1">
           <Card className="p-6 sticky top-20">
-            <h2 className="text-xl font-bold mb-4">Submit Evidence</h2>
+            <h2 className="text-xl font-bold mb-4" style={{ color: "var(--foreground)" }}>Submit Evidence</h2>
             <EvidenceForm />
           </Card>
         </div>
@@ -30,10 +30,10 @@ export default function EvidencePage() {
         {/* Evidence List */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-medium text-gray-300">
+            <h2 className="text-lg font-medium" style={{ color: "var(--muted)" }}>
               {evidenceList.length} {evidenceList.length === 1 ? "clue" : "clues"} submitted
             </h2>
-            <span className="text-sm text-gray-500">Sorted by newest</span>
+            <span className="text-sm" style={{ color: "var(--muted)" }}>Sorted by newest</span>
           </div>
 
           <div className="grid gap-4">
@@ -42,7 +42,7 @@ export default function EvidencePage() {
                 <EvidenceCard key={evidence.id} evidence={evidence} />
               ))
             ) : (
-              <Card className="p-8 text-center text-gray-400">
+              <Card className="p-8 text-center" style={{ color: "var(--muted)" }}>
                 No evidence yet. Submit the first clue!
               </Card>
             )}

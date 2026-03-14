@@ -38,7 +38,7 @@ export function EvidenceForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-1">
+        <label htmlFor="title" className="block text-sm font-medium mb-1" style={{ color: "var(--muted)" }}>
           Title <span className="text-gray-500">*</span>
         </label>
         <input
@@ -47,13 +47,18 @@ export function EvidenceForm() {
           required
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+          className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+          style={{
+            backgroundColor: "var(--card-bg)",
+            borderColor: "var(--card-border)",
+            color: "var(--foreground)",
+          }}
           placeholder="Brief description of the evidence"
         />
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-1">
+        <label htmlFor="description" className="block text-sm font-medium mb-1" style={{ color: "var(--muted)" }}>
           Description <span className="text-gray-500">*</span>
         </label>
         <textarea
@@ -62,14 +67,19 @@ export function EvidenceForm() {
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           rows={3}
-          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 resize-none"
+          className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors resize-none"
+          style={{
+            backgroundColor: "var(--card-bg)",
+            borderColor: "var(--card-border)",
+            color: "var(--foreground)",
+          }}
           placeholder="Provide details about this evidence"
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="nickname" className="block text-sm font-medium text-gray-300 mb-1">
+          <label htmlFor="nickname" className="block text-sm font-medium mb-1" style={{ color: "var(--muted)" }}>
             Nickname <span className="text-gray-500">*</span>
           </label>
           <input
@@ -78,13 +88,18 @@ export function EvidenceForm() {
             required
             value={formData.nickname}
             onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+            className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              color: "var(--foreground)",
+            }}
             placeholder="Your display name"
           />
         </div>
 
         <div>
-          <label htmlFor="evidenceUrl" className="block text-sm font-medium text-gray-300 mb-1">
+          <label htmlFor="evidenceUrl" className="block text-sm font-medium mb-1" style={{ color: "var(--muted)" }}>
             Evidence Link
           </label>
           <input
@@ -92,7 +107,12 @@ export function EvidenceForm() {
             id="evidenceUrl"
             value={formData.evidenceUrl}
             onChange={(e) => setFormData({ ...formData, evidenceUrl: e.target.value })}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+            className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+              color: "var(--foreground)",
+            }}
             placeholder="https://..."
           />
         </div>

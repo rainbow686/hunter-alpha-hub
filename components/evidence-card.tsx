@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Evidence } from "@/lib/types";
 
 interface EvidenceCardProps {
@@ -5,6 +8,9 @@ interface EvidenceCardProps {
 }
 
 export function EvidenceCard({ evidence }: EvidenceCardProps) {
+  const [likes, setLikes] = useState(evidence.likes);
+  const [loading, setLoading] = useState(false);
+
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -19,17 +25,52 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
     return `${days}d ago`;
   };
 
+  const handleLike = async () => {
+    if (loading) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/evidence/${evidence.id}/like`, {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setLikes(data.likes);
+      } else {
+        alert("Failed to like. Please try again.");
+      }
+    } catch {
+      alert("Failed to like. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
+    <div
+      className="rounded-lg p-4 transition-colors backdrop-blur"
+      style={{
+        backgroundColor: "var(--card-bg)",
+        borderColor: "var(--card-border)",
+        borderWidth: "1px",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "var(--card-border-hover)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "var(--card-border)";
+      }}
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-medium text-white truncate">
+          <h3 className="text-lg font-medium truncate" style={{ color: "var(--foreground)" }}>
             {evidence.title}
           </h3>
-          <p className="mt-1 text-gray-400 text-sm">
+          <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
             {evidence.description}
           </p>
-          <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
+          <div className="mt-3 flex items-center gap-4 text-sm" style={{ color: "var(--muted)" }}>
             <span className="font-mono text-teal-400">@{evidence.nickname}</span>
             <span>·</span>
             <span>{timeAgo(evidence.createdAt)}</span>
@@ -37,12 +78,23 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
         </div>
 
         <div className="flex flex-col items-center gap-1">
-          <button className="p-2 text-gray-400 hover:text-pink-500 transition-colors">
+          <button
+            onClick={handleLike}
+            disabled={loading}
+            className={`p-2 transition-colors ${
+              loading
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:text-pink-500"
+            }`}
+            style={{ color: "var(--muted)" }}
+          >
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
           </button>
-          <span className="text-sm text-gray-400">{evidence.likes}</span>
+          <span className="text-sm" style={{ color: loading ? "var(--muted)" : "var(--muted)" }}>
+            {likes}
+          </span>
         </div>
       </div>
 
