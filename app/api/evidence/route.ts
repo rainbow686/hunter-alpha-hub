@@ -16,7 +16,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, nickname, evidenceUrl } = body;
+    const { title, description, nickname, evidenceUrl, importance } = body;
 
     // Validate required fields
     if (!title || !description || !nickname) {
@@ -25,6 +25,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Validate importance if provided
+    const validImportance = ["High", "Medium", "Low"];
+    const trimmedImportance = importance && validImportance.includes(importance) ? importance : "Medium";
 
     // Validate title
     const trimmedTitle = title.trim();
@@ -94,6 +98,7 @@ export async function POST(request: NextRequest) {
       evidenceUrl: evidenceUrl || "",
       likes: 0,
       createdAt: new Date().toISOString(),
+      importance: trimmedImportance,
     };
 
     evidence.push(newEvidence);

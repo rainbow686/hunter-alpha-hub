@@ -64,9 +64,22 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-medium truncate" style={{ color: "var(--foreground)" }}>
-            {evidence.title}
-          </h3>
+          <div className="flex items-center gap-2 mb-2">
+            {evidence.importance && (
+              <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ${
+                evidence.importance === "High"
+                  ? "bg-red-900/50 text-red-400"
+                  : evidence.importance === "Medium"
+                  ? "bg-yellow-900/50 text-yellow-400"
+                  : "bg-gray-700 text-gray-400"
+              }`}>
+                {evidence.importance}
+              </span>
+            )}
+            <h3 className="text-lg font-medium truncate" style={{ color: "var(--foreground)" }}>
+              {evidence.title}
+            </h3>
+          </div>
           <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
             {evidence.description}
           </p>

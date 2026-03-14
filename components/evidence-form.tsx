@@ -20,6 +20,7 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
     description: "",
     nickname: "",
     evidenceUrl: "",
+    importance: "Medium" as "High" | "Medium" | "Low",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -99,7 +100,7 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
 
       if (response.ok) {
         setStatus("success");
-        setFormData({ title: "", description: "", nickname: "", evidenceUrl: "" });
+        setFormData({ title: "", description: "", nickname: "", evidenceUrl: "", importance: "Medium" });
         setErrors({});
         onSubmitted?.();
         setTimeout(() => setStatus("idle"), 3000);
@@ -246,6 +247,30 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
             <p className="mt-1 text-sm text-red-400">{errors.evidenceUrl}</p>
           )}
         </div>
+      </div>
+
+      <div>
+        <label htmlFor="importance" className="block text-sm font-medium mb-1" style={{ color: "var(--muted)" }}>
+          Importance
+        </label>
+        <select
+          id="importance"
+          name="importance"
+          value={formData.importance}
+          onChange={handleChange}
+          className="w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:border-violet-500 focus:ring-violet-500 transition-colors"
+          style={{
+            backgroundColor: "var(--input-bg)",
+            borderColor: "var(--input-border)",
+            borderWidth: "1px",
+            borderStyle: "solid",
+            color: "var(--foreground)",
+          }}
+        >
+          <option value="High">High - Critical evidence</option>
+          <option value="Medium">Medium - Supporting evidence</option>
+          <option value="Low">Low - Minor observation</option>
+        </select>
       </div>
 
       {submitError && (

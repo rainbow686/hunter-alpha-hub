@@ -32,15 +32,22 @@ export async function GET() {
       const modality = hunterAlphaModel.architecture?.modality || "";
       const isMultimodal = modality.includes("image") || modality.includes("multimodal");
 
+      // 从描述中提取参数信息 (OpenRouter 返回的描述包含 "1 Trillion parameter")
+      const description = hunterAlphaModel.description || "";
+      const parametersMatch = description.match(/(\d+(?:\.\d+)?)\s*(Trillion|Billion|Million)/i);
+      const parameters = parametersMatch
+        ? `${parametersMatch[1]} ${parametersMatch[2]}`
+        : "Unknown";
+
       return NextResponse.json({
         online: true,
         lastSeen: new Date().toISOString(),
         specs: {
-          parameters: hunterAlphaModel.parameters || "Unknown",
+          parameters: parameters,
           contextWindow: hunterAlphaModel.context_length ? `${hunterAlphaModel.context_length.toLocaleString()} tokens` : "Unknown",
           multimodal: isMultimodal,
           pricing: hunterAlphaModel.pricing || {},
-          description: hunterAlphaModel.description || "",
+          description: description,
           architecture: hunterAlphaModel.architecture || {},
         },
       });

@@ -6,6 +6,7 @@ export interface Evidence {
   evidenceUrl: string;
   likes: number;
   createdAt: string;
+  importance?: "High" | "Medium" | "Low";
 }
 
 export interface Subscriber {
