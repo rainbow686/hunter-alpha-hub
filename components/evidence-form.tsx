@@ -7,6 +7,13 @@ interface EvidenceFormProps {
   onSubmitted?: () => void;
 }
 
+interface FormErrors {
+  title?: string;
+  description?: string;
+  nickname?: string;
+  evidenceUrl?: string;
+}
+
 export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
   const [formData, setFormData] = useState({
     title: "",
@@ -14,10 +21,71 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
     nickname: "",
     evidenceUrl: "",
   });
+  const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const validateField = (name: string, value: string): string | undefined => {
+    switch (name) {
+      case "title":
+        if (!value.trim()) return "Title is required";
+        if (value.trim().length < 5) return "Title must be at least 5 characters";
+        if (value.length > 100) return "Title must be less than 100 characters";
+        break;
+      case "description":
+        if (!value.trim()) return "Description is required";
+        if (value.trim().length < 10) return "Description must be at least 10 characters";
+        if (value.length > 500) return "Description must be less than 500 characters";
+        break;
+      case "nickname":
+        if (!value.trim()) return "Nickname is required";
+        if (value.trim().length < 2) return "Nickname must be at least 2 characters";
+        if (value.length > 30) return "Nickname must be less than 30 characters";
+        if (!/^[a-zA-Z0-9_\s]+$/.test(value)) return "Nickname can only contain letters, numbers, and underscores";
+        break;
+      case "evidenceUrl":
+        if (value && !/^https?:\/\/.+$/.test(value)) return "Please enter a valid URL (https://...)";
+        break;
+    }
+    return undefined;
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const error = validateField(name, value);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+
+    // Validate all fields
+    const newErrors: FormErrors = {};
+    (Object.keys(formData) as Array<keyof typeof formData>).forEach((key) => {
+      const error = validateField(key, formData[key]);
+      if (error) {
+        newErrors[key] = error;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setStatus("submitting");
 
     try {
@@ -27,15 +95,20 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         setStatus("success");
         setFormData({ title: "", description: "", nickname: "", evidenceUrl: "" });
+        setErrors({});
         onSubmitted?.();
         setTimeout(() => setStatus("idle"), 3000);
       } else {
+        setSubmitError(data.error || "Failed to submit evidence");
         setStatus("error");
       }
     } catch {
+      setSubmitError("Network error. Please try again.");
       setStatus("error");
     }
   };
@@ -49,17 +122,26 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
         <input
           type="text"
           id="title"
+          name="title"
           required
           value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-1 transition-colors ${
+            errors.title
+              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              : "focus:border-violet-500 focus:ring-violet-500"
+          }`}
           style={{
             backgroundColor: "var(--card-bg)",
-            borderColor: "var(--card-border)",
+            borderColor: errors.title ? "#ef4444" : "var(--card-border)",
             color: "var(--foreground)",
           }}
           placeholder="Brief description of the evidence"
         />
+        {errors.title && (
+          <p className="mt-1 text-sm text-red-400">{errors.title}</p>
+        )}
       </div>
 
       <div>
@@ -68,18 +150,35 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
         </label>
         <textarea
           id="description"
+          name="description"
           required
           value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          onChange={handleChange}
+          onBlur={handleBlur}
           rows={3}
-          className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors resize-none"
+          className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-1 transition-colors resize-none ${
+            errors.description
+              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              : "focus:border-violet-500 focus:ring-violet-500"
+          }`}
           style={{
             backgroundColor: "var(--card-bg)",
-            borderColor: "var(--card-border)",
+            borderColor: errors.description ? "#ef4444" : "var(--card-border)",
             color: "var(--foreground)",
           }}
           placeholder="Provide details about this evidence"
         />
+        {errors.description && (
+          <p className="mt-1 text-sm text-red-400">{errors.description}</p>
+        )}
+        <div className="flex justify-between mt-1">
+          <span className="text-xs" style={{ color: "var(--muted)" }}>
+            Min 10 characters
+          </span>
+          <span className={`text-xs ${formData.description.length > 500 ? "text-red-400" : ""}`} style={{ color: "var(--muted)" }}>
+            {formData.description.length}/500
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -90,17 +189,26 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
           <input
             type="text"
             id="nickname"
+            name="nickname"
             required
             value={formData.nickname}
-            onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
-            className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-1 transition-colors ${
+              errors.nickname
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                : "focus:border-violet-500 focus:ring-violet-500"
+            }`}
             style={{
               backgroundColor: "var(--card-bg)",
-              borderColor: "var(--card-border)",
+              borderColor: errors.nickname ? "#ef4444" : "var(--card-border)",
               color: "var(--foreground)",
             }}
             placeholder="Your display name"
           />
+          {errors.nickname && (
+            <p className="mt-1 text-sm text-red-400">{errors.nickname}</p>
+          )}
         </div>
 
         <div>
@@ -110,18 +218,33 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
           <input
             type="url"
             id="evidenceUrl"
+            name="evidenceUrl"
             value={formData.evidenceUrl}
-            onChange={(e) => setFormData({ ...formData, evidenceUrl: e.target.value })}
-            className="w-full rounded-lg px-4 py-2 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-1 transition-colors ${
+              errors.evidenceUrl
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                : "focus:border-violet-500 focus:ring-violet-500"
+            }`}
             style={{
               backgroundColor: "var(--card-bg)",
-              borderColor: "var(--card-border)",
+              borderColor: errors.evidenceUrl ? "#ef4444" : "var(--card-border)",
               color: "var(--foreground)",
             }}
             placeholder="https://..."
           />
+          {errors.evidenceUrl && (
+            <p className="mt-1 text-sm text-red-400">{errors.evidenceUrl}</p>
+          )}
         </div>
       </div>
+
+      {submitError && (
+        <div className="p-3 rounded-lg bg-red-900/30 border border-red-500 text-red-400 text-sm">
+          {submitError}
+        </div>
+      )}
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={status === "submitting"}>
@@ -130,9 +253,6 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
 
         {status === "success" && (
           <span className="text-green-400 text-sm">Submitted successfully!</span>
-        )}
-        {status === "error" && (
-          <span className="text-red-400 text-sm">Failed to submit. Please try again.</span>
         )}
       </div>
     </form>
