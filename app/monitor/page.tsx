@@ -56,23 +56,30 @@ function DiscussionCard({ discussion }: { discussion: { id: number; source: stri
 export default function MonitorPage() {
   const [status, setStatus] = useState<ModelStatus | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
+
+  const fetchStatus = async (isManual = false) => {
+    if (isManual) {
+      setRefreshing(true);
+    }
+    try {
+      const response = await fetch("/api/status");
+      const data = await response.json();
+      setStatus(data);
+      setLastRefreshed(new Date());
+    } catch (error) {
+      console.error("Failed to fetch status:", error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchStatus = async () => {
-      try {
-        const response = await fetch("/api/status");
-        const data = await response.json();
-        setStatus(data);
-      } catch (error) {
-        console.error("Failed to fetch status:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchStatus();
-    // 每 30 秒刷新一次
-    const interval = setInterval(fetchStatus, 30000);
+    // 每 30 秒自动刷新一次
+    const interval = setInterval(() => fetchStatus(false), 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -114,7 +121,25 @@ export default function MonitorPage() {
       {/* Status Section */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <Card className="p-6">
-          <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Status</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-medium" style={{ color: "var(--muted)" }}>Status</h2>
+            <button
+              onClick={() => fetchStatus(true)}
+              disabled={refreshing}
+              className="p-2 rounded-lg transition-colors hover:bg-gray-700/50"
+              style={{ color: "var(--muted)" }}
+              title="Refresh status"
+            >
+              <svg
+                className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+          </div>
           {loading ? (
             <p style={{ color: "var(--muted)" }}>Loading...</p>
           ) : status ? (
@@ -123,6 +148,11 @@ export default function MonitorPage() {
               <p className="mt-4 text-sm font-mono" style={{ color: "var(--muted)" }}>
                 Last seen: {new Date(status.lastSeen).toLocaleString()}
               </p>
+              {lastRefreshed && (
+                <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>
+                  Updated: {lastRefreshed.toLocaleTimeString()}
+                </p>
+              )}
               {status.error && (
                 <p className="mt-2 text-sm text-red-400">{status.error}</p>
               )}
@@ -149,8 +179,15 @@ export default function MonitorPage() {
                 </span>
               </div>
               {status.specs.pricing && status.specs.pricing.prompt === "0" && (
-                <div className="mt-2 p-2 rounded-lg bg-green-900/30 border border-green-700">
-                  <p className="text-green-400 text-sm font-medium">✨ Free to use!</p>
+                <div className="mt-2 p-2 rounded-lg border"
+                  style={{
+                    backgroundColor: "var(--card-bg)",
+                    borderColor: "var(--accent)",
+                  }}
+                >
+                  <p className="text-sm font-medium" style={{ color: "var(--accent)" }}>
+                    ✨ Free to use!
+                  </p>
                 </div>
               )}
               {status.specs.pricing && status.specs.pricing.prompt !== "0" && (
