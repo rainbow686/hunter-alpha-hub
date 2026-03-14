@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // Hunter Alpha 模型在 OpenRouter 上的 ID
-const HUNTER_ALPHA_MODEL = "anthropic/claude-3.7-sonnet";
+const HUNTER_ALPHA_MODEL = "openrouter/hunter-alpha";
 
 // GET /api/status - Hunter Alpha 模型状态
 export async function GET() {
@@ -28,17 +28,21 @@ export async function GET() {
     );
 
     if (hunterAlphaModel) {
+      // 检查模态是否支持图像
+      const modality = hunterAlphaModel.architecture?.modality || "";
+      const isMultimodal = modality.includes("image") || modality.includes("multimodal");
+
       return NextResponse.json({
         online: true,
         lastSeen: new Date().toISOString(),
         specs: {
           parameters: hunterAlphaModel.parameters || "Unknown",
-          contextWindow: hunterAlphaModel.context_length || "Unknown",
-          multimodal: hunterAlphaModel.top_provider?.modality?.includes("image") || false,
+          contextWindow: hunterAlphaModel.context_length ? `${hunterAlphaModel.context_length.toLocaleString()} tokens` : "Unknown",
+          multimodal: isMultimodal,
           pricing: hunterAlphaModel.pricing || {},
           description: hunterAlphaModel.description || "",
+          architecture: hunterAlphaModel.architecture || {},
         },
-        rawModel: hunterAlphaModel,
       });
     } else {
       // 模型不在列表中，返回离线状态

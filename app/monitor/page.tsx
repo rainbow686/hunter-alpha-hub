@@ -13,6 +13,10 @@ interface ModelSpecs {
     completion?: string;
   };
   description?: string;
+  architecture?: {
+    input_modalities?: string[];
+    output_modalities?: string[];
+  };
 }
 
 interface ModelStatus {
@@ -135,10 +139,6 @@ export default function MonitorPage() {
           ) : status?.specs ? (
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span style={{ color: "var(--muted)" }}>Parameters</span>
-                <span className="font-mono text-teal-400">{status.specs.parameters}</span>
-              </div>
-              <div className="flex justify-between items-center">
                 <span style={{ color: "var(--muted)" }}>Context Window</span>
                 <span className="font-mono text-teal-400">{status.specs.contextWindow}</span>
               </div>
@@ -148,17 +148,34 @@ export default function MonitorPage() {
                   {status.specs.multimodal ? "Yes" : "No"}
                 </span>
               </div>
-              {status.specs.pricing && (
+              {status.specs.pricing && status.specs.pricing.prompt === "0" && (
+                <div className="mt-2 p-2 rounded-lg bg-green-900/30 border border-green-700">
+                  <p className="text-green-400 text-sm font-medium">✨ Free to use!</p>
+                </div>
+              )}
+              {status.specs.pricing && status.specs.pricing.prompt !== "0" && (
                 <>
                   <div className="flex justify-between items-center">
                     <span style={{ color: "var(--muted)" }}>Prompt Price</span>
-                    <span className="font-mono text-teal-400">{status.specs.pricing.prompt || "N/A"}</span>
+                    <span className="font-mono text-teal-400">${status.specs.pricing.prompt}/token</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span style={{ color: "var(--muted)" }}>Completion Price</span>
-                    <span className="font-mono text-teal-400">{status.specs.pricing.completion || "N/A"}</span>
+                    <span className="font-mono text-teal-400">${status.specs.pricing.completion}/token</span>
                   </div>
                 </>
+              )}
+              {status.specs.architecture?.input_modalities && (
+                <div className="flex justify-between items-center">
+                  <span style={{ color: "var(--muted)" }}>Input</span>
+                  <span className="font-mono text-teal-400">{status.specs.architecture.input_modalities.join(", ")}</span>
+                </div>
+              )}
+              {status.specs.architecture?.output_modalities && (
+                <div className="flex justify-between items-center">
+                  <span style={{ color: "var(--muted)" }}>Output</span>
+                  <span className="font-mono text-teal-400">{status.specs.architecture.output_modalities.join(", ")}</span>
+                </div>
               )}
             </div>
           ) : (
