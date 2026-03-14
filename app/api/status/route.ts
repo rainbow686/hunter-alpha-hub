@@ -1,22 +1,70 @@
 import { NextResponse } from "next/server";
 
+// Hunter Alpha 模型在 OpenRouter 上的 ID
+const HUNTER_ALPHA_MODEL = "anthropic/claude-3.7-sonnet";
+
 // GET /api/status - Hunter Alpha 模型状态
 export async function GET() {
-  // Mock 数据 - 后期替换为 OpenRouter API 调用
-  const status = {
-    online: true,
-    lastSeen: new Date().toISOString(),
-    specs: {
-      parameters: "1T",
-      contextWindow: "1M tokens",
-      multimodal: true,
-    },
-  };
+  try {
+    // 调用 OpenRouter 免费模型列表 API
+    const response = await fetch("https://openrouter.ai/api/v1/models", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // 不需要 API Key，免费接口
+    });
 
-  // TODO: 集成 OpenRouter API
-  // const response = await fetch('https://openrouter.ai/api/v1/models/hunter-alpha', {
-  //   headers: { Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}` }
-  // });
+    if (!response.ok) {
+      throw new Error("Failed to fetch models from OpenRouter");
+    }
 
-  return NextResponse.json(status);
+    const data = await response.json();
+    const models = data.data || [];
+
+    // 检查 Hunter Alpha 模型是否在列表中
+    const hunterAlphaModel = models.find(
+      (model: any) => model.id === HUNTER_ALPHA_MODEL || model.name?.toLowerCase().includes("hunter")
+    );
+
+    if (hunterAlphaModel) {
+      return NextResponse.json({
+        online: true,
+        lastSeen: new Date().toISOString(),
+        specs: {
+          parameters: hunterAlphaModel.parameters || "Unknown",
+          contextWindow: hunterAlphaModel.context_length || "Unknown",
+          multimodal: hunterAlphaModel.top_provider?.modality?.includes("image") || false,
+          pricing: hunterAlphaModel.pricing || {},
+          description: hunterAlphaModel.description || "",
+        },
+        rawModel: hunterAlphaModel,
+      });
+    } else {
+      // 模型不在列表中，返回离线状态
+      return NextResponse.json({
+        online: false,
+        lastSeen: new Date().toISOString(),
+        specs: {
+          parameters: "Unknown",
+          contextWindow: "Unknown",
+          multimodal: false,
+        },
+        error: "Model not found in OpenRouter",
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching model status:", error);
+    // 返回降级数据
+    return NextResponse.json({
+      online: false,
+      lastSeen: new Date().toISOString(),
+      specs: {
+        parameters: "Unknown",
+        contextWindow: "Unknown",
+        multimodal: false,
+      },
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
 }

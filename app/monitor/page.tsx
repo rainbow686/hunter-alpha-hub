@@ -1,5 +1,26 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Card } from "@/components/card";
 import { StatusBadge } from "@/components/status-badge";
+
+interface ModelSpecs {
+  parameters: string;
+  contextWindow: string;
+  multimodal: boolean;
+  pricing?: {
+    prompt?: string;
+    completion?: string;
+  };
+  description?: string;
+}
+
+interface ModelStatus {
+  online: boolean;
+  lastSeen: string;
+  specs: ModelSpecs;
+  error?: string;
+}
 
 function DiscussionCard({ discussion }: { discussion: { id: number; source: string; title: string; sentiment: string; url: string } }) {
   return (
@@ -29,16 +50,27 @@ function DiscussionCard({ discussion }: { discussion: { id: number; source: stri
 }
 
 export default function MonitorPage() {
-  // Mock data - will be replaced with real API calls
-  const status = {
-    online: true,
-    lastSeen: new Date().toISOString(),
-    specs: {
-      parameters: "1T",
-      contextWindow: "1M tokens",
-      multimodal: true,
-    },
-  };
+  const [status, setStatus] = useState<ModelStatus | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const response = await fetch("/api/status");
+        const data = await response.json();
+        setStatus(data);
+      } catch (error) {
+        console.error("Failed to fetch status:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStatus();
+    // 每 30 秒刷新一次
+    const interval = setInterval(fetchStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const discussions = [
     {
@@ -79,30 +111,59 @@ export default function MonitorPage() {
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <Card className="p-6">
           <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Status</h2>
-          <StatusBadge online={status.online} />
-          <p className="mt-4 text-sm font-mono" style={{ color: "var(--muted)" }}>
-            Last seen: {new Date(status.lastSeen).toLocaleString()}
-          </p>
+          {loading ? (
+            <p style={{ color: "var(--muted)" }}>Loading...</p>
+          ) : status ? (
+            <>
+              <StatusBadge online={status.online} />
+              <p className="mt-4 text-sm font-mono" style={{ color: "var(--muted)" }}>
+                Last seen: {new Date(status.lastSeen).toLocaleString()}
+              </p>
+              {status.error && (
+                <p className="mt-2 text-sm text-red-400">{status.error}</p>
+              )}
+            </>
+          ) : (
+            <p style={{ color: "var(--muted)" }}>Unable to fetch status</p>
+          )}
         </Card>
 
         <Card className="p-6">
           <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Specifications</h2>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span style={{ color: "var(--muted)" }}>Parameters</span>
-              <span className="font-mono text-teal-400">{status.specs.parameters}</span>
+          {loading ? (
+            <p style={{ color: "var(--muted)" }}>Loading...</p>
+          ) : status?.specs ? (
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span style={{ color: "var(--muted)" }}>Parameters</span>
+                <span className="font-mono text-teal-400">{status.specs.parameters}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span style={{ color: "var(--muted)" }}>Context Window</span>
+                <span className="font-mono text-teal-400">{status.specs.contextWindow}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span style={{ color: "var(--muted)" }}>Multimodal</span>
+                <span className="font-mono text-teal-400">
+                  {status.specs.multimodal ? "Yes" : "No"}
+                </span>
+              </div>
+              {status.specs.pricing && (
+                <>
+                  <div className="flex justify-between items-center">
+                    <span style={{ color: "var(--muted)" }}>Prompt Price</span>
+                    <span className="font-mono text-teal-400">{status.specs.pricing.prompt || "N/A"}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span style={{ color: "var(--muted)" }}>Completion Price</span>
+                    <span className="font-mono text-teal-400">{status.specs.pricing.completion || "N/A"}</span>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="flex justify-between items-center">
-              <span style={{ color: "var(--muted)" }}>Context Window</span>
-              <span className="font-mono text-teal-400">{status.specs.contextWindow}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span style={{ color: "var(--muted)" }}>Multimodal</span>
-              <span className="font-mono text-teal-400">
-                {status.specs.multimodal ? "Yes" : "No"}
-              </span>
-            </div>
-          </div>
+          ) : (
+            <p style={{ color: "var(--muted)" }}>No specs available</p>
+          )}
         </Card>
       </div>
 
