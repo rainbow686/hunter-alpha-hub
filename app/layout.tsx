@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
 
 const baseUrl = "https://www.hunteralphahub.com";
@@ -67,13 +68,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen transition-colors duration-300">
+      <body className="min-h-screen transition-colors duration-300 flex flex-col">
         <Analytics
           gaId={process.env.NEXT_PUBLIC_GA_ID}
           adsenseId={process.env.NEXT_PUBLIC_ADSENSE_ID}
         />
         <Navbar />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
