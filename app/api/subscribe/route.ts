@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readSubscribers, writeSubscribers } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 
 // POST /api/subscribe - 邮件订阅
 export async function POST(request: NextRequest) {
@@ -14,28 +14,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const subscribers = readSubscribers();
-
     // 检查是否已订阅
-    if (subscribers.some((s) => s.email === email)) {
+    const { data: existing } = await supabase
+      .from("subscribers")
+      .select("id")
+      .eq("email", email)
+      .single();
+
+    if (existing) {
       return NextResponse.json(
         { error: "Already subscribed" },
         { status: 409 }
       );
     }
 
-    subscribers.push({
+    // 添加到数据库
+    const { error } = await supabase.from("subscribers").insert({
       email,
-      subscribedAt: new Date().toISOString(),
+      subscribed_at: new Date().toISOString(),
     });
 
-    writeSubscribers(subscribers);
-
-    // TODO: 集成 ConvertKit API
-    // await convertKit.addSubscriber(email);
+    if (error) {
+      throw error;
+    }
 
     return NextResponse.json({ success: true }, { status: 201 });
-  } catch {
+  } catch (error) {
+    console.error("Subscribe error:", error);
     return NextResponse.json(
       { error: "Failed to subscribe" },
       { status: 500 }
