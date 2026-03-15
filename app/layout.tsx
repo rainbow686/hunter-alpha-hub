@@ -1,21 +1,29 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
+import { Analytics } from "@/components/analytics";
 
 const baseUrl = "https://www.hunteralphahub.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: "Hunter Alpha Hub - Tracking the Identity Mystery",
+  title: {
+    template: "%s | Hunter Alpha Hub",
+    default: "Hunter Alpha Hub - Track the AI Identity Mystery",
+  },
   description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, view specs, and get notified when identity is revealed.",
   keywords: ["Hunter Alpha", "AI model", "OpenRouter", "LLM", "AI mystery", "1M context", "Hunter Hub"],
   authors: [{ name: "Hunter Alpha Hub" }],
   creator: "Hunter Alpha Hub",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    title: "Hunter Alpha Hub - Tracking the Identity Mystery",
+    title: "Hunter Alpha Hub - Track the AI Identity Mystery",
     description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, and get notified when identity is revealed.",
     siteName: "Hunter Alpha Hub",
     images: [
@@ -29,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hunter Alpha Hub - Tracking the Identity Mystery",
+    title: "Hunter Alpha Hub - Track the AI Identity Mystery",
     description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, and get notified when identity is revealed.",
     creator: "@hunteralphahub",
   },
@@ -60,6 +68,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen transition-colors duration-300">
+        <Analytics
+          gaId={process.env.NEXT_PUBLIC_GA_ID}
+          adsenseId={process.env.NEXT_PUBLIC_ADSENSE_ID}
+        />
         <Navbar />
         <main>{children}</main>
       </body>
