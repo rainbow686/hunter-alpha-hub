@@ -2,10 +2,54 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 
+const baseUrl = "https://www.hunteralphahub.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "Hunter Alpha Hub - Tracking the Identity Mystery",
-  description: "Third-party tracking site for Hunter Alpha AI model. Submit evidence, track real-time status, view specifications, and be notified when the identity is revealed.",
-  keywords: ["Hunter Alpha", "AI model", "OpenRouter", "LLM", "AI mystery", "Hunter Hub"],
+  description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, view specs, and get notified when identity is revealed.",
+  keywords: ["Hunter Alpha", "AI model", "OpenRouter", "LLM", "AI mystery", "1M context", "Hunter Hub"],
+  authors: [{ name: "Hunter Alpha Hub" }],
+  creator: "Hunter Alpha Hub",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: baseUrl,
+    title: "Hunter Alpha Hub - Tracking the Identity Mystery",
+    description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, and get notified when identity is revealed.",
+    siteName: "Hunter Alpha Hub",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Hunter Alpha Hub",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hunter Alpha Hub - Tracking the Identity Mystery",
+    description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, and get notified when identity is revealed.",
+    creator: "@hunteralphahub",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: baseUrl,
+  },
+  verification: {
+    google: "your-google-verification-code",
+  },
 };
 
 export default function RootLayout({

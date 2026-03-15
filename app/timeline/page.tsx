@@ -1,4 +1,22 @@
 import { Card } from "@/components/card";
+import { Metadata } from "next";
+
+const baseUrl = "https://www.hunteralphahub.com";
+
+export const metadata: Metadata = {
+  title: "Timeline - Hunter Alpha Hub",
+  description: "Complete timeline of Hunter Alpha events from first sighting on OpenRouter to present day investigation.",
+  keywords: ["Hunter Alpha timeline", "Hunter Alpha history", "AI model events", "Hunter Alpha discovery"],
+  alternates: {
+    canonical: `${baseUrl}/timeline`,
+  },
+  openGraph: {
+    title: "Timeline - Hunter Alpha Hub",
+    description: "Complete timeline of Hunter Alpha events.",
+    url: `${baseUrl}/timeline`,
+    type: "website",
+  },
+};
 
 interface TimelineEvent {
   date: string;

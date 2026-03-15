@@ -1,5 +1,23 @@
 import Link from "next/link";
 import { Card } from "@/components/card";
+import { Metadata } from "next";
+
+const baseUrl = "https://www.hunteralphahub.com";
+
+export const metadata: Metadata = {
+  title: "How to Access - Hunter Alpha Hub",
+  description: "Step-by-step guide to access Hunter Alpha on OpenRouter. Create account, find model, and start chatting for free.",
+  keywords: ["Hunter Alpha how to access", "Hunter Alpha guide", "OpenRouter Hunter Alpha", "Hunter Alpha tutorial"],
+  alternates: {
+    canonical: `${baseUrl}/access`,
+  },
+  openGraph: {
+    title: "How to Access - Hunter Alpha Hub",
+    description: "Step-by-step guide to access Hunter Alpha on OpenRouter.",
+    url: `${baseUrl}/access`,
+    type: "website",
+  },
+};
 
 const steps = [
   {

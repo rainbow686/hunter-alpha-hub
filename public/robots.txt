@@ -1,0 +1,17 @@
+# robots.txt for Hunter Alpha Hub
+# https://www.hunteralphahub.com
+
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Allow all static assets
+Allow: /_next/static/
+Allow: /_next/image/
+
+# Sitemap location
+Sitemap: https://www.hunteralphahub.com/sitemap.xml

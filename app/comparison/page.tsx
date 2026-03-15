@@ -1,4 +1,22 @@
 import { Card } from "@/components/card";
+import { Metadata } from "next";
+
+const baseUrl = "https://www.hunteralphahub.com";
+
+export const metadata: Metadata = {
+  title: "Model Comparison - Hunter Alpha Hub",
+  description: "Compare Hunter Alpha vs Claude, GPT-4o, Gemini and more. See specs, pricing, context window, and capabilities.",
+  keywords: ["Hunter Alpha comparison", "Hunter Alpha vs Claude", "AI model comparison", "Hunter Alpha specs"],
+  alternates: {
+    canonical: `${baseUrl}/comparison`,
+  },
+  openGraph: {
+    title: "Model Comparison - Hunter Alpha Hub",
+    description: "Compare Hunter Alpha with other leading AI models.",
+    url: `${baseUrl}/comparison`,
+    type: "website",
+  },
+};
 
 interface ModelSpec {
   name: string;
