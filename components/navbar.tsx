@@ -12,10 +12,10 @@ export function Navbar() {
     { href: "/evidence", label: "Evidence" },
     { href: "/videos", label: "Videos" },
     { href: "/monitor", label: "Monitor" },
-    { href: "/faq", label: "FAQ" },
-    { href: "/access", label: "Access" },
-    { href: "/timeline", label: "Timeline" },
     { href: "/comparison", label: "Comparison" },
+    { href: "/timeline", label: "Timeline" },
+    { href: "/access", label: "Access" },
+    { href: "/faq", label: "FAQ" },
   ];
 
   return (
