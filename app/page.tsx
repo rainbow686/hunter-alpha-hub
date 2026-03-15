@@ -1,13 +1,30 @@
+"use client";
+
 import Link from "next/link";
 import { Card } from "@/components/card";
 import { SubscriptionForm } from "@/components/subscription-form";
 import { EvidenceCard } from "@/components/evidence-card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
-import { readEvidence } from "@/lib/data";
-import { featuredVideos } from "@/lib/videos";
+import { Evidence, Video } from "@/lib/types";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  const evidenceList = readEvidence().slice(0, 3);
+  const [evidenceList, setEvidenceList] = useState<Evidence[]>([]);
+  const [latestVideos, setLatestVideos] = useState<Video[]>([]);
+
+  useEffect(() => {
+    // 获取最新 3 条证据
+    fetch('/api/evidence')
+      .then(res => res.json())
+      .then(data => setEvidenceList(data.slice(0, 3)))
+      .catch(err => console.error('Failed to fetch evidence:', err));
+
+    // 获取最新 3 个视频
+    fetch('/api/videos?limit=3')
+      .then(res => res.json())
+      .then(data => setLatestVideos(data))
+      .catch(err => console.error('Failed to fetch videos:', err));
+  }, []);
 
   const tlDrItems = [
     {
@@ -167,14 +184,28 @@ export default function Home() {
 
       {/* YouTube Videos Section */}
       <section className="py-8">
-        <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "var(--foreground)" }}>Featured Videos</h2>
-        <p className="text-center mb-8 max-w-2xl mx-auto" style={{ color: "var(--muted)" }}>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Featured Videos</h2>
+          <Link
+            href="/videos"
+            className="text-violet-400 hover:text-violet-300 text-sm"
+          >
+            View all →
+          </Link>
+        </div>
+        <p className="mb-8 max-w-2xl" style={{ color: "var(--muted)" }}>
           Watch in-depth analysis, reviews, and discussions about Hunter Alpha and long-context AI technology
         </p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredVideos.map((video) => (
-            <YouTubeVideoCard key={video.id} video={video} />
-          ))}
+          {latestVideos.length > 0 ? (
+            latestVideos.map((video) => (
+              <YouTubeVideoCard key={video.id} video={video} />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-8" style={{ color: "var(--muted)" }}>
+              Loading videos...
+            </div>
+          )}
         </div>
       </section>
 

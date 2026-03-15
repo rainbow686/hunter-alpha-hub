@@ -1,9 +1,9 @@
 "use client";
 
-import { YouTubeVideo } from "@/lib/videos";
+import { Video } from "@/lib/types";
 
 interface YouTubeVideoCardProps {
-  video: YouTubeVideo;
+  video: Video;
 }
 
 const categoryColors = {
@@ -18,11 +18,11 @@ export function YouTubeVideoCard({ video }: YouTubeVideoCardProps) {
     return match ? match[1] : "";
   };
 
-  const videoId = getYoutubeId(video.url);
+  const videoId = getYoutubeId(video.videoUrl);
 
   return (
     <a
-      href={video.url}
+      href={video.videoUrl}
       target="_blank"
       rel="noopener noreferrer"
       className="group block rounded-lg overflow-hidden transition-transform hover:scale-105"
