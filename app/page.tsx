@@ -2,7 +2,9 @@ import Link from "next/link";
 import { Card } from "@/components/card";
 import { SubscriptionForm } from "@/components/subscription-form";
 import { EvidenceCard } from "@/components/evidence-card";
+import { YouTubeVideoCard } from "@/components/youtube-video-card";
 import { readEvidence } from "@/lib/data";
+import { featuredVideos } from "@/lib/videos";
 
 export default function Home() {
   const evidenceList = readEvidence().slice(0, 3);
@@ -159,6 +161,19 @@ export default function Home() {
               </div>
               <p className="text-sm" style={{ color: "var(--muted)" }}>{theory.description}</p>
             </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* YouTube Videos Section */}
+      <section className="py-8">
+        <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "var(--foreground)" }}>Featured Videos</h2>
+        <p className="text-center mb-8 max-w-2xl mx-auto" style={{ color: "var(--muted)" }}>
+          Watch in-depth analysis, reviews, and discussions about Hunter Alpha and long-context AI technology
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredVideos.map((video) => (
+            <YouTubeVideoCard key={video.id} video={video} />
           ))}
         </div>
       </section>
