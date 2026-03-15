@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Analytics } from "@/components/analytics";
@@ -67,6 +68,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-4516753695428109" />
+      </head>
       <body className="min-h-screen transition-colors duration-300">
         <Analytics
           gaId={process.env.NEXT_PUBLIC_GA_ID}
