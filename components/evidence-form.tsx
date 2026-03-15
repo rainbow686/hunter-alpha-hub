@@ -12,6 +12,7 @@ interface FormErrors {
   description?: string;
   nickname?: string;
   evidenceUrl?: string;
+  externalDiscussionUrl?: string;
   importance?: string;
 }
 
@@ -21,6 +22,7 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
     description: "",
     nickname: "",
     evidenceUrl: "",
+    externalDiscussionUrl: "",
     importance: "Medium" as "High" | "Medium" | "Low",
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -46,6 +48,9 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
         if (!/^[a-zA-Z0-9_\s]+$/.test(value)) return "Nickname can only contain letters, numbers, and underscores";
         break;
       case "evidenceUrl":
+        if (value && !/^https?:\/\/.+$/.test(value)) return "Please enter a valid URL (https://...)";
+        break;
+      case "externalDiscussionUrl":
         if (value && !/^https?:\/\/.+$/.test(value)) return "Please enter a valid URL (https://...)";
         break;
       case "importance":
@@ -104,7 +109,7 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
 
       if (response.ok) {
         setStatus("success");
-        setFormData({ title: "", description: "", nickname: "", evidenceUrl: "", importance: "Medium" });
+        setFormData({ title: "", description: "", nickname: "", evidenceUrl: "", externalDiscussionUrl: "", importance: "Medium" });
         setErrors({});
         onSubmitted?.();
         setTimeout(() => setStatus("idle"), 3000);
@@ -251,6 +256,39 @@ export function EvidenceForm({ onSubmitted }: EvidenceFormProps) {
             <p className="mt-1 text-sm text-red-400">{errors.evidenceUrl}</p>
           )}
         </div>
+      </div>
+
+      <div>
+        <label htmlFor="externalDiscussionUrl" className="block text-sm font-medium mb-1" style={{ color: "var(--muted)" }}>
+          External Discussion Link (Optional)
+        </label>
+        <input
+          type="url"
+          id="externalDiscussionUrl"
+          name="externalDiscussionUrl"
+          value={formData.externalDiscussionUrl}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className={`w-full rounded-lg px-4 py-2 focus:outline-none focus:ring-1 transition-colors ${
+            errors.externalDiscussionUrl
+              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              : "focus:border-violet-500 focus:ring-violet-500"
+          }`}
+          style={{
+            backgroundColor: "var(--input-bg)",
+            borderColor: errors.externalDiscussionUrl ? "#ef4444" : "var(--input-border)",
+            borderWidth: "1px",
+            borderStyle: "solid",
+            color: "var(--foreground)",
+          }}
+          placeholder="Reddit, Twitter, or other discussion URL"
+        />
+        {errors.externalDiscussionUrl && (
+          <p className="mt-1 text-sm text-red-400">{errors.externalDiscussionUrl}</p>
+        )}
+        <p className="text-xs mt-1" style={{ color: "var(--muted)" }}>
+          Link to external discussions about this evidence (Reddit, Twitter, etc.)
+        </p>
       </div>
 
       <div>

@@ -4,6 +4,7 @@ export interface Evidence {
   description: string;
   nickname: string;
   evidenceUrl: string;
+  externalDiscussionUrl?: string;
   likes: number;
   createdAt: string;
   importance?: "High" | "Medium" | "Low";
@@ -16,6 +17,7 @@ export interface EvidenceDB {
   description: string;
   nickname: string;
   evidence_url: string | null;
+  external_discussion_url: string | null;
   likes: number;
   created_at: string;
   importance: "High" | "Medium" | "Low";
@@ -29,6 +31,7 @@ export function fromEvidenceDB(db: EvidenceDB): Evidence {
     description: db.description,
     nickname: db.nickname,
     evidenceUrl: db.evidence_url || "",
+    externalDiscussionUrl: db.external_discussion_url || undefined,
     likes: db.likes,
     createdAt: db.created_at,
     importance: db.importance,

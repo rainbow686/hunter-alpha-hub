@@ -13,17 +13,18 @@ export default function HomeClient() {
   const [latestVideos, setLatestVideos] = useState<Video[]>([]);
 
   useEffect(() => {
-    // 获取最新 3 条证据
-    fetch('/api/evidence')
-      .then(res => res.json())
-      .then(data => setEvidenceList(data.slice(0, 3)))
-      .catch(err => console.error('Failed to fetch evidence:', err));
-
-    // 获取最新 3 个视频
-    fetch('/api/videos?limit=3')
-      .then(res => res.json())
-      .then(data => setLatestVideos(data))
-      .catch(err => console.error('Failed to fetch videos:', err));
+    // 并行获取数据
+    Promise.all([
+      fetch('/api/evidence?limit=3')
+        .then(res => res.json())
+        .catch(err => { console.error('Failed to fetch evidence:', err); return []; }),
+      fetch('/api/videos?limit=3')
+        .then(res => res.json())
+        .catch(err => { console.error('Failed to fetch videos:', err); return []; })
+    ]).then(([evidenceData, videoData]) => {
+      setEvidenceList(evidenceData.slice(0, 3));
+      setLatestVideos(videoData);
+    });
   }, []);
 
   const tlDrItems = [
@@ -243,6 +244,71 @@ export default function HomeClient() {
           </p>
           <SubscriptionForm />
         </Card>
+      </section>
+
+      {/* SEO Content Section */}
+      <section className="py-12 mt-8 border-t" style={{ borderColor: "var(--card-border)" }}>
+        <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "var(--foreground)" }}>
+          About Hunter Alpha AI Model
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-lg font-medium mb-3" style={{ color: "var(--foreground)" }}>
+              What is Hunter Alpha?
+            </h3>
+            <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
+              Hunter Alpha is a mysterious 1 Trillion parameter AI language model with an unprecedented 1M token context window.
+              Discovered on OpenRouter in March 2026, it has captivated the AI community with its advanced capabilities and unknown origins.
+            </p>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
+              The model excels at agentic tasks including long-horizon planning, complex reasoning, and multi-step task execution,
+              making it a powerful tool for developers and researchers.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-3" style={{ color: "var(--foreground)" }}>
+              How to Use Hunter Alpha
+            </h3>
+            <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
+              Access Hunter Alpha through OpenRouter, a unified API platform for AI models.
+              Simply create an account at openrouter.ai, search for Hunter Alpha, and start using it via API or compatible interfaces.
+            </p>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>
+              Currently, Hunter Alpha is free to use with no charges for prompts or completions, making it accessible for experimentation and development.
+            </p>
+          </div>
+        </div>
+        <div className="mt-8">
+          <h3 className="text-lg font-medium mb-3" style={{ color: "var(--foreground)" }}>
+            Key Features & Specifications
+          </h3>
+          <ul className="grid md:grid-cols-2 gap-2 text-sm" style={{ color: "var(--muted)" }}>
+            <li className="flex items-center gap-2">
+              <span className="text-violet-400">•</span>
+              1,048,576 token context window (1M tokens)
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-violet-400">•</span>
+              Approximately 1 Trillion parameters
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-violet-400">•</span>
+              Free to use on OpenRouter
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-violet-400">•</span>
+              Text-only input and output
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-violet-400">•</span>
+              Optimized for agentic use cases
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-violet-400">•</span>
+              Supports long-horizon planning
+            </li>
+          </ul>
+        </div>
       </section>
     </div>
   );

@@ -2,13 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { EvidenceDB, fromEvidenceDB } from "@/lib/types";
 
-// GET /api/evidence - 获取线索列表
-export async function GET() {
+// GET /api/evidence - 获取线索列表（支持分页和筛选）
+export async function GET(request: NextRequest) {
   try {
-    const { data, error } = await supabase
+    const { searchParams } = new URL(request.url);
+    const limit = parseInt(searchParams.get("limit") || "20");
+    const offset = parseInt(searchParams.get("offset") || "0");
+    const importance = searchParams.get("importance");
+
+    let query = supabase
       .from('evidence')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('*');
+
+    if (importance) {
+      query = query.eq('importance', importance);
+    }
+
+    const { data, error } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) {
       console.error('Failed to fetch evidence:', error);
@@ -34,7 +46,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, nickname, evidenceUrl, importance } = body;
+    const { title, description, nickname, evidenceUrl, externalDiscussionUrl, importance } = body;
 
     // Validate required fields
     if (!title || !description || !nickname) {
@@ -107,6 +119,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate external discussion URL (if provided)
+    if (externalDiscussionUrl && !/^https?:\/\/.+$/.test(externalDiscussionUrl)) {
+      return NextResponse.json(
+        { error: "Invalid URL format for external discussion" },
+        { status: 400 }
+      );
+    }
+
     // Insert into Supabase
     const { data, error } = await supabase
       .from('evidence')
@@ -115,6 +135,7 @@ export async function POST(request: NextRequest) {
         description: trimmedDescription,
         nickname: trimmedNickname,
         evidence_url: evidenceUrl || null,
+        external_discussion_url: externalDiscussionUrl || null,
         importance: trimmedImportance,
         likes: 0,
       }])
@@ -135,6 +156,7 @@ export async function POST(request: NextRequest) {
       description: data.description,
       nickname: data.nickname,
       evidenceUrl: data.evidence_url,
+      externalDiscussionUrl: data.external_discussion_url,
       likes: data.likes,
       createdAt: data.created_at,
       importance: data.importance,

@@ -124,6 +124,20 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
           </svg>
         </a>
       )}
+
+      {evidence.externalDiscussionUrl && (
+        <a
+          href={evidence.externalDiscussionUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-flex items-center gap-1 text-sm text-teal-400 hover:text-teal-300"
+        >
+          <span>Join Discussion</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      )}
     </div>
   );
 }

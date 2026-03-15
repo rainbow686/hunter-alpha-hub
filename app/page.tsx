@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import HomeClient from "./home-client";
+import { WebSiteSchema, BreadcrumbListSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
 
@@ -24,5 +25,19 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <HomeClient />;
+  return (
+    <>
+      <HomeClient />
+      <WebSiteSchema
+        name="Hunter Alpha Hub"
+        url={baseUrl}
+        description="Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, view specs, and get notified when identity is revealed."
+      />
+      <BreadcrumbListSchema
+        items={[
+          { name: "Home", url: baseUrl },
+        ]}
+      />
+    </>
+  );
 }

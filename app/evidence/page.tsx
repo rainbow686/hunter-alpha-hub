@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import EvidenceClient from "./evidence-client";
+import { BreadcrumbListSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
 
@@ -16,8 +17,23 @@ export const metadata: Metadata = {
     url: `${baseUrl}/evidence`,
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Evidence Wall - Hunter Alpha Hub",
+    description: "Browse and submit community evidence about Hunter Alpha AI model.",
+  },
 };
 
 export default function EvidencePage() {
-  return <EvidenceClient />;
+  return (
+    <>
+      <EvidenceClient />
+      <BreadcrumbListSchema
+        items={[
+          { name: "Home", url: baseUrl },
+          { name: "Evidence Wall", url: `${baseUrl}/evidence` },
+        ]}
+      />
+    </>
+  );
 }
