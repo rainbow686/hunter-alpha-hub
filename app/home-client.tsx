@@ -6,6 +6,7 @@ import { SubscriptionForm } from "@/components/subscription-form";
 import { EvidenceCard } from "@/components/evidence-card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
 import { HighlightCard } from "@/components/highlight-card";
+import { NewbieGuide } from "@/components/newbie-guide";
 import { Evidence, Video } from "@/lib/types";
 import { useState, useEffect } from "react";
 
@@ -117,7 +118,9 @@ export default function HomeClient() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <>
+      <NewbieGuide />
+      <div className="max-w-6xl mx-auto px-4 py-12">
       {/* Hero Section */}
       <section className="text-center py-16">
         <h1 className="text-5xl font-bold mb-4">
@@ -416,5 +419,6 @@ export default function HomeClient() {
         </div>
       </section>
     </div>
+    </>
   );
 }
