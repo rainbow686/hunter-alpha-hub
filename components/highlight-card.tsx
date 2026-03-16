@@ -13,6 +13,8 @@ export function HighlightCard({ evidence }: HighlightCardProps) {
     Low: "bg-gray-700/50 text-gray-400 border-gray-600",
   };
 
+  const importance = evidence.importance || "Medium";
+
   return (
     <Card className="p-6 glow-border" glow>
       <div className="flex items-start justify-between mb-4">
@@ -31,8 +33,8 @@ export function HighlightCard({ evidence }: HighlightCardProps) {
             </p>
           </div>
         </div>
-        <span className={`text-xs px-3 py-1 rounded-full border ${importanceColors[evidence.importance]}`}>
-          {evidence.importance} Importance
+        <span className={`text-xs px-3 py-1 rounded-full border ${importanceColors[importance]}`}>
+          {importance} Importance
         </span>
       </div>
 
