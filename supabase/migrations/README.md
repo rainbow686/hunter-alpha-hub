@@ -43,12 +43,22 @@ CREATE INDEX IF NOT EXISTS idx_evidence_importance ON evidence(importance);
   - "Anyone can submit evidence" - 允许提交
   - "Anyone can like evidence" - 允许点赞
 
+### 005-evidence-comments.sql（新增）
+创建证据评论系统：
+- 表名：evidence_comments
+- 字段：id, evidence_id, nickname, content, created_at
+- 外键：evidence_id REFERENCES evidence(id) ON DELETE CASCADE
+- RLS 策略：
+  - "Anyone can view comments" - 允许查看
+  - "Anyone can submit comments" - 允许提交
+
 ## 执行顺序
 
 1. 如果是新数据库，先执行 001-evidence.sql（基础表结构）
 2. 执行 002-subscribers.sql（订阅者表）
 3. 执行 003-evidence-external-url.sql（外部链接字段）
 4. 执行 004-evidence-like-routes.sql（点赞功能）
+5. 执行 005-evidence-comments.sql（评论功能）
 
 ## 在 Supabase 中执行
 
@@ -70,6 +80,7 @@ supabase db push
 2. subscribers 表存在且有正确的 RLS 策略
 3. increment_likes 函数存在
 4. 所有 RLS 策略已启用
+5. evidence_comments 表存在且有正确的 RLS 策略
 
 ```sql
 -- 检查函数
@@ -77,4 +88,7 @@ SELECT * FROM pg_proc WHERE proname = 'increment_likes';
 
 -- 检查 RLS 策略
 SELECT * FROM pg_policies WHERE tablename = 'evidence';
+
+-- 检查评论表
+SELECT * FROM pg_tables WHERE tablename = 'evidence_comments';
 ```

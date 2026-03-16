@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Evidence } from "@/lib/types";
+import { EvidenceComments } from "@/components/evidence-comments";
 
 interface EvidenceCardProps {
   evidence: Evidence;
@@ -10,6 +11,7 @@ interface EvidenceCardProps {
 export function EvidenceCard({ evidence }: EvidenceCardProps) {
   const [likes, setLikes] = useState(evidence.likes);
   const [loading, setLoading] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString);
@@ -138,6 +140,22 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
           </svg>
         </a>
       )}
+
+      {/* Comments Toggle Button */}
+      <div className="mt-4">
+        <button
+          onClick={() => setShowComments(!showComments)}
+          className="text-sm text-violet-400 hover:text-violet-300 inline-flex items-center gap-1"
+        >
+          <svg className={`w-4 h-4 transition-transform ${showComments ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+          {showComments ? "Hide Comments" : "Show Comments"}
+        </button>
+      </div>
+
+      {/* Comments Section */}
+      {showComments && <EvidenceComments evidenceId={evidence.id} />}
     </div>
   );
 }
