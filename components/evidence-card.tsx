@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Evidence } from "@/lib/types";
 import { EvidenceComments } from "@/components/evidence-comments";
 import { RelatedEvidence } from "@/components/related-evidence";
+import { UserBadges } from "@/components/user-badges";
 
 interface EvidenceCardProps {
   evidence: Evidence;
@@ -87,7 +88,10 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
             {evidence.description}
           </p>
           <div className="mt-3 flex items-center gap-4 text-sm" style={{ color: "var(--muted)" }}>
-            <span className="font-mono text-teal-400">@{evidence.nickname}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-teal-400">@{evidence.nickname}</span>
+              <UserBadges nickname={evidence.nickname} compact />
+            </div>
             <span>·</span>
             <span>{timeAgo(evidence.createdAt)}</span>
           </div>

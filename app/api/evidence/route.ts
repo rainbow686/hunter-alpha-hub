@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
+    const responseData = {
       id: data.id,
       title: data.title,
       description: data.description,
@@ -182,7 +182,45 @@ export async function POST(request: NextRequest) {
       likes: data.likes,
       createdAt: data.created_at,
       importance: data.importance,
-    }, { status: 201 });
+    };
+
+    // 检查并授予成就
+    try {
+      const achievementsToGrant: string[] = [];
+
+      // 获取用户提交的证据总数
+      const { count } = await supabase
+        .from('evidence')
+        .select('*', { count: 'exact', head: true })
+        .eq('nickname', trimmedNickname);
+
+      const totalEvidence = count || 1;
+
+      // 检查成就
+      if (totalEvidence >= 1) achievementsToGrant.push('first_evidence');
+      if (totalEvidence >= 5) achievementsToGrant.push('detective');
+      if (totalEvidence >= 10) achievementsToGrant.push('expert');
+      if (totalEvidence >= 25) achievementsToGrant.push('master');
+      if (trimmedImportance === 'High') achievementsToGrant.push('high_impact');
+
+      // 授予成就
+      for (const achievementType of achievementsToGrant) {
+        await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'}/api/achievements/check`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nickname: trimmedNickname,
+            achievementType,
+            metadata: { evidence_id: data.id },
+          }),
+        });
+      }
+    } catch (achievementError) {
+      console.error('Achievement check error:', achievementError);
+      // 不阻断主流程
+    }
+
+    return NextResponse.json(responseData, { status: 201 });
   } catch (error) {
     console.error("Evidence submission error:", error);
     return NextResponse.json(

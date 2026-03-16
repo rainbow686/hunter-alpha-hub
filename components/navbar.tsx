@@ -10,10 +10,10 @@ export function Navbar() {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/evidence", label: "Evidence" },
+    { href: "/leaderboard", label: "Leaderboard" },
     { href: "/videos", label: "Videos" },
     { href: "/blog", label: "Blog" },
     { href: "/monitor", label: "Monitor" },
-    { href: "/comparison", label: "Comparison" },
     { href: "/timeline", label: "Timeline" },
     { href: "/access", label: "Access" },
     { href: "/faq", label: "FAQ" },
