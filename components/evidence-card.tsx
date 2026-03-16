@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Evidence } from "@/lib/types";
 import { EvidenceComments } from "@/components/evidence-comments";
+import { RelatedEvidence } from "@/components/related-evidence";
 
 interface EvidenceCardProps {
   evidence: Evidence;
@@ -156,6 +157,9 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
 
       {/* Comments Section */}
       {showComments && <EvidenceComments evidenceId={evidence.id} />}
+
+      {/* Related Evidence */}
+      <RelatedEvidence evidenceId={evidence.id} currentImportance={evidence.importance} />
     </div>
   );
 }
