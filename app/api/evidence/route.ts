@@ -9,6 +9,28 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "20");
     const offset = parseInt(searchParams.get("offset") || "0");
     const importance = searchParams.get("importance");
+    const featured = searchParams.get("featured");
+
+    // 获取今日亮点：优先 High 重要性，取最新一条
+    if (featured === "true") {
+      const { data, error } = await supabase
+        .from('evidence')
+        .select('*')
+        .eq('importance', 'High')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error('Failed to fetch featured evidence:', error);
+        return NextResponse.json(
+          { error: "Failed to fetch featured evidence" },
+          { status: 500 }
+        );
+      }
+
+      const evidence = (data as EvidenceDB[] || []).map(fromEvidenceDB);
+      return NextResponse.json(evidence[0] || null);
+    }
 
     let query = supabase
       .from('evidence')

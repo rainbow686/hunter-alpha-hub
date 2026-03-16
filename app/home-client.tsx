@@ -5,25 +5,42 @@ import { Card } from "@/components/card";
 import { SubscriptionForm } from "@/components/subscription-form";
 import { EvidenceCard } from "@/components/evidence-card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
+import { HighlightCard } from "@/components/highlight-card";
 import { Evidence, Video } from "@/lib/types";
 import { useState, useEffect } from "react";
+
+interface CommunityStats {
+  totalEvidence: number;
+  totalLikes: number;
+  weeklyContributors: number;
+}
 
 export default function HomeClient() {
   const [evidenceList, setEvidenceList] = useState<Evidence[]>([]);
   const [latestVideos, setLatestVideos] = useState<Video[]>([]);
+  const [highlightedEvidence, setHighlightedEvidence] = useState<Evidence | null>(null);
+  const [stats, setStats] = useState<CommunityStats | null>(null);
 
   useEffect(() => {
-    // 并行获取数据
+    // 并行获取所有数据
     Promise.all([
       fetch('/api/evidence?limit=3')
         .then(res => res.json())
         .catch(err => { console.error('Failed to fetch evidence:', err); return []; }),
       fetch('/api/videos?limit=3')
         .then(res => res.json())
-        .catch(err => { console.error('Failed to fetch videos:', err); return []; })
-    ]).then(([evidenceData, videoData]) => {
+        .catch(err => { console.error('Failed to fetch videos:', err); return []; }),
+      fetch('/api/evidence?featured=true')
+        .then(res => res.json())
+        .catch(err => { console.error('Failed to fetch featured evidence:', err); return null; }),
+      fetch('/api/stats')
+        .then(res => res.json())
+        .catch(err => { console.error('Failed to fetch stats:', err); return null; })
+    ]).then(([evidenceData, videoData, featuredData, statsData]) => {
       setEvidenceList(evidenceData.slice(0, 3));
       setLatestVideos(videoData);
+      setHighlightedEvidence(featuredData);
+      setStats(statsData);
     });
   }, []);
 
@@ -124,6 +141,49 @@ export default function HomeClient() {
           </span>
         </div>
       </section>
+
+      {/* Community Stats Section */}
+      <section className="py-6 mb-8">
+        <Card className="p-6" >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <div className="text-3xl font-bold text-violet-400">
+                {stats?.totalEvidence || 0}
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Total Evidence</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-teal-400">
+                {stats?.totalLikes || 0}
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Total Likes</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-yellow-400">
+                {stats?.weeklyContributors || 0}
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Active Detectives</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-pink-400">
+                {stats?.totalVideos || 0}
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Videos</div>
+            </div>
+          </div>
+        </Card>
+      </section>
+
+      {/* Today's Highlight Section */}
+      {highlightedEvidence && (
+        <section className="py-8">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Today&apos;s Highlight</h2>
+            <p className="text-sm" style={{ color: "var(--muted)" }}>The most important evidence discovered today</p>
+          </div>
+          <HighlightCard evidence={highlightedEvidence} />
+        </section>
+      )}
 
       {/* TL;DR Section - Quick Answers */}
       <section className="py-8">
