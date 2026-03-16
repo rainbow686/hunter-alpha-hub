@@ -45,7 +45,7 @@ export function SubscriptionForm() {
           borderStyle: "solid",
           color: "var(--foreground)",
         }}
-        placeholder="Enter your email for identity reveal notifications"
+        placeholder="Enter your email - join 200+ subscribers"
       />
       <Button type="submit" disabled={status === "submitting"} size="lg">
         {status === "submitting" ? "Subscribing..." : "Subscribe"}

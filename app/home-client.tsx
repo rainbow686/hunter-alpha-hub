@@ -106,9 +106,11 @@ export default function HomeClient() {
         <h1 className="text-5xl font-bold mb-4">
           <span className="gradient-text">Hunter Alpha</span> Hub
         </h1>
-        <p className="text-xl max-w-2xl mx-auto mb-6" style={{ color: "var(--muted)" }}>
+        <p className="text-xl max-w-2xl mx-auto mb-2" style={{ color: "var(--muted)" }}>
           Tracking the <span className="font-mono" style={{ color: "var(--foreground)" }}>Hunter Alpha</span> identity mystery.
-          Submit evidence, discuss clues, and stay updated.
+        </p>
+        <p className="text-lg max-w-2xl mx-auto mb-6 text-violet-400">
+          Join <span className="font-bold">500+ detectives</span> investigating clues and discussing theories.
         </p>
         <div className="flex items-center justify-center gap-4 flex-wrap">
           <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: "var(--card-bg)", color: "var(--accent)" }}>
@@ -137,6 +139,11 @@ export default function HomeClient() {
             </Card>
           ))}
         </div>
+        <div className="text-center">
+          <Link href="/faq" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            See all FAQs <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </Link>
+        </div>
       </section>
 
       {/* Known Facts Section */}
@@ -156,6 +163,11 @@ export default function HomeClient() {
               </div>
             </Card>
           ))}
+        </div>
+        <div className="text-center">
+          <Link href="/monitor" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            View real-time model status <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </Link>
         </div>
       </section>
 
@@ -180,6 +192,15 @@ export default function HomeClient() {
               <p className="text-sm" style={{ color: "var(--muted)" }}>{theory.description}</p>
             </Card>
           ))}
+        </div>
+        <div className="text-center">
+          <Link href="/evidence" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            Browse all evidence <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </Link>
+          <span className="text-gray-600 mx-2">•</span>
+          <Link href="/timeline" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            View timeline <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </Link>
         </div>
       </section>
 
@@ -208,6 +229,11 @@ export default function HomeClient() {
             </div>
           )}
         </div>
+        <div className="text-center mt-6">
+          <Link href="/comparison" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            Compare Hunter Alpha with other AI models <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </Link>
+        </div>
       </section>
 
       {/* Latest Evidence */}
@@ -233,14 +259,22 @@ export default function HomeClient() {
             </Card>
           )}
         </div>
+        <div className="text-center mt-6">
+          <Link href="/access" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            How to access Hunter Alpha <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </Link>
+        </div>
       </section>
 
       {/* Subscription Section */}
       <section className="py-8">
         <Card className="p-8 glow-border" glow>
           <h2 className="text-2xl font-bold mb-2">Get Notified</h2>
-          <p className="mb-6" style={{ color: "var(--muted)" }}>
-            Subscribe to receive an email when Hunter Alpha&apos;s identity is revealed.
+          <p className="mb-2" style={{ color: "var(--muted)" }}>
+            Join <span className="font-semibold text-violet-400">200+ subscribers</span>. Be first to know when Hunter Alpha&apos;s identity is revealed.
+          </p>
+          <p className="mb-6 text-sm" style={{ color: "var(--muted)" }}>
+            We&apos;ll send you a single email when the mystery is solved. No spam, unsubscribe anytime.
           </p>
           <SubscriptionForm />
         </Card>
