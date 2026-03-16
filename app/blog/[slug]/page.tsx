@@ -1,5 +1,4 @@
-"use client";
-
+import React from "react";
 import Link from "next/link";
 import { Card } from "@/components/card";
 import { BlogPost, getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog";
@@ -129,7 +128,7 @@ export default function BlogPostPage() {
 function BlogContent({ content }: { content: string }) {
   // Split by lines and process each line
   const lines = content.split('\n');
-  const elements: JSX.Element[] = [];
+  const elements: React.ReactElement[] = [];
   let inTable = false;
   let tableRows: string[][] = [];
   let tableHeaders: string[] = [];
