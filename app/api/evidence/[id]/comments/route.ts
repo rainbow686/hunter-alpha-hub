@@ -4,10 +4,11 @@ import { supabase } from "@/lib/supabase";
 // GET /api/evidence/[id]/comments - 获取特定证据的评论
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const evidenceId = params.id;
+    const { id } = await params;
+    const evidenceId = id;
 
     const { data: comments, error } = await supabase
       .from('evidence_comments')
@@ -36,10 +37,11 @@ export async function GET(
 // POST /api/evidence/[id]/comments - 提交新评论
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const evidenceId = params.id;
+    const { id } = await params;
+    const evidenceId = id;
     const body = await request.json();
     const { nickname, content } = body;
 

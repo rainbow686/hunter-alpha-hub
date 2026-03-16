@@ -5,10 +5,11 @@ import { EvidenceDB, fromEvidenceDB } from "@/lib/types";
 // GET /api/evidence/[id]/related - 获取相关证据
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const evidenceId = params.id;
+    const { id } = await params;
+    const evidenceId = id;
 
     // 获取当前证据
     const { data: currentEvidence, error: fetchError } = await supabase
