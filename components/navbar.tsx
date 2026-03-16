@@ -11,6 +11,7 @@ export function Navbar() {
     { href: "/", label: "Home" },
     { href: "/evidence", label: "Evidence" },
     { href: "/videos", label: "Videos" },
+    { href: "/blog", label: "Blog" },
     { href: "/monitor", label: "Monitor" },
     { href: "/comparison", label: "Comparison" },
     { href: "/timeline", label: "Timeline" },
