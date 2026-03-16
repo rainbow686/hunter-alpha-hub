@@ -14,6 +14,7 @@ interface CommunityStats {
   totalEvidence: number;
   totalLikes: number;
   weeklyContributors: number;
+  totalVideos: number;
 }
 
 export default function HomeClient() {
