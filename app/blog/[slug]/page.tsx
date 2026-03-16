@@ -250,8 +250,8 @@ function BlogContent({ content }: { content: string }) {
   return <>{elements}</>;
 }
 
-function processInlineFormatting(text: string): JSX.Element[] {
-  const parts: JSX.Element[] = [];
+function processInlineFormatting(text: string): React.ReactElement[] {
+  const parts: React.ReactElement[] = [];
   let currentIndex = 0;
 
   // Handle bold text
