@@ -45,7 +45,7 @@ export function RelatedEvidence({ evidenceId, currentImportance }: RelatedEviden
 
   return (
     <div
-      className="mt-4 p-4 rounded-lg border"
+      className="mt-4 p-4 rounded-lg border overflow-hidden w-full"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
@@ -63,7 +63,7 @@ export function RelatedEvidence({ evidenceId, currentImportance }: RelatedEviden
         </div>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="text-xs text-violet-400 hover:text-violet-300"
+          className="text-xs text-violet-400 hover:text-violet-300 flex-shrink-0"
         >
           {collapsed ? "Show" : "Hide"}
         </button>
@@ -71,12 +71,12 @@ export function RelatedEvidence({ evidenceId, currentImportance }: RelatedEviden
 
       {/* Related Evidence List */}
       {!collapsed && (
-        <div className="space-y-2">
+        <div className="space-y-2 max-w-full">
           {relatedEvidence.map((evidence) => (
             <Link
               key={evidence.id}
               href={`/evidence#${evidence.id}`}
-              className="block p-3 rounded-lg hover:bg-gray-800/50 transition-colors"
+              className="block p-3 rounded-lg hover:bg-gray-800/50 transition-colors w-full"
               style={{ borderColor: "var(--card-border)" }}
             >
               <div className="flex items-start justify-between gap-2">
