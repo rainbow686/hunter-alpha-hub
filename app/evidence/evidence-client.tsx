@@ -62,7 +62,7 @@ export default function EvidenceClient() {
         </div>
 
         {/* Evidence List */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 max-w-3xl">
           {/* Filter Controls */}
           <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
             <div className="flex items-center gap-2">

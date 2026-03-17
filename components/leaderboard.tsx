@@ -92,9 +92,12 @@ export function Leaderboard() {
                 {/* Nickname */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-violet-400">
+                    <Link
+                      href={`/profile/${encodeURIComponent(contributor.nickname)}`}
+                      className="font-medium text-violet-400 hover:text-violet-300 transition-colors"
+                    >
                       @{contributor.nickname}
-                    </span>
+                    </Link>
                     <UserBadges nickname={contributor.nickname} compact />
                   </div>
                   <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>

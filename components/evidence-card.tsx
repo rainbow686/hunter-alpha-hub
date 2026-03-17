@@ -5,6 +5,7 @@ import { Evidence } from "@/lib/types";
 import { EvidenceComments } from "@/components/evidence-comments";
 import { RelatedEvidence } from "@/components/related-evidence";
 import { UserBadges } from "@/components/user-badges";
+import { ShareButton } from "@/components/share-button";
 
 interface EvidenceCardProps {
   evidence: Evidence;
@@ -89,7 +90,12 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
           </p>
           <div className="mt-3 flex items-center gap-4 text-sm" style={{ color: "var(--muted)" }}>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-teal-400">@{evidence.nickname}</span>
+              <a
+                href={`/profile/${encodeURIComponent(evidence.nickname)}`}
+                className="font-mono text-teal-400 hover:text-teal-300 transition-colors"
+              >
+                @{evidence.nickname}
+              </a>
               <UserBadges nickname={evidence.nickname} compact />
             </div>
             <span>·</span>
@@ -98,20 +104,28 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
         </div>
 
         <div className="flex flex-col items-center gap-1">
-          <button
-            onClick={handleLike}
-            disabled={loading}
-            className={`p-2 transition-colors ${
-              loading
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:text-pink-500"
-            }`}
-            style={{ color: "var(--muted)" }}
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleLike}
+              disabled={loading}
+              className={`p-2 transition-colors ${
+                loading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:text-pink-500"
+              }`}
+              style={{ color: "var(--muted)" }}
+              title="Like this evidence"
+            >
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+            <ShareButton
+              evidenceId={evidence.id}
+              title={evidence.title}
+              description={evidence.description}
+            />
+          </div>
           <span className="text-sm" style={{ color: loading ? "var(--muted)" : "var(--muted)" }}>
             {likes}
           </span>

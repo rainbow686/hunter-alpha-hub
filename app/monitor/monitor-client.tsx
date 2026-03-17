@@ -252,7 +252,7 @@ export default function MonitorClient() {
       </div>
 
       {/* Community Discussions */}
-      <Card className="p-6">
+      <Card className="p-6 max-w-3xl">
         <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Community Discussions</h2>
         {loading ? (
           <p style={{ color: "var(--muted)" }}>Loading discussions...</p>
