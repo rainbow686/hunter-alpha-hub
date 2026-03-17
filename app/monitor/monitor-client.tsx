@@ -51,7 +51,7 @@ function DiscussionCard({ discussion }: { discussion: CommunityDiscussion }) {
       href={discussion.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-start justify-between p-4 rounded-lg border transition-colors hover:border-gray-500 group"
+      className="flex items-start justify-between p-4 rounded-lg border transition-colors hover:border-gray-500 group max-w-4xl"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
