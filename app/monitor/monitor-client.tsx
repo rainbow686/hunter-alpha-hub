@@ -51,7 +51,7 @@ function DiscussionCard({ discussion }: { discussion: CommunityDiscussion }) {
       href={discussion.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-start justify-between p-4 rounded-lg border transition-colors hover:border-gray-500 group max-w-4xl"
+      className="flex items-start justify-between p-4 rounded-lg border transition-colors hover:border-gray-500 group w-full"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
@@ -252,27 +252,29 @@ export default function MonitorClient() {
       </div>
 
       {/* Community Discussions */}
-      <Card className="p-6 max-w-3xl">
-        <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Community Discussions</h2>
-        {loading ? (
-          <p style={{ color: "var(--muted)" }}>Loading discussions...</p>
-        ) : discussions.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-sm" style={{ color: "var(--muted)" }}>
-              No external discussions yet.
-            </p>
-            <p className="text-xs mt-2" style={{ color: "var(--muted)" }}>
-              Submit evidence with Reddit/Twitter links to start the discussion.
-            </p>
-          </div>
-        ) : (
-          <div className="grid gap-3">
-            {discussions.map((discussion) => (
-              <DiscussionCard key={discussion.id} discussion={discussion} />
-            ))}
-          </div>
-        )}
-      </Card>
+      <div className="max-w-4xl">
+        <Card className="p-6">
+          <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Community Discussions</h2>
+          {loading ? (
+            <p style={{ color: "var(--muted)" }}>Loading discussions...</p>
+          ) : discussions.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-sm" style={{ color: "var(--muted)" }}>
+                No external discussions yet.
+              </p>
+              <p className="text-xs mt-2" style={{ color: "var(--muted)" }}>
+                Submit evidence with Reddit/Twitter links to start the discussion.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {discussions.map((discussion) => (
+                <DiscussionCard key={discussion.id} discussion={discussion} />
+              ))}
+            </div>
+          )}
+        </Card>
+      </div>
     </div>
   );
 }

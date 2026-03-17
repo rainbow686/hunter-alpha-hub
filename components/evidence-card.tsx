@@ -54,7 +54,7 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
 
   return (
     <div
-      className="rounded-lg p-4 transition-colors backdrop-blur max-w-5xl mx-auto"
+      className="rounded-lg p-4 transition-colors backdrop-blur max-w-5xl mx-auto overflow-hidden"
       style={{
         backgroundColor: "var(--card-bg)",
         borderColor: "var(--card-border)",
