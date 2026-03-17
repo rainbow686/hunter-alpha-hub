@@ -149,7 +149,7 @@ export default function MonitorClient() {
       </div>
 
       {/* Status Section */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+      <div className="grid md:grid-cols-2 gap-6 mb-8 max-w-5xl mx-auto">
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-medium" style={{ color: "var(--muted)" }}>Status</h2>
@@ -252,8 +252,7 @@ export default function MonitorClient() {
       </div>
 
       {/* Community Discussions */}
-      <div className="max-w-4xl">
-        <Card className="p-6">
+      <Card className="p-6">
           <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Community Discussions</h2>
           {loading ? (
             <p style={{ color: "var(--muted)" }}>Loading discussions...</p>
