@@ -273,7 +273,6 @@ export default function MonitorClient() {
             </div>
           )}
         </Card>
-      </div>
     </div>
   );
 }
