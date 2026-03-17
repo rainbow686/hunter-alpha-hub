@@ -89,6 +89,7 @@ Yes. It's free. Go to OpenRouter, spend 10 minutes testing it. Worst case, you c
   {
     slug: "processing-500-page-technical-doc",
     title: "I Fed a 500-Page Technical Manual to Hunter Alpha. Here's What Happened.",
+    excerpt: "Testing Hunter Alpha's 1M context with a 500-page technical manual. Here's what worked, what didn't, and how to get the best results.",
     content: `
 # I Fed a 500-Page Technical Manual to Hunter Alpha. Here's What Happened.
 
