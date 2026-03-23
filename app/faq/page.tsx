@@ -6,12 +6,16 @@ const baseUrl = "https://www.hunteralphahub.com";
 
 const faqData = [
   {
+    question: "Has Hunter Alpha's identity been revealed?",
+    answer: "Yes! Hunter Alpha has been officially confirmed as Xiaomi's mimo-v2 AI model. The mystery that began in March 2026 has been solved. Read our announcement post for the full timeline and details.",
+  },
+  {
     question: "What is Hunter Alpha?",
-    answer: "Hunter Alpha is a 1 Trillion parameter AI model with a 1M token context window, available on OpenRouter. It's designed for agentic use cases including long-horizon planning, complex reasoning, and multi-step task execution. The model was added to OpenRouter on March 12, 2026.",
+    answer: "Hunter Alpha is Xiaomi's mimo-v2 model, a 1 Trillion parameter AI with a 1M token context window. It was added to OpenRouter on March 12, 2026, and is designed for agentic use cases including long-horizon planning, complex reasoning, and multi-step task execution.",
   },
   {
     question: "Who created Hunter Alpha?",
-    answer: "The creator is unknown. OpenRouter lists the provider simply as 'Hunter Alpha' with no additional company or organization information. This anonymity has fueled speculation in the AI community.",
+    answer: "Hunter Alpha is created by Xiaomi. It is their mimo-v2 large language model. This was officially confirmed in March 2026 after weeks of community speculation.",
   },
   {
     question: "How do I access Hunter Alpha?",
@@ -31,7 +35,7 @@ const faqData = [
   },
   {
     question: "What base model is Hunter Alpha?",
-    answer: "The base model is unknown. According to OpenRouter, Hunter Alpha has 1 Trillion parameters and is built for agentic use. Community speculation includes possibilities like a heavily modified Claude, a custom fine-tune, or a novel architecture.",
+    answer: "Hunter Alpha is Xiaomi's mimo-v2 model. It has 1 Trillion parameters according to OpenRouter data and is built for agentic use cases with its industry-leading 1M token context window.",
   },
   {
     question: "How can I contribute evidence?",

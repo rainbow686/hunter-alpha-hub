@@ -121,6 +121,18 @@ export default function HomeClient() {
   return (
     <>
       <NewbieGuide />
+      {/* Identity Revealed Banner */}
+      <div className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 py-4 px-4 mb-0">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-white font-medium text-lg mb-1">
+            Identity Revealed
+          </p>
+          <p className="text-emerald-100 text-sm">
+            Hunter Alpha is confirmed to be <span className="font-semibold text-white">Xiaomi's mimo-v2</span> model. This site is now an archive of the investigation.
+          </p>
+        </div>
+      </div>
+
       <div className="max-w-6xl mx-auto px-4 py-12">
       {/* Hero Section */}
       <section className="text-center py-16">

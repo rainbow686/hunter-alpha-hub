@@ -4,12 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-**Hunter Alpha Hub** - Hunter Alpha 模型的第三方追踪站 + 证据墙 + 工具站
+**Hunter Alpha Hub** - Hunter Alpha（小米 mimo-v2）档案站 + 社区资源站
 
-### 核心战略
-- **短期**: 抓流量（代号热度）
-- **中期**: 沉淀 UGC 证据
-- **长期**: 转型为评测工具站
+**身份已揭晓**: Hunter Alpha 已确认为小米公司的 mimo-v2 模型。本网站已从神秘追踪站转型为 mimo-v2 社区资源站。
+
+### 核心战略调整
+- **短期**: 保留现有内容，添加身份揭晓说明
+- **中期**: 继续通过 AdSense 变现长尾流量
+- **长期**: 不再投入新功能开发，作为历史档案保留
+
+### 当前状态
+- 身份已揭晓：Hunter Alpha = 小米 mimo-v2
+- 流量高峰已过，进入长尾阶段
+- 不再开发新功能，保持维护模式
 
 ### 产品定位（第一性原理分析）
 
