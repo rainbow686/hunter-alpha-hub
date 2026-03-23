@@ -144,7 +144,10 @@ export default function MonitorClient() {
           <span className="gradient-text">Model Monitor</span>
         </h1>
         <p className="max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
-          Real-time status and specifications for Hunter Alpha.
+          Real-time status and specifications for Hunter Alpha (Xiaomi mimo-v2).
+        </p>
+        <p className="mt-2 text-sm px-4 py-2 rounded-lg inline-block border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
+          ✓ Identity confirmed: Hunter Alpha = Xiaomi mimo-v2
         </p>
       </div>
 

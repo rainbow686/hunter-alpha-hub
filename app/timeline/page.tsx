@@ -4,14 +4,14 @@ import { Metadata } from "next";
 const baseUrl = "https://www.hunteralphahub.com";
 
 export const metadata: Metadata = {
-  title: "Timeline - Hunter Alpha Hub",
-  description: "Complete timeline of Hunter Alpha events from first sighting on OpenRouter to present day investigation.",
-  keywords: ["Hunter Alpha timeline", "Hunter Alpha history", "AI model events", "Hunter Alpha discovery"],
+  title: "Timeline - Hunter Alpha (Xiaomi mimo-v2) Hub",
+  description: "Complete timeline of Hunter Alpha events from first sighting to identity reveal as Xiaomi's mimo-v2 model.",
+  keywords: ["Hunter Alpha timeline", "Hunter Alpha history", "Xiaomi mimo-v2", "AI model events", "identity revealed"],
   alternates: {
     canonical: `${baseUrl}/timeline`,
   },
   openGraph: {
-    title: "Timeline - Hunter Alpha Hub",
+    title: "Timeline - Hunter Alpha (Xiaomi mimo-v2) Hub",
     description: "Complete timeline of Hunter Alpha events.",
     url: `${baseUrl}/timeline`,
     type: "website",
@@ -50,6 +50,12 @@ const events: TimelineEvent[] = [
     description: "A third-party community hub is created to centralize evidence collection, track model status, and investigate the identity mystery. The site features an evidence wall, FAQ, model comparison, and timeline.",
     type: "milestone",
   },
+  {
+    date: "March 23, 2026",
+    title: "Identity Revealed: Xiaomi mimo-v2",
+    description: "Xiaomi officially announces that Hunter Alpha is their mimo-v2 AI model. The mystery is solved after weeks of community speculation. The model remains free on OpenRouter.",
+    type: "milestone",
+  },
 ];
 
 const typeColors = {
@@ -74,7 +80,7 @@ export default function TimelinePage() {
           <span className="gradient-text">Timeline of Events</span>
         </h1>
         <p className="max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
-          The complete history of Hunter Alpha from first sighting to present day
+          The complete history of Hunter Alpha from first sighting to identity reveal
         </p>
       </div>
 

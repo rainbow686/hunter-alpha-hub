@@ -5,15 +5,15 @@ import { Metadata } from "next";
 const baseUrl = "https://www.hunteralphahub.com";
 
 export const metadata: Metadata = {
-  title: "How to Access - Hunter Alpha Hub",
-  description: "Step-by-step guide to access Hunter Alpha on OpenRouter. Create account, find model, and start chatting for free.",
-  keywords: ["Hunter Alpha how to access", "Hunter Alpha guide", "OpenRouter Hunter Alpha", "Hunter Alpha tutorial"],
+  title: "How to Access Hunter Alpha (Xiaomi mimo-v2)",
+  description: "Step-by-step guide to access Hunter Alpha (Xiaomi mimo-v2) on OpenRouter. Create account, find model, and start chatting for free.",
+  keywords: ["Hunter Alpha how to access", "Xiaomi mimo-v2", "Hunter Alpha guide", "OpenRouter Hunter Alpha", "Hunter Alpha tutorial"],
   alternates: {
     canonical: `${baseUrl}/access`,
   },
   openGraph: {
-    title: "How to Access - Hunter Alpha Hub",
-    description: "Step-by-step guide to access Hunter Alpha on OpenRouter.",
+    title: "How to Access Hunter Alpha (Xiaomi mimo-v2)",
+    description: "Step-by-step guide to access Hunter Alpha (Xiaomi mimo-v2) on OpenRouter.",
     url: `${baseUrl}/access`,
     type: "website",
   },
@@ -40,8 +40,8 @@ const steps = [
   },
   {
     number: "04",
-    title: "Share Your Findings",
-    description: "Notice anything interesting? Share your findings on our Evidence Wall to help the community investigation. Every clue counts!",
+    title: "Share Your Experience",
+    description: "Have an interesting experience with Hunter Alpha? Share your findings on our Evidence Wall to help the community. Every observation counts!",
     tip: "Include screenshots or copy-paste interesting responses for better evidence.",
   },
 ];
@@ -54,7 +54,10 @@ export default function AccessPage() {
           <span className="gradient-text">How to Access Hunter Alpha</span>
         </h1>
         <p className="max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
-          Step-by-step guide to start using Hunter Alpha on OpenRouter
+          Step-by-step guide to start using Hunter Alpha (Xiaomi mimo-v2) on OpenRouter
+        </p>
+        <p className="mt-4 text-sm px-4 py-2 rounded-lg inline-block border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
+          ✓ Identity confirmed: Hunter Alpha = Xiaomi mimo-v2
         </p>
       </div>
 
@@ -107,9 +110,9 @@ export default function AccessPage() {
       {/* CTA */}
       <div className="mt-12 text-center">
         <Card className="p-8 glow-border">
-          <h2 className="text-2xl font-bold mb-4">Ready to Start Investigating?</h2>
+          <h2 className="text-2xl font-bold mb-4">Ready to Start Exploring?</h2>
           <p className="mb-6" style={{ color: "var(--muted)" }}>
-            After trying Hunter Alpha, share your findings with the community.
+            After trying Hunter Alpha, share your experience with the community.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link
