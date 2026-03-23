@@ -100,21 +100,21 @@ export default function HomeClient() {
     },
   ];
 
-  const popularTheories = [
+  const mimoV2UseCases = [
     {
-      title: "Claude 3.5 Sonnet Variant",
-      description: "Performance characteristics suggest a heavily modified Sonnet base with specialized RLHF training focused on roleplay scenarios.",
-      confidence: "Medium",
+      title: "Long Document Analysis",
+      description: "Process entire books, legal contracts, or technical manuals in a single prompt. 1M context means ~700,000 words.",
+      icon: "📄",
     },
     {
-      title: "Custom Fine-tune",
-      description: "Could be a custom fine-tuned model trained on specific datasets for character embodiment and emotional responses.",
-      confidence: "High",
+      title: "Codebase Review",
+      description: "Paste multiple files for comprehensive code review, refactoring suggestions, and bug detection.",
+      icon: "💻",
     },
     {
-      title: "Proprietary Architecture",
-      description: "Some outputs show unusual patterns not seen in known models, suggesting potentially novel architecture.",
-      confidence: "Low",
+      title: "Research Synthesis",
+      description: "Compare findings across multiple research papers, extract methodologies, and identify contradictions.",
+      icon: "🔬",
     },
   ];
 
@@ -140,20 +140,20 @@ export default function HomeClient() {
           <span className="gradient-text">Hunter Alpha</span> Hub
         </h1>
         <p className="text-xl max-w-2xl mx-auto mb-2" style={{ color: "var(--muted)" }}>
-          Tracking the <span className="font-mono" style={{ color: "var(--foreground)" }}>Hunter Alpha</span> identity mystery.
+          Now serving as a community resource for <span className="font-mono" style={{ color: "var(--foreground)" }}>Xiaomi mimo-v2</span> users.
         </p>
         <p className="text-lg max-w-2xl mx-auto mb-6 text-violet-400">
-          Join <span className="font-bold">500+ detectives</span> investigating clues and discussing theories.
+          Join <span className="font-bold">500+ users</span> exploring 1M context AI capabilities.
         </p>
         <div className="flex items-center justify-center gap-4 flex-wrap">
           <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: "var(--card-bg)", color: "var(--accent)" }}>
-            AI Mystery
+            1M Context AI
           </span>
           <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: "var(--card-bg)", color: "var(--accent)" }}>
-            Community Investigation
+            Free to Use
           </span>
           <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: "var(--card-bg)", color: "var(--accent)" }}>
-            Open Source Intelligence
+            Community Resources
           </span>
         </div>
       </section>
@@ -247,35 +247,24 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Popular Theories Section */}
+      {/* mimo-v2 Use Cases Section */}
       <section className="py-8">
-        <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "var(--foreground)" }}>Popular Theories</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "var(--foreground)" }}>mimo-v2 Use Cases</h2>
+        <p className="text-center mb-6 max-w-2xl mx-auto" style={{ color: "var(--muted)" }}>
+          What makes Xiaomi mimo-v2 unique — and when to use it
+        </p>
         <div className="grid md:grid-cols-3 gap-4 mb-8">
-          {popularTheories.map((theory, index) => (
+          {mimoV2UseCases.map((useCase, index) => (
             <Card key={index} className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-medium" style={{ color: "var(--foreground)" }}>{theory.title}</h3>
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  theory.confidence === "High"
-                    ? "bg-green-900/50 text-green-400"
-                    : theory.confidence === "Medium"
-                    ? "bg-yellow-900/50 text-yellow-400"
-                    : "bg-gray-700 text-gray-400"
-                }`}>
-                  {theory.confidence}
-                </span>
-              </div>
-              <p className="text-sm" style={{ color: "var(--muted)" }}>{theory.description}</p>
+              <div className="text-3xl mb-3">{useCase.icon}</div>
+              <h3 className="font-medium mb-2" style={{ color: "var(--foreground)" }}>{useCase.title}</h3>
+              <p className="text-sm" style={{ color: "var(--muted)" }}>{useCase.description}</p>
             </Card>
           ))}
         </div>
         <div className="text-center">
-          <Link href="/evidence" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
-            Browse all evidence <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          </Link>
-          <span className="text-gray-600 mx-2">•</span>
-          <Link href="/timeline" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
-            View timeline <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          <Link href="/blog/xiaomi-mimo-v2-complete-guide" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            Read complete guide <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </Link>
         </div>
       </section>
