@@ -1,10 +1,15 @@
 import { MetadataRoute } from 'next';
+import { getAllPosts } from '@/lib/blog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.hunteralphahub.com';
   const lastModified = new Date();
 
+  // 获取所有博客文章
+  const posts = getAllPosts();
+
   return [
+    // 核心页面
     {
       url: baseUrl,
       lastModified,
@@ -30,6 +35,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/blog`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/faq`,
       lastModified,
       changeFrequency: 'monthly',
@@ -53,5 +64,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
+    // 博客文章 - 动态生成
+    ...posts.map(post => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.publishedAt),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
   ];
 }
