@@ -99,18 +99,31 @@ async function insertEvidence(evidence: any) {
 function parseMarkdownFile(filePath: string): string[] {
   const content = fs.readFileSync(filePath, 'utf-8');
 
-  // 找到检索结果部分（## 检索结果 之后，## 统计信息 之前）
-  const match = content.match(/## 检索结果[\s\S]*?-+\s*([\s\S]*?)\s*---/);
-  if (!match) {
-    // 尝试另一种格式
-    const match2 = content.match(/## 检索结果[\s\S]*$/);
-    if (match2) {
-      return match2[0].split('\n\n').filter(line => line.includes('|||'));
+  // 提取所有包含 ||| 的行（支持多轮检索）
+  const lines = content.split('\n');
+  const results: string[] = [];
+  let inResultsSection = false;
+
+  for (const line of lines) {
+    // 检测检索结果部分开始（支持多种格式：## 检索结果、## 2026-03-18 检索结果、### 标题）
+    if (line.startsWith('## 检索结果') || line.startsWith('## 20') || line.startsWith('### ')) {
+      inResultsSection = true;
+      continue;
     }
-    return [];
+
+    // 检测统计信息部分结束
+    if (line.startsWith('## 统计') || line.startsWith('## 第二轮统计')) {
+      inResultsSection = false;
+      continue;
+    }
+
+    // 收集数据行
+    if (inResultsSection && line.includes('|||') && !line.startsWith('---')) {
+      results.push(line.trim());
+    }
   }
 
-  return match[1].split('\n\n').filter(line => line.includes('|||'));
+  return results;
 }
 
 // 主程序
