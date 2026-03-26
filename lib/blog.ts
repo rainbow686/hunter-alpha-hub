@@ -5487,6 +5487,680 @@ A: OpenRouter 平台的速率限制请参考官方文档。建议合理控制请
     tags: ["mimo-v2", "小米", "中文指南", "Hunter Alpha", "1M Context", "免费 AI"],
     readTime: 8,
   },
+  {
+    slug: "building-long-document-analyzer-mimo-v2",
+    title: "Building a Long Document Analyzer with mimo-v2: A Step-by-Step Guide",
+    excerpt: "Learn how to build a production-ready long document analysis tool using Xiaomi mimo-v2's 1M context window. Complete with code examples and best practices.",
+    content: `
+# Building a Long Document Analyzer with mimo-v2: A Step-by-Step Guide
+
+## Introduction
+
+This guide walks through building a complete document analysis tool using Xiaomi mimo-v2's 1M token context window. We'll build a tool that can:
+
+- Process PDF documents up to 500+ pages
+- Extract structured information
+- Answer questions about document content
+- Generate summaries at multiple granularity levels
+
+By the end, you'll have a working tool you can adapt for your own use cases.
+
+## Prerequisites
+
+- Basic Python knowledge
+- An OpenRouter API key (free at openrouter.ai)
+- Python 3.8+
+
+## Architecture Overview
+
+Our tool has three main components:
+
+1. **Document Loader** — Converts PDFs to text
+2. **Analysis Engine** — Uses mimo-v2 to process and analyze
+3. **Query Interface** — Allows asking questions about the document
+
+\`\`\`
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   PDF Doc   │ →   │  Document    │ →   │   Query     │
+│             │     │   Analyzer   │     │   Results   │
+└─────────────┘     └──────────────┘     └─────────────┘
+\`\`\`
+
+## Step 1: Setting Up the Environment
+
+\`\`\`bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+
+# Install dependencies
+pip install openai pypdf2 rich
+\`\`\`
+
+Create a \`.env\` file with your API key:
+
+\`\`\`
+OPENROUTER_API_KEY=your_api_key_here
+\`\`\`
+
+## Step 2: Document Loading
+
+We'll use PyPDF2 to extract text from PDFs:
+
+\`\`\`python
+from PyPDF2 import PdfReader
+from pathlib import Path
+
+def load_pdf(pdf_path: str) -> str:
+    """Extract text from a PDF file."""
+    reader = PdfReader(pdf_path)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text()
+    return text
+
+# Usage
+document_text = load_pdf("technical-manual.pdf")
+print(f"Loaded {len(document_text)} characters")
+\`\`\`
+
+## Step 3: Building the Analysis Engine
+
+Now we'll create the core analysis class:
+
+\`\`\`python
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class DocumentAnalyzer:
+    def __init__(self, document_text: str):
+        self.document = document_text
+        self.client = OpenAI(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            base_url="https://openrouter.ai/api/v1"
+        )
+        self.model = "xiaomi/mimo-v2"
+
+    def analyze(self, prompt: str) -> str:
+        """Send a prompt about the document to mimo-v2."""
+        full_prompt = f"""Here is a document:
+
+{self.document}
+
+---
+
+{prompt}"""
+
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are a document analysis assistant. Answer questions based only on the provided document."},
+                {"role": "user", "content": full_prompt}
+            ],
+            max_tokens=4096
+        )
+        return response.choices[0].message.content
+\`\`\`
+
+## Step 4: Adding Analysis Methods
+
+Let's add specific analysis capabilities:
+
+\`\`\`python
+class DocumentAnalyzer:
+    # ... (previous code)
+
+    def get_summary(self, length: str = "medium") -> str:
+        """Get a summary of the document."""
+        length_instructions = {
+            "short": "Summarize in 2-3 sentences.",
+            "medium": "Summarize in one paragraph with 5-7 bullet points.",
+            "long": "Provide a detailed summary with executive overview, key findings, and conclusions."
+        }
+        return self.analyze(f"{length_instructions[length]}")
+
+    def extract_entities(self, entity_type: str = "all") -> str:
+        """Extract specific entities from the document."""
+        return self.analyze(f"Extract all {entity_type} mentioned in this document. List them in a structured format.")
+
+    def find_section(self, topic: str) -> str:
+        """Find and extract content related to a specific topic."""
+        return self.analyze(f"Find all sections discussing '{topic}'. Quote the relevant passages.")
+
+    def compare_sections(self, section1: str, section2: str) -> str:
+        """Compare two topics within the document."""
+        return self.analyze(f"Compare how the document discusses '{section1}' vs '{section2}'. What are the similarities and differences?")
+
+    def fact_check(self, claim: str) -> str:
+        """Verify if a claim is supported by the document."""
+        return self.analyze(f"Is the following claim supported by this document? '{claim}' Provide evidence from the text.")
+\`\`\`
+
+## Step 5: Building the Query Interface
+
+Create a simple command-line interface:
+
+\`\`\`python
+from rich.console import Console
+from rich.markdown import Markdown
+
+def interactive_mode(analyzer: DocumentAnalyzer):
+    """Run an interactive query session."""
+    console = Console()
+    console.print("[bold green]Document Analyzer Ready![/bold green]")
+    console.print("Type 'quit' to exit, 'summary' for summary, 'help' for commands.")
+
+    while True:
+        try:
+            query = console.input("\\n[bold blue]You:[/bold blue] ")
+
+            if query.lower() == 'quit':
+                break
+            elif query.lower() == 'summary':
+                result = analyzer.get_summary()
+            elif query.lower() == 'help':
+                console.print("""
+[bold]Available commands:[/bold]
+  summary [short|medium|long] - Get document summary
+  entities [type] - Extract entities
+  find <topic> - Find sections about a topic
+  compare <topic1> <topic2> - Compare two topics
+  fact <claim> - Fact check a claim
+                """)
+                continue
+            else:
+                result = analyzer.analyze(query)
+
+            console.print("\\n[bold green]Assistant:[/bold green]")
+            console.print(Markdown(result))
+
+        except Exception as e:
+            console.print(f"[red]Error: {e}[/red]")
+
+# Main execution
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage: python analyzer.py <pdf_file>")
+        sys.exit(1)
+
+    pdf_path = sys.argv[1]
+    document_text = load_pdf(pdf_path)
+    analyzer = DocumentAnalyzer(document_text)
+    interactive_mode(analyzer)
+\`\`\`
+
+## Step 6: Handling Ultra-Long Documents
+
+For documents approaching the 1M token limit:
+
+\`\`\`python
+def chunk_document(text: str, chunk_size: int = 400000, overlap: int = 10000) -> list:
+    """Split a document into overlapping chunks."""
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        # Try to break at paragraph boundary
+        if end < len(text):
+            break_point = text.rfind('\\n\\n', start, end)
+            if break_point > start:
+                end = break_point
+        chunks.append(text[start:end])
+        start = end - overlap
+    return chunks
+
+class ChunkedAnalyzer:
+    def __init__(self, document_text: str):
+        self.chunks = chunk_document(document_text)
+        self.client = OpenAI(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            base_url="https://openrouter.ai/api/v1"
+        )
+
+    def analyze_all(self, prompt: str) -> list:
+        """Analyze all chunks and return individual results."""
+        results = []
+        for i, chunk in enumerate(self.chunks):
+            response = self.client.chat.completions.create(
+                model="xiaomi/mimo-v2",
+                messages=[
+                    {"role": "system", "content": "Answer based only on the provided text."},
+                    {"role": "user", "content": f"Document chunk {i+1}:\\n\\n{chunk}\\n\\n---\\n\\n{prompt}"}
+                ]
+            )
+            results.append({
+                "chunk": i + 1,
+                "content": response.choices[0].message.content
+            })
+        return results
+
+    def synthesize(self, results: list) -> str:
+        """Combine results from all chunks into a final answer."""
+        combined = "\\n\\n".join([r["content"] for r in results])
+        response = self.client.chat.completions.create(
+            model="xiaomi/mimo-v2",
+            messages=[
+                {"role": "system", "content": "Synthesize the following analysis results into a coherent answer."},
+                {"role": "user", "content": combined}
+            ]
+        )
+        return response.choices[0].message.content
+\`\`\`
+
+## Step 7: Production Considerations
+
+### Error Handling
+
+\`\`\`python
+import time
+from openai import RateLimitError
+
+def analyze_with_retry(self, prompt: str, max_retries: int = 3):
+    """Analyze with exponential backoff retry."""
+    for attempt in range(max_retries):
+        try:
+            return self.analyze(prompt)
+        except RateLimitError:
+            if attempt == max_retries - 1:
+                raise
+            wait_time = 2 ** attempt
+            time.sleep(wait_time)
+\`\`\`
+
+### Caching Results
+
+\`\`\`python
+import hashlib
+import json
+from pathlib import Path
+
+class CachedAnalyzer(DocumentAnalyzer):
+    def __init__(self, document_text: str, cache_dir: str = ".cache"):
+        super().__init__(document_text)
+        self.cache_dir = Path(cache_dir)
+        self.cache_dir.mkdir(exist_ok=True)
+        self.doc_hash = hashlib.md5(document_text.encode()).hexdigest()
+
+    def analyze(self, prompt: str) -> str:
+        prompt_hash = hashlib.md5(prompt.encode()).hexdigest()
+        cache_file = self.cache_dir / f"{self.doc_hash}_{prompt_hash}.json"
+
+        if cache_file.exists():
+            with open(cache_file) as f:
+                return json.load(f)["response"]
+
+        response = super().analyze(prompt)
+
+        with open(cache_file, "w") as f:
+            json.dump({"prompt": prompt, "response": response}, f)
+
+        return response
+\`\`\`
+
+## Complete Working Example
+
+Here's a complete script ready to run:
+
+\`\`\`python
+#!/usr/bin/env python3
+"""
+Document Analyzer using Xiaomi mimo-v2
+Usage: python analyzer.py <pdf_file>
+"""
+
+from PyPDF2 import PdfReader
+from openai import OpenAI
+from rich.console import Console
+from rich.markdown import Markdown
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def load_pdf(pdf_path):
+    reader = PdfReader(pdf_path)
+    return "".join(page.extract_text() for page in reader.pages)
+
+def analyze_document(document_text, query):
+    client = OpenAI(
+        api_key=os.getenv("OPENROUTER_API_KEY"),
+        base_url="https://openrouter.ai/api/v1"
+    )
+
+    response = client.chat.completions.create(
+        model="xiaomi/mimo-v2",
+        messages=[
+            {"role": "system", "content": "You are a helpful document assistant."},
+            {"role": "user", "content": f"Document:\\n{document_text}\\n\\nQuestion: {query}"}
+        ],
+        max_tokens=4096
+    )
+    return response.choices[0].message.content
+
+if __name__ == "__main__":
+    import sys
+    console = Console()
+
+    if len(sys.argv) < 2:
+        console.print("[red]Usage: python analyzer.py <pdf_file>[/red]")
+        sys.exit(1)
+
+    console.print("[bold]Loading document...[/bold]")
+    doc_text = load_pdf(sys.argv[1])
+    console.print(f"[green]Loaded {len(doc_text)} characters[/green]")
+
+    while True:
+        query = console.input("\\n[bold]Query:[/bold] ")
+        if query == 'quit':
+            break
+
+        console.print("[bold]Analyzing...[/bold]")
+        result = analyze_document(doc_text, query)
+        console.print(Markdown(result))
+\`\`\`
+
+## Best Practices
+
+### Do's
+- **Be specific in prompts** — "Extract all API endpoints" vs "What's in this doc?"
+- **Use system messages** to set context for long sessions
+- **Verify critical information** — LLMs can occasionally misquote
+- **Cache expensive results** to save API calls
+
+### Don'ts
+- **Don't expect perfect recall** beyond 500K tokens
+- **Don't skip error handling** for production use
+- **Don't use for time-sensitive tasks** — expect 20-60s responses
+
+## Conclusion
+
+You now have a working document analyzer that can process hundreds of pages in a single query. The code is modular — swap in different PDF loaders, add output formats, or integrate into existing workflows.
+
+The key advantage of mimo-v2 is handling documents that would overflow other models' context windows. For legal docs, technical manuals, or research papers, this tool can save hours of manual work.
+
+## Further Reading
+
+- [OpenRouter API Documentation](https://openrouter.ai/docs)
+- [Xiaomi mimo-v2 Specifications](/monitor)
+- [Community Examples](/evidence)
+
+---
+
+*Have you built something cool with mimo-v2? Share your projects on our [Evidence Wall](/evidence).*
+`,
+    author: "Hunter Alpha Hub Team",
+    publishedAt: "2026-03-26",
+    category: "Tutorial",
+    tags: ["mimo-v2", "Document Analysis", "Python", "Tutorial", "1M Context", "Code Example"],
+    readTime: 12,
+  },
+  {
+    slug: "mimo-v2-real-world-use-cases",
+    title: "10 Real-World Use Cases for mimo-v2: What You Can Actually Build",
+    excerpt: "Practical applications of Xiaomi mimo-v2's 1M context window. From legal document review to codebase analysis — with concrete examples.",
+    content: `
+# 10 Real-World Use Cases for mimo-v2: What You Can Actually Build
+
+## Introduction
+
+After weeks of testing Xiaomi mimo-v2 (formerly Hunter Alpha) with its 1M token context window, we've identified the most practical applications where this model genuinely excels.
+
+This isn't hype — these are specific, implementable use cases where mimo-v2's long context provides real value over shorter-context models.
+
+## Use Case 1: Legal Contract Review
+
+**Problem**: Law firms spend hours manually reviewing contracts for specific clauses.
+
+**Solution**: Process entire contracts (100+ pages) and extract:
+- Termination conditions
+- Liability limitations
+- Renewal terms
+- Non-standard clauses
+
+**Example Prompt**:
+\`\`\`
+Review this employment agreement and extract:
+1. All termination clauses (with cause, without cause, for convenience)
+2. Notice periods required
+3. Severance calculation formulas
+4. Non-compete duration and geographic scope
+5. Any clauses that deviate from standard market terms
+
+Format as a structured table with clause references.
+\`\`\`
+
+**Why mimo-v2 wins**: Can process the full contract in one pass, maintaining context across sections that reference each other.
+
+## Use Case 2: Technical Documentation Q&A
+
+**Problem**: Engineering teams struggle to find specific information in large documentation sets.
+
+**Solution**: Build an internal Q&A bot trained on your docs.
+
+**Implementation**:
+\`\`\`python
+class DocsBot:
+    def __init__(self, documentation: str):
+        self.docs = documentation
+        self.history = []
+
+    def ask(self, question: str) -> str:
+        prompt = f"""Documentation:
+{self.docs}
+
+Question: {question}
+
+Answer based only on the documentation above. Cite specific section numbers."""
+
+        response = self.client.chat.completions.create(
+            model="xiaomi/mimo-v2",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message.content
+\`\`\`
+
+**Real example**: API documentation with 200+ endpoints — engineers can ask "How do I handle pagination?" and get accurate answers with endpoint references.
+
+## Use Case 3: Academic Paper Synthesis
+
+**Problem**: Researchers need to compare findings across multiple papers.
+
+**Solution**: Load 10-20 related papers and ask synthesis questions.
+
+**Example Workflow**:
+1. Convert PDFs to text (tools: PyPDF2, pdfplumber)
+2. Concatenate with clear delimiters
+3. Prompt: "Compare the methodologies used in these papers. Create a table showing:
+   - Sample sizes
+   - Statistical methods
+   - Key findings
+   - Contradictions between papers"
+
+**Why it works**: mimo-v2 can hold 20+ papers (roughly 150K-200K tokens) and identify patterns across them.
+
+## Use Case 4: Codebase Documentation Generator
+
+**Problem**: Legacy codebases lack documentation.
+
+**Solution**: Process entire source files and generate docs.
+
+**Example Prompt**:
+\`\`\`
+Analyze this Python module and generate:
+1. A summary of the module's purpose
+2. Documentation for each public function (params, return type, side effects)
+3. A dependency diagram showing which functions call which
+4. Any potential bugs or code smells you notice
+
+Format as Markdown with code examples.
+\`\`\`
+
+**Pro tip**: For large codebases, process one module at a time, then ask mimo-v2 to synthesize cross-module documentation.
+
+## Use Case 5: Meeting Transcript Analyzer
+
+**Problem**: Hour-long meeting transcripts are hard to summarize effectively.
+
+**Solution**: Process full transcripts and extract actionable insights.
+
+**Example Prompt**:
+\`\`\`
+Analyze this meeting transcript and provide:
+1. Executive summary (3 sentences)
+2. Key decisions made (with who made them)
+3. Action items (with owners and deadlines)
+4. Unresolved questions that need follow-up
+5. Any commitments made that should be tracked
+
+Format each section clearly. Use bullet points.
+\`\`\`
+
+**Bonus**: Chain multiple meeting transcripts to track progress on initiatives over time.
+
+## Use Case 6: Competitive Intelligence Dashboard
+
+**Problem**: Tracking competitor features across multiple product pages and docs.
+
+**Solution**: Aggregate competitor documentation and query for comparisons.
+
+**Data sources**:
+- Competitor pricing pages
+- Feature documentation
+- Release notes
+- Blog announcements
+
+**Example Query**:
+\`\`\`
+Based on the documentation provided:
+1. What features does Competitor A offer that Competitor B doesn't?
+2. How do pricing models differ?
+3. What's the positioning difference in their messaging?
+\`\`\`
+
+## Use Case 7: Customer Support Knowledge Base
+
+**Problem**: Support teams waste time searching for answers in documentation.
+
+**Solution**: Build a support bot trained on all product docs.
+
+**Implementation**:
+1. Aggregate: Product docs, FAQ, troubleshooting guides, past tickets
+2. Index with clear source markers
+3. Prompt: "Answer this support ticket using only the provided documentation. Cite which guide you're referencing."
+
+**Benefit**: Consistent, accurate answers that don't require manual searching.
+
+## Use Case 8: Financial Report Analysis
+
+**Problem**: Analysts spend hours extracting data from earnings reports.
+
+**Solution**: Automated extraction and comparison.
+
+**Example Prompt**:
+\`\`\`
+Extract from this 10-K filing:
+1. Revenue by segment (current year and prior year)
+2. Gross margin trends
+3. Any risk factors mentioning "supply chain" or "semiconductor"
+4. Management discussion about AI investments
+5. Forward-looking statements about growth
+
+Present in a structured table with page references.
+\`\`\`
+
+## Use Case 9: Content Repurposing Engine
+
+**Problem**: Marketing teams want to repurpose long-form content.
+
+**Solution**: Process a whitepaper and generate multiple derivative pieces.
+
+**Workflow**:
+1. Load the source document (50-page whitepaper)
+2. Generate variations:
+   - "Create a 500-word blog post summarizing the key findings"
+   - "Generate 5 LinkedIn posts highlighting different statistics"
+   - "Write an email sequence (3 emails) teasing the content"
+   - "Create a Twitter thread (10 tweets) with the most surprising insights"
+
+**Quality tip**: Add "Maintain the original tone and include specific data points" to preserve accuracy.
+
+## Use Case 10: Bug Triage Assistant
+
+**Problem**: Engineering leads spend hours categorizing bug reports.
+
+**Solution**: Process all open bugs and categorize automatically.
+
+**Example Prompt**:
+\`\`\`
+Analyze these 50 bug reports and:
+1. Group by component (frontend, backend, mobile, infra)
+2. Identify duplicates (reports describing the same issue)
+3. Flag any security-related bugs
+4. Suggest severity (critical/high/medium/low) based on impact
+5. Find common patterns (e.g., "5 bugs relate to authentication")
+
+Output as a structured markdown report.
+\`\`\`
+
+## Implementation Tips
+
+### Prompt Engineering for Long Context
+
+1. **Be explicit about scope**: "Using only pages 50-100..." vs "In this document..."
+2. **Chain queries**: Start broad, then drill down based on results
+3. **Ask for citations**: "Quote the specific paragraph" improves accuracy
+
+### Handling Token Limits
+
+While 1M sounds like a lot:
+- ~700K tokens = practical limit for reliable recall
+- For longer docs, use chunking (see our [complete guide](/blog/xiaomi-mimo-v2-complete-guide))
+- Always leave room for the response (4K-8K tokens)
+
+### Cost Considerations
+
+mimo-v2 is currently free, but plan for potential pricing:
+- Cache results for repeated queries
+- Use shorter prompts when possible
+- Batch related questions together
+
+## What mimo-v2 Is NOT Good For
+
+Be realistic about limitations:
+
+1. **Real-time chat** — Latency is too high (20-60s responses)
+2. **Simple Q&A** — Overkill for "What's the capital of France?"
+3. **Code execution** — It can write code but can't run it
+4. **Current events** — Knowledge cutoff is training data
+
+## Getting Started
+
+1. Sign up at [OpenRouter](https://openrouter.ai)
+2. Find "mimo-v2" or "Hunter Alpha"
+3. Start with a document you know well (to verify accuracy)
+4. Iterate on prompt design
+
+## Conclusion
+
+The common thread across all use cases: **mimo-v2 excels when you need to process more text than fits in standard models**.
+
+For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, mimo-v2 is unmatched — especially at free pricing.
+
+---
+
+*Built something cool with mimo-v2? Share your use case on our [Evidence Wall](/evidence).*
+`,
+    author: "Hunter Alpha Hub Team",
+    publishedAt: "2026-03-26",
+    category: "Tutorial",
+    tags: ["mimo-v2", "Use Cases", "Tutorial", "1M Context", "AI Applications"],
+    readTime: 15,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

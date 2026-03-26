@@ -128,7 +128,7 @@ export default function HomeClient() {
             Identity Revealed
           </p>
           <p className="text-emerald-100 text-sm">
-            Hunter Alpha is confirmed to be <span className="font-semibold text-white">Xiaomi's mimo-v2</span> model. This site is now an archive of the investigation.
+            Hunter Alpha is confirmed to be <span className="font-semibold text-white">Xiaomi's mimo-v2</span> model. This site is now a <span className="font-medium text-white">community-driven resource hub</span> for mimo-v2 users.
           </p>
         </div>
       </div>
@@ -352,35 +352,35 @@ export default function HomeClient() {
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                Breaking
+                New
               </span>
-              <span className="text-xs" style={{ color: "var(--muted)" }}>March 23, 2026</span>
+              <span className="text-xs" style={{ color: "var(--muted)" }}>March 26, 2026</span>
             </div>
             <h3 className="font-medium mb-2" style={{ color: "var(--foreground)" }}>
-              Is There a mimo-v2-pro? What We Know
+              10 Real-World Use Cases for mimo-v2
             </h3>
             <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
-              Search interest in 'mimo-v2-pro' is surging. We clarify: there is no Pro version. Only mimo-v2 exists.
+              Practical applications from legal document review to codebase analysis — with concrete examples and prompts.
             </p>
-            <Link href="/blog/is-there-mimo-v2-pro-explained" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+            <Link href="/blog/mimo-v2-real-world-use-cases" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
               Read more <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
           </Card>
           <Card className="p-6">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-xs px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30">
-                中文
+                Tutorial
               </span>
-              <span className="text-xs" style={{ color: "var(--muted)" }}>March 23, 2026</span>
+              <span className="text-xs" style={{ color: "var(--muted)" }}>March 26, 2026</span>
             </div>
             <h3 className="font-medium mb-2" style={{ color: "var(--foreground)" }}>
-              小米 mimo-v2 完全指南 (Chinese Guide)
+              Building a Long Document Analyzer
             </h3>
             <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
-              小米 mimo-v2 完全使用指南，包含 OpenRouter 访问方法、代码示例和典型使用场景。
+              Step-by-step guide to building a production-ready document analysis tool with Python and mimo-v2.
             </p>
-            <Link href="/blog/xiaomi-mimo-v2-chinese-guide" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
-              阅读指南 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            <Link href="/blog/building-long-document-analyzer-mimo-v2" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+              Read more <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </Link>
           </Card>
         </div>
