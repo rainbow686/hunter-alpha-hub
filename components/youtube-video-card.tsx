@@ -1,6 +1,7 @@
 "use client";
 
 import { Video } from "@/lib/types";
+import { ExternalLinkWithSmartlink } from "@/components/smartlink";
 
 interface YouTubeVideoCardProps {
   video: Video;
@@ -21,10 +22,8 @@ export function YouTubeVideoCard({ video }: YouTubeVideoCardProps) {
   const videoId = getYoutubeId(video.videoUrl);
 
   return (
-    <a
+    <ExternalLinkWithSmartlink
       href={video.videoUrl}
-      target="_blank"
-      rel="noopener noreferrer"
       className="group block rounded-lg overflow-hidden transition-transform hover:scale-105"
       style={{
         backgroundColor: "var(--card-bg)",
@@ -92,6 +91,6 @@ export function YouTubeVideoCard({ video }: YouTubeVideoCardProps) {
           </svg>
         </div>
       </div>
-    </a>
+    </ExternalLinkWithSmartlink>
   );
 }
