@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Leaderboard } from "@/components/leaderboard";
 import { Card } from "@/components/card";
+import { NativeBanner } from "@/components/adsterra-ads";
 
 export default function LeaderboardClient() {
   return (
@@ -38,6 +39,9 @@ export default function LeaderboardClient() {
 
       {/* Leaderboard */}
       <Leaderboard />
+
+      {/* Native Banner Ad */}
+      <NativeBanner />
 
       {/* CTA */}
       <div className="text-center mt-12">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Card } from "@/components/card";
 import { BlogPost, getAllPosts } from "@/lib/blog";
 import { useState, useEffect } from "react";
+import { NativeBanner } from "@/components/adsterra-ads";
 
 const allPosts = getAllPosts();
 
@@ -51,6 +52,9 @@ export default function BlogList() {
           <BlogPostCard key={post.slug} post={post} />
         ))}
       </div>
+
+      {/* Native Banner Ad */}
+      <NativeBanner />
 
       {filteredPosts.length === 0 && (
         <div className="text-center py-12" style={{ color: "var(--muted)" }}>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card } from "@/components/card";
+import { NativeBanner } from "@/components/adsterra-ads";
 
 interface FAQItem {
   question: string;
@@ -142,6 +143,9 @@ export default function FAQClient() {
           </Card>
         ))}
       </div>
+
+      {/* Native Banner Ad */}
+      <NativeBanner />
     </div>
   );
 }

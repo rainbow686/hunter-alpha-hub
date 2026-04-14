@@ -7,6 +7,7 @@ import { BlogPost, getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blo
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BreadcrumbListSchema } from "@/components/structured-data";
+import { NativeBanner } from "@/components/adsterra-ads";
 
 const allPosts = getAllPosts();
 
@@ -87,6 +88,9 @@ export default function BlogPostPage() {
             <BlogContent content={post.content} />
           </div>
         </article>
+
+        {/* Native Banner Ad */}
+        <NativeBanner />
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (

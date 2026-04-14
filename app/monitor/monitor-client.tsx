@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/card";
 import { StatusBadge } from "@/components/status-badge";
 import { CommunityDiscussion } from "@/app/api/community/route";
+import { NativeBanner } from "@/components/adsterra-ads";
 
 interface ModelSpecs {
   parameters: string;
@@ -276,6 +277,9 @@ export default function MonitorClient() {
             </div>
           )}
         </Card>
+
+      {/* Native Banner Ad */}
+      <NativeBanner />
     </div>
   );
 }
