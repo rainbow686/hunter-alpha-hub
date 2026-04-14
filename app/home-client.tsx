@@ -7,7 +7,6 @@ import { EvidenceCard } from "@/components/evidence-card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
 import { HighlightCard } from "@/components/highlight-card";
 import { NativeBanner } from "@/components/adsterra-ads";
-import { Smartlink } from "@/components/smartlink";
 import { Evidence, Video } from "@/lib/types";
 import { BlogPost, getAllPosts } from "@/lib/blog";
 import { useState, useEffect } from "react";
@@ -446,7 +445,7 @@ export default function HomeClient() {
         </div>
 
         <div className="text-center mt-8">
-          <Smartlink
+          <Link
             href="/blog"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-violet-500 to-teal-500 text-white font-medium hover:opacity-90 transition-opacity"
           >
@@ -454,7 +453,7 @@ export default function HomeClient() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-          </Smartlink>
+          </Link>
         </div>
       </section>
 
