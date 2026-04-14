@@ -32,12 +32,12 @@ export function Analytics({ gaId }: AnalyticsProps) {
     // popunderScript.src = "https://developdomicile.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js";
     // document.head.appendChild(popunderScript);
 
-    // Adsterra Social Bar - disabled for testing
-    // const socialBarScript = document.createElement("script");
-    // socialBarScript.async = true;
-    // socialBarScript.setAttribute("data-cfasync", "false");
-    // socialBarScript.src = "https://developdomicile.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
-    // document.body.appendChild(socialBarScript);
+    // Adsterra Social Bar - testing
+    const socialBarScript = document.createElement("script");
+    socialBarScript.async = true;
+    socialBarScript.setAttribute("data-cfasync", "false");
+    socialBarScript.src = "https://developdomicile.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
+    document.body.appendChild(socialBarScript);
   }, [gaId]);
 
   return null;
