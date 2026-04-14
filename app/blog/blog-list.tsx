@@ -48,13 +48,23 @@ export default function BlogList() {
 
       {/* Posts Grid */}
       <div className="grid gap-6">
-        {filteredPosts.map(post => (
+        {/* First 2 posts */}
+        {filteredPosts.slice(0, 2).map(post => (
           <BlogPostCard key={post.slug} post={post} />
         ))}
       </div>
 
-      {/* Native Banner Ad */}
+      {/* Native Banner Ad - After first 2 posts */}
       <NativeBanner />
+
+      {/* Remaining posts */}
+      {filteredPosts.length > 2 && (
+        <div className="grid gap-6">
+          {filteredPosts.slice(2).map(post => (
+            <BlogPostCard key={post.slug} post={post} />
+          ))}
+        </div>
+      )}
 
       {filteredPosts.length === 0 && (
         <div className="text-center py-12" style={{ color: "var(--muted)" }}>

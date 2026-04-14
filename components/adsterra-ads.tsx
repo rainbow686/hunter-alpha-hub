@@ -22,3 +22,24 @@ export function NativeBanner() {
     </div>
   );
 }
+
+// Banner 300x250 - Best for sidebars
+export function Banner300() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    script.src = "https://pl29147947.profitablecpmratenetwork.com/1e/a8/34/1ea834d0129c5e18a4a70e277b8f0de6/invoke.js";
+
+    const container = document.getElementById("container-1ea834d0129c5e18a4a70e277b8f0de6");
+    if (container && container.parentElement) {
+      container.parentElement.appendChild(script);
+    }
+  }, []);
+
+  return (
+    <div className="ad-banner-wrapper">
+      <div id="container-1ea834d0129c5e18a4a70e277b8f0de6"></div>
+    </div>
+  );
+}

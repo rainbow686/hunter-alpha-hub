@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
-import { NativeBanner } from "@/components/adsterra-ads";
+import { NativeBanner, Banner300 } from "@/components/adsterra-ads";
 import { Video } from "@/lib/types";
 
 const VIDEOS_PER_PAGE = 9;
@@ -110,14 +110,25 @@ export default function VideosClient() {
         </div>
       ) : videos.length > 0 ? (
         <>
+          {/* Videos Grid with Ad inserted */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {videos.map((video) => (
+            {/* First 3 videos */}
+            {videos.slice(0, 3).map((video) => (
               <YouTubeVideoCard key={video.id} video={video} />
             ))}
           </div>
 
-          {/* Native Banner Ad */}
+          {/* Native Banner Ad - After first row */}
           <NativeBanner />
+
+          {/* Remaining videos */}
+          {videos.length > 3 && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {videos.slice(3).map((video) => (
+                <YouTubeVideoCard key={video.id} video={video} />
+              ))}
+            </div>
+          )}
 
           {/* Load More */}
           {hasMore && (

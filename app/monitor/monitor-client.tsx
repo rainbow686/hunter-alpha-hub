@@ -255,6 +255,9 @@ export default function MonitorClient() {
         </Card>
       </div>
 
+      {/* Native Banner Ad - Between Status and Community Discussions */}
+      <NativeBanner />
+
       {/* Community Discussions */}
       <Card className="p-6">
           <h2 className="text-lg font-medium mb-4" style={{ color: "var(--muted)" }}>Community Discussions</h2>
@@ -277,9 +280,6 @@ export default function MonitorClient() {
             </div>
           )}
         </Card>
-
-      {/* Native Banner Ad */}
-      <NativeBanner />
     </div>
   );
 }

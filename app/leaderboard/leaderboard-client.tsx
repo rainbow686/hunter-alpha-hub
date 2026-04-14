@@ -37,11 +37,11 @@ export default function LeaderboardClient() {
         </div>
       </Card>
 
+      {/* Native Banner Ad - Before Leaderboard */}
+      <NativeBanner />
+
       {/* Leaderboard */}
       <Leaderboard />
-
-      {/* Native Banner Ad */}
-      <NativeBanner />
 
       {/* CTA */}
       <div className="text-center mt-12">

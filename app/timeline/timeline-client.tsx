@@ -85,7 +85,8 @@ export default function TimelineClient() {
         <div className="absolute left-8 top-0 bottom-0 w-px" style={{ backgroundColor: "var(--card-border)" }} />
 
         <div className="space-y-8">
-          {events.map((event, index) => (
+          {/* First 3 events */}
+          {events.slice(0, 3).map((event, index) => (
             <Card key={index} className="p-6 relative">
               <div className="flex gap-6">
                 {/* Timeline Dot */}
@@ -118,8 +119,49 @@ export default function TimelineClient() {
         </div>
       </div>
 
-      {/* Native Banner Ad */}
+      {/* Native Banner Ad - After first 3 events */}
       <NativeBanner />
+
+      {/* Remaining events */}
+      {events.length > 3 && (
+        <div className="relative mt-8">
+          {/* Center Line continues */}
+          <div className="absolute left-8 top-0 bottom-0 w-px" style={{ backgroundColor: "var(--card-border)" }} />
+
+          <div className="space-y-8">
+            {events.slice(3).map((event, index) => (
+              <Card key={index + 3} className="p-6 relative">
+                <div className="flex gap-6">
+                  {/* Timeline Dot */}
+                  <div className="flex-shrink-0 relative">
+                    <div
+                      className={`w-4 h-4 rounded-full ${typeColors[event.type].split(" ")[2]} ring-4 ${typeColors[event.type].split(" ")[1]}`}
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-sm font-mono" style={{ color: "var(--muted)" }}>
+                        {event.date}
+                      </span>
+                      <span className={`text-xs px-2 py-1 rounded-full ${typeColors[event.type]}`}>
+                        {typeLabels[event.type]}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-medium mb-2" style={{ color: "var(--foreground)" }}>
+                      {event.title}
+                    </h3>
+                    <p className="text-sm" style={{ color: "var(--muted)" }}>
+                      {event.description}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* CTA */}
       <div className="mt-12 text-center">
