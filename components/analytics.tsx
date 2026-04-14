@@ -25,12 +25,12 @@ export function Analytics({ gaId }: AnalyticsProps) {
       document.head.appendChild(inlineScript);
     }
 
-    // Adsterra Popunder
-    const popunderScript = document.createElement("script");
-    popunderScript.async = true;
-    popunderScript.setAttribute("data-cfasync", "false");
-    popunderScript.src = "https://developdomicile.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js";
-    document.head.appendChild(popunderScript);
+    // Adsterra Popunder - disabled (causes click-anywhere issue on homepage)
+    // const popunderScript = document.createElement("script");
+    // popunderScript.async = true;
+    // popunderScript.setAttribute("data-cfasync", "false");
+    // popunderScript.src = "https://developdomicile.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js";
+    // document.head.appendChild(popunderScript);
 
     // Adsterra Social Bar
     const socialBarScript = document.createElement("script");
