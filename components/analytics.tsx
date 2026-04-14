@@ -25,32 +25,32 @@ export function Analytics({ gaId }: AnalyticsProps) {
       document.head.appendChild(inlineScript);
     }
 
-    // Adsterra Popunder - with config variables
-    const popunderConfig = document.createElement("script");
-    popunderConfig.setAttribute("data-cfasync", "false");
-    popunderConfig.innerHTML = `
-      var ad_idzone = "29147944",
-        ad_popup_fallback = false,
-        ad_popup_force = false,
-        ad_new_tab = false,
-        ad_period = 5,
-        ad_open_period = 0,
-        ad_type = "popunder",
-        ad_effect_in_days = 1,
-        ad_close_in_days = 99,
-        ad_close_event = false,
-        ad_remove_event = false,
-        ad_popup_auto_close = false;
-    `;
-    document.head.appendChild(popunderConfig);
+    // Adsterra Popunder - temporarily disabled for testing
+    // const popunderConfig = document.createElement("script");
+    // popunderConfig.setAttribute("data-cfasync", "false");
+    // popunderConfig.innerHTML = `
+    //   var ad_idzone = "29147944",
+    //     ad_popup_fallback = false,
+    //     ad_popup_force = false,
+    //     ad_new_tab = false,
+    //     ad_period = 5,
+    //     ad_open_period = 0,
+    //     ad_type = "popunder",
+    //     ad_effect_in_days = 1,
+    //     ad_close_in_days = 99,
+    //     ad_close_event = false,
+    //     ad_remove_event = false,
+    //     ad_popup_auto_close = false;
+    // `;
+    // document.head.appendChild(popunderConfig);
 
-    const popunderScript = document.createElement("script");
-    popunderScript.async = true;
-    popunderScript.setAttribute("data-cfasync", "false");
-    popunderScript.src = "https://pl29147944.profitablecpmratenetwork.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js";
-    document.head.appendChild(popunderScript);
+    // const popunderScript = document.createElement("script");
+    // popunderScript.async = true;
+    // popunderScript.setAttribute("data-cfasync", "false");
+    // popunderScript.src = "https://pl29147944.profitablecpmratenetwork.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js";
+    // document.head.appendChild(popunderScript);
 
-    // Adsterra Social Bar - minimal config
+    // Adsterra Social Bar - temporarily disabled for testing
     const socialBarScript = document.createElement("script");
     socialBarScript.async = true;
     socialBarScript.setAttribute("data-cfasync", "false");
