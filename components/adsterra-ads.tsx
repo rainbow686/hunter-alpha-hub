@@ -8,6 +8,7 @@ export function NativeBanner() {
   useEffect(() => {
     const script = document.createElement("script");
     script.async = true;
+    script.setAttribute("data-cfasync", "false");
     script.src = "https://pl29147948.profitablecpmratenetwork.com/916abc105b9a8c12c10ffdd9f6291bcc/invoke.js";
 
     // Find the container and append script next to it
@@ -15,10 +16,6 @@ export function NativeBanner() {
     if (container && container.parentElement) {
       container.parentElement.appendChild(script);
     }
-
-    return () => {
-      script.remove();
-    };
   }, []);
 
   return (
