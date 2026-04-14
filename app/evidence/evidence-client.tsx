@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/card";
 import { EvidenceForm } from "@/components/evidence-form";
 import { EvidenceCard } from "@/components/evidence-card";
+import { BannerRectangle } from "@/components/adsterra-ads";
 import { Evidence } from "@/lib/types";
 
 type ImportanceFilter = "all" | "High" | "Medium" | "Low";
@@ -137,6 +138,8 @@ export default function EvidenceClient() {
                     Next →
                   </button>
                 </div>
+              {/* Ad Banner */}
+                <BannerRectangle className="mt-8" />
               </>
             ) : (
               <Card className="p-8 text-center" style={{ color: "var(--muted)" }}>

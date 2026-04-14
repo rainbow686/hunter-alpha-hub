@@ -1,21 +1,19 @@
 "use client";
 
+import Script from "next/script";
+
 interface AnalyticsProps {
   gaId?: string;
-  adsenseId?: string;
 }
 
-export function Analytics({ gaId, adsenseId }: AnalyticsProps) {
-  if (!gaId && !adsenseId) {
-    return null;
-  }
-
+export function Analytics({ gaId }: AnalyticsProps) {
   return (
     <>
       {/* Google Analytics */}
       {gaId && (
         <>
-          <script
+          <Script
+            id="google-analytics-inline"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
@@ -25,18 +23,27 @@ export function Analytics({ gaId, adsenseId }: AnalyticsProps) {
               `,
             }}
           />
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+          <Script
+            id="google-analytics"
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+          />
         </>
       )}
 
-      {/* Google AdSense */}
-      {adsenseId && (
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
-          crossOrigin="anonymous"
-        />
-      )}
+      {/* Adsterra Popunder - placed before </head> */}
+      <Script
+        id="adsterra-popunder"
+        async
+        src="https://pl29147944.profitablecpmratenetwork.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js"
+      />
+
+      {/* Adsterra Social Bar - placed before </body> */}
+      <Script
+        id="adsterra-social-bar"
+        async
+        src="https://pl29147949.profitablecpmratenetwork.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js"
+      />
     </>
   );
 }

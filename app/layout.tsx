@@ -71,7 +71,6 @@ export default function RootLayout({
       <body className="min-h-screen transition-colors duration-300 flex flex-col">
         <Analytics
           gaId={process.env.NEXT_PUBLIC_GA_ID}
-          adsenseId={process.env.NEXT_PUBLIC_ADSENSE_ID}
         />
         <Navbar />
         <main className="flex-1">{children}</main>

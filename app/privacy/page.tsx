@@ -26,7 +26,7 @@ export default function PrivacyPage() {
           <span className="gradient-text">Privacy Policy</span>
         </h1>
         <p className="text-sm" style={{ color: "var(--muted)" }}>
-          Last updated: March 15, 2026
+          Last updated: April 14, 2026
         </p>
       </div>
 
@@ -79,10 +79,10 @@ export default function PrivacyPage() {
               </a>
             </li>
             <li>
-              <strong>Google AdSense:</strong> We use Google AdSense to display advertisements. Google uses cookies to serve ads based on your prior visits to our website.
+              <strong>Adsterra:</strong> We use Adsterra to display advertisements including popunder ads. Adsterra uses cookies and similar technologies to serve ads.
               <br />
-              <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">
-                Google Ads Privacy Policy
+              <a href="https://adsterra.com/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">
+                Adsterra Privacy Policy
               </a>
             </li>
             <li>
