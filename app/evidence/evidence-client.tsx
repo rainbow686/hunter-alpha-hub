@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/card";
 import { EvidenceForm } from "@/components/evidence-form";
 import { EvidenceCard } from "@/components/evidence-card";
-import { NativeBanner, Banner300 } from "@/components/adsterra-ads";
+import { NativeBanner } from "@/components/adsterra-ads";
 import { Evidence } from "@/lib/types";
 
 type ImportanceFilter = "all" | "High" | "Medium" | "Low";
@@ -53,17 +53,15 @@ export default function EvidenceClient() {
         </p>
       </div>
 
+      {/* Native Banner Ad - After intro, before content */}
+      <NativeBanner />
+
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Sidebar - Submit Form + Ads */}
+        {/* Sidebar - Submit Form */}
         <div className="lg:col-span-1">
           <Card className="p-6 sticky top-20">
             <h2 className="text-xl font-bold mb-4" style={{ color: "var(--foreground)" }}>Submit Evidence</h2>
             <EvidenceForm onSubmitted={fetchEvidence} />
-
-            {/* Sidebar Banner Ad */}
-            <div className="mt-6 pt-6 border-t" style={{ borderColor: "var(--card-border)" }}>
-              <Banner300 />
-            </div>
           </Card>
         </div>
 
@@ -111,16 +109,8 @@ export default function EvidenceClient() {
               </div>
             ) : evidenceList.length > 0 ? (
               <>
-                {/* First 2 evidence items */}
-                {evidenceList.slice(0, 2).map((evidence) => (
-                  <EvidenceCard key={evidence.id} evidence={evidence} />
-                ))}
-
-                {/* Native Banner Ad - inserted in content */}
-                <NativeBanner />
-
-                {/* Remaining evidence items */}
-                {evidenceList.slice(2).map((evidence) => (
+                {/* All evidence items */}
+                {evidenceList.map((evidence) => (
                   <EvidenceCard key={evidence.id} evidence={evidence} />
                 ))}
 
