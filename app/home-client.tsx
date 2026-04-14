@@ -7,6 +7,7 @@ import { EvidenceCard } from "@/components/evidence-card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
 import { HighlightCard } from "@/components/highlight-card";
 import { NativeBanner } from "@/components/adsterra-ads";
+import { ExternalLinkWithSmartlink, SmartlinkButton } from "@/components/smartlink";
 import { Evidence, Video } from "@/lib/types";
 import { BlogPost, getAllPosts } from "@/lib/blog";
 import { useState, useEffect } from "react";
@@ -484,7 +485,7 @@ export default function HomeClient() {
               How to access mimo-v2
             </h3>
             <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
-              Go to <a href="https://openrouter.ai" className="text-violet-400 hover:underline">openrouter.ai</a>, search for "mimo-v2" or "Hunter Alpha", and start using it.
+              Go to <ExternalLinkWithSmartlink href="https://openrouter.ai" className="text-violet-400 hover:underline">openrouter.ai</ExternalLinkWithSmartlink>, search for "mimo-v2" or "Hunter Alpha", and start using it.
               No credit card needed — it's free.
             </p>
             <p className="text-sm" style={{ color: "var(--muted)" }}>
@@ -533,6 +534,16 @@ export default function HomeClient() {
             </svg>
             Read in-depth guides and tutorials
           </Link>
+
+          {/* Sponsored Button - Smartlink */}
+          <div className="mt-4">
+            <SmartlinkButton className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800 text-gray-400 hover:text-white transition-colors text-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+              Sponsored Link
+            </SmartlinkButton>
+          </div>
         </div>
       </section>
     </div>

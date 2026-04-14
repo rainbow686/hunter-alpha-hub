@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Card } from "@/components/card";
 import { NativeBanner } from "@/components/adsterra-ads";
+import { ExternalLinkWithSmartlink } from "@/components/smartlink";
 
 const steps = [
   {
@@ -109,14 +110,12 @@ export default function AccessClient() {
             >
               Submit Evidence
             </Link>
-            <a
+            <ExternalLinkWithSmartlink
               href="https://openrouter.ai"
-              target="_blank"
-              rel="noopener noreferrer"
               className="px-6 py-3 rounded-lg font-medium border border-violet-500 text-violet-400 hover:bg-violet-500/10 transition-colors"
             >
               Open OpenRouter
-            </a>
+            </ExternalLinkWithSmartlink>
           </div>
         </Card>
       </div>
