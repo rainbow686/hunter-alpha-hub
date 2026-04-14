@@ -29,10 +29,11 @@ export function SmartlinkButton({ className, children }: SmartlinkButtonProps) {
 interface ExternalLinkWithSmartlinkProps {
   href: string;  // 最终目标外部链接
   className?: string;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }
 
-export function ExternalLinkWithSmartlink({ href, className, children }: ExternalLinkWithSmartlinkProps) {
+export function ExternalLinkWithSmartlink({ href, className, style, children }: ExternalLinkWithSmartlinkProps) {
   const handleClick = () => {
     // 先打开 Smartlink（新标签）
     window.open(SMARTLINK_URL, '_blank', 'noopener,noreferrer');
@@ -42,6 +43,7 @@ export function ExternalLinkWithSmartlink({ href, className, children }: Externa
     <a
       href={href}
       className={className}
+      style={style}
       onClick={handleClick}
       target="_blank"
       rel="noopener noreferrer"
