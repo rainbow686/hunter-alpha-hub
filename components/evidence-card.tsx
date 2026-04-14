@@ -6,6 +6,7 @@ import { EvidenceComments } from "@/components/evidence-comments";
 import { RelatedEvidence } from "@/components/related-evidence";
 import { UserBadges } from "@/components/user-badges";
 import { ShareButton } from "@/components/share-button";
+import { ExternalLinkWithSmartlink } from "@/components/smartlink";
 
 interface EvidenceCardProps {
   evidence: Evidence;
@@ -133,31 +134,27 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
       </div>
 
       {evidence.evidenceUrl && (
-        <a
+        <ExternalLinkWithSmartlink
           href={evidence.evidenceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           className="mt-3 inline-flex items-center gap-1 text-sm text-violet-400 hover:text-violet-300"
         >
           View Evidence
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-        </a>
+        </ExternalLinkWithSmartlink>
       )}
 
       {evidence.externalDiscussionUrl && (
-        <a
+        <ExternalLinkWithSmartlink
           href={evidence.externalDiscussionUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           className="mt-3 inline-flex items-center gap-1 text-sm text-teal-400 hover:text-teal-300"
         >
           <span>Join Discussion</span>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-        </a>
+        </ExternalLinkWithSmartlink>
       )}
 
       {/* Comments Toggle Button */}
