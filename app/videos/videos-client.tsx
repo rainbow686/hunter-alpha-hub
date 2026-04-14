@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
-import { NativeBanner, BannerRectangle } from "@/components/adsterra-ads";
+import { NativeBanner } from "@/components/adsterra-ads";
 import { Video } from "@/lib/types";
 
 const VIDEOS_PER_PAGE = 9;

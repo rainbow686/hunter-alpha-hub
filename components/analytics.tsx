@@ -12,8 +12,7 @@ export function Analytics({ gaId }: AnalyticsProps) {
       {/* Google Analytics */}
       {gaId && (
         <>
-          <Script
-            id="google-analytics-inline"
+          <script
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
@@ -23,27 +22,15 @@ export function Analytics({ gaId }: AnalyticsProps) {
               `,
             }}
           />
-          <Script
-            id="google-analytics"
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-          />
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
         </>
       )}
 
-      {/* Adsterra Popunder - placed before </head> */}
-      <Script
-        id="adsterra-popunder"
-        async
-        src="https://pl29147944.profitablecpmratenetwork.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js"
-      />
+      {/* Adsterra Popunder */}
+      <script async src="https://pl29147944.profitablecpmratenetwork.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js" />
 
-      {/* Adsterra Social Bar - placed before </body> */}
-      <Script
-        id="adsterra-social-bar"
-        async
-        src="https://pl29147949.profitablecpmratenetwork.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js"
-      />
+      {/* Adsterra Social Bar */}
+      <script async src="https://pl29147949.profitablecpmratenetwork.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js" />
     </>
   );
 }

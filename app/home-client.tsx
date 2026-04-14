@@ -6,7 +6,7 @@ import { SubscriptionForm } from "@/components/subscription-form";
 import { EvidenceCard } from "@/components/evidence-card";
 import { YouTubeVideoCard } from "@/components/youtube-video-card";
 import { HighlightCard } from "@/components/highlight-card";
-import { NativeBanner, BannerResponsive } from "@/components/adsterra-ads";
+import { NativeBanner } from "@/components/adsterra-ads";
 import { Evidence, Video } from "@/lib/types";
 import { BlogPost, getAllPosts } from "@/lib/blog";
 import { useState, useEffect } from "react";
@@ -441,9 +441,6 @@ export default function HomeClient() {
           </Link>
         </div>
       </section>
-
-      {/* Responsive Banner - Desktop 728x90 / Mobile 320x50 */}
-      <BannerResponsive className="mt-8" />
 
       {/* SEO Content Section */}
       <section className="py-12 mt-8 border-t" style={{ borderColor: "var(--card-border)" }}>
