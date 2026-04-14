@@ -25,25 +25,7 @@ export function Analytics({ gaId }: AnalyticsProps) {
       document.head.appendChild(inlineScript);
     }
 
-    // Adsterra Popunder - correct URL and ID
-    const popunderConfig = document.createElement("script");
-    popunderConfig.setAttribute("data-cfasync", "false");
-    popunderConfig.innerHTML = `
-      var ad_idzone = "29047445",
-        ad_popup_fallback = false,
-        ad_popup_force = false,
-        ad_new_tab = false,
-        ad_period = 5,
-        ad_open_period = 0,
-        ad_type = "popunder",
-        ad_effect_in_days = 1,
-        ad_close_in_days = 99,
-        ad_close_event = false,
-        ad_remove_event = false,
-        ad_popup_auto_close = false;
-    `;
-    document.head.appendChild(popunderConfig);
-
+    // Adsterra Popunder
     const popunderScript = document.createElement("script");
     popunderScript.async = true;
     popunderScript.setAttribute("data-cfasync", "false");
@@ -54,7 +36,7 @@ export function Analytics({ gaId }: AnalyticsProps) {
     const socialBarScript = document.createElement("script");
     socialBarScript.async = true;
     socialBarScript.setAttribute("data-cfasync", "false");
-    socialBarScript.src = "https://pl29147949.profitablecpmratenetwork.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
+    socialBarScript.src = "https://developdomicile.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
     document.body.appendChild(socialBarScript);
   }, [gaId]);
 
