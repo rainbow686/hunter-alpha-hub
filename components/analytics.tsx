@@ -50,11 +50,22 @@ export function Analytics({ gaId }: AnalyticsProps) {
     popunderScript.src = "https://pl29147944.profitablecpmratenetwork.com/1d/c9/c5/1dc9c5101c754a566067a70e2718618e.js";
     document.head.appendChild(popunderScript);
 
-    // Adsterra Social Bar
+    // Adsterra Social Bar - with config variables
+    const socialBarConfig = document.createElement("script");
+    socialBarConfig.setAttribute("data-cfasync", "false");
+    socialBarConfig.innerHTML = `
+      var ad_idzone = "29147950",
+        ad_frequency_period = 5,
+        ad_frequency_count = 1,
+        ad_trigger_method = 1,
+        ad_trigger_class = "click-me";
+    `;
+    document.head.appendChild(socialBarConfig);
+
     const socialBarScript = document.createElement("script");
     socialBarScript.async = true;
     socialBarScript.setAttribute("data-cfasync", "false");
-    socialBarScript.src = "https://pl29147949.profitablecpmratenetwork.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
+    socialBarScript.src = "https://pl29147950.profitablecpmratenetwork.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
     document.body.appendChild(socialBarScript);
   }, [gaId]);
 
