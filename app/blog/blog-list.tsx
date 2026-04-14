@@ -46,6 +46,9 @@ export default function BlogList() {
         ))}
       </div>
 
+      {/* Native Banner Ad - After category filter */}
+      <NativeBanner />
+
       {/* Posts Grid */}
       <div className="grid gap-6">
         {/* First 2 posts */}

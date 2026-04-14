@@ -97,10 +97,12 @@ export default function FAQClient() {
         ))}
       </div>
 
+      {/* Native Banner Ad - After category filter */}
+      <NativeBanner />
+
       {/* FAQ List */}
       <div className="space-y-4">
-        {/* First 3 FAQs */}
-        {filteredFaqs.slice(0, 3).map((faq, index) => (
+        {filteredFaqs.map((faq, index) => (
           <Card key={index} className="p-6">
             <button
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
@@ -144,58 +146,6 @@ export default function FAQClient() {
           </Card>
         ))}
       </div>
-
-      {/* Native Banner Ad - After first 3 FAQs */}
-      <NativeBanner />
-
-      {/* Remaining FAQs */}
-      {filteredFaqs.length > 3 && (
-        <div className="space-y-4">
-          {filteredFaqs.slice(3).map((faq, index) => (
-            <Card key={index + 3} className="p-6">
-              <button
-                onClick={() => setOpenIndex(openIndex === index + 3 ? null : index + 3)}
-                className="w-full text-left"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-violet-400 mb-2">
-                    {faq.category}
-                  </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform ${
-                      openIndex === index + 3 ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                <h3
-                  className="text-lg font-medium mt-2 mb-3"
-                  style={{ color: "var(--foreground)" }}
-                >
-                  {faq.question}
-                </h3>
-                {openIndex === index + 3 && (
-                  <p
-                    className="text-sm mt-4 pt-4 border-t"
-                    style={{ color: "var(--muted)" }}
-                  >
-                    {faq.answer}
-                  </p>
-                )}
-              </button>
-            </Card>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

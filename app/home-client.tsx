@@ -205,6 +205,9 @@ export default function HomeClient() {
         </section>
       )}
 
+      {/* Native Banner Ad - After Community Spotlight */}
+      <NativeBanner />
+
       {/* TL;DR Section - Quick Answers */}
       <section className="py-8">
         <div className="text-center mb-6">
@@ -225,6 +228,9 @@ export default function HomeClient() {
           </Link>
         </div>
       </section>
+
+      {/* Native Banner Ad - After Quick Answers */}
+      <NativeBanner />
 
       {/* Known Facts Section */}
       <section className="py-8">
@@ -251,7 +257,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Native Banner Ad */}
+      {/* Native Banner Ad - After Key Specifications */}
       <NativeBanner />
 
       {/* mimo-v2 Use Cases Section */}
@@ -275,6 +281,9 @@ export default function HomeClient() {
           </Link>
         </div>
       </section>
+
+      {/* Native Banner Ad - After Use Cases */}
+      <NativeBanner />
 
       {/* YouTube Videos Section */}
       <section className="py-8">
@@ -308,6 +317,9 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* Native Banner Ad - After Featured Videos */}
+      <NativeBanner />
+
       {/* Latest Evidence */}
       <section className="py-8">
         <div className="flex items-center justify-between mb-6">
@@ -337,6 +349,9 @@ export default function HomeClient() {
           </Link>
         </div>
       </section>
+
+      {/* Native Banner Ad - After Community Submissions */}
+      <NativeBanner />
 
       {/* Subscription Section */}
       <section className="py-8">
@@ -441,6 +456,9 @@ export default function HomeClient() {
           </Link>
         </div>
       </section>
+
+      {/* Native Banner Ad - After Featured Articles */}
+      <NativeBanner />
 
       {/* SEO Content Section */}
       <section className="py-12 mt-8 border-t" style={{ borderColor: "var(--card-border)" }}>

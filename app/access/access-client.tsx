@@ -62,10 +62,12 @@ export default function AccessClient() {
         </Card>
       </div>
 
+      {/* Native Banner Ad - After Quick Info Cards */}
+      <NativeBanner />
+
       {/* Steps */}
       <div className="space-y-8">
-        {/* First 2 steps */}
-        {steps.slice(0, 2).map((step, index) => (
+        {steps.map((step, index) => (
           <Card key={index} className="p-8">
             <div className="flex items-start gap-6">
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-r from-violet-500 to-teal-500 flex items-center justify-center text-white font-bold text-xl">
@@ -92,41 +94,6 @@ export default function AccessClient() {
           </Card>
         ))}
       </div>
-
-      {/* Native Banner Ad - After first 2 steps */}
-      <NativeBanner />
-
-      {/* Remaining steps */}
-      {steps.length > 2 && (
-        <div className="space-y-8">
-          {steps.slice(2).map((step, index) => (
-            <Card key={index + 2} className="p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-r from-violet-500 to-teal-500 flex items-center justify-center text-white font-bold text-xl">
-                  {step.number}
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-xl font-bold mb-3" style={{ color: "var(--foreground)" }}>
-                    {step.title}
-                  </h2>
-                  <p className="mb-4" style={{ color: "var(--muted)" }}>
-                    {step.description}
-                  </p>
-                  <div className="flex items-start gap-2 p-3 rounded-lg bg-violet-500/10 border border-violet-500/20">
-                    <svg className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
-                    <p className="text-sm text-violet-300">
-                      <span className="font-medium">Tip: </span>
-                      {step.tip}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      )}
 
       {/* CTA */}
       <div className="mt-12 text-center">
