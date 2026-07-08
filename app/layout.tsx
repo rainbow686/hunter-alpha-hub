@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
+import { AdSense } from "@/components/adsense";
 
 const baseUrl = "https://www.hunteralphahub.com";
 
@@ -69,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen transition-colors duration-300 flex flex-col">
+        <AdSense clientId={process.env.NEXT_PUBLIC_ADSENSE_ID || ""} />
         <Analytics
           gaId={process.env.NEXT_PUBLIC_GA_ID}
         />
