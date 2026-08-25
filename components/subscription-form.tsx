@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "./button";
+import { trackOxAlphaSubscribe } from "@/lib/gtag";
 
 export function SubscriptionForm() {
   const [email, setEmail] = useState("");
@@ -19,6 +20,11 @@ export function SubscriptionForm() {
       });
 
       if (response.ok) {
+        trackOxAlphaSubscribe({
+          method: "subscription_form",
+          page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
+          page_location: typeof window !== "undefined" ? window.location.href : undefined,
+        });
         setStatus("success");
         setEmail("");
         setTimeout(() => setStatus("idle"), 3000);
