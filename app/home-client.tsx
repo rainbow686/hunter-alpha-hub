@@ -163,6 +163,23 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* Mystery Tracker — OX-alpha interception */}
+      <section className="py-6">
+        <div className="rounded-xl border p-6 md:p-8" style={{ borderColor: "rgba(139,92,246,0.3)", backgroundColor: "var(--card-bg)" }}>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-violet-900/30 text-violet-300 border border-violet-800 mb-2">LIVE MYSTERY</div>
+              <h2 className="text-xl font-bold" style={{ color: "var(--foreground)" }}>OpenRouter Mystery Model Tracker</h2>
+              <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>New: OX-alpha (1M, free) is live. Compare it to Hunter Alpha (mimo-v2) — one table, no fluff.</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a href="/ox-alpha/" className="px-5 py-3 rounded-lg bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 transition-colors">What is OX-alpha? →</a>
+              <a href="/ox-alpha-vs-hunter-alpha/" className="px-5 py-3 rounded-lg border text-sm font-medium hover:bg-white/5 transition-colors" style={{ borderColor: "var(--card-border)", color: "var(--foreground)" }}>OX-alpha vs Hunter Alpha →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Community Stats Section */}
       <section className="py-6 mb-8">
         <Card className="p-6" >
