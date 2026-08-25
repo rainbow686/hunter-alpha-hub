@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   keywords: ["Hunter Alpha", "Xiaomi mimo-v2", "AI model", "OpenRouter", "LLM", "1M context", "free AI", "1T parameters"],
   alternates: {
     canonical: baseUrl,
+    languages: {
+      "en": baseUrl + "/",
+      "zh-CN": baseUrl + "/zh/",
+      "zh": baseUrl + "/zh/",
+      "x-default": baseUrl + "/",
+    },
   },
   openGraph: {
     title: "Hunter Alpha = Xiaomi mimo-v2: Identity Revealed",

@@ -49,6 +49,22 @@ export function Navbar() {
                 </Link>
               ))}
             </div>
+            <div className="flex items-center gap-1 ml-2 pl-2 border-l" style={{ borderColor: "var(--card-border)" }}>
+              <Link
+                href="/"
+                className={`text-xs px-2 py-1 rounded transition-colors ${pathname === "/" ? "bg-violet-600 text-white" : "text-gray-500 hover:text-violet-500"}`}
+                title="English"
+              >
+                EN
+              </Link>
+              <Link
+                href="/zh/"
+                className={`text-xs px-2 py-1 rounded transition-colors ${pathname === "/zh" || pathname === "/zh/" ? "bg-violet-600 text-white" : "text-gray-500 hover:text-violet-500"}`}
+                title="中文"
+              >
+                中文
+              </Link>
+            </div>
             <ThemeToggle />
           </div>
         </div>
