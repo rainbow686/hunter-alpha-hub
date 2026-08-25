@@ -64,6 +64,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/ox-alpha`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
     // 博客文章 - 动态生成
     ...posts.map(post => ({
       url: `${baseUrl}/blog/${post.slug}`,
