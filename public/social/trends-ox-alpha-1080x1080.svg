@@ -1,0 +1,70 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f0f1e"/>
+      <stop offset="100%" stop-color="#1e0f3a"/>
+    </linearGradient>
+    <linearGradient id="gradOx2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="gradGpt2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" rx="32" fill="url(#bg2)"/>
+  <text x="54" y="82" font-family="Inter, sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="#8b5cf6">HUNTER ALPHA HUB</text>
+  <rect x="800" y="58" width="226" height="36" rx="18" fill="#14b8a6" opacity="0.14" stroke="#14b8a6" stroke-width="1.4"/>
+  <text x="913" y="82" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="800" fill="#14b8a6">▲ 56% ABOVE GPTs</text>
+  <text x="54" y="150" font-family="Inter, sans-serif" font-size="54" font-weight="900" fill="white">OX-Alpha vs GPTs</text>
+  <text x="54" y="195" font-family="Inter, sans-serif" font-size="20" fill="#94a3b8">Google Trends • Aug 15 → Aug 22 • Worldwide</text>
+  <text x="54" y="235" font-family="Inter, sans-serif" font-size="16" fill="#64748b">OX-Alpha broke out 08/21 • 47 vs 30 (avg) • Peak 100 on 08/22</text>
+  <!-- big numbers -->
+  <g transform="translate(54,270)">
+    <rect width="480" height="168" rx="20" fill="white" opacity="0.06" stroke="#14b8a6" stroke-width="1.5"/>
+    <text x="28" y="42" font-family="Inter, sans-serif" font-size="14" font-weight="700" letter-spacing="2" fill="#14b8a6">OX-ALPHA</text>
+    <text x="28" y="110" font-family="Inter, sans-serif" font-size="72" font-weight="900" fill="white">47</text>
+    <text x="150" y="110" font-family="Inter, sans-serif" font-size="22" fill="#94a3b8">avg</text>
+    <text x="28" y="140" font-family="Inter, sans-serif" font-size="13" fill="#64748b">Aug 22 peak → 100</text>
+    <circle cx="430" cy="84" r="22" fill="#14b8a6"/>
+    <text x="430" y="91" text-anchor="middle" font-family="Inter, sans-serif" font-size="20">▲</text>
+  </g>
+  <g transform="translate(560,270)">
+    <rect width="466" height="168" rx="20" fill="white" opacity="0.04" stroke="white" stroke-opacity="0.08"/>
+    <text x="28" y="42" font-family="Inter, sans-serif" font-size="14" font-weight="700" letter-spacing="2" fill="#8b5cf6">GPTs (baseline)</text>
+    <text x="28" y="110" font-family="Inter, sans-serif" font-size="72" font-weight="800" fill="white">30</text>
+    <text x="150" y="110" font-family="Inter, sans-serif" font-size="22" fill="#94a3b8">avg</text>
+    <text x="28" y="140" font-family="Inter, sans-serif" font-size="13" fill="#64748b">Stable • reference</text>
+  </g>
+  <!-- chart -->
+  <rect x="54" y="470" width="972" height="380" rx="20" fill="white" opacity="0.04" stroke="white" stroke-opacity="0.07"/>
+  <text x="70" y="510" font-family="Inter, monospace" font-size="12" fill="#475569">100</text>
+  <text x="70" y="620" font-family="Inter, monospace" font-size="12" fill="#475569">50</text>
+  <text x="74" y="730" font-family="Inter, monospace" font-size="12" fill="#475569">25</text>
+  <line x1="110" y1="500" x2="1010" y2="500" stroke="white" opacity="0.06"/>
+  <line x1="110" y1="610" x2="1010" y2="610" stroke="white" opacity="0.06"/>
+  <line x1="110" y1="720" x2="1010" y2="720" stroke="white" opacity="0.06"/>
+  <!-- GPTs line -->
+  <polyline fill="none" stroke="url(#gradGpt2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"
+    points="130,680 260,670 390,660 520,645 650,625 780,605 910,595 1010,590"/>
+  <!-- OX line -->
+  <polyline fill="none" stroke="url(#gradOx2)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+    points="130,730 260,710 390,675 520,610 650,540 780,460 910,515 1010,515"/>
+  <!-- peak dot with label -->
+  <circle cx="780" cy="460" r="14" fill="#14b8a6" stroke="white" stroke-width="4"/>
+  <rect x="700" y="400" width="160" height="32" rx="16" fill="#14b8a6"/>
+  <text x="780" y="422" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="900" fill="white">PEAK 100</text>
+  <!-- X axis -->
+  <text x="130" y="850" font-family="Inter, monospace" font-size="13" fill="#64748b">Aug 15</text>
+  <text x="390" y="850" font-family="Inter, monospace" font-size="13" fill="#64748b">Aug 18</text>
+  <text x="650" y="850" font-family="Inter, monospace" font-size="13" fill="#14b8a6" font-weight="800">Aug 21 ⚡ breakout</text>
+  <text x="850" y="850" font-family="Inter, monospace" font-size="13" fill="white" font-weight="700">Aug 22 PEAK</text>
+  <!-- CTA -->
+  <rect x="54" y="900" width="972" height="110" rx="20" fill="white" opacity="0.06" stroke="white" stroke-opacity="0.08"/>
+  <text x="80" y="940" font-family="Inter, sans-serif" font-size="18" font-weight="800" fill="white">What is OX-alpha? The Mystery Model on OpenRouter</text>
+  <text x="80" y="970" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Track specs • 1M context • Free while available</text>
+  <text x="80" y="996" font-family="Inter, monospace" font-size="12" fill="#64748b">hunteralphahub.com/ox-alpha • Source: Google Trends</text>
+  <rect x="720" y="928" width="280" height="52" rx="26" fill="url(#gradOx2)"/>
+  <text x="860" y="961" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="white">hunteralphahub.com →</text>
+</svg>

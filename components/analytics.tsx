@@ -6,6 +6,40 @@ interface AnalyticsProps {
   gaId?: string;
 }
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
+  }
+}
+
+function trackSocialUTM(gaId?: string) {
+  if (typeof window === "undefined") return;
+  const params = new URLSearchParams(window.location.search);
+  const utm_source = params.get("utm_source");
+  const utm_medium = params.get("utm_medium");
+  const utm_campaign = params.get("utm_campaign");
+  const path = window.location.pathname;
+  // ox_alpha_view for any ox-alpha page view
+  if (path.includes("ox-alpha") && window.gtag) {
+    window.gtag("event", "ox_alpha_view", {
+      page_path: path,
+      utm_source: utm_source || "(direct)",
+      utm_medium: utm_medium || "(none)",
+      utm_campaign: utm_campaign || "(none)",
+    });
+  }
+  // social_referral when utm present
+  if (utm_source && window.gtag) {
+    window.gtag("event", "social_referral", {
+      utm_source,
+      utm_medium: utm_medium || "(none)",
+      utm_campaign: utm_campaign || "(none)",
+      page_path: path,
+    });
+  }
+}
+
 export function Analytics({ gaId }: AnalyticsProps) {
   useEffect(() => {
     // Google Analytics
@@ -23,6 +57,13 @@ export function Analytics({ gaId }: AnalyticsProps) {
         gtag('config', '${gaId}');
       `;
       document.head.appendChild(inlineScript);
+
+      // fire UTM + ox_alpha_view after gtag loads
+      setTimeout(() => trackSocialUTM(gaId), 1200);
+      // also on SPA navigation
+      const onUrlChange = () => trackSocialUTM(gaId);
+      window.addEventListener("popstate", onUrlChange);
+      return () => window.removeEventListener("popstate", onUrlChange);
     }
 
     // Adsterra Popunder - disabled (causes click-anywhere issue)
