@@ -119,3 +119,71 @@ export function BreadcrumbListSchema({ items }: { items: { name: string; url: st
     />
   );
 }
+
+// GEO: Table schema for comparison/spec tables — lets AI extract tabular data directly
+export function TableSchema({
+  about,
+  tableId,
+  caption,
+}: {
+  about: string;
+  tableId: string;
+  caption: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Table",
+    about: about,
+    identifier: tableId,
+    caption: caption,
+  };
+  return (
+    <Script
+      id={`table-schema-${tableId}`}
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// GEO: Speakable for TL;DR / key summary targeting voice and AI overview
+export function SpeakableSchema({ url, cssSelector }: { url: string; cssSelector: string[] }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector,
+    },
+  };
+  return (
+    <Script
+      id="speakable-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// GEO: ItemList for tracker index — used on homepage
+export function ItemListSchema({ items }: { items: { name: string; url: string; description?: string }[] }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: item.url,
+      description: item.description,
+    })),
+  };
+  return (
+    <Script
+      id="itemlist-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
