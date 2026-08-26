@@ -11,6 +11,7 @@ import { ExternalLinkWithSmartlink, SmartlinkButton } from "@/components/smartli
 import { Evidence, Video } from "@/lib/types";
 import { BlogPost, getAllPosts } from "@/lib/blog";
 import { useState, useEffect } from "react";
+import { trackTrackerClick, trackOxAlphaView } from "@/lib/gtag";
 
 interface CommunityStats {
   totalEvidence: number;
@@ -50,6 +51,10 @@ export default function HomeClient() {
 
     // 获取博客文章
     setFeaturedPosts(getAllPosts().slice(0, 6));
+
+    // GA4: ox_alpha teaser impression on home (pre-page exists as placeholder for RAINBOW686-10)
+    // When /ox-alpha lands, this also serves as internal discovery tracking
+    trackOxAlphaView({ source: "home_teaser" });
   }, []);
 
   const tlDrItems = [
@@ -251,8 +256,14 @@ export default function HomeClient() {
             </Card>
           ))}
         </div>
+      {/* OX-Alpha Tracker Teaser — fires tracker_click + ox_alpha_view, consumed by /ox-alpha page when live (RAINBOW686-10) */}
+      <div className="text-center mt-4">
+        <Link href="/ox-alpha" onClick={() => trackTrackerClick({ tracker_id: "ox_alpha_teaser", target_url: "/ox-alpha", location: "home_specs" })} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors">
+          Track OX-Alpha → <span className="text-violet-200 text-xs">New mystery model on OpenRouter</span>
+        </Link>
+      </div>
         <div className="text-center">
-          <Link href="/monitor" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+          <Link href="/monitor" onClick={() => trackTrackerClick({ tracker_id: "monitor_status_card", target_url: "/monitor", location: "home_specs" })} className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
             View real-time model status <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </Link>
         </div>
@@ -312,7 +323,7 @@ export default function HomeClient() {
           )}
         </div>
         <div className="text-center mt-6">
-          <Link href="/comparison" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
+          <Link href="/comparison" onClick={() => trackTrackerClick({ tracker_id: "comparison_entry", target_url: "/comparison", location: "home_videos" })} className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
             Compare mimo-v2 with other AI models <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </Link>
         </div>
