@@ -100,3 +100,16 @@ git restore --staged docs/hunter-alpha-research-2026-03-17.md
 SUPABASE_URL=https://xxx.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
+
+## OpenRouter model snapshot sync
+
+`npm run sync-models` checks the curated factual fields in `lib/openrouter-models.ts`
+against OpenRouter's public model catalog. It validates model availability, context
+window, input/output pricing and modalities.
+
+- Exit 0: snapshot is current.
+- Exit 1: a curated model is missing or has factual drift.
+- Add `--json` to print a machine-readable report.
+
+This command is for monthly maintenance. It does not update content copy, scenarios,
+strengths or limitations automatically; use the drift report to guide those edits.
