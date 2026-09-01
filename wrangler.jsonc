@@ -13,5 +13,17 @@
       "binding": "WORKER_SELF_REFERENCE",
       "service": "hunter-alpha-hub"
     }
+  ],
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [
+    {
+      "pattern": "hunteralphahub.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.hunteralphahub.com",
+      "custom_domain": true
+    }
   ]
 }
