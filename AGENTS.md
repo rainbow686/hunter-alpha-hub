@@ -10,21 +10,24 @@
 - 群≠Project，Project靠Issue --project显式绑定，群名可任意；Web聊天+号可绑项目上下文，飞书口头带项目名是启发式
 - 移动端官方无App，手机=浏览器开multica.ai或Tailscale域名；Multica Go为第三方壳；派活走飞书
 
-## 3. 栈（不绑定）
-- 部署：Vercel/CF/其他由Skills补，DB用Supabase（已接 @supabase/supabase-js），按本文件定
-- 变更必给回滚，日志可追溯
+## 3. 栈（当前定档）
+- 部署：Cloudflare Workers（OpenNext）；Vercel 仅暂作回滚，不再作为主部署。
+- DB：Supabase（@supabase/supabase-js）。
+- 变更必给回滚，日志可追溯。
 
-## 4. 纪律4件
+## 4. 纪律4件（docs 全部本地化）
 - AGENTS.md：怎么干活（本文件）
-- docs/decisions/ADR-*.md：架构决策（每选型一页）
-- docs/memory/YYYY-MM-DD-*.md：流水记忆（每合一PR记）
-- docs/PROJECT-STATE.md：当前真值（每天更顶部📌）
+- docs/decisions/ADR-*.md：架构决策（每选型一页，本地）
+- docs/memory/YYYY-MM-DD.md：流水记忆（每个可验证单元记，本地）
+- docs/PROJECT-STATE.local.md：当前真值（每次完成可验证单元更顶部📌，本地）
 
 ## 5. Key管理
 - 所有Key由运维统管，存1Password/custom_env，真K不进仓，仓只留.env.example
 - 要K飞书@运维 配
 
 ## 6. 本仓补充
-- 技术：Next 15 + React 19 + Supabase + Tailwind + Vercel/CF
-- 现有文档：docs/下已有研究/SEO/路线图，新增纪律文件不覆盖旧研报
+- 技术：Next 15 + React 19 + Supabase + Tailwind + Cloudflare Workers。
+- 站点身份：OpenRouter Model Hub；Hunter Alpha / OX Alpha 内容仅作历史归档。
+- docs/ 自 2026-09-01 起全量本地化，不提交 GitHub；研究、SEO、路线图、ADR、memory 均留在本机。
+- 变更流程：feature branch → build/preview 验证 → 用户确认 → 普通 PR review 合入 main。
 
