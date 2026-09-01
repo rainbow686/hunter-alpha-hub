@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import AccessClient from "./access-client";
-import { BreadcrumbListSchema } from "@/components/structured-data";
+import { ArticleSchema, BreadcrumbListSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/access`;
@@ -32,6 +32,11 @@ export default function AccessPage() {
   return (
     <>
       <AccessClient />
+      <ArticleSchema
+        title="How to Use OpenRouter: Models, Playground & API"
+        description="A practical guide to creating an account, choosing a model, testing in the playground, estimating cost and using the OpenRouter API."
+        url={pageUrl}
+      />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },
