@@ -73,8 +73,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/comparison`,
       lastModified,
+      changeFrequency: 'daily',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/best-openrouter-models`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/openrouter-pricing-calculator`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/openrouter-free-models`,
+      lastModified,
       changeFrequency: 'weekly',
       priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/hunter-alpha`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.4,
     },
     {
       url: `${baseUrl}/ox-alpha`,

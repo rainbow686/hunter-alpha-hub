@@ -7,16 +7,19 @@ import { ThemeToggle } from "@/components/theme-toggle";
 export function Navbar() {
   const pathname = usePathname();
 
-  const navItems = [
+  const primaryNav = [
     { href: "/", label: "Home" },
-    { href: "/evidence", label: "Evidence" },
-    { href: "/leaderboard", label: "Leaderboard" },
-    { href: "/videos", label: "Videos" },
+    { href: "/comparison", label: "Comparison" },
+    { href: "/best-openrouter-models", label: "Best Models" },
+    { href: "/openrouter-pricing-calculator", label: "Pricing" },
     { href: "/blog", label: "Blog" },
-    { href: "/monitor", label: "Monitor" },
-    { href: "/timeline", label: "Timeline" },
-    { href: "/access", label: "Access" },
     { href: "/faq", label: "FAQ" },
+  ];
+
+  const archivedNav = [
+    { href: "/hunter-alpha", label: "Hunter Alpha Tracker" },
+    { href: "/ox-alpha", label: "OX Alpha Tracker" },
+    { href: "/videos", label: "Videos" },
   ];
 
   return (
@@ -30,12 +33,12 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="text-xl font-bold gradient-text">
-            Hunter Alpha Hub
+            Model Hub
           </Link>
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-4">
-              {navItems.map((item) => (
+              {primaryNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

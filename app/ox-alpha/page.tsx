@@ -9,9 +9,9 @@ const pageUrl = `${baseUrl}/ox-alpha/`;
 const ogImageUrl = `${baseUrl}/ox-alpha/opengraph-image`;
 
 export const metadata: Metadata = {
-  title: "What is OX-alpha AI? The Mystery Model on OpenRouter",
+  title: "OX Alpha Archive: Revealed as GLM 5.3 Flash",
   description:
-    "OX-alpha is a new mystery AI model on OpenRouter (Aug 20, 2026) with 1M context, free limited access. Timeline, benchmarks vs Hunter Alpha, community speculation with Business Insider & Quartz, and how to access.",
+    "Historical archive of the OX Alpha investigation. OX Alpha was later identified as Z.ai GLM 5.3 Flash.",
   keywords: [
     "what is ox alpha ai",
     "ox alpha",
@@ -23,17 +23,16 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: pageUrl },
   openGraph: {
-    title: "What is OX-alpha AI? The Mystery Model on OpenRouter",
-    description:
-      "The mystery model OX-alpha appeared on OpenRouter on Aug 20, 2026. 1M context, free to try, origin unknown. Full tracker inside.",
+    title: "OX Alpha Archive: Revealed as GLM 5.3 Flash",
+    description: "Historical archive of the OX Alpha investigation.",
     url: pageUrl,
     type: "article",
     images: [{ url: ogImageUrl, width: 1200, height: 630, alt: "What is OX-alpha? The Mystery AI Model on OpenRouter" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "What is OX-alpha AI? The Mystery Model on OpenRouter",
-    description: "OX-alpha on OpenRouter: timeline, specs, benchmarks and community theories.",
+    title: "OX Alpha Archive: Revealed as GLM 5.3 Flash",
+    description: "Historical archive of the OX Alpha investigation.",
     images: [ogImageUrl],
   },
 };
@@ -93,6 +92,12 @@ export default function OxAlphaPage() {
             Track all mystery models
           </Link>
         </p>
+        <div className="mb-6 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
+          <p className="text-sm text-amber-300">
+            OX Alpha was later identified as Z.ai GLM 5.3 Flash. This page is kept for historical reference.
+          </p>
+        </div>
+
         <p className="text-lg mb-8 leading-relaxed" style={{ color: "var(--muted)" }}>
           OX-alpha appeared without a blog post, without a model card, and without a name anyone recognized. On August 20, 2026, a new entry
           simply showed up on{" "}
