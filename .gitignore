@@ -34,3 +34,5 @@ next-env.d.ts
 
 # data files (use database in production)
 /data/*.json
+# Local-only operations knowledge (mirrors gesturesynthweld handbook)
+/docs/

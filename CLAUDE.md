@@ -325,3 +325,20 @@ CONVERTKIT_API_KEY=xxx
 - 证据墙列表底部
 - 视频库侧边栏
 - 文章页面中间
+
+## For Claude — Docs Map
+
+> 自 2026-09-01 起，`docs/` 全量本地化且已被 `.gitignore` 排除；策略、研究、SEO 和运营数据不进 GitHub。新会话先读本表。
+
+| What to read | Where | When |
+|---|---|---|
+| Current state / next step | `docs/PROJECT-STATE.md` top `📌` | Every new session, first |
+| How to start | `docs/STARTUP.md` | Before work |
+| Commands / validation / release | `docs/OPERATIONS.md` | Before running commands |
+| Continuity rules | `docs/handbook/continuity-kit.md` | New session / workflow questions |
+| Decisions (ADR) | `docs/decisions/README.md` + `ADR-*.md` | Need background |
+| Long discussion drafts | `docs/sessions/YYYY-MM-DD-*.md` | Resume long work |
+| Daily log | `docs/memory/YYYY-MM-DD.md` | Check today's breakpoint |
+| Task queue | `docs/bridge/inbox/*.md` | Scan pending work |
+
+Rules: branch first; build before handoff; after every verifiable unit update `docs/PROJECT-STATE.md` and `docs/memory/`; long discussions append incrementally to `docs/sessions/`.

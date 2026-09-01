@@ -16,9 +16,11 @@
 
 ## 4. 纪律4件
 - AGENTS.md：怎么干活（本文件）
-- docs/decisions/ADR-*.md：架构决策（每选型一页）
-- docs/memory/YYYY-MM-DD-*.md：流水记忆（每合一PR记）
-- docs/PROJECT-STATE.md：当前真值（每天更顶部📌）
+- docs/handbook/continuity-kit.md：连续性纪律（本地）
+- docs/STARTUP.md / docs/OPERATIONS.md：恢复清单和命令（本地）
+- docs/decisions/ADR-*.md：架构决策（每选型一页，本地）
+- docs/memory/YYYY-MM-DD.md：流水记忆（每个可验证单元记，本地）
+- docs/PROJECT-STATE.md：当前真值（每次完成可验证单元更顶部📌，本地）
 
 ## 5. Key管理
 - 所有Key由运维统管，存1Password/custom_env，真K不进仓，仓只留.env.example
@@ -26,5 +28,6 @@
 
 ## 6. 本仓补充
 - 技术：Next 15 + React 19 + Supabase + Tailwind + Vercel/CF
-- 现有文档：docs/下已有研究/SEO/路线图，新增纪律文件不覆盖旧研报
+- docs/ 自 2026-09-01 起全量本地化，不提交 GitHub；现有研究/SEO/路线图保留在本机。
+- 变更一律走 feature branch → build/preview 验证 → 用户确认 → ff-only → main。
 
