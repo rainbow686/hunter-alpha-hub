@@ -2,6 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Current Direction — 2026-09-01
+
+**OpenRouter Model Hub** is the primary site identity. It compares AI models on OpenRouter by pricing, context window, modality and use case.  
+Hunter Alpha (Xiaomi MiMo-V2.5) and OX Alpha (GLM 5.3 Flash) are retained only as historical aliases/archived trackers, not as primary SEO targets.  
+The site is deployed to Cloudflare Workers; Vercel is rollback-only.
+
+### Primary routes
+
+- `/comparison` — core model comparison
+- `/openrouter-models` and `/openrouter-models/[slug]` — model directory/detail pages
+- `/best-openrouter-models` — scenario-based recommendations
+- `/openrouter-pricing-calculator` — cost tool
+- `/openrouter-free-models` — free-tier guidance
+- `/access` — general OpenRouter usage guide
+- `/blog` — model roundups and practical articles
+
+### Documentation boundary
+
+`docs/` is local-only and must not be committed. Use `docs/PROJECT-STATE.local.md`, `docs/decisions/`, `docs/memory/`, and `docs/sessions/` for continuity.
+
 ## 项目概述
 
 **Hunter Alpha Hub** - Hunter Alpha（小米 mimo-v2）档案站 + 社区资源站
