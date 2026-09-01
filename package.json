@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cf": "opennextjs-cloudflare build",
+    "deploy:cf": "opennextjs-cloudflare deploy",
+    "preview:cf": "wrangler dev",
     "start": "next start",
     "lint": "next lint",
     "fetch-evidence": "ts-node scripts/fetch-evidence.ts"
