@@ -342,3 +342,8 @@ CONVERTKIT_API_KEY=xxx
 | Task queue | `docs/bridge/inbox/*.md` | Scan pending work |
 
 Rules: branch first; build before handoff; after every verifiable unit update `docs/PROJECT-STATE.md` and `docs/memory/`; long discussions append incrementally to `docs/sessions/`.
+
+### Workflow boundary
+
+- Inherited from the continuity handbook: branch-first work, real-time local state files, ADR records, session drafts, and handoff through `PROJECT-STATE`.
+- Not inherited: gesturesynthweld's free/pro sibling-repo model or its `ff-only` merge rule. This repository uses a normal PR review flow.

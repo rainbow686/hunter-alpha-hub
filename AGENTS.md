@@ -29,5 +29,6 @@
 ## 6. 本仓补充
 - 技术：Next 15 + React 19 + Supabase + Tailwind + Vercel/CF
 - docs/ 自 2026-09-01 起全量本地化，不提交 GitHub；现有研究/SEO/路线图保留在本机。
-- 变更一律走 feature branch → build/preview 验证 → 用户确认 → ff-only → main。
+- 只继承 gesturesynthweld handbook 的实时落盘、决策记录、任务隔离和会话交接纪律；不继承其免费/收费双仓 `ff-only` 策略。
+- 变更一律走 feature branch → build/preview 验证 → 用户确认 → 普通 PR review 合入 main。
 
