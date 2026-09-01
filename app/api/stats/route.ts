@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { getOxAlphaDimensionMeta, STOP_LOSS_THRESHOLD, stopLossKeywords } from "@/lib/gsc-keywords";
 
 // GET /api/stats - 获取社区统计数据 + OX-Alpha 维度（RAINBOW686-12）
@@ -7,6 +7,7 @@ import { getOxAlphaDimensionMeta, STOP_LOSS_THRESHOLD, stopLossKeywords } from "
 // Query: ?dimension=ox_alpha returns filtered view; default returns all.
 export async function GET(request: Request) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(request.url);
     const dimension = searchParams.get("dimension"); // e.g. "ox_alpha" | "hunter_alpha"
 

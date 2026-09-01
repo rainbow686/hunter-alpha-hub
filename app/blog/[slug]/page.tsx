@@ -1,34 +1,68 @@
-"use client";
-
-import React from "react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
-import { BlogPost, getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog";
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { BreadcrumbListSchema } from "@/components/structured-data";
 import { NativeBanner } from "@/components/adsterra-ads";
+import { BreadcrumbListSchema } from "@/components/structured-data";
+import {
+  BlogPost,
+  getAllPosts,
+  getPostBySlug,
+  getRelatedPosts,
+} from "@/lib/blog";
 
-const allPosts = getAllPosts();
+interface BlogPostPageProps {
+  params: Promise<{ slug: string }>;
+}
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const slug = params.slug as string;
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+export function generateStaticParams() {
+  return getAllPosts().map((post) => ({ slug: post.slug }));
+}
 
-  useEffect(() => {
-    const foundPost = getPostBySlug(slug);
-    if (foundPost) {
-      setPost(foundPost);
-      setRelatedPosts(getRelatedPosts(slug, 3));
-    }
-  }, [slug]);
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: "Post not found | OpenRouter Model Hub",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    keywords: post.tags,
+    alternates: {
+      canonical: `https://www.hunteralphahub.com/blog/${post.slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://www.hunteralphahub.com/blog/${post.slug}`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+    },
+  };
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  const baseUrl = "https://www.hunteralphahub.com";
 
   if (!post) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-        <h1 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>Post not found</h1>
+        <h1 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
+          Post not found
+        </h1>
         <Link href="/blog" className="text-violet-400 hover:text-violet-300">
           ← Back to blog
         </Link>
@@ -36,12 +70,11 @@ export default function BlogPostPage() {
     );
   }
 
-  const baseUrl = "https://www.hunteralphahub.com";
+  const relatedPosts = getRelatedPosts(slug, 3);
 
   return (
     <>
       <div className="max-w-4xl mx-auto px-4 py-12">
-        {/* Article Header */}
         <article>
           <header className="mb-8">
             <div className="flex items-center gap-3 mb-4">
@@ -63,21 +96,29 @@ export default function BlogPostPage() {
             <div className="flex items-center gap-4 text-sm" style={{ color: "var(--muted)" }}>
               <span>{post.author}</span>
               <span>·</span>
-              <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              <span>
+                {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
               <span>·</span>
               <span>{post.readTime} min read</span>
             </div>
 
             <div className="flex items-center gap-2 mt-4">
-              {post.tags.map(tag => (
-                <span key={tag} className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-400">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-400"
+                >
                   #{tag}
                 </span>
               ))}
             </div>
           </header>
 
-          {/* Article Content */}
           <div
             className="prose prose-invert prose-violet max-w-none mb-12"
             style={{
@@ -89,23 +130,24 @@ export default function BlogPostPage() {
           </div>
         </article>
 
-        {/* Native Banner Ad */}
         <NativeBanner />
 
-        {/* Related Posts */}
         {relatedPosts.length > 0 && (
           <section className="border-t pt-8" style={{ borderColor: "var(--card-border)" }}>
             <h2 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>
               Related Articles
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {relatedPosts.map(relatedPost => (
+              {relatedPosts.map((relatedPost) => (
                 <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}`}>
                   <Card className="p-4 hover:border-violet-500/50 transition-colors">
-                    <div className="text-xs px-2 py-1 rounded-full bg-violet-900/30 text-violet-400 border border-violet-800 inline-block mb-2">
+                    <div className="text-xs px-3 py-1 rounded-full bg-violet-900/30 text-violet-400 border border-violet-800 inline-block mb-2">
                       {relatedPost.category}
                     </div>
-                    <h3 className="font-medium mb-2 hover:text-violet-400 transition-colors" style={{ color: "var(--foreground)" }}>
+                    <h3
+                      className="font-medium mb-2 hover:text-violet-400 transition-colors"
+                      style={{ color: "var(--foreground)" }}
+                    >
                       {relatedPost.title}
                     </h3>
                     <p className="text-sm" style={{ color: "var(--muted)" }}>
@@ -130,38 +172,36 @@ export default function BlogPostPage() {
   );
 }
 
-// Simple markdown-like renderer for blog content
 function BlogContent({ content }: { content: string }) {
-  // Split by lines and process each line
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   const elements: React.ReactElement[] = [];
   let inTable = false;
   let tableRows: string[][] = [];
   let tableHeaders: string[] = [];
 
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
     const trimmedLine = line.trim();
 
-    // Handle tables
-    if (trimmedLine.startsWith('|')) {
+    if (trimmedLine.startsWith("|")) {
       if (!inTable) {
         inTable = true;
         tableRows = [];
         tableHeaders = [];
       }
 
-      const cells = trimmedLine.split('|').filter(cell => cell.trim()).map(cell => cell.trim());
+      const cells = trimmedLine
+        .split("|")
+        .filter((cell) => cell.trim())
+        .map((cell) => cell.trim());
 
-      if (tableHeaders.length === 0 && !trimmedLine.includes('---')) {
+      if (tableHeaders.length === 0 && !trimmedLine.includes("---")) {
         tableHeaders = cells;
-      } else if (!trimmedLine.includes('---')) {
+      } else if (!trimmedLine.includes("---")) {
         tableRows.push(cells);
       }
 
-      // Check if table ends
-      if (i + 1 >= lines.length || !lines[i + 1].trim().startsWith('|')) {
-        // Render table
+      if (i + 1 >= lines.length || !lines[i + 1].trim().startsWith("|")) {
         elements.push(
           <div key={`table-${i}`} className="overflow-x-auto my-6">
             <table className="min-w-full border-collapse">
@@ -194,25 +234,38 @@ function BlogContent({ content }: { content: string }) {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div>,
         );
         inTable = false;
       }
       continue;
     }
 
-    // Handle headers
-    if (trimmedLine.startsWith('# ')) {
-      elements.push(<h1 key={i} className="text-3xl font-bold mt-8 mb-4" style={{ color: "var(--foreground)" }}>{trimmedLine.slice(2)}</h1>);
-    } else if (trimmedLine.startsWith('## ')) {
-      elements.push(<h2 key={i} className="text-2xl font-bold mt-8 mb-4" style={{ color: "var(--foreground)" }}>{trimmedLine.slice(3)}</h2>);
-    } else if (trimmedLine.startsWith('### ')) {
-      elements.push(<h3 key={i} className="text-xl font-bold mt-6 mb-3" style={{ color: "var(--foreground)" }}>{trimmedLine.slice(4)}</h3>);
-    } else if (trimmedLine.startsWith('#### ')) {
-      elements.push(<h4 key={i} className="text-lg font-bold mt-4 mb-2" style={{ color: "var(--foreground)" }}>{trimmedLine.slice(5)}</h4>);
-    }
-    // Handle bold text and paragraphs
-    else if (trimmedLine.startsWith('- **')) {
+    if (trimmedLine.startsWith("# ")) {
+      elements.push(
+        <h1 key={i} className="text-3xl font-bold mt-8 mb-4" style={{ color: "var(--foreground)" }}>
+          {trimmedLine.slice(2)}
+        </h1>,
+      );
+    } else if (trimmedLine.startsWith("## ")) {
+      elements.push(
+        <h2 key={i} className="text-2xl font-bold mt-8 mb-4" style={{ color: "var(--foreground)" }}>
+          {trimmedLine.slice(3)}
+        </h2>,
+      );
+    } else if (trimmedLine.startsWith("### ")) {
+      elements.push(
+        <h3 key={i} className="text-xl font-bold mt-6 mb-3" style={{ color: "var(--foreground)" }}>
+          {trimmedLine.slice(4)}
+        </h3>,
+      );
+    } else if (trimmedLine.startsWith("#### ")) {
+      elements.push(
+        <h4 key={i} className="text-lg font-bold mt-4 mb-2" style={{ color: "var(--foreground)" }}>
+          {trimmedLine.slice(5)}
+        </h4>,
+      );
+    } else if (trimmedLine.startsWith("- **")) {
       const match = trimmedLine.match(/- \*\*(.+?)\*\*: (.+)/);
       if (match) {
         elements.push(
@@ -222,58 +275,53 @@ function BlogContent({ content }: { content: string }) {
               <strong style={{ color: "var(--foreground)" }}>{match[1]}</strong>
               <span style={{ color: "var(--muted)" }}> {match[2]}</span>
             </span>
-          </div>
+          </div>,
         );
       }
-    }
-    // Handle list items
-    else if (trimmedLine.startsWith('- ')) {
+    } else if (trimmedLine.startsWith("- ")) {
       elements.push(
         <div key={i} className="flex items-start gap-2 my-1">
           <span className="text-violet-400">•</span>
           <span style={{ color: "var(--foreground)" }}>{trimmedLine.slice(2)}</span>
-        </div>
+        </div>,
       );
-    }
-    // Handle horizontal rule
-    else if (trimmedLine.startsWith('---')) {
+    } else if (trimmedLine.startsWith("---")) {
       elements.push(<hr key={i} className="my-8 border-gray-700" />);
-    }
-    // Handle empty lines
-    else if (trimmedLine === '') {
-      // Skip empty lines
-    }
-    // Handle regular paragraphs
-    else {
-      // Process inline formatting
-      const processedLine = processInlineFormatting(trimmedLine);
-      elements.push(<p key={i} className="my-4" style={{ color: "var(--foreground)" }}>{processedLine}</p>);
+    } else if (trimmedLine === "") {
+      // Skip blank lines.
+    } else {
+      elements.push(
+        <p key={i} className="my-4" style={{ color: "var(--foreground)" }}>
+          {processInlineFormatting(trimmedLine)}
+        </p>,
+      );
     }
   }
 
   return <>{elements}</>;
 }
 
-function processInlineFormatting(text: string): React.ReactElement[] {
-  const parts: React.ReactElement[] = [];
-  let currentIndex = 0;
-
-  // Handle bold text
+function processInlineFormatting(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
   const boldRegex = /\*\*(.+?)\*\*/g;
-  let match;
+  let match: RegExpExecArray | null;
   let lastIndex = 0;
 
   while ((match = boldRegex.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      parts.push(<span key={`text-${lastIndex}`}>{text.slice(lastIndex, match.index)}</span>);
+      parts.push(text.slice(lastIndex, match.index));
     }
-    parts.push(<strong key={`bold-${match.index}`} style={{ color: "var(--foreground)" }}>{match[1]}</strong>);
+    parts.push(
+      <strong key={`bold-${match.index}`} style={{ color: "var(--foreground)" }}>
+        {match[1]}
+      </strong>,
+    );
     lastIndex = boldRegex.lastIndex;
   }
 
   if (lastIndex < text.length) {
-    parts.push(<span key={`text-${lastIndex}`}>{text.slice(lastIndex)}</span>);
+    parts.push(text.slice(lastIndex));
   }
 
-  return parts.length > 0 ? parts : [<span key="default">{text}</span>];
+  return parts;
 }

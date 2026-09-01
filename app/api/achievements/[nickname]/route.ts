@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 // GET /api/achievements/[nickname] - 获取用户的成就
 export async function GET(
@@ -7,6 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ nickname: string }> }
 ) {
   try {
+    const supabase = getSupabase();
     const { nickname } = await params;
 
     const { data, error } = await supabase

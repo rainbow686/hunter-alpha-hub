@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { ArchiveBanner } from "@/components/archive-banner";
 import MonitorClient from "./monitor-client";
 
 const baseUrl = "https://www.hunteralphahub.com";
@@ -19,5 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default function MonitorPage() {
-  return <MonitorClient />;
+  return (
+    <>
+      <ArchiveBanner />
+      <MonitorClient />
+    </>
+  );
 }

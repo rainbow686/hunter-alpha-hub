@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { VideoDB, fromVideoDB } from "@/lib/types";
 
 // GET /api/videos - 获取视频列表
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get("limit") || "12");
     const offset = parseInt(searchParams.get("offset") || "0");
@@ -44,6 +45,7 @@ export async function GET(request: NextRequest) {
 // POST /api/videos - 添加新视频（管理员用途）
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const body = await request.json();
     const {
       title,

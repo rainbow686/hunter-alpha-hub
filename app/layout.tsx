@@ -10,13 +10,21 @@ const baseUrl = "https://www.hunteralphahub.com";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    template: "%s | Hunter Alpha Hub",
-    default: "Hunter Alpha Hub - Track the AI Identity Mystery",
+    template: "%s | OpenRouter Model Hub",
+    default: "OpenRouter Model Hub — Compare AI Models: Pricing, Context & Benchmarks",
   },
-  description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, view specs, and get notified when identity is revealed.",
-  keywords: ["Hunter Alpha", "AI model", "OpenRouter", "LLM", "AI mystery", "1M context", "Hunter Hub"],
-  authors: [{ name: "Hunter Alpha Hub" }],
-  creator: "Hunter Alpha Hub",
+  description:
+    "Compare 15+ AI models on OpenRouter side-by-side. Pricing, context windows, modality support and practical recommendations for coding, long context, agents and budget workloads.",
+  keywords: [
+    "openrouter models comparison",
+    "best openrouter models",
+    "openrouter pricing calculator",
+    "openrouter free models",
+    "ai model comparison",
+    "openrouter model hub",
+  ],
+  authors: [{ name: "OpenRouter Model Hub" }],
+  creator: "OpenRouter Model Hub",
   icons: {
     icon: "/favicon.svg",
     apple: "/favicon.svg",
@@ -25,23 +33,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    title: "Hunter Alpha Hub - Track the AI Identity Mystery",
-    description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, and get notified when identity is revealed.",
-    siteName: "Hunter Alpha Hub",
+    title: "OpenRouter Model Hub — Compare AI Models",
+    description:
+      "Compare OpenRouter models by pricing, context window, modality and best-use case.",
+    siteName: "OpenRouter Model Hub",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Hunter Alpha Hub",
+        alt: "OpenRouter Model Hub",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hunter Alpha Hub - Track the AI Identity Mystery",
-    description: "Third-party tracker for Hunter Alpha AI model. Submit evidence, track real-time status, and get notified when identity is revealed.",
-    creator: "@hunteralphahub",
+    title: "OpenRouter Model Hub — Compare AI Models",
+    description:
+      "Compare OpenRouter models by pricing, context window, modality and best-use case.",
   },
   robots: {
     index: true,
@@ -57,9 +66,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: baseUrl,
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
 };
 
 export default function RootLayout({
@@ -71,9 +77,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen transition-colors duration-300 flex flex-col">
         <AdSense clientId={process.env.NEXT_PUBLIC_ADSENSE_ID || ""} />
-        <Analytics
-          gaId={process.env.NEXT_PUBLIC_GA_ID}
-        />
+        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

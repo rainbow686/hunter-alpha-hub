@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 // GET /api/achievements - 获取成就定义列表
 export async function GET() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('achievement_definitions')
       .select('*')

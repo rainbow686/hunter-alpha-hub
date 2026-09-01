@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { ArchiveBanner } from "@/components/archive-banner";
 import EvidenceClient from "./evidence-client";
 import { BreadcrumbListSchema } from "@/components/structured-data";
 
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
 export default function EvidencePage() {
   return (
     <>
+        <ArchiveBanner />
       <EvidenceClient />
       <BreadcrumbListSchema
         items={[

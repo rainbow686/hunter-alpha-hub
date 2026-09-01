@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { ArchiveBanner } from "@/components/archive-banner";
 import VideosClient from "./videos-client";
 
 const baseUrl = "https://www.hunteralphahub.com";
@@ -19,5 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default function VideosPage() {
-  return <VideosClient />;
+  return (
+    <>
+      <ArchiveBanner />
+      <VideosClient />
+    </>
+  );
 }

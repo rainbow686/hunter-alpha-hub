@@ -34,3 +34,6 @@ next-env.d.ts
 
 # data files (use database in production)
 /data/*.json
+# Cloudflare Workers build output
+/.open-next/
+/.wrangler/

@@ -22,10 +22,10 @@ export default function BlogList() {
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">
-          <span className="gradient-text">Hunter Alpha Blog</span>
+          <span className="gradient-text">Model Hub Blog</span>
         </h1>
         <p className="text-lg" style={{ color: "var(--muted)" }}>
-          In-depth articles, guides, and analysis about the mysterious AI model
+          Practical comparisons, model roundups and OpenRouter tutorials
         </p>
       </div>
 
