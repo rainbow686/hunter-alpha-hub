@@ -20,26 +20,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/evidence`,
       lastModified,
-      changeFrequency: 'daily',
-      priority: 0.9,
+      changeFrequency: 'monthly',
+      priority: 0.4,
     },
     {
       url: `${baseUrl}/videos`,
       lastModified,
-      changeFrequency: 'daily',
-      priority: 0.9,
+      changeFrequency: 'monthly',
+      priority: 0.4,
     },
     {
       url: `${baseUrl}/monitor`,
       lastModified,
-      changeFrequency: 'hourly',
-      priority: 0.8,
+      changeFrequency: 'weekly',
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/blog`,
       lastModified,
       changeFrequency: 'daily',
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/faq`,
@@ -69,7 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/timeline`,
       lastModified,
       changeFrequency: 'weekly',
-      priority: 0.7,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/comparison`,
@@ -81,7 +81,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/openrouter-models`,
       lastModified,
       changeFrequency: 'weekly',
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/best-openrouter-models`,
@@ -93,25 +93,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/openrouter-pricing-calculator`,
       lastModified,
       changeFrequency: 'weekly',
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/openrouter-free-models`,
       lastModified,
       changeFrequency: 'weekly',
-      priority: 0.7,
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/hunter-alpha`,
       lastModified,
       changeFrequency: 'monthly',
-      priority: 0.4,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/ox-alpha`,
       lastModified,
-      changeFrequency: 'daily',
-      priority: 0.95,
+      changeFrequency: 'monthly',
+      priority: 0.4,
     },
     // OpenRouter 模型页
     ...openrouterModels.map((model) => ({

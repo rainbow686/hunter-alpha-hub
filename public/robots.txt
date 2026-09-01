@@ -1,4 +1,4 @@
-# robots.txt for Hunter Alpha Hub
+# robots.txt for OpenRouter Model Hub
 # https://www.hunteralphahub.com
 
 User-agent: *
