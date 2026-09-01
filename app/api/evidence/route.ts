@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { EvidenceDB, fromEvidenceDB } from "@/lib/types";
 
 // GET /api/evidence - 获取线索列表（支持分页和筛选）
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get("limit") || "20");
     const offset = parseInt(searchParams.get("offset") || "0");
@@ -67,6 +68,7 @@ export async function GET(request: NextRequest) {
 // POST /api/evidence - 提交新线索
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const body = await request.json();
     const { title, description, nickname, evidenceUrl, externalDiscussionUrl, importance } = body;
 
