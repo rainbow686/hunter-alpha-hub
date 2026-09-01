@@ -53,6 +53,10 @@ export const metadata: Metadata = {
   keywords: ["Hunter Alpha FAQ", "Hunter Alpha how to use", "Hunter Alpha free", "AI model guide"],
   alternates: {
     canonical: `${baseUrl}/faq`,
+    languages: {
+      "en-US": `${baseUrl}/faq`,
+      "zh-CN": `${baseUrl}/zh/faq`,
+    },
   },
   openGraph: {
     title: "FAQ - Hunter Alpha Hub",

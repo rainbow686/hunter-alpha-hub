@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   keywords: ["Hunter Alpha how to access", "Xiaomi mimo-v2", "Hunter Alpha guide", "OpenRouter Hunter Alpha", "Hunter Alpha tutorial"],
   alternates: {
     canonical: `${baseUrl}/access`,
+    languages: {
+      "en-US": `${baseUrl}/access`,
+      "zh-CN": `${baseUrl}/zh/access`,
+    },
   },
   openGraph: {
     title: "How to Access Hunter Alpha (Xiaomi mimo-v2)",
