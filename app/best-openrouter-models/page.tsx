@@ -76,7 +76,7 @@ export default function BestOpenRouterModelsPage() {
                     style={{ borderColor: "var(--card-border)", backgroundColor: "var(--card-bg)" }}
                   >
                     <p className="text-xs text-violet-300">#{index + 1} pick</p>
-                    <h3 className="font-semibold mt-2">{model.name}</h3>
+                    <Link href={`/openrouter-models/${model.slug}`} className="font-semibold mt-2 inline-block hover:text-violet-400 transition-colors">{model.name}</Link>
                     <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>
                       {model.strengths[0]}
                     </p>

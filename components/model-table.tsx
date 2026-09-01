@@ -9,9 +9,10 @@ import {
 interface ModelTableProps {
   models?: HubModel[];
   showFormerAlias?: boolean;
+  linkToModelPages?: boolean;
 }
 
-export function ModelTable({ models, showFormerAlias = true }: ModelTableProps) {
+export function ModelTable({ models, showFormerAlias = true, linkToModelPages = false }: ModelTableProps) {
   const rows = models ?? [];
   return (
     <div className="overflow-x-auto">
@@ -33,9 +34,19 @@ export function ModelTable({ models, showFormerAlias = true }: ModelTableProps) 
           {rows.map((model) => (
             <tr key={model.id}>
               <td className="px-3 py-4 align-top">
-                <div className="font-medium" style={{ color: "var(--foreground)" }}>
-                  {model.name}
-                </div>
+                {linkToModelPages ? (
+                  <Link
+                    href={`/openrouter-models/${model.slug}`}
+                    className="font-medium hover:text-violet-400 transition-colors"
+                    style={{ color: "var(--foreground)" }}
+                  >
+                    {model.name}
+                  </Link>
+                ) : (
+                  <div className="font-medium" style={{ color: "var(--foreground)" }}>
+                    {model.name}
+                  </div>
+                )}
                 <div className="text-xs" style={{ color: "var(--muted)" }}>
                   {model.id}
                 </div>

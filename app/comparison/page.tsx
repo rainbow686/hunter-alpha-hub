@@ -127,7 +127,7 @@ export default function ComparisonPage() {
         <section id="all-models" className="mb-16">
           <h2 className="text-2xl font-bold mb-6">All models in this comparison</h2>
           <Card className="p-4 md:p-6">
-            <ModelTable models={openrouterModels} />
+            <ModelTable models={openrouterModels} linkToModelPages />
           </Card>
           <p className="text-xs mt-3" style={{ color: "var(--muted)" }}>
             Pricing is shown as input/output per 1M tokens and is based on a {modelHubDataAsOf} snapshot.

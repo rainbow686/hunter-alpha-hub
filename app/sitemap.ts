@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
+import { openrouterModels } from '@/lib/openrouter-models';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.hunteralphahub.com';
@@ -77,6 +78,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${baseUrl}/openrouter-models`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/best-openrouter-models`,
       lastModified,
       changeFrequency: 'weekly',
@@ -106,6 +113,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.95,
     },
+    // OpenRouter 模型页
+    ...openrouterModels.map((model) => ({
+      url: `${baseUrl}/openrouter-models/${model.slug}`,
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
     // 博客文章 - 动态生成
     ...posts.map(post => ({
       url: `${baseUrl}/blog/${post.slug}`,

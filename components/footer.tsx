@@ -1,5 +1,14 @@
 import Link from "next/link";
 
+const modelLinks = [
+  { href: "/comparison", label: "Model comparison" },
+  { href: "/openrouter-models", label: "Model directory" },
+  { href: "/best-openrouter-models", label: "Best models" },
+  { href: "/openrouter-pricing-calculator", label: "Pricing calculator" },
+  { href: "/openrouter-free-models", label: "Free models" },
+  { href: "/access", label: "How to use OpenRouter" },
+];
+
 const archivedLinks = [
   { href: "/hunter-alpha", label: "Hunter Alpha Tracker" },
   { href: "/ox-alpha", label: "OX Alpha Tracker" },
@@ -27,6 +36,17 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           <div>
             <h2 className="font-semibold mb-2">Model Hub</h2>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {modelLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-gray-400 hover:text-violet-400 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
             <p className="text-sm" style={{ color: "var(--muted)" }}>
               Compare OpenRouter models by pricing, context window, modality and best-use case.
             </p>

@@ -21,10 +21,15 @@ interface WebSiteSchemaProps {
   description: string;
 }
 
+interface ItemListSchemaProps {
+  name: string;
+  items: { name: string; url: string }[];
+}
+
 export function ArticleSchema({
   title,
   description,
-  author = "Hunter Alpha Hub",
+  author = "OpenRouter Model Hub",
   publishedAt,
   updatedAt,
   image,
@@ -86,13 +91,35 @@ export function WebSiteSchema({ name, url, description }: WebSiteSchemaProps) {
     description: description,
     publisher: {
       "@type": "Organization",
-      name: "Hunter Alpha Hub",
+      name: "OpenRouter Model Hub",
     },
   };
 
   return (
     <Script
       id="website-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function ItemListSchema({ name, items }: ItemListSchemaProps) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: name,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+
+  return (
+    <Script
+      id={`item-list-schema-${name.replace(/\s+/g, "-").toLowerCase()}`}
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
