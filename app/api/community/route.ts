@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 export interface CommunityDiscussion {
   id: string;
@@ -16,6 +16,7 @@ export interface CommunityDiscussion {
 // GET /api/community - 获取社区讨论聚合数据
 export async function GET() {
   try {
+    const supabase = getSupabase();
     // 获取所有带外部讨论链接的证据
     const { data: evidenceWithUrls, error: evidenceError } = await supabase
       .from('evidence')
