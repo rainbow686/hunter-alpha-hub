@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const APEX_HOST = "hunteralphahub.com";
+const CANONICAL_HOST = "www.hunteralphahub.com";
+
 export function middleware(request: NextRequest) {
+  const host = request.headers.get("host");
+
+  if (host && host.toLowerCase() === APEX_HOST) {
+    const canonicalUrl = `https://${CANONICAL_HOST}${request.nextUrl.pathname}${request.nextUrl.search}`;
+    return NextResponse.redirect(canonicalUrl, 308);
+  }
+
   const response = NextResponse.next();
 
   // X-Robots-Tag header for all pages
