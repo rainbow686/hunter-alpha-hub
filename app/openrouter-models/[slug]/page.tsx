@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Card } from "@/components/card";
 import { OutboundOpenRouterLink } from "@/components/outbound-openrouter-link";
-import { ArticleSchema, BreadcrumbListSchema } from "@/components/structured-data";
+import { ArticleSchema, BreadcrumbListSchema, FAQSchema } from "@/components/structured-data";
 import {
   defaultScenarios,
   formatContextWindow,
@@ -98,6 +98,21 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
       (workload.inputTokens / 1_000_000) * model.inputPricePerMillion +
       (workload.outputTokens / 1_000_000) * model.outputPricePerMillion,
   }));
+
+  const modelFaqs = [
+    {
+      question: `What is ${model.name}?`,
+      answer: `${model.name} is a ${model.vendor} model available through OpenRouter. It supports ${model.modalities.join(", ").toLowerCase()} inputs and is suited for ${model.bestFor.join(", ").toLowerCase()} workloads.`,
+    },
+    {
+      question: `How much does ${model.name} cost on OpenRouter?`,
+      answer: `The ${model.dataAsOf} snapshot lists ${formatPrice(model.inputPricePerMillion)} per 1M input tokens and ${formatPrice(model.outputPricePerMillion)} per 1M output tokens. Verify current pricing on OpenRouter before production.`,
+    },
+    {
+      question: `How large is ${model.name}'s context window?`,
+      answer: `${model.name} offers ${formatContextWindow(model.contextWindow)} of context in the current snapshot. Provider-specific limits and surcharges may apply.`,
+    },
+  ];
 
   const curlCommand = [
     'curl https://openrouter.ai/api/v1/chat/completions \\',
@@ -310,6 +325,18 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
           </div>
         </Card>
 
+        <Card className="p-6 md:p-8 mb-12">
+          <h2 className="text-xl font-bold mb-5">{model.name} FAQ</h2>
+          <div className="space-y-4">
+            {modelFaqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold mb-2">{faq.question}</h3>
+                <p className="text-sm" style={{ color: "var(--muted)" }}>{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+
         {relatedModels.length > 0 && (
           <section className="mb-8">
             <h2 className="text-xl font-bold mb-4">Related models</h2>
@@ -347,6 +374,7 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
         publishedAt={model.dataAsOf}
         updatedAt={model.dataAsOf}
       />
+      <FAQSchema faqs={modelFaqs} />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },
