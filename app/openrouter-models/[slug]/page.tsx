@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Card } from "@/components/card";
+import { OutboundOpenRouterLink } from "@/components/outbound-openrouter-link";
 import { ArticleSchema, BreadcrumbListSchema } from "@/components/structured-data";
 import {
   defaultScenarios,
@@ -296,14 +297,16 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
             >
               Compare models
             </Link>
-            <a
+            <OutboundOpenRouterLink
               href={openrouterModelUrl(model.id)}
               target="_blank"
               rel="noopener noreferrer"
+              modelId={model.id}
+              trackingLocation="model_detail_cta"
               className="px-5 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors"
             >
               View on OpenRouter
-            </a>
+            </OutboundOpenRouterLink>
           </div>
         </Card>
 
