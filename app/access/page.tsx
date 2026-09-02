@@ -34,6 +34,7 @@ export default function AccessPage() {
       <AccessClient />
       <ArticleSchema
         title="How to Use OpenRouter: Models, Playground & API"
+        image={`${baseUrl}/og-image.png`}
         description="A practical guide to creating an account, choosing a model, testing in the playground, estimating cost and using the OpenRouter API."
         url={pageUrl}
       />

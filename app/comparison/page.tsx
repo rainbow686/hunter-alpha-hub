@@ -193,6 +193,7 @@ export default function ComparisonPage() {
 
       <ArticleSchema
         title="OpenRouter Models Comparison 2026"
+        image={`${baseUrl}/og-image.png`}
         description="Compare major AI models on OpenRouter by pricing, context window, modality and best-use case."
         url={pageUrl}
       />

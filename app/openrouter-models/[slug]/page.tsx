@@ -371,6 +371,7 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
         title={`${model.name} on OpenRouter`}
         description={`${model.name} pricing, context window, strengths, limitations and best-use cases.`}
         url={pageUrl}
+        image={`${pageUrl}/opengraph-image`}
         publishedAt={model.dataAsOf}
         updatedAt={model.dataAsOf}
       />

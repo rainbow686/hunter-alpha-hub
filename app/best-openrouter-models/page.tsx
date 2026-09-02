@@ -93,6 +93,7 @@ export default function BestOpenRouterModelsPage() {
 
       <ArticleSchema
         title="Best OpenRouter Models for Coding, Long Context & Budget"
+        image={`${baseUrl}/og-image.png`}
         description="A practical list of the best OpenRouter models by scenario, with current pricing and context windows."
         url={pageUrl}
       />

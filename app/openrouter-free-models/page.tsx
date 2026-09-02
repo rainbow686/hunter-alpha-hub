@@ -130,6 +130,7 @@ export default function FreeModelsPage() {
 
       <ArticleSchema
         title="OpenRouter Free Models: Practical Guide & Limits"
+        image={`${baseUrl}/og-image.png`}
         description="A practical guide to OpenRouter free models, including context limits, rate limits and best-fit workloads."
         url={pageUrl}
       />
