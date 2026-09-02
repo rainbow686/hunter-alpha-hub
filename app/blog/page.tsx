@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import BlogList from "./blog-list";
-import { BreadcrumbListSchema } from "@/components/structured-data";
+import { BlogSchema, BreadcrumbListSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
 
@@ -29,6 +29,11 @@ export default function BlogPage() {
   return (
     <>
       <BlogList />
+      <BlogSchema
+        name="Model Hub Blog"
+        url={`${baseUrl}/blog`}
+        description="Practical articles, comparisons and tutorials for choosing and using AI models on OpenRouter."
+      />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },

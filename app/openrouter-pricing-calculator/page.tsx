@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { PricingCalculator } from "@/components/pricing-calculator";
-import { BreadcrumbListSchema } from "@/components/structured-data";
+import { BreadcrumbListSchema, WebApplicationSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/openrouter-pricing-calculator`;
@@ -43,6 +43,11 @@ export default function PricingCalculatorPage() {
         <PricingCalculator />
       </div>
 
+      <WebApplicationSchema
+        name="OpenRouter Pricing Calculator"
+        url={pageUrl}
+        description="Estimate monthly AI costs on OpenRouter by model, token volume and input/output split."
+      />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },

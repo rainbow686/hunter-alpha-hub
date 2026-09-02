@@ -1,5 +1,3 @@
-import Script from "next/script";
-
 interface ArticleSchemaProps {
   title: string;
   description: string;
@@ -51,8 +49,7 @@ export function ArticleSchema({
   };
 
   return (
-    <Script
-      id={`article-schema-${title.replace(/\s+/g, "-").toLowerCase()}`}
+    <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
@@ -74,8 +71,7 @@ export function FAQSchema({ faqs }: { faqs: FAQSchemaProps[] }) {
   };
 
   return (
-    <Script
-      id="faq-schema"
+    <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
@@ -96,8 +92,7 @@ export function WebSiteSchema({ name, url, description }: WebSiteSchemaProps) {
   };
 
   return (
-    <Script
-      id="website-schema"
+    <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
@@ -118,8 +113,7 @@ export function ItemListSchema({ name, items }: ItemListSchemaProps) {
   };
 
   return (
-    <Script
-      id={`item-list-schema-${name.replace(/\s+/g, "-").toLowerCase()}`}
+    <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
@@ -139,8 +133,69 @@ export function BreadcrumbListSchema({ items }: { items: { name: string; url: st
   };
 
   return (
-    <Script
-      id="breadcrumb-schema"
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+interface WebApplicationSchemaProps {
+  name: string;
+  url: string;
+  description: string;
+}
+
+export function WebApplicationSchema({
+  name,
+  url,
+  description,
+}: WebApplicationSchemaProps) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name,
+    url,
+    description,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires JavaScript",
+    offers: {
+      "@type": "Offer",
+      price: 0,
+      priceCurrency: "USD",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+interface BlogSchemaProps {
+  name: string;
+  url: string;
+  description: string;
+}
+
+export function BlogSchema({ name, url, description }: BlogSchemaProps) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name,
+    url,
+    description,
+    publisher: {
+      "@type": "Organization",
+      name: "OpenRouter Model Hub",
+    },
+  };
+
+  return (
+    <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />

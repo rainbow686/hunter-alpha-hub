@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
-import { BreadcrumbListSchema } from "@/components/structured-data";
+import { ArticleSchema, BreadcrumbListSchema, ItemListSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/openrouter-free-models`;
@@ -128,6 +128,18 @@ export default function FreeModelsPage() {
         </div>
       </div>
 
+      <ArticleSchema
+        title="OpenRouter Free Models: Practical Guide & Limits"
+        description="A practical guide to OpenRouter free models, including context limits, rate limits and best-fit workloads."
+        url={pageUrl}
+      />
+      <ItemListSchema
+        name="OpenRouter free models"
+        items={freeModels.map((model) => ({
+          name: model.name,
+          url: `https://openrouter.ai/${model.id}`,
+        }))}
+      />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },

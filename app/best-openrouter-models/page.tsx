@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
-import { BreadcrumbListSchema } from "@/components/structured-data";
+import { ArticleSchema, BreadcrumbListSchema, ItemListSchema } from "@/components/structured-data";
 import {
   defaultScenarios,
   modelHubDataAsOf,
@@ -91,6 +91,20 @@ export default function BestOpenRouterModelsPage() {
         </div>
       </div>
 
+      <ArticleSchema
+        title="Best OpenRouter Models for Coding, Long Context & Budget"
+        description="A practical list of the best OpenRouter models by scenario, with current pricing and context windows."
+        url={pageUrl}
+      />
+      <ItemListSchema
+        name="Best OpenRouter models by scenario"
+        items={defaultScenarios.flatMap((scenario) =>
+          modelsForScenario(scenario.scenario, 1).map((model) => ({
+            name: `${scenario.title}: ${model.name}`,
+            url: `${baseUrl}/openrouter-models/${model.slug}`,
+          })),
+        )}
+      />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },
