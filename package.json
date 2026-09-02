@@ -10,7 +10,8 @@
     "preview:cf": "wrangler dev",
     "start": "next start",
     "lint": "next lint",
-    "fetch-evidence": "ts-node scripts/fetch-evidence.ts"
+    "fetch-evidence": "ts-node scripts/fetch-evidence.ts",
+    "sync-models": "node --experimental-strip-types scripts/sync-openrouter-models.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.99.1",
