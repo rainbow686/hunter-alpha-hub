@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Card } from "@/components/card";
-import { ArticleSchema, BreadcrumbListSchema } from "@/components/structured-data";
+import { OutboundOpenRouterLink } from "@/components/outbound-openrouter-link";
+import { ArticleSchema, BreadcrumbListSchema, FAQSchema } from "@/components/structured-data";
 import {
+  defaultScenarios,
   formatContextWindow,
   formatPrice,
   getModelBySlug,
@@ -82,6 +84,65 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
     )
     .slice(0, 3);
 
+  const scenarioCopy = defaultScenarios.filter((scenario) =>
+    model.bestFor.includes(scenario.scenario),
+  );
+
+  const costWorkloads = [
+    { name: "Quick test", inputTokens: 20_000, outputTokens: 5_000 },
+    { name: "Product chat month", inputTokens: 500_000, outputTokens: 125_000 },
+    { name: "Document batch", inputTokens: 5_000_000, outputTokens: 1_000_000 },
+  ].map((workload) => ({
+    ...workload,
+    cost:
+      (workload.inputTokens / 1_000_000) * model.inputPricePerMillion +
+      (workload.outputTokens / 1_000_000) * model.outputPricePerMillion,
+  }));
+
+  const modelFaqs = [
+    {
+      question: `What is ${model.name}?`,
+      answer: `${model.name} is a ${model.vendor} model available through OpenRouter. It supports ${model.modalities.join(", ").toLowerCase()} inputs and is suited for ${model.bestFor.join(", ").toLowerCase()} workloads.`,
+    },
+    {
+      question: `How much does ${model.name} cost on OpenRouter?`,
+      answer: `The ${model.dataAsOf} snapshot lists ${formatPrice(model.inputPricePerMillion)} per 1M input tokens and ${formatPrice(model.outputPricePerMillion)} per 1M output tokens. Verify current pricing on OpenRouter before production.`,
+    },
+    {
+      question: `How large is ${model.name}'s context window?`,
+      answer: `${model.name} offers ${formatContextWindow(model.contextWindow)} of context in the current snapshot. Provider-specific limits and surcharges may apply.`,
+    },
+  ];
+
+  const curlCommand = [
+    'curl https://openrouter.ai/api/v1/chat/completions \\',
+    '  -H "Authorization: Bearer $OPENROUTER_API_KEY" \\',
+    '  -H "Content-Type: application/json" \\',
+    '  -d \'{\'',
+    '    "model": "' + model.id + '",',
+    '    "messages": [{ "role": "user", "content": "Summarize this document in five bullet points." }],',
+    '    "max_tokens": 500',
+    '  }\'',
+  ].join("\n");
+
+  const javascriptCommand = [
+    'const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {',
+    '  method: "POST",',
+    '  headers: {',
+    '    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,',
+    '    "Content-Type": "application/json",',
+    '  },',
+    '  body: JSON.stringify({',
+    '    model: "' + model.id + '",',
+    '    messages: [{ role: "user", content: "Summarize this document in five bullet points." }],',
+    '    max_tokens: 500,',
+    '  }),',
+    '});',
+    '',
+    'const data = await response.json();',
+    'console.log(data.choices[0].message.content);',
+  ].join("\n");
+
   return (
     <>
       <div className="max-w-5xl mx-auto px-4 py-12">
@@ -148,6 +209,53 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
           </dl>
         </Card>
 
+        <Card className="p-6 md:p-8 mb-12">
+          <h2 className="text-xl font-bold mb-5">Best-fit workloads</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            {scenarioCopy.map((scenario) => (
+              <div
+                key={scenario.scenario}
+                className="rounded-lg border p-4"
+                style={{ borderColor: "var(--card-border)", backgroundColor: "var(--card-bg)" }}
+              >
+                <p className="font-medium" style={{ color: "var(--foreground)" }}>{scenario.title}</p>
+                <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>{scenario.description}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-6 md:p-8 mb-12">
+          <h2 className="text-2xl font-bold mb-2">Cost estimates</h2>
+          <p className="text-sm mb-5" style={{ color: "var(--muted)" }}>
+            These examples use the {model.dataAsOf} input and output prices. Cache discounts,
+            provider surcharges and tool fees are excluded.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y" style={{ borderColor: "var(--card-border)" }}>
+              <thead>
+                <tr>
+                  {["Workload", "Input", "Output", "Estimated cost"].map((heading) => (
+                    <th key={heading} className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide" style={{ color: "var(--muted)" }}>
+                      {heading}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y" style={{ borderColor: "var(--card-border)" }}>
+                {costWorkloads.map((workload) => (
+                  <tr key={workload.name}>
+                    <td className="px-3 py-4 text-sm font-medium" style={{ color: "var(--foreground)" }}>{workload.name}</td>
+                    <td className="px-3 py-4 text-sm font-mono" style={{ color: "var(--muted)" }}>{workload.inputTokens.toLocaleString()}</td>
+                    <td className="px-3 py-4 text-sm font-mono" style={{ color: "var(--muted)" }}>{workload.outputTokens.toLocaleString()}</td>
+                    <td className="px-3 py-4 text-sm font-bold" style={{ color: "var(--foreground)" }}>{formatPrice(workload.cost)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <Card className="p-6 md:p-8">
             <h2 className="text-xl font-bold mb-4">Strengths</h2>
@@ -174,6 +282,22 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
         </div>
 
         <Card className="p-6 md:p-8 mb-12">
+          <h2 className="text-xl font-bold mb-2">OpenRouter API quickstart</h2>
+          <p className="text-sm mb-5" style={{ color: "var(--muted)" }}>
+            Run these examples from your server or edge function. Keep the OpenRouter API key private
+            and do not expose it in browser code.
+          </p>
+          <h3 className="font-semibold mb-3">cURL</h3>
+          <pre className="overflow-x-auto rounded-lg p-4 text-xs leading-relaxed mb-6" style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--card-border)", border: "1px solid" }}>
+            <code>{curlCommand}</code>
+          </pre>
+          <h3 className="font-semibold mb-3">JavaScript / TypeScript</h3>
+          <pre className="overflow-x-auto rounded-lg p-4 text-xs leading-relaxed" style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--card-border)", border: "1px solid" }}>
+            <code>{javascriptCommand}</code>
+          </pre>
+        </Card>
+
+        <Card className="p-6 md:p-8 mb-12">
           <h2 className="text-xl font-bold mb-4">How to evaluate {model.name}</h2>
           <ol className="space-y-3 text-sm" style={{ color: "var(--muted)" }}>
             <li>1. Run five real tasks from your product, not generic demo prompts.</li>
@@ -188,14 +312,28 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
             >
               Compare models
             </Link>
-            <a
+            <OutboundOpenRouterLink
               href={openrouterModelUrl(model.id)}
               target="_blank"
               rel="noopener noreferrer"
+              modelId={model.id}
+              trackingLocation="model_detail_cta"
               className="px-5 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors"
             >
               View on OpenRouter
-            </a>
+            </OutboundOpenRouterLink>
+          </div>
+        </Card>
+
+        <Card className="p-6 md:p-8 mb-12">
+          <h2 className="text-xl font-bold mb-5">{model.name} FAQ</h2>
+          <div className="space-y-4">
+            {modelFaqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold mb-2">{faq.question}</h3>
+                <p className="text-sm" style={{ color: "var(--muted)" }}>{faq.answer}</p>
+              </div>
+            ))}
           </div>
         </Card>
 
@@ -236,6 +374,7 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
         publishedAt={model.dataAsOf}
         updatedAt={model.dataAsOf}
       />
+      <FAQSchema faqs={modelFaqs} />
       <BreadcrumbListSchema
         items={[
           { name: "Home", url: baseUrl },

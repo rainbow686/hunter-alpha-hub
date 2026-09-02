@@ -71,6 +71,19 @@ export function trackTrackerClick(opts: {
  * ox_alpha_view — fires on OX-Alpha page view (or teaser impression).
  * Call once per page view in /ox-alpha layout/client effect.
  */
+export function trackOutboundOpenRouterClick(opts: {
+  model_id?: string;
+  target_url: string;
+  location: string;
+}) {
+  gtagEvent("outbound_openrouter_click", {
+    model_id: opts.model_id,
+    link_url: opts.target_url,
+    location: opts.location,
+    page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
+  });
+}
+
 export function trackOxAlphaView(opts?: {
   source?: string;       // e.g. "direct" | "internal_link" | "gsc"
   page_path?: string;
