@@ -20,7 +20,6 @@ import {
 
 const baseUrl = "https://www.hunteralphahub.com";
 
-export const dynamicParams = false;
 
 interface ComparePageProps {
   params: Promise<{ pair: string }>;
