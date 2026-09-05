@@ -12,6 +12,7 @@ import {
   openrouterModels,
   openrouterModelUrl,
 } from "@/lib/openrouter-models";
+import { getComparisonsForModel } from "@/lib/openrouter-comparisons";
 
 const baseUrl = "https://www.hunteralphahub.com";
 
@@ -87,6 +88,8 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
   const scenarioCopy = defaultScenarios.filter((scenario) =>
     model.bestFor.includes(scenario.scenario),
   );
+
+  const relatedComparisons = getComparisonsForModel(model.slug);
 
   const costWorkloads = [
     { name: "Quick test", inputTokens: 20_000, outputTokens: 5_000 },
@@ -353,6 +356,26 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
                     </p>
                     <p className="text-xs mt-2" style={{ color: "var(--muted)" }}>
                       {formatContextWindow(candidate.contextWindow)} · {formatPrice(candidate.inputPricePerMillion)} input
+                    </p>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {relatedComparisons.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xl font-bold mb-4">Head-to-head comparisons</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {relatedComparisons.map(({ pair, a, b }) => (
+                <Link key={pair.slug} href={`/compare/${pair.slug}`} className="block">
+                  <Card className="p-4 h-full hover:border-violet-500/50 transition-colors">
+                    <p className="font-medium" style={{ color: "var(--foreground)" }}>
+                      {a.name} vs {b.name}
+                    </p>
+                    <p className="text-xs mt-2" style={{ color: "var(--muted)" }}>
+                      {pair.quickVerdict}
                     </p>
                   </Card>
                 </Link>
