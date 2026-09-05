@@ -12,6 +12,8 @@ import {
   modelHubDataAsOf,
   modelsForScenario,
 } from "@/lib/openrouter-models";
+import { comparisonPairs } from "@/lib/openrouter-comparisons";
+import { getModelBySlug } from "@/lib/openrouter-models";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/comparison`;
@@ -158,6 +160,33 @@ export default function ComparisonPage() {
                 </ul>
               </Card>
             ))}
+          </div>
+        </section>
+
+        <section id="head-to-head" className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Head-to-head comparisons</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {comparisonPairs.map((comparison) => {
+              const comparisonA = getModelBySlug(comparison.aSlug);
+              const comparisonB = getModelBySlug(comparison.bSlug);
+              if (!comparisonA || !comparisonB) return null;
+              return (
+                <Link
+                  key={comparison.slug}
+                  href={`/compare/${comparison.slug}`}
+                  className="block"
+                >
+                  <Card className="p-5 h-full hover:border-violet-500/50 transition-colors">
+                    <p className="font-medium" style={{ color: "var(--foreground)" }}>
+                      {comparisonA.name} vs {comparisonB.name}
+                    </p>
+                    <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>
+                      {comparison.keyDifference}
+                    </p>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
         </section>
 

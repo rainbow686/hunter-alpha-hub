@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
 import { openrouterModels } from '@/lib/openrouter-models';
+import { comparisonPairs } from '@/lib/openrouter-comparisons';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.hunteralphahub.com';
@@ -119,6 +120,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
+    })),
+    // Curated model comparisons
+    ...comparisonPairs.map((comparison) => ({
+      url: `${baseUrl}/compare/${comparison.slug}`,
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
     })),
     // 博客文章 - 动态生成
     ...posts.map(post => ({
