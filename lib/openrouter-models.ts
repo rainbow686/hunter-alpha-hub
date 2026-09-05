@@ -26,7 +26,7 @@ export interface HubModel {
   dataAsOf: string;
 }
 
-const DATA_AS_OF = "2026-09-01";
+const DATA_AS_OF = "2026-09-05";
 
 export const openrouterModels: HubModel[] = [
   {
@@ -100,8 +100,8 @@ export const openrouterModels: HubModel[] = [
     name: "DeepSeek V4 Pro",
     vendor: "DeepSeek",
     contextWindow: 1_048_576,
-    inputPricePerMillion: 0.66,
-    outputPricePerMillion: 1.98,
+    inputPricePerMillion: 0.57948,
+    outputPricePerMillion: 1.73844,
     modalities: ["Text"],
     bestFor: ["Long Context", "Budget", "Agents"],
     strengths: [
@@ -137,9 +137,9 @@ export const openrouterModels: HubModel[] = [
     dataAsOf: DATA_AS_OF,
   },
   {
-    id: "qwen/qwen3.8-max",
+    id: "qwen/qwen3.8-max-0902",
     slug: "qwen3.8-max",
-    name: "Qwen3.8 Max",
+    name: "Qwen3.8 Max (0902)",
     vendor: "Alibaba",
     contextWindow: 1_000_000,
     inputPricePerMillion: 2.0,
