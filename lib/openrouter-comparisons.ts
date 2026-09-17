@@ -2,6 +2,12 @@ import {
   getModelBySlug,
   type HubModel,
 } from "./openrouter-models";
+import { getStealthModelBySlug } from "./stealth-models";
+
+/** Curated models first; stealth (non-curated) models as a fallback. */
+function resolveModel(slug: string): HubModel | undefined {
+  return getModelBySlug(slug) ?? getStealthModelBySlug(slug);
+}
 
 export interface ComparisonPair {
   slug: string;
@@ -210,6 +216,63 @@ export const comparisonPairs: ComparisonPair[] = [
       "Qwen meets your quality threshold in evaluation",
     ],
   },
+  {
+    slug: "union-alpha-vs-glm-5.3-flash",
+    aSlug: "union-alpha",
+    bSlug: "glm-5.3-flash",
+    keyDifference:
+      "Union Alpha is free during its stealth preview and accepts images; GLM 5.3 Flash is a paid, text-only model from a disclosed vendor with a known track record.",
+    quickVerdict:
+      "Use Union Alpha for free evaluation of agentic and multimodal prompts. Use GLM 5.3 Flash when you need a named vendor, published pricing and predictable production behaviour.",
+    chooseAIf: [
+      "You are evaluating, prototyping or benchmarking and want zero cost",
+      "Your prompt includes screenshots, charts or diagrams",
+      "You accept an anonymous provider with no published data policy",
+    ],
+    chooseBIf: [
+      "This is going into production and needs a vendor you can name",
+      "You need stable pricing and rate limits you can plan around",
+      "You only need text and want the lowest cost per token from a known lab",
+    ],
+  },
+  {
+    slug: "union-alpha-vs-mimo-v2.5",
+    aSlug: "union-alpha",
+    bSlug: "mimo-v2.5",
+    keyDifference:
+      "Both are Alpha-line stealth models, but MiMo-V2.5 has been revealed as Xiaomi's model and is paid; Union Alpha is still anonymous and free, with a smaller context window but image input.",
+    quickVerdict:
+      "Pick Union Alpha while it is free and when image input matters. Pick MiMo-V2.5 when you want the larger 1M context with a disclosed vendor — and remember it was once the free stealth model of the line.",
+    chooseAIf: [
+      "You want the current free window and can tolerate an anonymous endpoint",
+      "You are sending images alongside text",
+      "You are comparing the Alpha line and want to test all three",
+    ],
+    chooseBIf: [
+      "You need a 1M-token window rather than 256K",
+      "You need a vendor with a name, terms and published data handling",
+      "You need pricing and availability you can commit to",
+    ],
+  },
+  {
+    slug: "union-alpha-vs-deepseek-v4-flash",
+    aSlug: "union-alpha",
+    bSlug: "deepseek-v4-flash",
+    keyDifference:
+      "Union Alpha is a free anonymous multimodal preview; DeepSeek V4 Flash is a cheap, paid, text-only model with published pricing and a disclosed vendor.",
+    quickVerdict:
+      "Union Alpha wins on cost (zero) and image input during the preview. DeepSeek V4 Flash wins on predictability, listed pricing and long-running production use.",
+    chooseAIf: [
+      "You want free inference for experiments now",
+      "You need vision input on a budget of zero",
+      "You do not need vendor guarantees",
+    ],
+    chooseBIf: [
+      "You want a known per-million price and no anonymous dependency",
+      "You need stable throughput for a running workload",
+      "Text-only is enough",
+    ],
+  },
 ];
 
 function pairSlug(aSlug: string, bSlug: string) {
@@ -220,8 +283,8 @@ export function getComparisonBySlug(slug: string): ResolvedComparison | undefine
   const pair = comparisonPairs.find((item) => item.slug === slug);
   if (!pair) return undefined;
 
-  const a = getModelBySlug(pair.aSlug);
-  const b = getModelBySlug(pair.bSlug);
+  const a = resolveModel(pair.aSlug);
+  const b = resolveModel(pair.bSlug);
   if (!a || !b) return undefined;
 
   return { pair, a, b };
@@ -231,8 +294,8 @@ export function getComparisonsForModel(modelSlug: string) {
   return comparisonPairs
     .filter((pair) => pair.aSlug === modelSlug || pair.bSlug === modelSlug)
     .map((pair) => {
-      const a = getModelBySlug(pair.aSlug);
-      const b = getModelBySlug(pair.bSlug);
+      const a = resolveModel(pair.aSlug);
+      const b = resolveModel(pair.bSlug);
       if (!a || !b) return undefined;
       return { pair, a, b } satisfies ResolvedComparison;
     })
