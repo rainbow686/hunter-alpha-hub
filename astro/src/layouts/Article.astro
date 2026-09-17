@@ -1,0 +1,104 @@
+---
+/**
+ * Content page template (article): masthead header from the design system,
+ * serif display heading, sans body at the measure, byline carrying dates and
+ * provenance, then related links and the four-column footer.
+ */
+import System from "./System.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { articleSchema, breadcrumbSchema, SITE, SITE_NAME } from "../lib/schema";
+
+interface Related { href: string; label: string; note?: string }
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  category: string;
+  author: string;
+  publishedAt: string;
+  updatedAt?: string;
+  readTime?: number;
+  tags?: string[];
+  related?: Related[];
+}
+const {
+  title,
+  description,
+  slug,
+  category,
+  author,
+  publishedAt,
+  updatedAt,
+  readTime,
+  tags = [],
+  related = [],
+} = Astro.props;
+
+const canonical = `${SITE}/blog/${slug}`;
+const fmtDate = (value: string) =>
+  new Date(value).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title,
+      description,
+      publishedAt,
+      updatedAt: updatedAt ?? publishedAt,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Blog", url: `${SITE}/blog` },
+      { name: title, url: canonical },
+    ])}
+  />
+
+  <div class="article-shell">
+    <p class="kicker">{category}</p>
+    <h1 class="display" style="max-width: 28ch;">{title}</h1>
+    <p class="lede" style="margin-bottom: var(--space-4);">{description}</p>
+    <div class="byline">
+      <span>{author}</span>
+      <span>{fmtDate(publishedAt)}</span>
+      {readTime && <span>{readTime} min read</span>}
+      {updatedAt && updatedAt !== publishedAt && <span>Updated {fmtDate(updatedAt)}</span>}
+    </div>
+
+    <article class="prose" style="margin-top: var(--space-8);">
+      <slot />
+    </article>
+
+    {tags.length > 0 && (
+      <div style="margin-top: var(--space-8); display: flex; gap: var(--space-2); flex-wrap: wrap;">
+        {tags.map((tag) => <span class="tag unknown">{tag}</span>)}
+      </div>
+    )}
+
+    {related.length > 0 && (
+      <section style="margin-top: var(--space-12);">
+        <h2>Keep reading</h2>
+        <ul style="list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border);">
+          {related.map((item) => (
+            <li style="border-bottom: 1px solid var(--border); padding: var(--space-4) 0;">
+              <a href={item.href} style="font-weight: 600;">{item.label}</a>
+              {item.note && <div style="font-size: var(--text-sm); color: var(--text-muted); margin-top: 2px;">{item.note}</div>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</System>
+
+<style>
+  /* A single centred column: at 1280px a 72ch measure pinned to the left edge of a
+     1080px container leaves a dead third of the screen, which reads as a layout
+     bug rather than as whitespace. */
+  .article-shell { max-width: 74ch; margin: 0 auto; }
+</style>

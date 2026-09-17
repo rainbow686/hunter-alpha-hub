@@ -1,0 +1,14 @@
+---
+/**
+ * Contract #2 of the design system: every data surface ends with where the
+ * numbers came from and when they were read. Rendered as a rule + mono meta,
+ * so it reads as a footnote rather than body copy.
+ */
+interface Props { source: string; verified?: string; extra?: string[] }
+const { source, verified, extra = [] } = Astro.props;
+---
+<div class="provenance">
+  <span>Source <code>{source}</code></span>
+  {verified && <span>Verified <code>{verified}</code></span>}
+  {extra.map((item) => <span>{item}</span>)}
+</div>

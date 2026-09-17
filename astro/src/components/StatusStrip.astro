@@ -1,0 +1,67 @@
+---
+/**
+ * Live "is it still listed?" strip. Stealth endpoints can be delisted without
+ * notice, so the page polls /api/union-alpha/status (60s) instead of baking a
+ * status into the HTML. First paint says "Checking…" — never a guessed state.
+ */
+interface Props { modelId: string }
+const { modelId } = Astro.props;
+---
+<div class="status-strip is-unknown" data-status-strip data-model-id={modelId}>
+  <span class="state"><span class="dot"></span><span data-status-label>Checking OpenRouter…</span></span>
+  <span data-status-detail>Reading the public catalogue.</span>
+  <span class="checked" data-status-checked></span>
+</div>
+
+<script>
+  const strip = document.querySelector<HTMLElement>("[data-status-strip]");
+  if (strip) {
+    const label = strip.querySelector<HTMLElement>("[data-status-label]");
+    const detail = strip.querySelector<HTMLElement>("[data-status-detail]");
+    const checked = strip.querySelector<HTMLElement>("[data-status-checked]");
+    const modelId = strip.dataset.modelId ?? "";
+
+    const fmt = (value: number | null | undefined, suffix: string) =>
+      value ? `${value.toLocaleString("en-US")} ${suffix}` : "unknown";
+
+    const paint = (data: {
+      online: boolean | null;
+      checkedAt?: string;
+      contextWindow?: number | null;
+      maxOutput?: number | null;
+      free?: boolean;
+      pricingPerMillion?: { input: number; output: number };
+      note?: string;
+      error?: string;
+    }) => {
+      strip.classList.remove("is-live", "is-gone", "is-unknown");
+      strip.classList.add(data.online === true ? "is-live" : data.online === false ? "is-gone" : "is-unknown");
+      if (label) {
+        label.textContent =
+          data.online === true ? "Live on OpenRouter" : data.online === false ? "No longer listed" : "Status unknown";
+      }
+      if (detail) {
+        detail.textContent =
+          data.online === true
+            ? `${fmt(data.contextWindow, "context")} · ${fmt(data.maxOutput, "max output")} · ${data.free ? "free" : `${data.pricingPerMillion?.input ?? "?"} in / ${data.pricingPerMillion?.output ?? "?"} out per M`}`
+            : (data.note ?? data.error ?? "The catalogue read did not return a usable answer.");
+      }
+      if (checked && data.checkedAt) {
+        checked.textContent = `checked ${new Date(data.checkedAt).toISOString().replace("T", " ").slice(0, 16)}Z`;
+      }
+    };
+
+    const load = async () => {
+      try {
+        const response = await fetch("/api/union-alpha/status", { cache: "no-store" });
+        paint(await response.json());
+      } catch {
+        paint({ online: null, error: "Request failed" });
+      }
+    };
+
+    load();
+    setInterval(load, 60_000);
+    console.debug(`stealth tracker polling for ${modelId}`);
+  }
+</script>
