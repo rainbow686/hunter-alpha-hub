@@ -132,6 +132,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/stealth-models`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/hunter-alpha-benchmarks`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
     // OpenRouter 模型页
     ...openrouterModels.map((model) => ({
       url: `${baseUrl}/openrouter-models/${model.slug}`,
