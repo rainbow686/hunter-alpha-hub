@@ -1,0 +1,385 @@
+---
+/**
+ * OX Alpha archive — the largest page on the site, kept as a dated record of the
+ * anonymous window (20–26 August 2026) with the reveal stated up front.
+ *
+ * Four corrections made while migrating, all of them about the page telling the
+ * truth rather than about layout:
+ *
+ * 1. The FAQ answers had no archive framing at all. The body is defensible as a
+ *    dated record — it opens with a reveal banner and a "Last updated" line —
+ *    but a FAQ answer is quoted on its own, so "Yes, OX-alpha is currently free"
+ *    and "No organization has claimed OX-alpha yet" were being served as current
+ *    fact. Every answer now names the reveal first.
+ * 2. "Xiaomi mimo-v2" -> "Xiaomi MiMo-V2.5" (the product name has a version).
+ * 3. The timeline's last entry was labelled "to Present" and said "this page
+ *    updates daily until the builder is confirmed" — neither was true of an
+ *    archive. Both are now dated.
+ * 4. The press block quoted Business Insider against a URL that returns 404, and
+ *    two other citations (qz.com, Reddit) could not be re-verified from this
+ *    environment. A direct quote attached to a dead link is the opposite of what
+ *    this site claims to do, so the quoted passages are gone and what remains is
+ *    labelled as a claim we could not re-check.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * Article + FAQPage + BreadcrumbList.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "OX Alpha Archive: Revealed as GLM 5.3 Flash";
+const description =
+  "Historical archive of the OX Alpha investigation. OX Alpha was later identified as Z.ai GLM 5.3 Flash.";
+const canonical = `${SITE}/ox-alpha`;
+
+const tldr = [
+  { label: "Platform", value: "OpenRouter", note: "Listed as ox-alpha · API + Chat" },
+  { label: "Context Window", value: "1M tokens", note: "1,048,576 tokens · ~750K words" },
+  { label: "Pricing then", value: "Free (limited)", note: "Rate-limited · expired at the reveal", tone: "free" },
+  { label: "Modality", value: "Text in / Text out", note: "No vision (observed)" },
+  { label: "Speculated source", value: "Undisclosed lab", note: "Community leaned: Chinese frontier lab" },
+  { label: "Outcome", value: "Revealed — Z.ai GLM 5.3 Flash", note: "Unclaimed 2026-08-20 → Sep 2026", tone: "known" },
+];
+
+const timeline = [
+  {
+    when: "2026-08-20 · Day 0 — Silent launch",
+    title: "OX-alpha appears on OpenRouter",
+    body:
+      "First seen in OpenRouter's model list late UTC Aug 20 with 1M context and $0 pricing. No announcement, no model card. Early testers on X noted fast long-context recall and strong agentic tool use. We logged the endpoint at 23:14 UTC and archived the listing.",
+  },
+  {
+    when: "2026-08-21 → 08-22 — Media and Trends breakout",
+    title: "Tech press picks it up, Trends spikes",
+    body:
+      "Coverage and community threads drove discovery. The Google Trends figures we recorded at the time showed “ox alpha” overtaking generic “GPTs”; they are our own contemporaneous notes, not a dataset we can re-verify today. Discord and r/LocalLLaMA threads began systematic evals — long-doc QA, needle-in-haystack, and SWE-bench-style tasks.",
+  },
+  {
+    when: "2026-08-22 → 2026-09 — Free tier, rate-limited",
+    title: "Free stayed, with throttling",
+    body:
+      "OpenRouter kept OX-alpha free with visible rate limits and occasional queueing at peak hours, and published no pricing. That is where this archive's live tracking stopped: the model was subsequently claimed, renamed Z.ai GLM 5.3 Flash and repriced, which is documented in the register rather than here.",
+  },
+];
+
+const benchmark = [
+  { model: "OX-alpha (at the time)", context: "1,048,576", price: "Free (limited)", coding: "Strong (community SWE/Agentic)", status: "Unclaimed" },
+  { model: "Hunter Alpha = Xiaomi MiMo-V2.5", context: "1,048,576", price: "Free then", coding: "Strong (1T params)", status: "Revealed" },
+  { model: "Claude 3.5 Sonnet", context: "200,000", price: "$3 / $15 per 1M", coding: "Frontier", status: "Paid" },
+  { model: "GPT-4o", context: "128,000", price: "$2.50 / $10 per 1M", coding: "Frontier + vision", status: "Paid" },
+  { model: "Gemini 1.5 Pro", context: "1,048,576", price: "$1.25 / $5 per 1M", coding: "Strong + multimodal", status: "Paid" },
+];
+
+const howTo = [
+  {
+    title: "Create a free OpenRouter account",
+    body:
+      "Sign up at openrouter.ai with Google or email. No credit card was required to chat; API use needed a key but billed $0 for OX-alpha while the preview lasted.",
+  },
+  {
+    title: "Find the model in the list",
+    body:
+      "It was listed as ox-alpha. If two entries appeared (for example ox-alpha and ox-alpha:free), the free one was the preview. The context-length badge read 1M.",
+  },
+  {
+    title: "Start a long-context test",
+    body:
+      "The strength being tested was recall over 500K+ tokens, so the useful prompt was a long document plus a synthesis question — “summarise the three contradictions across these docs” — not a short chat.",
+  },
+  {
+    title: "Handle rate limits gracefully",
+    body:
+      "A 429 or a queue was normal on a free preview: wait, retry, and keep concurrency at one or two requests. For anything you depend on, mirror the prompt on a paid model as a fallback.",
+  },
+  {
+    title: "Watch for the reveal",
+    body:
+      "This is the step that mattered. The reveal is what changed the endpoint's name and price — as it did for every model in this line.",
+  },
+];
+
+const faqs = [
+  {
+    question: "What is OX-alpha?",
+    answer:
+      "OX-alpha was the anonymous codename for a model that appeared on OpenRouter on August 20, 2026 with a 1M-token context window and no maker named. It has since been identified as Z.ai GLM 5.3 Flash; this page is the archive of the anonymous period, and the current facts live on the model page.",
+  },
+  {
+    question: "Is OX-alpha free to use?",
+    answer:
+      "It was free while it was anonymous — that window is over. The codename was retired when the model was revealed and repriced as Z.ai GLM 5.3 Flash, which is the pattern for every model in this line.",
+  },
+  {
+    question: "Who built OX-alpha?",
+    answer:
+      "Z.ai. During the anonymous window no organisation had claimed it, and community speculation leaned towards a Chinese lab without confirmation — which turned out to be right in kind but not in name until the reveal.",
+  },
+  {
+    question: "How is OX-alpha different from Hunter Alpha?",
+    answer:
+      "Both were free 1M-context stealth releases on OpenRouter that were later claimed and renamed: Hunter Alpha became Xiaomi MiMo-V2.5, OX Alpha became Z.ai GLM 5.3 Flash. At the time, OX Alpha was the newer and still-unidentified one.",
+  },
+  {
+    question: "How do I access OX-alpha on OpenRouter?",
+    answer:
+      "Today you cannot: the codename is retired, so the address to use is the product it became, Z.ai GLM 5.3 Flash. The archive below records how the endpoint was reached during the preview, for anyone reconstructing that period.",
+  },
+  {
+    question: "Will OX-alpha stay free?",
+    answer:
+      "It did not. Free stealth previews in this line have ended every time so far, and OX Alpha was repriced when the reveal happened — which is why the site now treats a free anonymous endpoint as an evaluation window rather than a plan.",
+  },
+];
+
+const pressUnverified = [
+  "Tech press coverage of the “mystery model” pattern was reported at the time by outlets including Business Insider and Quartz, and community discussion ran on r/LocalLLaMA, r/artificial and r/OpenRouter.",
+  "We could not re-verify those specific URLs on 2026-09-18 — the Business Insider link we had returns 404, and the other two sit behind bot protection that blocks automated checks. So this is recorded as a claim about what was reported, not as a citation you can click through, and the direct quotations that used to sit here have been removed rather than left attached to a dead link.",
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "What is OX-alpha? The Mystery AI Model on OpenRouter",
+      description:
+        "OX-alpha is a new mystery AI model on OpenRouter (Aug 20, 2026) with 1M context, free limited access. Timeline, benchmarks, community speculation and how to access.",
+      author: "Hunter Alpha Hub",
+      publishedAt: "2026-08-20T00:00:00Z",
+      updatedAt: "2026-08-26T00:00:00Z",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OX-alpha", url: canonical },
+    ])}
+  />
+
+  <div class="notice">
+    <p>
+      OX Alpha was later identified as <strong>Z.ai GLM 5.3 Flash</strong>. This page is kept for historical
+      reference: it records the anonymous window (20–26 August 2026), not the current facts.
+    </p>
+    <p>
+      A newer anonymous model is live now — see the <a href="/union-alpha">Union Alpha tracker</a>, the{" "}
+      <a href="/stealth-models">stealth models register</a>, or how this fits the{" "}
+      <a href="/alpha-models">Alpha models line</a>.
+    </p>
+  </div>
+
+  <p class="kicker">Archive · OX Alpha</p>
+  <h1 class="display">What is OX-alpha? The Mystery AI Model on OpenRouter</h1>
+  <div class="byline">
+    <span>Archive of 2026-08-20 → 2026-08-26</span>
+    <span>8 min read</span>
+    <span><a href="/openrouter-models/glm-5.3-flash">Current model page →</a></span>
+  </div>
+
+  <p class="lede">
+    OX-alpha appeared without a blog post, without a model card, and without a name anyone recognised. On
+    August 20, 2026, a new entry showed up on{" "}
+    <a href="https://openrouter.ai" rel="noopener noreferrer">OpenRouter</a> with a 1,048,576-token context
+    window, zero price, and agentic benchmark chatter. If you followed Hunter Alpha (later revealed as
+    Xiaomi MiMo-V2.5), it felt familiar — another stealth drop, another community sprint to work out who
+    built it before the free window closed.
+  </p>
+
+  <h2 id="tldr">TL;DR at a glance</h2>
+  <div class="stats">
+    {tldr.map((item) => (
+      <div class="stat">
+        <div class="label">{item.label}</div>
+        <div class={`value ${item.tone ?? ""}`}>{item.value}</div>
+        <div class="sub">{item.note}</div>
+      </div>
+    ))}
+  </div>
+  <p class="footnote">
+    <strong>One-sentence summary:</strong> OX-alpha was a 1M-context, free-while-anonymous model that tested
+    in public on OpenRouter from August 20, 2026, was never claimed during that window, and has since been
+    identified as Z.ai GLM 5.3 Flash.
+  </p>
+
+  <h2>Why OX-alpha mattered at the time</h2>
+  <p class="measure">
+    The window for stealth-model advantage is short. When Hunter Alpha appeared in March 2026, the sites that
+    documented it early kept ranking for months after the reveal. OX-alpha followed the same arc and faster:
+    the Google Trends figures we recorded at the time showed “ox alpha” above generic “GPTs” within a day of
+    launch, peaking in the following days. Those are our own contemporaneous notes rather than a dataset we
+    can re-check now, and they are labelled that way on purpose.
+  </p>
+  <p class="measure">
+    Unlike a typical launch, OX-alpha shipped with no announcement and no documentation: the OpenRouter page
+    showed context length, a price of zero and a generic “OX-alpha” label — no org, no paper, no system card.
+    Labs use OpenRouter to test in the wild, collect preference data and let the community do qualitative
+    evaluation before committing to a brand. For developers that meant free frontier-level context with the
+    risk that the endpoint throttles or disappears, which is exactly what happened.
+  </p>
+
+  <h2>Timeline: from silent launch to reveal</h2>
+  <ol class="stages">
+    {timeline.map((entry) => (
+      <li>
+        <span class="when">{entry.when}</span>
+        <strong>{entry.title}</strong> {entry.body}
+      </li>
+    ))}
+  </ol>
+
+  <h2>Benchmark snapshot: OX-alpha vs the field</h2>
+  <p class="measure">
+    One-sentence takeaway: OX-alpha traded multimodal input for massive context and free access — and the
+    scores below are community observations, not official benchmarks.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="num">Context</th>
+          <th>Price then</th>
+          <th>Coding / agentic</th>
+          <th>Status then</th>
+        </tr>
+      </thead>
+      <tbody>
+        {benchmark.map((row) => (
+          <tr>
+            <td>{row.model}</td>
+            <td class="num">{row.context}</td>
+            <td style="color: var(--text-muted);">{row.price}</td>
+            <td style="color: var(--text-muted);">{row.coding}</td>
+            <td style="color: var(--text-muted);">{row.status}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="footnote">
+    Notes: OX-alpha “scores” are community-observed (long-context QA, tool use, SWE-style tasks) and not
+    official benchmarks. Pricing and availability are as listed on OpenRouter on August 26, 2026. For current
+    numbers see the <a href="/comparison">comparison page</a>. Treat free-tier outputs as eval data — do not
+    send secrets or personal data through an anonymous endpoint.
+  </p>
+
+  <section class="card">
+    <h2 style="margin-top: 0;">Get told when the next codename is revealed</h2>
+    <p class="measure">
+      OX Alpha is the second name in this line we have watched end the same way. One email when the next
+      anonymous release is claimed, and not before.
+    </p>
+    <SubscribeForm />
+  </section>
+
+  <h2>Community speculation: who is OX-alpha?</h2>
+  <article class="card">
+    <h3 style="margin-top: 0;">What was reported, and what we could not re-check</h3>
+    {pressUnverified.map((paragraph) => (
+      <p class="measure">{paragraph}</p>
+    ))}
+    <p class="measure">
+      The community threads are worth reading as claims, not evidence. The useful one at the time was about
+      rate limits: developers observed throttling to roughly 20 requests a minute at peak with occasional
+      429s, consistent with a limited-capacity preview rather than a production deployment. That observation
+      was the best available signal that the endpoint was temporary — and it was right.
+    </p>
+  </article>
+
+  <h2>How the endpoint was accessed (2-minute tutorial, archived)</h2>
+  <ol class="stages">
+    {howTo.map((step, i) => (
+      <li>
+        <span class="when">Step {i + 1}</span>
+        <strong>{step.title}</strong> {step.body}
+      </li>
+    ))}
+  </ol>
+  <p class="footnote">
+    The codename is retired, so these steps no longer work as written — the address to use today is{" "}
+    <a href="/openrouter-models/glm-5.3-flash">Z.ai GLM 5.3 Flash</a>.
+  </p>
+
+  <h2>FAQ</h2>
+  <Faq items={faqs} />
+
+  <h2>Stay in the loop</h2>
+  <p class="measure">
+    The pattern is consistent and worth internalising: silent drop → community eval → press cycle → identity
+    reveal. Documenting it early is what this site does, and the register is where each codename's outcome
+    ends up — <a href="/stealth-models">stealth models register</a>, plus the{" "}
+    <a href="/comparison">full comparison</a> and the <a href="/alpha-models">explanation of the line</a>.
+  </p>
+  <p class="footnote">
+    Disclosures: this site is not affiliated with OpenRouter or any lab behind OX Alpha. Scores are
+    community-observed and not official benchmarks. Community links are discussions, not verified claims, and
+    are labelled as such above.
+  </p>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/openrouter-models/glm-5.3-flash">What it became: GLM 5.3 Flash</a>
+    <a class="btn ghost" href="/stealth-models">Stealth models register</a>
+    <a class="btn ghost" href="/union-alpha">Union Alpha (live now)</a>
+  </p>
+</System>
+
+<style>
+  .notice {
+    border: 1px solid var(--warn);
+    background: var(--warn-soft);
+    border-radius: var(--radius, 6px);
+    padding: var(--space-4);
+    margin-bottom: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .notice p {
+    margin: 0 0 var(--space-2);
+  }
+  .notice p:last-child {
+    margin-bottom: 0;
+  }
+  .value.free {
+    color: var(--success);
+  }
+  .value.known {
+    font-size: var(--text-lg);
+  }
+  .measure {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .stages {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .stages li {
+    margin-bottom: var(--space-4);
+  }
+  .stages strong {
+    color: var(--text);
+  }
+  .when {
+    display: block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+    margin-bottom: 2px;
+  }
+  .sub {
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+  }
+  .footnote {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+</style>

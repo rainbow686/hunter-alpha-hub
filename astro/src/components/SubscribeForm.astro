@@ -4,8 +4,10 @@
  * SubscriptionForm (POST /api/subscribe {email}), so the endpoint can be
  * migrated without touching the form.
  *
- * `note` exists because the preview Worker has no /api/subscribe yet: the
- * preview says so out loud instead of pretending the button worked.
+ * `note` is an optional line under the form. The endpoint answers 503 with a
+ *   specific message when a deployment has no Supabase credentials, and the
+ *   script below shows the server's own words rather than a generic failure —
+ *   "not configured here" and "the send failed" are different problems.
  */
 interface Props { note?: string; placeholder?: string }
 const { note, placeholder = "you@example.com" } = Astro.props;
@@ -46,11 +48,19 @@ const { note, placeholder = "you@example.com" } = Astro.props;
         if (response.ok) {
           set("You are on the list. We will write when the identity is revealed.", "ok");
           form.reset();
-        } else if (response.status === 409) {
-          set("This address is already on the list.", "ok");
-        } else {
-          set("Subscription failed — please try again.", "err");
+          return;
         }
+        if (response.status === 409) {
+          set("This address is already on the list.", "ok");
+          return;
+        }
+        // Surface the server's own explanation when it has one: a deployment with
+        // no credentials says so, and that is not "try again".
+        const problem = await response
+          .json()
+          .then((body: { error?: string; detail?: string }) => body.detail || body.error)
+          .catch(() => undefined);
+        set(problem || "Subscription failed — please try again.", "err");
       } catch {
         set("Subscription failed — please try again.", "err");
       } finally {
