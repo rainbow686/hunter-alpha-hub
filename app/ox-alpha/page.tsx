@@ -5,7 +5,9 @@ import { OxAlphaSubscribe } from "@/components/ox-alpha-subscribe";
 import { ArticleSchema, FAQSchema, BreadcrumbListSchema } from "@/components/structured-data";
 
 const baseUrl = "https://www.hunteralphahub.com";
-const pageUrl = `${baseUrl}/ox-alpha/`;
+// No trailing slash: the sitemap, internal links and the 308 redirect all use the
+// slashless form, so a canonical pointing at "/ox-alpha/" targeted a redirect.
+const pageUrl = `${baseUrl}/ox-alpha`;
 const ogImageUrl = `${baseUrl}/ox-alpha/opengraph-image`;
 
 export const metadata: Metadata = {
