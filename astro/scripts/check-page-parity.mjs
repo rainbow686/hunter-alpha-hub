@@ -157,23 +157,24 @@ const liveLinkSets = async (path) => {
 const failures = [];
 let compared = 0;
 const variedPages = [];
+const retriedClean = [];
 
-for (const path of paths) {
+/** Re-check a single page; returns the failures (empty array = fine). */
+async function checkPage(path) {
+  const issues = [];
   const file = fileFor(path);
   if (!existsSync(file)) {
-    failures.push(`${path}: no built page at ${file.replace(DIST, "dist")}`);
-    continue;
+    return [`${path}: no built page at ${file.replace(DIST, "dist")}`];
   }
   const live = await liveLinkSets(path);
   if (!live) {
-    failures.push(`${path}: could not fetch the live page from ${LIVE}`);
-    continue;
+    return [`${path}: could not fetch the live page from ${LIVE}`];
   }
   compared++;
   if (live.varied) variedPages.push(path);
   const built = internalLinks(readFileSync(file, "utf8"), LIVE);
   const missing = [...live.stable].filter((href) => !built.has(href));
-  if (missing.length) failures.push(`${path}: ${missing.length} link(s) missing → ${missing.join(", ")}`);
+  if (missing.length) issues.push(`${path}: ${missing.length} link(s) missing → ${missing.join(", ")}`);
 
   const liveHead = headFeatures((await fetchLive(path)) ?? "");
   const builtHtml = readFileSync(file, "utf8");
@@ -199,11 +200,35 @@ for (const path of paths) {
     }
   }
   if (missingHead.length) {
-    failures.push(`${path}: head tag(s) missing or different → ${missingHead.join(", ")}`);
+    issues.push(`${path}: head tag(s) missing or different → ${missingHead.join(", ")}`);
   }
+  return issues;
+}
+
+const firstPass = new Map();
+for (const path of paths) firstPass.set(path, await checkPage(path));
+
+for (const [path, issues] of firstPass) {
+  if (issues.length === 0) continue;
+  // The live site is redeployed on every merge, and a Cloudflare deployment can
+  // serve a mix of old and new for a short window (seen twice on this site). One
+  // retry separates "the edge was mid-rollout" from "the build drops something"
+  // without turning the guard into a coin flip: a real regression fails both.
+  await new Promise((resolve) => setTimeout(resolve, 600));
+  const retry = await checkPage(path);
+  if (retry.length === 0) {
+    retriedClean.push(path);
+    continue;
+  }
+  failures.push(...retry);
 }
 
 console.log(`link parity: compared ${compared}/${paths.length} pages against ${LIVE}`);
+if (retriedClean.length) {
+  console.log(
+    `link parity: ${retriedClean.length} page(s) failed the first pass and passed on retry — the live edge was mid-rollout (${retriedClean.slice(0, 5).join(", ")})`,
+  );
+}
 if (variedPages.length) {
   console.log(
     `link parity: ${variedPages.length} page(s) returned different links on two fetches — compared the stable subset (investigate; a live page should not change per request):`,
