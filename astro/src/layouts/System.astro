@@ -17,8 +17,10 @@ interface Props {
    * `website` for a single article is a wasted signal.
    */
   ogType?: "website" | "article";
+  /** Override the derived per-page card (the 404 page points at the site card). */
+  ogImage?: string;
 }
-const { title, description, canonical, lang = "en", ogType = "website" } = Astro.props;
+const { title, description, canonical, lang = "en", ogType = "website", ogImage: ogImageProp } = Astro.props;
 /**
  * One card per page, generated after the build by scripts/generate-og-images.mjs.
  * The path is derived from the URL (not passed in per page) so a new page gets a
@@ -31,7 +33,7 @@ const { title, description, canonical, lang = "en", ogType = "website" } = Astro
 const pagePath = (canonical ? new URL(canonical).pathname : Astro.url.pathname)
   .replace(/\.html$/, "")
   .replace(/\/$/, "");
-const ogImage = `${SITE}${pagePath === "" ? "/og/home.png" : `/og${pagePath}.png`}`;
+const ogImage = ogImageProp ?? `${SITE}${pagePath === "" ? "/og/home.png" : `/og${pagePath}.png`}`;
 const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
 ---
 <!doctype html>
