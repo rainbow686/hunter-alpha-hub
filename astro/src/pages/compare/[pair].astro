@@ -1,0 +1,238 @@
+---
+/**
+ * Head-to-head comparison — one template, thirteen routes.
+ *
+ * Both sides of every row come from the same curated snapshot, so the page
+ * cannot drift into comparing a stale price against a fresh one: `a` and `b`
+ * are resolved from lib/openrouter-comparisons.ts, which resolves them from
+ * lib/openrouter-models.ts.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one
+ * h1, Article + FAQPage + BreadcrumbList per pair.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { comparisonPairs, getComparisonBySlug } from "@repo/lib/openrouter-comparisons";
+import { formatContextWindow, formatPrice, openrouterModelUrl } from "@repo/lib/openrouter-models";
+
+export function getStaticPaths() {
+  return comparisonPairs.map((pair) => ({ params: { pair: pair.slug }, props: { slug: pair.slug } }));
+}
+
+const { slug } = Astro.props;
+const comparison = getComparisonBySlug(slug);
+if (!comparison) throw new Error(`comparison pair not found: ${slug}`);
+
+const { a, b, pair: comparisonPair } = comparison;
+
+const title = `${a.name} vs ${b.name}: OpenRouter Pricing, Context & Best Fit`;
+const description = `Compare ${a.name} and ${b.name} on OpenRouter: context window, input/output pricing, modalities, strengths, limitations and which workload each model fits best.`;
+const canonical = `${SITE}/compare/${comparisonPair.slug}`;
+
+const workloadCost = (model: { inputPricePerMillion: number; outputPricePerMillion: number }, inputTokens: number, outputTokens: number) =>
+  (inputTokens / 1_000_000) * model.inputPricePerMillion +
+  (outputTokens / 1_000_000) * model.outputPricePerMillion;
+
+const workloads = [
+  { name: "Quick test", inputTokens: 20_000, outputTokens: 5_000 },
+  { name: "Product chat month", inputTokens: 500_000, outputTokens: 125_000 },
+  { name: "Document batch", inputTokens: 5_000_000, outputTokens: 1_000_000 },
+];
+
+const rows = [
+  { field: "Provider", left: a.vendor, right: b.vendor },
+  { field: "Context window", left: formatContextWindow(a.contextWindow), right: formatContextWindow(b.contextWindow) },
+  { field: "Input / 1M", left: formatPrice(a.inputPricePerMillion), right: formatPrice(b.inputPricePerMillion) },
+  { field: "Output / 1M", left: formatPrice(a.outputPricePerMillion), right: formatPrice(b.outputPricePerMillion) },
+  { field: "Modalities", left: a.modalities.join(", "), right: b.modalities.join(", ") },
+  { field: "Best for", left: a.bestFor.join(", "), right: b.bestFor.join(", ") },
+];
+
+const faqs = [
+  {
+    question: `Is ${a.name} cheaper than ${b.name}?`,
+    answer: `${a.name} costs ${formatPrice(a.inputPricePerMillion)} input and ${formatPrice(
+      a.outputPricePerMillion,
+    )} output per 1M tokens. ${b.name} costs ${formatPrice(b.inputPricePerMillion)} input and ${formatPrice(
+      b.outputPricePerMillion,
+    )} output per 1M tokens.`,
+  },
+  {
+    question: `Which model has the larger context window?`,
+    answer: `${a.name} offers ${formatContextWindow(a.contextWindow)}; ${b.name} offers ${formatContextWindow(
+      b.contextWindow,
+    )}. Provider-specific limits can vary by route.`,
+  },
+  {
+    question: `Which one should I choose?`,
+    answer: comparisonPair.quickVerdict,
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: `${a.name} vs ${b.name}`,
+      description: `Compare ${a.name} and ${b.name} by pricing, context window, modalities and best-fit workloads.`,
+      publishedAt: a.dataAsOf,
+      updatedAt: a.dataAsOf,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Comparison", url: `${SITE}/comparison` },
+      { name: `${a.name} vs ${b.name}`, url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Head to head · OpenRouter</p>
+  <h1 class="display">{a.name} vs {b.name}</h1>
+  <p class="lede">{comparisonPair.keyDifference}</p>
+  <div class="byline">
+    <span>Comparison</span>
+    <span>Snapshot {a.dataAsOf}</span>
+    <span><a href="/comparison">All models compared →</a></span>
+  </div>
+
+  <section id="verdict">
+    <h2>Quick verdict</h2>
+    <p class="verdict">{comparisonPair.quickVerdict}</p>
+  </section>
+
+  <section id="side-by-side">
+    <h2>Side-by-side comparison</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th><a href={`/openrouter-models/${a.slug}`}>{a.name}</a></th>
+            <th><a href={`/openrouter-models/${b.slug}`}>{b.name}</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr>
+              <td style="color: var(--text-muted); font-weight: 600;">{row.field}</td>
+              <td>{row.left}</td>
+              <td>{row.right}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Provenance source="openrouter.ai/api/v1/models" verified={a.dataAsOf} />
+  </section>
+
+  <section id="costs">
+    <h2>Cost estimates</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Workload</th>
+            <th class="num">Input</th>
+            <th class="num">Output</th>
+            <th class="num">{a.name}</th>
+            <th class="num">{b.name}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {workloads.map((workload) => (
+            <tr>
+              <td>{workload.name}</td>
+              <td class="num">{workload.inputTokens.toLocaleString("en-US")}</td>
+              <td class="num">{workload.outputTokens.toLocaleString("en-US")}</td>
+              <td class="num"><strong>{formatPrice(workloadCost(a, workload.inputTokens, workload.outputTokens))}</strong></td>
+              <td class="num"><strong>{formatPrice(workloadCost(b, workload.inputTokens, workload.outputTokens))}</strong></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">
+      Estimates use list input/output prices and exclude cache discounts, provider surcharges and tool fees.
+    </p>
+  </section>
+
+  <div class="grid-cards">
+    <article class="card">
+      <h3 style="margin-top: 0;">Choose {a.name} if</h3>
+      <ul class="marks">
+        {comparisonPair.chooseAIf.map((item) => (
+          <li><span class="ok">✓</span> {item}</li>
+        ))}
+      </ul>
+      <p style="margin-top: var(--space-4);">
+        <a class="btn ghost" href={openrouterModelUrl(a.id)} rel="noopener noreferrer">View {a.name} on OpenRouter ↗</a>
+      </p>
+    </article>
+    <article class="card">
+      <h3 style="margin-top: 0;">Choose {b.name} if</h3>
+      <ul class="marks">
+        {comparisonPair.chooseBIf.map((item) => (
+          <li><span class="ok">✓</span> {item}</li>
+        ))}
+      </ul>
+      <p style="margin-top: var(--space-4);">
+        <a class="btn ghost" href={openrouterModelUrl(b.id)} rel="noopener noreferrer">View {b.name} on OpenRouter ↗</a>
+      </p>
+    </article>
+  </div>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href={`/openrouter-models/${a.slug}`}>{a.name} details</a>
+    <a class="btn ghost" href={`/openrouter-models/${b.slug}`}>{b.name} details</a>
+    <a class="btn ghost" href="/openrouter-pricing-calculator">Estimate monthly cost</a>
+  </p>
+
+  <p class="footnote">
+    Pricing and context data are based on a {a.dataAsOf} snapshot. Provider limits and pricing can change;
+    verify on OpenRouter before production.
+  </p>
+</System>
+
+<style>
+  .verdict {
+    font-size: var(--text-lg);
+    color: var(--text);
+    max-width: var(--measure);
+  }
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-4);
+    margin: var(--space-8) 0;
+  }
+  .marks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .marks li {
+    margin-bottom: var(--space-2);
+  }
+  .ok {
+    color: var(--success);
+  }
+  .footnote {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+</style>
