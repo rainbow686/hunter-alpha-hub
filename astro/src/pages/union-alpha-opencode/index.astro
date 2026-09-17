@@ -1,0 +1,276 @@
+---
+/**
+ * Union Alpha on OpenCode — the "two front doors" page.
+ *
+ * The reason this page is worth migrating carefully is its one editorial move:
+ * the OpenRouter route is a verified catalogue read, the OpenCode route is a
+ * third-party claim, and the page says so in the same block rather than
+ * blending them into "you can use it free in OpenCode". Two labelled boxes, not
+ * one confident sentence.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * Article + FAQPage + BreadcrumbList.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  UNION_ALPHA_DATA_AS_OF,
+  UNION_ALPHA_MODEL_ID,
+  UNION_ALPHA_OPENROUTER_URL,
+} from "@repo/lib/union-alpha";
+
+const title = "Union Alpha on OpenCode: How to Use the Free Tier (2026)";
+const description =
+  "Union Alpha is reportedly reachable from OpenCode's free tier as well as OpenRouter. What is verified, what is only a claim, how to try it, and the limits you should assume before you put it in a workflow.";
+const canonical = `${SITE}/union-alpha-opencode`;
+
+const frontDoors = [
+  {
+    label: "OpenRouter route",
+    verdict: "Verified",
+    tone: "verified",
+    detail: `${UNION_ALPHA_MODEL_ID}, free, 262K context, read from the catalogue on ${UNION_ALPHA_DATA_AS_OF}.`,
+  },
+  {
+    label: "OpenCode route",
+    verdict: "Reported",
+    tone: "claim",
+    detail:
+      "Third-party write-ups and the model's own landing page say the same anonymous model is on OpenCode's free tier. We have not been able to confirm it independently.",
+  },
+  {
+    label: "API key needed",
+    verdict: "None for OpenCode",
+    tone: "",
+    detail:
+      "The OpenRouter route needs an OpenRouter key. Neither route needs a key from the anonymous maker.",
+  },
+  {
+    label: "Data policy",
+    verdict: "None published",
+    tone: "warn",
+    detail: "Anonymous provider on both routes. No retention or privacy terms exist to read.",
+  },
+];
+
+const howToTry = [
+  {
+    title: "1. Install and sign in to OpenCode.",
+    body: "The free tier is the part to look for — it is the route that does not ask for your own provider key.",
+  },
+  {
+    title: "2. Look for the anonymous model in the picker.",
+    body: "Free stealth releases often appear without a vendor name attached. If you see an unexplained model alongside the named providers, that is the thing to test.",
+  },
+  {
+    title: "3. Run one prompt you already know the answer to.",
+    body: "The identity of the model behind an anonymous endpoint is not something it can tell you reliably, so judge it on output, not on what it says about itself.",
+  },
+  {
+    title: "4. Assume it can vanish.",
+    body: "Keep the workflow disposable: no credentials in prompts, no customer data, no dependency your product needs tomorrow.",
+  },
+];
+
+const checkYourself = [
+  {
+    want: "Is it still on OpenRouter, and still free?",
+    where: `<a href="/api/union-alpha/status">status endpoint</a> or the <a href="${UNION_ALPHA_OPENROUTER_URL}" rel="noopener noreferrer">listing itself ↗</a>`,
+  },
+  {
+    want: "Is the OpenCode free tier still serving it?",
+    where: "Only from inside your OpenCode client — there is no public endpoint we can poll",
+  },
+  {
+    want: "What it will cost after the preview",
+    where: `Unknown. See <a href="/union-alpha-free">the free-window page</a>`,
+  },
+];
+
+const faqs = [
+  {
+    question: "Is Union Alpha really available on OpenCode?",
+    answer:
+      "That is the claim, not a verified fact. OpenCode's free tier is described by third parties — including material published for the model itself — as serving the same anonymous model. Our own verification is limited to OpenRouter, where we read the catalogue directly. Treat the OpenCode route as reported-but-unconfirmed and check it yourself before relying on it.",
+  },
+  {
+    question: "Do I need an OpenRouter API key to use Union Alpha through OpenCode?",
+    answer:
+      "No. The point of the OpenCode route is that the model is reachable from its free tier without wiring up your own key. If you call it on OpenRouter instead, you do need an OpenRouter key — but not a key from the anonymous maker, who has not published one.",
+  },
+  {
+    question: "Is it the same model on both routes?",
+    answer:
+      "Reportedly yes: same anonymous release, two front doors. We cannot prove it from outside, and the model's own answers about its identity are unreliable — testers have reported inconsistent behaviour between sessions.",
+  },
+  {
+    question: "What should I not use Union Alpha for?",
+    answer:
+      "Anything with secrets or other people's data. The provider is anonymous, no privacy or retention policy has been published, and free stealth previews have historically ended without warning. Evaluation and side projects, yes; production credentials or customer data, no.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Union Alpha on OpenCode: How to Use the Free Tier",
+      description:
+        "The free route into the anonymous Union Alpha model, with verified facts and unverified claims kept apart.",
+      publishedAt: "2026-09-17",
+      updatedAt: UNION_ALPHA_DATA_AS_OF,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Union Alpha", url: `${SITE}/union-alpha` },
+      { name: "OpenCode", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Stealth line · Union Alpha · access</p>
+  <h1 class="display">Union Alpha on OpenCode</h1>
+  <p class="lede">
+    Union Alpha has two front doors: the OpenRouter listing we can verify directly, and an OpenCode free-tier
+    route that third parties report. This page keeps those two apart, tells you how to try the second one, and
+    states what we cannot check from outside.
+  </p>
+
+  <section id="short-version">
+    <h2>The short version</h2>
+    <div class="doors">
+      {frontDoors.map((door) => (
+        <article class="card door">
+          <p class="door-label">{door.label}</p>
+          <p class={`door-verdict ${door.tone ? `v-${door.tone}` : ""}`}>{door.verdict}</p>
+          <p class="door-detail">{door.detail}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="two-doors">
+    <h2>Two front doors, one anonymous release</h2>
+    <p class="measure">
+      OpenRouter is the route we track. Its public catalogue lists <code>{UNION_ALPHA_MODEL_ID}</code> under the{" "}
+      <em>stealth</em> namespace with a provider tag of “Stealth”, and it is the source every verified number on
+      our <a href="/union-alpha">tracker</a> comes from.
+    </p>
+    <p class="measure">
+      OpenCode is the route we cannot see. The claim is that the free tier of the OpenCode coding tool serves the
+      same anonymous model, which would let you use it inside an agentic workflow without an API key of your own.
+      It is plausible — stealth releases are often seeded through several tools at once to gather usage — but
+      “plausible” is not “verified”, and we are not going to report it as fact.
+    </p>
+  </section>
+
+  <section id="how-to-try">
+    <h2>How to try the OpenCode route</h2>
+    <ol class="stages">
+      {howToTry.map((step) => (
+        <li>
+          <strong>{step.title}</strong> {step.body}
+        </li>
+      ))}
+    </ol>
+    <p class="measure">
+      We deliberately do not print a screenshot-accurate click path: the free tier's menu wording changes
+      between OpenCode releases, and a stale step-by-step would be worse than none.
+    </p>
+  </section>
+
+  <section id="check">
+    <h2>How to check for yourself</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>What you want to know</th>
+            <th>Where it can be checked</th>
+          </tr>
+        </thead>
+        <tbody>
+          {checkYourself.map((row) => (
+            <tr>
+              <td style="color: var(--text-muted);">{row.want}</td>
+              <td set:html={row.where} />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <section class="card" style="margin-top: var(--space-10);">
+    <h2 style="margin-top: 0;">Get notified when Union Alpha is revealed</h2>
+    <p class="measure">Identity, and the price once the free preview ends. One email per reveal.</p>
+    <SubscribeForm note="Preview build: the subscribe endpoint is not wired up here yet — nothing is stored." />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/union-alpha">Union Alpha tracker →</a>
+    <a class="btn ghost" href="/union-alpha-free">Is it still free?</a>
+    <a class="btn ghost" href="/alpha-models">How the Alpha line works</a>
+  </p>
+</System>
+
+<style>
+  .doors {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .door-label {
+    margin: 0;
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .door-verdict {
+    margin: var(--space-1) 0;
+    font-weight: 600;
+  }
+  .door-detail {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .v-verified {
+    color: var(--success);
+  }
+  .v-claim {
+    color: var(--warn);
+  }
+  .v-warn {
+    color: var(--danger);
+  }
+  .measure {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .stages {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .stages li {
+    margin-bottom: var(--space-3);
+  }
+  .stages strong {
+    color: var(--text);
+  }
+</style>
