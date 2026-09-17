@@ -68,6 +68,16 @@ export const verifiedSpecs: VerifiedSpec[] = [
     value: "2026-09-16 14:42 UTC",
     note: "Unix timestamp 1789569723.",
   },
+  {
+    label: "Architecture claim (third-party)",
+    value: "Model orchestrator, not a single model",
+    note: "A public landing page for the model describes it as running multiple LLMs in parallel and synthesising one answer. Matches the router theory testers raised on day one. Not confirmed by OpenRouter or the maker.",
+  },
+  {
+    label: "Expected paid pricing (third-party)",
+    value: "$0.50 in / $1.50 out per million tokens",
+    note: "Same public landing page lists this as anticipated pricing after the free preview. Today the OpenRouter endpoint still bills $0.",
+  },
 ];
 
 export interface CommunityClaim {
@@ -185,5 +195,20 @@ export const unionAlphaFaqs: TrackerFaq[] = [
     question: "Should I trust Union Alpha with sensitive data?",
     answer:
       "No. The provider is anonymous and there is no published privacy or data-retention policy. Treat it like any unvetted free endpoint: no production secrets, no customer data, no credentials in prompts.",
+  },
+  {
+    question: "Is Union Alpha a single model or several models?",
+    answer:
+      "Evidence points to a single endpoint that orchestrates several models: testers reported inconsistent behaviour between sessions on day one, and a public landing page for the model describes it as running multiple LLMs in parallel and synthesising one answer. That would also explain why asking the model about its own identity gives unreliable answers. Neither OpenRouter nor the maker has confirmed it.",
+  },
+  {
+    question: "How much will Union Alpha cost after the free preview?",
+    answer:
+      "Unconfirmed, but the model's public landing page lists anticipated pricing of $0.50 per million input tokens and $1.50 per million output tokens once the preview ends. Right now OpenRouter still bills $0 for it, and free stealth previews have historically ended without much warning.",
+  },
+  {
+    question: "What are Union Alpha's benchmarks?",
+    answer:
+      "There is no peer-reviewed benchmark set. The numbers circulating — including a Terminal-Bench v4 style cost-per-task figure on the model's own landing page — are self-reported or estimated, not independently reproduced. Treat benchmark claims for an anonymous model as marketing until someone publishes a reproducible run.",
   },
 ];

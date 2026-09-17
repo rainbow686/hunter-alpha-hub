@@ -22,13 +22,17 @@ const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/union-alpha`;
 
 export const metadata: Metadata = {
-  title: "Union Alpha: New Stealth Model on OpenRouter (Specs, Price, Tracker)",
+  title: "What Is Union Alpha? Specs, Price, Limits & Live Status (2026)",
   description:
-    "Union Alpha (stealth/union-alpha) is an anonymous free model on OpenRouter with 256K context, image input and tool calling. Verified specs, live status and community theories.",
+    "Union Alpha (stealth/union-alpha) is an anonymous, currently free model on OpenRouter: 262K context, 128K output, image input, tool calling. Verified specs, expected paid pricing, live online status and the orchestrator theory — with facts separated from speculation.",
   keywords: [
     "union alpha",
     "union alpha model",
     "what is union alpha",
+    "union alpha benchmarks",
+    "union alpha pricing",
+    "union alpha free",
+    "is union alpha free",
     "stealth/union-alpha",
     "union alpha openrouter",
     "union alpha pricing",
