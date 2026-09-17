@@ -60,6 +60,97 @@ const index = [
   },
 ];
 
+/**
+ * The accumulating table — the reason this page exists. Every column is either
+ * read from a public catalogue (see the per-model pages) or is this site's own
+ * record, and the two are never mixed: a field we cannot re-check is marked.
+ *
+ * When the next codename drops, add one row here first; the page is the asset,
+ * the individual codename pages come and go.
+ */
+const line = [
+  {
+    codename: "Hunter Alpha",
+    href: "/hunter-alpha",
+    listed: "2026-03-12",
+    context: "1M",
+    modality: "Text only",
+    priceWhileAnonymous: "Free",
+    revealedAs: "Xiaomi MiMo-V2.5",
+    priceAfter: "$0.14 in / $0.28 out per M",
+  },
+  {
+    codename: "OX Alpha",
+    href: "/ox-alpha",
+    listed: "2026-08-20",
+    context: "1M",
+    modality: "Text only",
+    priceWhileAnonymous: "Free",
+    revealedAs: "Z.ai GLM 5.3 Flash",
+    priceAfter: "$0.09 in / $0.30 out per M",
+  },
+  {
+    codename: "Union Alpha",
+    href: "/union-alpha",
+    listed: "2026-09-16",
+    context: "256K",
+    modality: "Text + image in",
+    priceWhileAnonymous: "Free",
+    revealedAs: "Unclaimed",
+    priceAfter: "Unknown — reported ≈$0.50 / $1.50 per M",
+  },
+];
+
+/**
+ * What the reveal actually did to the two models we can follow all the way
+ * through, in the currency a reader cares about: what you pay afterwards.
+ */
+const revealEffect = [
+  {
+    codename: "Hunter Alpha",
+    became: "Xiaomi MiMo-V2.5",
+    took: "11 days",
+    detail:
+      "Free preview ended with the reveal; the model reappeared as a Xiaomi product with published pricing and a 1.05M-token window.",
+  },
+  {
+    codename: "OX Alpha",
+    became: "Z.ai GLM 5.3 Flash",
+    took: "Weeks",
+    detail:
+      "Z.ai claimed it as GLM 5.3 Flash and folded it into the vendor line at list price, with the largest window on this site at 1.31M tokens.",
+  },
+];
+
+/** The checklist for the next drop — deliberately short enough to actually run. */
+const checklist = [
+  {
+    step: "Confirm it is in the catalogue",
+    detail:
+      "A codename has to resolve to a real listing before it means anything. Ours is a live read, not a screenshot: /api/union-alpha/status is the shape to copy.",
+  },
+  {
+    step: "Check what the endpoint declares",
+    detail:
+      "Context window, output cap, modalities and tool support come from the catalogue and can be re-read in seconds. Everything else is commentary.",
+  },
+  {
+    step: "Read the price as a countdown",
+    detail:
+      "While it is free, the model is in a trial. The day the price stops being $0 is the day the reveal is either done or imminent.",
+  },
+  {
+    step: "Separate the community's claims from the listing",
+    detail:
+      "Identity theories are worth reading and worthless as evidence. Keep them in a separate column or a separate section — never blended into a spec table.",
+  },
+  {
+    step: "Decide before the window closes, not after",
+    detail:
+      "If you evaluate a stealth endpoint, evaluate it in days and keep a fallback configured. The two reveals we documented both ended the free window with no notice.",
+  },
+];
+
 const faqs = [
   {
     question: "What is a stealth model?",
@@ -80,6 +171,16 @@ const faqs = [
     question: "Is it safe to build on a stealth model?",
     answer:
       "No. There is no named provider, usually no published privacy or data-retention policy, and the endpoint can be repriced or withdrawn without notice. Use stealth endpoints for evaluation with non-sensitive data, and keep production on models with a disclosed vendor.",
+  },
+  {
+    question: "How many stealth models has OpenRouter had?",
+    answer:
+      "We can document three: Hunter Alpha (March 2026), OX Alpha (August 2026) and Union Alpha (September 2026). The list is short on purpose — a codename that cannot be tied to a public listing is not included, and folk names circulating in forums are exactly the kind of thing this index refuses to guess at.",
+  },
+  {
+    question: "What is the difference between /stealth-models and /alpha-models?",
+    answer:
+      "This page is the index: every documented release, with the fields you can re-check. /alpha-models is the explainer: why the releases are staged this way, what the codenames have in common, and what tends to happen at the reveal. Same subject, different question.",
   },
 ];
 
@@ -171,6 +272,98 @@ export default function StealthModelsPage() {
 
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
+            The line, side by side
+          </h2>
+          <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--muted)" }}>
+            This is the table we extend every time a codename appears. While a model is anonymous the fields
+            come from a catalogue read; after the reveal they come from the product page it became. The two
+            sources are labelled, because they are not the same kind of fact.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--card-border)" }}>
+                  {["Codename", "First listed", "Context", "Input", "While anonymous", "Revealed as", "Price after"].map((h) => (
+                    <th key={h} className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--foreground)" }}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {line.map((row) => (
+                  <tr key={row.codename} style={{ borderBottom: "1px solid var(--card-border)" }}>
+                    <td className="py-3 pr-4 font-medium">
+                      <Link href={row.href} className="text-violet-400 hover:underline">
+                        {row.codename}
+                      </Link>
+                    </td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>{row.listed}</td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>{row.context}</td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>{row.modality}</td>
+                    <td className="py-3 pr-4 text-emerald-400">{row.priceWhileAnonymous}</td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>{row.revealedAs}</td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>{row.priceAfter}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs mt-4" style={{ color: "var(--muted)" }}>
+            Union Alpha&apos;s post-reveal price is a figure published by the model&apos;s own landing page,
+            not an announcement — it is the only number on this table that neither we nor a vendor has
+            confirmed. Details:{" "}
+            <Link href="/union-alpha-free" className="text-violet-400 hover:underline">
+              is Union Alpha still free?
+            </Link>
+          </p>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
+            What the reveal did to the price
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {revealEffect.map((item) => (
+              <Card key={item.codename} className="p-5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-semibold" style={{ color: "var(--foreground)" }}>
+                    {item.codename} → {item.became}
+                  </h3>
+                  <span className="text-xs" style={{ color: "var(--muted)" }}>{item.took}</span>
+                </div>
+                <p className="text-sm mt-2 leading-relaxed" style={{ color: "var(--muted)" }}>
+                  {item.detail}
+                </p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>
+            How to judge the next drop
+          </h2>
+          <ol className="space-y-4">
+            {checklist.map((item, i) => (
+              <li key={item.step} className="flex gap-4">
+                <span
+                  className="shrink-0 rounded-full px-3 py-1 text-xs font-bold h-fit"
+                  style={{ backgroundColor: "var(--card-border)", color: "var(--foreground)" }}
+                >
+                  {i + 1}
+                </span>
+                <div>
+                  <div className="font-semibold" style={{ color: "var(--foreground)" }}>{item.step}</div>
+                  <p className="text-sm mt-1 leading-relaxed" style={{ color: "var(--muted)" }}>{item.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
             How a stealth release is staged
           </h2>
           <ol className="space-y-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
@@ -228,6 +421,13 @@ export default function StealthModelsPage() {
             style={{ borderColor: "var(--card-border)", color: "var(--foreground)" }}
           >
             Free models today
+          </Link>
+          <Link
+            href="/comparison"
+            className="rounded-lg border px-5 py-3 text-sm font-semibold transition-colors hover:border-violet-400"
+            style={{ borderColor: "var(--card-border)", color: "var(--foreground)" }}
+          >
+            Compare every model
           </Link>
         </div>
       </div>
