@@ -431,6 +431,50 @@ export default function UnionAlphaPage() {
           </Card>
         </section>
 
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
+            Union Alpha, in more detail
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Link
+              href="/union-alpha-free"
+              className="rounded-lg border p-4 transition-colors hover:border-violet-400"
+              style={{ borderColor: "var(--card-border)" }}
+            >
+              <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+                Is it still free?
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+                The preview window, the reported price after it, and how to check the number yourself.
+              </div>
+            </Link>
+            <Link
+              href="/union-alpha-opencode"
+              className="rounded-lg border p-4 transition-colors hover:border-violet-400"
+              style={{ borderColor: "var(--card-border)" }}
+            >
+              <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+                Using it in OpenCode
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+                The free route through OpenCode&apos;s tier, and what we can and cannot verify about it.
+              </div>
+            </Link>
+            <Link
+              href="/union-alpha-not-working"
+              className="rounded-lg border p-4 transition-colors hover:border-violet-400"
+              style={{ borderColor: "var(--card-border)" }}
+            >
+              <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+                Errors and rate limits
+              </div>
+              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+                Four failure modes on a saturated free endpoint, and the order to check them in.
+              </div>
+            </Link>
+          </div>
+        </section>
+
         <div className="flex flex-wrap gap-3">
           <a
             href={UNION_ALPHA_OPENROUTER_URL}
