@@ -28,6 +28,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# MCP client config — carries real keys (Supabase service role). Never commit.
+# Template lives at .mcp.json.example.
+.mcp.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
