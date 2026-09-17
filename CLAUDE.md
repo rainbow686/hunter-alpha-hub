@@ -20,7 +20,24 @@ The site is deployed to Cloudflare Workers; Vercel is rollback-only.
 
 ### Documentation boundary
 
-`docs/` is local-only and must not be committed. Use `docs/PROJECT-STATE.local.md`, `docs/decisions/`, `docs/memory/`, and `docs/sessions/` for continuity.
+`docs/` is local-only and must not be committed (`git add -f docs/...` is forbidden).
+
+## For Claude — Docs Map
+
+| Read | When |
+|---|---|
+| `docs/STARTUP.md` | first thing in a new session: 60-second recovery order |
+| `docs/PROJECT-STATE.md` | the single source of truth (≤50-line snapshot, ⏳ waiting-on-user, next steps, HEAD) |
+| `docs/CLOSEOUT.md` | after every change: the write map — which files a given change type must touch |
+| `docs/OPERATIONS.md` | commands: dev / verification / branch & release / docs backup |
+| `docs/decisions/README.md` → `ADR-*.md` | past decisions (architecture, discipline, direction) |
+| `docs/sessions/YYYY-MM-DD-*.md` | continuing a long discussion (>10 turns must have one; append as you go) |
+| `docs/memory/YYYY-MM-DD.md` | daily log (write as soon as a unit is verified; append only) |
+| `docs/lessons/` | reusable cross-session lessons, one file per lesson |
+| `docs/roadmap/model-hub.md` | frozen direction (live status belongs to PROJECT-STATE) |
+| `docs/handbook/continuity-kit.md` | this repo's trimmed continuity-kit v2 |
+
+**Rules** — long discussions go to `sessions/`; every verified unit updates the `PROJECT-STATE` snapshot and appends to `memory/`; finish any change by walking `CLOSEOUT.md`; lessons go to `lessons/`, decisions to an ADR.
 
 ## 项目概述
 
@@ -117,7 +134,7 @@ The site is deployed to Cloudflare Workers; Vercel is rollback-only.
 - **框架**: Next.js 15 (App Router)
 - **样式**: TailwindCSS + 深色主题
 - **语言**: TypeScript
-- **部署**: Vercel
+- **部署**: Cloudflare Workers（OpenNext）；Vercel 仅历史回滚，不是主部署
 - **数据库**: Supabase PostgreSQL (evidence, subscribers, videos 表)
 - **邮件服务**: Supabase + ConvertKit/Resend（待集成）
 
