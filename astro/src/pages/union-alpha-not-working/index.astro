@@ -1,0 +1,241 @@
+---
+/**
+ * Union Alpha not working? — the troubleshooting sub-page.
+ *
+ * Two things make this page different from the average "errors" page, and both
+ * are structural rather than decorative:
+ *   - Step zero is a machine-readable check, not an anecdote: the status
+ *     endpoint answers "still listed? still $0?" before any of the four failure
+ *     modes are worth reading.
+ *   - It has a section for what is unknowable ("what nobody outside the maker
+ *     can tell you"). Naming the limits is the honest alternative to writing
+ *     confident filler.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * Article + FAQPage + BreadcrumbList.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { UNION_ALPHA_DATA_AS_OF, UNION_ALPHA_MODEL_ID } from "@repo/lib/union-alpha";
+
+const title = "Union Alpha Not Working? Rate Limits, Empty Replies, Missing Model (2026)";
+const description =
+  "Most Union Alpha failures are one of four things: the endpoint is saturated, the model was delisted or renamed, the request is too large, or your client cannot use tools. What to check first, and what nobody outside the maker can tell you.";
+const canonical = `${SITE}/union-alpha-not-working`;
+
+const failureModes = [
+  {
+    name: "429, or replies that slow to a crawl",
+    cause:
+      "A free stealth endpoint is one of the busiest endpoints on the internet on the day it launches. Rate limits and queueing are the endpoint protecting itself, not a problem with your account.",
+    fix: [
+      "Retry with exponential backoff rather than a tight loop; a tight loop makes your own limits worse.",
+      "Move bulk work to an off-peak hour where you reasonably can.",
+      "Keep a second model wired up for the requests that cannot wait.",
+    ],
+  },
+  {
+    name: "The model is missing from the picker, or requests 404",
+    cause:
+      "Stealth previews get delisted, renamed or moved behind a real model name. When the identity is revealed, the codename often stops being the address.",
+    fix: [
+      "Check our status endpoint first — it reads the catalogue live.",
+      `Confirm you are asking for the id, not the display name: exactly ${UNION_ALPHA_MODEL_ID}.`,
+      "If the listing is gone, the reveal has probably happened; check the tracker page for the new name.",
+    ],
+  },
+  {
+    name: "Empty, truncated or self-contradicting answers",
+    cause:
+      "Testers have reported inconsistent behaviour between sessions on this endpoint, which is part of why it is suspected to be several models behind one name. Some of it is the model; some of it is a saturated endpoint returning a partial generation.",
+    fix: [
+      "Run the same prompt twice. If the two answers disagree in kind, you are seeing a routing or saturation effect, not a prompt problem.",
+      "Lower the output length and try again — long generations on a loaded endpoint truncate first.",
+      "Do not treat the model's statements about its own identity as evidence either way.",
+    ],
+  },
+  {
+    name: "Tools, images or structured output do not work in your client",
+    cause:
+      "The endpoint declares tools, tool_choice, response_format, temperature, top_p and max_tokens, and it accepts image input. A client that ignores those fields will silently behave as if the feature does not exist.",
+    fix: [
+      "Check that your client passes the tool definitions through rather than stripping them.",
+      "Send a single small image as a test before blaming a long document.",
+      "Remember the output cap is 131,072 tokens: very large structured requests can hit it.",
+    ],
+  },
+];
+
+const unknowable = [
+  "Whether your specific account is limited, and to what — there is no account console to look at.",
+  "When the free window closes. No notice period has ever been published for this line.",
+  "Whether the endpoint will exist tomorrow. Delisting is the normal end of a stealth release.",
+  "Why a particular generation came back wrong. Without an operator, “the model was busy” stays a hypothesis.",
+];
+
+const faqs = [
+  {
+    question: "Is Union Alpha down right now?",
+    answer:
+      "Check it rather than guess: the status endpoint on this site reads the OpenRouter catalogue live and reports whether the model is still listed, along with its current price and window. If the catalogue lists it and your requests still fail, the problem is between you and the endpoint — saturation, limits or your client.",
+  },
+  {
+    question: "Does Union Alpha have an official error reference?",
+    answer:
+      "No. There is no public documentation from the maker, because the maker is anonymous. Anything presented as a definitive Union-Alpha-specific error code list is somebody's inference. We list failure modes and what to check, and we say when we do not know.",
+  },
+  {
+    question: "Why did it work yesterday and not today?",
+    answer:
+      "Three ordinary reasons: the free preview ended or was repriced, the endpoint is saturated by a traffic spike, or the codename was replaced when the model was revealed. The status endpoint distinguishes the first and third from the second.",
+  },
+  {
+    question: "Should I report the error to anyone?",
+    answer:
+      "There is no support channel to report it to — no vendor account, no status page, no issue tracker. That is inherent to using an anonymous endpoint, and it is the strongest argument for keeping a fallback model configured.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Union Alpha Not Working? Rate Limits, Empty Replies, Missing Model",
+      description: "Four failure modes on the Union Alpha stealth endpoint and the order to check them in.",
+      publishedAt: "2026-09-17",
+      updatedAt: UNION_ALPHA_DATA_AS_OF,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Union Alpha", url: `${SITE}/union-alpha` },
+      { name: "Not working", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Stealth line · Union Alpha · troubleshooting</p>
+  <h1 class="display">Union Alpha not working?</h1>
+  <p class="lede">
+    Start with the one check that settles most of it: is the model still listed, and still free? Everything
+    else is a smaller question, and there are only four of them.
+  </p>
+
+  <section class="card step-zero">
+    <p class="step-label">Step zero</p>
+    <p class="measure">
+      Open <a href="/api/union-alpha/status">/api/union-alpha/status</a>. It reads the OpenRouter catalogue live
+      and answers three questions at once: is <code>{UNION_ALPHA_MODEL_ID}</code> still there, is it still $0,
+      and what window and output cap does it currently declare. If the answer is “no longer listed”, stop here —
+      the reveal has happened and the codename is historical.
+    </p>
+  </section>
+
+  <section id="failure-modes">
+    <h2>The four failure modes</h2>
+    <ol class="modes">
+      {failureModes.map((mode, i) => (
+        <li>
+          <span class="step">{i + 1}</span>
+          <div>
+            <h3>{mode.name}</h3>
+            <p>{mode.cause}</p>
+            <ul class="bullets">
+              {mode.fix.map((step) => <li>{step}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="unknowable">
+    <h2>What nobody outside the maker can tell you</h2>
+    <ul class="bullets">
+      {unknowable.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="measure">
+      We keep those limits on the page instead of writing confident-sounding filler, because the point of a
+      tracker is to be trustworthy on the day it matters.
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <section class="card" style="margin-top: var(--space-10);">
+    <h2 style="margin-top: 0;">Get told when the codename is replaced</h2>
+    <p class="measure">
+      When Union Alpha is revealed, this is the change that breaks the endpoint for everyone.
+    </p>
+    <SubscribeForm note="Preview build: the subscribe endpoint is not wired up here yet — nothing is stored." />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/union-alpha">Union Alpha tracker →</a>
+    <a class="btn ghost" href="/union-alpha-free">Is it still free?</a>
+    <a class="btn ghost" href="/union-alpha-opencode">Using it in OpenCode</a>
+  </p>
+</System>
+
+<style>
+  .step-zero {
+    margin-top: var(--space-6);
+  }
+  .step-label {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .modes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .modes > li {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  .modes h3 {
+    margin: 0;
+    font-size: var(--text-lg);
+  }
+  .modes p {
+    margin: var(--space-2) 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+  .step {
+    flex-shrink: 0;
+    height: fit-content;
+    border-radius: 999px;
+    background: var(--row-alt);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: 700;
+  }
+  .bullets {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .bullets li {
+    margin-bottom: var(--space-2);
+  }
+  .measure {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+</style>
