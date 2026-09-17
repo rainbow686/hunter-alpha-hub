@@ -48,6 +48,8 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/union-alpha-not-working", changeFrequency: "weekly", priority: "0.8" },
   { path: "/terms", changeFrequency: "yearly", priority: "0.3" },
   { path: "/privacy", changeFrequency: "yearly", priority: "0.3" },
+  { path: "/about", changeFrequency: "yearly", priority: "0.5" },
+  { path: "/contact", changeFrequency: "yearly", priority: "0.5" },
   { path: "/alpha-models", changeFrequency: "weekly", priority: "0.8" },
   { path: "/stealth-models", changeFrequency: "weekly", priority: "0.8" },
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },

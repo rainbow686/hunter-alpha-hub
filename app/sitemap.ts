@@ -130,6 +130,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      // Trust pages (AdSense ADS-UX-05 / ADS-PUB-05). Added 2026-09-18 with the
+      // About/Contact pages themselves, so the sitemap never lags the site.
+      url: `${baseUrl}/about`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
       url: `${baseUrl}/alpha-models`,
       lastModified,
       changeFrequency: 'weekly',

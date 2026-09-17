@@ -70,6 +70,15 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-2 text-sm">Company</h3>
             <div className="space-y-2">
+              {/* Trust pages: required for publisher identity (AdSense ADS-UX-05 /
+                  ADS-PUB-05) and wanted by anyone checking who publishes these
+                  numbers. Kept in the same order as the Astro footer. */}
+              <Link href="/about" className="block text-sm text-gray-400 hover:text-violet-400 transition-colors">
+                About
+              </Link>
+              <Link href="/contact" className="block text-sm text-gray-400 hover:text-violet-400 transition-colors">
+                Contact
+              </Link>
               <Link href="/privacy" className="block text-sm text-gray-400 hover:text-violet-400 transition-colors">
                 Privacy Policy
               </Link>

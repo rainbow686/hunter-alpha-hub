@@ -1,0 +1,101 @@
+---
+/**
+ * About — who runs this site and how it decides what is true.
+ *
+ * Two reasons this page exists:
+ *   1. AdSense readiness (ADS-UX-05 / ADS-PUB-05): a publisher that will not say
+ *      who it is fails both the trust-page and the misleading-representation
+ *      checks. Before this, the only statement of identity on the whole site was
+ *      the footer line "Independent reference. Not affiliated with OpenRouter…".
+ *   2. The site's own editorial rule is worth stating out loud: catalogue fields
+ *      are facts with a date, everything else is a claim with a source, and the
+ *      two never share a surface. A reader who knows that can calibrate the rest.
+ *
+ * See docs/audits/adsense-readiness-2026-09-18.md for the audit that asked for it.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import { breadcrumbSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "About Hunter Alpha Hub";
+const description =
+  "Who runs this OpenRouter reference, how model facts are verified and dated, how claims are labelled, and how to report a correction.";
+const canonical = `${SITE}/about`;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} lang="en">
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "About", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">About</p>
+  <h1 class="display">Who runs this site, and how it decides what is true</h1>
+  <p class="lede">
+    Hunter Alpha Hub is an independent reference for models on OpenRouter, run by a small independent
+    team. It is not affiliated with OpenRouter, with any model provider, or with any other company
+    named on the site.
+  </p>
+
+  <h2>What this site is for</h2>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    Two jobs. First, a durable reference for picking a model: pricing, context window, modality and the
+    workloads each model actually suits, read from the public OpenRouter catalogue rather than copied
+    from a press release. Second, a record of the anonymous Alpha releases — what each one claimed,
+    what it turned out to be, and when its free window closed.
+  </p>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    The second job has a short shelf life by design: a codename is a marketing device with an expiry
+    date. The first one is why the site keeps going after each reveal.
+  </p>
+
+  <h2>How we decide what to publish</h2>
+  <div class="grid-cards">
+    <article class="card">
+      <p class="card-kicker">Rule 1</p>
+      <h3 class="card-title">Facts are read, not remembered</h3>
+      <p class="card-body">
+        Prices, context windows and modalities come from the public catalogue and are re-checked by a
+        scheduled drift check. Every data page states the date its numbers were verified.
+      </p>
+    </article>
+    <article class="card">
+      <p class="card-kicker">Rule 2</p>
+      <h3 class="card-title">Claims are labelled</h3>
+      <p class="card-body">
+        Community findings, vendor statements and our own inferences are marked as claims with their
+        source. A claim never appears in a field that is otherwise a verified fact.
+      </p>
+    </article>
+    <article class="card">
+      <p class="card-kicker">Rule 3</p>
+      <h3 class="card-title">Uncertainty is printed</h3>
+      <p class="card-body">
+        Where something could not be verified, the page says so instead of filling the gap with a
+        plausible number. "Unknown" is a legitimate value here.
+      </p>
+    </article>
+  </div>
+
+  <h2>How the site is funded</h2>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    Advertising. Ads never influence what is published, which models are recommended, or the order of
+    any list; nothing on this site is a paid placement. If that ever changes, the page it changes on
+    will say so where the content is.
+  </p>
+
+  <h2>Corrections</h2>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    If a number here is wrong, we want to know — a wrong price is worse than no price. Email
+    <a href="mailto:privacy@hunteralphahub.com">privacy@hunteralphahub.com</a> with the URL and what we
+    got wrong, and we will fix the page and note the date it changed.
+  </p>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/contact">Contact us →</a>
+    <a class="btn ghost" href="/privacy">Privacy policy</a>
+    <a class="btn ghost" href="/terms">Terms of service</a>
+  </p>
+</System>
