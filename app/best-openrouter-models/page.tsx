@@ -48,6 +48,22 @@ export default function BestOpenRouterModelsPage() {
           <p className="mt-4 text-sm px-4 py-2 rounded-lg inline-block border border-violet-500/30 bg-violet-500/10 text-violet-300">
             Data snapshot: {modelHubDataAsOf}
           </p>
+          <p className="text-sm mt-6" style={{ color: "var(--muted)" }}>
+            Every pick here is a named, priced model on purpose. If you want the free option, the
+            current anonymous release is{" "}
+            <Link href="/union-alpha" className="text-violet-400 hover:underline">
+              Union Alpha
+            </Link>{" "}
+            — read{" "}
+            <Link href="/union-alpha-free" className="text-violet-400 hover:underline">
+              what its free window means
+            </Link>{" "}
+            before you depend on it. Full side-by-side:{" "}
+            <Link href="/comparison" className="text-violet-400 hover:underline">
+              model comparison
+            </Link>
+            .
+          </p>
         </div>
 
         <div className="space-y-8">

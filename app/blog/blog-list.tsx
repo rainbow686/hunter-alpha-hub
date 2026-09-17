@@ -27,6 +27,16 @@ export default function BlogList() {
         <p className="text-lg" style={{ color: "var(--muted)" }}>
           Practical comparisons, model roundups and OpenRouter tutorials
         </p>
+        <p className="text-sm mt-4" style={{ color: "var(--muted)" }}>
+          Looking for the anonymous releases these guides are built on?{" "}
+          <Link href="/stealth-models" className="text-violet-400 hover:underline">
+            Every stealth model on OpenRouter
+          </Link>{" "}
+          ·{" "}
+          <Link href="/union-alpha" className="text-violet-400 hover:underline">
+            Union Alpha, live now
+          </Link>
+        </p>
       </div>
 
       {/* Category Filter */}
