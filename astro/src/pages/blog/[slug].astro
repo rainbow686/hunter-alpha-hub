@@ -9,6 +9,7 @@
  */
 import { getCollection, render } from "astro:content";
 import Article from "../../layouts/Article.astro";
+import { getRelatedPosts } from "@repo/lib/blog";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -19,23 +20,20 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 
 /**
- * Related posts: same rule the Next app used (shared tag or same category),
- * computed from the collection so there is no second source to keep in sync.
+ * Related posts come from the same function the live site renders, not a
+ * re-implementation of its rule.
+ *
+ * The re-implementation looked equivalent and was not: it filtered the Astro
+ * collection, which is ordered by filename, while `lib/blog.ts` is a curated
+ * array — so the identical rule picked a different three posts on every article
+ * (e.g. /blog/xiaomi-mimo-v2-complete-guide lost its links to the two newest
+ * posts). `npm run check:links` is what caught it; see that script's header.
  */
-const all = await getCollection("blog");
-const related = all
-  .filter((candidate) => candidate.id !== post.id)
-  .filter(
-    (candidate) =>
-      candidate.data.tags.some((tag) => post.data.tags.includes(tag)) ||
-      candidate.data.category === post.data.category,
-  )
-  .slice(0, 3)
-  .map((candidate) => ({
-    href: `/blog/${candidate.id}`,
-    label: candidate.data.title,
-    note: candidate.data.excerpt,
-  }));
+const related = getRelatedPosts(post.id, 3).map((entry) => ({
+  href: `/blog/${entry.slug}`,
+  label: entry.title,
+  note: entry.excerpt,
+}));
 ---
 <Article
   title={post.data.title}
