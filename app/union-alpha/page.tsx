@@ -22,16 +22,16 @@ const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/union-alpha`;
 
 export const metadata: Metadata = {
-  title: "What Is Union Alpha? Specs, Price, Limits & Live Status (2026)",
+  title: "Union Alpha on OpenRouter: What the Free Stealth Model Is (2026)",
   description:
-    "Union Alpha (stealth/union-alpha) is an anonymous, currently free model on OpenRouter: 262K context, 128K output, image input, tool calling. Verified specs, expected paid pricing, live online status and the orchestrator theory — with facts separated from speculation.",
+    "Union Alpha is a free, anonymous multimodal model on OpenRouter and OpenCode: 262K context, 128K output, image input, tool calling. Verified specs, live status, expected paid pricing, and why testers think it may be several models stitched together.",
   keywords: [
-    "union alpha",
     "union alpha model",
-    "what is union alpha",
-    "union alpha benchmarks",
-    "union alpha pricing",
-    "union alpha free",
+    "union alpha openrouter",
+    "what is union alpha ai",
+    "union alpha opencode",
+    "union alpha free model",
+    "union alpha stealth model",
     "is union alpha free",
     "stealth/union-alpha",
     "union alpha openrouter",
@@ -98,7 +98,7 @@ export default function UnionAlphaPage() {
           className="text-3xl md:text-5xl font-bold leading-tight mb-4"
           style={{ color: "var(--foreground)" }}
         >
-          Union Alpha: the new stealth model on OpenRouter
+          What is Union Alpha? The New Free Stealth Model on OpenRouter &amp; OpenCode
         </h1>
         <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
           Last verified {UNION_ALPHA_DATA_AS_OF} · model ID <code>{UNION_ALPHA_MODEL_ID}</code> · added to
@@ -246,11 +246,14 @@ export default function UnionAlphaPage() {
 
         <section className="mb-10">
           <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>
-            Community theories (unverified)
+            Is Union Alpha really one model?
           </h2>
           <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
-            These are paraphrases of public discussion, not findings. Nothing in this section is confirmed
-            by the maker or by OpenRouter, and models are unreliable witnesses about their own identity.
+            The most interesting question about Union Alpha is whether it is a single model at all. Testers
+            report very different behaviour between sessions, which points at an orchestrated system rather
+            than one set of weights — and a public landing page for the model now describes it as running
+            multiple LLMs in parallel and synthesising one answer. Nothing in this section is confirmed by
+            the maker or by OpenRouter, and models are unreliable witnesses about their own identity.
           </p>
           <div className="space-y-4">
             {communityClaims.map((claim) => (
@@ -327,6 +330,12 @@ export default function UnionAlphaPage() {
               delisted overnight, is for evaluation only.
             </li>
           </ol>
+          <p className="text-sm mt-4 leading-relaxed" style={{ color: "var(--muted)" }}>
+            <strong style={{ color: "var(--foreground)" }}>Via OpenCode instead:</strong> third-party
+            reports say the same anonymous model is also reachable from OpenCode&apos;s free tier, so you can
+            try it inside an agentic coding tool without wiring up an API key. Same caveats apply — no
+            customer data, no credentials, and assume the free window closes.
+          </p>
         </section>
 
         <section className="mb-10">
