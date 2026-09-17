@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "./button";
-import { trackOxAlphaSubscribe } from "@/lib/gtag";
+import { trackOxAlphaSubscribe, trackSubscribeResult, trackSubscribeSubmit } from "@/lib/gtag";
 
 export function SubscriptionForm() {
   const [email, setEmail] = useState("");
@@ -11,6 +11,7 @@ export function SubscriptionForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
+    trackSubscribeSubmit({ page_path: window.location.pathname });
 
     try {
       const response = await fetch("/api/subscribe", {
@@ -20,6 +21,7 @@ export function SubscriptionForm() {
       });
 
       if (response.ok) {
+        trackSubscribeResult({ result: "ok", http_status: response.status });
         trackOxAlphaSubscribe({
           method: "subscription_form",
           page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
@@ -29,9 +31,14 @@ export function SubscriptionForm() {
         setEmail("");
         setTimeout(() => setStatus("idle"), 3000);
       } else {
+        trackSubscribeResult({
+          result: response.status === 409 ? "duplicate" : "error",
+          http_status: response.status,
+        });
         setStatus("error");
       }
     } catch {
+      trackSubscribeResult({ result: "error" });
       setStatus("error");
     }
   };
