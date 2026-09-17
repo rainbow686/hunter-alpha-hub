@@ -77,7 +77,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen transition-colors duration-300 flex flex-col">
         <AdSense clientId={process.env.NEXT_PUBLIC_ADSENSE_ID || ""} />
-        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        {/* GA4 probe. NEXT_PUBLIC_GA_ID is inlined at build time; GA_MEASUREMENT_ID lets a
+            runtime (Worker) variable switch it on without a rebuild. Both are public values. */}
+        <Analytics
+          gaId={process.env.NEXT_PUBLIC_GA_ID || process.env.GA_MEASUREMENT_ID}
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

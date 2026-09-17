@@ -34,14 +34,16 @@ export function Analytics({ gaId }: AnalyticsProps) {
         window.gtag = gtag;
         gtag('js', new Date());
         gtag('config', '${gaId}', {
-          send_page_view: true,
+          // Page views are sent explicitly below so each navigation is counted
+          // exactly once (config + explicit event would double-count the first hit).
+          send_page_view: false,
           debug_mode: ${process.env.NODE_ENV !== "production" ? "true" : "false"}
         });
       `;
     document.head.appendChild(inlineScript);
   }, [gaId]);
 
-  // SPA page_view on route change (GA4 also does this via config, this is explicit for DebugView visibility)
+  // Exactly one page_view per navigation: the first render and every SPA route change.
   useEffect(() => {
     if (!gaId || typeof window.gtag !== "function") return;
     const url = pathname + (typeof window !== "undefined" ? window.location.search : "");
@@ -51,6 +53,39 @@ export function Analytics({ gaId }: AnalyticsProps) {
       page_title: document.title,
     });
   }, [pathname, gaId]);
+
+  /**
+   * Safety net for outbound clicks: any anchor pointing at openrouter.ai fires
+   * outbound_openrouter_click, even on pages that do not use OutboundOpenRouterLink.
+   * Capture phase so it runs before navigation.
+   */
+  useEffect(() => {
+    if (!gaId) return;
+
+    const handler = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const anchor = target?.closest?.("a");
+      if (!anchor) return;
+
+      let host = "";
+      try {
+        host = new URL(anchor.href, window.location.href).host;
+      } catch {
+        return;
+      }
+      if (!host.endsWith("openrouter.ai")) return;
+
+      window.gtag?.("event", "outbound_openrouter_click", {
+        link_url: anchor.href,
+        link_text: anchor.textContent?.trim().slice(0, 100),
+        location: "auto_capture",
+        page_path: window.location.pathname,
+      });
+    };
+
+    document.addEventListener("click", handler, true);
+    return () => document.removeEventListener("click", handler, true);
+  }, [gaId]);
 
   useEffect(() => {
     // Adsterra Social Bar - testing (kept)
