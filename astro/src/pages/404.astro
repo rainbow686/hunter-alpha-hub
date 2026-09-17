@@ -1,0 +1,82 @@
+---
+/**
+ * Not-found page.
+ *
+ * The live site answers unknown paths with a styled 404 that keeps the reader
+ * inside the reference (19.6 KB of Next's not-found output); the Astro build had
+ * none, so Workers Assets served its own bare 4 KB page with no navigation. A 404
+ * is a page people actually land on — old links, retired routes, typos — and it
+ * is the cheapest place to send them somewhere useful.
+ *
+ * It gets no canonical (nothing should point here), no per-page card (there is no
+ * page to preview — it points at the site card instead) and no sitemap entry.
+ */
+import System from "../layouts/System.astro";
+import { SITE } from "../lib/schema";
+
+const title = "Page not found";
+const description =
+  "That URL does not exist on hunteralphahub.com. Start from the model hub, the comparison table or the stealth line index.";
+
+const destinations = [
+  {
+    href: "/",
+    kicker: "Model hub",
+    body: "Pricing, context windows and best-fit workloads across the OpenRouter catalogue.",
+  },
+  {
+    href: "/comparison",
+    kicker: "Comparison",
+    body: "Every model side by side on the fields that decide a purchase.",
+  },
+  {
+    href: "/stealth-models",
+    kicker: "Stealth line",
+    body: "Every anonymous Alpha release we can verify, and what it turned out to be.",
+  },
+  {
+    href: "/union-alpha",
+    kicker: "Live tracker",
+    body: "Union Alpha: verified specs, live status and the community's theories.",
+  },
+  {
+    href: "/blog",
+    kicker: "Articles",
+    body: "Guides, comparisons and post-mortems on the models this site tracks.",
+  },
+  {
+    href: "/access",
+    kicker: "How to use OpenRouter",
+    body: "Pick a model, test it in the playground, estimate the cost, ship it.",
+  },
+];
+---
+<System
+  title={`${title} | OpenRouter Model Hub`}
+  description={description}
+  ogImage={`${SITE}/og-image.png`}
+>
+  <p class="kicker">404</p>
+  <h1 class="display">That page is not here</h1>
+  <p class="lede">
+    The URL you asked for does not exist on this site. Nothing is broken on your side — most 404s here
+    are old links to routes that were retired when the site narrowed to the model hub.
+  </p>
+
+  <h2>Where to go instead</h2>
+  <div class="grid-cards">
+    {destinations.map((entry) => (
+      <article class="card">
+        <p class="card-kicker">{entry.kicker}</p>
+        <h3 class="card-title"><a href={entry.href}>{entry.kicker}</a></h3>
+        <p class="card-body">{entry.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/openrouter-models">Full model directory →</a>
+    <a class="btn ghost" href="/openrouter-pricing-calculator">Cost calculator</a>
+    <a class="btn ghost" href="/faq">FAQ</a>
+  </p>
+</System>

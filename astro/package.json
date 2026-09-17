@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/generate-og-images.mjs",
+    "build": "astro build && node scripts/generate-og-images.mjs && node scripts/finalize-redirects.mjs",
     "check:theme": "node scripts/check-theme-tokens.mjs",
     "check:content": "node scripts/check-content.mjs",
     "check:analytics": "node scripts/check-analytics.mjs",

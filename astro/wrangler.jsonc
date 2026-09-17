@@ -5,7 +5,15 @@
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2026-08-25",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": { "directory": "dist", "binding": "ASSETS" },
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    // Slashed variants (/faq/) must answer 308, not the asset layer's default 307:
+    // 307 is temporary, so Google keeps both forms instead of consolidating.
+    "html_handling": "drop-trailing-slash",
+    // Unknown paths get the build's own 404.html instead of the bare asset-layer page.
+    "not_found_handling": "404-page"
+  },
   "workers_dev": true,
   "preview_urls": true
 }
