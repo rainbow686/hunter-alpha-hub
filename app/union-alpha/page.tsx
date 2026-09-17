@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
 import { UnionAlphaStatus } from "@/components/union-alpha-status";
+import { SubscriptionForm } from "@/components/subscription-form";
 import {
   ArticleSchema,
   BreadcrumbListSchema,
@@ -410,6 +411,20 @@ export default function UnionAlphaPage() {
               </Card>
             ))}
           </div>
+        </section>
+
+        <section className="mb-10">
+          <Card className="p-6 md:p-8">
+            <h2 className="text-xl font-bold mb-2" style={{ color: "var(--foreground)" }}>
+              Get notified when Union Alpha is revealed
+            </h2>
+            <p className="text-sm mb-5 leading-relaxed" style={{ color: "var(--muted)" }}>
+              The first two models in this line were revealed and repriced weeks after they appeared. Leave
+              your email and we will tell you who Union Alpha turns out to be — and what it costs once the
+              free preview ends.
+            </p>
+            <SubscriptionForm />
+          </Card>
         </section>
 
         <div className="flex flex-wrap gap-3">
