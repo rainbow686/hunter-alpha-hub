@@ -55,11 +55,26 @@ if (sitemap.status !== 200) {
   process.exit(1);
 }
 
-const urls = [...sitemap.body.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]);
-if (urls.length === 0) {
+const sitemapUrls = [...sitemap.body.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]);
+if (sitemapUrls.length === 0) {
   console.error("sitemap parsed to zero URLs — refusing to report a clean bill of health");
   process.exit(1);
 }
+
+/**
+ * A sitemap lists absolute URLs of the canonical site, so `--base <preview>`
+ * would otherwise fetch that sitemap and then crawl *production* — which is what
+ * happened the first time this was used to check the Astro preview: it reported
+ * Next-era /_next asset 404s and looked like a preview failure. The base origin
+ * wins; only the paths are taken from the sitemap.
+ */
+const urls = sitemapUrls.map((u) => {
+  try {
+    return `${BASE}${new URL(u).pathname}`;
+  } catch {
+    return u;
+  }
+});
 
 /**
  * Links inside a page. We deliberately read only server-rendered href="..."

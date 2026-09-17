@@ -85,6 +85,18 @@ export function blogSchema(input: { name: string; url: string; description: stri
   };
 }
 
+/** Homepage schema — mirrors the live / page's WebSite + publisher pair. */
+export function webSiteSchema(input: { name: string; url: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: input.name,
+    url: input.url,
+    description: input.description,
+    publisher: { "@type": "Organization", name: PUBLISHER },
+  };
+}
+
 /**
  * WebApplication schema for the pricing calculator.
  *
