@@ -6355,7 +6355,14 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 }
 
 export function getAllPosts(): BlogPost[] {
-  return blogPosts.sort((a, b) =>
+  // Copy before sorting. `blogPosts` is module state, and in a Worker an isolate
+  // serves many requests: an in-place `.sort()` here permanently reordered the
+  // array for every later request in that isolate, so `getRelatedPosts()` — which
+  // reads `blogPosts` in array order — returned a different set of "Related
+  // Articles" depending on what had run before it. Measured on production
+  // 2026-09-18: the same URL rendered two different related sets, ~50/50 across
+  // requests (e.g. /blog/building-long-document-analyzer-mimo-v2).
+  return [...blogPosts].sort((a, b) =>
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
 }
