@@ -1,0 +1,396 @@
+---
+/**
+ * Stealth models register — the page that accumulates.
+ *
+ * Every other page on this site is about one codename and dies with it. This is
+ * the one that gets a new row every time a codename appears, which makes it the
+ * only compounding asset here. That is why it is a second-tier page in ADR-0012
+ * and why it is worth a careful migration: the live page's title, description,
+ * canonical and three JSON-LD blocks are checked by `npm run verify:pages`.
+ *
+ * Editorial rule that must survive any redesign: catalogue fields are facts with
+ * a date, everything else is a claim with a source, and the two never share a
+ * column.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Stealth Models on OpenRouter: Every Anonymous Release (Index)";
+const description =
+  "An index of anonymous stealth models on OpenRouter — Hunter Alpha, OX Alpha and Union Alpha — with what each turned out to be, how the releases are staged, and how to evaluate the next one safely.";
+const canonical = `${SITE}/stealth-models`;
+
+const index = [
+  {
+    codename: "Hunter Alpha",
+    listed: "2026-03-12",
+    href: "/hunter-alpha",
+    turnedOutToBe: "Xiaomi MiMo-V2.5",
+    verified: "Yes — maker disclosed, model renamed and repriced",
+  },
+  {
+    codename: "OX Alpha",
+    listed: "2026-08-20",
+    href: "/ox-alpha",
+    turnedOutToBe: "Z.ai GLM 5.3 Flash",
+    verified: "Yes — maker disclosed, model renamed and repriced",
+  },
+  {
+    codename: "Union Alpha",
+    listed: "2026-09-16",
+    href: "/union-alpha",
+    turnedOutToBe: "Unclaimed",
+    verified: "No — live now, maker anonymous",
+  },
+];
+
+const line = [
+  {
+    codename: "Hunter Alpha",
+    href: "/hunter-alpha",
+    listed: "2026-03-12",
+    context: "1M",
+    modality: "Text only",
+    priceWhileAnonymous: "Free",
+    revealedAs: "Xiaomi MiMo-V2.5",
+    priceAfter: "$0.14 in / $0.28 out per M",
+  },
+  {
+    codename: "OX Alpha",
+    href: "/ox-alpha",
+    listed: "2026-08-20",
+    context: "1M",
+    modality: "Text only",
+    priceWhileAnonymous: "Free",
+    revealedAs: "Z.ai GLM 5.3 Flash",
+    priceAfter: "$0.09 in / $0.30 out per M",
+  },
+  {
+    codename: "Union Alpha",
+    href: "/union-alpha",
+    listed: "2026-09-16",
+    context: "256K",
+    modality: "Text + image in",
+    priceWhileAnonymous: "Free",
+    revealedAs: "Unclaimed",
+    priceAfter: "Unknown — reported ≈$0.50 / $1.50 per M",
+  },
+];
+
+const revealEffect = [
+  {
+    codename: "Hunter Alpha",
+    became: "Xiaomi MiMo-V2.5",
+    took: "11 days",
+    detail:
+      "Free preview ended with the reveal; the model reappeared as a Xiaomi product with published pricing and a 1.05M-token window.",
+  },
+  {
+    codename: "OX Alpha",
+    became: "Z.ai GLM 5.3 Flash",
+    took: "Weeks",
+    detail:
+      "Z.ai claimed it as GLM 5.3 Flash and folded it into the vendor line at list price, with the largest window on this site at 1.31M tokens.",
+  },
+];
+
+const checklist = [
+  {
+    step: "Confirm it is in the catalogue",
+    detail:
+      "A codename has to resolve to a real listing before it means anything. Ours is a live read, not a screenshot: /api/union-alpha/status is the shape to copy.",
+  },
+  {
+    step: "Check what the endpoint declares",
+    detail:
+      "Context window, output cap, modalities and tool support come from the catalogue and can be re-read in seconds. Everything else is commentary.",
+  },
+  {
+    step: "Read the price as a countdown",
+    detail:
+      "While it is free, the model is in a trial. The day the price stops being $0 is the day the reveal is either done or imminent.",
+  },
+  {
+    step: "Separate the community's claims from the listing",
+    detail:
+      "Identity theories are worth reading and worthless as evidence. Keep them in a separate column or a separate section — never blended into a spec table.",
+  },
+  {
+    step: "Decide before the window closes, not after",
+    detail:
+      "If you evaluate a stealth endpoint, evaluate it in days and keep a fallback configured. The two reveals we documented both ended the free window with no notice.",
+  },
+];
+
+const faqs = [
+  {
+    question: "What is a stealth model?",
+    answer:
+      "A model published to a public catalogue — most often OpenRouter — with no announcement, no maker name and usually no price while it is in preview. The codename is temporary: if the release goes well the maker claims it and renames it to a product name.",
+  },
+  {
+    question: "How long does a stealth model stay anonymous?",
+    answer:
+      "In the cases we can verify, weeks rather than months. Hunter Alpha was revealed as Xiaomi MiMo-V2.5 and OX Alpha as Z.ai GLM 5.3 Flash; both kept their free window only until the reveal, then were repriced. Treat the anonymous phase as a trial period, not a stable endpoint.",
+  },
+  {
+    question: "Are there other stealth codenames besides the three listed here?",
+    answer:
+      "Codenames appear in forums that we cannot verify against a public listing — and once a model is revealed, the old codename usually disappears from the catalogue entirely, which is why this index only lists releases we can document. If a codename is not in the table, we have no evidence for it.",
+  },
+  {
+    question: "Is it safe to build on a stealth model?",
+    answer:
+      "No. There is no named provider, usually no published privacy or data-retention policy, and the endpoint can be repriced or withdrawn without notice. Use stealth endpoints for evaluation with non-sensitive data, and keep production on models with a disclosed vendor.",
+  },
+  {
+    question: "How many stealth models has OpenRouter had?",
+    answer:
+      "We can document three: Hunter Alpha (March 2026), OX Alpha (August 2026) and Union Alpha (September 2026). The list is short on purpose — a codename that cannot be tied to a public listing is not included, and folk names circulating in forums are exactly the kind of thing this index refuses to guess at.",
+  },
+  {
+    question: "What is the difference between /stealth-models and /alpha-models?",
+    answer:
+      "This page is the index: every documented release, with the fields you can re-check. /alpha-models is the explainer: why the releases are staged this way, what the codenames have in common, and what tends to happen at the reveal. Same subject, different question.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Stealth Models on OpenRouter: Every Anonymous Release",
+      description: "Index of anonymous stealth models on OpenRouter and what each one turned out to be.",
+      publishedAt: "2026-09-17",
+      updatedAt: "2026-09-17",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Stealth Models", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Stealth line · register</p>
+  <h1 class="display">Stealth models on OpenRouter</h1>
+  <div class="byline">
+    <span>Register</span>
+    <span>Last verified 2026-09-17</span>
+    <span>Live entry: <a href="/union-alpha">Union Alpha</a></span>
+  </div>
+  <p class="lede">
+    Anonymous releases we can point at a public listing — nothing rumoured, nothing unverifiable. A stealth
+    model is a frontier-class model published anonymously as a free preview, then claimed and renamed once
+    the maker is ready to talk about it. Three have followed that script on OpenRouter since March 2026.
+  </p>
+  <p class="measure">
+    This page is the index. The narrative version — the staging pattern, and how to judge the next drop — is
+    on <a href="/alpha-models">the Alpha models line</a>.
+  </p>
+
+  <section id="index">
+    <h2>Index of documented stealth releases</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Codename</th>
+            <th>First listed</th>
+            <th>Turned out to be</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {index.map((row) => (
+            <tr>
+              <td><a href={row.href}>{row.codename}</a></td>
+              <td style="color: var(--text-muted);">{row.listed}</td>
+              <td style="color: var(--text-muted);">{row.turnedOutToBe}</td>
+              <td style="color: var(--text-muted); font-size: var(--text-xs);">{row.verified}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">
+      Why the list is short: when a stealth model is revealed, the codename normally vanishes from the
+      catalogue. Anything we cannot tie to a listing is left out rather than guessed at.
+    </p>
+  </section>
+
+  <section id="line">
+    <h2>The line, side by side</h2>
+    <p class="measure">
+      This is the table we extend every time a codename appears. While a model is anonymous the fields come
+      from a catalogue read; after the reveal they come from the product page it became. The two sources are
+      labelled, because they are not the same kind of fact.
+    </p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Codename</th>
+            <th>First listed</th>
+            <th class="num">Context</th>
+            <th>Input</th>
+            <th>While anonymous</th>
+            <th>Revealed as</th>
+            <th>Price after</th>
+          </tr>
+        </thead>
+        <tbody>
+          {line.map((row) => (
+            <tr>
+              <td><a href={row.href}>{row.codename}</a></td>
+              <td style="color: var(--text-muted);">{row.listed}</td>
+              <td class="num">{row.context}</td>
+              <td style="color: var(--text-muted);">{row.modality}</td>
+              <td class="free">{row.priceWhileAnonymous}</td>
+              <td style="color: var(--text-muted);">{row.revealedAs}</td>
+              <td style="color: var(--text-muted);">{row.priceAfter}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Provenance
+      source="OpenRouter catalogue reads + each model's own product page"
+      verified="2026-09-17"
+      extra={["Union Alpha's post-reveal price is a third-party published figure, not an announcement"]}
+    />
+    <p class="footnote">
+      The one number here that neither we nor a vendor has confirmed is Union Alpha's post-reveal price.
+      Details: <a href="/union-alpha-free">is Union Alpha still free?</a>
+    </p>
+  </section>
+
+  <section id="reveal">
+    <h2>What the reveal did to the price</h2>
+    <div class="grid-cards">
+      {revealEffect.map((item) => (
+        <article class="card">
+          <div class="reveal-head">
+            <h3 style="margin: 0;">{item.codename} → {item.became}</h3>
+            <span>{item.took}</span>
+          </div>
+          <p style="margin: var(--space-2) 0 0; color: var(--text-muted); font-size: var(--text-sm);">
+            {item.detail}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2>How to judge the next drop</h2>
+    <ol class="checklist">
+      {checklist.map((item, i) => (
+        <li>
+          <span class="step">{i + 1}</span>
+          <div>
+            <div class="step-title">{item.step}</div>
+            <p>{item.detail}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="staging">
+    <h2>How a stealth release is staged</h2>
+    <ol class="stages">
+      <li>
+        <strong>Anonymous listing.</strong> The model appears in a public catalogue under a neutral
+        namespace, free, with a context window above its price class.
+      </li>
+      <li>
+        <strong>Silent measurement.</strong> The maker collects real usage and preference signal under a
+        name that carries no brand expectations.
+      </li>
+      <li>
+        <strong>Reveal and rename.</strong> If it performs, the maker claims it, the codename is retired
+        and pricing starts.
+      </li>
+    </ol>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/union-alpha">Union Alpha (live) →</a>
+    <a class="btn ghost" href="/alpha-models">The Alpha line explained</a>
+    <a class="btn ghost" href="/openrouter-free-models">Free models today</a>
+    <a class="btn ghost" href="/comparison">Compare every model</a>
+  </p>
+</System>
+
+<style>
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-4);
+  }
+  .reveal-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+  .reveal-head span {
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+  .checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .checklist li {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .step {
+    flex-shrink: 0;
+    height: fit-content;
+    border-radius: 999px;
+    background: var(--row-alt);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: 700;
+  }
+  .step-title {
+    font-weight: 600;
+  }
+  .checklist p {
+    margin: var(--space-1) 0 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+  .stages {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .stages li {
+    margin-bottom: var(--space-3);
+  }
+  .stages strong {
+    color: var(--text);
+  }
+  .footnote {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+</style>
