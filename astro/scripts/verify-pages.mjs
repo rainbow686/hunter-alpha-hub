@@ -31,6 +31,7 @@ const offline = process.argv.includes("--offline");
 const MIGRATED_PATHS = [
   "/union-alpha",
   "/openrouter-models",
+  "/comparison",
   "/blog",
 ];
 

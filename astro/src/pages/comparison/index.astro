@@ -1,0 +1,333 @@
+---
+/**
+ * OpenRouter models comparison — the third migrated route, and the one with the
+ * most to lose: /comparison is one of only three pages Google already has in the
+ * index (GSC, 2026-09-18), so its title, description, canonical, single h1 and
+ * JSON-LD have to come out byte-identical. `npm run verify:pages` enforces that
+ * against the live page; anything else here is layout.
+ *
+ * The differentiator is kept above the fold-ish: the free-and-anonymous row sits
+ * next to the two models that used to be free for the same reason. No other
+ * comparison site shows that, because it requires keeping the history.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  formatContextWindow,
+  formatPrice,
+  getModelBySlug,
+  modelHubDataAsOf,
+  modelsForScenario,
+  openrouterModels,
+} from "@repo/lib/openrouter-models";
+import { comparisonPairs } from "@repo/lib/openrouter-comparisons";
+import { stealthModels } from "@repo/lib/stealth-models";
+
+const title = "OpenRouter Models Comparison 2026: Pricing, Context & Best Picks";
+const description =
+  "Compare major AI models on OpenRouter side-by-side: pricing per million tokens, context window, modality, and best-use recommendations for coding, long context, agents and budget workloads.";
+const canonical = `${SITE}/comparison`;
+
+const scenarios = [
+  { name: "Best overall", scenario: "Overall" as const },
+  { name: "Best for coding", scenario: "Coding" as const },
+  { name: "Best for long context", scenario: "Long Context" as const },
+  { name: "Best for budget", scenario: "Budget" as const },
+  { name: "Best multimodal", scenario: "Multimodal" as const },
+  { name: "Best for agents", scenario: "Agents" as const },
+];
+
+/** The one model that is free because nobody has claimed it yet. */
+const stealthRow = stealthModels[0];
+/** The ones that were free for exactly the same reason, and no longer are. */
+const revealed = openrouterModels.filter((model) => model.formerAlias);
+
+const faqs = [
+  {
+    question: "What is the best model on OpenRouter for coding?",
+    answer:
+      "Claude Sonnet 5, Claude Opus 5 and GPT-5.6 Sol are strong general-purpose choices for coding. Sonnet 5 is often the best price/quality default; Opus 5 is better for difficult architecture or debugging work.",
+  },
+  {
+    question: "Which OpenRouter model has the largest context window?",
+    answer:
+      "In the current snapshot, DeepSeek V4 Flash and GLM 5.3 Flash offer about 1.31M tokens, with several other models around 1M tokens. Always verify provider-specific limits before long-context production use.",
+  },
+  {
+    question: "What is the cheapest model on OpenRouter?",
+    answer:
+      "DeepSeek V4 Flash, GLM 5.3 Flash and Llama 4 Maverick are among the lowest-cost options. For free routes, see our free models page; some free models have rate limits and smaller context windows.",
+  },
+  {
+    question: "Are there free models on OpenRouter?",
+    answer:
+      "Yes. OpenRouter exposes some models with a :free suffix. These are useful for testing and low-volume workloads, but rate limits, context limits and quality vary significantly.",
+  },
+  {
+    question: "What happened to Hunter Alpha and OX Alpha?",
+    answer:
+      "Hunter Alpha is now known as Xiaomi MiMo-V2.5 and OX Alpha was revealed as GLM 5.3 Flash. We keep those names as historical aliases, but no longer treat them as primary SEO targets.",
+  },
+  {
+    question: "How do OpenRouter models compare to ChatGPT?",
+    answer:
+      "OpenRouter is not a single model; it is a model router and marketplace. The best comparison depends on the model you choose, the input modality, context length and pricing tier.",
+  },
+];
+
+const headToHead = comparisonPairs
+  .map((pair) => {
+    const a = getModelBySlug(pair.aSlug);
+    const b = getModelBySlug(pair.bSlug);
+    return a && b ? { slug: pair.slug, a: a.name, b: b.name, note: pair.keyDifference } : null;
+  })
+  .filter((pair): pair is NonNullable<typeof pair> => pair !== null);
+
+const shortContext = (tokens: number) => formatContextWindow(tokens).replace(" tokens", "");
+const millions = (tokens: number) =>
+  `${(tokens / 1_000_000).toFixed(tokens % 1_000_000 === 0 ? 0 : 2)}M`;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "OpenRouter Models Comparison 2026",
+      description:
+        "Compare major AI models on OpenRouter by pricing, context window, modality and best-use case.",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter Models Comparison", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Model comparison</p>
+  <h1 class="display">OpenRouter Models Compared</h1>
+  <p class="lede">
+    Which model should you use? Context window, price per million tokens, modality and the workload each
+    one is actually good at — read from the public catalogue, dated, and drift-checked daily.
+  </p>
+  <div class="byline">
+    <span>Comparison</span>
+    <span>Snapshot {modelHubDataAsOf}</span>
+    <span>{openrouterModels.length} tracked models</span>
+  </div>
+
+  <h2 id="best-picks">Best picks right now</h2>
+  <div class="picks">
+    {scenarios.map((item) => {
+      const model = modelsForScenario(item.scenario, 1)[0];
+      if (!model) return null;
+      return (
+        <article class="card">
+          <p class="pick-label">{item.name}</p>
+          <p class="pick-model"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></p>
+          <p class="pick-note">
+            {model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}
+          </p>
+        </article>
+      );
+    })}
+  </div>
+
+  <section id="free-and-anonymous">
+    <h2>Free and anonymous, next to what it becomes</h2>
+    <p class="measure">
+      One model below is free because its maker has not claimed it yet. The other two were free for
+      exactly the same reason, and are now ordinary paid products. Putting them side by side is the
+      argument for treating a stealth endpoint as an evaluation rather than a plan.
+    </p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Status</th>
+            <th class="num">Context</th>
+            <th>Input</th>
+            <th class="num">Price per 1M</th>
+            <th>What it is</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="/union-alpha">{stealthRow.name}</a></td>
+            <td class="free">Anonymous, live</td>
+            <td class="num">{shortContext(stealthRow.contextWindow)}</td>
+            <td style="color: var(--text-muted);">{stealthRow.modalities.join(" + ")}</td>
+            <td class="num free">Free</td>
+            <td style="color: var(--text-muted);">
+              Unclaimed stealth release — repriced or delisted without notice
+            </td>
+          </tr>
+          {revealed.map((model) => (
+            <tr>
+              <td><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></td>
+              <td style="color: var(--text-muted);">Revealed — was {model.formerAlias}</td>
+              <td class="num">{millions(model.contextWindow)}</td>
+              <td style="color: var(--text-muted);">{model.modalities.slice(0, 2).join(" + ")}</td>
+              <td class="num">
+                {formatPrice(model.inputPricePerMillion)} in / {formatPrice(model.outputPricePerMillion)} out
+              </td>
+              <td style="color: var(--text-muted);">
+                Named vendor, published pricing, stable endpoint
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Provenance
+      source="openrouter.ai/api/v1/models"
+      verified={modelHubDataAsOf}
+      extra={["Union Alpha price re-read live from /api/union-alpha/status"]}
+    />
+    <p class="footnote">
+      The full register — what each anonymous release became, and what it costs now — is on{" "}
+      <a href="/stealth-models">the stealth models index</a>.
+    </p>
+  </section>
+
+  <section id="all-models">
+    <h2>All models in this comparison</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Vendor</th>
+            <th class="num">Context</th>
+            <th class="num">Input /M</th>
+            <th class="num">Output /M</th>
+            <th>Modalities</th>
+          </tr>
+        </thead>
+        <tbody>
+          {openrouterModels.map((model) => (
+            <tr>
+              <td>
+                <a href={`/openrouter-models/${model.slug}`}>{model.name}</a>
+                {model.formerAlias && (
+                  <div style="font-size: var(--text-xs); color: var(--warn);">
+                    formerly {model.formerAlias}
+                  </div>
+                )}
+              </td>
+              <td style="color: var(--text-muted);">{model.vendor}</td>
+              <td class="num">{shortContext(model.contextWindow)}</td>
+              <td class={`num ${model.inputPricePerMillion === 0 ? "free" : ""}`}>
+                {formatPrice(model.inputPricePerMillion)}
+              </td>
+              <td class={`num ${model.outputPricePerMillion === 0 ? "free" : ""}`}>
+                {formatPrice(model.outputPricePerMillion)}
+              </td>
+              <td style="color: var(--text-faint); font-size: var(--text-xs);">
+                {model.modalities.join(", ")}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Provenance
+      source="openrouter.ai/api/v1/models"
+      verified={modelHubDataAsOf}
+      extra={["Input/output per 1M tokens; provider limits and surcharges can change"]}
+    />
+  </section>
+
+  <section id="workloads">
+    <h2>Best picks by workload</h2>
+    <div class="picks">
+      {scenarios.map((item) => (
+        <article class="card">
+          <h3 style="margin-top: 0;">{item.name}</h3>
+          <ol class="ranked">
+            {modelsForScenario(item.scenario, 3).map((model) => (
+              <li>
+                <a href={`/openrouter-models/${model.slug}`}>{model.name}</a>
+                <span>{model.strengths[0]}</span>
+              </li>
+            ))}
+          </ol>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="head-to-head">
+    <h2>Head-to-head comparisons</h2>
+    <div class="picks">
+      {headToHead.map((pair) => (
+        <article class="card">
+          <h3 style="margin-top: 0;">
+            <a href={`/compare/${pair.slug}`}>{pair.a} vs {pair.b}</a>
+          </h3>
+          <p style="margin: 0; color: var(--text-muted); font-size: var(--text-sm);">{pair.note}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently asked questions</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/openrouter-pricing-calculator">Estimate monthly cost</a>
+    <a class="btn ghost" href="/best-openrouter-models">See best picks</a>
+    <a class="btn ghost" href="/stealth-models">Stealth model register</a>
+  </p>
+</System>
+
+<style>
+  .picks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  .pick-label {
+    margin: 0;
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .pick-model {
+    margin: var(--space-2) 0 var(--space-1);
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+  .pick-note {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .ranked {
+    margin: 0;
+    padding-left: var(--space-6);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+  .ranked li {
+    margin-bottom: var(--space-3);
+  }
+  .ranked li span {
+    display: block;
+  }
+  .footnote {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+</style>
