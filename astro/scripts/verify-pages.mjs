@@ -32,6 +32,7 @@ const offline = process.argv.includes("--offline");
  * build so a post cannot be added to the collection and quietly skip the check.
  */
 const MIGRATED_PATHS = [
+  "/",
   "/union-alpha",
   "/union-alpha-free",
   "/union-alpha-opencode",
