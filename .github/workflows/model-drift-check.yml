@@ -1,0 +1,32 @@
+name: Model Snapshot Drift Check
+
+# The curated OpenRouter snapshot is the site's core factual asset: pricing,
+# context windows and modalities on the model/compare/calculator pages all come
+# from lib/openrouter-models.ts. OpenRouter repricing breaks it silently, so this
+# runs the validator daily against the live catalog.
+#
+# Exit code 1 = the snapshot no longer matches reality -> open a PR bumping
+# lib/openrouter-models.ts and DATA_AS_OF.
+
+on:
+  schedule:
+    - cron: "0 22 * * *" # 06:00 Asia/Shanghai
+  workflow_dispatch:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate curated snapshot against the OpenRouter catalog
+        run: npm run sync-models
