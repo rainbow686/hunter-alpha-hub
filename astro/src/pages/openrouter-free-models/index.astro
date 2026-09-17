@@ -1,0 +1,113 @@
+---
+/**
+ * Free routes on OpenRouter.
+ *
+ * Imports the same curated list the Next app uses (lib/openrouter-free-models.ts)
+ * rather than restating it, so the two builds cannot disagree about what is
+ * free. That list is drift-checked against the live catalogue daily — the check
+ * that caught a `:free` route disappearing and a window listed 8x too large
+ * (see the comment in the lib file).
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * and exactly Article + ItemList + ListItem + BreadcrumbList.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, itemListSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { FREE_MODELS_DATA_AS_OF, freeModels } from "@repo/lib/openrouter-free-models";
+import { formatContextWindow } from "@repo/lib/openrouter-models";
+
+const title = "OpenRouter Free Models: Practical Guide & Limits";
+const description =
+  "A practical guide to OpenRouter free models: what is available, context limits, best-fit workloads and when to upgrade to a paid route.";
+const canonical = `${SITE}/openrouter-free-models`;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "OpenRouter Free Models: Practical Guide & Limits",
+      description:
+        "A practical guide to OpenRouter free models, including context limits, rate limits and best-fit workloads.",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd
+    slot="head"
+    data={itemListSchema(
+      "OpenRouter free models",
+      freeModels.map((model) => ({ name: model.name, url: `https://openrouter.ai/${model.id}` })),
+    )}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter Free Models", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Free routes · OpenRouter</p>
+  <h1 class="display">OpenRouter Free Models</h1>
+  <p class="lede">
+    Free routes are useful for testing, small projects and low-volume workloads. But they often have rate
+    limits, context limits and variable provider capacity.
+  </p>
+  <div class="byline">
+    <span>Snapshot {FREE_MODELS_DATA_AS_OF}</span>
+    <span>Drift-checked daily</span>
+    <span><a href="/comparison">Compare paid models →</a></span>
+  </div>
+
+  <h2>Notable free options</h2>
+  <p class="measure">
+    The newest entry is an anonymous stealth preview — <a href="/union-alpha">follow the Union Alpha
+    tracker</a> for live status and verified specs. Every context figure below was read from the public
+    catalogue on {FREE_MODELS_DATA_AS_OF}, and the list is re-checked against that catalogue by the daily
+    drift job: free routes disappear and change window size without notice, which is why this list is short
+    and dated rather than long and confident.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="num">Context</th>
+          <th>Best for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {freeModels.map((model) => (
+          <tr>
+            <td>
+              <div style="font-weight: 600;">{model.name}</div>
+              <div style="font-size: var(--text-xs); color: var(--text-faint);"><code>{model.id}</code></div>
+            </td>
+            <td class="num">{formatContextWindow(model.contextWindow)}</td>
+            <td style="color: var(--text-muted);">{model.bestFor}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <Provenance
+    source="openrouter.ai/api/v1/models"
+    verified={FREE_MODELS_DATA_AS_OF}
+    extra={["Only $0-per-million routes; a cheap model is not a free route"]}
+  />
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/comparison">Compare paid models</a>
+    <a class="btn ghost" href="/openrouter-pricing-calculator">Estimate paid cost</a>
+    <a class="btn ghost" href="/union-alpha">Union Alpha tracker</a>
+  </p>
+</System>
+
+<style>
+  .measure {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+</style>

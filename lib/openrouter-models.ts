@@ -26,7 +26,12 @@ export interface HubModel {
   dataAsOf: string;
 }
 
-const DATA_AS_OF = "2026-09-17";
+/**
+ * Bumped to 2026-09-18 with the DeepSeek V4 Pro repricing below: every entry in
+ * this array was re-checked against the public catalogue by `npm run sync-models`
+ * that day, which is what the date is claiming.
+ */
+const DATA_AS_OF = "2026-09-18";
 
 export const openrouterModels: HubModel[] = [
   {
@@ -100,8 +105,10 @@ export const openrouterModels: HubModel[] = [
     name: "DeepSeek V4 Pro",
     vendor: "DeepSeek",
     contextWindow: 1_048_576,
-    inputPricePerMillion: 0.66,
-    outputPricePerMillion: 1.98,
+    // Repriced by the provider; caught by npm run sync-models on 2026-09-18
+    // (was $0.66 / $1.98, catalogue now reads $0.57948 / $1.73844 per 1M).
+    inputPricePerMillion: 0.57948,
+    outputPricePerMillion: 1.73844,
     modalities: ["Text"],
     bestFor: ["Long Context", "Budget", "Agents"],
     strengths: [
