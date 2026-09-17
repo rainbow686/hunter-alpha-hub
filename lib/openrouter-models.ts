@@ -26,7 +26,7 @@ export interface HubModel {
   dataAsOf: string;
 }
 
-const DATA_AS_OF = "2026-09-05";
+const DATA_AS_OF = "2026-09-17";
 
 export const openrouterModels: HubModel[] = [
   {
@@ -57,8 +57,8 @@ export const openrouterModels: HubModel[] = [
     name: "Z.ai GLM 5.3 Flash",
     vendor: "Z.ai",
     contextWindow: 1_310_720,
-    inputPricePerMillion: 0.075,
-    outputPricePerMillion: 0.25,
+    inputPricePerMillion: 0.09,
+    outputPricePerMillion: 0.3,
     modalities: ["Text", "Vision", "Video"],
     bestFor: ["Budget", "Long Context", "Multimodal"],
     strengths: [
@@ -79,8 +79,8 @@ export const openrouterModels: HubModel[] = [
     name: "DeepSeek V4 Flash",
     vendor: "DeepSeek",
     contextWindow: 1_310_720,
-    inputPricePerMillion: 0.065,
-    outputPricePerMillion: 0.18,
+    inputPricePerMillion: 0.06,
+    outputPricePerMillion: 0.12,
     modalities: ["Text"],
     bestFor: ["Budget", "Long Context"],
     strengths: [
@@ -100,8 +100,8 @@ export const openrouterModels: HubModel[] = [
     name: "DeepSeek V4 Pro",
     vendor: "DeepSeek",
     contextWindow: 1_048_576,
-    inputPricePerMillion: 0.57948,
-    outputPricePerMillion: 1.73844,
+    inputPricePerMillion: 0.66,
+    outputPricePerMillion: 1.98,
     modalities: ["Text"],
     bestFor: ["Long Context", "Budget", "Agents"],
     strengths: [
@@ -314,8 +314,8 @@ export const openrouterModels: HubModel[] = [
     name: "Meta Llama 4 Maverick",
     vendor: "Meta",
     contextWindow: 1_048_576,
-    inputPricePerMillion: 0.2,
-    outputPricePerMillion: 0.696,
+    inputPricePerMillion: 0.1875,
+    outputPricePerMillion: 0.6525,
     modalities: ["Text", "Vision"],
     bestFor: ["Budget", "Long Context", "Multimodal"],
     strengths: [
