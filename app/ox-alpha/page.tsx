@@ -96,6 +96,13 @@ export default function OxAlphaPage() {
           <p className="text-sm text-amber-300">
             OX Alpha was later identified as Z.ai GLM 5.3 Flash. This page is kept for historical reference.
           </p>
+          <p className="text-sm text-amber-200/90 mt-2">
+            A newer anonymous model is live now — see the{" "}
+            <Link href="/union-alpha" className="underline hover:text-amber-100">
+              Union Alpha tracker
+            </Link>
+            .
+          </p>
         </div>
 
         <p className="text-lg mb-8 leading-relaxed" style={{ color: "var(--muted)" }}>

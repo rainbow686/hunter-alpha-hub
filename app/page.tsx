@@ -83,6 +83,25 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="mb-12">
+          <Link href="/union-alpha" className="block">
+            <Card className="p-6 hover:border-violet-500/50 transition-colors">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-bold text-amber-300">
+                  New stealth model
+                </span>
+                <span className="font-semibold" style={{ color: "var(--foreground)" }}>
+                  Union Alpha just landed on OpenRouter
+                </span>
+                <span className="text-sm" style={{ color: "var(--muted)" }}>
+                  256K context · free · image input · maker anonymous
+                </span>
+                <span className="ml-auto text-sm text-violet-400">Follow the tracker →</span>
+              </div>
+            </Card>
+          </Link>
+        </section>
+
         <section className="grid md:grid-cols-4 gap-4 mb-16">
           {defaultScenarios.slice(0, 4).map((scenario) => {
             const model = modelsForScenario(scenario.scenario, 1)[0];
