@@ -46,6 +46,18 @@ export default function AccessClient() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
+        {/* Crawl path to the Chinese guide — see the note in app/faq/faq-client.tsx. */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+          <span className="text-xs px-3 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300">
+            English
+          </span>
+          <Link
+            href="/zh/access"
+            className="text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:text-white transition-colors"
+          >
+            中文
+          </Link>
+        </div>
         <h1 className="text-4xl font-bold mb-4">
           <span className="gradient-text">How to Use OpenRouter</span>
         </h1>
