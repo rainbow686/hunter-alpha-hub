@@ -103,6 +103,10 @@ export default function OxAlphaPage() {
             <Link href="/union-alpha" className="underline hover:text-amber-100">
               Union Alpha tracker
             </Link>
+            , or how this fits the{" "}
+            <Link href="/alpha-models" className="underline hover:text-amber-100">
+              Alpha models line
+            </Link>
             .
           </p>
         </div>

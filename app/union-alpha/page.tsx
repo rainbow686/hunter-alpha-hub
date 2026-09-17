@@ -234,6 +234,14 @@ export default function UnionAlphaPage() {
               </tbody>
             </table>
           </div>
+          <p className="text-sm mt-4" style={{ color: "var(--muted)" }}>
+            Full picture of the whole stealth line — what each one turned out to be, and how to judge the
+            next drop:{" "}
+            <Link href="/alpha-models" className="text-violet-400 hover:underline">
+              Alpha models tracker
+            </Link>
+            .
+          </p>
         </section>
 
         <section className="mb-10">

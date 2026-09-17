@@ -40,6 +40,10 @@ export default function HunterAlphaArchivePage() {
             <Link href="/union-alpha" className="underline hover:text-amber-100">
               Union Alpha tracker
             </Link>
+            , or the{" "}
+            <Link href="/alpha-models" className="underline hover:text-amber-100">
+              full Alpha models line
+            </Link>
             .
           </p>
         </div>
