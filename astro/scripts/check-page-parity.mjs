@@ -81,18 +81,22 @@ function internalLinks(html, base) {
 }
 
 const fetchLive = async (path) => {
+  // Returns { status, html }. `status: 404` is meaningful — it means the build has
+  // a page the live site does not, i.e. a new page — and must not be reported as a
+  // dropped link. Transient failures return `status: 0` and are retried first.
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const response = await fetch(`${LIVE}${path === "/" ? "" : path}`, {
         headers: { "user-agent": "hunteralphahub-link-parity" },
       });
-      if (response.ok) return await response.text();
+      if (response.ok) return { status: response.status, html: await response.text() };
+      if (response.status === 404 || response.status === 410) return { status: response.status, html: "" };
     } catch {
       // retry
     }
     await new Promise((resolve) => setTimeout(resolve, 400));
   }
-  return null;
+  return { status: 0, html: "" };
 };
 
 /**
@@ -147,17 +151,21 @@ const LIVE_MISTAKES = new Set(["/hunter-alpha og:url"]);
 /** Links present in every response for this page — see the header. */
 const liveLinkSets = async (path) => {
   const [first, second] = await Promise.all([fetchLive(path), fetchLive(path)]);
-  if (!first || !second) return null;
-  const a = internalLinks(first, LIVE);
-  const b = internalLinks(second, LIVE);
+  if (first.status === 404 || second.status === 404 || first.status === 410 || second.status === 410) {
+    return { stable: new Set(), varied: false, notLiveYet: true, html: "" };
+  }
+  if (!first.html || !second.html) return null;
+  const a = internalLinks(first.html, LIVE);
+  const b = internalLinks(second.html, LIVE);
   const stable = new Set([...a].filter((href) => b.has(href)));
-  return { stable, varied: a.size !== b.size || [...a].some((href) => !b.has(href)) };
+  return { stable, varied: a.size !== b.size || [...a].some((href) => !b.has(href)), notLiveYet: false, html: first.html };
 };
 
 const failures = [];
 let compared = 0;
 const variedPages = [];
 const retriedClean = [];
+const newPages = [];
 
 /** Re-check a single page; returns the failures (empty array = fine). */
 async function checkPage(path) {
@@ -170,13 +178,19 @@ async function checkPage(path) {
   if (!live) {
     return [`${path}: could not fetch the live page from ${LIVE}`];
   }
+  // A page that is in the build but not on the live site is a *new page*, not a
+  // regression. Comparing it against production is meaningless until it ships.
+  if (live.notLiveYet) {
+    newPages.push(path);
+    return [];
+  }
   compared++;
   if (live.varied) variedPages.push(path);
   const built = internalLinks(readFileSync(file, "utf8"), LIVE);
   const missing = [...live.stable].filter((href) => !built.has(href));
   if (missing.length) issues.push(`${path}: ${missing.length} link(s) missing → ${missing.join(", ")}`);
 
-  const liveHead = headFeatures((await fetchLive(path)) ?? "");
+  const liveHead = headFeatures(live.html);
   const builtHtml = readFileSync(file, "utf8");
   const builtHead = headFeatures(builtHtml);
   const missingHead = [];
@@ -224,6 +238,11 @@ for (const [path, issues] of firstPass) {
 }
 
 console.log(`link parity: compared ${compared}/${paths.length} pages against ${LIVE}`);
+if (newPages.length) {
+  console.log(
+    `link parity: ${newPages.length} page(s) are not on the live site yet — counted as new, not compared (${newPages.join(", ")})`,
+  );
+}
 if (retriedClean.length) {
   console.log(
     `link parity: ${retriedClean.length} page(s) failed the first pass and passed on retry — the live edge was mid-rollout (${retriedClean.slice(0, 5).join(", ")})`,

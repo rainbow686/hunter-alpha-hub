@@ -1,0 +1,80 @@
+---
+/**
+ * Contact — the page an AdSense reviewer looks for (ADS-UX-05) and the one a
+ * reader needs when a price on this site is wrong.
+ *
+ * The address is the one the site already publishes on /privacy and /terms
+ * (`privacy@hunteralphahub.com`), so this page adds no new promise about mailboxes
+ * that may not exist. If a general-purpose address is set up later, change the
+ * single constant below.
+ *
+ * The form deliberately stays simple: the subscribe endpoint takes an email for
+ * reveal notifications only, and pretending it is a contact form would put
+ * support requests into a list nobody reads.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import { breadcrumbSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const EMAIL = "privacy@hunteralphahub.com";
+
+const title = "Contact Hunter Alpha Hub";
+const description =
+  "Report a wrong price, a broken page or a factual correction. One address, read by the people who edit the site.";
+const canonical = `${SITE}/contact`;
+
+const reasons = [
+  {
+    kicker: "Corrections",
+    body: "A price, context window or availability figure that no longer matches what OpenRouter serves. Include the URL and, if you have it, the value you see.",
+  },
+  {
+    kicker: "Broken pages",
+    body: "A link that 404s, a table that will not scroll on your device, a form that will not submit.",
+  },
+  {
+    kicker: "Model tips",
+    body: "A new anonymous Alpha release, or something a codename turned out to be before anyone announced it. We verify before publishing.",
+  },
+  {
+    kicker: "Privacy and data",
+    body: "Access, correction or deletion of data we hold about you — in practice, an email address if you subscribed to reveal notifications.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} lang="en">
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Contact", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Contact</p>
+  <h1 class="display">Tell us what we got wrong</h1>
+  <p class="lede">
+    One address, read by the people who edit the site. Email
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+  </p>
+
+  <div class="grid-cards">
+    {reasons.map((reason) => (
+      <article class="card">
+        <p class="card-kicker">{reason.kicker}</p>
+        <h2 class="card-title">{reason.kicker}</h2>
+        <p class="card-body">{reason.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <h2>What to expect</h2>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    Corrections on data pages are usually fixed the same day, and the page's verified date moves with
+    the fix — so you can see that it changed. We do not publish a response time we cannot keep.
+  </p>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    For what is collected and why, see the <a href="/privacy">privacy policy</a>. For the rules this
+    site holds itself to when publishing numbers, see <a href="/about">about</a>.
+  </p>
+</System>
