@@ -42,8 +42,13 @@ export default function PrivacyPage() {
           <h2 className="text-xl font-bold mb-4" style={{ color: "var(--foreground)" }}>2. Information We Collect</h2>
           <h3 className="text-lg font-medium mb-2" style={{ color: "var(--foreground)" }}>2.1 Information You Provide</h3>
           <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "var(--muted)" }}>
-            <li><strong>Evidence Submissions:</strong> When you submit evidence to our Evidence Wall, we collect your nickname, the content you submit, and any associated metadata.</li>
-            <li><strong>Email Subscriptions:</strong> When you subscribe to our newsletter, we collect your email address.</li>
+            {/*
+              The evidence-wall entries were removed on 2026-09-18: that feature
+              was retired on 2026-09-17, so this policy was describing collection
+              that no longer happens. The newsletter form is the only remaining
+              thing a reader can submit.
+            */}
+            <li><strong>Email Subscriptions:</strong> When you subscribe for a reveal notification, we collect your email address.</li>
           </ul>
 
           <h3 className="text-lg font-medium mt-4 mb-2" style={{ color: "var(--foreground)" }}>2.2 Automatically Collected Information</h3>
@@ -58,8 +63,7 @@ export default function PrivacyPage() {
           <h2 className="text-xl font-bold mb-4" style={{ color: "var(--foreground)" }}>3. How We Use Your Information</h2>
           <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "var(--muted)" }}>
             <li>To provide and maintain our website services</li>
-            <li>To display user-submitted evidence on our Evidence Wall</li>
-            <li>To send notifications about Hunter Alpha updates (for subscribers)</li>
+            <li>To send reveal notifications you asked for (for subscribers only)</li>
             <li>To analyze website usage and improve user experience</li>
             <li>To comply with legal obligations</li>
           </ul>
@@ -93,7 +97,7 @@ export default function PrivacyPage() {
               </a>
             </li>
             <li>
-              <strong>Supabase:</strong> We use Supabase to store user-submitted evidence and email subscriptions.
+              <strong>Supabase:</strong> We use Supabase to store email subscriptions.
               <br />
               <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">
                 Supabase Privacy Policy
@@ -112,7 +116,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-xl font-bold mb-4" style={{ color: "var(--foreground)" }}>6. Data Retention</h2>
           <p className="text-sm" style={{ color: "var(--muted)" }}>
-            We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required by law. Evidence submissions are retained indefinitely unless you request deletion.
+            We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required by law. An email subscription is kept until you ask us to remove it, and every notification email carries an unsubscribe link.
           </p>
         </section>
 

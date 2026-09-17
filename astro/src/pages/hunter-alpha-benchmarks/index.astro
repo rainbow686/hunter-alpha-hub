@@ -1,0 +1,242 @@
+---
+/**
+ * Hunter Alpha benchmarks: verified vs claimed.
+ *
+ * The page exists to say no. There is no official benchmark set for a stealth
+ * listing, and the honest answer to "what does it score" is a table of what is
+ * checkable and what is not — which is also why this page is worth keeping
+ * after the codename died: the reasoning applies to every future release.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * Article + FAQPage + BreadcrumbList.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Hunter Alpha Benchmarks: What Is Verified vs Claimed (2026)";
+const description =
+  "There is no official benchmark set for Hunter Alpha (now Xiaomi MiMo-V2.5). Here is what was claimed during the stealth window, what you can verify in the catalogue, and how to benchmark the model yourself in an afternoon.";
+const canonical = `${SITE}/hunter-alpha-benchmarks`;
+
+/** One row per claim, with the status column saying which kind of claim it is. */
+const verifiable = [
+  {
+    field: "Context window, max output",
+    status: "Verifiable",
+    tone: "verified",
+    where: "Public catalogue fields",
+  },
+  {
+    field: "Modality, tool support",
+    status: "Verifiable",
+    tone: "verified",
+    where: "Endpoint parameter list",
+  },
+  {
+    field: "Current pricing",
+    status: "Verifiable",
+    tone: "verified",
+    where: "Catalogue, changes without notice",
+  },
+  {
+    field: "Parameter count (“~1T”)",
+    status: "Claimed",
+    tone: "claim",
+    where: "Description text, no method",
+  },
+  {
+    field: "Benchmark scores",
+    status: "Not established",
+    tone: "unknown",
+    where: "No published methodology",
+  },
+];
+
+const whyMisleading = [
+  {
+    title: "No method, no result.",
+    body: "A score without the prompt set, the sampling settings and the scoring rule is an advertisement, not a measurement.",
+  },
+  {
+    title: "The served system can change.",
+    body: "Some anonymous releases behave like an orchestrated set of backends. A benchmark run then describes whichever backend answered, not “the model”.",
+  },
+  {
+    title: "Leaderboards do not measure your workload.",
+    body: "A model that wins on a public suite can lose on your documents, your tools and your latency budget.",
+  },
+];
+
+const faqs = [
+  {
+    question: "Are there official Hunter Alpha benchmarks?",
+    answer:
+      "No. Hunter Alpha was an anonymous stealth listing — it shipped with no model card, no paper and no published benchmark table. Anything you see quoted for it is either third-party testing, a self-reported number from the reveal period, or an estimate.",
+  },
+  {
+    question: "What can be verified about Hunter Alpha today?",
+    answer:
+      "The catalogue-level facts for the model it became, Xiaomi MiMo-V2.5: context window, maximum output, supported modalities, tool-calling parameters and current pricing. Those are checkable in seconds, and they are what we publish. Benchmarks are not in that category.",
+  },
+  {
+    question: "Why are benchmark claims for stealth models so unreliable?",
+    answer:
+      "Three reasons: the maker has not published a method, the served model can change between sessions, and a leaderboard score says nothing about your workload. When an anonymous release also appears to be an orchestrated system rather than a single set of weights, a benchmark number describes whichever backend answered that run.",
+  },
+  {
+    question: "How should I benchmark an AI model for my own use?",
+    answer:
+      "Build a small, fixed set of prompts that look like your real work, run them against two or three models, and score the outputs on completion and cost per finished task rather than on a public leaderboard. Twenty representative prompts will tell you more than a 100-point score.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Hunter Alpha Benchmarks: What Is Verified vs Claimed",
+      description:
+        "No official benchmark set exists for Hunter Alpha / Xiaomi MiMo-V2.5 — what is verifiable, and how to test it yourself.",
+      publishedAt: "2026-09-17",
+      updatedAt: "2026-09-17",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Hunter Alpha", url: `${SITE}/hunter-alpha` },
+      { name: "Benchmarks", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Archive · Hunter Alpha · benchmarks</p>
+  <h1 class="display">Hunter Alpha benchmarks: verified vs claimed</h1>
+  <div class="byline">
+    <span>Hunter Alpha is now <strong>Xiaomi MiMo-V2.5</strong></span>
+    <span>Last verified 2026-09-17</span>
+    <span><a href="/openrouter-models/mimo-v2.5">current model page →</a></span>
+  </div>
+
+  <section class="card">
+    <h2 style="margin-top: 0;">Short answer</h2>
+    <p class="measure">
+      <strong>There is no official benchmark set.</strong> Hunter Alpha appeared as an anonymous listing with
+      no model card and no published results. Every number you find attributed to it is either third-party
+      testing of uncertain method, a self-reported figure from the reveal period, or somebody's estimate. We
+      do not publish numbers we cannot reproduce, so this page tells you what is checkable and how to test
+      the model yourself.
+    </p>
+  </section>
+
+  <section id="verifiable">
+    <h2>What is verifiable</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Status</th>
+            <th>Where to check</th>
+          </tr>
+        </thead>
+        <tbody>
+          {verifiable.map((row) => (
+            <tr>
+              <td style="color: var(--text-muted);">{row.field}</td>
+              <td class={`status-${row.tone}`}>{row.status}</td>
+              <td style="color: var(--text-muted);">{row.where}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2>Why stealth benchmark numbers mislead</h2>
+    <ul class="marks">
+      {whyMisleading.map((item) => (
+        <li>
+          <strong>{item.title}</strong> {item.body}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="diy">
+    <h2>How to benchmark it yourself, in one afternoon</h2>
+    <ol class="stages">
+      <li>
+        <strong>1. Freeze a prompt set.</strong> Twenty prompts that look like your real work beats a hundred
+        generic ones.
+      </li>
+      <li>
+        <strong>2. Pick two or three models.</strong> Include one paid model you already trust as the
+        baseline. <a href="/comparison">Our comparison hub</a> has current pricing for them.
+      </li>
+      <li>
+        <strong>3. Score completion, not vibes.</strong> Did the output ship, or did you have to redo it?
+        Count the redo.
+      </li>
+      <li>
+        <strong>4. Divide cost by finished tasks.</strong> Combine token spend with your own editing time
+        using the <a href="/openrouter-pricing-calculator">pricing calculator</a>.
+      </li>
+    </ol>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/openrouter-models/mimo-v2.5">MiMo-V2.5 model page</a>
+    <a class="btn ghost" href="/hunter-alpha">Hunter Alpha archive</a>
+    <a class="btn ghost" href="/stealth-models">Stealth models register</a>
+  </p>
+</System>
+
+<style>
+  .status-verified {
+    color: var(--success);
+  }
+  .status-claim {
+    color: var(--warn);
+  }
+  .status-unknown {
+    color: var(--danger);
+  }
+  .marks {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .marks li {
+    margin-bottom: var(--space-3);
+  }
+  .marks strong {
+    color: var(--text);
+  }
+  .stages {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .stages li {
+    margin-bottom: var(--space-3);
+  }
+  .stages strong {
+    color: var(--text);
+  }
+  .measure {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+</style>

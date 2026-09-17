@@ -1,0 +1,204 @@
+---
+/**
+ * Terms of Service.
+ *
+ * Text is carried over from the live page with one correction: section 5 used to
+ * list "the evidence wall" among the places that accept submissions, and that
+ * feature was retired on 2026-09-17 — the terms were describing a form that no
+ * longer exists.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1.
+ * The live page carries NO structured data, so this one must not add any.
+ */
+import System from "../../layouts/System.astro";
+import { SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Terms of Service";
+const description =
+  "Terms of Service for Hunter Alpha Hub, an independent OpenRouter model information site: scope, data accuracy, acceptable use, user submissions, ads and liability.";
+const canonical = `${SITE}/terms`;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <p class="kicker">Legal</p>
+  <h1 class="display">Terms of Service</h1>
+  <p class="byline"><span>Last updated: September 17, 2026</span></p>
+
+  <section>
+    <h2>1. Acceptance of These Terms</h2>
+    <p class="body">
+      These Terms of Service govern your use of www.hunteralphahub.com (the “Site”). By accessing or using
+      the Site you agree to these terms. If you do not agree, please do not use the Site.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. What This Site Is</h2>
+    <p class="body">
+      The Site is an independent information resource about AI models available on OpenRouter. We publish
+      model directories, comparisons, pricing tools and explanatory articles.
+    </p>
+    <ul class="list">
+      <li>
+        We are <strong>not affiliated with, endorsed by, or acting on behalf of</strong> OpenRouter or any
+        model provider mentioned on the Site.
+      </li>
+      <li>
+        Model names, provider names and logos are trademarks of their respective owners and are used for
+        identification and comparison purposes only.
+      </li>
+      <li>
+        The Site does not offer model inference. We do not host, proxy or resell access to any AI model.
+        Requests to providers are governed by those providers' own terms.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Data Accuracy</h2>
+    <p class="body">
+      Factual fields such as pricing, context window and supported modalities are read from public provider
+      catalogues and are labelled with the date they were verified. Providers change pricing, availability
+      and limits at any time, and models — especially unreleased “stealth” models — can be repriced or
+      withdrawn without notice.
+    </p>
+    <ul class="list">
+      <li>Always confirm current pricing and limits with the provider before relying on them.</li>
+      <li>Information is provided for general guidance, not as a guarantee of any specific result.</li>
+      <li>
+        Where the Site separates verified facts from community speculation, speculation is clearly labelled
+        and should not be treated as fact.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Acceptable Use</h2>
+    <p class="body">You agree not to:</p>
+    <ul class="list">
+      <li>use the Site in violation of any applicable law or regulation;</li>
+      <li>
+        send automated requests at a volume that degrades the Site for others, or attempt to bypass rate
+        limits or access controls;
+      </li>
+      <li>attempt to probe, scan or test the vulnerability of the Site or its infrastructure;</li>
+      <li>
+        republish substantial portions of the Site's original content as your own, or present it as an
+        official source;
+      </li>
+      <li>misrepresent your identity when submitting content to the Site.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Submissions and Community Content</h2>
+    <p class="body">
+      Some areas of the Site accept user submissions (for example the newsletter form). When you submit
+      content:
+    </p>
+    <ul class="list">
+      <li>you keep ownership of what you submit;</li>
+      <li>
+        you grant us a non-exclusive, worldwide, royalty-free licence to display, format and distribute that
+        content on the Site;
+      </li>
+      <li>
+        you confirm you have the right to post it and that it is not unlawful, defamatory or infringing;
+      </li>
+      <li>
+        we may remove any submission at any time, including content that is spam, off-topic or misleading.
+      </li>
+    </ul>
+    <p class="body">Data you submit is handled as described in our <a href="/privacy">Privacy Policy</a>.</p>
+  </section>
+
+  <section>
+    <h2>6. Third-Party Links, Ads and Tracking</h2>
+    <ul class="list">
+      <li>
+        The Site links out to providers and other third parties. We do not control those sites and are not
+        responsible for their content, terms or practices.
+      </li>
+      <li>
+        Some outbound links may carry tracking or referral parameters that let the destination identify
+        traffic coming from the Site. We measure outbound clicks in aggregate.
+      </li>
+      <li>
+        Advertising is served by third-party networks. Those networks may use cookies or similar
+        technologies subject to their own policies.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. No Professional Advice</h2>
+    <p class="body">
+      Content on the Site — including comparisons, recommendations, cost estimates and sample code — is
+      general information. It is not legal, financial, security or professional advice, and it is not a
+      substitute for your own evaluation before you commit engineering effort or spend money.
+    </p>
+  </section>
+
+  <section>
+    <h2>8. Intellectual Property</h2>
+    <p class="body">
+      The Site's original text, layout, code and tooling are owned by us and protected by applicable law.
+      You may quote short excerpts with attribution and a link. Bulk copying, scraping for republication, or
+      presenting our content as your own is not permitted. Third-party trademarks remain the property of
+      their owners.
+    </p>
+  </section>
+
+  <section>
+    <h2>9. Disclaimer of Warranties</h2>
+    <p class="body">
+      The Site is provided “as is” and “as available”, without warranties of any kind, express or implied,
+      including merchantability, fitness for a particular purpose and non-infringement. We do not warrant
+      that the Site will be uninterrupted, error-free, or that any information it contains is complete or
+      current.
+    </p>
+  </section>
+
+  <section>
+    <h2>10. Limitation of Liability</h2>
+    <p class="body">
+      To the maximum extent permitted by law, we are not liable for any indirect, incidental, special,
+      consequential or punitive damages, or for lost profits, revenue, data or goodwill, arising from your
+      use of the Site or your reliance on its content — including costs incurred from model pricing, rate
+      limits or service availability that differ from what the Site describes.
+    </p>
+  </section>
+
+  <section>
+    <h2>11. Changes to These Terms</h2>
+    <p class="body">
+      We may update these terms from time to time. Changes take effect when posted on this page and the
+      “Last updated” date is revised. Continued use of the Site after a change means you accept the updated
+      terms.
+    </p>
+  </section>
+
+  <section>
+    <h2>12. Contact</h2>
+    <p class="body">Questions about these terms:</p>
+    <ul class="list">
+      <li>Email: <a href="mailto:privacy@hunteralphahub.com">privacy@hunteralphahub.com</a></li>
+      <li>Website: <a href="https://www.hunteralphahub.com">www.hunteralphahub.com</a></li>
+    </ul>
+  </section>
+
+  <p class="hero-actions"><a class="btn ghost" href="/">← Back to Home</a></p>
+</System>
+
+<style>
+  .body {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .list {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .list li {
+    margin-bottom: var(--space-2);
+  }
+</style>

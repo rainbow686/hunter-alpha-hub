@@ -10,6 +10,9 @@
  *
  * Usage: node scripts/verify-pages.mjs [--offline]   (npm run verify:pages)
  *   --offline compares the build against a cached copy in .cache/parity/
+ *   --refresh re-fetches the live pages; the cache is otherwise reused for six
+ *     hours, which will happily hide a deploy you just made (use this whenever
+ *     you are verifying that a merge actually reached production)
  *   PREVIEW_ORIGIN=https://… also checks that every path is served directly
  *   (200, no redirect) on the deployed preview — the trailing-slash trap.
  */
@@ -40,6 +43,9 @@ const MIGRATED_PATHS = [
   "/best-openrouter-models",
   "/hunter-alpha",
   "/openrouter-free-models",
+  "/hunter-alpha-benchmarks",
+  "/terms",
+  "/privacy",
   "/blog",
 ];
 
