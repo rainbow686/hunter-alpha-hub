@@ -12,6 +12,13 @@ interface Props {
   /** BCP-47 tag for <html lang> and the og:locale hint. Chinese pages pass zh-CN. */
   lang?: string;
   /**
+   * `<link rel="alternate" hreflang>` pairs. The live site declares these for the
+   * Chinese/English twins of /access and /faq — and the Astro rewrite dropped every
+   * one of them, which no guard noticed because head parity only parsed `<meta>`
+   * tags. `check:parity` now compares hreflang links too (`docs/lessons/`).
+   */
+  alternates?: { lang: string; href: string }[];
+  /**
    * og:type. The live site marks every content page (blog, model, comparison,
    * stealth line) as `article` and the hubs as `website`; a social card that says
    * `website` for a single article is a wasted signal.
@@ -20,7 +27,15 @@ interface Props {
   /** Override the derived per-page card (the 404 page points at the site card). */
   ogImage?: string;
 }
-const { title, description, canonical, lang = "en", ogType = "website", ogImage: ogImageProp } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  lang = "en",
+  ogType = "website",
+  ogImage: ogImageProp,
+  alternates = [],
+} = Astro.props;
 /**
  * One card per page, generated after the build by scripts/generate-og-images.mjs.
  * The path is derived from the URL (not passed in per page) so a new page gets a
@@ -48,6 +63,9 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
         no reason, and `check:page-parity` now compares head tags too. */}
     <meta name="robots" content="index, follow" />
     {canonical && <link rel="canonical" href={canonical} />}
+    {alternates.map((alternate) => (
+      <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />
+    ))}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta property="og:title" content={title} />

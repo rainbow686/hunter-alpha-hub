@@ -11,6 +11,7 @@
  */
 import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
+import { accessAlternates } from "../../../lib/hreflang";
 import { breadcrumbSchema, SITE, SITE_NAME } from "../../../lib/schema";
 
 const title = "如何使用 OpenRouter：模型、Playground 与 API（中文指南）";
@@ -51,7 +52,7 @@ const steps = [
   },
 ];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} lang="zh-CN">
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} lang="zh-CN" alternates={accessAlternates()}>
   <JsonLd
     slot="head"
     data={breadcrumbSchema([
