@@ -1645,8 +1645,8 @@ For my use case (document analysis SaaS), it's the right choice—with fallback 
   // Error Message troubleshooting articles (3 articles)
   {
     slug: "hunter-alpha-not-working-fix",
-    title: "Hunter Alpha Not Working? 5 Quick Fixes (2026)",
-    excerpt: "Hunter Alpha (mimo-v2) not responding? Learn how to fix common issues: connection errors, timeout problems, and API failures on OpenRouter.",
+    title: "Hunter Alpha Not Working? It Is Now MiMo-V2.5 — 5 Fixes (2026)",
+    excerpt: "Most \"Hunter Alpha not working\" reports are one of three things: the old model ID is gone, the free tier ended, or the name changed to Xiaomi MiMo-V2.5. Here is the fix for each, plus the remaining connection and timeout cases.",
     content: `
 # Hunter Alpha Not Working? 5 Quick Fixes (2026)
 
@@ -1880,8 +1880,8 @@ Join the Hunter Alpha Hub community to share your experience:
   },
   {
     slug: "mimo-v2-api-error-troubleshooting",
-    title: "Xiaomi mimo-v2 API Error: Complete Troubleshooting Guide",
-    excerpt: "Getting API errors with Xiaomi mimo-v2 (Hunter Alpha)? Fix authentication, rate limiting, timeout, and response parsing issues with code examples.",
+    title: "MiMo-V2.5 API Error? 401, 429 and Timeout Fixes (2026)",
+    excerpt: "401 means a stale key or the old Hunter Alpha model ID; 429 means the endpoint is saturating, not a broken account. Fix each MiMo-V2.5 API error with copy-paste code and the current model ID.",
     content: `
 # Xiaomi mimo-v2 API Error: Complete Troubleshooting Guide
 
@@ -6208,9 +6208,9 @@ For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, mimo-v2 is
   },
   {
     slug: "openrouter-model-roundup-september-2026",
-    title: "OpenRouter Model Roundup: September 2026",
+    title: "OpenRouter Model Roundup, September 2026: Prices & What Changed",
     excerpt:
-      "A practical snapshot of the OpenRouter model landscape: long-context leaders, coding picks, budget options and the models to watch this month.",
+      "What changed on OpenRouter this month: several stealth models were revealed and repriced (Hunter Alpha is now MiMo-V2.5, OX Alpha is GLM 5.3 Flash), free windows closed, and a new anonymous model arrived. Current prices, coding picks and long-context leaders inside.",
     content: `# OpenRouter Model Roundup: September 2026
 
 ## TL;DR
