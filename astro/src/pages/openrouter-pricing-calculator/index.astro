@@ -1,0 +1,280 @@
+---
+/**
+ * OpenRouter pricing calculator.
+ *
+ * Migrated from a page whose numbers did not exist until JavaScript ran: the
+ * live version server-renders the form controls and computes every figure in
+ * the browser, so its HTML contains 1,293 characters of text and no cost at
+ * all. This version renders the default estimate (the four models the live page
+ * starts with, 10M tokens/month, 80/20 split) into the HTML, then enhances it:
+ * the island script recalculates as you change the inputs, and a reader with no
+ * JavaScript still gets a real answer.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * and exactly BreadcrumbList + WebApplication + Offer.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Provenance from "../../components/Provenance.astro";
+import { breadcrumbSchema, webApplicationSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { modelHubDataAsOf, openrouterModels } from "@repo/lib/openrouter-models";
+
+const title = "OpenRouter Pricing Calculator";
+const description =
+  "Estimate monthly AI costs on OpenRouter by selecting models, token volume and input/output split.";
+const canonical = `${SITE}/openrouter-pricing-calculator`;
+
+const DEFAULT_IDS = [
+  "xiaomi/mimo-v2.5",
+  "z-ai/glm-5.3-flash",
+  "anthropic/claude-sonnet-5",
+  "openai/gpt-5.6-luna",
+];
+const DEFAULT_TOKENS = 10_000_000;
+const DEFAULT_INPUT_SHARE = 80;
+
+/** Only what the island needs; the page itself renders from the snapshot. */
+const pricingForScript = openrouterModels.map((model) => ({
+  id: model.id,
+  name: model.name,
+  input: model.inputPricePerMillion,
+  output: model.outputPricePerMillion,
+}));
+
+const inputTokens = Math.round(DEFAULT_TOKENS * (DEFAULT_INPUT_SHARE / 100));
+const outputTokens = DEFAULT_TOKENS - inputTokens;
+const selected = openrouterModels.filter((model) => DEFAULT_IDS.includes(model.id));
+const results = selected.map((model) => {
+  const inputCost = (inputTokens / 1_000_000) * model.inputPricePerMillion;
+  const outputCost = (outputTokens / 1_000_000) * model.outputPricePerMillion;
+  return { model, inputCost, outputCost, total: inputCost + outputCost };
+});
+const cheapest = results.reduce((best, current) => (current.total < best.total ? current : best));
+const money = (value: number) => `$${value.toFixed(2)}`;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={webApplicationSchema({
+      name: "OpenRouter Pricing Calculator",
+      url: canonical,
+      description:
+        "Estimate monthly AI costs on OpenRouter by model, token volume and input/output split.",
+    })}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter Pricing Calculator", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Tool · cost estimate</p>
+  <h1 class="display">OpenRouter Pricing Calculator</h1>
+  <p class="lede">
+    Choose models, set monthly token volume and adjust the input/output split to see estimated monthly
+    cost.
+  </p>
+  <div class="byline">
+    <span>Snapshot {modelHubDataAsOf}</span>
+    <span>List prices, cache discounts excluded</span>
+  </div>
+
+  <form class="controls" data-calculator>
+    <label class="field">
+      <span class="field-label">Monthly tokens</span>
+      <input type="number" min="0" step="100000" value={DEFAULT_TOKENS} data-tokens />
+    </label>
+
+    <label class="field">
+      <span class="field-label">Input share</span>
+      <input type="range" min="0" max="100" value={DEFAULT_INPUT_SHARE} data-share />
+      <span class="field-note" data-share-label>{DEFAULT_INPUT_SHARE}% input / {100 - DEFAULT_INPUT_SHARE}% output</span>
+    </label>
+
+    <fieldset class="field models">
+      <legend class="field-label">Models</legend>
+      <div class="model-list">
+        {openrouterModels.map((model) => (
+          <label class="model-option">
+            <input
+              type="checkbox"
+              value={model.id}
+              checked={DEFAULT_IDS.includes(model.id)}
+              data-model
+            />
+            <span>{model.name}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="table-scroll">
+    <table class="data" data-results>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="num">Input</th>
+          <th class="num">Output</th>
+          <th class="num">Monthly total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {results.map((result) => (
+          <tr>
+            <td>
+              <a href={`/openrouter-models/${result.model.slug}`}>{result.model.name}</a>
+              {result.model.formerAlias && <span class="alias">formerly {result.model.formerAlias}</span>}
+            </td>
+            <td class="num">{money(result.inputCost)}</td>
+            <td class="num">{money(result.outputCost)}</td>
+            <td class="num"><strong>{money(result.total)}</strong></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="summary" data-summary>
+    At {DEFAULT_TOKENS.toLocaleString("en-US")} tokens/month ({DEFAULT_INPUT_SHARE}% input),{" "}
+    <strong>{cheapest.model.name}</strong> is the lowest-cost option at {money(cheapest.total)}.
+  </p>
+
+  <Provenance
+    source="openrouter.ai/api/v1/models"
+    verified={modelHubDataAsOf}
+    extra={["Estimates use list prices and exclude cache discounts, surcharges and tool fees"]}
+  />
+</System>
+
+<script define:vars={{ CATALOG: pricingForScript, DEFAULT_IDS }}>
+  /**
+   * Calculator island. The default estimate is already in the HTML, so this only
+   * has to keep the table in sync when an input changes — and if it never runs,
+   * the page still answers the question.
+   */
+  const form = document.querySelector("form[data-calculator]");
+  const tbody = document.querySelector("table[data-results] tbody");
+  const summary = document.querySelector("[data-summary]");
+  const tokensInput = document.querySelector("[data-tokens]");
+  const shareInput = document.querySelector("[data-share]");
+  const shareLabel = document.querySelector("[data-share-label]");
+  const boxes = [...document.querySelectorAll("[data-model]")];
+
+  const byId = new Map(CATALOG.map((model) => [model.id, model]));
+  const money = (value) => `$${value.toFixed(2)}`;
+
+  function render() {
+    const tokens = Math.max(0, Number(tokensInput?.value) || 0);
+    const share = Number(shareInput?.value) || 0;
+    const inputTokens = Math.round(tokens * (share / 100));
+    const outputTokens = Math.max(0, tokens - inputTokens);
+
+    if (shareLabel) shareLabel.textContent = `${share}% input / ${100 - share}% output`;
+
+    const rows = boxes
+      .filter((box) => box.checked)
+      .map((box) => byId.get(box.value))
+      .filter(Boolean)
+      .map((model) => {
+        const inputCost = (inputTokens / 1_000_000) * model.input;
+        const outputCost = (outputTokens / 1_000_000) * model.output;
+        return { model, inputCost, outputCost, total: inputCost + outputCost };
+      });
+
+    if (tbody) {
+      tbody.innerHTML = rows
+        .map(
+          (row) =>
+            `<tr><td>${row.model.name}</td><td class="num">${money(row.inputCost)}</td>` +
+            `<td class="num">${money(row.outputCost)}</td>` +
+            `<td class="num"><strong>${money(row.total)}</strong></td></tr>`,
+        )
+        .join("");
+    }
+
+    if (summary && rows.length) {
+      const cheapest = rows.reduce((best, row) => (row.total < best.total ? row : best));
+      summary.innerHTML =
+        `At ${tokens.toLocaleString("en-US")} tokens/month (${share}% input), ` +
+        `<strong>${cheapest.model.name}</strong> is the lowest-cost option at ${money(cheapest.total)}.`;
+    } else if (summary) {
+      summary.textContent = "Select at least one model to see an estimate.";
+    }
+  }
+
+  form?.addEventListener("input", render);
+  form?.addEventListener("change", render);
+</script>
+
+<style>
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-6);
+    margin: var(--space-8) 0;
+    align-items: start;
+  }
+  .field {
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .field-label {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    padding: 0;
+    color: var(--text);
+  }
+  .field-note {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+  input[type="number"],
+  input[type="range"] {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+  }
+  input[type="number"] {
+    background: var(--field-bg);
+    border: 1px solid var(--field-border);
+    border-radius: var(--radius, 6px);
+    padding: var(--space-2) var(--space-3);
+  }
+  input[type="range"] {
+    accent-color: var(--accent);
+  }
+  .model-list {
+    max-height: 13rem;
+    overflow-y: auto;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .model-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+  .alias {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--warn);
+  }
+  .summary {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .summary strong {
+    color: var(--text);
+  }
+</style>

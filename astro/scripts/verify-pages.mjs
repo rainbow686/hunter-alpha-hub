@@ -50,6 +50,7 @@ const MIGRATED_PATHS = [
   "/access",
   "/zh/faq",
   "/zh/access",
+  "/openrouter-pricing-calculator",
   "/blog",
 ];
 
