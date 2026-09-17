@@ -1,0 +1,29 @@
+name: Internal Link Audit
+
+# A page nothing links to is invisible twice over: readers cannot reach it and
+# Google has no path to it. On 2026-09-18 this audit found /zh/access with zero
+# inbound links, while GSC showed only 3 of 25 routes known to Google at all.
+# This site adds a page per model codename, so the failure mode recurs by design.
+#
+# Exit code 1 = at least one sitemap URL has no inbound internal link, or a page
+# stopped returning 200. Fix by linking it from a crawled page (navbar/footer
+# reaches every route), or add it to --allow in scripts/audit-links.mjs.
+
+on:
+  schedule:
+    - cron: "0 23 * * *" # 07:00 Asia/Shanghai, one hour after the drift check
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Crawl the live sitemap and check every page has an inbound link
+        run: node scripts/audit-links.mjs
