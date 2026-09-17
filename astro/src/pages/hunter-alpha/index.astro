@@ -1,0 +1,95 @@
+---
+/**
+ * Hunter Alpha archive — a small page with one job: tell a reader who arrived
+ * looking for the old investigation where to go now.
+ *
+ * The live version of this page used to offer a grid of six Hunter-Alpha-era
+ * sections, five of which had been retired and now 301 to "/". It was rebuilt
+ * on 2026-09-18 (PR #55) and the migration carries the fixed list.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1.
+ * The live page carries ONLY BreadcrumbList — no Article — so an Article block
+ * here would be a deviation, not an improvement.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import { breadcrumbSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Hunter Alpha Archive: Xiaomi MiMo-V2.5 Investigation";
+const description =
+  "Historical archive of the Hunter Alpha investigation. Hunter Alpha was later identified as Xiaomi MiMo-V2.5 on OpenRouter.";
+const canonical = `${SITE}/hunter-alpha`;
+
+const whereToGo = [
+  { href: "/openrouter-models/mimo-v2.5", label: "Xiaomi MiMo-V2.5 — what it is now" },
+  { href: "/stealth-models", label: "Stealth models register" },
+  { href: "/union-alpha", label: "Union Alpha (live now)" },
+  { href: "/alpha-models", label: "How the Alpha line works" },
+  { href: "/access", label: "How to use OpenRouter" },
+  { href: "/comparison", label: "Compare every model" },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Hunter Alpha Archive", url: canonical },
+    ])}
+  />
+
+  <div class="notice">
+    <p>
+      Hunter Alpha was later identified as Xiaomi MiMo-V2.5. This area is now an archive and is no longer
+      actively updated.
+    </p>
+    <p>
+      Looking for the current anonymous model? See the <a href="/union-alpha">Union Alpha tracker</a>, or the{" "}
+      <a href="/alpha-models">full Alpha models line</a>.
+    </p>
+  </div>
+
+  <p class="kicker">Archive · Hunter Alpha</p>
+  <h1 class="display">Hunter Alpha Archive</h1>
+  <p class="lede">
+    This is the historical section of the site. The current product focus has moved to the OpenRouter model
+    comparison hub.
+  </p>
+
+  <h2>Where to go from here</h2>
+  <div class="grid-cards">
+    {whereToGo.map((page) => (
+      <article class="card">
+        <a href={page.href}>{page.label}</a>
+      </article>
+    ))}
+  </div>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/comparison">Go to model comparison</a>
+    <a class="btn ghost" href="/stealth-models">Stealth models register</a>
+  </p>
+</System>
+
+<style>
+  .notice {
+    border: 1px solid var(--warn-soft, var(--border));
+    background: var(--warn-soft);
+    border-radius: var(--radius, 6px);
+    padding: var(--space-4);
+    margin-bottom: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .notice p {
+    margin: 0 0 var(--space-2);
+  }
+  .notice p:last-child {
+    margin-bottom: 0;
+  }
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-3);
+  }
+</style>

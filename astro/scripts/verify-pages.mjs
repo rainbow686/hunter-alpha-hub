@@ -37,6 +37,8 @@ const MIGRATED_PATHS = [
   "/comparison",
   "/stealth-models",
   "/alpha-models",
+  "/best-openrouter-models",
+  "/hunter-alpha",
   "/blog",
 ];
 
