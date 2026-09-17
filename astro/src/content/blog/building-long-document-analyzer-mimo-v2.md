@@ -407,10 +407,10 @@ The key advantage of mimo-v2 is handling documents that would overflow other mod
 ## Further Reading
 
 - [OpenRouter API Documentation](https://openrouter.ai/docs)
-- [Xiaomi mimo-v2 Specifications](/monitor)
-- [Community Examples](/evidence)
+- [Xiaomi MiMo-V2.5 specifications](/openrouter-models/mimo-v2.5)
+- [Model comparison](/comparison)
 
 ---
 
-*Have you built something cool with mimo-v2? Share your projects on our [Evidence Wall](/evidence).*
+*Have you built something cool with mimo-v2? Its current page, with pricing, is [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5).*
 

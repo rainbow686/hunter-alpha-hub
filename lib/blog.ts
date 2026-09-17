@@ -1659,7 +1659,7 @@ Hunter Alpha is now **Xiaomi MiMo-V2.5**, so most "not working" reports today ar
 If Hunter Alpha (Xiaomi mimo-v2) isn't working, try these fixes:
 
 1. **Refresh OpenRouter page** or regenerate your API key
-2. **Check model status** at [hunteralphahub.com/monitor](/monitor)
+2. **Check model status** at [the Union Alpha tracker](/union-alpha)
 3. **Reduce context size** if experiencing timeouts
 4. **Verify your account** has active session
 5. **Try alternative endpoint** or wait 5-10 minutes
@@ -1679,7 +1679,7 @@ The model is free and occasionally experiences high load.
 
 **Step 1: Check if the model is online**
 
-Visit the [Hunter Alpha Monitor](/monitor) page to see real-time status.
+Visit the [Union Alpha tracker](/union-alpha) for live status, re-read from the catalogue.
 
 **Step 2: Refresh your session**
 
@@ -1860,9 +1860,9 @@ Contact OpenRouter support if:
 
 Join the Hunter Alpha Hub community to share your experience:
 
-- [Submit evidence](/evidence) if you discover new error patterns
+- [Check live status](/union-alpha) if you discover new error patterns
 - Check the [FAQ](/faq) for more troubleshooting tips
-- Monitor real-time status at [/monitor](/monitor)
+- Live status: [/api/union-alpha/status](/api/union-alpha/status)
 
 ---
 
@@ -2253,7 +2253,7 @@ async function debugApiCall(prompt) {
 
 ---
 
-*Need more help? Share your error patterns on the [Hunter Alpha Hub evidence wall](/evidence).*
+*Need more help? The failure modes we can name are on [Union Alpha not working](/union-alpha-not-working).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -2579,7 +2579,7 @@ For reliable Hunter Alpha usage:
 
 ---
 
-*Experiencing different timeout patterns? Share your findings on the [evidence wall](/evidence).*
+*Experiencing different timeout patterns? The failure modes we can name are on [Union Alpha not working](/union-alpha-not-working).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -3002,7 +3002,7 @@ async function safeCall(prompt, maxRetries = 3) {
 
 ---
 
-*Want more examples? Share your use cases on the [Hunter Alpha Hub](/evidence).*
+*Want more examples? What each anonymous release turned out to be is in [the stealth models register](/stealth-models).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -3403,7 +3403,7 @@ async function safeApiCall(prompt) {
 
 ---
 
-*Need help? Share integration challenges on [Hunter Alpha Hub](/evidence).*
+*Need help? The API quickstart for each model is on [the model directory](/openrouter-models).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -3920,7 +3920,7 @@ Notes:
 
 ---
 
-*Have a great template to add? Share it on the [Hunter Alpha Hub evidence wall](/evidence).*
+*Have a great template to add? The models it would run on are compared on [the comparison page](/comparison).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -4387,7 +4387,7 @@ export default function DocumentPage({ params }: { params: { id: string } }) {
 
 ---
 
-*Building something similar? Share your journey on [Hunter Alpha Hub](/evidence).*
+*Building something similar? What each anonymous release turned out to be is in [the stealth models register](/stealth-models).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -4648,7 +4648,7 @@ Use Hunter Alpha for long-context tasks, and specialized models for specific nee
 
 ---
 
-*Have experience with multiple models? Share your comparisons on [Hunter Alpha Hub](/evidence).*
+*Have experience with multiple models? The side-by-side numbers are on [the comparison page](/comparison).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -4877,7 +4877,7 @@ Consider paid options if:
 
 ---
 
-*Found another free model? Share on the [Hunter Alpha Hub evidence wall](/evidence).*
+*Found another free model? What is genuinely free today is tracked on [OpenRouter free models](/openrouter-free-models).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -5084,7 +5084,7 @@ For **hobbyists/students**:
 
 ---
 
-*Have benchmark data to add? Share on [Hunter Alpha Hub](/evidence).*
+*Have benchmark data to add? The numbers we can re-check are in [the stealth models register](/stealth-models).*
 `,
     author: "David Park",
     publishedAt: "2026-03-23",
@@ -5267,7 +5267,7 @@ Industry predictions:
 
 ---
 
-*Track model updates on [Hunter Alpha Hub](/monitor).*
+*Live status, re-read from the catalogue, is on the [Union Alpha tracker](/union-alpha).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -5339,7 +5339,7 @@ If Xiaomi announces any new models or variants, we'll update this page. For now,
 
 *Last updated: March 23, 2026. Model information sourced from OpenRouter official API and Xiaomi announcements.*
 
-*Have you seen references to a "mimo-v2-pro" elsewhere? Share your findings on the [Evidence Wall](/evidence).*
+*Have you seen references to a "mimo-v2-pro" elsewhere? We only list codenames tied to a public listing, in [the stealth models register](/stealth-models).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -5516,7 +5516,7 @@ A: OpenRouter 平台的速率限制请参考官方文档。建议合理控制请
 - [访问指南](/access) — 详细访问步骤
 - [代码示例](/blog/mimo-v2-1m-context-example-code) — 更多代码模板
 - [模型对比](/comparison) — 与其他 AI 模型对比
-- [提交发现](/evidence) — 分享你的使用体验
+- [中文 FAQ](/zh/faq) — 中文问答
 
 ---
 
@@ -5927,12 +5927,12 @@ The key advantage of mimo-v2 is handling documents that would overflow other mod
 ## Further Reading
 
 - [OpenRouter API Documentation](https://openrouter.ai/docs)
-- [Xiaomi mimo-v2 Specifications](/monitor)
-- [Community Examples](/evidence)
+- [Xiaomi MiMo-V2.5 specifications](/openrouter-models/mimo-v2.5)
+- [Model comparison](/comparison)
 
 ---
 
-*Have you built something cool with mimo-v2? Share your projects on our [Evidence Wall](/evidence).*
+*Have you built something cool with mimo-v2? Its current page, with pricing, is [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-26",
@@ -6194,7 +6194,7 @@ For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, mimo-v2 is
 
 ---
 
-*Built something cool with mimo-v2? Share your use case on our [Evidence Wall](/evidence).*
+*Built something cool with mimo-v2? The current facts for that model, with pricing, are on [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-26",

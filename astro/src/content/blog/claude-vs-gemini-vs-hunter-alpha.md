@@ -206,5 +206,5 @@ For **hobbyists/students**:
 
 ---
 
-*Have benchmark data to add? Share on [Hunter Alpha Hub](/evidence).*
+*Have benchmark data to add? The numbers we can re-check are in [the stealth models register](/stealth-models).*
 

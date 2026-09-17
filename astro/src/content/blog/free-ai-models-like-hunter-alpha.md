@@ -227,5 +227,5 @@ Consider paid options if:
 
 ---
 
-*Found another free model? Share on the [Hunter Alpha Hub evidence wall](/evidence).*
+*Found another free model? What is genuinely free today is tracked on [OpenRouter free models](/openrouter-free-models).*
 

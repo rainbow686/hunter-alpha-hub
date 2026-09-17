@@ -516,5 +516,5 @@ Notes:
 
 ---
 
-*Have a great template to add? Share it on the [Hunter Alpha Hub evidence wall](/evidence).*
+*Have a great template to add? The models it would run on are compared on [the comparison page](/comparison).*
 

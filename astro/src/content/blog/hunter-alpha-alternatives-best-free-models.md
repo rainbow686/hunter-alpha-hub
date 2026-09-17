@@ -258,5 +258,5 @@ Use Hunter Alpha for long-context tasks, and specialized models for specific nee
 
 ---
 
-*Have experience with multiple models? Share your comparisons on [Hunter Alpha Hub](/evidence).*
+*Have experience with multiple models? The side-by-side numbers are on [the comparison page](/comparison).*
 

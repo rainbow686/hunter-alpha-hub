@@ -104,6 +104,49 @@ const rows = [...inbound]
 
 const problems = rows.filter((r) => r.inbound < MIN_INBOUND && !ALLOW.has(r.page));
 
+/**
+ * Outbound half of the audit: crawlers follow every internal link, so a link to
+ * a retired route (301) or to a page that no longer exists (404) wastes crawl
+ * budget on every page that carries it. This is what caught 19 pages still
+ * pointing at /evidence and /monitor after those routes were retired on
+ * 2026-09-17 — inbound links were fine, the links themselves were dead.
+ *
+ * `redirect: "manual"` is the point: following redirects reports 200 and hides
+ * exactly the case we care about.
+ */
+const targets = new Map(); // href -> Set of pages linking to it
+for (const [from, tos] of pages) {
+  for (const to of tos) {
+    if (!targets.has(to)) targets.set(to, new Set());
+    targets.get(to).add(from);
+  }
+}
+
+const deadTargets = [];
+let targetCursor = 0;
+const targetList = [...targets.keys()];
+
+async function targetWorker() {
+  while (targetCursor < targetList.length) {
+    const href = targetList[targetCursor++];
+    try {
+      const res = await fetch(`${BASE}${href === "/" ? "/" : href}`, {
+        redirect: "manual",
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+        headers: { "user-agent": "hunteralphahub-link-audit/1.0" },
+      });
+      // 200 is the only acceptable answer for a link we ourselves render.
+      if (res.status !== 200) {
+        deadTargets.push({ href, status: res.status, from: [...targets.get(href)].sort() });
+      }
+    } catch (err) {
+      deadTargets.push({ href, status: `error: ${err.message}`, from: [...targets.get(href)].sort() });
+    }
+  }
+}
+
+await Promise.all(Array.from({ length: CONCURRENCY }, targetWorker));
+
 console.log(`link audit — ${BASE}`);
 console.log(`  pages in sitemap: ${urls.length}   fetched: ${pages.size}`);
 console.log(`  threshold: at least ${MIN_INBOUND} inbound internal link(s)\n`);
@@ -121,6 +164,16 @@ if (failures.length) {
   for (const f of failures) console.log(`    ${f}`);
 }
 
+if (deadTargets.length) {
+  console.log(`\nFAIL — ${deadTargets.length} internal link target(s) do not answer 200:`);
+  for (const t of deadTargets) {
+    console.log(`    ${t.href} → ${t.status}`);
+    console.log(`      linked from: ${t.from.slice(0, 6).join(", ")}${t.from.length > 6 ? ` (+${t.from.length - 6} more)` : ""}`);
+  }
+  console.log(`\nA 301 here means the page still links a retired route; a 404 means the`);
+  console.log(`target was renamed and the link was not. Point the link at a live page.`);
+}
+
 if (problems.length) {
   console.log(`\nFAIL — ${problems.length} page(s) below ${MIN_INBOUND} inbound link(s):`);
   for (const p of problems) console.log(`    ${p.page}  (${p.inbound})`);
@@ -129,4 +182,4 @@ if (problems.length) {
   console.log(`intentionally unlinked, list it in --allow and say why in the PR.`);
 }
 
-process.exit(problems.length || failures.length ? 1 : 0);
+process.exit(problems.length || failures.length || deadTargets.length ? 1 : 0);

@@ -72,5 +72,5 @@ If Xiaomi announces any new models or variants, we'll update this page. For now,
 
 *Last updated: March 23, 2026. Model information sourced from OpenRouter official API and Xiaomi announcements.*
 
-*Have you seen references to a "mimo-v2-pro" elsewhere? Share your findings on the [Evidence Wall](/evidence).*
+*Have you seen references to a "mimo-v2-pro" elsewhere? We only list codenames tied to a public listing, in [the stealth models register](/stealth-models).*
 

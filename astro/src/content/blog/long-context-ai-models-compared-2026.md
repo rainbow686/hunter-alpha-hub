@@ -182,5 +182,5 @@ Industry predictions:
 
 ---
 
-*Track model updates on [Hunter Alpha Hub](/monitor).*
+*Live status, re-read from the catalogue, is on the [Union Alpha tracker](/union-alpha).*
 

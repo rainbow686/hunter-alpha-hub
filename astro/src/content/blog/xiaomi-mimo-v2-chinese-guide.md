@@ -177,7 +177,7 @@ A: OpenRouter 平台的速率限制请参考官方文档。建议合理控制请
 - [访问指南](/access) — 详细访问步骤
 - [代码示例](/blog/mimo-v2-1m-context-example-code) — 更多代码模板
 - [模型对比](/comparison) — 与其他 AI 模型对比
-- [提交发现](/evidence) — 分享你的使用体验
+- [中文 FAQ](/zh/faq) — 中文问答
 
 ---
 

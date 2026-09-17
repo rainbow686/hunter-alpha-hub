@@ -374,6 +374,26 @@ export function openrouterModelUrl(id: string): string {
   return `https://openrouter.ai/${id}`;
 }
 
+/**
+ * Where a model's own page lives on this site.
+ *
+ * Needed because stealth models are deliberately kept out of the curated
+ * snapshot (lib/stealth-models.ts explains why) — so they have no
+ * /openrouter-models/<slug> page, and building that URL for them produces a
+ * 404. The comparison pages can show a stealth model (Union Alpha appears in
+ * three pairs), which is how that 404 shipped: `/openrouter-models/union-alpha`
+ * was linked from three /compare pages until the link audit caught it on
+ * 2026-09-18.
+ *
+ * One helper rather than a conditional at each call site, for the same reason
+ * the events and the FAQ have one source: the second copy is the one that rots.
+ */
+export function modelPageHref(model: { slug: string }): string {
+  return openrouterModels.some((candidate) => candidate.slug === model.slug)
+    ? `/openrouter-models/${model.slug}`
+    : `/${model.slug}`;
+}
+
 export interface Scenario {
   title: string;
   description: string;
