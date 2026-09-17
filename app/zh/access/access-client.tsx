@@ -5,41 +5,56 @@ import { Card } from "@/components/card";
 import { NativeBanner } from "@/components/adsterra-ads";
 import { ExternalLinkWithSmartlink } from "@/components/smartlink";
 
+/**
+ * 中文版「如何使用 OpenRouter」。
+ *
+ * 这个页面是 /access 的 zh-CN 对应页（hreflang 互指），所以内容要跟 /access 同一个
+ * 意图 —— 通用选型与上手，而不是某一个模型的访问教程。原版写的是「Hunter Alpha
+ * 已确认为小米 mimo-v2、当前免费、纯文本」，三句在 2026-09-18 全部过期，而且那版
+ * 还把读者指向已退役的证据墙。
+ */
 const steps = [
   {
     number: "01",
     title: "注册 OpenRouter 账号",
     description:
-      "打开 OpenRouter 官网，使用 Google、GitHub 或邮箱完成注册。整个过程不需要先付费。",
-    tip: "OpenRouter 是 Hunter Alpha（小米 mimo-v2）当前的主要访问入口。",
+      "用 Google、GitHub 或邮箱在 openrouter.ai 注册。免费账号就够浏览模型目录、在网页对话界面里试模型。",
+    tip: "如果打算从试用走到生产调用，先把 API key 建好并放进服务端环境变量。",
   },
   {
     number: "02",
-    title: "找到 Hunter Alpha",
+    title: "按任务选模型，别按热度选",
     description:
-      "登录后搜索 “Hunter Alpha”，或进入模型目录查看 “openrouter/hunter-alpha”。进入模型页即可开始对话。",
-    tip: "你也可以直接使用模型页链接，减少在目录中查找的时间。",
+      "先想清楚你要做什么：写代码、读长文档、图片和音频输入、批量抽取、还是 agent 工作流。同一类任务里的候选模型，价格和上下文可能差好几倍。",
+    tip: "先挑两个候选，用同样五条真实任务各跑一遍，再决定用哪个。",
   },
   {
     number: "03",
-    title: "开始对话",
+    title: "在 playground 里试",
     description:
-      "当前模型免费开放，直接在对话框发送问题即可。它支持最长 1M tokens 上下文，适合长文档分析、长对话和资料整理。",
-    tip: "先用自己的真实资料测试上下文长度和答案结构，比只问身份更有参考价值。",
+      "打开模型页，输入一段有代表性的提示词，看答案本身 —— 也看它怎么处理你的边界情况。做 agent 的话，顺手测工具调用和结构化输出。",
+    tip: "把提示词、期望输出和失败案例存下来，之后换模型才有可比性。",
   },
   {
     number: "04",
-    title: "分享你的发现",
+    title: "估算每月成本",
     description:
-      "如果你发现了价格变化、异常回复或新的规格信息，欢迎提交到证据墙，帮助社区保持信息更新。",
-    tip: "截图、时间、提示词和完整回复会让证据更有价值。",
+      "用「每百万 tokens」的价格乘上你真实的输入/输出比例。长上下文和高频调用会让最便宜的选项很快换人。",
+    tip: "定下供应商之前，先过一遍本站的定价计算器。",
+  },
+  {
+    number: "05",
+    title: "把 API 接进你的应用",
+    description:
+      "OpenRouter 提供 OpenAI 兼容接口：把 model ID 换成你选的那个，key 留在服务端的环境变量里，其它调用代码基本不用动。",
+    tip: "从第一天就把 model ID、token 用量和延迟记下来，出问题时这是唯一的证据。",
   },
 ];
 
 const quickLinks = [
   { href: "/zh/faq", label: "中文 FAQ" },
-  { href: "/faq", label: "English FAQ" },
-  { href: "/evidence", label: "Evidence Wall" },
+  { href: "/comparison", label: "模型对比" },
+  { href: "/stealth-models", label: "匿名模型登记册" },
 ];
 
 export default function AccessClient() {
@@ -58,32 +73,12 @@ export default function AccessClient() {
           </Link>
         </div>
         <h1 className="text-4xl font-bold mb-4">
-          <span className="gradient-text">如何使用 Hunter Alpha</span>
+          <span className="gradient-text">如何使用 OpenRouter</span>
         </h1>
-        <p className="max-w-2xl mx-auto" style={{ color: "var(--muted)" }}>
-          Hunter Alpha 已确认为小米 mimo-v2。下面是它在 OpenRouter 上的中文访问步骤。
-        </p>
-        <p className="mt-4 text-sm px-4 py-2 rounded-lg inline-block border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
-          身份已确认：Hunter Alpha = Xiaomi mimo-v2
+        <p className="max-w-2xl mx-auto text-lg" style={{ color: "var(--muted)" }}>
+          五步走完：试模型、估成本、从 playground 走进生产。
         </p>
       </div>
-
-      <div className="grid md:grid-cols-3 gap-4 mb-12">
-        <Card className="p-6 text-center">
-          <div className="text-3xl font-bold text-violet-400 mb-1">免费</div>
-          <div className="text-sm" style={{ color: "var(--muted)" }}>当前价格</div>
-        </Card>
-        <Card className="p-6 text-center">
-          <div className="text-3xl font-bold text-teal-400 mb-1">1M</div>
-          <div className="text-sm" style={{ color: "var(--muted)" }}>上下文窗口</div>
-        </Card>
-        <Card className="p-6 text-center">
-          <div className="text-3xl font-bold text-pink-400 mb-1">文本</div>
-          <div className="text-sm" style={{ color: "var(--muted)" }}>纯文本模型</div>
-        </Card>
-      </div>
-
-      <NativeBanner />
 
       <div className="space-y-8">
         {steps.map((step) => (
@@ -96,7 +91,9 @@ export default function AccessClient() {
                 <h2 className="text-xl font-bold mb-3" style={{ color: "var(--foreground)" }}>
                   {step.title}
                 </h2>
-                <p className="mb-4" style={{ color: "var(--muted)" }}>{step.description}</p>
+                <p className="mb-4" style={{ color: "var(--muted)" }}>
+                  {step.description}
+                </p>
                 <div className="flex items-start gap-2 p-3 rounded-lg bg-violet-500/10 border border-violet-500/20">
                   <svg className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path
@@ -113,19 +110,55 @@ export default function AccessClient() {
         ))}
       </div>
 
-      <div className="flex flex-wrap justify-center gap-3 mt-12">
-        <ExternalLinkWithSmartlink
-          href="https://openrouter.ai/openrouter/hunter-alpha"
-          className="px-6 py-3 rounded-lg bg-gradient-to-r from-violet-500 to-teal-500 text-white font-medium hover:opacity-90 transition-opacity"
-        >
-          打开 Hunter Alpha
-        </ExternalLinkWithSmartlink>
-        <Link
-          href="/stealth-models"
-          className="px-6 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors"
-        >
-          看神秘模型追踪
-        </Link>
+      <NativeBanner />
+
+      {/*
+        这一段是本站相对通用教程的差别：匿名发布（Alpha 线）的模型往往只免费几天，
+        而且揭晓后就改名换价 —— 选型时不知道这件事，最容易踩坑。
+      */}
+      <Card className="p-8 mt-12">
+        <h2 className="text-xl font-bold mb-3" style={{ color: "var(--foreground)" }}>
+          选型时要留意「匿名发布」
+        </h2>
+        <p className="mb-4 text-sm" style={{ color: "var(--muted)" }}>
+          OpenRouter 上会不定期出现没有厂商名的免费预览模型，社区叫它们 Alpha：先用代号上线，等厂商
+          认领后再改名成正式产品，价格通常也从 $0 变成正常计费（Hunter Alpha 就是这样变成 Xiaomi
+          MiMo-V2.5 的）。把它们当成短期试用窗口，别当成长期依赖。
+        </p>
+        <div className="flex flex-wrap gap-3 text-sm">
+          <Link href="/union-alpha" className="text-violet-400 hover:underline">
+            当前匿名模型：Union Alpha →
+          </Link>
+          <Link href="/stealth-models" className="text-violet-400 hover:underline">
+            每个代号后来变成了什么 →
+          </Link>
+          <Link href="/zh/faq" className="text-violet-400 hover:underline">
+            中文 FAQ →
+          </Link>
+        </div>
+      </Card>
+
+      <div className="mt-12 text-center">
+        <Card className="p-8 glow-border">
+          <h2 className="text-2xl font-bold mb-4">从对比表开始</h2>
+          <p className="mb-6" style={{ color: "var(--muted)" }}>
+            先看对比表定候选，再用自己的任务验证一遍，最后才上生产。
+          </p>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <Link
+              href="/comparison"
+              className="px-6 py-3 rounded-lg font-medium bg-gradient-to-r from-violet-500 to-teal-500 text-white hover:opacity-90 transition-opacity"
+            >
+              对比模型
+            </Link>
+            <ExternalLinkWithSmartlink
+              href="https://openrouter.ai"
+              className="px-6 py-3 rounded-lg font-medium border border-violet-500/30 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 transition-colors"
+            >
+              打开 OpenRouter
+            </ExternalLinkWithSmartlink>
+          </div>
+        </Card>
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 mt-8 text-sm" style={{ color: "var(--muted)" }}>

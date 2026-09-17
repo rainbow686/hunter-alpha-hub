@@ -12,7 +12,6 @@ const categories = ["全部", ...Array.from(new Set(chineseFaqs.map((faq) => faq
 
 export default function ChineseFaqClient() {
   const [activeCategory, setActiveCategory] = useState("全部");
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const filteredFaqs =
     activeCategory === "全部"
@@ -37,7 +36,7 @@ export default function ChineseFaqClient() {
           <span className="gradient-text">Hunter Alpha 中文 FAQ</span>
         </h1>
         <p className="max-w-2xl mx-auto" style={{ color: "var(--muted)" }}>
-          关于小米 mimo-v2、访问方式、价格、1M 上下文和安全使用的中文答案。
+          Hunter Alpha、Alpha 这条线，以及本站怎么把事实和声称分开。
         </p>
       </div>
 
@@ -46,10 +45,7 @@ export default function ChineseFaqClient() {
           <button
             key={category}
             type="button"
-            onClick={() => {
-              setActiveCategory(category);
-              setOpenIndex(null);
-            }}
+            onClick={() => setActiveCategory(category)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeCategory === category
                 ? "bg-violet-500 text-white"
@@ -63,41 +59,56 @@ export default function ChineseFaqClient() {
 
       <NativeBanner />
 
+      {/*
+        与英文 FAQ 同样的理由：答案放在 <details> 里而不是 React state 里，
+        这样正文和其中的内链都在服务端渲染的 HTML 中 —— 不点开也能被读到。
+      */}
       <div className="space-y-4">
-        {filteredFaqs.map((faq, index) => (
-          <Card key={faq.question} className="p-6">
-            <button
-              type="button"
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="w-full text-left"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-violet-400 mb-2">{faq.category}</span>
-                <svg
-                  className={`w-5 h-5 transition-transform ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+        {filteredFaqs.map((faq) => (
+          <Card key={faq.question} className="px-6">
+            <details className="group">
+              <summary className="cursor-pointer list-none py-6">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-xs font-medium text-violet-400">{faq.category}</span>
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5 shrink-0 transition-transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium mt-2" style={{ color: "var(--foreground)" }}>
+                  {faq.question}
+                </h3>
+              </summary>
+              <div
+                className="text-sm pb-6 pt-4 border-t"
+                style={{ color: "var(--muted)", borderColor: "var(--card-border)" }}
+              >
+                <p>{faq.answer}</p>
+                {faq.links && faq.links.length > 0 && (
+                  <p className="mt-3">
+                    {faq.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-violet-400 hover:underline mr-4 inline-block"
+                      >
+                        {link.label} →
+                      </Link>
+                    ))}
+                  </p>
+                )}
               </div>
-              <h3 className="text-lg font-medium mt-2 mb-3" style={{ color: "var(--foreground)" }}>
-                {faq.question}
-              </h3>
-              {openIndex === index && (
-                <p className="text-sm mt-4 pt-4 border-t" style={{ color: "var(--muted)" }}>
-                  {faq.answer}
-                </p>
-              )}
-            </button>
+            </details>
           </Card>
         ))}
       </div>
