@@ -121,6 +121,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      // Live since launch and linked from the footer and /terms, but it was
+      // never in the sitemap — found on 2026-09-18 by the link audit's new
+      // "200 but not in the sitemap" check.
+      url: `${baseUrl}/privacy`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
       url: `${baseUrl}/alpha-models`,
       lastModified,
       changeFrequency: 'weekly',

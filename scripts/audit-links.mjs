@@ -123,8 +123,20 @@ for (const [from, tos] of pages) {
 }
 
 const deadTargets = [];
+/** Targets that answer 200 but are not in the sitemap: a live page nobody declares. */
+const undeclared = [];
 let targetCursor = 0;
 const targetList = [...targets.keys()];
+
+/**
+ * Paths that legitimately answer 200 without belonging in a sitemap: endpoints
+ * and files. Anything else that is linked, live, and missing from the sitemap
+ * is a page we forgot to declare — which is how /privacy sat unlisted while
+ * being linked from every footer. "Looks like a file" is the rule for assets,
+ * so a build hash change never turns into a false alarm.
+ */
+const NOT_FOR_SITEMAP = /^\/api\/|\.(js|mjs|css|svg|png|jpe?g|webp|gif|ico|xml|txt|json|woff2?)$/i;
+const declared = new Set(urls.map(key));
 
 async function targetWorker() {
   while (targetCursor < targetList.length) {
@@ -138,6 +150,8 @@ async function targetWorker() {
       // 200 is the only acceptable answer for a link we ourselves render.
       if (res.status !== 200) {
         deadTargets.push({ href, status: res.status, from: [...targets.get(href)].sort() });
+      } else if (!declared.has(href) && !NOT_FOR_SITEMAP.test(href)) {
+        undeclared.push({ href, from: [...targets.get(href)].sort() });
       }
     } catch (err) {
       deadTargets.push({ href, status: `error: ${err.message}`, from: [...targets.get(href)].sort() });
@@ -174,6 +188,16 @@ if (deadTargets.length) {
   console.log(`target was renamed and the link was not. Point the link at a live page.`);
 }
 
+if (undeclared.length) {
+  console.log(`\nFAIL — ${undeclared.length} linked page(s) are live but missing from the sitemap:`);
+  for (const u of undeclared) {
+    console.log(`    ${u.href}`);
+    console.log(`      linked from: ${u.from.slice(0, 4).join(", ")}${u.from.length > 4 ? ` (+${u.from.length - 4} more)` : ""}`);
+  }
+  console.log(`\nA sitemap is how Google learns about a page without following links to it.`);
+  console.log(`Add it to app/sitemap.ts, or if it is an endpoint, ignore it in NOT_FOR_SITEMAP.`);
+}
+
 if (problems.length) {
   console.log(`\nFAIL — ${problems.length} page(s) below ${MIN_INBOUND} inbound link(s):`);
   for (const p of problems) console.log(`    ${p.page}  (${p.inbound})`);
@@ -182,4 +206,4 @@ if (problems.length) {
   console.log(`intentionally unlinked, list it in --allow and say why in the PR.`);
 }
 
-process.exit(problems.length || failures.length || deadTargets.length ? 1 : 0);
+process.exit(problems.length || failures.length || deadTargets.length || undeclared.length ? 1 : 0);

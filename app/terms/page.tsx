@@ -112,8 +112,8 @@ export default function TermsPage() {
             5. Submissions and Community Content
           </h2>
           <p className="text-sm mb-3" style={{ color: "var(--muted)" }}>
-            Some areas of the Site accept user submissions (for example the evidence wall, comments and
-            the newsletter form). When you submit content:
+            Some areas of the Site accept user submissions (for example the newsletter form). When you
+            submit content:
           </p>
           <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "var(--muted)" }}>
             <li>you keep ownership of what you submit;</li>
