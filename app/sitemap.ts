@@ -126,6 +126,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/alpha-models`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
     // OpenRouter 模型页
     ...openrouterModels.map((model) => ({
       url: `${baseUrl}/openrouter-models/${model.slug}`,
