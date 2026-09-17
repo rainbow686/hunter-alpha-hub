@@ -4,6 +4,9 @@ import { Card } from "@/components/card";
 import { WebSiteSchema, BreadcrumbListSchema } from "@/components/structured-data";
 import {
   defaultScenarios,
+  formatContextWindow,
+  formatPrice,
+  getModelBySlug,
   modelHubDataAsOf,
   modelsForScenario,
 } from "@/lib/openrouter-models";
@@ -55,6 +58,15 @@ const featuredModels = [
   ...modelsForScenario("Budget", 2),
 ].slice(0, 4);
 
+/**
+ * Hunter Alpha is the reason this domain has any search traffic: the page below
+ * ranks around position 2.8 for "hunter alpha ai" and 6.9 for "hunter alpha
+ * openrouter" on the strength of the domain name — the homepage never actually
+ * mentioned the model. The section answers that query in words, and reads its
+ * numbers from the catalogue entry it became, so they cannot drift.
+ */
+const hunterAlpha = getModelBySlug("mimo-v2.5");
+
 export default function Home() {
   return (
     <>
@@ -98,6 +110,47 @@ export default function Home() {
                 </span>
                 <span className="ml-auto text-sm text-violet-400">Follow the tracker →</span>
               </div>
+            </Card>
+          </Link>
+        </section>
+
+        {/*
+          The three-tier entry point from ADR-0012: one live codename, the register
+          that grows with every release, and the comparison hub. Everything else on
+          the site hangs off these.
+        */}
+        <section className="grid md:grid-cols-3 gap-4 mb-16">
+          <Link href="/union-alpha" className="block">
+            <Card className="p-5 h-full hover:border-violet-500/50 transition-colors">
+              <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+                Union Alpha <span className="text-xs text-emerald-400 align-middle">live now</span>
+              </div>
+              <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>
+                The anonymous release that is free today: verified specs, live status, and what is
+                still only a claim.
+              </p>
+            </Card>
+          </Link>
+          <Link href="/stealth-models" className="block">
+            <Card className="p-5 h-full hover:border-violet-500/50 transition-colors">
+              <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+                Every stealth release
+              </div>
+              <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>
+                The register: each anonymous model, what it turned out to be, and what it costs after
+                the reveal.
+              </p>
+            </Card>
+          </Link>
+          <Link href="/comparison" className="block">
+            <Card className="p-5 h-full hover:border-violet-500/50 transition-colors">
+              <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+                Compare before you commit
+              </div>
+              <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>
+                Price, context window and modality side by side, including what the free anonymous
+                model looks like next to paid ones.
+              </p>
             </Card>
           </Link>
         </section>
@@ -162,6 +215,51 @@ export default function Home() {
             </Card>
           ))}
         </section>
+
+        {hunterAlpha && (
+          <section
+            className="rounded-xl border p-6 mb-16"
+            style={{ borderColor: "var(--card-border)", backgroundColor: "var(--card-bg)" }}
+          >
+            <h2 className="text-2xl font-bold mb-3">Hunter Alpha on OpenRouter</h2>
+            <p className="text-sm leading-relaxed mb-4 max-w-3xl" style={{ color: "var(--muted)" }}>
+              Hunter Alpha was the anonymous model that appeared on OpenRouter in March 2026 with a
+              1M-token context window and no maker attached. It did not stay anonymous: it was
+              confirmed as <strong style={{ color: "var(--foreground)" }}>{hunterAlpha.name}</strong>{" "}
+              in the same month, and it is now a normal paid model on OpenRouter at{" "}
+              {formatPrice(hunterAlpha.inputPricePerMillion)} in /{" "}
+              {formatPrice(hunterAlpha.outputPricePerMillion)} out per million tokens with a{" "}
+              {formatContextWindow(hunterAlpha.contextWindow)} window. If you came here looking for
+              the codename, that is the model you want.
+            </p>
+            <p className="text-sm leading-relaxed mb-4 max-w-3xl" style={{ color: "var(--muted)" }}>
+              The codename still circulates in a few spellings — <em>alpha hunter</em>,{" "}
+              <em>hunteralpha</em>, <em>Hunter-Alpha</em> — and it also lives on as history: this site
+              started as a tracker for it. The line it belonged to is still running, and the current
+              anonymous release is <Link href="/union-alpha" className="text-violet-400 hover:underline">Union Alpha</Link>.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={`/openrouter-models/${hunterAlpha.slug}`}
+                className="px-5 py-3 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
+              >
+                {hunterAlpha.name} details →
+              </Link>
+              <Link
+                href="/hunter-alpha"
+                className="px-5 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm font-semibold hover:bg-violet-500/20 transition-colors"
+              >
+                Hunter Alpha archive
+              </Link>
+              <Link
+                href="/stealth-models"
+                className="px-5 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 text-sm font-semibold hover:bg-violet-500/20 transition-colors"
+              >
+                Every stealth release
+              </Link>
+            </div>
+          </section>
+        )}
 
         <section className="rounded-xl border p-6" style={{ borderColor: "var(--card-border)", backgroundColor: "var(--card-bg)" }}>
           <h2 className="text-xl font-bold mb-3">Latest model snapshot</h2>
