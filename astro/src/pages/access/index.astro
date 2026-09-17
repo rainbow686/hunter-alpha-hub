@@ -1,0 +1,151 @@
+---
+/**
+ * How to use OpenRouter — the five-step guide.
+ *
+ * The one page here that is about the platform rather than a single model, and
+ * it earns its place: in GSC it is the only internal page besides the homepage
+ * with clicks, and it ranks for the "openrouter playground" family (positions
+ * 2–10) rather than for Hunter Alpha. So the content stays model-agnostic and
+ * points at the picks, the comparison and the calculator.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * Article + BreadcrumbList.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import { articleSchema, breadcrumbSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "How to Use OpenRouter: Models, Playground & API";
+const description =
+  "A practical guide to OpenRouter: create an account, choose a model, test in the playground, estimate monthly cost and wire the API into production.";
+const canonical = `${SITE}/access`;
+
+const steps = [
+  {
+    number: "01",
+    title: "Create an OpenRouter account",
+    body: "Sign up at openrouter.ai with Google, GitHub or email. A free account is enough to browse models and start testing in the web UI.",
+    tip: "Keep an API key ready if you plan to move from testing to production calls.",
+  },
+  {
+    number: "02",
+    title: "Pick a model for your task",
+    body: "Start by task type: coding, long documents, multimodal intake, high-volume extraction or agent workflows. Do not pick by hype alone.",
+    tip: "Shortlist two models and run the same five real tasks before deciding.",
+  },
+  {
+    number: "03",
+    title: "Test in the OpenRouter playground",
+    body: "Open the model page, enter a representative prompt and inspect the answer. For agents, test tool calls and structured output too.",
+    tip: "Save your prompt, expected output and failure cases so you can compare fairly.",
+  },
+  {
+    number: "04",
+    title: "Estimate monthly cost",
+    body: "Use pricing per million tokens and your real input/output ratio. Long-context and high-volume workloads can change the cheapest option quickly.",
+    tip: "Check the calculator page before committing to a provider.",
+  },
+  {
+    number: "05",
+    title: "Wire the API into your app",
+    body: "OpenRouter exposes an OpenAI-compatible interface. Replace the model ID with the one you selected and keep your key in server-side environment variables.",
+    tip: "Log model ID, token usage and latency from day one.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "How to Use OpenRouter: Models, Playground & API",
+      description:
+        "A practical guide to creating an account, choosing a model, testing in the playground, estimating cost and using the OpenRouter API.",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "How to Use OpenRouter", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Guide · OpenRouter</p>
+  <h1 class="display">How to Use OpenRouter</h1>
+  <p class="lede">
+    A practical five-step guide for testing models, estimating cost and moving from the OpenRouter
+    playground into production.
+  </p>
+  <p class="byline">
+    <span><a href="/zh/access">中文</a></span>
+  </p>
+
+  <ol class="steps">
+    {steps.map((step) => (
+      <li>
+        <span class="step-number">{step.number}</span>
+        <div>
+          <h2>{step.title}</h2>
+          <p class="body">{step.body}</p>
+          <p class="tip">{step.tip}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <section class="card" style="margin-top: var(--space-10);">
+    <h2 style="margin-top: 0;">Choose your first model</h2>
+    <p class="body">
+      Start with the comparison table, then validate with your own tasks before moving to production.
+    </p>
+    <p class="hero-actions" style="margin-bottom: 0;">
+      <a class="btn primary" href="/comparison">Compare models</a>
+      <a class="btn ghost" href="/best-openrouter-models">Best picks by workload</a>
+      <a class="btn ghost" href="https://openrouter.ai" rel="noopener noreferrer">Open OpenRouter ↗</a>
+    </p>
+  </section>
+</System>
+
+<style>
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-8);
+  }
+  .steps > li {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+  }
+  .step-number {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+  .steps h2 {
+    margin: 0;
+  }
+  .body {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .tip {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+    border-left: 2px solid var(--accent-soft);
+    padding-left: var(--space-3);
+  }
+</style>

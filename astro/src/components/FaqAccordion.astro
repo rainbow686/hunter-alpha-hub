@@ -1,0 +1,110 @@
+---
+/**
+ * FAQ as native <details>, for the two FAQ pages.
+ *
+ * Two reasons this is a component and not a loop in each page:
+ *   - the answers and their links have to be in the server-rendered HTML. The
+ *     Next app used React state for this until 2026-09-18, which meant a
+ *     crawler that never clicks read an empty page and never saw the internal
+ *     links at all;
+ *   - it is shared by /faq and /zh/faq, which read the same source shape
+ *     (lib/faq.ts and lib/zh-faq.ts respectively).
+ */
+interface Item {
+  question: string;
+  answer: string;
+  category?: string;
+  links?: { href: string; label: string }[];
+}
+interface Props {
+  items: Item[];
+  categories?: string[];
+}
+const { items } = Astro.props;
+---
+<div class="faq-accordion">
+  {items.map((item) => (
+    <details class="qa-item">
+      <summary>
+        {item.category && <span class="qa-category">{item.category}</span>}
+        <span class="qa-question">{item.question}</span>
+      </summary>
+      <div class="qa-answer">
+        <p>{item.answer}</p>
+        {item.links && item.links.length > 0 && (
+          <p class="qa-links">
+            {item.links.map((link) => (
+              <a href={link.href}>{link.label} →</a>
+            ))}
+          </p>
+        )}
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq-accordion {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .qa-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius, 6px);
+    background: var(--surface);
+    padding: 0 var(--space-5);
+  }
+  summary {
+    cursor: pointer;
+    padding: var(--space-4) 0;
+    list-style: none;
+  }
+  /* Keep our own affordance: drop the user-agent triangle (Safari needs the
+     -webkit- pseudo-element, everything else uses ::marker). */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::marker {
+    content: "";
+  }
+  .qa-category {
+    display: block;
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .qa-question {
+    display: block;
+    margin-top: var(--space-1);
+    font-weight: 600;
+    color: var(--text);
+  }
+  summary::after {
+    content: "+";
+    float: right;
+    margin-top: calc(-1 * var(--space-5));
+    font-size: var(--text-lg);
+    color: var(--text-faint);
+  }
+  details[open] summary::after {
+    content: "–";
+  }
+  .qa-answer {
+    border-top: 1px solid var(--border);
+    padding: var(--space-4) 0 var(--space-5);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .qa-answer p {
+    margin: 0;
+  }
+  .qa-links {
+    margin-top: var(--space-3) !important;
+  }
+  .qa-links a {
+    display: inline-block;
+    margin-right: var(--space-4);
+  }
+</style>

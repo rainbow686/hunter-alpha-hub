@@ -1,0 +1,145 @@
+---
+/**
+ * 中文「如何使用 OpenRouter」—— /access 的 zh-CN 对应页。
+ *
+ * 这一页原来写的是「Hunter Alpha 已确认为小米 mimo-v2、当前免费、纯文本」，三句在
+ * 2026-09-18 全部过期，而且它声明为 /access 的对应页、内容却是某个模型的访问教程，
+ * 意图对不上（hreflang 配对因此无效）。现在与 /access 同一个意图。
+ *
+ * parity 契约：title / description / canonical 逐字一致、h1 恰好一个、JSON-LD 恰为
+ * BreadcrumbList（线上这页**没有** Article）。
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { breadcrumbSchema, SITE, SITE_NAME } from "../../../lib/schema";
+
+const title = "如何使用 OpenRouter：模型、Playground 与 API（中文指南）";
+const description =
+  "OpenRouter 中文上手指南：注册账号、按任务选模型、在 playground 试跑、估算每月成本，把 OpenAI 兼容接口接进生产。附匿名 Alpha 模型的选型提醒。";
+const canonical = `${SITE}/zh/access`;
+
+const steps = [
+  {
+    number: "01",
+    title: "注册 OpenRouter 账号",
+    body: "用 Google、GitHub 或邮箱在 openrouter.ai 注册。免费账号就够浏览模型目录、在网页对话界面里试模型。",
+    tip: "如果打算从试用走到生产调用，先把 API key 建好并放进服务端环境变量。",
+  },
+  {
+    number: "02",
+    title: "按任务选模型，别按热度选",
+    body: "先想清楚你要做什么：写代码、读长文档、图片和音频输入、批量抽取、还是 agent 工作流。同一类任务里的候选模型，价格和上下文可能差好几倍。",
+    tip: "先挑两个候选，用同样五条真实任务各跑一遍，再决定用哪个。",
+  },
+  {
+    number: "03",
+    title: "在 playground 里试",
+    body: "打开模型页，输入一段有代表性的提示词，看答案本身 —— 也看它怎么处理你的边界情况。做 agent 的话，顺手测工具调用和结构化输出。",
+    tip: "把提示词、期望输出和失败案例存下来，之后换模型才有可比性。",
+  },
+  {
+    number: "04",
+    title: "估算每月成本",
+    body: "用「每百万 tokens」的价格乘上你真实的输入/输出比例。长上下文和高频调用会让最便宜的选项很快换人。",
+    tip: "定下供应商之前，先过一遍本站的定价计算器。",
+  },
+  {
+    number: "05",
+    title: "把 API 接进你的应用",
+    body: "OpenRouter 提供 OpenAI 兼容接口：把 model ID 换成你选的那个，key 留在服务端的环境变量里，其它调用代码基本不用动。",
+    tip: "从第一天就把 model ID、token 用量和延迟记下来，出问题时这是唯一的证据。",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "首页", url: SITE },
+      { name: "中文指南：如何使用 OpenRouter", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">指南 · 中文</p>
+  <h1 class="display">如何使用 OpenRouter</h1>
+  <p class="lede">五步走完：试模型、估成本、从 playground 走进生产。</p>
+  <p class="byline"><span><a href="/access">English</a></span></p>
+
+  <ol class="steps">
+    {steps.map((step) => (
+      <li>
+        <span class="step-number">{step.number}</span>
+        <div>
+          <h2>{step.title}</h2>
+          <p class="body">{step.body}</p>
+          <p class="tip">{step.tip}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <section class="card" style="margin-top: var(--space-10);">
+    <h2 style="margin-top: 0;">选型时要留意「匿名发布」</h2>
+    <p class="body">
+      OpenRouter 上会不定期出现没有厂商名的免费预览模型，社区叫它们 Alpha：先用代号上线，等厂商认领后
+      再改名成正式产品，价格通常也从 $0 变成正常计费（Hunter Alpha 就是这样变成 Xiaomi MiMo-V2.5 的）。
+      把它们当成短期试用窗口，别当成长期依赖。
+    </p>
+    <p class="hero-actions" style="margin-bottom: 0;">
+      <a class="btn ghost" href="/union-alpha">当前匿名模型：Union Alpha →</a>
+      <a class="btn ghost" href="/stealth-models">每个代号后来变成了什么 →</a>
+      <a class="btn ghost" href="/zh/faq">中文 FAQ →</a>
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: var(--space-8);">
+    <h2 style="margin-top: 0;">从对比表开始</h2>
+    <p class="body">先看对比表定候选，再用自己的任务验证一遍，最后才上生产。</p>
+    <p class="hero-actions" style="margin-bottom: 0;">
+      <a class="btn primary" href="/comparison">对比模型</a>
+      <a class="btn ghost" href="https://openrouter.ai" rel="noopener noreferrer">打开 OpenRouter ↗</a>
+    </p>
+  </section>
+</System>
+
+<style>
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-8);
+  }
+  .steps > li {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+  }
+  .step-number {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+  .steps h2 {
+    margin: 0;
+  }
+  .body {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .tip {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+    border-left: 2px solid var(--accent-soft);
+    padding-left: var(--space-3);
+  }
+</style>
