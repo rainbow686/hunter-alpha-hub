@@ -3,28 +3,58 @@ import "../styles/system.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Analytics from "../components/Analytics.astro";
+import { SITE, SITE_NAME } from "../lib/schema";
 
-interface Props { title: string; description: string; canonical?: string }
-const { title, description, canonical } = Astro.props;
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  /** BCP-47 tag for <html lang> and the og:locale hint. Chinese pages pass zh-CN. */
+  lang?: string;
+  /**
+   * og:type. The live site marks every content page (blog, model, comparison,
+   * stealth line) as `article` and the hubs as `website`; a social card that says
+   * `website` for a single article is a wasted signal.
+   */
+  ogType?: "website" | "article";
+}
+const { title, description, canonical, lang = "en", ogType = "website" } = Astro.props;
+const ogImage = `${SITE}/og-image.png`;
+const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {/* The live site states this explicitly on every page; leaving it out is not a
+        behaviour change (index, follow is the default) but it is a difference for
+        no reason, and `check:page-parity` now compares head tags too. */}
+    <meta name="robots" content="index, follow" />
     {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://www.hunteralphahub.com/og-image.png" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical ?? `${SITE}${Astro.url.pathname.replace(/\/$/, "")}`} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={SITE_NAME} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://www.hunteralphahub.com/og-image.png" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:type" content="image/png" />
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="630" />
+    <meta name="twitter:image:alt" content={SITE_NAME} />
     <slot name="head" />
     <Analytics />
   </head>

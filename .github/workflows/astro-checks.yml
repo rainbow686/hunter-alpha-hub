@@ -34,7 +34,7 @@ jobs:
         run: npm run build
       - name: GA4 probe survives the build
         run: npm run check:analytics
-      - name: Internal links survive the build
-        run: npm run check:links
+      - name: Links and head tags survive the build
+        run: npm run check:parity
       - name: Migration parity vs production
         run: npm run verify:pages
