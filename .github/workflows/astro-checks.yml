@@ -36,5 +36,7 @@ jobs:
         run: npm run check:analytics
       - name: Links and head tags survive the build
         run: npm run check:parity
+      - name: Crawler-facing files are in the build
+        run: npm run check:files
       - name: Migration parity vs production
         run: npm run verify:pages

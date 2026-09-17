@@ -1,0 +1,45 @@
+/**
+ * Phase 4 cutover config — NOT used by the preview deploy.
+ *
+ * Deploy command: `npm run deploy:production`
+ *   = `astro build && wrangler deploy --config wrangler.production.jsonc`
+ *
+ * Differences from wrangler.jsonc (which serves the preview Worker), and why each
+ * one matters at cutover:
+ *
+ *   - `name: hunter-alpha-hub-astro` — a **new** Worker. The Next Worker stays
+ *     deployed and untouched so rollback is "move the domains back", not
+ *     "rebuild the old app".
+ *   - no preview stamp — `npm run deploy` (preview) injects `X-Robots-Tag:
+ *     noindex`; running that against production would deindex the whole domain.
+ *     `npm run check:files` fails the build if a noindex line is present.
+ *   - `workers_dev: false` + `preview_urls: false` — the Astro Worker must not be
+ *     reachable (and indexable) at *.<account>.workers.dev once it is the real
+ *     site. The preview Worker keeps its own workers.dev URL for testing.
+ *   - both custom domains bound here. Cloudflare will refuse this deploy while the
+ *     Next Worker still holds them — that refusal is the cutover gate, not a bug.
+ *
+ * Apex → www is NOT handled here: Cloudflare serves the apex from this same
+ * Worker, and a Workers Assets deployment answers static pages from the asset
+ * layer (see dist/_routes.json), so app middleware never sees those requests.
+ * The redirect belongs in a zone-level Redirect Rule:
+ *   when host equals hunteralphahub.com → dynamic redirect to
+ *   https://www.hunteralphahub.com + path, 308, preserve query string.
+ * Until that rule exists, `hunteralphahub.com` and `www.hunteralphahub.com` serve
+ * the same pages on two hosts, which is exactly what ADR-0009 exists to prevent.
+ */
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "hunter-alpha-hub-astro",
+  "account_id": "de677f38b96340f3a63a53e5044a1c98",
+  "main": "dist/_worker.js/index.js",
+  "compatibility_date": "2026-08-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "dist", "binding": "ASSETS" },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "hunteralphahub.com", "custom_domain": true },
+    { "pattern": "www.hunteralphahub.com", "custom_domain": true }
+  ]
+}

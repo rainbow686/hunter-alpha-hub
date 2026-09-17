@@ -1,0 +1,11 @@
+# robots.txt for OpenRouter Model Hub
+# https://www.hunteralphahub.com
+
+User-agent: *
+Allow: /
+
+# Disallow API routes (they are endpoints, not pages)
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.hunteralphahub.com/sitemap.xml
