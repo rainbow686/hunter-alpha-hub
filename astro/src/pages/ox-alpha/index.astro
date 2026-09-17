@@ -139,7 +139,7 @@ const pressUnverified = [
   "We could not re-verify those specific URLs on 2026-09-18 — the Business Insider link we had returns 404, and the other two sit behind bot protection that blocks automated checks. So this is recorded as a claim about what was reported, not as a citation you can click through, and the direct quotations that used to sit here have been removed rather than left attached to a dead link.",
 ];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
   <JsonLd
     slot="head"
     data={articleSchema({

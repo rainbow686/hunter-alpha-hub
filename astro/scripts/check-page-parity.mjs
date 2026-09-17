@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 /**
- * Link parity — does the Astro build link to everything the live site links to?
+ * Page parity — does the build keep the things a page needs besides its words?
  *
- * Why this exists: the two guards we already had both have a blind spot for links.
- *   - `verify:pages` compares content fields (title / description / canonical / JSON-LD / h1).
- *   - `audit-links` only asks that every sitemap page has **at least one** inbound link.
- * So a migration can quietly drop 81 links to a page and both stay green.
+ * Two checks, both aimed at the same blind spot. `verify:pages` compares content
+ * fields (title / description / canonical / JSON-LD / h1) and `audit-links` only
+ * asks that every sitemap page has **at least one** inbound link, so:
+ *
+ *   1. LINKS — a migration can quietly drop 81 links to a page and both stay green.
+ *   2. HEAD TAGS — robots, og:*, twitter:*, icons are nobody's field. They are not
+ *      in any checklist, they do not break a page when missing, and they are
+ *      exactly what a rewrite forgets. (Same class as the GA4 tag, which the
+ *      Astro build had dropped entirely — see check-analytics.mjs.)
+ *
+ * Rule for both: **anything the live page has, the build must have.** Additions
+ * are allowed (a redesign may improve on the live page); losses are not.
  *
  * That is exactly what happened (found 2026-09-18, on the preview vs production diff):
  *   1. the footer stopped linking `/access` on 81 pages — `/access` is the only inner
@@ -16,8 +24,8 @@
  *   3. blog "Related Articles" picked a different three posts, because Astro's
  *      collection order is alphabetical while the Next app used the curated array order.
  *
- * Usage: `npm run check:links` (compares dist/ against production).
- *        `npm run check:links -- --origin https://preview.example.workers.dev`
+ * Usage: `npm run check:parity` (compares dist/ against production).
+ *        `npm run check:parity -- --origin https://preview.example.workers.dev`
  *
  * Each live page is fetched twice and the comparison uses the **intersection** of
  * the two responses. Reason, learned the hard way on 2026-09-18: a live page can
@@ -28,8 +36,8 @@
  * Stable links are the ones every response agrees on; those are the ones that must
  * not be dropped. Pages that disagreed are reported instead of silently ignored.
  *
- * Allowlist: `/api/*`. Endpoints appear in prose and in fetch calls, not in navigation,
- * and an endpoint is not a page — losing a link to one is not a lost link.
+ * Allowlists: `/api/*` links (an endpoint is not a page), and `<html lang>` (the
+ * live Chinese pages declare lang="en", which is wrong; the rebuild fixes it).
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
@@ -87,6 +95,55 @@ const fetchLive = async (path) => {
   return null;
 };
 
+/**
+ * Head features that `verify:pages` does not look at: robots, og:*, twitter:*
+ * and the icon links. Compared by name → content, so a renamed or reworded tag
+ * counts, and an added tag does not.
+ */
+function headFeatures(html) {
+  const features = new Map();
+  for (const match of html.matchAll(/<meta\s+[^>]*>/g)) {
+    const tag = match[0];
+    const name = tag.match(/(?:property|name)="((?:og:|twitter:)[^"]*|robots)"/)?.[1];
+    if (!name) continue;
+    const content = tag.match(/content="([^"]*)"/)?.[1] ?? "";
+    features.set(name, content);
+  }
+  const icons = [...html.matchAll(/<link\s+[^>]*rel="(?:icon|apple-touch-icon)"[^>]*>/g)].map(
+    (match) => match[0].match(/href="([^"]*)"/)?.[1] ?? "",
+  );
+  if (icons.length) features.set("icons", icons.sort().join(" "));
+  return features;
+}
+
+/**
+ * Presence-only tags. Their values are either editorial (the live site's og:title
+ * often differs from its own <title>) or generated per page by Next
+ * (`/<page>/opengraph-image` — a real feature the Astro build does not reproduce;
+ * it ships one static card, documented in docs/OPERATIONS.md). Losing the *tag*
+ * is the regression this guard is about; a different value is a design choice.
+ */
+const PRESENCE_ONLY = new Set([
+  "og:title",
+  "og:description",
+  "og:image",
+  "og:image:alt",
+  "og:image:type",
+  "twitter:title",
+  "twitter:description",
+  "twitter:image",
+  "twitter:image:alt",
+  "twitter:image:type",
+]);
+
+/**
+ * Live values that are simply wrong. `/hunter-alpha` points og:url at the site
+ * root, so a page about Hunter Alpha advertises the homepage as its URL. The
+ * build must use its own canonical instead; copying the bug to keep the guard
+ * green would be the worst possible use of a guard.
+ */
+const LIVE_MISTAKES = new Set(["/hunter-alpha og:url"]);
+
 /** Links present in every response for this page — see the header. */
 const liveLinkSets = async (path) => {
   const [first, second] = await Promise.all([fetchLive(path), fetchLive(path)]);
@@ -117,6 +174,33 @@ for (const path of paths) {
   const built = internalLinks(readFileSync(file, "utf8"), LIVE);
   const missing = [...live.stable].filter((href) => !built.has(href));
   if (missing.length) failures.push(`${path}: ${missing.length} link(s) missing → ${missing.join(", ")}`);
+
+  const liveHead = headFeatures((await fetchLive(path)) ?? "");
+  const builtHtml = readFileSync(file, "utf8");
+  const builtHead = headFeatures(builtHtml);
+  const missingHead = [];
+  for (const [name, content] of liveHead) {
+    const builtValue = builtHead.get(name);
+    if (builtValue === undefined) {
+      missingHead.push(`${name} absent (live="${content.slice(0, 50)}")`);
+      continue;
+    }
+    if (PRESENCE_ONLY.has(name)) continue;
+    // Known-wrong live values: check the intent, never copy the mistake.
+    if (name === "og:url" && LIVE_MISTAKES.has(`${path} og:url`)) {
+      const canonical = builtHtml.match(/<link\s+rel="canonical"\s+href="([^"]+)"/)?.[1];
+      if (!canonical || builtValue !== canonical) {
+        missingHead.push(`og:url must equal this page's canonical (build="${builtValue}")`);
+      }
+      continue;
+    }
+    if (builtValue !== content) {
+      missingHead.push(`${name} (live="${content.slice(0, 50)}" build="${builtValue.slice(0, 50)}")`);
+    }
+  }
+  if (missingHead.length) {
+    failures.push(`${path}: head tag(s) missing or different → ${missingHead.join(", ")}`);
+  }
 }
 
 console.log(`link parity: compared ${compared}/${paths.length} pages against ${LIVE}`);
@@ -132,4 +216,4 @@ if (failures.length) {
   console.error("\nEither restore the link, or explain in the PR why the live link was wrong.");
   process.exit(1);
 }
-console.log("OK: every internal link the live site has, the build has too");
+console.log("OK: every internal link and head tag the live site has, the build has too");
