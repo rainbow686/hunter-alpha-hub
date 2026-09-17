@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **OpenRouter Model Hub** is the primary site identity. It compares AI models on OpenRouter by pricing, context window, modality and use case.  
 Hunter Alpha (Xiaomi MiMo-V2.5) and OX Alpha (GLM 5.3 Flash) are retained only as historical aliases/archived trackers, not as primary SEO targets.  
-The site is deployed to Cloudflare Workers; Vercel is rollback-only.
+The site is deployed to Cloudflare Workers only; Vercel is retired and `vercel.json` has been removed.
 
 ### Primary routes
 
@@ -134,7 +134,7 @@ The site is deployed to Cloudflare Workers; Vercel is rollback-only.
 - **框架**: Next.js 15 (App Router)
 - **样式**: TailwindCSS + 深色主题
 - **语言**: TypeScript
-- **部署**: Cloudflare Workers（OpenNext）；Vercel 仅历史回滚，不是主部署
+- **部署**: Cloudflare Workers（OpenNext）唯一部署；GitHub `main` 由 Cloudflare Workers Builds 自动构建部署（Vercel 已退役）
 - **数据库**: Supabase PostgreSQL (evidence, subscribers, videos 表)
 - **邮件服务**: Supabase + ConvertKit/Resend（待集成）
 

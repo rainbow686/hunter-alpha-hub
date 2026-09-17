@@ -11,7 +11,7 @@
 - 移动端官方无App，手机=浏览器开multica.ai或Tailscale域名；Multica Go为第三方壳；派活走飞书
 
 ## 3. 栈（当前定档）
-- 部署：Cloudflare Workers（OpenNext）；Vercel 仅暂作回滚，不再作为主部署。
+- 部署：Cloudflare Workers（OpenNext）唯一主部署，构建走 Cloudflare Workers Builds（连 GitHub `main`）。Vercel 已退役，`vercel.json` 已删除。
 - DB：Supabase（@supabase/supabase-js）。
 - 变更必给回滚，日志可追溯。
 
