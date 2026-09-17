@@ -1,0 +1,36 @@
+name: IndexNow Submit
+
+# Pings IndexNow (Bing/Yandex/Seznam/Naver) after a merge reaches main, so new and
+# updated pages are discovered without waiting for a crawl. Google is handled by
+# Search Console instead — IndexNow does not talk to Google.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Workers Builds needs a few minutes to publish the merged commit; submitting
+      # before the new key file and pages are live would 403 or submit stale URLs.
+      - name: Wait for the Cloudflare deployment
+        run: sleep 300
+
+      - name: Verify the IndexNow key file is live
+        run: |
+          KEY_FILE=$(ls public/ | grep -E '^[a-f0-9]{16,128}\.txt$' | head -1)
+          echo "key file: $KEY_FILE"
+          test -n "$KEY_FILE"
+          curl -fsS "https://www.hunteralphahub.com/$KEY_FILE" | head -c 40
+
+      - name: Submit sitemap URLs
+        run: node scripts/indexnow-submit.mjs
