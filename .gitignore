@@ -47,3 +47,6 @@ next-env.d.ts
 /astro/.astro/
 /astro/.wrangler/
 /astro/.cache/
+
+# Browser-automation artifacts (playwright-cli writes snapshots/screenshots here)
+/.playwright-cli/
