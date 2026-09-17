@@ -84,3 +84,32 @@ export function blogSchema(input: { name: string; url: string; description: stri
     publisher: { "@type": "Organization", name: PUBLISHER },
   };
 }
+
+/**
+ * WebApplication schema for the pricing calculator.
+ *
+ * One field differs from the live version on purpose: it says
+ * "Requires JavaScript". The Astro build server-renders the default estimate —
+ * the live page ships the form controls and computes every number in the
+ * browser, so the page had no cost figures in its HTML at all. Since the new
+ * one does work without JavaScript, claiming otherwise would be a false
+ * statement in structured data, which is worse than a difference.
+ */
+export function webApplicationSchema(input: { name: string; url: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: input.name,
+    url: input.url,
+    description: input.description,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any",
+    browserRequirements:
+      "Serves a default monthly-cost estimate without JavaScript; JavaScript recalculates as you change the inputs.",
+    offers: {
+      "@type": "Offer",
+      price: 0,
+      priceCurrency: "USD",
+    },
+  };
+}
