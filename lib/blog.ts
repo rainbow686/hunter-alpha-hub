@@ -1650,6 +1650,14 @@ For my use case (document analysis SaaS), it's the right choice—with fallback 
     content: `
 # Hunter Alpha Not Working? 5 Quick Fixes (2026)
 
+### 🔄 Updated 2026-09-17
+
+Hunter Alpha is now **Xiaomi MiMo-V2.5**, so most "not working" reports today are really one of three things: the old model ID is gone, the free tier ended, or the name changed in the picker.
+
+- Current ID, price and context window: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
+- The diagnostic steps below still work, but the live catalog is the source of truth — see the [full model directory](/openrouter-models).
+- Looking for the endpoint that is still free right now? That is the anonymous [Union Alpha](/union-alpha), with a live status badge.
+
 ## Quick Answer
 
 If Hunter Alpha (Xiaomi mimo-v2) isn't working, try these fixes:
@@ -1876,6 +1884,13 @@ Join the Hunter Alpha Hub community to share your experience:
     excerpt: "Getting API errors with Xiaomi mimo-v2 (Hunter Alpha)? Fix authentication, rate limiting, timeout, and response parsing issues with code examples.",
     content: `
 # Xiaomi mimo-v2 API Error: Complete Troubleshooting Guide
+
+### 🔄 Updated 2026-09-17
+
+The error taxonomy below has not changed, but the model facts have: MiMo-V2.5 is a paid OpenRouter model now, so the 401 / 429 / 408 fixes assume you are calling the current ID.
+
+- Verify ID, price and context: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
+- Choosing a fallback when the endpoint is saturated: [comparison hub](/comparison) and the [pricing calculator](/openrouter-pricing-calculator).
 
 ## Quick Answer
 
@@ -2256,6 +2271,14 @@ async function debugApiCall(prompt) {
     excerpt: "Hunter Alpha timing out on OpenRouter? Learn why it happens and how to fix slow responses, stuck requests, and timeout errors with practical strategies.",
     content: `
 # OpenRouter Hunter Alpha Timeout: How to Fix Slow or Stuck Requests
+
+### 🔄 Updated 2026-09-17
+
+Hunter Alpha turned out to be **Xiaomi MiMo-V2.5**, and OpenRouter has since repriced it — the "free 1M endpoint" this post was written around no longer exists. The timeout fixes below still apply, but check the facts first:
+
+- Current pricing and context for the model: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
+- Picking an endpoint for long documents today: compare the [model directory](/openrouter-models) instead of assuming the old free tier.
+- Timeouts on **stealth** models usually come from the free window being rate-limited — the current one is [Union Alpha](/union-alpha), where we track live status.
 
 ## Quick Answer
 
@@ -4644,6 +4667,13 @@ Use Hunter Alpha for long-context tasks, and specialized models for specific nee
     content: `
 # 5 Free AI Models Like Hunter Alpha (1M Context in 2026)
 
+### 🔄 Updated 2026-09-17
+
+Hunter Alpha is no longer free — it is [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5), priced like the rest of the catalog. The alternatives below still hold, and the free tier itself has moved on:
+
+- Current free routes: [OpenRouter free models](/openrouter-free-models).
+- The live free stealth model right now: [Union Alpha](/union-alpha) — 256K context, image input, anonymous provider (evaluation only, no published data policy).
+
 ## Quick Answer
 
 Hunter Alpha (Xiaomi mimo-v2) is one of the few **truly free** models with 1M context. Other free options include:
@@ -5073,6 +5103,14 @@ For **hobbyists/students**:
     content: `
 # Long Context AI Models Compared (100K-1M Tokens in 2026)
 
+### 🔄 Updated 2026-09-17
+
+The 1M-context landscape has moved since this comparison was written: two entries were renamed after their stealth windows closed — Hunter Alpha is now [MiMo-V2.5](/openrouter-models/mimo-v2.5) and OX Alpha is now [GLM 5.3 Flash](/openrouter-models/glm-5.3-flash).
+
+- The price table below is a September 2026 snapshot; live per-million pricing is in the [pricing calculator](/openrouter-pricing-calculator).
+- Newest long-context entry: [Union Alpha](/union-alpha) — 256K, free, image input, unclaimed maker.
+- Everything current: [OpenRouter model directory](/openrouter-models).
+
 ## Quick Answer
 
 **Longest context (tie):** Hunter Alpha (mimo-v2) and Gemini 1.5 Pro both support **1M tokens**.
@@ -5319,6 +5357,13 @@ If Xiaomi announces any new models or variants, we'll update this page. For now,
     excerpt: "小米 mimo-v2（原名 Hunter Alpha）是免费 AI 模型，拥有 100 万 token 上下文窗口。完整使用指南，包含 OpenRouter 访问方法和代码示例。",
     content: `
 # 小米 mimo-v2 完全指南：如何使用免费 1M 上下文的 AI 模型 (2026)
+
+### 🔄 2026-09-17 更新
+
+Hunter Alpha 已被确认为小米 **MiMo-V2.5**，而且在 OpenRouter 上已经不再是免费模型 —— 标题里的「免费 1M 上下文」指的是当年的窗口，现在要按付费模型来看。
+
+- 当前模型 ID、定价与上下文窗口：[MiMo-V2.5 模型页](/openrouter-models/mimo-v2.5)。
+- 想要现在仍然免费的额度：[免费模型页](/openrouter-free-models)；当前匿名免费模型是 [Union Alpha](/union-alpha)（带实时在线状态）。
 
 ## 快速摘要
 

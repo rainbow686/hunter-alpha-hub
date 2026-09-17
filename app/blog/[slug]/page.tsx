@@ -273,7 +273,7 @@ function BlogContent({ content }: { content: string }) {
             <span className="text-violet-400">•</span>
             <span>
               <strong style={{ color: "var(--foreground)" }}>{match[1]}</strong>
-              <span style={{ color: "var(--muted)" }}> {match[2]}</span>
+              <span style={{ color: "var(--muted)" }}> {processInlineFormatting(match[2])}</span>
             </span>
           </div>,
         );
@@ -282,7 +282,9 @@ function BlogContent({ content }: { content: string }) {
       elements.push(
         <div key={i} className="flex items-start gap-2 my-1">
           <span className="text-violet-400">•</span>
-          <span style={{ color: "var(--foreground)" }}>{trimmedLine.slice(2)}</span>
+          <span style={{ color: "var(--foreground)" }}>
+            {processInlineFormatting(trimmedLine.slice(2))}
+          </span>
         </div>,
       );
     } else if (trimmedLine.startsWith("---")) {
@@ -303,20 +305,60 @@ function BlogContent({ content }: { content: string }) {
 
 function processInlineFormatting(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
-  const boldRegex = /\*\*(.+?)\*\*/g;
+  // Supports **bold**, [label](/internal-or-https-url) and `code`.
+  // Without the link branch, markdown links render as literal text — which is
+  // how every internal link to the model hub was silently broken.
+  const tokenRegex = /\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)\s]+)\)|`([^`]+)`/g;
   let match: RegExpExecArray | null;
   let lastIndex = 0;
 
-  while ((match = boldRegex.exec(text)) !== null) {
+  while ((match = tokenRegex.exec(text)) !== null) {
     if (match.index > lastIndex) {
       parts.push(text.slice(lastIndex, match.index));
     }
-    parts.push(
-      <strong key={`bold-${match.index}`} style={{ color: "var(--foreground)" }}>
-        {match[1]}
-      </strong>,
-    );
-    lastIndex = boldRegex.lastIndex;
+
+    const [, boldText, linkLabel, linkHref, codeText] = match;
+
+    if (boldText !== undefined) {
+      parts.push(
+        <strong key={`bold-${match.index}`} style={{ color: "var(--foreground)" }}>
+          {boldText}
+        </strong>,
+      );
+    } else if (linkLabel !== undefined && linkHref !== undefined) {
+      parts.push(
+        linkHref.startsWith("/") ? (
+          <Link
+            key={`link-${match.index}`}
+            href={linkHref}
+            className="text-violet-400 hover:underline"
+          >
+            {linkLabel}
+          </Link>
+        ) : (
+          <a
+            key={`link-${match.index}`}
+            href={linkHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-violet-400 hover:underline"
+          >
+            {linkLabel}
+          </a>
+        ),
+      );
+    } else if (codeText !== undefined) {
+      parts.push(
+        <code
+          key={`code-${match.index}`}
+          className="rounded bg-black/30 px-1.5 py-0.5 text-[0.9em]"
+        >
+          {codeText}
+        </code>,
+      );
+    }
+
+    lastIndex = tokenRegex.lastIndex;
   }
 
   if (lastIndex < text.length) {
