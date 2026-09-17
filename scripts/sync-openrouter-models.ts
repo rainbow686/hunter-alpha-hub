@@ -11,6 +11,7 @@
  */
 
 import { openrouterModels, type HubModel } from "../lib/openrouter-models.ts";
+import { freeModels } from "../lib/openrouter-free-models.ts";
 
 const CATALOG_URL = "https://openrouter.ai/api/v1/models";
 const PRICE_EPSILON = 0.000_001;
@@ -145,6 +146,47 @@ async function main() {
     }
   }
 
+  /**
+   * The free-route list on /openrouter-free-models is curated separately from
+   * the snapshot above (a `:free` route is a different listing from the paid
+   * model it mirrors), so it needs its own check. This is the check that would
+   * have caught minimax/minimax-m3:free disappearing and GLM 5.2's window being
+   * listed as 256K when the catalogue says 32,768.
+   */
+  for (const model of freeModels) {
+    const remote = remoteById.get(model.id);
+
+    if (!remote) {
+      missing.push(model.id);
+      continue;
+    }
+
+    const drift: SnapshotDrift[] = [];
+
+    if (typeof remote.context_length === "number" && remote.context_length !== model.contextWindow) {
+      drift.push({
+        field: "contextWindow",
+        expected: model.contextWindow.toLocaleString(),
+        actual: remote.context_length.toLocaleString(),
+      });
+    }
+
+    const remoteInputPrice = Number.parseFloat(remote.pricing?.prompt ?? "");
+    const remoteOutputPrice = Number.parseFloat(remote.pricing?.completion ?? "");
+
+    if (remoteInputPrice !== 0 || remoteOutputPrice !== 0) {
+      drift.push({
+        field: "freeRoute",
+        expected: "$0 in / $0 out",
+        actual: `${remote.pricing?.prompt ?? "?"} in / ${remote.pricing?.completion ?? "?"} out`,
+      });
+    }
+
+    if (drift.length > 0) {
+      drifted.push({ id: model.id, drift });
+    }
+  }
+
   const report = {
     checkedAt: new Date().toISOString(),
     source: CATALOG_URL,
@@ -158,7 +200,7 @@ async function main() {
     console.log(JSON.stringify(report, null, 2));
   } else {
     console.log(
-      `Checked ${openrouterModels.length} curated models against ${remoteById.size} OpenRouter models.`,
+      `Checked ${openrouterModels.length} curated models + ${freeModels.length} free routes against ${remoteById.size} OpenRouter models.`,
     );
 
     for (const id of missing) {

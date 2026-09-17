@@ -39,6 +39,7 @@ const MIGRATED_PATHS = [
   "/alpha-models",
   "/best-openrouter-models",
   "/hunter-alpha",
+  "/openrouter-free-models",
   "/blog",
 ];
 
@@ -83,6 +84,28 @@ const ALLOWED_DIFFERENCES = {
   // descriptions and canonicals stay identical.
   "h1": "the article template keeps exactly one h1; the body's # headings are demoted to h2",
   "fences": "code fences render as <pre><code> instead of literal ``` text",
+};
+
+/**
+ * Path+field exceptions, for the one case the field rules above cannot express:
+ * the build is right and the live page is stale, because a data fix ships in
+ * this build and the live site cannot have it yet. A price change is exactly
+ * this — `npm run sync-models` exists to produce them.
+ *
+ * Each entry pins the *expected built value*, not just the field name. That is
+ * the safeguard: the exception covers the value we reviewed, and any later
+ * change to that page produces a different value, misses the pin, and fails the
+ * run. So it cannot act as a permanent silencer — and once the deploy lands the
+ * entry is a no-op, because a table read only on difference is never read when
+ * live === built.
+ */
+const PINNED_DIFFERENCES = {
+  "openrouter-models/deepseek-v4-pro description": {
+    expect:
+      "DeepSeek V4 Pro costs $0.579 input and $1.74 output per 1M tokens, with 1.05M tokens context. See strengths, limitations and best-fit workloads.",
+    reason:
+      "provider repriced the model on 2026-09-18 ($0.66/$1.98 → $0.57948/$1.73844 per 1M); this build carries the corrected snapshot and live catches up on deploy",
+  },
 };
 
 const decode = (value) =>
@@ -161,12 +184,26 @@ for (const path of PATHS) {
   console.log(`\n== ${path}`);
   for (const field of ["title", "description", "canonical"]) {
     const same = live[field] === built[field];
-    console.log(`  ${same ? "ok  " : "DIFF"} ${field}`);
-    if (!same) {
-      console.log(`        live : ${live[field]}`);
-      console.log(`        built: ${built[field]}`);
-      failures += 1;
+    if (same) {
+      console.log(`  ok   ${field}`);
+      continue;
     }
+
+    const pinned = PINNED_DIFFERENCES[`${path.replace(/^\//, "")} ${field}`];
+    if (pinned && pinned.expect === built[field]) {
+      console.log(`  note ${field} — build is ahead of live: ${pinned.reason}`);
+      checkedDeviations += 1;
+      continue;
+    }
+
+    console.log(`  DIFF ${field}`);
+    console.log(`        live : ${live[field]}`);
+    console.log(`        built: ${built[field]}`);
+    if (pinned) {
+      console.log(`        a pin exists for this page+field but the built value does not match it —`);
+      console.log(`        either the change is deliberate (update the pin) or it is a regression`);
+    }
+    failures += 1;
   }
   // Structured data may be added during the migration, never dropped.
   const missing = live.ldTypes.filter((type) => !built.ldTypes.includes(type));

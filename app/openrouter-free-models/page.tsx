@@ -2,48 +2,11 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
 import { ArticleSchema, BreadcrumbListSchema, ItemListSchema } from "@/components/structured-data";
+import { FREE_MODELS_DATA_AS_OF, freeModels } from "@/lib/openrouter-free-models";
+import { formatContextWindow } from "@/lib/openrouter-models";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/openrouter-free-models`;
-
-const freeModels = [
-  {
-    id: "stealth/union-alpha",
-    name: "Union Alpha (stealth)",
-    context: "256K tokens",
-    bestFor: "Agentic + vision experiments · unclaimed maker",
-  },
-  {
-    id: "nvidia/nemotron-3.5-lightning:free",
-    name: "NVIDIA Nemotron 3.5 Lightning",
-    context: "1M tokens",
-    bestFor: "Long-context testing",
-  },
-  {
-    id: "thinkingmachines/inkling:free",
-    name: "Thinking Machines Inkling",
-    context: "1M tokens",
-    bestFor: "General experimentation",
-  },
-  {
-    id: "minimax/minimax-m3:free",
-    name: "MiniMax M3",
-    context: "1M tokens",
-    bestFor: "Large-context experiments",
-  },
-  {
-    id: "z-ai/glm-5.2:free",
-    name: "Z.ai GLM 5.2",
-    context: "256K tokens",
-    bestFor: "Light multimodal work",
-  },
-  {
-    id: "openrouter/free",
-    name: "Free Models Router",
-    context: "200K tokens",
-    bestFor: "Simple free-tier routing",
-  },
-];
 
 export const metadata: Metadata = {
   title: "OpenRouter Free Models: Practical Guide & Limits",
@@ -88,7 +51,10 @@ export default function FreeModelsPage() {
             <Link href="/union-alpha" className="text-violet-400 hover:underline">
               follow the Union Alpha tracker
             </Link>{" "}
-            for live status and verified specs.
+            for live status and verified specs. Every context figure below was read from the public
+            catalogue on {FREE_MODELS_DATA_AS_OF}, and the list is re-checked against that catalogue by
+            the daily drift job — free routes disappear and change window size without notice, which is
+            why this list is short and dated rather than long and confident.
           </p>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y" style={{ borderColor: "var(--card-border)" }}>
@@ -114,7 +80,7 @@ export default function FreeModelsPage() {
                         {model.id}
                       </p>
                     </td>
-                    <td className="px-3 py-4 text-sm">{model.context}</td>
+                    <td className="px-3 py-4 text-sm">{formatContextWindow(model.contextWindow)}</td>
                     <td className="px-3 py-4 text-sm" style={{ color: "var(--muted)" }}>
                       {model.bestFor}
                     </td>
