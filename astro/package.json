@@ -4,25 +4,29 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate-og-images.mjs",
     "check:theme": "node scripts/check-theme-tokens.mjs",
     "check:content": "node scripts/check-content.mjs",
     "check:analytics": "node scripts/check-analytics.mjs",
     "check:parity": "node scripts/check-page-parity.mjs",
     "check:files": "node scripts/check-site-files.mjs",
-    "checks": "astro build && npm run check:theme && npm run check:content && npm run check:analytics && npm run check:parity && npm run check:files && npm run verify:pages",
+    "checks": "npm run build && npm run check:theme && npm run check:content && npm run check:analytics && npm run check:parity && npm run check:files && npm run verify:pages",
     "verify:pages": "node scripts/verify-pages.mjs",
     "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
     "preview": "wrangler dev",
-    "deploy": "astro build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
-    "deploy:production": "astro build && wrangler deploy --config wrangler.production.jsonc"
+    "deploy": "npm run build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
+    "deploy:production": "npm run build && wrangler deploy --config wrangler.production.jsonc",
+    "og": "node scripts/generate-og-images.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
     "astro": "^5.0.0"
   },
   "devDependencies": {
-    "wrangler": "^4.127.1"
+    "wrangler": "^4.127.1",
+    "sharp": "^0.35.4"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  }
 }
