@@ -13,7 +13,6 @@
  *   subscribe_result           what the endpoint answered (ok / duplicate / error)
  *   ox_alpha_subscribe         legacy alias fired on success, kept for continuity
  *   outbound_openrouter_click  any click that leaves for openrouter.ai
- *   tracker_click              a tracker entry point was clicked (home cards)
  *
  * Naming rules: snake_case names and params; every event carries page_path so a
  * funnel can be rebuilt per page. Do not invent a second name for something
@@ -65,23 +64,6 @@ export function trackOxAlphaSubscribe(opts?: {
 }
 
 /**
- * tracker_click — fires when user clicks a "Mystery Tracker" entry point.
- * Use for hero CTAs, monitor links, comparison cards, OX-Alpha teaser cards.
- */
-export function trackTrackerClick(opts: {
-  tracker_id: string;      // e.g. "ox_alpha_card" | "hunter_alpha_card" | "mystery_tracker_nav"
-  target_url?: string;
-  location?: string;       // page_path or component name, e.g. "home_hero" | "monitor_page"
-}) {
-  gtagEvent("tracker_click", {
-    tracker_id: opts.tracker_id,
-    link_url: opts.target_url,
-    location: opts.location,
-    page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
-  });
-}
-
-/**
  * ox_alpha_view — fires on OX-Alpha page view (or teaser impression).
  * Call once per page view in /ox-alpha layout/client effect.
  */
@@ -95,18 +77,6 @@ export function trackOutboundOpenRouterClick(opts: {
     link_url: opts.target_url,
     location: opts.location,
     page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
-  });
-}
-
-export function trackOxAlphaView(opts?: {
-  source?: string;       // e.g. "direct" | "internal_link" | "gsc"
-  page_path?: string;
-  page_location?: string;
-}) {
-  gtagEvent("ox_alpha_view", {
-    source: opts?.source ?? "direct",
-    page_path: opts?.page_path ?? (typeof window !== "undefined" ? window.location.pathname : undefined),
-    page_location: opts?.page_location ?? (typeof window !== "undefined" ? window.location.href : undefined),
   });
 }
 

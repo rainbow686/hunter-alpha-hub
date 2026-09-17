@@ -14,6 +14,8 @@ const { modelId } = Astro.props;
 </div>
 
 <script>
+  import { gtagEvent } from "../lib/analytics";
+
   const strip = document.querySelector<HTMLElement>("[data-status-strip]");
   if (strip) {
     const label = strip.querySelector<HTMLElement>("[data-status-label]");
@@ -52,11 +54,31 @@ const { modelId } = Astro.props;
     };
 
     const load = async () => {
+      const startedAt = Date.now();
       try {
         const response = await fetch("/api/union-alpha/status", { cache: "no-store" });
-        paint(await response.json());
+        const data = await response.json();
+        paint(data);
+        // The metric that dates the end of the window: the day `delisted` becomes
+        // the usual answer, the codename is history.
+        gtagEvent("stealth_status", {
+          model_id: modelId,
+          online: data.online === null || data.online === undefined ? "unknown" : data.online ? "live" : "delisted",
+          free: data.free === undefined ? undefined : data.free ? "yes" : "no",
+          context_window: data.contextWindow ?? undefined,
+          latency_ms: Date.now() - startedAt,
+          error_type: data.error,
+          page_path: window.location.pathname,
+        });
       } catch {
         paint({ online: null, error: "Request failed" });
+        gtagEvent("stealth_status", {
+          model_id: modelId,
+          online: "unknown",
+          latency_ms: Date.now() - startedAt,
+          error_type: "network",
+          page_path: window.location.pathname,
+        });
       }
     };
 

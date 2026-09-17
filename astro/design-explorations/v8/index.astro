@@ -1,5 +1,5 @@
 ---
-import Compact from "../../layouts/Compact.astro";
+import Compact from "../../src/layouts/Compact.astro";
 import { readFileSync } from "node:fs";
 
 const src = readFileSync(`${process.env.SITE_ROOT ?? "../"}lib/openrouter-models.ts`, "utf8");

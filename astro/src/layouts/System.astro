@@ -2,6 +2,7 @@
 import "../styles/system.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import Analytics from "../components/Analytics.astro";
 
 interface Props { title: string; description: string; canonical?: string }
 const { title, description, canonical } = Astro.props;
@@ -25,6 +26,7 @@ const { title, description, canonical } = Astro.props;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://www.hunteralphahub.com/og-image.png" />
     <slot name="head" />
+    <Analytics />
   </head>
   <body>
     <SiteHeader />

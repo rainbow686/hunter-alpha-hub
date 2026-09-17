@@ -1,0 +1,83 @@
+---
+/**
+ * GA4 probe. Drop into a layout's <head>; it carries both the measurement tag
+ * and the click/view wiring, so a page cannot end up with one and not the other.
+ *
+ * Why the events live here instead of on each page: the stealth cluster is a set
+ * of pages that only make sense read together, and "did a reader move from the
+ * tracker to the free-window page?" is the question the content is written for.
+ * One capture-phase listener covers every link on every page — home cards,
+ * navbar, footer column, in-page cards — without touching any of them.
+ */
+import { GA_MEASUREMENT_ID } from "../lib/analytics";
+---
+
+{GA_MEASUREMENT_ID && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+    <script is:inline define:vars={{ gaId: GA_MEASUREMENT_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag("js", new Date());
+      // Astro serves whole pages, so one load is exactly one page_view. (The Next
+      // app had to disable this and send its own page_view because it was a SPA.)
+      gtag("config", gaId, { send_page_view: true });
+    </script>
+  </>
+)}
+
+<script>
+  import { gtagEvent, isClusterPath, stealthLineViewFor, stealthViewFor } from "../lib/analytics";
+
+  const path = window.location.pathname;
+  const linkText = (anchor: HTMLAnchorElement) => anchor.textContent?.trim().slice(0, 100) || undefined;
+
+  // ── view events: fired once per load, classified from the URL ────────────
+  const stealthView = stealthViewFor(path);
+  if (stealthView) {
+    gtagEvent("stealth_view", { ...stealthView, page_path: path });
+  } else {
+    const lineView = stealthLineViewFor(path);
+    if (lineView) gtagEvent("stealth_line_view", { ...lineView, page_path: path });
+  }
+
+  // ── click events: one capture-phase listener, so new links are covered ───
+  document.addEventListener(
+    "click",
+    (event) => {
+      const anchor = (event.target as Element | null)?.closest?.("a") as HTMLAnchorElement | null;
+      if (!anchor) return;
+
+      let url: URL;
+      try {
+        url = new URL(anchor.href, window.location.href);
+      } catch {
+        return;
+      }
+
+      if (url.host.endsWith("openrouter.ai")) {
+        gtagEvent("outbound_openrouter_click", {
+          link_url: url.href,
+          link_text: linkText(anchor),
+          location: "auto_capture",
+          page_path: path,
+        });
+        return;
+      }
+
+      if (url.host !== window.location.host) return;
+      if (!isClusterPath(url.pathname)) return;
+      if (url.pathname === window.location.pathname) return;
+
+      gtagEvent("cluster_click", {
+        to_path: url.pathname,
+        from_path: window.location.pathname,
+        link_text: linkText(anchor),
+      });
+    },
+    true,
+  );
+</script>
