@@ -1,0 +1,66 @@
+/*
+ * Variant 8 — one-row header.
+ *
+ * The two-row masthead gives the brand room, but it also costs ~110px before any
+ * content. This variant tests the opposite trade: a single sticky row that still
+ * reads as a publication rather than a product nav, using the accent rule, the
+ * tile mark, the plate wordmark and a mono nav line.
+ */
+@import "./v7.css";
+
+.top-rule { height: 3px; background: var(--accent); }
+
+.masthead, .navrow { display: none; }
+
+.compact {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(150%) blur(10px);
+  border-bottom: 1px solid var(--border-strong);
+}
+.compact .wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5, 20px);
+  height: 60px;
+}
+.compact .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.compact .wordmark .plate {
+  font-size: 12px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 5px;
+  padding: 2px 5px 3px;
+  line-height: 1;
+}
+.compact .mark-tile { width: 32px; height: 32px; border-radius: 8px; }
+.compact nav { display: flex; gap: var(--space-4); margin-left: var(--space-4); flex-wrap: wrap; }
+.compact nav a {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+.compact nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
+.compact .right { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
+.compact .stamp {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+@media (max-width: 820px) { .compact nav, .compact .stamp { display: none; } }

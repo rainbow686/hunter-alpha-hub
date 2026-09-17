@@ -1,0 +1,77 @@
+/*
+ * Variant 4 — "paper console".
+ *
+ * Same structure as v2, different surface physics: warm ivory paper instead of
+ * pure white. Rationale: #fff is the highest-luminance background you can put
+ * behind body text, and long reading sessions on it feel harsh. A warm off-white
+ * (#FAF6F0 family) drops glare, reads as print/reference material, and lets a
+ * single deep ink accent carry the emphasis instead of contrast alone.
+ *
+ * Rules kept from the design system: one accent, status colours only for status,
+ * tabular figures, zebra rows, provenance on every data surface.
+ */
+@import "./v2.css";
+
+:root {
+  --bg: #faf6f0;          /* warm ivory — the page itself */
+  --bg-sunken: #f2ece1;   /* recessed bands, table headers, zebra rows */
+  --surface: #fffcf6;     /* cards sit a touch above the paper */
+  --border: #e6ddcd;
+  --border-strong: #d5c9b4;
+  --text: #1c1a16;        /* warm near-black, not #000 */
+  --text-muted: #6a6357;
+  --text-faint: #938b7c;
+
+  --accent: #14507d;      /* deep ink blue */
+  --accent-soft: #e7eef5;
+  --success: #2c6a4c;     /* reserved for "free" */
+  --success-soft: #e8f0ea;
+  --warn: #8a5a11;
+  --warn-soft: #f8efdd;
+  --danger: #9c3327;
+  --danger-soft: #f9eae7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14120f;        /* warm dark, not cold grey */
+    --bg-sunken: #1b1815;
+    --surface: #1a1714;
+    --border: #2e2924;
+    --border-strong: #3d3730;
+    --text: #f1ece2;
+    --text-muted: #a89f90;
+    --text-faint: #7e766a;
+
+    --accent: #9dc0e0;
+    --accent-soft: #1c2733;
+    --success: #79c39b;
+    --success-soft: #16251d;
+    --warn: #dcb173;
+    --warn-soft: #2a2115;
+    --danger: #e59a8e;
+    --danger-soft: #2b1a17;
+  }
+}
+
+/* A barely-there warm wash at the top of the page: it reads as paper catching light
+   rather than as a "hero gradient". */
+body {
+  background-image: linear-gradient(180deg, #fdf8f0 0%, var(--bg) 420px);
+  background-repeat: no-repeat;
+}
+@media (prefers-color-scheme: dark) {
+  body { background-image: linear-gradient(180deg, #1a1713 0%, var(--bg) 420px); }
+}
+
+header.site { background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(6px); }
+
+h1.display, h2 { letter-spacing: -0.02em; }
+.lede { color: var(--text-muted); }
+
+table.data thead th { background: var(--bg-sunken); border-bottom-color: var(--border-strong); }
+table.data tbody tr:nth-child(even) { background: color-mix(in srgb, var(--bg-sunken) 55%, transparent); }
+table.data tbody tr:hover td { background: var(--accent-soft); }
+.stat { background: var(--surface); }
+.kicker { color: var(--text-faint); }
+.kicker::after { background: var(--border); }

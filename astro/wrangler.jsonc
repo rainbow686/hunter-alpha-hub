@@ -1,0 +1,11 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "hunter-alpha-hub-astro-preview",
+  "account_id": "de677f38b96340f3a63a53e5044a1c98",
+  "main": "dist/_worker.js/index.js",
+  "compatibility_date": "2026-08-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "dist", "binding": "ASSETS" },
+  "workers_dev": true,
+  "preview_urls": true
+}

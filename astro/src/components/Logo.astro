@@ -1,0 +1,23 @@
+---
+/**
+ * The mark is the site's own subject matter: the Alpha line.
+ * Two muted nodes = models already revealed. One larger accent node = the release
+ * that is live right now. It reads at 16px (favicon) and at 32px (header), and it
+ * updates meaning as the line grows instead of being decorative.
+ */
+interface Props { size?: number; label?: string }
+const { size = 26, label = "hunteralphahub" } = Astro.props;
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  role="img"
+  aria-label={label}
+  style="flex: none;"
+>
+  <line x1="6" y1="16" x2="26" y2="16" stroke="currentColor" stroke-width="1.75" opacity="0.3" />
+  <circle cx="8" cy="16" r="3.4" fill="currentColor" opacity="0.55" />
+  <circle cx="17" cy="16" r="3.4" fill="currentColor" opacity="0.55" />
+  <circle cx="25.5" cy="16" r="5.1" fill="var(--accent)" />
+</svg>

@@ -1,0 +1,202 @@
+/*
+ * Design system — direction A ("data console").
+ *
+ * Rules this file encodes (decided in ADR-0011):
+ *  1. Light-first with a real dark mode; never dark-only, because low-contrast dark
+ *     tables are what made the old UI hard to read.
+ *  2. Numbers use tabular figures and align right in tables.
+ *  3. Zebra rows instead of glow. Emphasis is reserved for the single accent colour,
+ *     which is only for live status and primary actions.
+ *  4. Every data surface carries a provenance line: source + verified date.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --bg-sunken: #f7f8fa;
+  --surface: #ffffff;
+  --border: #e4e6eb;
+  --border-strong: #cdd1d9;
+  --text: #14161a;
+  --text-muted: #5b616e;
+  --text-faint: #8a8f9c;
+
+  /* Single accent. Status uses success/warn/danger only for state, never decoration. */
+  --accent: #3355d1;
+  --accent-soft: #eef1fd;
+  --success: #0f7b4f;
+  --success-soft: #e8f5ee;
+  --warn: #8a5a00;
+  --warn-soft: #fdf3e2;
+  --danger: #a32020;
+  --danger-soft: #fdeceb;
+
+  --radius: 8px;
+  --radius-sm: 6px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --text-xs: 12px;
+  --text-sm: 13.5px;
+  --text-base: 16px;
+  --text-lg: 19px;
+  --text-xl: 23px;
+  --text-2xl: 29px;
+  --text-3xl: 36px;
+
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --measure: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --bg-sunken: #14171d;
+    --surface: #16191f;
+    --border: #262b34;
+    --border-strong: #363d49;
+    --text: #eef0f4;
+    --text-muted: #a4abb8;
+    --text-faint: #7b8290;
+
+    --accent: #8aa2ff;
+    --accent-soft: #1a2036;
+    --success: #5cd39f;
+    --success-soft: #12271f;
+    --warn: #e0b464;
+    --warn-soft: #2a2113;
+    --danger: #f08a86;
+    --danger-soft: #2c1616;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--space-4); }
+.prose { max-width: var(--measure); }
+
+h1, h2, h3 { line-height: 1.25; letter-spacing: -0.011em; margin: 0 0 var(--space-3); }
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); margin-top: var(--space-12); }
+h3 { font-size: var(--text-lg); margin-top: var(--space-6); }
+
+.lede { font-size: var(--text-lg); color: var(--text-muted); max-width: var(--measure); }
+
+/* Data surfaces ----------------------------------------------------------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+}
+
+.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+table.data thead th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-sunken);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+table.data td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+/* Zebra rows replace the old glow: gives the eye a track without adding noise. */
+table.data tbody tr:nth-child(even) { background: var(--bg-sunken); }
+table.data tbody tr:last-child td { border-bottom: none; }
+
+table.data td.num, table.data th.num { text-align: right; }
+table.data td.num { font-variant-numeric: tabular-nums; }
+
+/* Provenance: every number on this site needs a source and a date. */
+.provenance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+  margin-top: var(--space-3);
+}
+.provenance code { font-family: var(--mono); color: var(--text-muted); }
+
+/* Status: the only place the accent/success/warn colours may appear. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.badge.live { color: var(--success); background: var(--success-soft); border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+.badge.claimed { color: var(--warn); background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+.badge.gone { color: var(--danger); background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* Labels for fact-vs-claim, the editorial rule this site is built on. */
+.tag {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+}
+.tag.verified { color: var(--success); border-color: color-mix(in srgb, var(--success) 35%, transparent); }
+.tag.claimed { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+.tag.unknown { color: var(--text-faint); }
+
+header.site, footer.site {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+header.site .wrap { display: flex; align-items: center; gap: var(--space-6); height: 56px; }
+header.site nav { display: flex; gap: var(--space-4); font-size: var(--text-sm); flex-wrap: wrap; }
+header.site nav a { color: var(--text-muted); }
+header.site nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
+footer.site { border-top: 1px solid var(--border); border-bottom: none; margin-top: var(--space-16); }
+footer.site .wrap { padding-top: var(--space-6); padding-bottom: var(--space-6); font-size: var(--text-xs); color: var(--text-faint); }
+
+.wordmark { font-weight: 700; letter-spacing: -0.02em; color: var(--text); }

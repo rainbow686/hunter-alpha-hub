@@ -1,0 +1,58 @@
+/*
+ * Variant 5 — "paper journal".
+ * v4's warm ivory surfaces + v3's editorial type layer.
+ *
+ * The split is deliberate: display headings, ledes and pull quotes are serif
+ * (they carry voice), while every number, label and table is sans with tabular
+ * figures (serif numerals in a dense price column are harder to scan).
+ * Editorial separation uses rules and space; data separation keeps the table.
+ */
+@import "./v4.css";
+
+:root {
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --text-4xl: 54px;
+}
+
+h1, h2, .pull, .lede { font-family: var(--serif); }
+h1.display { font-size: var(--text-4xl); line-height: 1.07; letter-spacing: -0.022em; }
+h2 { letter-spacing: -0.015em; }
+.lede { font-size: 21px; line-height: 1.55; }
+
+/* Kicker becomes a printed running head rather than a UI label. */
+.kicker {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+}
+
+.byline {
+  display: flex; flex-wrap: wrap; gap: var(--space-4);
+  font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-faint);
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-3) 0;
+  margin: var(--space-6) 0 var(--space-8);
+}
+
+.pull {
+  font-size: 23px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: var(--space-8) 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--accent);
+}
+
+/* On paper, cards can relax: soft warm surface, no hard outline. */
+.card { background: var(--surface); border-color: var(--border); box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 60%, transparent); }
+.stats { background: var(--border); }
+.stat { background: var(--surface); }
+.stat .value { font-family: var(--sans); }
+
+table.data thead th { background: color-mix(in srgb, var(--bg-sunken) 80%, var(--surface)); }
+table.data tbody tr:nth-child(even) { background: color-mix(in srgb, var(--bg-sunken) 45%, transparent); }
+
+.claim { border-left: 3px solid var(--warn); padding-left: var(--space-4); }
