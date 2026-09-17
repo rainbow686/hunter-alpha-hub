@@ -49,7 +49,27 @@ function builtArticlePaths() {
     .sort();
 }
 
-const PATHS = [...MIGRATED_PATHS, ...builtArticlePaths()];
+/**
+ * Dynamic routes whose pages are generated from the curated snapshot. Both the
+ * articles and these are derived from the build rather than listed by hand: a
+ * template that gains a route cannot quietly skip the parity check, and a model
+ * added to lib/openrouter-models.ts is checked the moment it renders.
+ */
+function builtPathsUnder(segment) {
+  const dir = join(DIST, segment);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((name) => name.endsWith(".html") && name !== "index.html")
+    .map((name) => `/${segment}/${name.replace(/\.html$/, "")}`)
+    .sort();
+}
+
+const PATHS = [
+  ...MIGRATED_PATHS,
+  ...builtArticlePaths(),
+  ...builtPathsUnder("openrouter-models"),
+  ...builtPathsUnder("compare"),
+];
 
 /**
  * Deviations we chose on purpose. Key = `path field`, value = why.
