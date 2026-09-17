@@ -12,6 +12,7 @@ export function Navbar() {
     { href: "/comparison", label: "Comparison" },
     { href: "/openrouter-models", label: "Models" },
     { href: "/best-openrouter-models", label: "Best Models" },
+    { href: "/alpha-models", label: "Stealth Models" },
     { href: "/openrouter-pricing-calculator", label: "Pricing" },
     { href: "/blog", label: "Blog" },
     { href: "/faq", label: "FAQ" },
