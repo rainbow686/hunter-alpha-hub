@@ -58,6 +58,25 @@ const howTo = [
   ["Use tool calling if you are building.", "The endpoint declares tools, tool_choice (auto), response_format, temperature, top_p and max_tokens."],
   ["Keep it out of production.", "An anonymous provider with no published data policy, on a free preview that can be repriced or delisted overnight, is for evaluation only."],
 ];
+
+/** The three sibling pages, worded the way the live tracker words them. */
+const relatedPages = [
+  {
+    href: "/union-alpha-free",
+    title: "Is it still free?",
+    body: "The preview window, the reported price after it, and how to check the number yourself.",
+  },
+  {
+    href: "/union-alpha-opencode",
+    title: "Using it in OpenCode",
+    body: "The free route through OpenCode’s tier, and what we can and cannot verify about it.",
+  },
+  {
+    href: "/union-alpha-not-working",
+    title: "Errors and rate limits",
+    body: "Four failure modes on a saturated free endpoint, and the order to check them in.",
+  },
+];
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
   <JsonLd
@@ -187,6 +206,22 @@ const howTo = [
     </p>
     <SubscribeForm note="One email per reveal. No newsletter, no forwarding, unsubscribe in one click." />
   </section>
+
+  {/*
+    The three sibling pages are the cluster this tracker sits on top of. The live
+    page linked them here and the redesign dropped the block entirely — which is
+    invisible to every content check, because a missing <a> is not a changed
+    field. `npm run check:links` is what caught it.
+  */}
+  <h2>Union Alpha, in more detail</h2>
+  <div class="grid-cards">
+    {relatedPages.map((page) => (
+      <article class="card">
+        <h3 class="card-title"><a href={page.href}>{page.title}</a></h3>
+        <p class="card-body">{page.body}</p>
+      </article>
+    ))}
+  </div>
 
   <p class="hero-actions">
     <a class="btn primary" href={UNION_ALPHA_OPENROUTER_URL} rel="noopener noreferrer">Open Union Alpha on OpenRouter →</a>

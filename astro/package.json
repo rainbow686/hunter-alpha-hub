@@ -8,6 +8,7 @@
     "check:theme": "node scripts/check-theme-tokens.mjs",
     "check:content": "node scripts/check-content.mjs",
     "check:analytics": "node scripts/check-analytics.mjs",
+    "check:links": "node scripts/check-link-parity.mjs",
     "verify:pages": "node scripts/verify-pages.mjs",
     "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
     "preview": "wrangler dev",
