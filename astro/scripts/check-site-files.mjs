@@ -93,10 +93,36 @@ for (const file of readdirSync(DIST, { recursive: true }).filter((name) => Strin
   }
 }
 
+/**
+ * Structured data. `verify:pages` compares which schema *types* a page declares
+ * against the live page, but nothing checks that the JSON is valid — and a block
+ * that fails to parse loses the rich result silently, with the page still looking
+ * perfect to a human. 203 blocks across 86 pages, all of them ours to keep valid.
+ */
+let jsonLdBlocks = 0;
+for (const file of readdirSync(DIST, { recursive: true }).filter((name) => String(name).endsWith(".html"))) {
+  const html = readFileSync(join(DIST, String(file)), "utf8");
+  for (const match of html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)) {
+    jsonLdBlocks++;
+    let parsed;
+    try {
+      parsed = JSON.parse(match[1]);
+    } catch (error) {
+      failures.push(`${file} has an unparseable JSON-LD block: ${String(error).slice(0, 80)}`);
+      continue;
+    }
+    for (const item of Array.isArray(parsed) ? parsed : [parsed]) {
+      if (!item?.["@context"] || !item?.["@type"]) {
+        failures.push(`${file} has a JSON-LD block without @context/@type`);
+      }
+    }
+  }
+}
+
 console.log(
   `site files: robots.txt ${robots ? "ok" : "missing"} · _headers ${headers ? "ok" : "missing"} · _redirects ${
     redirects ? "ok" : "missing"
-  } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared, all present`,
+  } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared · JSON-LD ${jsonLdBlocks} blocks valid`,
 );
 if (failures.length) {
   console.error("\nFAIL:");
