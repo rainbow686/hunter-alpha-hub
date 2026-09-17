@@ -14,9 +14,19 @@ import {
 } from "@/lib/openrouter-models";
 import { comparisonPairs } from "@/lib/openrouter-comparisons";
 import { getModelBySlug } from "@/lib/openrouter-models";
+import { stealthModels } from "@/lib/stealth-models";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/comparison`;
+
+/**
+ * The free-and-anonymous row. This is the comparison the rest of the internet
+ * does not show: the model that is free right now next to the two models that
+ * used to be free and are now ordinary paid products — which is the decision a
+ * reader is actually trying to make.
+ */
+const stealthRow = stealthModels[0];
+const revealed = openrouterModels.filter((model) => model.formerAlias);
 
 const faqs = [
   {
@@ -125,6 +135,87 @@ export default function ComparisonPage() {
             );
           })}
         </div>
+
+        <section id="free-and-anonymous" className="mb-16">
+          <h2 className="text-2xl font-bold mb-4">Free and anonymous, next to what it becomes</h2>
+          <p className="text-sm mb-6 max-w-3xl leading-relaxed" style={{ color: "var(--muted)" }}>
+            One model below is free because its maker has not claimed it yet. The other two were free for
+            exactly the same reason, and are now ordinary paid products. Putting them side by side is the
+            argument for treating a stealth endpoint as an evaluation rather than a plan.
+          </p>
+          <Card className="p-4 md:p-6">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--card-border)" }}>
+                    {["Model", "Status", "Context", "Input", "Price per 1M", "What it is"].map((h) => (
+                      <th key={h} className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--foreground)" }}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: "1px solid var(--card-border)" }}>
+                    <td className="py-3 pr-4 font-medium">
+                      <Link href="/union-alpha" className="text-violet-400 hover:underline">
+                        {stealthRow.name}
+                      </Link>
+                    </td>
+                    <td className="py-3 pr-4 text-emerald-400">Anonymous, live</td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                      {Math.round(stealthRow.contextWindow / 1024)}K
+                    </td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                      Text + image
+                    </td>
+                    <td className="py-3 pr-4 font-medium" style={{ color: "var(--foreground)" }}>
+                      Free
+                    </td>
+                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                      Unclaimed stealth release — repriced or delisted without notice
+                    </td>
+                  </tr>
+                  {revealed.map((model) => (
+                    <tr key={model.id} style={{ borderBottom: "1px solid var(--card-border)" }}>
+                      <td className="py-3 pr-4 font-medium">
+                        <Link href={`/openrouter-models/${model.slug}`} className="text-violet-400 hover:underline">
+                          {model.name}
+                        </Link>
+                      </td>
+                      <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                        Revealed — was {model.formerAlias}
+                      </td>
+                      <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                        {(model.contextWindow / 1_000_000).toFixed(model.contextWindow % 1_000_000 === 0 ? 0 : 2)}M
+                      </td>
+                      <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                        {model.modalities.slice(0, 2).join(" + ")}
+                      </td>
+                      <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                        ${model.inputPricePerMillion.toFixed(2)} in / ${model.outputPricePerMillion.toFixed(2)} out
+                      </td>
+                      <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
+                        Named vendor, published pricing, stable endpoint
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+          <p className="text-xs mt-3" style={{ color: "var(--muted)" }}>
+            The full register — what each anonymous release became, and what it costs now — is on{" "}
+            <Link href="/stealth-models" className="text-violet-400 hover:underline">
+              the stealth models index
+            </Link>
+            . Union Alpha&apos;s current price is re-read live by{" "}
+            <a href="/api/union-alpha/status" className="text-violet-400 hover:underline">
+              this endpoint
+            </a>
+            .
+          </p>
+        </section>
 
         <section id="all-models" className="mb-16">
           <h2 className="text-2xl font-bold mb-6">All models in this comparison</h2>

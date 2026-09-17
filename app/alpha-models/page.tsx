@@ -7,9 +7,9 @@ const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/alpha-models`;
 
 export const metadata: Metadata = {
-  title: "Alpha Models: Every Stealth AI Model on OpenRouter (Tracker)",
+  title: "Alpha Models Explained: How OpenRouter's Anonymous Releases Work",
   description:
-    "The Alpha line of anonymous stealth models on OpenRouter: Hunter Alpha (now Xiaomi MiMo-V2.5), OX Alpha (now GLM 5.3 Flash) and Union Alpha. What each one was, what it turned out to be, and how to judge the next one.",
+    "Why anonymous models keep appearing on OpenRouter: what the Alpha codenames have in common, how a stealth release is staged, what the reveal does to pricing, and how to tell a real listing from a rumour.",
   keywords: [
     "alpha models",
     "alpha model",
@@ -23,17 +23,17 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: pageUrl },
   openGraph: {
-    title: "Alpha Models: Every Stealth AI Model on OpenRouter",
+    title: "Alpha Models Explained",
     description:
-      "Hunter Alpha, OX Alpha, Union Alpha — the anonymous OpenRouter models, what they became, and how to judge the next one.",
+      "The pattern behind Hunter Alpha, OX Alpha and Union Alpha — and what happens when one of them is revealed.",
     url: pageUrl,
     type: "article",
     images: [{ url: `${baseUrl}/og-image.png`, width: 1200, height: 630, alt: "Alpha models tracker" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alpha Models: Every Stealth AI Model on OpenRouter",
-    description: "Hunter Alpha, OX Alpha, Union Alpha — tracked, verified, and labelled as fact or rumour.",
+    title: "Alpha Models Explained",
+    description: "The staging pattern behind the anonymous OpenRouter releases, and how to read the next one.",
     images: [`${baseUrl}/og-image.png`],
   },
   robots: { index: true, follow: true },
@@ -137,48 +137,28 @@ export default function AlphaModelsPage() {
         </p>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>
-            The line so far
+          <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
+            The line, in one sentence each
           </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--card-border)" }}>
-                  {["Model", "Appeared", "Context", "Vision", "Turned out to be", "Status"].map((h) => (
-                    <th key={h} className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--foreground)" }}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {alphaLine.map((m) => (
-                  <tr key={m.name} style={{ borderBottom: "1px solid var(--card-border)" }}>
-                    <td className="py-3 pr-4 font-medium">
-                      <Link href={m.href} className="text-violet-400 hover:underline">
-                        {m.name}
-                      </Link>
-                    </td>
-                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
-                      {m.appeared}
-                    </td>
-                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
-                      {m.context}
-                    </td>
-                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
-                      {m.vision}
-                    </td>
-                    <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
-                      {m.outcome}
-                    </td>
-                    <td className="py-3 font-medium" style={{ color: m.status === "Live now" ? "#34d399" : "var(--muted)" }}>
-                      {m.status}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--muted)" }}>
+            This page is the explainer, not the register. The full table — context windows, input
+            modalities, price while anonymous, price after the reveal — lives on the{" "}
+            <Link href="/stealth-models" className="text-violet-400 hover:underline">
+              stealth models index
+            </Link>
+            , which is the one place we extend every time a codename appears.
+          </p>
+          <ul className="space-y-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+            {alphaLine.map((m) => (
+              <li key={m.name}>
+                <Link href={m.href} className="text-violet-400 hover:underline">
+                  {m.name}
+                </Link>{" "}
+                — appeared {m.appeared}, {m.context} context, {m.vision.toLowerCase()}. {m.outcome}
+                {m.status === "Live now" ? " Still anonymous and live." : ""}
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="mb-12">
@@ -211,8 +191,16 @@ export default function AlphaModelsPage() {
 
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>
-            How to judge the next one
+            The rules we apply to every release
           </h2>
+          <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--muted)" }}>
+            These are editorial principles, not a procedure. The operational checklist — what to re-read on
+            the catalogue, in what order — is on{" "}
+            <Link href="/stealth-models" className="text-violet-400 hover:underline">
+              the stealth models index
+            </Link>
+            .
+          </p>
           <div className="space-y-3">
             <Card className="p-5">
               <h3 className="font-semibold mb-2" style={{ color: "var(--foreground)" }}>
