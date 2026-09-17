@@ -39,6 +39,25 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  /**
+   * Retired routes (ADR-0012). The pages are gone, but the URLs are still in
+   * Google's index and in a handful of old links, so they get a permanent
+   * redirect rather than a 404 — a bare 404 throws away whatever signal those
+   * URLs have accumulated, and 301 is the only form of "gone" that keeps it.
+   *
+   * statusCode 301 rather than `permanent: true` on purpose: Next emits 308 for
+   * the latter, and 301 is what the guidance says.
+   */
+  async redirects() {
+    return [
+      { source: "/leaderboard", destination: "/", statusCode: 301 },
+      { source: "/monitor", destination: "/", statusCode: 301 },
+      { source: "/evidence", destination: "/", statusCode: 301 },
+      { source: "/timeline", destination: "/", statusCode: 301 },
+      { source: "/videos", destination: "/", statusCode: 301 },
+      { source: "/profile/:nickname", destination: "/", statusCode: 301 },
+    ];
+  },
   async headers() {
     return [
       {

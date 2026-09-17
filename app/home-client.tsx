@@ -3,53 +3,18 @@
 import Link from "next/link";
 import { Card } from "@/components/card";
 import { SubscriptionForm } from "@/components/subscription-form";
-import { EvidenceCard } from "@/components/evidence-card";
-import { YouTubeVideoCard } from "@/components/youtube-video-card";
-import { HighlightCard } from "@/components/highlight-card";
 import { NativeBanner } from "@/components/adsterra-ads";
 import { ExternalLinkWithSmartlink, SmartlinkButton } from "@/components/smartlink";
-import { Evidence, Video } from "@/lib/types";
 import { BlogPost, getAllPosts } from "@/lib/blog";
 import { useState, useEffect } from "react";
 import { trackTrackerClick, trackOxAlphaView } from "@/lib/gtag";
 
-interface CommunityStats {
-  totalEvidence: number;
-  totalLikes: number;
-  weeklyContributors: number;
-  totalVideos: number;
-}
-
 export default function HomeClient() {
-  const [evidenceList, setEvidenceList] = useState<Evidence[]>([]);
-  const [latestVideos, setLatestVideos] = useState<Video[]>([]);
-  const [highlightedEvidence, setHighlightedEvidence] = useState<Evidence | null>(null);
-  const [stats, setStats] = useState<CommunityStats | null>(null);
   const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
-    // 并行获取所有数据
-    Promise.all([
-      fetch('/api/evidence?limit=3')
-        .then(res => res.json())
-        .catch(err => { console.error('Failed to fetch evidence:', err); return []; }),
-      fetch('/api/videos?limit=3')
-        .then(res => res.json())
-        .catch(err => { console.error('Failed to fetch videos:', err); return []; }),
-      fetch('/api/evidence?featured=true')
-        .then(res => res.json())
-        .catch(err => { console.error('Failed to fetch featured evidence:', err); return null; }),
-      fetch('/api/stats')
-        .then(res => res.json())
-        .catch(err => { console.error('Failed to fetch stats:', err); return null; })
-    ]).then(([evidenceData, videoData, featuredData, statsData]) => {
-      setEvidenceList(evidenceData.slice(0, 3));
-      setLatestVideos(videoData);
-      setHighlightedEvidence(featuredData);
-      setStats(statsData);
-    });
-
-    // 获取博客文章
+    // The four community fetches that used to run here are gone with the pages
+    // they fed (ADR-0012). What is left on this page is content, not plumbing.
     setFeaturedPosts(getAllPosts().slice(0, 6));
 
     // GA4: ox_alpha teaser impression on home (pre-page exists as placeholder for RAINBOW686-10)
@@ -168,52 +133,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Community Stats Section */}
-      <section className="py-6 mb-8">
-        <Card className="p-6" >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div>
-              <div className="text-3xl font-bold text-violet-400">
-                {stats?.totalEvidence || 0}
-              </div>
-              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Evidence Submitted</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-teal-400">
-                {stats?.totalLikes || 0}
-              </div>
-              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Community Likes</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-yellow-400">
-                {stats?.weeklyContributors || 0}
-              </div>
-              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Weekly Contributors</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-pink-400">
-                {stats?.totalVideos || 0}
-              </div>
-              <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>Videos</div>
-            </div>
-          </div>
-        </Card>
-      </section>
-
-      {/* Today's Highlight Section */}
-      {highlightedEvidence && (
-        <section className="py-8">
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Community Spotlight</h2>
-            <p className="text-sm" style={{ color: "var(--muted)" }}>Featured discovery from the community</p>
-          </div>
-          <HighlightCard evidence={highlightedEvidence} />
-        </section>
-      )}
-
-      {/* Native Banner Ad - After Community Spotlight */}
-      <NativeBanner />
-
       {/* TL;DR Section - Quick Answers */}
       <section className="py-8">
         <div className="text-center mb-6">
@@ -256,17 +175,51 @@ export default function HomeClient() {
             </Card>
           ))}
         </div>
-      {/* OX-Alpha Tracker Teaser — fires tracker_click + ox_alpha_view, consumed by /ox-alpha page when live (RAINBOW686-10) */}
-      <div className="text-center mt-4">
-        <Link href="/ox-alpha" onClick={() => trackTrackerClick({ tracker_id: "ox_alpha_teaser", target_url: "/ox-alpha", location: "home_specs" })} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors">
-          Track OX-Alpha → <span className="text-violet-200 text-xs">New mystery model on OpenRouter</span>
-        </Link>
-      </div>
-        <div className="text-center">
-          <Link href="/monitor" onClick={() => trackTrackerClick({ tracker_id: "monitor_status_card", target_url: "/monitor", location: "home_specs" })} className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
-            View real-time model status <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+      {/* The stealth line — the reason this domain gets traffic at all. This is the
+          hub's二级/三级 entry point: one live codename, the index that grows every
+          cycle, and the explainer. */}
+      <div className="mt-8">
+        <h3 className="text-xl font-bold mb-4 text-center" style={{ color: "var(--foreground)" }}>
+          The stealth line
+        </h3>
+        <div className="grid md:grid-cols-3 gap-4">
+          <Link
+            href="/union-alpha"
+            onClick={() => trackTrackerClick({ tracker_id: "stealth_line", target_url: "/union-alpha", location: "home_specs" })}
+            className="rounded-lg border p-5 transition-colors hover:border-violet-400"
+            style={{ borderColor: "var(--card-border)" }}
+          >
+            <div className="font-semibold" style={{ color: "var(--foreground)" }}>
+              Union Alpha <span className="text-emerald-400 text-xs align-middle">live</span>
+            </div>
+            <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+              Today&apos;s anonymous release: verified specs, live status, and what is still only a claim.
+            </div>
+          </Link>
+          <Link
+            href="/stealth-models"
+            onClick={() => trackTrackerClick({ tracker_id: "stealth_line", target_url: "/stealth-models", location: "home_specs" })}
+            className="rounded-lg border p-5 transition-colors hover:border-violet-400"
+            style={{ borderColor: "var(--card-border)" }}
+          >
+            <div className="font-semibold" style={{ color: "var(--foreground)" }}>Every stealth release</div>
+            <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+              The running index of anonymous Alpha-line models — one section longer with each new codename.
+            </div>
+          </Link>
+          <Link
+            href="/alpha-models"
+            onClick={() => trackTrackerClick({ tracker_id: "stealth_line", target_url: "/alpha-models", location: "home_specs" })}
+            className="rounded-lg border p-5 transition-colors hover:border-violet-400"
+            style={{ borderColor: "var(--card-border)" }}
+          >
+            <div className="font-semibold" style={{ color: "var(--foreground)" }}>How the line works</div>
+            <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+              The pattern behind Hunter Alpha, OX Alpha and Union Alpha — and what happens when one is revealed.
+            </div>
           </Link>
         </div>
+      </div>
       </section>
 
       {/* Native Banner Ad - After Key Specifications */}
@@ -295,74 +248,6 @@ export default function HomeClient() {
       </section>
 
       {/* Native Banner Ad - After Use Cases */}
-      <NativeBanner />
-
-      {/* YouTube Videos Section */}
-      <section className="py-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Featured Videos</h2>
-          <Link
-            href="/videos"
-            className="text-violet-400 hover:text-violet-300 text-sm"
-          >
-            View all →
-          </Link>
-        </div>
-        <p className="mb-8 max-w-2xl" style={{ color: "var(--muted)" }}>
-          In-depth analysis, reviews, and discussions about mimo-v2 and long-context AI technology
-        </p>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {latestVideos.length > 0 ? (
-            latestVideos.map((video) => (
-              <YouTubeVideoCard key={video.id} video={video} />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-8" style={{ color: "var(--muted)" }}>
-              Loading videos...
-            </div>
-          )}
-        </div>
-        <div className="text-center mt-6">
-          <Link href="/comparison" onClick={() => trackTrackerClick({ tracker_id: "comparison_entry", target_url: "/comparison", location: "home_videos" })} className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
-            Compare mimo-v2 with other AI models <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          </Link>
-        </div>
-      </section>
-
-      {/* Native Banner Ad - After Featured Videos */}
-      <NativeBanner />
-
-      {/* Latest Evidence */}
-      <section className="py-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>Community Submissions</h2>
-          <Link
-            href="/evidence"
-            className="text-violet-400 hover:text-violet-300 text-sm"
-          >
-            View all →
-          </Link>
-        </div>
-
-        <div className="grid gap-4">
-          {evidenceList.length > 0 ? (
-            evidenceList.map((evidence) => (
-              <EvidenceCard key={evidence.id} evidence={evidence} />
-            ))
-          ) : (
-            <Card className="p-8 text-center" style={{ color: "var(--muted)" }}>
-              No evidence submitted yet. Be the first!
-            </Card>
-          )}
-        </div>
-        <div className="text-center mt-6">
-          <Link href="/access" className="text-violet-400 hover:text-violet-300 text-sm inline-flex items-center gap-1">
-            Access Guide <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          </Link>
-        </div>
-      </section>
-
-      {/* Native Banner Ad - After Community Submissions */}
       <NativeBanner />
 
       {/* Subscription Section */}

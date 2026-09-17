@@ -19,24 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${baseUrl}/evidence`,
-      lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/videos`,
-      lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/monitor`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.3,
-    },
-    {
       url: `${baseUrl}/blog`,
       lastModified,
       changeFrequency: 'daily',
@@ -65,12 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/timeline`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.3,
     },
     {
       url: `${baseUrl}/comparison`,

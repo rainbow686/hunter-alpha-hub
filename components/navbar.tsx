@@ -7,21 +7,18 @@ import { ThemeToggle } from "@/components/theme-toggle";
 export function Navbar() {
   const pathname = usePathname();
 
+  /**
+   * Four destinations, matching the three-tier architecture in ADR-0012: the
+   * stealth line (the reason this domain has any traffic), the comparison hub
+   * (the evergreen leg), the directory, and the articles. Everything else was
+   * moved out of the way — a nav that lists dead pages teaches Google to crawl
+   * dead pages.
+   */
   const primaryNav = [
-    { href: "/", label: "Home" },
-    { href: "/comparison", label: "Comparison" },
+    { href: "/stealth-models", label: "Stealth line" },
+    { href: "/comparison", label: "Compare" },
     { href: "/openrouter-models", label: "Models" },
-    { href: "/best-openrouter-models", label: "Best Models" },
-    { href: "/alpha-models", label: "Stealth Models" },
-    { href: "/openrouter-pricing-calculator", label: "Pricing" },
-    { href: "/blog", label: "Blog" },
-    { href: "/faq", label: "FAQ" },
-  ];
-
-  const archivedNav = [
-    { href: "/hunter-alpha", label: "Hunter Alpha Tracker" },
-    { href: "/ox-alpha", label: "OX Alpha Tracker" },
-    { href: "/videos", label: "Videos" },
+    { href: "/blog", label: "Articles" },
   ];
 
   return (

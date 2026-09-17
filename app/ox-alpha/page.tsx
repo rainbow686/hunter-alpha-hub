@@ -642,8 +642,8 @@ export default function OxAlphaPage() {
               Hunter Alpha vs competitors
             </Link>{" "}
             and our{" "}
-            <Link href="/timeline" className="text-violet-400 hover:underline">
-              timeline
+            <Link href="/alpha-models" className="text-violet-400 hover:underline">
+              guide to how the Alpha line works
             </Link>
             .
           </p>

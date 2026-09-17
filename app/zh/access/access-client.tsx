@@ -121,10 +121,10 @@ export default function AccessClient() {
           打开 Hunter Alpha
         </ExternalLinkWithSmartlink>
         <Link
-          href="/evidence"
+          href="/stealth-models"
           className="px-6 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors"
         >
-          提交证据
+          看神秘模型追踪
         </Link>
       </div>
 

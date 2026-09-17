@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * The footer carries two jobs now: the reference cluster (what this site is for)
+ * and the legal line. The retired routes are gone from it on purpose — see
+ * ADR-0012: links to dead pages are how a site teaches crawlers to waste budget.
+ */
 const modelLinks = [
   { href: "/comparison", label: "Model comparison" },
   { href: "/openrouter-models", label: "Model directory" },
@@ -9,16 +14,13 @@ const modelLinks = [
   { href: "/access", label: "How to use OpenRouter" },
 ];
 
-const archivedLinks = [
-  { href: "/hunter-alpha", label: "Hunter Alpha Tracker" },
-  { href: "/ox-alpha", label: "OX Alpha Tracker" },
-  { href: "/evidence", label: "Evidence Wall" },
-  { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/monitor", label: "Monitor" },
-  { href: "/timeline", label: "Timeline" },
-  { href: "/videos", label: "Videos" },
-  { href: "/zh/access", label: "中文访问指南" },
-  { href: "/zh/faq", label: "中文 FAQ" },
+const stealthLinks = [
+  { href: "/stealth-models", label: "Stealth line index" },
+  { href: "/union-alpha", label: "Union Alpha (live)" },
+  { href: "/alpha-models", label: "How the line works" },
+  { href: "/hunter-alpha", label: "Hunter Alpha archive" },
+  { href: "/ox-alpha", label: "OX Alpha archive" },
+  { href: "/hunter-alpha-benchmarks", label: "Benchmarks" },
 ];
 
 export function Footer() {
@@ -52,9 +54,9 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <h3 className="font-semibold mb-2 text-sm">Archived trackers</h3>
+            <h3 className="font-semibold mb-2 text-sm">Stealth line</h3>
             <div className="grid grid-cols-2 gap-2">
-              {archivedLinks.map((link) => (
+              {stealthLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
