@@ -1,68 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Card } from "@/components/card";
 import { NativeBanner } from "@/components/adsterra-ads";
-
-interface FAQItem {
-  question: string;
-  answer: string;
-  category: string;
-}
-
-const faqs: FAQItem[] = [
-  {
-    category: "General",
-    question: "What is Hunter Alpha?",
-    answer: "Hunter Alpha is a 1 Trillion parameter AI model with a 1M token context window, available on OpenRouter. It's designed for agentic use cases including long-horizon planning, complex reasoning, and multi-step task execution. The model was added to OpenRouter on March 12, 2026.",
-  },
-  {
-    category: "General",
-    question: "Who created Hunter Alpha?",
-    answer: "The creator is unknown. OpenRouter lists the provider simply as 'Hunter Alpha' with no additional company or organization information. This anonymity has fueled speculation in the AI community.",
-  },
-  {
-    category: "Access",
-    question: "How do I access Hunter Alpha?",
-    answer: "Hunter Alpha is available on OpenRouter, a platform that provides access to various AI models. You can sign up at openrouter.ai and search for Hunter Alpha. As of now, it's free to use with no API costs.",
-  },
-  {
-    category: "Access",
-    question: "Is Hunter Alpha really free?",
-    answer: "Yes, Hunter Alpha is currently free to use on OpenRouter. This means you can send prompts and receive responses without any charges. However, this could change in the future, so it's worth monitoring the model status page for updates.",
-  },
-  {
-    category: "Technical",
-    question: "What is Hunter Alpha's context window?",
-    answer: "Hunter Alpha has a 1M (1,048,576 tokens) context window, which is one of the largest available in any AI model. This allows it to process extremely long documents or conversations while maintaining coherence and recall.",
-  },
-  {
-    category: "Technical",
-    question: "Does Hunter Alpha support images?",
-    answer: "No, Hunter Alpha is a text-only model. It can only process and generate text. If you need image analysis capabilities, you would need to use a different multimodal model.",
-  },
-  {
-    category: "Technical",
-    question: "What base model is Hunter Alpha?",
-    answer: "The base model is unknown. According to OpenRouter, Hunter Alpha has 1 Trillion parameters and is built for agentic use. Community speculation includes possibilities like a heavily modified Claude, a custom fine-tune, or a novel architecture.",
-  },
-  {
-    category: "Community",
-    question: "How can I contribute evidence?",
-    answer: "You can submit evidence through our Evidence Wall. This could include interesting responses, observed behaviors, technical analysis, or any information that might help identify the model. Each submission helps the community investigation.",
-  },
-  {
-    category: "Community",
-    question: "Where can I discuss Hunter Alpha?",
-    answer: "The main discussion hubs are Reddit's r/LocalLLaMA, Twitter/X, and various AI Discord servers. Our Evidence Wall also serves as a centralized place to view and discuss community findings.",
-  },
-];
+// Same array the JSON-LD is built from — see lib/faq.ts for why that matters.
+import { siteFaqs as faqs } from "@/lib/faq";
 
 const categories = ["All", ...Array.from(new Set(faqs.map((f) => f.category)))];
 
 export default function FAQClient() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const filteredFaqs =
     activeCategory === "All"
@@ -76,7 +24,7 @@ export default function FAQClient() {
           <span className="gradient-text">Frequently Asked Questions</span>
         </h1>
         <p className="max-w-xl mx-auto" style={{ color: "var(--muted)" }}>
-          Everything you need to know about Hunter Alpha
+          Hunter Alpha, the Alpha line, and how we separate facts from claims
         </p>
       </div>
 
@@ -100,49 +48,64 @@ export default function FAQClient() {
       {/* Native Banner Ad - After category filter */}
       <NativeBanner />
 
-      {/* FAQ List */}
+      {/*
+        FAQ list.
+
+        Each row is a native <details>, not React state. That matters twice over:
+        the answers and their internal links stay in the server-rendered HTML, so
+        a crawler that never clicks still reads all ten; and a link inside a
+        <button> (the previous structure) is invalid markup to begin with.
+        Collapsing here is presentation only.
+      */}
       <div className="space-y-4">
-        {filteredFaqs.map((faq, index) => (
-          <Card key={index} className="p-6">
-            <button
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="w-full text-left"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-violet-400 mb-2">
-                  {faq.category}
-                </span>
-                <svg
-                  className={`w-5 h-5 transition-transform ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+        {filteredFaqs.map((faq) => (
+          <Card key={faq.question} className="px-6">
+            <details className="group">
+              <summary className="cursor-pointer list-none py-6">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-xs font-medium text-violet-400">{faq.category}</span>
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5 shrink-0 transition-transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <h3
+                  className="text-lg font-medium mt-2"
+                  style={{ color: "var(--foreground)" }}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <h3
-                className="text-lg font-medium mt-2 mb-3"
-                style={{ color: "var(--foreground)" }}
+                  {faq.question}
+                </h3>
+              </summary>
+              <div
+                className="text-sm pb-6 pt-4 border-t"
+                style={{ color: "var(--muted)", borderColor: "var(--card-border)" }}
               >
-                {faq.question}
-              </h3>
-              {openIndex === index && (
-                <p
-                  className="text-sm mt-4 pt-4 border-t"
-                  style={{ color: "var(--muted)" }}
-                >
-                  {faq.answer}
-                </p>
-              )}
-            </button>
+                <p>{faq.answer}</p>
+                {faq.links && faq.links.length > 0 && (
+                  <p className="mt-3">
+                    {faq.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-violet-400 hover:underline mr-4 inline-block"
+                      >
+                        {link.label} →
+                      </Link>
+                    ))}
+                  </p>
+                )}
+              </div>
+            </details>
           </Card>
         ))}
       </div>

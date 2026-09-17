@@ -388,6 +388,44 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
           Pricing and context data are based on a {model.dataAsOf} snapshot. Provider limits can
           change; always verify on OpenRouter before production.
         </p>
+
+        {/*
+          Contextual link back into the stealth line: the two models that carry a
+          formerAlias were anonymous releases, and this is the one place on their
+          own model page where that history is worth a link instead of a badge.
+        */}
+        {model.formerAlias && (
+          <p className="text-sm mt-6" style={{ color: "var(--muted)" }}>
+            {model.name} is the model that was released anonymously as{" "}
+            <strong style={{ color: "var(--foreground)" }}>{model.formerAlias}</strong>. That release,
+            and every other one like it, is documented in the{" "}
+            <Link href="/stealth-models" className="text-violet-400 hover:underline">
+              stealth models register
+            </Link>
+            {model.formerAlias === "Hunter Alpha" ? (
+              <>
+                {" "}— see the{" "}
+                <Link href="/hunter-alpha" className="text-violet-400 hover:underline">
+                  Hunter Alpha archive
+                </Link>{" "}
+                for the timeline of the reveal.
+              </>
+            ) : (
+              <>
+                {" "}— see the{" "}
+                <Link href="/ox-alpha" className="text-violet-400 hover:underline">
+                  OX Alpha archive
+                </Link>{" "}
+                for the timeline of the reveal.
+              </>
+            )}{" "}
+            The codename live right now is{" "}
+            <Link href="/union-alpha" className="text-violet-400 hover:underline">
+              Union Alpha
+            </Link>
+            .
+          </p>
+        )}
       </div>
 
       <ArticleSchema

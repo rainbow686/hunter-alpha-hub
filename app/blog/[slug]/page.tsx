@@ -132,6 +132,41 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <NativeBanner />
 
+        {/*
+          Contextual link into the stealth line from every article.
+
+          Why here, and why this wording: the register and the live codename are
+          the pages we need discovered, and internal links from crawled pages are
+          the only discovery path we control — the sitemap is not a crawl trigger
+          (last downloaded 2026-03-23, six months before these pages existed).
+          This block is deliberately the same on every article rather than
+          keyword-stuffed per post.
+        */}
+        <section
+          className="rounded-xl border p-5 mb-12"
+          style={{ borderColor: "var(--card-border)", backgroundColor: "var(--card-bg)" }}
+        >
+          <h2 className="font-semibold mb-2" style={{ color: "var(--foreground)" }}>
+            Tracking the anonymous models behind these names
+          </h2>
+          <p className="text-sm mb-3" style={{ color: "var(--muted)" }}>
+            Several models on this site started life as unpaid, unnamed releases. The register keeps
+            every one of them — what it turned out to be, and what it costs now — and the tracker
+            follows the codename that is live this week.
+          </p>
+          <div className="flex flex-wrap gap-3 text-sm">
+            <Link href="/stealth-models" className="text-violet-400 hover:underline">
+              Every stealth release →
+            </Link>
+            <Link href="/union-alpha" className="text-violet-400 hover:underline">
+              Union Alpha tracker →
+            </Link>
+            <Link href="/comparison" className="text-violet-400 hover:underline">
+              Compare every model →
+            </Link>
+          </div>
+        </section>
+
         {relatedPosts.length > 0 && (
           <section className="border-t pt-8" style={{ borderColor: "var(--card-border)" }}>
             <h2 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>

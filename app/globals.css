@@ -80,3 +80,15 @@ a:hover {
   mask-composite: exclude;
   pointer-events: none;
 }
+
+/*
+ * FAQ rows are <details>. We draw our own chevron, so drop the user-agent
+ * triangle (Safari needs the -webkit- pseudo-element, the rest use ::marker).
+ */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::marker {
+  content: "";
+}
