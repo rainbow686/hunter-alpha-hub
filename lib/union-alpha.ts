@@ -64,6 +64,16 @@ export const verifiedSpecs: VerifiedSpec[] = [
     note: "Single endpoint, provider tag stealth.",
   },
   {
+    label: "Also served through",
+    value: "OpenCode free tier",
+    note: "Third-party reports (including a Japanese write-up and the model's own landing page) say the same anonymous model is reachable from OpenCode's free tier as well as OpenRouter. Same weights, different front door — verify before relying on it.",
+  },
+  {
+    label: "Reported early usage",
+    value: "~2B tokens in the first day",
+    note: "A third-party news digest cited roughly 2 billion tokens consumed within 24 hours of launch. Directional evidence that the free window is genuinely popular, not a precise figure.",
+  },
+  {
     label: "Added to OpenRouter",
     value: "2026-09-16 14:42 UTC",
     note: "Unix timestamp 1789569723.",
