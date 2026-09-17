@@ -1,0 +1,20 @@
+{
+  "name": "hunter-alpha-hub-astro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check:theme": "node scripts/check-theme-tokens.mjs",
+    "preview": "wrangler dev",
+    "deploy": "astro build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.0.0",
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.127.1"
+  },
+  "engines": { "node": ">=22" }
+}

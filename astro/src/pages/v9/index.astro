@@ -1,0 +1,96 @@
+---
+import "../../styles/v9.css";
+import Logo from "../../components/Logo.astro";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V9 — wordmark studies</title>
+    <meta name="description" content="Wordmark directions for hunteralphahub" />
+  </head>
+  <body>
+    <div class="top-rule"></div>
+    <header class="compact">
+      <div class="wrap">
+        <a class="brand" href="/" style="display:flex; align-items:center; gap:10px;">
+          <span class="mark-tile"><Logo size={22} /></span>
+          <span class="wm-editorial"><b>hunter</b><em>alpha</em><b>hub</b></span>
+        </a>
+        <nav><a href="/v9/" aria-current="page">Wordmark studies</a></nav>
+        <div class="right"><span class="badge live"><span class="dot"></span> live</span></div>
+      </div>
+    </header>
+
+    <main class="wrap" style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
+      <p class="kicker">Brand studies</p>
+      <h1 class="display">Five ways to make the name itself the mark.</h1>
+      <p class="lede">
+        The name already contains the subject: “alpha” is what this site tracks, “hub” is what it is. Each
+        study below tries to make that readable at header size and still work at 16px.
+      </p>
+
+      <h2>1 · Editorial mix</h2>
+      <div class="study">
+        <span class="label">Roman + italic serif</span>
+        <span class="wm-editorial"><b>hunter</b><em>alpha</em><b>hub</b></span>
+        <span class="note">The italic on “alpha” separates the subject from the two roman words — emphasis without colour.</span>
+      </div>
+
+      <h2>2 · Stacked block</h2>
+      <div class="study">
+        <span class="label">Three lines, letterspaced caps</span>
+        <span class="wm-stack"><span>Hunter</span><span>Alpha</span><span>Hub</span></span>
+        <span class="note">Most memorable at small sizes, and it doubles as a square lockup for favicon and social avatar.</span>
+      </div>
+
+      <h2>3 · The Alpha glyph carries the mark</h2>
+      <div class="study">
+        <span class="label">Node line in place of the word</span>
+        <span class="wm-glyph">hunter<Logo size={26} />hub</span>
+        <span class="note">The middle of the name is drawn as the Alpha line itself, so the logotype and the logo are the same object.</span>
+      </div>
+
+      <h2>4 · Imprint</h2>
+      <div class="study">
+        <span class="label">Framed, extreme tracking</span>
+        <span class="wm-stamp">Hunteralphahub</span>
+        <span class="note">Reads as an imprint on a reference document. Strong in the footer and on share images; heavy if repeated on every page.</span>
+      </div>
+
+      <h2>5 · Monogram + word</h2>
+      <div class="study">
+        <span class="label">Solid tile, initials HA</span>
+        <span class="wm-mono"><span class="initials">HA</span>hunteralphahub</span>
+        <span class="note">Strongest recall: the tile becomes the favicon and avatar, the word stays fully legible beside it.</span>
+      </div>
+
+      <h2>6 · Title case</h2>
+      <div class="study">
+        <span class="label">HunterAlphaHub</span>
+        <span class="wm-editorial"><b>Hunter</b><em>Alpha</em><b>Hub</b></span>
+        <span class="note">Reads as a product name rather than a domain: the capitals do the work that the plate was doing, and it needs no border or badge to hold together.</span>
+      </div>
+
+      <h2>At header scale</h2>
+      <div class="card" style="display:grid; gap:18px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="mark-tile" style="width:32px;height:32px;border-radius:8px;"><Logo size={20} /></span>
+          <span class="wm-editorial" style="font-size:24px;"><b>hunter</b><em>alpha</em><b>hub</b></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="wm-stack" style="font-size:12px;"><span>Hunter</span><span>Alpha</span><span>Hub</span></span>
+          <span style="color:var(--text-muted); font-size:13px;">stacked lockup, tile sized</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="wm-mono" style="font-size:24px;"><span class="initials" style="width:28px;height:28px;border-radius:6px;font-size:11px;">HA</span>hunteralphahub</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="wm-stamp" style="font-size:11px;">Hunteralphahub</span>
+          <span style="color:var(--text-muted); font-size:13px;">imprint, for footer and share images</span>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

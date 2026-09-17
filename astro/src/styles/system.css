@@ -1,0 +1,128 @@
+/*
+ * FROZEN DESIGN SYSTEM — hunteralphahub (decided 2026-09-17, ADR-0011).
+ *
+ * This is the canonical stylesheet. The v1–v12 files in this folder are the
+ * exploration record; nothing new should import them. Real pages import this.
+ *
+ * The system, in one paragraph: warm ivory paper (never pure white), warm
+ * near-black text, a single ink-blue accent, status colours reserved for status,
+ * serif display type against sans tabular figures for numbers, zebra rows instead
+ * of glow, and a provenance line under every data surface. Header is a publication
+ * masthead that folds into one row on scroll (hysteresis, not a single threshold).
+ */
+@import "./v12.css";
+
+:root {
+  /* Frozen surface palette — the warm paper family. */
+  --bg: #faf6f0;
+  --bg-sunken: #f2ece1;
+  --surface: #fffcf6;
+  --row-alt: #f5f0ea;
+  --header-fill: #f2ece1;
+  --border: #e6ddcd;
+  --border-strong: #d5c9b4;
+  --text: #1c1a16;
+  --text-muted: #5f5849;
+  --text-faint: #6f6859;
+  --wash-top: #fdf8f0;
+
+  --accent: #14507d;
+  --accent-soft: #e7eef5;
+  --success: #2c6a4c;
+  --success-soft: #e8f0ea;
+  --warn: #8a5a11;
+  --warn-soft: #f8efdd;
+  --danger: #9c3327;
+  --danger-soft: #f9eae7;
+  --on-accent: #ffffff;
+
+  /* Frozen type: display serif, data sans. */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --text-4xl: 54px;
+}
+
+/* ------------------------------------------------------------------ night
+ * The night edition is the same paper read under a lamp — warm charcoal, never
+ * cold grey (cold greys on dark are what made the old UI's tables unreadable).
+ * The ink/paper roles invert: ivory becomes the ink, and the accent has to lift
+ * from ink blue to light blue, because #14507d on this background is 2.2:1 —
+ * a link nobody can read.
+ *
+ * Two blocks declare the same tokens on purpose:
+ *   - the media query is the automatic path (the reader's OS decides);
+ *   - the attribute is the override path, so a page can be pinned to a theme
+ *     for review, and so a future manual switch has somewhere to write.
+ * `npm run check:theme` fails if the two blocks drift apart or if any pair on
+ * screen drops below WCAG AA. Edit one block, edit the other.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17130f;
+    --bg-sunken: #110e0b;
+    --surface: #26201a;
+    --row-alt: #221d17;
+    --header-fill: #1e1a15;
+    --border: #302a22;
+    --border-strong: #4b4237;
+    --text: #f4efe4;
+    --text-muted: #bdb2a0;
+    --text-faint: #998e7c;
+    --wash-top: #1d1913;
+
+    --accent: #92bcdf;
+    --accent-soft: #182531;
+    --success: #83c8a1;
+    --success-soft: #14241c;
+    --warn: #e0b878;
+    --warn-soft: #2b2216;
+    --danger: #ec9f92;
+    --danger-soft: #2c1b18;
+    --on-accent: #14110d;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #17130f;
+  --bg-sunken: #110e0b;
+  --surface: #26201a;
+  --row-alt: #221d17;
+  --header-fill: #1e1a15;
+  --border: #302a22;
+  --border-strong: #4b4237;
+  --text: #f4efe4;
+  --text-muted: #bdb2a0;
+  --text-faint: #998e7c;
+  --wash-top: #1d1913;
+
+  --accent: #92bcdf;
+  --accent-soft: #182531;
+  --success: #83c8a1;
+  --success-soft: #14241c;
+  --warn: #e0b878;
+  --warn-soft: #2b2216;
+  --danger: #ec9f92;
+  --danger-soft: #2c1b18;
+  --on-accent: #14110d;
+}
+
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* The wash at the top of the page is the sheet catching light. Declared once
+   against a token so the night edition warms the same way instead of needing a
+   second rule (the exploration-era gradient in v4.css is superseded by this). */
+body { background-image: linear-gradient(180deg, var(--wash-top) 0%, var(--bg) 420px); }
+
+/* In daylight a table band is a shadow (darker than the page); at night a shadow
+   is a hole, so the band and the zebra rows lift instead of sink. Same roles,
+   opposite direction — which is why they are their own tokens rather than
+   reusing --bg-sunken, whose 55% blend from the exploration era read as 1.04:1
+   at night: a zebra you cannot see. */
+table.data thead th { background: var(--header-fill); }
+table.data tbody tr:nth-child(even) { background: var(--row-alt); }
+
+/* Contract reminders for whoever builds the next page:
+   1. Numbers go in `table.data` with `class="num"` — tabular figures, right aligned.
+   2. Every data surface is followed by `.provenance` (source + verified date).
+   3. Unverified statements use `.tag.claimed`, never plain body text.
+   4. The brand lockup is `Hunter` + italic `Alpha` + `Hub`, Title Case, no frames. */

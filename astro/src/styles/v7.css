@@ -1,0 +1,135 @@
+/*
+ * Variant 7 — masthead header.
+ *
+ * Why: the previous bar was a generic product nav (logo left, links centre, pill
+ * right). It could belong to any template. A reference site reads better with a
+ * publication masthead:
+ *
+ *   row 1  masthead — large serif wordmark + identity line + live status. Scrolls away.
+ *   row 2  nav row  — section index, small caps, rule above and below. Sticks.
+ *
+ * That two-row split does two jobs at once: it gives the brand room to be a brand,
+ * and it keeps the sticky element small so it never eats the reading area.
+ * The double rule under the masthead is the printed-page cue; no shadows needed.
+ */
+@import "./v6.css";
+
+header.site {
+  /* display:contents removes the wrapper box so the sticky nav row is positioned
+     against the page instead of against a header that ends right below it.
+     Without this the nav scrolls away — sticky can only travel inside its parent. */
+  display: contents;
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+}
+
+.masthead {
+  border-bottom: 1px solid var(--border-strong);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+.masthead .wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding-top: var(--space-5, 20px);
+  padding-bottom: var(--space-4);
+}
+.masthead .brand { display: flex; align-items: center; gap: var(--space-3); }
+
+/* The mark sits on a tile so it reads as a logotype rather than three loose dots. */
+.mark-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  /* No frame: the mark reads as a drawn glyph, not a button. Keeps its box so
+     alignment stays stable across title-case and lower-case lockups. */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Wordmark as a lockup: the serif word carries the brand, the plate carries the
+   positioning word. Type alone looked like plain text, not a mark. */
+.masthead .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1;
+}
+.masthead .wordmark .plate {
+  /* Kept for layouts that still reference it; the framed version is retired. */
+  color: var(--accent);
+  font-weight: 600;
+}
+.masthead .identity {
+  display: grid;
+  gap: 2px;
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border-strong);
+}
+.masthead .identity .line1 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.masthead .identity .line2 { font-size: var(--text-xs); color: var(--text-faint); }
+.masthead .live-slot { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
+.masthead .stamp {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* Nav row: the compact half that sticks. */
+.navrow {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  backdrop-filter: saturate(150%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.navrow .wrap { display: flex; align-items: center; gap: var(--space-4); height: 46px; }
+.navrow nav { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.navrow nav a {
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+.navrow nav a:hover { color: var(--text); text-decoration: none; }
+.navrow nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
+.navrow .meta {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+/* Hairline accent that sits above the masthead, like a printed rule. */
+.top-rule { height: 3px; background: var(--accent); }
+
+@media (max-width: 760px) {
+  .masthead .identity, .masthead .stamp { display: none; }
+  .masthead .wordmark { font-size: 24px; }
+  .navrow .meta { display: none; }
+}

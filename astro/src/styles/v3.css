@@ -1,0 +1,56 @@
+/*
+ * Variant 3 — "editorial hybrid".
+ * Borrows the magazine layer that v1 was missing (serif display type, kickers,
+ * generous measure) but keeps tables in sans with tabular figures, because
+ * serif numerals in a dense price table are harder to scan.
+ */
+@import "./tokens.css";
+
+:root {
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --text-4xl: 56px;
+  --text-3xl: 40px;
+  --text-2xl: 27px;
+  --measure: 74ch;
+  --radius: 4px;
+}
+
+h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.015em; }
+h1 { font-size: var(--text-4xl); line-height: 1.06; }
+h2 { font-size: var(--text-2xl); margin-top: var(--space-12); padding-top: var(--space-4); border-top: 1px solid var(--border); }
+.lede { font-family: var(--serif); font-size: 21px; line-height: 1.55; }
+
+.byline {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-8);
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* Drop the box: editorial layouts separate with rules and space, not containers. */
+.table-scroll { border: none; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); border-radius: 0; }
+table.data thead th { background: transparent; border-bottom: 1px solid var(--border-strong); font-family: var(--sans); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.09em; }
+table.data tbody tr:nth-child(even) { background: transparent; }
+table.data tbody tr:hover td { background: var(--bg-sunken); }
+table.data td.free { color: var(--success); font-weight: 600; }
+
+.pull {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--text);
+  border-left: 3px solid var(--accent);
+  padding-left: var(--space-4);
+  margin: var(--space-8) 0;
+}
+
+.claim { border-top: 1px solid var(--border); padding-top: var(--space-4); }
+.claim .basis { font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--space-2); }
+
+.provenance { border-top: 1px solid var(--border); padding-top: var(--space-3); }

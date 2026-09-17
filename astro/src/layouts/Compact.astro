@@ -1,0 +1,51 @@
+---
+import "../styles/v8.css";
+import Logo from "../components/Logo.astro";
+
+interface Props { title: string; description: string; canonical?: string }
+const { title, description, canonical } = Astro.props;
+const path = Astro.url.pathname;
+
+const sections = [
+  { href: "/comparison", label: "Comparison" },
+  { href: "/openrouter-models", label: "Models" },
+  { href: "/openrouter-pricing-calculator", label: "Pricing" },
+  { href: "/stealth-models", label: "Stealth" },
+  { href: "/union-alpha", label: "Union Alpha" },
+  { href: "/blog", label: "Articles" },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+  </head>
+  <body>
+    <div class="top-rule"></div>
+    <header class="compact">
+      <div class="wrap">
+        <a class="brand" href="/" style="display:flex; align-items:center; gap:10px;">
+          <span class="mark-tile"><Logo size={22} /></span>
+          <span class="wordmark">hunteralpha<span class="plate">hub</span></span>
+        </a>
+        <nav>
+          {sections.map((s) => (
+            <a href={s.href} aria-current={path === s.href ? "page" : undefined}>{s.label}</a>
+          ))}
+        </nav>
+        <div class="right">
+          <span class="badge live"><span class="dot"></span> live</span>
+          <span class="stamp">verified 06:00 UTC</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap" style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
+      <slot />
+    </main>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+/*
+ * Variant 12 — masthead that collapses into ONE row on scroll.
+ *
+ * What v11 got wrong: after scrolling it still occupied two rows, so the header
+ * kept competing with the content. What v10 got right: the sticky row carries its
+ * own compact brand. This variant merges them: the masthead row animates closed
+ * (height + opacity), and the brand re-forms inside the single sticky row —
+ * appearing slightly larger first, then shrinking into place, which is the motion
+ * that reads as "the masthead condensed" rather than "a second bar appeared".
+ */
+@import "./v11.css";
+@import "./v10.css";
+
+.masthead {
+  max-height: 160px;
+  overflow: hidden;
+  transition: max-height 240ms cubic-bezier(0.2, 0, 0, 1), opacity 160ms ease;
+}
+
+.navrow .brand-mini {
+  opacity: 0;
+  max-width: 0;
+  padding-right: 0;
+  margin-right: 0;
+  border-right-color: transparent;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 200ms ease 60ms, max-width 260ms cubic-bezier(0.2, 0, 0, 1),
+    padding-right 260ms ease, margin-right 260ms cubic-bezier(0.2, 0, 0, 1);
+}
+.navrow .mini-word { font-size: 24px; transition: font-size 260ms cubic-bezier(0.2, 0, 0, 1); }
+
+header.site.is-condensed .masthead { max-height: 0; opacity: 0; }
+header.site.is-condensed .navrow .brand-mini {
+  opacity: 1;
+  max-width: 340px;
+  padding-right: var(--space-3);
+  margin-right: var(--space-2);
+  border-right-color: var(--border-strong);
+}
+header.site.is-condensed .navrow .mini-word { font-size: 15px; }
+header.site.is-condensed .navrow .wrap { height: 54px; }
+header.site.is-condensed .navrow { border-bottom: 1px solid var(--border-strong); }
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead, .navrow .brand-mini, .navrow .mini-word { transition: none; }
+}
+@media (max-width: 900px) {
+  header.site.is-condensed .navrow .brand-mini { border-right-color: transparent; }
+}

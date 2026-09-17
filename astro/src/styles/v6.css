@@ -1,0 +1,105 @@
+/*
+ * Variant 6 — v5 (paper journal) + designed header and footer.
+ *
+ * Header thinking: this site has two kinds of destinations — evergreen reference
+ * (models, comparison, calculator) and time-sensitive tracking (stealth line).
+ * So the bar is two-tier: a section row that never changes, and a right-hand
+ * status slot that carries whatever is live right now. That slot is the only
+ * moving part, which is why the rest can stay quiet.
+ *
+ * Footer thinking: a reference site's footer is where credibility lives, not
+ * where legal text is dumped. It gets four jobs: where the numbers come from,
+ * how to navigate, how to verify us, and how to reach a human.
+ */
+@import "./v5.css";
+
+/* ---------------------------------------------------------------- header */
+
+header.site {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+header.site .bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: 62px;
+}
+
+.brand { display: flex; align-items: center; gap: var(--space-2); }
+.brand .wordmark { font-family: var(--serif); font-size: 19px; letter-spacing: -0.02em; }
+.brand .wordmark .accent { color: var(--accent); }
+.brand .tagline {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-left: 1px solid var(--border-strong);
+  padding-left: var(--space-2);
+}
+
+.sections { display: flex; gap: var(--space-4); margin-left: var(--space-4); flex-wrap: wrap; }
+.sections a {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+.sections a:hover { color: var(--text); text-decoration: none; }
+.sections a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
+
+.status-slot { margin-left: auto; display: flex; align-items: center; gap: var(--space-3); }
+.status-slot .clock {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
+}
+
+/* ---------------------------------------------------------------- footer */
+
+footer.site {
+  margin-top: var(--space-16);
+  background: var(--bg-sunken);
+  border-top: 1px solid var(--border-strong);
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: var(--space-8);
+  padding: var(--space-12) 0 var(--space-8);
+}
+@media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+
+.foot-col h3 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 var(--space-3);
+  font-weight: 600;
+}
+.foot-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+.foot-col a { font-size: var(--text-sm); color: var(--text-muted); }
+.foot-col p { font-size: var(--text-sm); color: var(--text-muted); margin: 0; }
+
+.source-list { display: grid; gap: var(--space-2); font-size: var(--text-xs); color: var(--text-muted); }
+.source-list code { font-family: var(--mono); color: var(--text); font-size: 11.5px; }
+.source-list .row { display: flex; gap: var(--space-2); align-items: baseline; }
+
+.foot-base {
+  border-top: 1px solid var(--border);
+  padding: var(--space-4) 0 var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}
+.foot-base .disclaimer { max-width: 62ch; }

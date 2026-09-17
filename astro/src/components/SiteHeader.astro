@@ -1,0 +1,49 @@
+---
+import Logo from "./Logo.astro";
+
+/**
+ * Masthead header that folds into a single row on scroll.
+ * Scroll logic lives in the layout (inline script) so this component stays static.
+ */
+const path = Astro.url.pathname;
+const sections = [
+  { href: "/comparison", label: "Comparison" },
+  { href: "/openrouter-models", label: "Models" },
+  { href: "/openrouter-pricing-calculator", label: "Pricing" },
+  { href: "/stealth-models", label: "Stealth line" },
+  { href: "/union-alpha", label: "Union Alpha" },
+  { href: "/blog", label: "Articles" },
+];
+---
+<header class="site">
+  <div class="masthead">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <span class="mark-tile"><Logo size={24} /></span>
+        <span class="wordmark"><span>Hunter</span><em style="font-style: italic;">Alpha</em><span>Hub</span></span>
+      </a>
+      <div class="identity">
+        <span class="line1">OpenRouter model reference</span>
+        <span class="line2">Facts from the public catalogue, dated and labelled</span>
+      </div>
+      <div class="live-slot">
+        <span class="badge live"><span class="dot"></span> Union Alpha live</span>
+        <span class="stamp">Verified<br />2026-09-17</span>
+      </div>
+    </div>
+  </div>
+  <div class="navrow">
+    <div class="wrap">
+      <a class="brand-mini" href="/">
+        <span class="mark-tile" style="width:26px;height:26px;border-radius:7px;"><Logo size={17} /></span>
+        <span class="mini-word">Hunter<em style="font-style: italic;">Alpha</em>Hub</span>
+      </a>
+      <nav>
+        {sections.map((s) => (
+          <a href={s.href} aria-current={path === s.href ? "page" : undefined}>{s.label}</a>
+        ))}
+      </nav>
+      <span class="meta">15 models tracked · verified 06:00 UTC</span>
+    </div>
+  </div>
+</header>

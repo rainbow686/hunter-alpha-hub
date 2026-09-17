@@ -1,0 +1,74 @@
+---
+/**
+ * The footer is where a reference site keeps its credibility, so it carries four
+ * jobs rather than a legal line: where the numbers come from, how to navigate the
+ * reference, how to navigate the stealth line, and who to contact.
+ */
+const sources = [
+  ["Model fields", "openrouter.ai/api/v1/models"],
+  ["Drift check", "daily 06:00 UTC"],
+  ["Last verified", "2026-09-17"],
+  ["Stealth status", "/api/union-alpha/status"],
+];
+
+const reference = [
+  ["/openrouter-models", "Model index"],
+  ["/comparison", "Comparisons"],
+  ["/openrouter-pricing-calculator", "Cost calculator"],
+  ["/openrouter-free-models", "Free models"],
+  ["/best-openrouter-models", "Best picks"],
+];
+
+const stealth = [
+  ["/stealth-models", "All stealth releases"],
+  ["/union-alpha", "Union Alpha (live)"],
+  ["/alpha-models", "How the Alpha line works"],
+  ["/ox-alpha", "OX Alpha (revealed)"],
+  ["/hunter-alpha", "Hunter Alpha (revealed)"],
+];
+
+const site = [
+  ["/about", "About & method"],
+  ["/blog", "Articles"],
+  ["/zh/access", "中文文档"],
+  ["/terms", "Terms of service"],
+  ["/privacy", "Privacy policy"],
+];
+---
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h3>Where the numbers come from</h3>
+        <div class="source-list">
+          {sources.map(([label, value]) => (
+            <div class="row"><span>{label}</span><code>{value}</code></div>
+          ))}
+        </div>
+        <p style="margin-top: var(--space-4);">
+          Verified fields are re-read from the public catalogue. Anything we could not verify is
+          labelled a claim, never presented as fact.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h3>Reference</h3>
+        <ul>{reference.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
+      </div>
+      <div class="foot-col">
+        <h3>Stealth line</h3>
+        <ul>{stealth.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
+      </div>
+      <div class="foot-col">
+        <h3>Site</h3>
+        <ul>{site.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>Independent reference. Not affiliated with OpenRouter or any model provider.</span>
+      <span class="disclaimer">
+        Pricing, context windows and availability change without notice; stealth endpoints especially.
+        Confirm with the provider before you commit to a model.
+      </span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,56 @@
+---
+import "../styles/system.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props { title: string; description: string; canonical?: string }
+const { title, description, canonical } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <slot name="head" />
+  </head>
+  <body>
+    <SiteHeader />
+    <main class="wrap" style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
+      <slot />
+    </main>
+    <SiteFooter />
+    <script is:inline>
+      const header = document.querySelector("header.site");
+      const CONDENSE_AT = 120;
+      const EXPAND_AT = 48;
+      const LOCK_MS = 320;
+      let lockedUntil = 0;
+      let queued = false;
+      const apply = () => {
+        queued = false;
+        const y = window.scrollY;
+        const condensed = header.classList.contains("is-condensed");
+        const now = performance.now();
+        if (now < lockedUntil) return;
+        if (!condensed && y > CONDENSE_AT) {
+          header.classList.add("is-condensed");
+          lockedUntil = now + LOCK_MS;
+        } else if (condensed && y < EXPAND_AT) {
+          header.classList.remove("is-condensed");
+          lockedUntil = now + LOCK_MS;
+        }
+      };
+      window.addEventListener("scroll", () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(apply);
+      }, { passive: true });
+      apply();
+    </script>
+  </body>
+</html>

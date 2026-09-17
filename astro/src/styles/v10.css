@@ -1,0 +1,38 @@
+/*
+ * Variant 10 — masthead + persistent brand in the sticky row (CSS only).
+ *
+ * Keeps v7's two-row masthead for the magazine feel, but the sticky nav row now
+ * carries its own compact brand (tile mark + short wordmark). So the big lockup
+ * gets to be generous at the top, and the brand never leaves the screen while
+ * scrolling. No JavaScript: the sticky row simply owns a small brand.
+ */
+@import "./v7.css";
+
+.navrow .brand-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: var(--space-2);
+  padding-right: var(--space-3);
+  border-right: 1px solid var(--border-strong);
+}
+.navrow .brand-mini .mini-word {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.navrow .brand-mini .mini-word .plate {
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--accent-soft);
+  border-radius: 4px;
+  padding: 1px 4px 2px;
+}
+@media (max-width: 900px) {
+  .navrow .brand-mini .mini-word { display: none; }
+  .navrow .brand-mini { border-right: none; }
+}

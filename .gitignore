@@ -40,3 +40,9 @@ next-env.d.ts
 
 # Local-only operations knowledge
 /docs/
+
+# Astro refactor scaffold (see docs/decisions/ADR-0011)
+/astro/node_modules/
+/astro/dist/
+/astro/.astro/
+/astro/.wrangler/
