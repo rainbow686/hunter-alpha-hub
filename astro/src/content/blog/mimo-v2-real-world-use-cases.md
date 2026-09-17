@@ -261,5 +261,5 @@ For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, mimo-v2 is
 
 ---
 
-*Built something cool with mimo-v2? Share your use case on our [Evidence Wall](/evidence).*
+*Built something cool with mimo-v2? The current facts for that model, with pricing, are on [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5).*
 

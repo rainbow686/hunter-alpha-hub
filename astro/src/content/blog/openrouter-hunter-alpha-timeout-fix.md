@@ -325,5 +325,5 @@ For reliable Hunter Alpha usage:
 
 ---
 
-*Experiencing different timeout patterns? Share your findings on the [evidence wall](/evidence).*
+*Experiencing different timeout patterns? The failure modes we can name are on [Union Alpha not working](/union-alpha-not-working).*
 

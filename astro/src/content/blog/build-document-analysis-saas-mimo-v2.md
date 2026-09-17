@@ -466,5 +466,5 @@ export default function DocumentPage({ params }: { params: { id: string } }) {
 
 ---
 
-*Building something similar? Share your journey on [Hunter Alpha Hub](/evidence).*
+*Building something similar? What each anonymous release turned out to be is in [the stealth models register](/stealth-models).*
 

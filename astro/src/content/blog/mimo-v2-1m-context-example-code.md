@@ -421,5 +421,5 @@ async function safeCall(prompt, maxRetries = 3) {
 
 ---
 
-*Want more examples? Share your use cases on the [Hunter Alpha Hub](/evidence).*
+*Want more examples? What each anonymous release turned out to be is in [the stealth models register](/stealth-models).*
 

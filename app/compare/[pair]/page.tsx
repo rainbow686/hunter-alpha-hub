@@ -15,6 +15,7 @@ import {
 import {
   formatContextWindow,
   formatPrice,
+  modelPageHref,
   openrouterModelUrl,
 } from "@/lib/openrouter-models";
 
@@ -275,10 +276,10 @@ export default async function ComparePage({ params }: ComparePageProps) {
         </section>
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <Link href={`/openrouter-models/${a.slug}`} className="px-6 py-3 rounded-lg bg-gradient-to-r from-violet-500 to-teal-500 text-white font-medium hover:opacity-90 transition-opacity">
+          <Link href={modelPageHref(a)} className="px-6 py-3 rounded-lg bg-gradient-to-r from-violet-500 to-teal-500 text-white font-medium hover:opacity-90 transition-opacity">
             {a.name} details
           </Link>
-          <Link href={`/openrouter-models/${b.slug}`} className="px-6 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors">
+          <Link href={modelPageHref(b)} className="px-6 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors">
             {b.name} details
           </Link>
           <Link href="/openrouter-pricing-calculator" className="px-6 py-3 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-300 font-medium hover:bg-violet-500/20 transition-colors">

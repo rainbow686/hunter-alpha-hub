@@ -16,7 +16,12 @@ import Faq from "../../components/Faq.astro";
 import Provenance from "../../components/Provenance.astro";
 import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
 import { comparisonPairs, getComparisonBySlug } from "@repo/lib/openrouter-comparisons";
-import { formatContextWindow, formatPrice, openrouterModelUrl } from "@repo/lib/openrouter-models";
+import {
+  formatContextWindow,
+  formatPrice,
+  modelPageHref,
+  openrouterModelUrl,
+} from "@repo/lib/openrouter-models";
 
 export function getStaticPaths() {
   return comparisonPairs.map((pair) => ({ params: { pair: pair.slug }, props: { slug: pair.slug } }));
@@ -115,8 +120,8 @@ const faqs = [
         <thead>
           <tr>
             <th>Field</th>
-            <th><a href={`/openrouter-models/${a.slug}`}>{a.name}</a></th>
-            <th><a href={`/openrouter-models/${b.slug}`}>{b.name}</a></th>
+            <th><a href={modelPageHref(a)}>{a.name}</a></th>
+            <th><a href={modelPageHref(b)}>{b.name}</a></th>
           </tr>
         </thead>
         <tbody>
@@ -195,8 +200,8 @@ const faqs = [
   </section>
 
   <p class="hero-actions">
-    <a class="btn primary" href={`/openrouter-models/${a.slug}`}>{a.name} details</a>
-    <a class="btn ghost" href={`/openrouter-models/${b.slug}`}>{b.name} details</a>
+    <a class="btn primary" href={modelPageHref(a)}>{a.name} details</a>
+    <a class="btn ghost" href={modelPageHref(b)}>{b.name} details</a>
     <a class="btn ghost" href="/openrouter-pricing-calculator">Estimate monthly cost</a>
   </p>
 

@@ -27,7 +27,7 @@ Hunter Alpha is now **Xiaomi MiMo-V2.5**, so most "not working" reports today ar
 If Hunter Alpha (Xiaomi mimo-v2) isn't working, try these fixes:
 
 1. **Refresh OpenRouter page** or regenerate your API key
-2. **Check model status** at [hunteralphahub.com/monitor](/monitor)
+2. **Check model status** at [the Union Alpha tracker](/union-alpha)
 3. **Reduce context size** if experiencing timeouts
 4. **Verify your account** has active session
 5. **Try alternative endpoint** or wait 5-10 minutes
@@ -47,7 +47,7 @@ The model is free and occasionally experiences high load.
 
 **Step 1: Check if the model is online**
 
-Visit the [Hunter Alpha Monitor](/monitor) page to see real-time status.
+Visit the [Union Alpha tracker](/union-alpha) for live status, re-read from the catalogue.
 
 **Step 2: Refresh your session**
 
@@ -228,9 +228,9 @@ Contact OpenRouter support if:
 
 Join the Hunter Alpha Hub community to share your experience:
 
-- [Submit evidence](/evidence) if you discover new error patterns
+- [Check live status](/union-alpha) if you discover new error patterns
 - Check the [FAQ](/faq) for more troubleshooting tips
-- Monitor real-time status at [/monitor](/monitor)
+- Live status: [/api/union-alpha/status](/api/union-alpha/status)
 
 ---
 

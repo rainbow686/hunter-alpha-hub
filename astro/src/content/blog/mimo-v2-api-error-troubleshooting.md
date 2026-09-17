@@ -386,5 +386,5 @@ async function debugApiCall(prompt) {
 
 ---
 
-*Need more help? Share your error patterns on the [Hunter Alpha Hub evidence wall](/evidence).*
+*Need more help? The failure modes we can name are on [Union Alpha not working](/union-alpha-not-working).*
 

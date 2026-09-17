@@ -400,5 +400,5 @@ async function safeApiCall(prompt) {
 
 ---
 
-*Need help? Share integration challenges on [Hunter Alpha Hub](/evidence).*
+*Need help? The API quickstart for each model is on [the model directory](/openrouter-models).*
 

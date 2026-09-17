@@ -17,13 +17,19 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const archivedPages = [
-  { href: "/evidence", label: "Evidence wall" },
-  { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/monitor", label: "Status monitor" },
-  { href: "/timeline", label: "Timeline" },
-  { href: "/access", label: "Access guide" },
-  { href: "/videos", label: "Videos" },
+/**
+ * Where to go instead. This used to be a grid of the six Hunter-Alpha-era
+ * sections (evidence wall, leaderboard, status monitor, timeline, videos), all
+ * of which were retired on 2026-09-17 and now 301 to "/" — the page was
+ * offering readers five redirects. What follows is what actually exists today.
+ */
+const whereToGo = [
+  { href: "/openrouter-models/mimo-v2.5", label: "Xiaomi MiMo-V2.5 — what it is now" },
+  { href: "/stealth-models", label: "Stealth models register" },
+  { href: "/union-alpha", label: "Union Alpha (live now)" },
+  { href: "/alpha-models", label: "How the Alpha line works" },
+  { href: "/access", label: "How to use OpenRouter" },
+  { href: "/comparison", label: "Compare every model" },
 ];
 
 export default function HunterAlphaArchivePage() {
@@ -57,9 +63,9 @@ export default function HunterAlphaArchivePage() {
         </p>
 
         <Card className="p-6 mb-10">
-          <h2 className="text-xl font-semibold mb-4">Archived pages</h2>
+          <h2 className="text-xl font-semibold mb-4">Where to go from here</h2>
           <div className="grid sm:grid-cols-2 gap-3">
-            {archivedPages.map((page) => (
+            {whereToGo.map((page) => (
               <Link
                 key={page.href}
                 href={page.href}
