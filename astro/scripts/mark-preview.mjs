@@ -19,7 +19,7 @@
  * If you are reading this during Phase 4: do not add this step to the
  * production deploy. Delete this file when the preview Worker is retired.
  */
-import { writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -36,10 +36,25 @@ writeFileSync(
   ].join("\n"),
 );
 
-writeFileSync(
-  join(dist, "_headers"),
-  ["/*", "  X-Robots-Tag: noindex, nofollow", ""].join("\n"),
-);
+/**
+ * `_headers` is now committed (security headers, same set as next.config.ts), so
+ * the stamp **adds** the noindex line instead of replacing the file — otherwise
+ * the preview would be the only build without a CSP. If the file is missing the
+ * noindex block is written on its own.
+ */
+const headersPath = join(dist, "_headers");
+const ROBOTS_LINE = "  X-Robots-Tag: noindex, nofollow";
+if (existsSync(headersPath)) {
+  const existing = readFileSync(headersPath, "utf8");
+  // Match a header *line* (`  X-Robots-Tag: …`), not the word inside the comment
+  // block above it — that mistake shipped a preview build that was indexable.
+  const stamped = /^\s*X-Robots-Tag:/m.test(existing)
+    ? existing.replace(/^\s*X-Robots-Tag:.*$/m, ROBOTS_LINE)
+    : existing.replace(/^\/\*$/m, `/*\n${ROBOTS_LINE}`);
+  writeFileSync(headersPath, stamped);
+} else {
+  writeFileSync(headersPath, ["/*", ROBOTS_LINE, ""].join("\n"));
+}
 
 console.log("preview stamp written:");
 console.log("  dist/robots.txt  → User-agent: * / Disallow: /");

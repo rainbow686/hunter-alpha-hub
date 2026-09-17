@@ -81,3 +81,38 @@ import { GA_MEASUREMENT_ID } from "../lib/analytics";
     true,
   );
 </script>
+
+<script>
+  /**
+   * Third-party scripts the live site loads, kept so the cutover does not quietly
+   * drop them:
+   *   - Adsterra social bar (the ad experiment the Next app injects client-side)
+   *   - AdSense, only when a client id is configured (the live site has none set,
+   *     so this stays off until someone sets PUBLIC_ADSENSE_ID)
+   *
+   * Host-gated on purpose: the preview Worker is a full copy of the site on
+   * *.workers.dev, and running ad code there would bill impressions on a
+   * non-canonical host. Analytics is allowed everywhere (it is how we see
+   * preview traffic in Realtime); ads are not.
+   */
+  const canonicalHost = typeof location !== "undefined" && /(^|\.)hunteralphahub\.com$/.test(location.hostname);
+  const ADSTERRA_SRC = "https://developdomicile.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
+  const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID as string | undefined;
+
+  if (canonicalHost) {
+    if (!document.querySelector(`script[src*="developdomicile.com"]`)) {
+      const socialBar = document.createElement("script");
+      socialBar.async = true;
+      socialBar.setAttribute("data-cfasync", "false");
+      socialBar.src = ADSTERRA_SRC;
+      document.body.appendChild(socialBar);
+    }
+    if (ADSENSE_ID && !document.querySelector(`script[src*="pagead2.googlesyndication.com"]`)) {
+      const adsense = document.createElement("script");
+      adsense.async = true;
+      adsense.crossOrigin = "anonymous";
+      adsense.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`;
+      document.head.appendChild(adsense);
+    }
+  }
+</script>
