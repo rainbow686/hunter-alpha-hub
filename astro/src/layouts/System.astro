@@ -19,7 +19,19 @@ interface Props {
   ogType?: "website" | "article";
 }
 const { title, description, canonical, lang = "en", ogType = "website" } = Astro.props;
-const ogImage = `${SITE}/og-image.png`;
+/**
+ * One card per page, generated after the build by scripts/generate-og-images.mjs.
+ * The path is derived from the URL (not passed in per page) so a new page gets a
+ * card for free — and `npm run check:files` fails if a declared card is missing,
+ * so the URL can never quietly point at nothing.
+ */
+// The canonical is the served URL. `Astro.url.pathname` carries the build's
+// file-format suffix (`/access.html`), which produced og:image URLs ending in
+// `.html.png` — caught by `npm run check:files`, not by eye.
+const pagePath = (canonical ? new URL(canonical).pathname : Astro.url.pathname)
+  .replace(/\.html$/, "")
+  .replace(/\/$/, "");
+const ogImage = `${SITE}${pagePath === "" ? "/og/home.png" : `/og${pagePath}.png`}`;
 const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
 ---
 <!doctype html>
@@ -46,7 +58,7 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={SITE_NAME} />
+    <meta property="og:image:alt" content={title} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -54,7 +66,7 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     <meta name="twitter:image:type" content="image/png" />
     <meta name="twitter:image:width" content="1200" />
     <meta name="twitter:image:height" content="630" />
-    <meta name="twitter:image:alt" content={SITE_NAME} />
+    <meta name="twitter:image:alt" content={title} />
     <slot name="head" />
     <Analytics />
   </head>

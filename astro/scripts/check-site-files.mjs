@@ -15,7 +15,7 @@
  * production deploy the whole domain silently drops out of search. This check
  * runs on a plain `npm run build`, where a noindex line means exactly that.
  */
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -65,10 +65,38 @@ if (!existsSync(join(DIST, "ads.txt"))) failures.push("ads.txt is missing from d
 const indexNowKey = readdirSync(DIST).find((name) => /^[a-f0-9]{16,128}\.txt$/.test(name));
 if (!indexNowKey) failures.push("no IndexNow key file in dist/ (the submit workflow verifies it on the live site)");
 
+/**
+ * Every page points its og:image/twitter:image at its own generated card
+ * (scripts/generate-og-images.mjs). A card URL that resolves to nothing is worse
+ * than no card at all: the social crawler shows a blank preview *and* caches it.
+ * So: every declared image on our own host must be a real PNG in dist.
+ */
+let cardsChecked = 0;
+for (const file of readdirSync(DIST, { recursive: true }).filter((name) => String(name).endsWith(".html"))) {
+  const html = readFileSync(join(DIST, String(file)), "utf8");
+  const declared = new Set(
+    [...html.matchAll(/<meta\s+property="og:image"\s+content="([^"]+)"/g)].map((match) => match[1]),
+  );
+  for (const url of declared) {
+    if (!url.includes("hunteralphahub.com")) continue;
+    const localPath = join(DIST, new URL(url).pathname.replace(/^\//, ""));
+    cardsChecked++;
+    if (!existsSync(localPath)) {
+      failures.push(`${file} declares og:image ${url} but there is no file at ${localPath.replace(DIST, "dist")}`);
+      continue;
+    }
+    const size = statSync(localPath).size;
+    const header = readFileSync(localPath).subarray(0, 8);
+    const isPng = header.equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+    if (!isPng) failures.push(`${file} og:image ${url} is not a PNG`);
+    else if (size < 3_000) failures.push(`${file} og:image ${url} is only ${size} bytes — a broken render`);
+  }
+}
+
 console.log(
   `site files: robots.txt ${robots ? "ok" : "missing"} · _headers ${headers ? "ok" : "missing"} · _redirects ${
     redirects ? "ok" : "missing"
-  } · indexnow key ${indexNowKey ?? "missing"}`,
+  } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared, all present`,
 );
 if (failures.length) {
   console.error("\nFAIL:");
