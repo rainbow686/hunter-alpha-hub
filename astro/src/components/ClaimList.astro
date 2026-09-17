@@ -1,0 +1,25 @@
+---
+/**
+ * Claims surface. Contract #3: unverified statements never appear as plain body
+ * text — each one carries who said it, what the evidence is, and a confidence
+ * tag, so a reader can weigh it instead of absorbing it.
+ */
+interface Claim { claim: string; evidence: string; confidence: "Medium" | "Low" }
+interface Props { claims: Claim[] }
+const { claims } = Astro.props;
+---
+<div>
+  {claims.map((item, index) => (
+    <div class="claim" style={index > 0 ? "margin-top: var(--space-6);" : undefined}>
+      <div style="display: flex; gap: var(--space-3); align-items: baseline; flex-wrap: wrap;">
+        <strong style="max-width: var(--measure);">{item.claim}</strong>
+        <span class={`tag ${item.confidence === "Medium" ? "claimed" : "unknown"}`}>
+          {item.confidence} confidence
+        </span>
+      </div>
+      <p style="margin: var(--space-2) 0 0; font-size: var(--text-sm); color: var(--text-muted); max-width: var(--measure);">
+        {item.evidence}
+      </p>
+    </div>
+  ))}
+</div>

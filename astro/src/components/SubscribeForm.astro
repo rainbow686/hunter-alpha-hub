@@ -1,0 +1,61 @@
+---
+/**
+ * Reveal-notification signup. Same request contract as the Next app's
+ * SubscriptionForm (POST /api/subscribe {email}), so the endpoint can be
+ * migrated without touching the form.
+ *
+ * `note` exists because the preview Worker has no /api/subscribe yet: the
+ * preview says so out loud instead of pretending the button worked.
+ */
+interface Props { note?: string; placeholder?: string }
+const { note, placeholder = "you@example.com" } = Astro.props;
+---
+<form class="form-row" data-subscribe novalidate>
+  <input type="email" name="email" required placeholder={placeholder} autocomplete="email" aria-label="Email address" />
+  <button class="btn primary" type="submit" data-subscribe-button>Notify me</button>
+  <p class="form-status" data-subscribe-status role="status" aria-live="polite"></p>
+</form>
+{note && <p class="form-note">{note}</p>}
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>("form[data-subscribe]")) {
+    const button = form.querySelector<HTMLButtonElement>("[data-subscribe-button]");
+    const status = form.querySelector<HTMLElement>("[data-subscribe-status]");
+    const set = (text: string, kind: "" | "ok" | "err") => {
+      if (status) {
+        status.textContent = text;
+        status.className = `form-status ${kind}`.trim();
+      }
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = (form.elements.namedItem("email") as HTMLInputElement | null)?.value?.trim() ?? "";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        set("That does not look like an email address.", "err");
+        return;
+      }
+      if (button) button.disabled = true;
+      set("Subscribing…", "");
+      try {
+        const response = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        if (response.ok) {
+          set("You are on the list. We will write when the identity is revealed.", "ok");
+          form.reset();
+        } else if (response.status === 409) {
+          set("This address is already on the list.", "ok");
+        } else {
+          set("Subscription failed — please try again.", "err");
+        }
+      } catch {
+        set("Subscription failed — please try again.", "err");
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  }
+</script>

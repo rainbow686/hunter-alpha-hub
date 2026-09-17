@@ -1,5 +1,6 @@
 import cloudflare from "@astrojs/cloudflare";
 import { defineConfig } from "astro/config";
+import { fileURLToPath } from "node:url";
 
 // Static-first: every content page is prerendered and served from the assets layer.
 // Only the endpoints that need to read live data (model status, subscribe) opt into
@@ -8,5 +9,19 @@ export default defineConfig({
   site: "https://www.hunteralphahub.com",
   output: "static",
   adapter: cloudflare({ imageService: "compile" }),
-  build: { inlineStylesheets: "auto" },
+  // The live URLs have no trailing slash (/union-alpha, not /union-alpha/), and
+  // every canonical tag says so. Astro's default directory format emits
+  // union-alpha/index.html, which Cloudflare then 307s to the slashed URL —
+  // a redirect on the canonical URL is exactly what the migration must not do.
+  // File format emits union-alpha.html, which the assets layer serves directly.
+  trailingSlash: "never",
+  build: { format: "file", inlineStylesheets: "auto" },
+  vite: {
+    resolve: {
+      // The catalogue and tracker data still live in the Next app's lib/. Importing
+      // them (instead of copying) keeps one source of truth during the migration;
+      // Phase 2 flips this alias to point inside astro/ once the content moves.
+      alias: { "@repo": fileURLToPath(new URL("..", import.meta.url)) },
+    },
+  },
 });

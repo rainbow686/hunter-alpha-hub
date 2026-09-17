@@ -1,0 +1,160 @@
+---
+/**
+ * OpenRouter model directory — the data-page template on real data.
+ *
+ * The production page is a wall of cards. This keeps the cards (they carry the
+ * internal links to all 15 model pages) and puts the scannable table above them,
+ * because "which model is cheapest at this context" is a comparison question,
+ * not a browsing question. Every number carries the same provenance line.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Provenance from "../../components/Provenance.astro";
+import { breadcrumbSchema, itemListSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  formatContextWindow,
+  formatPrice,
+  modelHubDataAsOf,
+  openrouterModelUrl,
+  openrouterModels,
+} from "@repo/lib/openrouter-models";
+
+const title = "OpenRouter Models Directory: Pricing, Context & Use Cases";
+const description =
+  "Browse a curated directory of OpenRouter models with context windows, input/output pricing, modalities and practical use-case guidance.";
+const canonical = `${SITE}/openrouter-models`;
+
+const maxContext = Math.max(...openrouterModels.map((model) => model.contextWindow));
+const freeModels = openrouterModels.filter(
+  (model) => model.inputPricePerMillion === 0 && model.outputPricePerMillion === 0,
+);
+const visionModels = openrouterModels.filter((model) => model.modalities.includes("Vision"));
+
+const shortContext = (tokens: number) => formatContextWindow(tokens).replace(" tokens", "");
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={itemListSchema(
+      "OpenRouter models directory",
+      openrouterModels.map((model) => ({ name: model.name, url: `${canonical}/${model.slug}` })),
+    )}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter Models", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">OpenRouter model directory</p>
+  <h1 class="display">OpenRouter Models Directory</h1>
+  <p class="lede">
+    A curated view of the models worth comparing: context window, price per million, modality and what
+    each one is actually good for. Every field is read from the public catalogue and dated.
+  </p>
+  <div class="byline">
+    <span>Directory</span>
+    <span>Snapshot {modelHubDataAsOf}</span>
+    <span>Drift-checked daily</span>
+  </div>
+
+  <div class="stats" style="margin-top: var(--space-8);">
+    <div class="stat">
+      <div class="label">Models tracked</div>
+      <div class="value">{openrouterModels.length}</div>
+      <div class="sub">curated, not exhaustive</div>
+    </div>
+    <div class="stat">
+      <div class="label">Largest window</div>
+      <div class="value">{shortContext(maxContext)}</div>
+      <div class="sub">tokens of context</div>
+    </div>
+    <div class="stat">
+      <div class="label">Vision-capable</div>
+      <div class="value">{visionModels.length}</div>
+      <div class="sub">accept image input</div>
+    </div>
+    <div class="stat">
+      <div class="label">Free right now</div>
+      <div class="value">{freeModels.length}</div>
+      <div class="sub">$0 in and out</div>
+    </div>
+  </div>
+
+  <h2>Every model, side by side</h2>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Vendor</th>
+          <th class="num">Context</th>
+          <th class="num">Input /M</th>
+          <th class="num">Output /M</th>
+          <th>Modalities</th>
+        </tr>
+      </thead>
+      <tbody>
+        {openrouterModels.map((model) => (
+          <tr>
+            <td>
+              <a href={`/openrouter-models/${model.slug}`}>{model.name}</a>
+              {model.formerAlias && (
+                <div style="font-size: var(--text-xs); color: var(--warn);">formerly {model.formerAlias}</div>
+              )}
+            </td>
+            <td style="color: var(--text-muted);">{model.vendor}</td>
+            <td class="num">
+              <span class="bar">
+                <span class="track">
+                  <span class="fill" style={`width:${Math.round((model.contextWindow / maxContext) * 100)}%`}></span>
+                </span>
+                <span class="num">{shortContext(model.contextWindow)}</span>
+              </span>
+            </td>
+            <td class={`num ${model.inputPricePerMillion === 0 ? "free" : ""}`}>
+              {formatPrice(model.inputPricePerMillion)}
+            </td>
+            <td class={`num ${model.outputPricePerMillion === 0 ? "free" : ""}`}>
+              {formatPrice(model.outputPricePerMillion)}
+            </td>
+            <td style="color: var(--text-muted); font-size: var(--text-xs);">{model.modalities.join(", ")}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <Provenance source="openrouter.ai/api/v1/models" verified={modelHubDataAsOf} extra={["Drift check daily 06:00 UTC"]} />
+
+  <h2>Model pages</h2>
+  <div class="grid-cards">
+    {openrouterModels.map((model) => (
+      <article class="card">
+        <div style="display: flex; justify-content: space-between; gap: var(--space-3); align-items: baseline;">
+          <h3 style="margin: 0;"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></h3>
+          <span style="font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint);">
+            {shortContext(model.contextWindow)}
+          </span>
+        </div>
+        <p style="margin: var(--space-1) 0 var(--space-3); font-size: var(--text-xs); color: var(--text-faint);">
+          {model.vendor} · <code>{model.id}</code>
+        </p>
+        <p style="margin: 0; font-size: var(--text-sm); color: var(--text-muted);">{model.strengths[0]}</p>
+        <p style="margin: var(--space-3) 0 0; font-size: var(--text-xs); color: var(--text-faint);">
+          {formatPrice(model.inputPricePerMillion)} in / {formatPrice(model.outputPricePerMillion)} out per 1M ·{" "}
+          <a href={openrouterModelUrl(model.id)} rel="noopener noreferrer">OpenRouter ↗</a>
+        </p>
+      </article>
+    ))}
+  </div>
+</System>
+
+<style>
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+</style>

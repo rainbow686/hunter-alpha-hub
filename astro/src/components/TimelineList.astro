@@ -1,0 +1,14 @@
+---
+interface Entry { date: string; title: string; detail: string }
+interface Props { entries: Entry[] }
+const { entries } = Astro.props;
+---
+<ol class="timeline">
+  {entries.map((entry) => (
+    <li>
+      <div class="when">{entry.date}</div>
+      <div class="what">{entry.title}</div>
+      <div class="why">{entry.detail}</div>
+    </li>
+  ))}
+</ol>

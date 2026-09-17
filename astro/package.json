@@ -6,8 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "check:theme": "node scripts/check-theme-tokens.mjs",
+    "verify:pages": "node scripts/verify-pages.mjs",
     "preview": "wrangler dev",
-    "deploy": "astro build && wrangler deploy"
+    "deploy": "astro build && wrangler deploy --config wrangler.jsonc"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",

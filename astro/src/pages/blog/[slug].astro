@@ -1,0 +1,51 @@
+---
+/**
+ * Article route — content page template on real posts.
+ *
+ * Scope note: only the zero-click articles are prerendered here so the template
+ * can be reviewed against live content. Migrating all 35 posts is Phase 2, and
+ * that phase also needs the per-article proofread before any URL changes owner.
+ */
+import Article from "../../layouts/Article.astro";
+import { blogPosts, getPostBySlug, getRelatedPosts } from "@repo/lib/blog";
+import { renderMarkdown } from "../../lib/markdown";
+
+export function getStaticPaths() {
+  // getStaticPaths is hoisted out of this file's scope, so it must be self-contained.
+  // These are the pages GSC shows impressions for but no clicks on — the rewrite queue.
+  const demoSlugs = [
+    "mimo-v2-api-error-troubleshooting",
+    "openrouter-hunter-alpha-timeout-fix",
+    "openrouter-model-roundup-september-2026",
+    "hunter-alpha-not-working-fix",
+    "union-alpha-stealth-model-openrouter",
+  ];
+  return demoSlugs
+    .filter((slug) => blogPosts.some((post) => post.slug === slug))
+    .map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const post = slug ? getPostBySlug(slug) : undefined;
+if (!post) throw new Error(`Unknown post: ${slug}`);
+
+const body = renderMarkdown(post.content);
+const related = getRelatedPosts(post.slug, 3).map((item) => ({
+  href: `/blog/${item.slug}`,
+  label: item.title,
+  note: item.excerpt,
+}));
+---
+<Article
+  title={post.title}
+  description={post.excerpt}
+  slug={post.slug}
+  category={post.category}
+  author={post.author}
+  publishedAt={post.publishedAt}
+  readTime={post.readTime}
+  tags={post.tags}
+  related={related}
+>
+  <Fragment set:html={body} />
+</Article>

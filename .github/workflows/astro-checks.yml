@@ -1,0 +1,34 @@
+name: astro checks
+
+# The Astro app is not deployed from CI yet (Phase 4 owns the cutover), but its
+# two guards are the ones that catch silent, expensive mistakes: a colour pair
+# that fails contrast, and a title/canonical/structured-data drift against the
+# live site. Run them on every change that can affect them.
+on:
+  pull_request:
+    paths:
+      - "astro/**"
+      - "lib/**"
+      - ".github/workflows/astro-checks.yml"
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: astro
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: astro/package-lock.json
+      - run: npm ci
+      - name: Theme tokens (drift + WCAG AA)
+        run: npm run check:theme
+      - name: Build
+        run: npm run build
+      - name: Migration parity vs production
+        run: npm run verify:pages

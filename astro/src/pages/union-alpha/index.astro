@@ -1,0 +1,196 @@
+---
+/**
+ * Union Alpha tracker — the stealth-line template, on real data.
+ *
+ * Shape, copied from the production page so the migration keeps every asset:
+ * live status, TL;DR, verified specs, community claims (physically separate from
+ * the specs), timeline, how-to, Alpha-line comparison, FAQ, reveal signup.
+ *
+ * Two things are structural rather than cosmetic:
+ *   - facts and claims never share a surface: one is table.data with a
+ *     provenance line, the other carries a confidence tag per row.
+ *   - the status strip is polled, not baked: stealth endpoints vanish silently.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import FactTable from "../../components/FactTable.astro";
+import ClaimList from "../../components/ClaimList.astro";
+import TimelineList from "../../components/TimelineList.astro";
+import Faq from "../../components/Faq.astro";
+import StatusStrip from "../../components/StatusStrip.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  UNION_ALPHA_ADDED_AT_UTC,
+  UNION_ALPHA_DATA_AS_OF,
+  UNION_ALPHA_MODEL_ID,
+  UNION_ALPHA_OPENROUTER_URL,
+  communityClaims,
+  timeline,
+  unionAlphaFaqs,
+  verifiedSpecs,
+} from "@repo/lib/union-alpha";
+
+const title = "Union Alpha on OpenRouter: What the Free Stealth Model Is (2026)";
+const h1 = "What is Union Alpha? The New Free Stealth Model on OpenRouter & OpenCode";
+const description =
+  "Union Alpha is a free, anonymous multimodal model on OpenRouter and OpenCode: 262K context, 128K output, image input, tool calling. Verified specs, live status, expected paid pricing, and why testers think it may be several models stitched together.";
+const canonical = `${SITE}/union-alpha`;
+
+const tldr = [
+  ["Maker", "Anonymous", "Provider listed as “Stealth”"],
+  ["Listed", "16 Sep 2026", "14:42 UTC"],
+  ["Context", "256K", "262,144 tokens"],
+  ["Max output", "128K", "131,072 tokens"],
+  ["Price", "Free", "$0 in / $0 out"],
+  ["Tools", "Supported", "tool_choice: auto"],
+];
+
+const comparison = [
+  { href: "/hunter-alpha", name: "Hunter Alpha", context: "1M", vision: "No", revealed: "Xiaomi MiMo-V2.5" },
+  { href: "/ox-alpha", name: "OX Alpha", context: "1M", vision: "No", revealed: "Z.ai GLM 5.3 Flash" },
+  { href: null, name: "Union Alpha", context: "256K", vision: "Yes", revealed: "Still anonymous" },
+];
+
+const howTo = [
+  ["Create an OpenRouter account.", "Chat works in the browser; the API needs an OpenRouter key, not a key from the mystery maker."],
+  ["Select the model by ID.", null],
+  ["Use tool calling if you are building.", "The endpoint declares tools, tool_choice (auto), response_format, temperature, top_p and max_tokens."],
+  ["Keep it out of production.", "An anonymous provider with no published data policy, on a free preview that can be repriced or delisted overnight, is for evaluation only."],
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Union Alpha: New Stealth Model on OpenRouter",
+      description:
+        "Anonymous free model on OpenRouter with 256K context, image input and tool calling. Verified specs, live status and community theories.",
+      publishedAt: "2026-09-17",
+      updatedAt: UNION_ALPHA_DATA_AS_OF,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(unionAlphaFaqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Union Alpha", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Stealth line · live tracker</p>
+  <h1 class="display">{h1}</h1>
+  <p class="lede">
+    Union Alpha appeared on OpenRouter on 16 September 2026 with no announcement and no model card — the
+    third anonymous model in the Alpha line, after Hunter Alpha (later Xiaomi MiMo-V2.5) and OX Alpha
+    (later Z.ai GLM 5.3 Flash). Facts and speculation are kept on separate surfaces on purpose:
+    everything below is either re-checkable against the public catalogue or labelled as a claim.
+  </p>
+  <div class="byline">
+    <span>Tracker</span>
+    <span>Added 16 Sep 2026, 14:42 UTC</span>
+    <span>Verified {UNION_ALPHA_DATA_AS_OF}</span>
+    <span>
+      <a href={UNION_ALPHA_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter listing →</a>
+    </span>
+  </div>
+
+  <div style="margin: var(--space-6) 0 var(--space-8);">
+    <StatusStrip modelId={UNION_ALPHA_MODEL_ID} />
+  </div>
+
+  <h2 id="tldr">The short version</h2>
+  <div class="stats">
+    {tldr.map(([label, value, sub]) => (
+      <div class="stat">
+        <div class="label">{label}</div>
+        <div class="value" style="font-size: var(--text-xl);">{value}</div>
+        <div class="sub">{sub}</div>
+      </div>
+    ))}
+  </div>
+
+  <h2>Verified specs</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure); margin-bottom: var(--space-4);">
+    Read straight from the public model catalogue and re-checkable by anyone. Rows marked as third-party
+    are things other people published, not things we confirmed.
+  </p>
+  <FactTable rows={verifiedSpecs} />
+  <div class="provenance">
+    <span>Source <code>openrouter.ai/api/v1/models</code></span>
+    <span>Verified <code>{UNION_ALPHA_DATA_AS_OF}</code></span>
+    <span>Live status <code>/api/union-alpha/status</code></span>
+  </div>
+
+  <h2>What the community claims</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure); margin-bottom: var(--space-6);">
+    None of this is confirmed by OpenRouter or the maker. It is included because it is what testers are
+    arguing about, with the evidence attached so you can weigh it yourself.
+  </p>
+  <ClaimList claims={communityClaims} />
+
+  <h2>Timeline</h2>
+  <TimelineList entries={timeline} />
+
+  <h2>How to use Union Alpha</h2>
+  <ol style="max-width: var(--measure); color: var(--text-muted); padding-left: var(--space-6);">
+    <li><strong style="color: var(--text);">{howTo[0][0]}</strong> {howTo[0][1]}</li>
+    <li>
+      <strong style="color: var(--text);">{howTo[1][0]}</strong> Use <code>{UNION_ALPHA_MODEL_ID}</code> —
+      the display name in the picker is just <em>Union Alpha</em>.
+    </li>
+    <li><strong style="color: var(--text);">{howTo[2][0]}</strong> {howTo[2][1]}</li>
+    <li><strong style="color: var(--text);">{howTo[3][0]}</strong> {howTo[3][1]}</li>
+  </ol>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    <strong style="color: var(--text);">Via OpenCode instead:</strong> third-party reports say the same
+    anonymous model is also reachable from OpenCode’s free tier, so you can try it inside an agentic coding
+    tool without wiring up an API key. Same caveats: no customer data, no credentials, assume the free
+    window closes.
+  </p>
+
+  <h2>How it compares to the earlier Alpha models</h2>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Model</th><th class="num">Context</th><th>Vision</th><th>Revealed as</th></tr>
+      </thead>
+      <tbody>
+        {comparison.map((row) => (
+          <tr>
+            <td>{row.href ? <a href={row.href}>{row.name}</a> : <strong>{row.name}</strong>}</td>
+            <td class="num">{row.context}</td>
+            <td>{row.vision}</td>
+            <td>{row.revealed}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="provenance">
+    <span>Source <code>public catalogue reads, 2026-09-17</code></span>
+    <span>Background <a href="/alpha-models">how the Alpha line works</a></span>
+  </div>
+
+  <h2>FAQ</h2>
+  <Faq items={unionAlphaFaqs} />
+
+  <section class="card" style="margin-top: var(--space-12);">
+    <h2 style="margin-top: 0;">Get notified when Union Alpha is revealed</h2>
+    <p style="color: var(--text-muted); max-width: var(--measure);">
+      The first two models in this line were revealed and repriced weeks after they appeared. Leave your
+      email and we will tell you who Union Alpha turns out to be — and what it costs once the free preview
+      ends.
+    </p>
+    <SubscribeForm note="One email per reveal. No newsletter, no forwarding, unsubscribe in one click." />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href={UNION_ALPHA_OPENROUTER_URL} rel="noopener noreferrer">Open Union Alpha on OpenRouter →</a>
+    <a class="btn ghost" href="/openrouter-free-models">Other free models</a>
+    <a class="btn ghost" href="/openrouter-models">Full model directory</a>
+  </p>
+</System>

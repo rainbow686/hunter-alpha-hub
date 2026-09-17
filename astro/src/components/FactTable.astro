@@ -1,0 +1,27 @@
+---
+/**
+ * Facts surface: label / value / note. Every row here must be re-checkable —
+ * statements we could not verify belong in ClaimList, not in this table.
+ */
+interface Row { label: string; value: string; note?: string }
+interface Props { rows: Row[] }
+const { rows } = Astro.props;
+---
+<div class="table-scroll">
+  <table class="data">
+    <thead>
+      <tr><th>Field</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <td style="color: var(--text-muted); white-space: nowrap;">{row.label}</td>
+          <td>
+            <div style="font-weight: 600;">{row.value}</div>
+            {row.note && <div style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 2px;">{row.note}</div>}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
