@@ -1,0 +1,393 @@
+---
+/**
+ * Model detail — one template, 16 routes.
+ *
+ * This is the highest-leverage page in the migration: every fact on it comes
+ * from the curated snapshot in lib/openrouter-models.ts, so the template only
+ * has to lay it out, and `getStaticPaths` derives the routes from that same
+ * array. Adding a model to the snapshot adds a page here and a row to the
+ * directory, with no second list to keep in sync.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one
+ * h1, and Article + FAQPage + BreadcrumbList per model.
+ *
+ * Known Phase-4 gap, recorded rather than hidden: the live Next app serves a
+ * per-model generated OG image at /openrouter-models/<slug>/opengraph-image.
+ * This template points structured-data image at the shared /og-image.png
+ * instead, because that generated route does not exist in the Astro build yet.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  defaultScenarios,
+  formatContextWindow,
+  formatPrice,
+  openrouterModelUrl,
+  openrouterModels,
+} from "@repo/lib/openrouter-models";
+import { getComparisonsForModel } from "@repo/lib/openrouter-comparisons";
+
+export function getStaticPaths() {
+  return openrouterModels.map((model) => ({ params: { slug: model.slug }, props: { model } }));
+}
+
+const { model } = Astro.props;
+
+const title = `${model.name} on OpenRouter: Pricing, Context & Best Uses`;
+const description = `${model.name} costs ${formatPrice(model.inputPricePerMillion)} input and ${formatPrice(
+  model.outputPricePerMillion,
+)} output per 1M tokens, with ${formatContextWindow(model.contextWindow)} context. See strengths, limitations and best-fit workloads.`;
+const canonical = `${SITE}/openrouter-models/${model.slug}`;
+
+const scenarioCopy = defaultScenarios.filter((scenario) => model.bestFor.includes(scenario.scenario));
+
+const relatedModels = openrouterModels
+  .filter(
+    (candidate) =>
+      candidate.slug !== model.slug &&
+      candidate.bestFor.some((scenario: string) => model.bestFor.includes(scenario)),
+  )
+  .slice(0, 3);
+
+const relatedComparisons = getComparisonsForModel(model.slug);
+
+const costWorkloads = [
+  { name: "Quick test", inputTokens: 20_000, outputTokens: 5_000 },
+  { name: "Product chat month", inputTokens: 500_000, outputTokens: 125_000 },
+  { name: "Document batch", inputTokens: 5_000_000, outputTokens: 1_000_000 },
+].map((workload) => ({
+  ...workload,
+  cost:
+    (workload.inputTokens / 1_000_000) * model.inputPricePerMillion +
+    (workload.outputTokens / 1_000_000) * model.outputPricePerMillion,
+}));
+
+const modelFaqs = [
+  {
+    question: `What is ${model.name}?`,
+    answer: `${model.name} is a ${model.vendor} model available through OpenRouter. It supports ${model.modalities
+      .join(", ")
+      .toLowerCase()} inputs and is suited for ${model.bestFor.join(", ").toLowerCase()} workloads.`,
+  },
+  {
+    question: `How much does ${model.name} cost on OpenRouter?`,
+    answer: `The ${model.dataAsOf} snapshot lists ${formatPrice(
+      model.inputPricePerMillion,
+    )} per 1M input tokens and ${formatPrice(
+      model.outputPricePerMillion,
+    )} per 1M output tokens. Verify current pricing on OpenRouter before production.`,
+  },
+  {
+    question: `How large is ${model.name}'s context window?`,
+    answer: `${model.name} offers ${formatContextWindow(
+      model.contextWindow,
+    )} of context in the current snapshot. Provider-specific limits and surcharges may apply.`,
+  },
+];
+
+const curlCommand = [
+  "curl https://openrouter.ai/api/v1/chat/completions \\",
+  '  -H "Authorization: Bearer $OPENROUTER_API_KEY" \\',
+  '  -H "Content-Type: application/json" \\',
+  "  -d '{",
+  `    "model": "${model.id}",`,
+  '    "messages": [{ "role": "user", "content": "Summarize this document in five bullet points." }],',
+  '    "max_tokens": 500',
+  "  }'",
+].join("\n");
+
+const javascriptCommand = [
+  'const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {',
+  '  method: "POST",',
+  "  headers: {",
+  "    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,",
+  '    "Content-Type": "application/json",',
+  "  },",
+  "  body: JSON.stringify({",
+  `    model: "${model.id}",`,
+  '    messages: [{ role: "user", content: "Summarize this document in five bullet points." }],',
+  "    max_tokens: 500,",
+  "  }),",
+  "});",
+  "",
+  "const data = await response.json();",
+  "console.log(data.choices[0].message.content);",
+].join("\n");
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: `${model.name} on OpenRouter`,
+      description: `${model.name} pricing, context window, strengths, limitations and best-use cases.`,
+      publishedAt: model.dataAsOf,
+      updatedAt: model.dataAsOf,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(modelFaqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter Models", url: `${SITE}/openrouter-models` },
+      { name: model.name, url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Model · {model.vendor}</p>
+  <h1 class="display">{model.name}</h1>
+  <p class="lede">
+    {model.name} is served by {model.vendor} through OpenRouter. It provides{" "}
+    {formatContextWindow(model.contextWindow)} of context and supports{" "}
+    {model.modalities.join(", ").toLowerCase()} inputs.
+  </p>
+  <div class="byline">
+    <span>Snapshot {model.dataAsOf}</span>
+    <span><code>{model.id}</code></span>
+    {model.formerAlias && <span class="alias">Formerly known as {model.formerAlias}</span>}
+  </div>
+
+  <div class="stats" style="margin-top: var(--space-8);">
+    <div class="stat">
+      <div class="label">Context window</div>
+      <div class="value">{formatContextWindow(model.contextWindow)}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Input / 1M tokens</div>
+      <div class="value" class={model.inputPricePerMillion === 0 ? "free" : ""}>
+        {formatPrice(model.inputPricePerMillion)}
+      </div>
+    </div>
+    <div class="stat">
+      <div class="label">Output / 1M tokens</div>
+      <div class="value" class={model.outputPricePerMillion === 0 ? "free" : ""}>
+        {formatPrice(model.outputPricePerMillion)}
+      </div>
+    </div>
+  </div>
+
+  <h2>Key facts</h2>
+  <table class="data">
+    <tbody>
+      <tr>
+        <td style="color: var(--text-muted);">Provider</td>
+        <td>{model.vendor}</td>
+      </tr>
+      <tr>
+        <td style="color: var(--text-muted);">OpenRouter ID</td>
+        <td><code>{model.id}</code></td>
+      </tr>
+      <tr>
+        <td style="color: var(--text-muted);">Modalities</td>
+        <td>{model.modalities.join(", ")}</td>
+      </tr>
+      <tr>
+        <td style="color: var(--text-muted);">Best for</td>
+        <td>{model.bestFor.join(", ")}</td>
+      </tr>
+    </tbody>
+  </table>
+  <Provenance
+    source="openrouter.ai/api/v1/models"
+    verified={model.dataAsOf}
+    extra={["Drift-checked daily 06:00 UTC"]}
+  />
+
+  <h2>Best-fit workloads</h2>
+  <div class="grid-cards">
+    {scenarioCopy.map((scenario) => (
+      <article class="card">
+        <p class="workload-title">{scenario.title}</p>
+        <p class="workload-body">{scenario.description}</p>
+      </article>
+    ))}
+  </div>
+
+  <h2>Cost estimates</h2>
+  <p class="measure">
+    These examples use the {model.dataAsOf} input and output prices. Cache discounts, provider surcharges and
+    tool fees are excluded.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Workload</th>
+          <th class="num">Input</th>
+          <th class="num">Output</th>
+          <th class="num">Estimated cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        {costWorkloads.map((workload) => (
+          <tr>
+            <td>{workload.name}</td>
+            <td class="num">{workload.inputTokens.toLocaleString("en-US")}</td>
+            <td class="num">{workload.outputTokens.toLocaleString("en-US")}</td>
+            <td class="num"><strong>{formatPrice(workload.cost)}</strong></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-cards">
+    <article class="card">
+      <h3 style="margin-top: 0;">Strengths</h3>
+      <ul class="marks">
+        {model.strengths.map((item: string) => (
+          <li><span class="ok">✓</span> {item}</li>
+        ))}
+      </ul>
+    </article>
+    <article class="card">
+      <h3 style="margin-top: 0;">Limitations</h3>
+      <ul class="marks">
+        {model.limitations.map((item: string) => (
+          <li><span class="warn">!</span> {item}</li>
+        ))}
+      </ul>
+    </article>
+  </div>
+
+  <h2>OpenRouter API quickstart</h2>
+  <p class="measure">
+    Run these examples from your server or edge function. Keep the OpenRouter API key private and do not
+    expose it in browser code.
+  </p>
+  <h3>cURL</h3>
+  <pre class="code"><code>{curlCommand}</code></pre>
+  <h3>JavaScript / TypeScript</h3>
+  <pre class="code"><code>{javascriptCommand}</code></pre>
+
+  <h2>How to evaluate {model.name}</h2>
+  <ol class="stages">
+    <li>Run five real tasks from your product, not generic demo prompts.</li>
+    <li>Record token usage, latency and output quality.</li>
+    <li>Estimate cost using your real input/output mix.</li>
+    <li>Compare it against one model with a similar price and one stronger model.</li>
+  </ol>
+  <p class="hero-actions">
+    <a class="btn primary" href="/comparison">Compare models</a>
+    <a class="btn ghost" href={openrouterModelUrl(model.id)} rel="noopener noreferrer">View on OpenRouter ↗</a>
+  </p>
+
+  <h2>{model.name} FAQ</h2>
+  <Faq items={modelFaqs} />
+
+  {relatedModels.length > 0 && (
+    <section id="related">
+      <h2>Related models</h2>
+      <div class="grid-cards">
+        {relatedModels.map((candidate) => (
+          <article class="card">
+            <h3 style="margin-top: 0;"><a href={`/openrouter-models/${candidate.slug}`}>{candidate.name}</a></h3>
+            <p class="workload-body">
+              {formatContextWindow(candidate.contextWindow)} · {formatPrice(candidate.inputPricePerMillion)} input
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {relatedComparisons.length > 0 && (
+    <section id="head-to-head">
+      <h2>Head-to-head comparisons</h2>
+      <div class="grid-cards">
+        {relatedComparisons.map(({ pair, a, b }) => (
+          <article class="card">
+            <h3 style="margin-top: 0;"><a href={`/compare/${pair.slug}`}>{a.name} vs {b.name}</a></h3>
+            <p class="workload-body">{pair.quickVerdict}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <p class="footnote">
+    Pricing and context data are based on a {model.dataAsOf} snapshot. Provider limits can change; always
+    verify on OpenRouter before production.
+  </p>
+
+  {/*
+    The stealth-line link, kept from the live page: the two models carrying a
+    formerAlias were anonymous releases, and this is the one place on their own
+    page where that history earns a link rather than a badge.
+  */}
+  {model.formerAlias && (
+    <p class="footnote">
+      {model.name} is the model that was released anonymously as <strong>{model.formerAlias}</strong>. That
+      release, and every other one like it, is documented in the{" "}
+      <a href="/stealth-models">stealth models register</a> — see the{" "}
+      <a href={model.formerAlias === "Hunter Alpha" ? "/hunter-alpha" : "/ox-alpha"}>archive</a> for the
+      timeline of the reveal. The codename live right now is <a href="/union-alpha">Union Alpha</a>.
+    </p>
+  )}
+</System>
+
+<style>
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .workload-title {
+    margin: 0;
+    font-weight: 600;
+  }
+  .workload-body {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .alias {
+    color: var(--warn);
+  }
+  .marks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .marks li {
+    margin-bottom: var(--space-2);
+  }
+  .ok {
+    color: var(--success);
+  }
+  .warn {
+    color: var(--warn);
+  }
+  .code {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius, 6px);
+    background: var(--bg-sunken);
+    padding: var(--space-4);
+    font-size: var(--text-xs);
+    line-height: 1.6;
+  }
+  .stages {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .stages li {
+    margin-bottom: var(--space-2);
+  }
+  .measure {
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+  .footnote {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+</style>
