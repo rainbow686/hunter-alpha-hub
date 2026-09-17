@@ -1,0 +1,58 @@
+---
+/**
+ * FAQ.
+ *
+ * Reads lib/faq.ts — the same array the live page renders and the same array
+ * its FAQPage JSON-LD is built from. That single source was introduced on
+ * 2026-09-18 because the page used to ship two contradictory answer sets: the
+ * visible list said the maker was unknown and the model still free, while the
+ * structured data said Xiaomi's mimo-v2 with 1T parameters. One of those went
+ * to Google and the other to readers.
+ *
+ * Parity contract (npm run verify:pages): title, description, canonical, one h1,
+ * and exactly BreadcrumbList + FAQPage (+Question/Answer/ListItem) — the live
+ * page has no Article, so this one must not add one.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import FaqAccordion from "../../components/FaqAccordion.astro";
+import { breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { siteFaqs } from "@repo/lib/faq";
+
+const title = "FAQ: Hunter Alpha, the Alpha Line and How We Verify Facts";
+const description =
+  "Hunter Alpha is now Xiaomi MiMo-V2.5, and its free preview is over. Answers on the Alpha line of anonymous OpenRouter models, current pricing, the live stealth release, and how this site separates catalogue facts from claims.";
+const canonical = `${SITE}/faq`;
+
+const categories = ["All", ...Array.from(new Set(siteFaqs.map((faq) => faq.category)))];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd slot="head" data={faqSchema(siteFaqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "FAQ", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Reference · FAQ</p>
+  <h1 class="display">Frequently Asked Questions</h1>
+  <p class="lede">
+    Hunter Alpha, the Alpha line, and how we separate facts from claims. Everything here is either
+    re-checkable against the public catalogue or labelled as a claim with a source.
+  </p>
+  <p class="byline">
+    <span>{siteFaqs.length} questions</span>
+    <span>Categories: {categories.slice(1).join(" · ")}</span>
+    <span><a href="/zh/faq">中文</a></span>
+  </p>
+
+  <FaqAccordion items={siteFaqs} />
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/union-alpha">Union Alpha tracker</a>
+    <a class="btn ghost" href="/stealth-models">Stealth models register</a>
+    <a class="btn ghost" href="/comparison">Compare every model</a>
+  </p>
+</System>

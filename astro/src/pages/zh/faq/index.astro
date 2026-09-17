@@ -1,0 +1,51 @@
+---
+/**
+ * 中文 FAQ —— 与 /faq 同一套纪律，读 lib/zh-faq.ts。
+ *
+ * 这一份和英文版是同一个缺陷的两面：原来它说「当前免费」「纯文本模型」，还让读者去
+ * 已经退役的证据墙提交发现，而它同时被页面和 FAQPage JSON-LD 读取 —— 等于向人和
+ * Google 各发一份错的事实。2026-09-18 已按当前事实重写。
+ *
+ * parity 契约（npm run verify:pages）：title / description / canonical 逐字一致、
+ * h1 恰好一个、JSON-LD 恰为 BreadcrumbList + FAQPage（+Question/Answer/ListItem）。
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import FaqAccordion from "../../../components/FaqAccordion.astro";
+import { breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { chineseFaqs } from "@repo/lib/zh-faq";
+
+const title = "Hunter Alpha 与 Alpha 系列中文 FAQ";
+const description =
+  "Hunter Alpha、Alpha 匿名模型系列的中文常见问题：它现在是什么模型、还免不免费、Union Alpha 的免费窗口、上下文与模态，以及本站怎么区分事实和声称。";
+const canonical = `${SITE}/zh/faq`;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd slot="head" data={faqSchema(chineseFaqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "首页", url: SITE },
+      { name: "中文 FAQ", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">参考 · 中文 FAQ</p>
+  <h1 class="display">Hunter Alpha 中文 FAQ</h1>
+  <p class="lede">
+    Hunter Alpha、Alpha 这条线，以及本站怎么把事实和声称分开。每条答案要么能在公开目录里复核，
+    要么标注来源为「声称」。
+  </p>
+  <p class="byline">
+    <span>{chineseFaqs.length} 个问题</span>
+    <span><a href="/faq">English</a></span>
+  </p>
+
+  <FaqAccordion items={chineseFaqs} />
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/union-alpha">Union Alpha 追踪页</a>
+    <a class="btn ghost" href="/stealth-models">匿名发布登记册</a>
+    <a class="btn ghost" href="/zh/access">中文上手指南</a>
+  </p>
+</System>

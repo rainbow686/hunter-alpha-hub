@@ -46,6 +46,10 @@ const MIGRATED_PATHS = [
   "/hunter-alpha-benchmarks",
   "/terms",
   "/privacy",
+  "/faq",
+  "/access",
+  "/zh/faq",
+  "/zh/access",
   "/blog",
 ];
 
