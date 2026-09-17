@@ -32,6 +32,8 @@ const MIGRATED_PATHS = [
   "/union-alpha",
   "/openrouter-models",
   "/comparison",
+  "/stealth-models",
+  "/alpha-models",
   "/blog",
 ];
 

@@ -1,0 +1,235 @@
+---
+/**
+ * Alpha models explainer — the third and last of the ADR-0012 second-tier pages
+ * in this batch.
+ *
+ * Division of labour that the migration must not blur: /stealth-models is the
+ * register (fields you can re-check, one row per codename), and this page is the
+ * explainer (why the releases are staged this way, and what to trust). Both pages
+ * link to each other for that reason.
+ *
+ * Parity contract: title, description, canonical, one h1, and the three JSON-LD
+ * blocks, checked by `npm run verify:pages`.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Alpha Models Explained: How OpenRouter's Anonymous Releases Work";
+const description =
+  "Why anonymous models keep appearing on OpenRouter: what the Alpha codenames have in common, how a stealth release is staged, what the reveal does to pricing, and how to tell a real listing from a rumour.";
+const canonical = `${SITE}/alpha-models`;
+
+const alphaLine = [
+  {
+    name: "Hunter Alpha",
+    href: "/hunter-alpha",
+    appeared: "2026-03-12",
+    context: "1M",
+    vision: "No",
+    outcome: "Xiaomi MiMo-V2.5",
+    status: "Revealed",
+  },
+  {
+    name: "OX Alpha",
+    href: "/ox-alpha",
+    appeared: "2026-08-20",
+    context: "1M",
+    vision: "No",
+    outcome: "Z.ai GLM 5.3 Flash",
+    status: "Revealed",
+  },
+  {
+    name: "Union Alpha",
+    href: "/union-alpha",
+    appeared: "2026-09-16",
+    context: "256K",
+    vision: "Yes",
+    outcome: "Unclaimed",
+    status: "Live now",
+  },
+];
+
+const moves = [
+  {
+    title: "1. Silent listing.",
+    body: "The model appears in the public catalogue under a neutral or anonymous namespace, free, with a context window well above the price point's norm.",
+  },
+  {
+    title: "2. Community testing sprint.",
+    body: "Someone notices within hours. Discussion splits into two camps: people benchmarking it, and people guessing whose weights it is — usually from its behaviour and its refusals.",
+  },
+  {
+    title: "3. Identity guessing, with weak evidence.",
+    body: "Models are unreliable witnesses about themselves, so identity theories are mostly vibes plus one anecdote. Our trackers label these separately for that reason.",
+  },
+  {
+    title: "4. Reveal and reprice.",
+    body: "The maker claims it, the codename becomes a product name, and the free window closes — as happened to both earlier models.",
+  },
+];
+
+const rules = [
+  {
+    title: "Trust the catalogue, not the claims",
+    body: "Context window, max output, modality, tool support and price are API facts you can verify in seconds. Architecture claims, parameter counts and benchmark tables usually are not.",
+  },
+  {
+    title: "Assume the free window closes",
+    body: "Plan for the endpoint to be repriced or withdrawn. Do not put anonymous endpoints in a production path, and never send customer data or credentials to one.",
+  },
+  {
+    title: "Test it on your workload, not on the hype",
+    body: "A stealth model's value is entirely task-dependent. Run your own prompts against it and a paid model you already trust, and compare cost per completed task rather than a leaderboard number.",
+  },
+];
+
+const faqs = [
+  {
+    question: "What are the Alpha models?",
+    answer:
+      "Alpha models is the informal name for a line of anonymous AI models that appeared on OpenRouter as free previews before their makers were disclosed: Hunter Alpha (2026-03-12), OX Alpha (2026-08-20) and Union Alpha (2026-09-16). They share the same pattern: no announcement, no model card, zero pricing, a large context window, and a reveal weeks or months later.",
+  },
+  {
+    question: "What did the Alpha models turn out to be?",
+    answer:
+      "Hunter Alpha was confirmed as Xiaomi MiMo-V2.5. OX Alpha was confirmed as Z.ai GLM 5.3 Flash. Union Alpha is still anonymous and unclaimed as of 2026-09-17.",
+  },
+  {
+    question: "Why do labs release stealth models on OpenRouter?",
+    answer:
+      "It is a low-cost way to collect real usage data and preference signals under a neutral name: no brand expectations, no launch marketing, no commitment. If the model performs well the maker claims it; if not, nothing was announced.",
+  },
+  {
+    question: "Should I build on an Alpha model?",
+    answer:
+      "For evaluation and experiments, yes — they are free and capable while they last. For production, no: the provider is anonymous, there is no data-retention or privacy policy, pricing can change to paid without notice, and the endpoint can be withdrawn. Both earlier Alpha models were repriced after their reveal.",
+  },
+  {
+    question: "How do I tell what a stealth model really is?",
+    answer:
+      "You largely cannot, and self-reports are the weakest evidence: models frequently confabulate their own identity, and a system prompt can instruct one to claim a codename. Treat API-reported metadata as fact, bench runs you can reproduce as evidence, and everything else — including a model's own answers about who made it — as speculation.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Alpha Models: Every Stealth AI Model on OpenRouter",
+      description:
+        "Hunter Alpha, OX Alpha and Union Alpha tracked: what each was, what it became, and how to judge the next stealth model.",
+      publishedAt: "2026-09-17",
+      updatedAt: "2026-09-17",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Alpha Models", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Stealth line · explainer</p>
+  <h1 class="display">Alpha models: the anonymous line on OpenRouter</h1>
+  <div class="byline">
+    <span>Explainer</span>
+    <span>Last verified 2026-09-17</span>
+    <span>Live entry: <a href="/union-alpha">Union Alpha</a></span>
+  </div>
+  <p class="lede">
+    Every few weeks an unnamed model shows up on OpenRouter with a large context window, no price and no
+    explanation. The ones named “… Alpha” have followed the same script since March 2026: appear quietly,
+    absorb a burst of community testing, then get claimed by a real lab. This page keeps the whole line in
+    one place, with a clear line between what the API says and what the internet thinks.
+  </p>
+
+  <section id="one-line-each">
+    <h2>The line, in one sentence each</h2>
+    <p class="measure">
+      This page is the explainer, not the register. The full table — context windows, input modalities,
+      price while anonymous, price after the reveal — lives on{" "}
+      <a href="/stealth-models">the stealth models index</a>, which is the one place we extend every time a
+      codename appears.
+    </p>
+    <ul class="one-liners">
+      {alphaLine.map((m) => (
+        <li>
+          <a href={m.href}>{m.name}</a> — appeared {m.appeared}, {m.context} context,{" "}
+          {m.vision.toLowerCase()}. {m.outcome}
+          {m.status === "Live now" ? " Still anonymous and live." : ""}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="pattern">
+    <h2>The pattern, in four moves</h2>
+    <ol class="stages">
+      {moves.map((move) => (
+        <li>
+          <strong>{move.title}</strong> {move.body}
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="rules">
+    <h2>The rules we apply to every release</h2>
+    <p class="measure">
+      These are editorial principles, not a procedure. The operational checklist — what to re-read on the
+      catalogue, in what order — is on <a href="/stealth-models">the stealth models index</a>.
+    </p>
+    <div class="grid-cards">
+      {rules.map((rule) => (
+        <article class="card">
+          <h3 style="margin-top: 0;">{rule.title}</h3>
+          <p style="margin: 0; color: var(--text-muted); font-size: var(--text-sm);">{rule.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/union-alpha">Union Alpha tracker (live) →</a>
+    <a class="btn ghost" href="/openrouter-free-models">Current free models</a>
+    <a class="btn ghost" href="/comparison">Compare models</a>
+  </p>
+</System>
+
+<style>
+  .one-liners {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .one-liners li {
+    margin-bottom: var(--space-3);
+  }
+  .stages {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    max-width: var(--measure);
+  }
+  .stages li {
+    margin-bottom: var(--space-4);
+  }
+  .stages strong {
+    color: var(--text);
+  }
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-4);
+  }
+</style>
