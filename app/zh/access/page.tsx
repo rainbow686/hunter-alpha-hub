@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     languages: {
       "en-US": `${baseUrl}/access`,
       "zh-CN": `${baseUrl}/zh/access`,
+      "x-default": `${baseUrl}/access`,
     },
   },
   openGraph: {

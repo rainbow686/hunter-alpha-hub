@@ -17,6 +17,7 @@ import System from "../../layouts/System.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import FaqAccordion from "../../components/FaqAccordion.astro";
 import { breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { faqAlternates } from "../../lib/hreflang";
 import { siteFaqs } from "@repo/lib/faq";
 
 const title = "FAQ: Hunter Alpha, the Alpha Line and How We Verify Facts";
@@ -26,7 +27,7 @@ const canonical = `${SITE}/faq`;
 
 const categories = ["All", ...Array.from(new Set(siteFaqs.map((faq) => faq.category)))];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} alternates={faqAlternates()}>
   <JsonLd slot="head" data={faqSchema(siteFaqs)} />
   <JsonLd
     slot="head"

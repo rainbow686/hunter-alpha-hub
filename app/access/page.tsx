@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: pageUrl,
+    languages: {
+      "en-US": `${baseUrl}/access`,
+      "zh-CN": `${baseUrl}/zh/access`,
+      "x-default": `${baseUrl}/access`,
+    },
   },
   openGraph: {
     title: "How to Use OpenRouter: Models, Playground & API",

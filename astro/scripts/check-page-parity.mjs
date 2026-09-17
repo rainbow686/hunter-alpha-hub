@@ -117,6 +117,18 @@ function headFeatures(html) {
     (match) => match[0].match(/href="([^"]*)"/)?.[1] ?? "",
   );
   if (icons.length) features.set("icons", icons.sort().join(" "));
+  /**
+   * `<link rel="alternate" hreflang>` — the tags that tell Google which of a
+   * bilingual pair to serve. They were invisible to this guard for a whole round
+   * because it only parsed `<meta>` tags: the live site declared the /access and
+   * /faq pairs and the Astro build declared none, and nothing failed. Attribute
+   * names are matched case-insensitively because Next emits `hrefLang`.
+   */
+  for (const match of html.matchAll(/<link\s+[^>]*rel="alternate"[^>]*>/gi)) {
+    const lang = match[0].match(/hreflang="([^"]*)"/i)?.[1];
+    const href = match[0].match(/href="([^"]*)"/i)?.[1];
+    if (lang && href) features.set(`hreflang:${lang.toLowerCase()}`, href.replace(/\/$/, ""));
+  }
   return features;
 }
 

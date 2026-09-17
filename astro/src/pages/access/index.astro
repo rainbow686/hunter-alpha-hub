@@ -14,6 +14,7 @@
 import System from "../../layouts/System.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import { articleSchema, breadcrumbSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { accessAlternates } from "../../lib/hreflang";
 
 const title = "How to Use OpenRouter: Models, Playground & API";
 const description =
@@ -53,7 +54,7 @@ const steps = [
   },
 ];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} alternates={accessAlternates()}>
   <JsonLd
     slot="head"
     data={articleSchema({

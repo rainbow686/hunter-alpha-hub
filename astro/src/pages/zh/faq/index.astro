@@ -12,6 +12,7 @@
 import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import FaqAccordion from "../../../components/FaqAccordion.astro";
+import { faqAlternates } from "../../../lib/hreflang";
 import { breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { chineseFaqs } from "@repo/lib/zh-faq";
 
@@ -20,7 +21,7 @@ const description =
   "Hunter Alpha、Alpha 匿名模型系列的中文常见问题：它现在是什么模型、还免不免费、Union Alpha 的免费窗口、上下文与模态，以及本站怎么区分事实和声称。";
 const canonical = `${SITE}/zh/faq`;
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} lang="zh-CN">
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} lang="zh-CN" alternates={faqAlternates()}>
   <JsonLd slot="head" data={faqSchema(chineseFaqs)} />
   <JsonLd
     slot="head"
