@@ -241,6 +241,10 @@ export default function UnionAlphaPage() {
             <Link href="/alpha-models" className="text-violet-400 hover:underline">
               Alpha models tracker
             </Link>
+            . For paid alternatives with published pricing, see the{" "}
+            <Link href="/comparison" className="text-violet-400 hover:underline">
+              full model comparison
+            </Link>
             .
           </p>
         </section>
