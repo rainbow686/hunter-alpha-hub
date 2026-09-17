@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { gtagEvent } from "@/lib/gtag";
+import { gtagEvent, trackStealthStatus } from "@/lib/gtag";
 
 interface Status {
   online: boolean | null;
@@ -23,12 +23,27 @@ export function UnionAlphaStatus() {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
+    const startedAt = Date.now();
     try {
       const response = await fetch("/api/union-alpha/status", { cache: "no-store" });
       const data = (await response.json()) as Status;
       setStatus(data);
+      trackStealthStatus({
+        model_id: "stealth/union-alpha",
+        online: data.online,
+        free: data.free,
+        context_window: data.contextWindow ?? null,
+        latency_ms: Date.now() - startedAt,
+        error: data.error ? "endpoint_error" : undefined,
+      });
     } catch {
       setStatus({ online: null, checkedAt: new Date().toISOString(), error: "Request failed" });
+      trackStealthStatus({
+        model_id: "stealth/union-alpha",
+        online: null,
+        latency_ms: Date.now() - startedAt,
+        error: "fetch_failed",
+      });
     } finally {
       setLoading(false);
     }

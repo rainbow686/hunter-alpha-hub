@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { trackClusterClick, trackStealthLineView, trackStealthView } from "@/lib/gtag";
 
 interface AnalyticsProps {
   gaId?: string;
@@ -53,6 +54,85 @@ export function Analytics({ gaId }: AnalyticsProps) {
       page_title: document.title,
     });
   }, [pathname, gaId]);
+
+  /**
+   * Stealth-cluster classification, in one place instead of on every page.
+   *
+   * A new codename page gets its view event for free as long as it lives under
+   * /<codename>, and the intent groups are the ones the content is actually
+   * written for. Without this the cluster would only be visible in GA4 as
+   * undifferentiated page_views, which is what we had until now.
+   */
+  useEffect(() => {
+    if (!gaId) return;
+    const path = pathname.replace(/\/$/, "");
+
+    const modelPage = /^\/union-alpha(?:-|$)/.test(path);
+    if (modelPage) {
+      const group =
+        path === "/union-alpha"
+          ? "tracker"
+          : path.endsWith("-free")
+            ? "pricing"
+            : path.endsWith("-opencode")
+              ? "opencode"
+              : path.endsWith("-not-working")
+                ? "troubleshooting"
+                : "cluster_other";
+      trackStealthView({ model_id: "stealth/union-alpha", page_group: group });
+      return;
+    }
+
+    const lineGroup =
+      path === "/stealth-models"
+        ? "index"
+        : path === "/alpha-models"
+          ? "explainer"
+          : path === "/hunter-alpha"
+            ? "archive_hunter"
+            : path === "/ox-alpha"
+              ? "archive_ox"
+              : path === "/hunter-alpha-benchmarks"
+                ? "benchmarks"
+                : null;
+    if (lineGroup) trackStealthLineView({ page_group: lineGroup });
+  }, [pathname, gaId]);
+
+  /**
+   * cluster_click — internal movement between stealth pages, captured the same
+   * way outbound clicks are. A capture-phase listener means the home page cards,
+   * the footer column, the navbar and the in-page cards are all covered without
+   * touching any of them.
+   */
+  useEffect(() => {
+    if (!gaId) return;
+
+    const isClusterPath = (path: string) =>
+      /^\/(union-alpha|stealth-models|alpha-models|hunter-alpha|ox-alpha|hunter-alpha-benchmarks)(-|$|\/)/.test(path) ||
+      path === "/union-alpha";
+
+    const handler = (event: MouseEvent) => {
+      const anchor = (event.target as Element | null)?.closest?.("a");
+      if (!anchor) return;
+      let url: URL;
+      try {
+        url = new URL(anchor.href, window.location.href);
+      } catch {
+        return;
+      }
+      if (url.host !== window.location.host) return;
+      if (!isClusterPath(url.pathname)) return;
+      if (url.pathname === window.location.pathname) return;
+
+      trackClusterClick({
+        to_path: url.pathname,
+        link_text: anchor.textContent?.trim().slice(0, 80),
+      });
+    };
+
+    document.addEventListener("click", handler, true);
+    return () => document.removeEventListener("click", handler, true);
+  }, [gaId]);
 
   /**
    * Safety net for outbound clicks: any anchor pointing at openrouter.ai fires
