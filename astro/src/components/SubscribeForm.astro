@@ -20,6 +20,8 @@ const { note, placeholder = "you@example.com" } = Astro.props;
 {note && <p class="form-note">{note}</p>}
 
 <script>
+  import { gtagEvent } from "../lib/analytics";
+
   for (const form of document.querySelectorAll<HTMLFormElement>("form[data-subscribe]")) {
     const button = form.querySelector<HTMLButtonElement>("[data-subscribe-button]");
     const status = form.querySelector<HTMLElement>("[data-subscribe-status]");
@@ -39,6 +41,9 @@ const { note, placeholder = "you@example.com" } = Astro.props;
       }
       if (button) button.disabled = true;
       set("Subscribing…", "");
+      // The only conversion on this site — fired before the request so a
+      // submit that dies in flight is still visible as a submit.
+      gtagEvent("subscribe_submit", { page_path: window.location.pathname });
       try {
         const response = await fetch("/api/subscribe", {
           method: "POST",
@@ -46,11 +51,19 @@ const { note, placeholder = "you@example.com" } = Astro.props;
           body: JSON.stringify({ email }),
         });
         if (response.ok) {
+          gtagEvent("subscribe_result", { result: "ok", http_status: response.status });
+          // Legacy alias, kept for continuity with the Next app's funnel.
+          gtagEvent("ox_alpha_subscribe", {
+            method: "subscription_form",
+            page_path: window.location.pathname,
+            page_location: window.location.href,
+          });
           set("You are on the list. We will write when the identity is revealed.", "ok");
           form.reset();
           return;
         }
         if (response.status === 409) {
+          gtagEvent("subscribe_result", { result: "duplicate", http_status: response.status });
           set("This address is already on the list.", "ok");
           return;
         }
@@ -60,8 +73,10 @@ const { note, placeholder = "you@example.com" } = Astro.props;
           .json()
           .then((body: { error?: string; detail?: string }) => body.detail || body.error)
           .catch(() => undefined);
+        gtagEvent("subscribe_result", { result: "error", http_status: response.status });
         set(problem || "Subscription failed — please try again.", "err");
       } catch {
+        gtagEvent("subscribe_result", { result: "error" });
         set("Subscription failed — please try again.", "err");
       } finally {
         if (button) button.disabled = false;
