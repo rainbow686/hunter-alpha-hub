@@ -114,6 +114,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.4,
     },
+    {
+      url: `${baseUrl}/union-alpha`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
     // OpenRouter 模型页
     ...openrouterModels.map((model) => ({
       url: `${baseUrl}/openrouter-models/${model.slug}`,

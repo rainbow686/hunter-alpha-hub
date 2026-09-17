@@ -8,6 +8,12 @@ const pageUrl = `${baseUrl}/openrouter-free-models`;
 
 const freeModels = [
   {
+    id: "stealth/union-alpha",
+    name: "Union Alpha (stealth)",
+    context: "256K tokens",
+    bestFor: "Agentic + vision experiments · unclaimed maker",
+  },
+  {
     id: "nvidia/nemotron-3.5-lightning:free",
     name: "NVIDIA Nemotron 3.5 Lightning",
     context: "1M tokens",
@@ -77,6 +83,13 @@ export default function FreeModelsPage() {
 
         <Card className="p-6 mb-10">
           <h2 className="text-xl font-semibold mb-4">Notable free options</h2>
+          <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
+            The newest entry is an anonymous stealth preview —{" "}
+            <Link href="/union-alpha" className="text-violet-400 hover:underline">
+              follow the Union Alpha tracker
+            </Link>{" "}
+            for live status and verified specs.
+          </p>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y" style={{ borderColor: "var(--card-border)" }}>
               <thead>

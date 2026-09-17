@@ -35,6 +35,13 @@ export default function HunterAlphaArchivePage() {
             Hunter Alpha was later identified as Xiaomi MiMo-V2.5. This area is now an archive and
             is no longer actively updated.
           </p>
+          <p className="text-sm text-amber-200/90 mt-2">
+            Looking for the current anonymous model? See the{" "}
+            <Link href="/union-alpha" className="underline hover:text-amber-100">
+              Union Alpha tracker
+            </Link>
+            .
+          </p>
         </div>
 
         <h1 className="text-4xl font-bold mb-4">
