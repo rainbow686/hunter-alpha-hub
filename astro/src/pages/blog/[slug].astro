@@ -1,51 +1,53 @@
 ---
 /**
- * Article route — content page template on real posts.
+ * Article route, served from the content collection.
  *
- * Scope note: only the zero-click articles are prerendered here so the template
- * can be reviewed against live content. Migrating all 35 posts is Phase 2, and
- * that phase also needs the per-article proofread before any URL changes owner.
+ * Every post is prerendered: Phase 2 moved the content out of lib/blog.ts into
+ * src/content/blog/*.md, so adding an article is now adding a file. Rendering
+ * goes through Astro's own Markdown pipeline (GFM tables included) instead of the
+ * hand-rolled renderer this page used while the words still lived in TS.
  */
+import { getCollection, render } from "astro:content";
 import Article from "../../layouts/Article.astro";
-import { blogPosts, getPostBySlug, getRelatedPosts } from "@repo/lib/blog";
-import { renderMarkdown } from "../../lib/markdown";
 
-export function getStaticPaths() {
-  // getStaticPaths is hoisted out of this file's scope, so it must be self-contained.
-  // These are the pages GSC shows impressions for but no clicks on — the rewrite queue.
-  const demoSlugs = [
-    "mimo-v2-api-error-troubleshooting",
-    "openrouter-hunter-alpha-timeout-fix",
-    "openrouter-model-roundup-september-2026",
-    "hunter-alpha-not-working-fix",
-    "union-alpha-stealth-model-openrouter",
-  ];
-  return demoSlugs
-    .filter((slug) => blogPosts.some((post) => post.slug === slug))
-    .map((slug) => ({ params: { slug } }));
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
-const { slug } = Astro.params;
-const post = slug ? getPostBySlug(slug) : undefined;
-if (!post) throw new Error(`Unknown post: ${slug}`);
+const { post } = Astro.props;
+const { Content } = await render(post);
 
-const body = renderMarkdown(post.content);
-const related = getRelatedPosts(post.slug, 3).map((item) => ({
-  href: `/blog/${item.slug}`,
-  label: item.title,
-  note: item.excerpt,
-}));
+/**
+ * Related posts: same rule the Next app used (shared tag or same category),
+ * computed from the collection so there is no second source to keep in sync.
+ */
+const all = await getCollection("blog");
+const related = all
+  .filter((candidate) => candidate.id !== post.id)
+  .filter(
+    (candidate) =>
+      candidate.data.tags.some((tag) => post.data.tags.includes(tag)) ||
+      candidate.data.category === post.data.category,
+  )
+  .slice(0, 3)
+  .map((candidate) => ({
+    href: `/blog/${candidate.id}`,
+    label: candidate.data.title,
+    note: candidate.data.excerpt,
+  }));
 ---
 <Article
-  title={post.title}
-  description={post.excerpt}
-  slug={post.slug}
-  category={post.category}
-  author={post.author}
-  publishedAt={post.publishedAt}
-  readTime={post.readTime}
-  tags={post.tags}
+  title={post.data.title}
+  description={post.data.excerpt}
+  slug={post.id}
+  category={post.data.category}
+  author={post.data.author}
+  publishedAt={post.data.publishedAt}
+  updatedAt={post.data.updatedAt}
+  readTime={post.data.readTime}
+  tags={post.data.tags}
   related={related}
 >
-  <Fragment set:html={body} />
+  <Content />
 </Article>

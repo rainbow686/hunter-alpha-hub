@@ -112,10 +112,6 @@ function generateVsContent(target: ComparisonTarget): string {
 | **Provider** | Xiaomi | ${target.model.includes("claude") ? "Anthropic" : target.model.includes("gpt") ? "OpenAI" : target.model.includes("gemini") ? "Google" : target.model.includes("llama") ? "Meta" : target.model.includes("mistral") ? "Mistral AI" : target.model.includes("qwen") ? "Alibaba" : "Various"} |
 | **Multimodal** | No (text only) | ${target.model.includes("gpt") || target.model.includes("gemini") ? "Yes (vision + audio)" : "No"} |
 | **Best For** | Long context, free tier | ${target.bestFor} |
-
-## What is Hunter Alpha / Xiaomi mimo-v2?
-
-Hunter Alpha is the original name used when this model appeared on OpenRouter in March 2026. On March 23, 2026, Xiaomi officially confirmed it as their **mimo-v2** AI model.
 `;
   // Note: Full content continues with more sections...
   return content + generateRemainingVsContent(target);

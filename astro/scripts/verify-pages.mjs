@@ -13,7 +13,7 @@
  *   PREVIEW_ORIGIN=https://… also checks that every path is served directly
  *   (200, no redirect) on the deployed preview — the trailing-slash trap.
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -23,16 +23,27 @@ const CACHE = join(here, "../.cache/parity");
 const ORIGIN = "https://www.hunteralphahub.com";
 const offline = process.argv.includes("--offline");
 
-/** Pages that must be byte-comparable on the indexed fields. */
-const PATHS = [
+/**
+ * Migrated pages that must match the live site on every indexed field. Routes
+ * join this list as they are migrated; the article list is derived from the
+ * build so a post cannot be added to the collection and quietly skip the check.
+ */
+const MIGRATED_PATHS = [
   "/union-alpha",
   "/openrouter-models",
-  "/blog/mimo-v2-api-error-troubleshooting",
-  "/blog/openrouter-hunter-alpha-timeout-fix",
-  "/blog/openrouter-model-roundup-september-2026",
-  "/blog/hunter-alpha-not-working-fix",
-  "/blog/union-alpha-stealth-model-openrouter",
+  "/blog",
 ];
+
+function builtArticlePaths() {
+  const dir = join(DIST, "blog");
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((name) => name.endsWith(".html"))
+    .map((name) => `/blog/${name.replace(/\.html$/, "")}`)
+    .sort();
+}
+
+const PATHS = [...MIGRATED_PATHS, ...builtArticlePaths()];
 
 /**
  * Deviations we chose on purpose. Key = `path field`, value = why.
@@ -77,15 +88,28 @@ function facts(html) {
 async function production(path) {
   mkdirSync(CACHE, { recursive: true });
   const file = join(CACHE, `${path.replace(/\//g, "_") || "root"}.html`);
-  if (offline) {
+  const fresh = existsSync(file) && Date.now() - statSync(file).mtimeMs < 6 * 60 * 60 * 1000;
+  if (offline || (fresh && !process.argv.includes("--refresh"))) {
     if (!existsSync(file)) throw new Error(`no cached copy for ${path}; run without --offline once`);
     return readFileSync(file, "utf8");
   }
-  const response = await fetch(`${ORIGIN}${path}`, { headers: { "User-Agent": "hunteralphahub-parity-check" } });
-  if (!response.ok) throw new Error(`${path} returned ${response.status}`);
-  const html = await response.text();
-  writeFileSync(file, html);
-  return html;
+  // One retry: 38 sequential fetches against the live site occasionally hit a
+  // dropped socket, and a flaky check is a check people learn to ignore.
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const response = await fetch(`${ORIGIN}${path}`, {
+        headers: { "User-Agent": "hunteralphahub-parity-check" },
+      });
+      if (!response.ok) throw new Error(`${path} returned ${response.status}`);
+      const html = await response.text();
+      writeFileSync(file, html);
+      return html;
+    } catch (error) {
+      if (attempt === 2) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+    }
+  }
+  throw new Error(`unreachable: ${path}`);
 }
 
 const localFile = (path) => {

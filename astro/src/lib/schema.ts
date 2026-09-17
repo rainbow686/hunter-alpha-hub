@@ -72,3 +72,15 @@ export function itemListSchema(name: string, items: { name: string; url: string 
     })),
   };
 }
+
+/** Blog hub schema — mirrors the live /blog page exactly. */
+export function blogSchema(input: { name: string; url: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: input.name,
+    url: input.url,
+    description: input.description,
+    publisher: { "@type": "Organization", name: PUBLISHER },
+  };
+}

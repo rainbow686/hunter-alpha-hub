@@ -225,6 +225,27 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 }
 .prose pre code { background: none; padding: 0; }
 .prose a { text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); text-underline-offset: 2px; }
+/* Articles are authored as plain .md, so tables arrive as bare <table>. They get
+   the same treatment as table.data rather than a second look: one table style
+   across the site is the point of having a system. */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  margin: 0 0 var(--space-6);
+}
+.prose thead th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--header-fill);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-strong);
+}
+.prose tbody td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); }
+.prose tbody tr:nth-child(even) { background: var(--row-alt); }
+.prose table { border: 1px solid var(--border); border-radius: var(--radius); }
 
 /* Contract reminders for whoever builds the next page:
    1. Numbers go in `table.data` with `class="num"` — tabular figures, right aligned.

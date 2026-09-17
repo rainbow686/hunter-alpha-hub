@@ -16,6 +16,10 @@ export default defineConfig({
   // File format emits union-alpha.html, which the assets layer serves directly.
   trailingSlash: "never",
   build: { format: "file", inlineStylesheets: "auto" },
+  // Shiki ships a fixed theme; a light-theme code block inside the night edition
+  // (or the reverse) is exactly the mismatch the design system exists to avoid.
+  // Code is plain text on --bg-sunken here, which also keeps the HTML small.
+  markdown: { syntaxHighlight: false },
   vite: {
     resolve: {
       // The catalogue and tracker data still live in the Next app's lib/. Importing

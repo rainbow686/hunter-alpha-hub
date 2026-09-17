@@ -1,0 +1,71 @@
+---
+/**
+ * Blog index. Title, description and canonical are copied from the live page
+ * verbatim (the parity check enforces it): this page already ranks for brand and
+ * category queries, so its indexed fields are not ours to redesign.
+ */
+import System from "../../layouts/System.astro";
+import { getCollection } from "astro:content";
+import JsonLd from "../../components/JsonLd.astro";
+import { blogSchema, breadcrumbSchema, SITE } from "../../lib/schema";
+
+const title = "Model Hub Blog — OpenRouter comparisons & guides";
+const description =
+  "Practical articles, comparisons and tutorials for choosing and using AI models on OpenRouter.";
+const canonical = `${SITE}/blog`;
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => new Date(b.data.publishedAt).valueOf() - new Date(a.data.publishedAt).valueOf(),
+);
+const categories = [...new Set(posts.map((post) => post.data.category))].sort();
+const fmtDate = (value: string) =>
+  new Date(value).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+---
+<System title={title} description={description} canonical={canonical}>
+  <JsonLd slot="head" data={blogSchema({ name: "Model Hub Blog", url: canonical, description })} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Blog", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Articles</p>
+  <h1 class="display">Model Hub Blog</h1>
+  <p class="lede">
+    {description} {posts.length} articles, every claim dated, every number sourced.
+  </p>
+  <div class="byline">
+    <span>{posts.length} articles</span>
+    <span>{categories.length} categories</span>
+    <span>Newest {fmtDate(posts[0].data.publishedAt)}</span>
+  </div>
+
+  <div style="margin-top: var(--space-8);">
+    {categories.map((category) => (
+      <section style="margin-bottom: var(--space-8);">
+        <h2 style="margin-top: 0;">{category}</h2>
+        <ul style="list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border);">
+          {posts
+            .filter((post) => post.data.category === category)
+            .map((post) => (
+              <li style="border-bottom: 1px solid var(--border); padding: var(--space-4) 0;">
+                <a href={`/blog/${post.id}`} style="font-weight: 600; font-size: var(--text-lg);">
+                  {post.data.title}
+                </a>
+                <div style="color: var(--text-muted); font-size: var(--text-sm); margin-top: var(--space-1); max-width: var(--measure);">
+                  {post.data.excerpt}
+                </div>
+                <div class="byline" style="margin-top: var(--space-2);">
+                  <span>{fmtDate(post.data.publishedAt)}</span>
+                  <span>{post.data.readTime} min read</span>
+                  <span>{post.data.author}</span>
+                </div>
+              </li>
+            ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</System>

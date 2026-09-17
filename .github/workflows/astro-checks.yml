@@ -28,6 +28,8 @@ jobs:
       - run: npm ci
       - name: Theme tokens (drift + WCAG AA)
         run: npm run check:theme
+      - name: Content proofread guard
+        run: npm run check:content
       - name: Build
         run: npm run build
       - name: Migration parity vs production

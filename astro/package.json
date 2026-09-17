@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "check:theme": "node scripts/check-theme-tokens.mjs",
+    "check:content": "node scripts/check-content.mjs",
     "verify:pages": "node scripts/verify-pages.mjs",
+    "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
     "preview": "wrangler dev",
     "deploy": "astro build && wrangler deploy --config wrangler.jsonc"
   },
