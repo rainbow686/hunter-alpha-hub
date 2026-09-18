@@ -171,29 +171,40 @@ try {
   if (status && typeof status.online !== "undefined") pass("api: status", `online=${status.online}`);
   else fail("api: status", "/api/union-alpha/status did not return a status payload");
 
-  const subscribe = await fetch(`${ORIGIN}/api/subscribe`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: `cutover-check+${Date.now()}@example.com` }),
-  });
-  if (subscribe.status === 200 || subscribe.status === 409) {
-    pass("api: subscribe", `${subscribe.status} (Supabase credentials are configured)`);
+  /*
+   * The subscribe gate asks the two questions that matter, in the only way that
+   * cannot be satisfied by a plausible-looking status code:
+   *
+   *   1. does a signup get stored?           → 201 (created) or 409 (already there)
+   *   2. does the store reject a repeat?     → 409, from the unique index on LOWER(email)
+   *
+   * Two POSTs with the same fixed probe address prove both. The previous version
+   * accepted 200/409 because the Supabase-era endpoint answered 200 — so a
+   * *working* D1 deployment read as a failure ("201") while the message blamed
+   * missing Supabase credentials that no longer exist. Wrong code and wrong cause
+   * in the same gate, which is worse than no gate at all.
+   *
+   * Cost of the check: one row named `cutover-check@example.com` in the live
+   * database. The cleanup command is printed below the results.
+   */
+  const PROBE = "cutover-check@example.com";
+  const postProbe = () =>
+    fetch(`${ORIGIN}/api/subscribe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: PROBE }),
+    });
+  const firstProbe = await postProbe();
+  const secondProbe = await postProbe();
+  const stored = firstProbe.status === 201 || firstProbe.status === 200 || firstProbe.status === 409;
+  if (stored && secondProbe.status === 409) {
+    pass("api: subscribe", `${firstProbe.status} then 409 — the store answered and rejected the repeat`);
   } else {
-    /*
-     * Report the server's own reason. The first version of this gate assumed the
-     * only cause was missing secrets, and said so — which was wrong on
-     * 2026-09-18, when the secrets were present and the project behind them had
-     * been deleted. A gate that names the wrong cause sends the operator to the
-     * wrong screen.
-     */
-    const payload = await subscribe.json().catch(() => ({}));
+    const payload = await (stored ? secondProbe : firstProbe).json().catch(() => ({}));
     const detail = payload.detail || payload.error || "(no body)";
-    const configured = !/Not configured/i.test(payload.error ?? "");
     fail(
       "api: subscribe",
-      configured
-        ? `${subscribe.status} — credentials are present but the store did not answer: ${detail}`
-        : `${subscribe.status} — no Supabase credentials on this Worker, so every signup fails. Set SUPABASE_URL and SUPABASE_ANON_KEY before switching. ${detail}`,
+      `${firstProbe.status} then ${secondProbe.status} — a signup must land (201/200) and a repeat must be 409. Server said: ${detail}`,
     );
   }
 
@@ -219,4 +230,10 @@ for (const entry of results) {
 }
 const failed = results.filter((entry) => !entry.ok);
 console.log(`\n${results.length - failed.length}/${results.length} gates passed`);
+if (results.some((entry) => entry.name === "api: subscribe")) {
+  console.log(
+    `\nprobe row left in the live database. Remove it with:\n` +
+      `  npx wrangler d1 execute hunter-alpha-hub-subscribers --remote --command "DELETE FROM subscribers WHERE email='cutover-check@example.com'"`,
+  );
+}
 process.exit(failed.length ? 1 : 0);
