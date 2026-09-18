@@ -16,7 +16,7 @@ const modelLinks = [
 
 const stealthLinks = [
   { href: "/stealth-models", label: "Stealth line index" },
-  { href: "/union-alpha", label: "Union Alpha (live)" },
+  { href: "/union-alpha", label: "Union Alpha · Unbiased Pareto" },
   { href: "/alpha-models", label: "How the line works" },
   { href: "/hunter-alpha", label: "Hunter Alpha archive" },
   { href: "/ox-alpha", label: "OX Alpha archive" },

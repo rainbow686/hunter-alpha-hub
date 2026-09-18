@@ -20,7 +20,7 @@ Hunter Alpha is now **Xiaomi MiMo-V2.5**, so most "not working" reports today ar
 
 - Current ID, price and context window: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
 - The diagnostic steps below still work, but the live catalog is the source of truth — see the [full model directory](/openrouter-models).
-- Looking for the endpoint that is still free right now? That is the anonymous [Union Alpha](/union-alpha), with a live status badge.
+- Asking which endpoint is free today? Union Alpha's free window closed on 18 September 2026, when it was revealed as Unbiased Pareto and delisted — the [free models page](/openrouter-free-models) is the list that gets re-checked against the catalogue.
 
 ## Quick Answer
 

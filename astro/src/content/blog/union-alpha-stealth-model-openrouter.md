@@ -1,6 +1,6 @@
 ---
 title: "Union Alpha: What We Actually Know About the New Stealth Model on OpenRouter"
-excerpt: "Union Alpha appeared on OpenRouter on 16 September 2026 with 256K context, image input, tool calling and $0 pricing. Here are the verified specs, the community theories, and how to use it without getting burned."
+excerpt: "Union Alpha appeared on OpenRouter on 16 September 2026 with 256K context, image input, tool calling and $0 pricing — and was revealed two days later as Unbiased Pareto. The verified specs, the community theories, and the reveal."
 author: "OpenRouter Model Hub"
 publishedAt: "2026-09-17"
 category: "Mystery Models"
@@ -14,6 +14,8 @@ tags:
 ---
 ## Union Alpha: What We Actually Know
 
+> **Update, 18 September 2026 — the codename is over.** Union Alpha was revealed as **Unbiased Pareto**, developed and operated by **Unbiased**. OpenRouter's stealth page now states it, `stealth/union-alpha` has been removed from the catalogue (the endpoint answers 404), and the same model — same 262,144-token window — is listed as `unbiased/pareto` at $2.50 in / $7.50 out per million tokens. The free window below lasted two days. See the [tracker](/union-alpha) for the dated version of all of it.
+
 On 16 September 2026 an anonymous model called **Union Alpha** appeared on OpenRouter as `stealth/union-alpha`. No announcement, no model card, no named maker — the same pattern as Hunter Alpha and OX Alpha before it.
 
 This post separates the two things most write-ups mix together: **what the catalog says** and **what people are guessing**.
@@ -23,11 +25,11 @@ This post separates the two things most write-ups mix together: **what the catal
 | Field | Value |
 |---|---|
 | OpenRouter ID | `stealth/union-alpha` |
-| Maker | Undisclosed (provider listed as "Stealth") |
+| Maker | Unbiased — revealed 2026-09-18 (provider was listed as "Stealth" while anonymous) |
 | Context | 262,144 tokens (256K) |
 | Max output | 131,072 tokens (128K) |
 | Modality | Text + image in, text out |
-| Pricing | Free — $0 in / $0 out |
+| Pricing | Free during the window ($0 in / $0 out, 16–18 September); now $2.50 in / $7.50 out per million as `unbiased/pareto` |
 | Tool calling | Supported (tools, tool_choice auto, response_format) |
 | Added | 2026-09-16 14:42 UTC |
 
@@ -75,13 +77,17 @@ Use it for experiments, comparisons and throwaway tasks. Do not put customer dat
 
 ## How to try it
 
+The ID below is dead as of 18 September 2026 — `stealth/union-alpha` answers 404. What the window looked like, for the record:
+
 1. Create an OpenRouter account and open the model page.
 2. Select `stealth/union-alpha` in the model picker, or call it through the OpenRouter API with that ID.
 3. If you are testing tool calling, note the endpoint advertises `tools`, `tool_choice` (auto), `response_format`, `temperature`, `top_p` and `max_tokens`.
 
+To use the model now, call `unbiased/pareto` — same weights as far as the catalogue shows (identical context window and modality), billed at $2.50 in / $7.50 out per million tokens.
+
 ## What to watch for next
 
-The pattern from the first two Alpha models is: free window, community investigation, then a reveal and a rename. When that happens, pricing and the model ID usually change. If you want the live status rather than a static article, use the [Union Alpha tracker](/union-alpha) — it checks the catalog on every visit and labels speculation separately from verified specs.
+The pattern has now held three times: a free window, community investigation, then a reveal and a rename. For Union Alpha that took two days — the shortest of the three. If you want the live status rather than a static article, use the [Union Alpha tracker](/union-alpha) — it checks the catalog on every visit and labels speculation separately from verified specs.
 
 Want to compare Union Alpha against paid models on real workloads? Start from the [model directory](/openrouter-models) or the [comparison hub](/comparison).
 

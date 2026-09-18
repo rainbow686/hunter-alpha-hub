@@ -20,7 +20,7 @@ tags:
 Hunter Alpha 已被确认为小米 **MiMo-V2.5**，而且在 OpenRouter 上已经不再是免费模型 —— 标题里的「免费 1M 上下文」指的是当年的窗口，现在要按付费模型来看。
 
 - 当前模型 ID、定价与上下文窗口：[MiMo-V2.5 模型页](/openrouter-models/mimo-v2.5)。
-- 想要现在仍然免费的额度：[免费模型页](/openrouter-free-models)；当前匿名免费模型是 [Union Alpha](/union-alpha)（带实时在线状态）。
+- 想要现在仍然免费的额度：[免费模型页](/openrouter-free-models)；上一轮的匿名免费模型 [Union Alpha](/union-alpha) 已于 2026-09-18 揭晓为 Unbiased Pareto 并从目录下架。
 
 ## 快速摘要
 

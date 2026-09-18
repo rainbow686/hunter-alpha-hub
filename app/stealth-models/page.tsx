@@ -55,8 +55,8 @@ const index = [
     codename: "Union Alpha",
     listed: "2026-09-16",
     href: "/union-alpha",
-    turnedOutToBe: "Unclaimed",
-    verified: "No — live now, maker anonymous",
+    turnedOutToBe: "Unbiased Pareto",
+    verified: "Yes — revealed 2026-09-18, stealth route delisted",
   },
 ];
 
@@ -96,8 +96,8 @@ const line = [
     context: "256K",
     modality: "Text + image in",
     priceWhileAnonymous: "Free",
-    revealedAs: "Unclaimed",
-    priceAfter: "Unknown — reported ≈$0.50 / $1.50 per M",
+    revealedAs: "Unbiased Pareto",
+    priceAfter: "$2.50 in / $7.50 out per M",
   },
 ];
 
@@ -406,7 +406,7 @@ export default function StealthModelsPage() {
             href="/union-alpha"
             className="rounded-lg bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500"
           >
-            Union Alpha (live) →
+            Union Alpha → Unbiased Pareto
           </Link>
           <Link
             href="/alpha-models"

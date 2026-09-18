@@ -100,15 +100,15 @@ export default function Home() {
             <Card className="p-6 hover:border-violet-500/50 transition-colors">
               <div className="flex flex-wrap items-center gap-4">
                 <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-bold text-amber-300">
-                  New stealth model
+                  Revealed 2026-09-18
                 </span>
                 <span className="font-semibold" style={{ color: "var(--foreground)" }}>
-                  Union Alpha just landed on OpenRouter
+                  Union Alpha turned out to be Unbiased Pareto
                 </span>
                 <span className="text-sm" style={{ color: "var(--muted)" }}>
-                  256K context · free · image input · maker anonymous
+                  256K context · image input · free for two days, billed since
                 </span>
-                <span className="ml-auto text-sm text-violet-400">Follow the tracker →</span>
+                <span className="ml-auto text-sm text-violet-400">Read the reveal →</span>
               </div>
             </Card>
           </Link>
@@ -123,11 +123,11 @@ export default function Home() {
           <Link href="/union-alpha" className="block">
             <Card className="p-5 h-full hover:border-violet-500/50 transition-colors">
               <div className="font-semibold" style={{ color: "var(--foreground)" }}>
-                Union Alpha <span className="text-xs text-emerald-400 align-middle">live now</span>
+                Union Alpha <span className="text-xs text-amber-400 align-middle">revealed</span>
               </div>
               <p className="text-sm mt-2" style={{ color: "var(--muted)" }}>
-                The anonymous release that is free today: verified specs, live status, and what is
-                still only a claim.
+                The third Alpha-line codename: listed 16 September, revealed as Unbiased Pareto on the
+                18th, with the specs, the timeline and the new price.
               </p>
             </Card>
           </Link>
@@ -235,8 +235,9 @@ export default function Home() {
             <p className="text-sm leading-relaxed mb-4 max-w-3xl" style={{ color: "var(--muted)" }}>
               The codename still circulates in a few spellings — <em>alpha hunter</em>,{" "}
               <em>hunteralpha</em>, <em>Hunter-Alpha</em> — and it also lives on as history: this site
-              started as a tracker for it. The line it belonged to is still running, and the current
-              anonymous release is <Link href="/union-alpha" className="text-violet-400 hover:underline">Union Alpha</Link>.
+              started as a tracker for it. The line it belonged to is still running: the most recent
+              codename was <Link href="/union-alpha" className="text-violet-400 hover:underline">Union Alpha</Link>,
+              revealed on 18 September 2026 as Unbiased Pareto.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link

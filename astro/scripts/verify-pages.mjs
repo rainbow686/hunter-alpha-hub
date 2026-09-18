@@ -112,12 +112,54 @@ const ALLOWED_DIFFERENCES = {
  * entry is a no-op, because a table read only on difference is never read when
  * live === built.
  */
+/*
+ * Head fields where the build is deliberately ahead of what production currently
+ * serves. Each entry is a claim that the difference is intended, dated, and goes
+ * away on the next deploy — not a way to silence a regression.
+ */
 const PINNED_DIFFERENCES = {
   "openrouter-models/deepseek-v4-pro description": {
     expect:
-      "DeepSeek V4 Pro costs $0.579 input and $1.74 output per 1M tokens, with 1.05M tokens context. See strengths, limitations and best-fit workloads.",
+      "DeepSeek V4 Pro costs $0.660 input and $1.98 output per 1M tokens, with 1.05M tokens context. See strengths, limitations and best-fit workloads.",
     reason:
-      "provider repriced the model on 2026-09-18 ($0.66/$1.98 → $0.57948/$1.73844 per 1M); this build carries the corrected snapshot and live catches up on deploy",
+      "the catalogue read for deepseek/deepseek-v4-pro-0813 on 2026-09-18 is $0.66/$1.98 per 1M; an earlier read that day returned a 0.878x promotional price, so the snapshot moved back to the undiscounted figure and live catches up on deploy",
+  },
+  "union-alpha title": {
+    expect: "Union Alpha on OpenRouter: Revealed as Unbiased Pareto (2026) | OpenRouter Model Hub",
+    reason:
+      "the codename was revealed on 2026-09-18 (Unbiased Pareto, stealth route delisted); the page has to answer the post-reveal question, and live catches up on deploy",
+  },
+  "union-alpha description": {
+    expect:
+      "Union Alpha appeared on OpenRouter on 16 September 2026 and was revealed two days later as Unbiased Pareto: 262K context, 128K output, image input, tool calling. The full specs, the reveal, and what it costs now.",
+    reason:
+      "same reveal; the old description promised free, anonymous and 'expected paid pricing', all three of which the reveal settled",
+  },
+  "union-alpha-free title": {
+    expect: "Is Union Alpha Free? No — the Free Window Is Over (2026) | OpenRouter Model Hub",
+    reason:
+      "'is union alpha free' is still the query; the answer changed from yes to no on 2026-09-18, and a title that says 'bills $0 right now' would be false",
+  },
+  "union-alpha-free description": {
+    expect:
+      "Union Alpha was free for two days. As of 2026-09-18 the stealth route is delisted; the model behind it, Unbiased Pareto, bills $2.50 in / $7.50 out per million tokens.",
+    reason: "same reveal; this page's whole subject is the price, so it is the one that must not lag",
+  },
+  "union-alpha-opencode title": {
+    expect: "Union Alpha on OpenCode: What Happened to the Free Route (2026) | OpenRouter Model Hub",
+    reason:
+      "the OpenCode free-tier route was reported, never verified, and is moot now that the anonymous model is delisted — the title has to stop promising a free tier",
+  },
+  "union-alpha-opencode description": {
+    expect:
+      "The Union Alpha free route is over: the model was revealed as Unbiased Pareto on 2026-09-18 and delisted. What was verified about the OpenCode route, what was only reported, and what to do instead.",
+    reason: "same reveal",
+  },
+  "blog/union-alpha-stealth-model-openrouter description": {
+    expect:
+      "Union Alpha appeared on OpenRouter on 16 September 2026 with 256K context, image input, tool calling and $0 pricing — and was revealed two days later as Unbiased Pareto. The verified specs, the community theories, and the reveal.",
+    reason:
+      "the post is dated 2026-09-17; the excerpt now carries the reveal so the search result does not advertise a two-day window that already closed",
   },
 };
 

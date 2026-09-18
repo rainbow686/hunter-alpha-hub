@@ -64,8 +64,8 @@ const alphaLine = [
     appeared: "2026-09-16",
     context: "256K",
     vision: "Yes",
-    outcome: "Unclaimed",
-    status: "Live now",
+    outcome: "Unbiased Pareto",
+    status: "Revealed",
   },
 ];
 
@@ -78,7 +78,7 @@ const faqs = [
   {
     question: "What did the Alpha models turn out to be?",
     answer:
-      "Hunter Alpha was confirmed as Xiaomi MiMo-V2.5. OX Alpha was confirmed as Z.ai GLM 5.3 Flash. Union Alpha is still anonymous and unclaimed as of 2026-09-17.",
+      "All three are now confirmed: Hunter Alpha was Xiaomi MiMo-V2.5, OX Alpha was Z.ai GLM 5.3 Flash, and Union Alpha — revealed on 2026-09-18, two days after it appeared — was Unbiased Pareto, the first model in the line with image input.",
   },
   {
     question: "Why do labs release stealth models on OpenRouter?",
@@ -155,7 +155,7 @@ export default function AlphaModelsPage() {
                   {m.name}
                 </Link>{" "}
                 — appeared {m.appeared}, {m.context} context, {m.vision.toLowerCase()}. {m.outcome}
-                {m.status === "Live now" ? " Still anonymous and live." : ""}
+                {m.name === "Union Alpha" ? " Revealed two days after it appeared — the shortest window of the three." : ""}
               </li>
             ))}
           </ul>
@@ -256,7 +256,7 @@ export default function AlphaModelsPage() {
             href="/union-alpha"
             className="rounded-lg bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500"
           >
-            Union Alpha tracker (live) →
+            Union Alpha → Unbiased Pareto
           </Link>
           <Link
             href="/openrouter-free-models"

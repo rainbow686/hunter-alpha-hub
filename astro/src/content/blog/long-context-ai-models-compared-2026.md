@@ -19,7 +19,7 @@ tags:
 The 1M-context landscape has moved since this comparison was written: two entries were renamed after their stealth windows closed — Hunter Alpha is now [MiMo-V2.5](/openrouter-models/mimo-v2.5) and OX Alpha is now [GLM 5.3 Flash](/openrouter-models/glm-5.3-flash).
 
 - The price table below is a September 2026 snapshot; live per-million pricing is in the [pricing calculator](/openrouter-pricing-calculator).
-- Newest long-context entry: [Union Alpha](/union-alpha) — 256K, free, image input, unclaimed maker.
+- Newest long-context entry: [Union Alpha](/union-alpha) — 256K, image input; free for two days in September 2026 and revealed since as Unbiased Pareto.
 - Everything current: [OpenRouter model directory](/openrouter-models).
 
 ## Quick Answer
@@ -182,5 +182,5 @@ Industry predictions:
 
 ---
 
-*Live status, re-read from the catalogue, is on the [Union Alpha tracker](/union-alpha).*
+*The reveal, and the live catalogue read that confirmed it, are on the [Union Alpha tracker](/union-alpha).*
 

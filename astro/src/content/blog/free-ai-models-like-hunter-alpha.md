@@ -18,7 +18,7 @@ tags:
 Hunter Alpha is no longer free — it is [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5), priced like the rest of the catalog. The alternatives below still hold, and the free tier itself has moved on:
 
 - Current free routes: [OpenRouter free models](/openrouter-free-models).
-- The live free stealth model right now: [Union Alpha](/union-alpha) — 256K context, image input, anonymous provider (evaluation only, no published data policy).
+- The last free stealth model of the line: [Union Alpha](/union-alpha) — 256K context, image input, revealed on 18 September 2026 as Unbiased Pareto and billed since.
 
 ## Quick Answer
 

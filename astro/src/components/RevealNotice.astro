@@ -1,0 +1,56 @@
+---
+/**
+ * The "this codename is over" notice for the Union Alpha cluster.
+ *
+ * Every page in the cluster is built around a question the 2026-09-18 reveal
+ * changed the answer to — is it free, how do I use it, why is it failing, what
+ * is it. The notice is one component instead of four paragraphs because four
+ * copies of a dated fact means three of them are stale inside a week. The facts
+ * and the sentence itself come from lib/union-alpha.ts, which both apps share.
+ *
+ * `compact` is for pages where the reveal is context rather than the subject:
+ * same verdict and same numbers, minus the "what to read next" line.
+ */
+import { UNION_ALPHA_REVEAL, UNION_ALPHA_REVEALED_AT, UNION_ALPHA_REVEAL_SENTENCE } from "@repo/lib/union-alpha";
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<aside class="reveal-notice" aria-label="Reveal status">
+  <p class="kicker">Revealed {UNION_ALPHA_REVEALED_AT} · the codename is retired</p>
+  <p class="sentence">{UNION_ALPHA_REVEAL_SENTENCE}</p>
+  {
+    !compact && (
+      <p class="followup">
+        Everything below is kept as the record of the anonymous window: what was verifiable on the day,
+        what was only a claim, and how the answers changed. <a href="/union-alpha">Union Alpha → {UNION_ALPHA_REVEAL.name}</a>
+      </p>
+    )
+  }
+</aside>
+
+<style>
+  /*
+   * Scoped on purpose: the system stylesheet is frozen (ADR-0011), and this is a
+   * one-off accent surface rather than a new component class.
+   */
+  .reveal-notice {
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+  .reveal-notice .kicker { margin-bottom: var(--space-2); }
+  .reveal-notice .sentence { margin: 0; max-width: var(--measure); }
+  .reveal-notice .followup {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+</style>

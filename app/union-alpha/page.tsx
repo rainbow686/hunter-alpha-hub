@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
+import { RevealNotice } from "@/components/reveal-notice";
 import { UnionAlphaStatus } from "@/components/union-alpha-status";
 import { SubscriptionForm } from "@/components/subscription-form";
 import {
@@ -17,15 +18,16 @@ import {
   timeline,
   unionAlphaFaqs,
   verifiedSpecs,
+  UNION_ALPHA_REVEAL,
 } from "@/lib/union-alpha";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/union-alpha`;
 
 export const metadata: Metadata = {
-  title: "Union Alpha on OpenRouter: What the Free Stealth Model Is (2026)",
+  title: "Union Alpha on OpenRouter: Revealed as Unbiased Pareto (2026)",
   description:
-    "Union Alpha is a free, anonymous multimodal model on OpenRouter and OpenCode: 262K context, 128K output, image input, tool calling. Verified specs, live status, expected paid pricing, and why testers think it may be several models stitched together.",
+    "Union Alpha appeared on OpenRouter on 16 September 2026 and was revealed two days later as Unbiased Pareto: 262K context, 128K output, image input, tool calling. The full specs, the reveal, and what it costs now.",
   keywords: [
     "union alpha model",
     "union alpha openrouter",
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Union Alpha: New Stealth Model on OpenRouter",
     description:
-      "Verified specs, live status and community theories for stealth/union-alpha — the third anonymous Alpha-line model on OpenRouter.",
+      "The third Alpha-line codename, revealed 2026-09-18 as Unbiased Pareto — with the specs read from the catalogue and the community theories labelled as theories.",
     url: pageUrl,
     type: "article",
     images: [{ url: `${baseUrl}/og-image.png`, width: 1200, height: 630, alt: "Union Alpha stealth model tracker" }],
@@ -64,7 +66,7 @@ export default function UnionAlphaPage() {
     <>
       <ArticleSchema
         title="Union Alpha: New Stealth Model on OpenRouter"
-        description="Anonymous free model on OpenRouter with 256K context, image input and tool calling. Verified specs, live status and community theories."
+        description="The third Alpha-line codename on OpenRouter, revealed as Unbiased Pareto on 2026-09-18. Specs read from the catalogue, theories labelled as theories."
         publishedAt="2026-09-17"
         updatedAt={UNION_ALPHA_DATA_AS_OF}
         image={`${baseUrl}/og-image.png`}
@@ -99,7 +101,7 @@ export default function UnionAlphaPage() {
           className="text-3xl md:text-5xl font-bold leading-tight mb-4"
           style={{ color: "var(--foreground)" }}
         >
-          What is Union Alpha? The New Free Stealth Model on OpenRouter &amp; OpenCode
+          What is Union Alpha? The Stealth Model That Turned Out to Be Unbiased Pareto
         </h1>
         <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
           Last verified {UNION_ALPHA_DATA_AS_OF} · model ID <code>{UNION_ALPHA_MODEL_ID}</code> · added to
@@ -118,12 +120,22 @@ export default function UnionAlphaPage() {
           <UnionAlphaStatus />
         </div>
 
+        {/*
+          Reveal banner — shared with the other three pages in the cluster. The
+          codename stays (it is what people search for), but the answer is no
+          longer "we do not know who made it". The sentence itself lives in
+          lib/union-alpha.ts so both apps render the same words.
+        */}
+        <RevealNotice />
+
         <p className="text-lg mb-8 leading-relaxed" style={{ color: "var(--muted)" }}>
           Union Alpha showed up on OpenRouter on 16 September 2026 with no announcement, no model card
           and no name anyone recognised — the third anonymous model in the Alpha line after Hunter Alpha
-          (later Xiaomi MiMo-V2.5) and OX Alpha (later Z.ai GLM 5.3 Flash). This page keeps the two kinds
-          of information apart on purpose: <strong>specs read from OpenRouter&apos;s public catalog</strong>{" "}
-          above, and <strong>unverified community theories</strong> clearly labelled further down.
+          (later Xiaomi MiMo-V2.5) and OX Alpha (later Z.ai GLM 5.3 Flash). Two days later it was revealed
+          as <strong>{UNION_ALPHA_REVEAL.name}</strong> and the stealth route disappeared. This page keeps
+          the two kinds of information apart on purpose: <strong>specs read from OpenRouter&apos;s public
+          catalog</strong> above, and <strong>unverified community theories</strong> clearly labelled
+          further down.
         </p>
 
         <section aria-labelledby="tldr-heading" className="mb-10">
@@ -136,9 +148,9 @@ export default function UnionAlphaPage() {
                 <div className="text-xs uppercase tracking-widest mb-1" style={{ color: "var(--muted)" }}>
                   Maker
                 </div>
-                <div className="font-semibold text-amber-400">Anonymous</div>
+                <div className="font-semibold" style={{ color: "var(--foreground)" }}>Unbiased</div>
                 <div className="text-xs mt-1" style={{ color: "var(--muted)" }}>
-                  Provider listed as Stealth
+                  Revealed 2026-09-18
                 </div>
               </div>
               <div>
@@ -167,9 +179,9 @@ export default function UnionAlphaPage() {
                 <div className="text-xs uppercase tracking-widest mb-1" style={{ color: "var(--muted)" }}>
                   Pricing
                 </div>
-                <div className="font-semibold text-emerald-400">Free</div>
+                <div className="font-semibold text-rose-400">$2.50 / $7.50</div>
                 <div className="text-xs mt-1" style={{ color: "var(--muted)" }}>
-                  $0 in / $0 out · may expire
+                  per million in / out · was free 16–18 Sep
                 </div>
               </div>
               <div>
@@ -330,16 +342,20 @@ export default function UnionAlphaPage() {
               max_tokens.
             </li>
             <li>
-              <strong style={{ color: "var(--foreground)" }}>4. Keep it out of production.</strong> An
-              anonymous provider with no published data policy, on a free preview that can be repriced or
-              delisted overnight, is for evaluation only.
+              <strong style={{ color: "var(--foreground)" }}>4. Call it by its real name now.</strong>{" "}
+              <code>{UNION_ALPHA_MODEL_ID}</code> no longer resolves; the same model is listed as{" "}
+              <code>{UNION_ALPHA_REVEAL.modelId}</code> and billed, so production use is a normal cost
+              decision rather than a stealth-preview gamble.
             </li>
           </ol>
           <p className="text-sm mt-4 leading-relaxed" style={{ color: "var(--muted)" }}>
-            <strong style={{ color: "var(--foreground)" }}>Via OpenCode instead:</strong> third-party
-            reports say the same anonymous model is also reachable from OpenCode&apos;s free tier, so you can
-            try it inside an agentic coding tool without wiring up an API key. Same caveats apply — no
-            customer data, no credentials, and assume the free window closes.
+            <strong style={{ color: "var(--foreground)" }}>Via OpenCode:</strong> third-party reports said
+            the same anonymous model was reachable from OpenCode&apos;s free tier. We never confirmed that
+            independently, and it is moot now — the anonymous model was delisted alongside the reveal. The{" "}
+            <Link href="/union-alpha-opencode" className="text-violet-400 hover:underline">
+              OpenCode page
+            </Link>{" "}
+            keeps the record of the claim.
           </p>
         </section>
 
@@ -392,7 +408,7 @@ export default function UnionAlphaPage() {
                   </td>
                   <td className="py-3 pr-4">256K</td>
                   <td className="py-3 pr-4">Yes</td>
-                  <td className="py-3">Still anonymous</td>
+                  <td className="py-3">Unbiased Pareto</td>
                 </tr>
               </tbody>
             </table>
@@ -420,12 +436,12 @@ export default function UnionAlphaPage() {
         <section className="mb-10">
           <Card className="p-6 md:p-8">
             <h2 className="text-xl font-bold mb-2" style={{ color: "var(--foreground)" }}>
-              Get notified when Union Alpha is revealed
+              Get notified about the next codename
             </h2>
             <p className="text-sm mb-5 leading-relaxed" style={{ color: "var(--muted)" }}>
-              The first two models in this line were revealed and repriced weeks after they appeared. Leave
-              your email and we will tell you who Union Alpha turns out to be — and what it costs once the
-              free preview ends.
+              This reveal is over — Union Alpha ran for two days. Three codenames in, each one has been free
+              while anonymous and billed once revealed. Leave your email and we will tell you when the next
+              one appears, and who it turns out to be.
             </p>
             <SubscriptionForm />
           </Card>
@@ -469,7 +485,7 @@ export default function UnionAlphaPage() {
                 Errors and rate limits
               </div>
               <div className="text-sm mt-1" style={{ color: "var(--muted)" }}>
-                Four failure modes on a saturated free endpoint, and the order to check them in.
+                Why the endpoint stopped on 18 September, and the other three failure modes that apply to every stealth release.
               </div>
             </Link>
           </div>

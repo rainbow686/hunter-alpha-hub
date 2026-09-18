@@ -7,13 +7,47 @@
  * - communityClaims: unverified public discussion, paraphrased and attributed.
  *   Never present these as facts.
  *
- * Verified: 2026-09-17 (catalog read: 262144 ctx, $0/$0, text+image, provider "Stealth")
+ * Verified: 2026-09-18 — the codename is over. OpenRouter's stealth page says the
+ * model "was developed and operated by Unbiased, revealed to be Unbiased Pareto",
+ * `stealth/union-alpha` is gone from the catalog (404 on the single-model endpoint)
+ * and `unbiased/pareto` is listed at 262,144 context with paid pricing. The rows
+ * below keep the anonymous-era facts *and* the post-reveal facts, labelled, because
+ * the whole point of this page is the before/after.
  */
 
 export const UNION_ALPHA_MODEL_ID = "stealth/union-alpha";
-export const UNION_ALPHA_DATA_AS_OF = "2026-09-17";
+export const UNION_ALPHA_DATA_AS_OF = "2026-09-18";
 export const UNION_ALPHA_ADDED_AT_UTC = "2026-09-16T14:42:03Z";
 export const UNION_ALPHA_OPENROUTER_URL = "https://openrouter.ai/stealth/union-alpha";
+
+/**
+ * The reveal. Facts, all re-checkable:
+ *   - the stealth page states the developer and the real name;
+ *   - `unbiased/pareto` is in the catalog with the same 262K window;
+ *   - pricing is $0.0000025 in / $0.0000075 out per token = $2.50 / $7.50 per 1M.
+ */
+export const UNION_ALPHA_REVEALED_AT = "2026-09-18";
+export const UNION_ALPHA_REVEAL = {
+  vendor: "Unbiased",
+  name: "Unbiased Pareto",
+  modelId: "unbiased/pareto",
+  contextWindow: 262144,
+  inputPricePerMillion: 2.5,
+  outputPricePerMillion: 7.5,
+  source: "https://openrouter.ai/stealth/union-alpha",
+} as const;
+
+/**
+ * The one-sentence version of the reveal. Four pages in the cluster have to
+ * state it (what is it, is it free, how do I use it, why is it failing) and both
+ * apps render those four pages — eight copies of a dated sentence is eight
+ * chances to be stale, so the sentence lives here once.
+ */
+export const UNION_ALPHA_REVEAL_SENTENCE =
+  `Union Alpha was ${UNION_ALPHA_REVEAL.name} (${UNION_ALPHA_REVEAL.modelId}), by ${UNION_ALPHA_REVEAL.vendor}. ` +
+  `The free stealth/union-alpha route is gone from OpenRouter's catalogue, and the same model — same ` +
+  `${UNION_ALPHA_REVEAL.contextWindow.toLocaleString("en-US")} context window — is now billed at ` +
+  `$${UNION_ALPHA_REVEAL.inputPricePerMillion.toFixed(2)} in / $${UNION_ALPHA_REVEAL.outputPricePerMillion.toFixed(2)} out per million tokens.`;
 
 export interface VerifiedSpec {
   label: string;
@@ -26,12 +60,17 @@ export const verifiedSpecs: VerifiedSpec[] = [
   {
     label: "OpenRouter ID",
     value: UNION_ALPHA_MODEL_ID,
-    note: "Listed under the anonymous stealth namespace.",
+    note: "The stealth route — no longer served; the catalog answers 404 for it.",
   },
   {
     label: "Maker",
-    value: "Undisclosed",
-    note: 'Provider shown as "Stealth". No lab has publicly claimed it.',
+    value: "Unbiased",
+    note: 'Revealed 2026-09-18: OpenRouter\'s stealth page says the model was "developed and operated by Unbiased".',
+  },
+  {
+    label: "Revealed as",
+    value: `${UNION_ALPHA_REVEAL.name} (${UNION_ALPHA_REVEAL.modelId})`,
+    note: "Same 262,144-token window; now billed rather than free.",
   },
   {
     label: "Context window",
@@ -158,6 +197,18 @@ export const timeline: TimelineEntry[] = [
     detail:
       "256K context, 128K max output, free pricing, text+image input and tool support confirmed by a direct catalog read.",
   },
+  {
+    date: "2026-09-18",
+    title: "Revealed: it is Unbiased Pareto",
+    detail:
+      "OpenRouter's stealth page now states the model was developed and operated by Unbiased, revealed to be Unbiased Pareto. The catalog lists unbiased/pareto with the same 262,144-token window, priced $2.50 in / $7.50 out per 1M tokens.",
+  },
+  {
+    date: "2026-09-18",
+    title: "The stealth route disappears",
+    detail:
+      "stealth/union-alpha is removed from the catalog — the single-model endpoint answers 404 and no stealth namespace is listed any more. The free window is over for good; the product continues under its real name.",
+  },
 ];
 
 export interface TrackerFaq {
@@ -169,17 +220,17 @@ export const unionAlphaFaqs: TrackerFaq[] = [
   {
     question: "What is Union Alpha?",
     answer:
-      "Union Alpha is an anonymous AI model that appeared on OpenRouter on 2026-09-16 under the stealth namespace. OpenRouter describes it as a multimodal model built for research, coding and agentic workflows. The maker has not been disclosed.",
+      "Union Alpha was the anonymous codename for an OpenRouter stealth model listed on 2026-09-16. It was revealed on 2026-09-18 as Unbiased Pareto, made by Unbiased — the third Alpha-line codename to be disclosed, after Hunter Alpha (Xiaomi MiMo-V2.5) and OX Alpha (Z.ai GLM 5.3 Flash).",
   },
   {
     question: "Is Union Alpha free?",
     answer:
-      "Yes. It is currently listed at $0 per million input and output tokens. Free stealth previews are usually limited-time: earlier Alpha-line models were repriced or delisted after the maker was revealed, so do not build anything that depends on the free window.",
+      "It was, for the two days of the stealth window. The stealth route is gone from the catalog and the revealed model, unbiased/pareto, is billed at $2.50 per 1M input tokens and $7.50 per 1M output tokens. If you are looking for the free endpoint, it no longer exists.",
   },
   {
     question: "Who made Union Alpha?",
     answer:
-      "Unknown. No lab has claimed it. Community discussion suggests it may be a router over several models rather than a single one, and that a GLM-family model might be involved, but none of that is verified.",
+      "Unbiased. OpenRouter's stealth page states the model was developed and operated by Unbiased and revealed as Unbiased Pareto, and unbiased/pareto is listed in the public catalog.",
   },
   {
     question: "How much context does Union Alpha have?",
@@ -194,17 +245,17 @@ export const unionAlphaFaqs: TrackerFaq[] = [
   {
     question: "How do I use Union Alpha?",
     answer:
-      "Create an OpenRouter account, pick stealth/union-alpha in the model list, or call it through the OpenRouter API with that model ID. No separate key from the mystery maker is needed.",
+      "You cannot — stealth/union-alpha is no longer served. Use unbiased/pareto on OpenRouter instead; it is the same model with the same 262,144-token context window, now billed.",
   },
   {
     question: "Will Union Alpha be revealed like Hunter Alpha and OX Alpha were?",
     answer:
-      "Probably, but there is no schedule. Hunter Alpha turned out to be Xiaomi MiMo-V2.5 and OX Alpha turned out to be Z.ai GLM 5.3 Flash; both were revealed after their free windows ended. Union Alpha is the third model in that line.",
+      "It already was: on 2026-09-18, two days after it appeared. The pattern held a third time — Hunter Alpha → Xiaomi MiMo-V2.5, OX Alpha → Z.ai GLM 5.3 Flash, Union Alpha → Unbiased Pareto.",
   },
   {
     question: "Should I trust Union Alpha with sensitive data?",
     answer:
-      "No. The provider is anonymous and there is no published privacy or data-retention policy. Treat it like any unvetted free endpoint: no production secrets, no customer data, no credentials in prompts.",
+      "The stealth endpoint is gone, so the question is now about Unbiased Pareto: the provider is named instead of anonymous, and the stealth terms noted that prompts and completions may have been retained by the provider but not used for training. Treat any preview model as unvetted for production secrets.",
   },
   {
     question: "Is Union Alpha a single model or several models?",

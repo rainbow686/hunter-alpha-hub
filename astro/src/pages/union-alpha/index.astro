@@ -17,6 +17,7 @@ import FactTable from "../../components/FactTable.astro";
 import ClaimList from "../../components/ClaimList.astro";
 import TimelineList from "../../components/TimelineList.astro";
 import Faq from "../../components/Faq.astro";
+import RevealNotice from "../../components/RevealNotice.astro";
 import StatusStrip from "../../components/StatusStrip.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
 import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
@@ -25,38 +26,42 @@ import {
   UNION_ALPHA_DATA_AS_OF,
   UNION_ALPHA_MODEL_ID,
   UNION_ALPHA_OPENROUTER_URL,
+  UNION_ALPHA_REVEAL,
   communityClaims,
   timeline,
   unionAlphaFaqs,
   verifiedSpecs,
 } from "@repo/lib/union-alpha";
 
-const title = "Union Alpha on OpenRouter: What the Free Stealth Model Is (2026)";
-const h1 = "What is Union Alpha? The New Free Stealth Model on OpenRouter & OpenCode";
+const title = "Union Alpha on OpenRouter: Revealed as Unbiased Pareto (2026)";
+const h1 = "What is Union Alpha? The Stealth Model That Turned Out to Be Unbiased Pareto";
 const description =
-  "Union Alpha is a free, anonymous multimodal model on OpenRouter and OpenCode: 262K context, 128K output, image input, tool calling. Verified specs, live status, expected paid pricing, and why testers think it may be several models stitched together.";
+  "Union Alpha appeared on OpenRouter on 16 September 2026 and was revealed two days later as Unbiased Pareto: 262K context, 128K output, image input, tool calling. The full specs, the reveal, and what it costs now.";
 const canonical = `${SITE}/union-alpha`;
 
 const tldr = [
-  ["Maker", "Anonymous", "Provider listed as “Stealth”"],
+  ["Maker", "Unbiased", "Revealed 2026-09-18"],
+  ["Revealed as", "Unbiased Pareto", "unbiased/pareto"],
   ["Listed", "16 Sep 2026", "14:42 UTC"],
+  ["Delisted", "18 Sep 2026", "stealth route removed"],
   ["Context", "256K", "262,144 tokens"],
   ["Max output", "128K", "131,072 tokens"],
-  ["Price", "Free", "$0 in / $0 out"],
+  ["Price then", "Free", "$0 in / $0 out, 16–18 Sep"],
+  ["Price now", "$2.50 / $7.50", "per million tokens, in / out"],
   ["Tools", "Supported", "tool_choice: auto"],
 ];
 
 const comparison = [
   { href: "/hunter-alpha", name: "Hunter Alpha", context: "1M", vision: "No", revealed: "Xiaomi MiMo-V2.5" },
   { href: "/ox-alpha", name: "OX Alpha", context: "1M", vision: "No", revealed: "Z.ai GLM 5.3 Flash" },
-  { href: null, name: "Union Alpha", context: "256K", vision: "Yes", revealed: "Still anonymous" },
+  { href: null, name: "Union Alpha", context: "256K", vision: "Yes", revealed: "Unbiased Pareto" },
 ];
 
 const howTo = [
   ["Create an OpenRouter account.", "Chat works in the browser; the API needs an OpenRouter key, not a key from the mystery maker."],
   ["Select the model by ID.", null],
   ["Use tool calling if you are building.", "The endpoint declares tools, tool_choice (auto), response_format, temperature, top_p and max_tokens."],
-  ["Keep it out of production.", "An anonymous provider with no published data policy, on a free preview that can be repriced or delisted overnight, is for evaluation only."],
+  ["Call it by its real name now.", "stealth/union-alpha no longer resolves; unbiased/pareto is the same model, billed."],
 ];
 
 /** The three sibling pages, worded the way the live tracker words them. */
@@ -74,7 +79,7 @@ const relatedPages = [
   {
     href: "/union-alpha-not-working",
     title: "Errors and rate limits",
-    body: "Four failure modes on a saturated free endpoint, and the order to check them in.",
+    body: "Why the endpoint stopped on 18 September, and the other three failure modes that apply to every stealth release.",
   },
 ];
 ---
@@ -82,9 +87,9 @@ const relatedPages = [
   <JsonLd
     slot="head"
     data={articleSchema({
-      title: "Union Alpha: New Stealth Model on OpenRouter",
+      title: "Union Alpha: The Third Alpha-Line Codename, Revealed",
       description:
-        "Anonymous free model on OpenRouter with 256K context, image input and tool calling. Verified specs, live status and community theories.",
+        "The third Alpha-line codename on OpenRouter, revealed as Unbiased Pareto on 2026-09-18. Specs read from the catalogue, theories labelled as theories.",
       publishedAt: "2026-09-17",
       updatedAt: UNION_ALPHA_DATA_AS_OF,
       image: `${SITE}/og-image.png`,
@@ -105,7 +110,8 @@ const relatedPages = [
   <p class="lede">
     Union Alpha appeared on OpenRouter on 16 September 2026 with no announcement and no model card — the
     third anonymous model in the Alpha line, after Hunter Alpha (later Xiaomi MiMo-V2.5) and OX Alpha
-    (later Z.ai GLM 5.3 Flash). Facts and speculation are kept on separate surfaces on purpose:
+    (later Z.ai GLM 5.3 Flash). Two days later it was revealed as {UNION_ALPHA_REVEAL.name} and the
+    stealth route disappeared. Facts and speculation are kept on separate surfaces on purpose:
     everything below is either re-checkable against the public catalogue or labelled as a claim.
   </p>
   <div class="byline">
@@ -120,6 +126,12 @@ const relatedPages = [
   <div style="margin: var(--space-6) 0 var(--space-8);">
     <StatusStrip modelId={UNION_ALPHA_MODEL_ID} />
   </div>
+
+  {/*
+    Shared with the other three pages in the cluster — the sentence and the
+    numbers live in lib/union-alpha.ts, not in this file.
+  */}
+  <RevealNotice />
 
   <h2 id="tldr">The short version</h2>
   <div class="stats">
@@ -165,10 +177,10 @@ const relatedPages = [
     <li><strong style="color: var(--text);">{howTo[3][0]}</strong> {howTo[3][1]}</li>
   </ol>
   <p style="max-width: var(--measure); color: var(--text-muted);">
-    <strong style="color: var(--text);">Via OpenCode instead:</strong> third-party reports say the same
-    anonymous model is also reachable from OpenCode’s free tier, so you can try it inside an agentic coding
-    tool without wiring up an API key. Same caveats: no customer data, no credentials, assume the free
-    window closes.
+    <strong style="color: var(--text);">Via OpenCode:</strong> third-party reports said the same anonymous
+    model was reachable from OpenCode’s free tier. We never confirmed that independently, and it is moot now —
+    the anonymous model was delisted alongside the reveal. <a href="/union-alpha-opencode">The OpenCode page</a>
+    keeps the record of the claim.
   </p>
 
   <h2>How it compares to the earlier Alpha models</h2>
@@ -190,7 +202,7 @@ const relatedPages = [
     </table>
   </div>
   <div class="provenance">
-    <span>Source <code>public catalogue reads, 2026-09-17</code></span>
+    <span>Source <code>public catalogue reads, 2026-09-18</code></span>
     <span>Background <a href="/alpha-models">how the Alpha line works</a></span>
   </div>
 
@@ -198,11 +210,11 @@ const relatedPages = [
   <Faq items={unionAlphaFaqs} />
 
   <section class="card" style="margin-top: var(--space-12);">
-    <h2 style="margin-top: 0;">Get notified when Union Alpha is revealed</h2>
+    <h2 style="margin-top: 0;">Get notified about the next codename</h2>
     <p style="color: var(--text-muted); max-width: var(--measure);">
-      The first two models in this line were revealed and repriced weeks after they appeared. Leave your
-      email and we will tell you who Union Alpha turns out to be — and what it costs once the free preview
-      ends.
+      This reveal is over — Union Alpha ran for two days. Three codenames in, each one has been free while
+      anonymous and billed once revealed. Leave your email and we will tell you when the next one appears,
+      and who it turns out to be.
     </p>
     <SubscribeForm note="One email per reveal. No newsletter, no forwarding, unsubscribe in one click." />
   </section>
