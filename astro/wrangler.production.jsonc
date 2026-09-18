@@ -58,5 +58,7 @@
       "migrations_dir": "../d1/migrations"
     }
   ],
+  // Reveal emails (ADR-0017): `env.EMAIL.send()` from the notify endpoint.
+  "send_email": [{ "name": "EMAIL" }],
   "routes": [{ "pattern": "www.hunteralphahub.com", "custom_domain": true }]
 }

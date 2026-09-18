@@ -13,6 +13,9 @@
       "migrations_dir": "../d1/migrations"
     }
   ],
+  // Reveal emails (ADR-0017). The binding is the capability; a deployment without
+  // it answers 503 with a reason instead of pretending it sent something.
+  "send_email": [{ "name": "EMAIL" }],
 
   "assets": {
     "directory": "dist",
