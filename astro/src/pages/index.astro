@@ -67,6 +67,9 @@ const entryPoints = [
     body: "Price, context window and modality side by side — including the free anonymous model next to paid ones.",
   },
 ];
+/** Which models the workload cards have already shown, so no two cards repeat. */
+const usedInCards = new Set<string>();
+
 ---
 {/*
   No `| OpenRouter Model Hub` suffix here, unlike every other page: the live
@@ -121,8 +124,16 @@ const entryPoints = [
   <h2>Best pick by workload</h2>
   <div class="grid-cards">
     {defaultScenarios.slice(0, 4).map((scenario) => {
-      const model = modelsForScenario(scenario.scenario, 1)[0];
+      /*
+       * Four scenarios, and each card must name a different model: the first
+       * version took modelsForScenario(...)[0] for each, so "Best for long
+       * context" and "Best for budget" both printed Xiaomi MiMo-V2.5 — the two
+       * cards a reader compares side by side were the same model, which reads as
+       * a bug in the page and undermines the recommendation.
+       */
+      const model = modelsForScenario(scenario.scenario, 4).find((candidate) => !usedInCards.has(candidate.slug));
       if (!model) return null;
+      usedInCards.add(model.slug);
       return (
         <article class="card">
           <p class="card-kicker">{scenario.title}</p>

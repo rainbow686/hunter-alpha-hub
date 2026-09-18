@@ -84,35 +84,24 @@ import { GA_MEASUREMENT_ID } from "../lib/analytics";
 
 <script>
   /**
-   * Third-party scripts the live site loads, kept so the cutover does not quietly
-   * drop them:
-   *   - Adsterra social bar (the ad experiment the Next app injects client-side)
-   *   - AdSense, only when a client id is configured (the live site has none set,
-   *     so this stays off until someone sets PUBLIC_ADSENSE_ID)
+   * Ads used to be injected from here: an Adsterra social bar on every page, plus
+   * AdSense when a client id was configured.
    *
-   * Host-gated on purpose: the preview Worker is a full copy of the site on
-   * *.workers.dev, and running ad code there would bill impressions on a
-   * non-canonical host. Analytics is allowed everywhere (it is how we see
-   * preview traffic in Realtime); ads are not.
+   * Both are gone from this file as of 2026-09-18, and the reasons are different:
+   *
+   *   - **Adsterra social bar: removed.** It was the only ad code actually running
+   *     on the live site. Two days before announcing the Astro rebuild this site's
+   *     whole offer is "nothing rumoured, nothing unverifiable", and a third-party
+   *     bar that slides in and opens popups on click is spent trust for a few
+   *     dollars a month at this traffic level. It also sat directly in the window
+   *     where the site is being reviewed for AdSense. Restoring it is a git
+   *     revert, but the right format if it ever comes back is an in-page unit
+   *     (native/banner), never a popunder or a social bar.
+   *   - **AdSense: moved to the document head**, because the review needs the code
+   *     present in the HTML Google's crawler receives, and a script this file
+   *     injects at runtime is a much weaker signal than a tag in `<head>`. It is
+   *     rendered by `System.astro` only when `PUBLIC_ADSENSE_ID` is set at build
+   *     time, which the production deploy does and the preview deploy does not —
+   *     so the preview host still carries no ad code.
    */
-  const canonicalHost = typeof location !== "undefined" && /(^|\.)hunteralphahub\.com$/.test(location.hostname);
-  const ADSTERRA_SRC = "https://developdomicile.com/0c/a6/f5/0ca6f5bfea3d69bc643d7eac78aca2a8.js";
-  const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID as string | undefined;
-
-  if (canonicalHost) {
-    if (!document.querySelector(`script[src*="developdomicile.com"]`)) {
-      const socialBar = document.createElement("script");
-      socialBar.async = true;
-      socialBar.setAttribute("data-cfasync", "false");
-      socialBar.src = ADSTERRA_SRC;
-      document.body.appendChild(socialBar);
-    }
-    if (ADSENSE_ID && !document.querySelector(`script[src*="pagead2.googlesyndication.com"]`)) {
-      const adsense = document.createElement("script");
-      adsense.async = true;
-      adsense.crossOrigin = "anonymous";
-      adsense.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`;
-      document.head.appendChild(adsense);
-    }
-  }
 </script>

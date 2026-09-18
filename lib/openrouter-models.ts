@@ -31,7 +31,7 @@ export interface HubModel {
  * this array was re-checked against the public catalogue by `npm run sync-models`
  * that day, which is what the date is claiming.
  */
-const DATA_AS_OF = "2026-09-18";
+export const DATA_AS_OF = "2026-09-18";
 
 export const openrouterModels: HubModel[] = [
   {

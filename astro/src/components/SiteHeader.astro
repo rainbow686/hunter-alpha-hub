@@ -1,17 +1,31 @@
 ---
 import Logo from "./Logo.astro";
+import { DATA_AS_OF } from "@repo/lib/openrouter-models";
+import { stealthLine } from "@repo/lib/stealth-models";
 
 /**
  * Masthead header that folds into a single row on scroll.
  * Scroll logic lives in the layout (inline script) so this component stays static.
  */
 const path = Astro.url.pathname;
+/*
+ * The live slot and the verified stamp read from the tracker data, not from this
+ * file. They were hardcoded here (`Union Alpha live`, `Verified 2026-09-17`) while
+ * the page below said "Revealed 2026-09-18", and the footer printed a third date —
+ * on a site whose banner is "Facts from the public catalogue, dated and labelled".
+ * A codename's status is a claim about the world, so it lives in one field a human
+ * updates with evidence (lib/stealth-models.ts), and the date comes from the same
+ * catalogue snapshot the model pages use.
+ */
+const liveSlots = stealthLine.liveCodename
+  ? [`${stealthLine.liveCodename} live`]
+  : [`${stealthLine.lastRevealed.codename} revealed`, "no live codename"];
 const sections = [
   { href: "/comparison", label: "Comparison" },
   { href: "/openrouter-models", label: "Models" },
   { href: "/openrouter-pricing-calculator", label: "Pricing" },
   { href: "/stealth-models", label: "Stealth line" },
-  { href: "/union-alpha", label: "Union Alpha" },
+  { href: "/openrouter-free-models", label: "Free models" },
   { href: "/blog", label: "Articles" },
 ];
 ---
@@ -27,8 +41,12 @@ const sections = [
         <span class="line2">Facts from the public catalogue, dated and labelled</span>
       </div>
       <div class="live-slot">
-        <span class="badge live"><span class="dot"></span> Union Alpha live</span>
-        <span class="stamp">Verified<br />2026-09-17</span>
+        {liveSlots.map((slot, index) => (
+          <span class={index === 0 ? "badge live" : "badge"}>
+            <span class="dot"></span> {slot}
+          </span>
+        ))}
+        <span class="stamp">Verified<br />{DATA_AS_OF}</span>
       </div>
     </div>
   </div>
