@@ -1,0 +1,21 @@
+/**
+ * The apex Worker: `hunteralphahub.com` → `www.hunteralphahub.com`, 308.
+ *
+ * Deliberately has no `assets` block and no other routes — it exists to answer
+ * one host with one redirect, so the Astro Worker can stay asset-first. See
+ * worker/apex-redirect.ts for the measurement behind that split.
+ *
+ * Deploy: `npm run deploy:apex`. Both this Worker and the Astro one must be
+ * deployed at cutover; Cloudflare refuses either while the Next Worker still
+ * holds the custom domain, which is the cutover gate.
+ */
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "hunter-alpha-hub-apex",
+  "account_id": "de677f38b96340f3a63a53e5044a1c98",
+  "main": "worker/apex-redirect.ts",
+  "compatibility_date": "2026-08-25",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "hunteralphahub.com", "custom_domain": true }]
+}

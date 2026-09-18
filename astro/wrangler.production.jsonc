@@ -19,14 +19,12 @@
  *   - both custom domains bound here. Cloudflare will refuse this deploy while the
  *     Next Worker still holds them — that refusal is the cutover gate, not a bug.
  *
- * Apex → www is NOT handled here: Cloudflare serves the apex from this same
- * Worker, and a Workers Assets deployment answers static pages from the asset
- * layer (see dist/_routes.json), so app middleware never sees those requests.
- * The redirect belongs in a zone-level Redirect Rule:
- *   when host equals hunteralphahub.com → dynamic redirect to
- *   https://www.hunteralphahub.com + path, 308, preserve query string.
- * Until that rule exists, `hunteralphahub.com` and `www.hunteralphahub.com` serve
- * the same pages on two hosts, which is exactly what ADR-0009 exists to prevent.
+ *   - `assets` stays **asset-first** (no `run_worker_first`). Apex → www is NOT
+ *     handled here: Workers Assets answer static files before this script runs, so
+ *     an apex request never reaches the app. The fix is a second Worker bound to
+ *     the apex host (`wrangler.apex.jsonc` → `npm run deploy:apex`), because
+ *     `run_worker_first: true` was measured on 2026-09-18 and it silently dropped
+ *     all 92 `_redirects` rules in exchange for that one redirect.
  */
 {
   "$schema": "../node_modules/wrangler/config-schema.json",
@@ -35,17 +33,14 @@
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2026-08-25",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "dist",
     "binding": "ASSETS",
-    // Slashed variants (/faq/) must answer 308, not the asset layer's default 307:
-    // 307 is temporary, so Google keeps both forms instead of consolidating.
     "html_handling": "drop-trailing-slash",
-    // Unknown paths get the build's own 404.html instead of the bare asset-layer page.
     "not_found_handling": "404-page"
   },
-  "workers_dev": false,
-  "preview_urls": false,
   "routes": [
     { "pattern": "hunteralphahub.com", "custom_domain": true },
     { "pattern": "www.hunteralphahub.com", "custom_domain": true }

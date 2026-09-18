@@ -66,6 +66,33 @@ const indexNowKey = readdirSync(DIST).find((name) => /^[a-f0-9]{16,128}\.txt$/.t
 if (!indexNowKey) failures.push("no IndexNow key file in dist/ (the submit workflow verifies it on the live site)");
 
 /**
+ * The cutover config must stay asset-first, and the apex must have its own Worker.
+ *
+ * Measured 2026-09-18: adding `assets.run_worker_first: true` to get the apex
+ * redirect into the Astro Worker silently stopped the asset layer applying
+ * `_redirects` — `/faq/` returned 200 instead of 308, `/evidence` 200 instead of
+ * 301, i.e. all 92 generated rules gone. It is an easy line to add for a
+ * plausible reason, and nothing else in this repo would notice, so it is a check.
+ */
+const productionConfig = read("../wrangler.production.jsonc");
+if (productionConfig !== null) {
+  if (/^\s*"run_worker_first"\s*:\s*true/m.test(productionConfig)) {
+    failures.push(
+      "wrangler.production.jsonc enables run_worker_first — that drops every _redirects rule (see docs/lessons); the apex redirect belongs in wrangler.apex.jsonc",
+    );
+  }
+  if (!/"main"\s*:\s*"dist\/_worker\.js\/index\.js"/.test(productionConfig)) {
+    failures.push("wrangler.production.jsonc no longer points main at the generated Astro entry");
+  }
+}
+const apexConfig = read("../wrangler.apex.jsonc");
+if (apexConfig === null) {
+  failures.push("wrangler.apex.jsonc is missing — nothing would answer hunteralphahub.com with the 308");
+} else if (!/"pattern"\s*:\s*"hunteralphahub\.com"/.test(apexConfig)) {
+  failures.push("wrangler.apex.jsonc does not bind the apex host");
+}
+
+/**
  * `<lastmod>` has to be believable or it is worse than absent: Google ignores a
  * value it cannot trust, so a sitemap that says "every URL changed just now"
  * silently loses the one hint that says which pages are new. That is exactly what

@@ -16,7 +16,8 @@
     "preview": "wrangler dev",
     "deploy": "npm run build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
     "deploy:production": "npm run build && wrangler deploy --config wrangler.production.jsonc",
-    "og": "node scripts/generate-og-images.mjs"
+    "og": "node scripts/generate-og-images.mjs",
+    "deploy:apex": "wrangler deploy --config wrangler.apex.jsonc"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
