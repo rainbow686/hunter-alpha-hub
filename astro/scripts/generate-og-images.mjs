@@ -74,6 +74,7 @@ const KICKERS = [
   [/^\/blog\//, "Article"],
   [/^\/compare\//, "Model comparison"],
   [/^\/openrouter-models\//, "Model reference"],
+  [/^\/typesafe-jev/, "Model reference · verified"],
   [/^\/union-alpha/, "Stealth line · live tracker"],
   [/^\/stealth-models/, "Stealth line · register"],
   [/^\/alpha-models/, "Stealth line · explainer"],
