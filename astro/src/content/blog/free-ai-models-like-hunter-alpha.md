@@ -211,7 +211,7 @@ Consider paid options if:
 ## Quick Access Guide
 
 ### For Students
-- Start with Hunter Alpha (completely free)
+- Start with Hunter Alpha — $0.14/$0.28 per M for 1M context, and free only during the March 2026 preview
 - Use Google Colab for Qwen/Gemma
 - Apply for GitHub Student Pack (includes credits)
 
@@ -221,7 +221,7 @@ Consider paid options if:
 - Together AI free credits
 
 ### For Startups
-- Hunter Alpha for MVP (free!)
+- Hunter Alpha for an MVP when you need 1M context at $0.14/$0.28 per M (it was free during the March 2026 preview)
 - Negotiate enterprise rates later
 - Build abstraction layer for model swapping
 

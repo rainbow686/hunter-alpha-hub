@@ -18,7 +18,7 @@ tags:
 **Best free alternative:** Llama 3.1 405B (via Together AI or self-hosted)
 **Best paid alternative:** Claude 3.5 Sonnet (highest quality) or Gemini 1.5 Pro (1M context)
 
-Hunter Alpha (Xiaomi mimo-v2) is unique for offering 1M token context for free. Here are the best alternatives:
+Hunter Alpha (Xiaomi MiMo-V2.5) is still the cheapest way to get a 1M-token context window — $0.14 in / $0.28 out per million tokens — though it was free during its March 2026 preview. Here are the best alternatives:
 
 ---
 
@@ -26,7 +26,7 @@ Hunter Alpha (Xiaomi mimo-v2) is unique for offering 1M token context for free. 
 
 | Model | Context | Price | Best For |
 |-------|---------|-------|----------|
-| Hunter Alpha (mimo-v2) | 1M tokens | Free | Long context on budget |
+| Hunter Alpha (mimo-v2) | 1M tokens | $0.14/$0.28 per M | Long context on a budget |
 | Claude 3.5 Sonnet | 200K tokens | $3/$15 per M tokens | Highest quality output |
 | Gemini 1.5 Pro | 1M tokens | $1.25/$5 per M tokens | Google ecosystem users |
 | Llama 3.1 405B | 256K tokens | $0.90/$0.90 per M tokens | Self-hosting option |

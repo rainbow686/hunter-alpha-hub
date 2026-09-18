@@ -40,7 +40,7 @@ This comparison examines Hunter Alpha alongside two of the most popular AI model
 | GPT-4o | $2.50/M tokens | $10/M tokens |
 | Gemini 1.5 Pro | $1.25/M tokens | $5/M tokens |
 
-**Winner: Hunter Alpha** (completely free)
+**Winner: Hunter Alpha** ($0.14/$0.28 per M — it was free during the preview, which is the thing this post was written around)
 
 ## Capabilities Comparison
 

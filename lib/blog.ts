@@ -91,11 +91,13 @@ export const comparisonTargets: ComparisonTarget[] = [
 function generateVsContent(target: ComparisonTarget): string {
   const content = `# Hunter Alpha (mimo-v2) vs ${target.name}: Which Should You Choose in 2026?
 
+> **Update (2026-09-18):** the preview is long over. Xiaomi confirmed this model as **MiMo-V2.5** on 2026-03-23 and OpenRouter has billed it since — $0.14 in / $0.28 out per million tokens. Everything below is kept as the comparison as it stood during the free window. Live numbers: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
+
 ## Quick Answer
 
 **Choose Hunter Alpha (mimo-v2) if:**
 - You need the largest possible context window (1M tokens)
-- You want a completely free model for production use
+- You want the cheapest long-context tier rather than the free one — the free window closed on 2026-03-23
 - You're processing long documents, codebases, or multi-turn conversations
 
 **Choose ${target.name} if:**
@@ -108,10 +110,10 @@ function generateVsContent(target: ComparisonTarget): string {
 | Feature | Hunter Alpha (mimo-v2) | ${target.name} |
 |---------|------------------------|----------------|
 | **Context Window** | 1,048,576 tokens | ${target.contextWindow} |
-| **Price** | Free | ${target.price} |
+| **Price** | $0.14/$0.28 per M (free 12–23 Mar 2026) | ${target.price} |
 | **Provider** | Xiaomi | ${target.model.includes("claude") ? "Anthropic" : target.model.includes("gpt") ? "OpenAI" : target.model.includes("gemini") ? "Google" : target.model.includes("llama") ? "Meta" : target.model.includes("mistral") ? "Mistral AI" : target.model.includes("qwen") ? "Alibaba" : "Various"} |
 | **Multimodal** | No (text only) | ${target.model.includes("gpt") || target.model.includes("gemini") ? "Yes (vision + audio)" : "No"} |
-| **Best For** | Long context, free tier | ${target.bestFor} |
+| **Best For** | Long context on a budget | ${target.bestFor} |
 `;
   // Note: Full content continues with more sections...
   return content + generateRemainingVsContent(target);
@@ -127,7 +129,7 @@ function generateRemainingVsContent(target: ComparisonTarget): string {
     'Key characteristics:',
     `- **1 trillion parameters** for advanced reasoning`,
     `- **1M token context window** (~700,000 words or 200+ pages)`,
-    `- **Completely free** on OpenRouter`,
+    `- **Free during the preview** (12–23 March 2026); billed as MiMo-V2.5 since`,
     `- **Text-only** input and output`,
     `- Optimized for **agentic tasks** and long-horizon planning`,
     '',
@@ -167,7 +169,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "xiaomi-mimo-v2-complete-guide",
     title: "Xiaomi mimo-v2 Complete Guide: How to Use the 1M Context AI Model (2026)",
-    excerpt: "Formerly known as Hunter Alpha, Xiaomi's mimo-v2 offers 1M token context window for free. Complete guide to accessing and using this powerful AI model.",
+    excerpt: "Formerly known as Hunter Alpha, Xiaomi's MiMo-V2.5 offers a 1M-token context window at $0.14 in / $0.28 out per million tokens — it was free only during the March 2026 preview. Complete guide to using it.",
     content: `
 # Xiaomi mimo-v2 Complete Guide: How to Use the 1M Context AI Model (2026)
 
@@ -207,7 +209,7 @@ The model originally appeared on OpenRouter as "Hunter Alpha" with unknown origi
 
 1. Use the web chat interface for casual testing
 2. Or generate an API key for programmatic access
-3. The model is completely free — no credit card required
+3. A credit card is needed for API use: the preview is over and MiMo-V2.5 is billed at $0.14 in / $0.28 out per million tokens
 
 ## Getting Started: First Prompts
 
@@ -334,7 +336,7 @@ Review this codebase and identify:
 | Feature | mimo-v2 | Claude 3.5 | GPT-4o | Gemini 1.5 Pro |
 |---------|---------|------------|--------|----------------|
 | Context Window | 1M tokens | 200K tokens | 128K tokens | 1M tokens |
-| Price | Free | Paid tier | Paid tier | Paid tier |
+| Price | $0.14/$0.28 per M | Paid tier | Paid tier | Paid tier |
 | Speed | Slower | Fast | Fastest | Medium |
 | Code Quality | Good | Excellent | Excellent | Good |
 | Long Doc Accuracy | Excellent | Good | Limited | Excellent |
@@ -445,7 +447,7 @@ Xiaomi has officially announced that Hunter Alpha is their **mimo-v2** large lan
 | Context Window | 1,048,576 tokens |
 | Input Modality | Text only |
 | Output Modality | Text only |
-| Pricing | Free on OpenRouter |
+| Pricing | Free during the preview (12–23 March 2026); billed as MiMo-V2.5 since |
 | Provider | Xiaomi |
 | Release Date | March 12, 2026 |
 
@@ -787,7 +789,7 @@ Subjective, but here's my take:
 
 Not quite. Remember:
 - Claude's free tier has limits
-- Hunter Alpha is completely free
+- Hunter Alpha was completely free only during its preview; it is billed as MiMo-V2.5 now
 - For long docs specifically, Hunter Alpha matches Claude
 
 ## When Each Model Wins
@@ -871,7 +873,7 @@ Perhaps most surprisingly, Hunter Alpha is currently **100% free** on OpenRouter
 | Context Window | 1,048,576 tokens |
 | Input Modality | Text only |
 | Output Modality | Text only |
-| Pricing | Free |
+| Pricing | Free during the preview; billed as MiMo-V2.5 since |
 | Provider | Unknown |
 | Release Date | March 12, 2026 |
 
@@ -921,7 +923,7 @@ Could be the result of a collaborative open-source effort, explaining both the c
 
 ## Conclusion
 
-Hunter Alpha represents a fascinating development in the AI landscape. Whether you're a developer looking to build applications, a researcher studying AI capabilities, or simply someone curious about the mystery, Hunter Alpha offers a unique opportunity to explore cutting-edge AI technology—for free.
+Hunter Alpha represents a fascinating development in the AI landscape. Whether you're a developer looking to build applications, a researcher studying AI capabilities, or simply someone curious about the mystery, Hunter Alpha was a free way to explore a 1M-token context window during its March 2026 preview; as MiMo-V2.5 it now costs $0.14 in / $0.28 out per million tokens.
 
 Stay tuned to Hunter Alpha Hub for ongoing updates as the community continues to investigate and document this intriguing model.
 `,
@@ -964,7 +966,7 @@ This comparison examines Hunter Alpha alongside two of the most popular AI model
 | GPT-4o | $2.50/M tokens | $10/M tokens |
 | Gemini 1.5 Pro | $1.25/M tokens | $5/M tokens |
 
-**Winner: Hunter Alpha** (completely free)
+**Winner: Hunter Alpha** ($0.14/$0.28 per M — it was free during the preview, which is the thing this post was written around)
 
 ## Capabilities Comparison
 
@@ -4408,7 +4410,7 @@ export default function DocumentPage({ params }: { params: { id: string } }) {
 **Best free alternative:** Llama 3.1 405B (via Together AI or self-hosted)
 **Best paid alternative:** Claude 3.5 Sonnet (highest quality) or Gemini 1.5 Pro (1M context)
 
-Hunter Alpha (Xiaomi mimo-v2) is unique for offering 1M token context for free. Here are the best alternatives:
+Hunter Alpha (Xiaomi MiMo-V2.5) is still the cheapest way to get a 1M-token context window — $0.14 in / $0.28 out per million tokens — though it was free during its March 2026 preview. Here are the best alternatives:
 
 ---
 
@@ -4416,7 +4418,7 @@ Hunter Alpha (Xiaomi mimo-v2) is unique for offering 1M token context for free. 
 
 | Model | Context | Price | Best For |
 |-------|---------|-------|----------|
-| Hunter Alpha (mimo-v2) | 1M tokens | Free | Long context on budget |
+| Hunter Alpha (mimo-v2) | 1M tokens | $0.14/$0.28 per M | Long context on a budget |
 | Claude 3.5 Sonnet | 200K tokens | $3/$15 per M tokens | Highest quality output |
 | Gemini 1.5 Pro | 1M tokens | $1.25/$5 per M tokens | Google ecosystem users |
 | Llama 3.1 405B | 256K tokens | $0.90/$0.90 per M tokens | Self-hosting option |
@@ -4861,7 +4863,7 @@ Consider paid options if:
 ## Quick Access Guide
 
 ### For Students
-- Start with Hunter Alpha (completely free)
+- Start with Hunter Alpha — $0.14/$0.28 per M for 1M context, and free only during the March 2026 preview
 - Use Google Colab for Qwen/Gemma
 - Apply for GitHub Student Pack (includes credits)
 
@@ -4871,7 +4873,7 @@ Consider paid options if:
 - Together AI free credits
 
 ### For Startups
-- Hunter Alpha for MVP (free!)
+- Hunter Alpha for an MVP when you need 1M context at $0.14/$0.28 per M (it was free during the March 2026 preview)
 - Negotiate enterprise rates later
 - Build abstraction layer for model swapping
 
@@ -4894,9 +4896,9 @@ Consider paid options if:
 
 ## Quick Verdict
 
-**Best for 1M context:** Hunter Alpha (free!) or Gemini 1.5 Pro (multimodal)
+**Best for 1M context:** Hunter Alpha / MiMo-V2.5 or Gemini 1.5 Pro (multimodal)
 **Best for quality:** Claude 3.5 Sonnet (but only 200K context)
-**Best value:** Hunter Alpha (1M context + free)
+**Best value:** Hunter Alpha at $0.14/$0.28 per M — it was free during the March 2026 preview, and this post compares that window
 
 ---
 
@@ -4905,10 +4907,10 @@ Consider paid options if:
 | Feature | Hunter Alpha | Claude 3.5 Sonnet | Gemini 1.5 Pro |
 |---------|--------------|-------------------|----------------|
 | Context Window | 1M tokens | 200K tokens | 1M tokens |
-| Price | Free | $3/$15 per M tokens | $1.25/$5 per M tokens |
+| Price | $0.14/$0.28 per M | $3/$15 per M tokens | $1.25/$5 per M tokens |
 | Multimodal | No | No | Yes (vision + audio) |
 | Provider | Xiaomi | Anthropic | Google |
-| Best For | Long context free | Quality output | Google ecosystem |
+| Best For | Long context on a budget | Quality output | Google ecosystem |
 
 ---
 
@@ -5025,7 +5027,7 @@ Consider paid options if:
 ## Decision Matrix
 
 ### Choose Hunter Alpha if:
-- ✅ You need 1M context for free
+- ✅ You need 1M context at the lowest price per million in this field
 - ✅ Single-pass processing is important
 - ✅ Cost is the primary constraint
 - ✅ You can tolerate slower response times
@@ -5080,7 +5082,7 @@ For **production use**, I'd run:
 - **Gemini 1.5 Pro** if I need vision/audio
 
 For **hobbyists/students**:
-- **Hunter Alpha** all the way (free!)
+- **Hunter Alpha** if you need 1M context — billed, not free: the preview ended in March 2026
 
 ---
 
@@ -5122,7 +5124,7 @@ The 1M-context landscape has moved since this comparison was written: two entrie
 
 | Rank | Model | Context | Price | Best For |
 |------|-------|---------|-------|----------|
-| 1 | Hunter Alpha (mimo-v2) | 1,048,576 tokens | Free | Budget long context |
+| 1 | Hunter Alpha (mimo-v2) | 1,048,576 tokens | $0.14/$0.28 per M | Budget long context |
 | 1 | Gemini 1.5 Pro | 1,048,576 tokens | $1.25/$5 | Multimodal long context |
 | 3 | Llama 3.1 405B | 256K tokens | $0.90/$0.90 | Self-hosting |
 | 3 | Qwen 2.5 72B | 256K tokens | $0.35/$0.80 | Chinese support |
@@ -5329,7 +5331,7 @@ But as of now, these are purely hypothetical.
 
 1. Visit [openrouter.ai](https://openrouter.ai)
 2. Search for "mimo-v2" or "Hunter Alpha"
-3. Start chatting — completely free, no credit card required
+3. Start chatting — no credit card needed for chat; the model itself is billed now that the preview has ended
 
 ## Stay Updated
 

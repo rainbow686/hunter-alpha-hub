@@ -62,7 +62,7 @@ But as of now, these are purely hypothetical.
 
 1. Visit [openrouter.ai](https://openrouter.ai)
 2. Search for "mimo-v2" or "Hunter Alpha"
-3. Start chatting — completely free, no credit card required
+3. Start chatting — no credit card needed for chat; the model itself is billed now that the preview has ended
 
 ## Stay Updated
 

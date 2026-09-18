@@ -94,7 +94,7 @@ Subjective, but here's my take:
 
 Not quite. Remember:
 - Claude's free tier has limits
-- Hunter Alpha is completely free
+- Hunter Alpha was completely free only during its preview; it is billed as MiMo-V2.5 now
 - For long docs specifically, Hunter Alpha matches Claude
 
 ## When Each Model Wins

@@ -161,6 +161,12 @@ const PINNED_DIFFERENCES = {
     reason:
       "the post is dated 2026-09-17; the excerpt now carries the reveal so the search result does not advertise a two-day window that already closed",
   },
+  "blog/xiaomi-mimo-v2-complete-guide description": {
+    expect:
+      "Formerly known as Hunter Alpha, Xiaomi's MiMo-V2.5 offers a 1M-token context window at $0.14 in / $0.28 out per million tokens — it was free only during the March 2026 preview. Complete guide to using it.",
+    reason:
+      "the excerpt advertised '1M token context window for free', which stopped being true on 2026-03-23 when Xiaomi claimed the model and it was billed; the build carries the corrected sentence and live catches up on deploy",
+  },
 };
 
 const decode = (value) =>
