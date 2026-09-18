@@ -22,7 +22,7 @@ Hunter Alpha is no longer free — it is [Xiaomi MiMo-V2.5](/openrouter-models/m
 
 ## Quick Answer
 
-Hunter Alpha (Xiaomi mimo-v2) is one of the few **truly free** models with 1M context. Other free options include:
+Hunter Alpha is **no longer free** — it is Xiaomi MiMo-V2.5 at $0.14 in / $0.28 out per million tokens, and it stays the cheapest way to get a 1M-token context window. The free options below are still free:
 
 1. **Llama 3.1 405B** - Free tier on Together AI, Groq
 2. **Qwen 2.5 72B** - Free on some platforms

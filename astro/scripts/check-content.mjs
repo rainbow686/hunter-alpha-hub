@@ -52,6 +52,7 @@ const STALE_FREE_CLAIMS = [
   [/\(free!\)/i, "a parenthetical '(free!)'"],
   [/completely free on openrouter/i, "the phrase 'completely free on OpenRouter'"],
   [/you need 1m context for free/i, "the phrase 'you need 1M context for free'"],
+  [/truly free\*{0,2} models with 1m context/i, "the phrase 'truly free models with 1M context'"],
 ];
 
 for (const name of files) {

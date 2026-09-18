@@ -250,7 +250,7 @@ Many teams use multiple models:
   ┌─────▼──┐ ┌─▼──────────┐
   │ Hunter │ │ Alternative│
   │ Alpha  │ │ (task-spec)│
-  │ (free) │ │            │
+  │ (1M)   │ │            │
   └────────┘ └────────────┘
 ```
 
