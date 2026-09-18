@@ -69,7 +69,7 @@ export default function UnionAlphaFreePage() {
   return (
     <>
       <ArticleSchema
-        title="Is Union Alpha Free? The Stealth Preview Window Explained"
+        title="Is Union Alpha Free? No — the Free Window Is Over"
         description="Two free days, then a reveal: what the anonymous window cost, what unbiased/pareto bills now, and how the previous two Alpha models ended."
         publishedAt="2026-09-17"
         updatedAt={UNION_ALPHA_DATA_AS_OF}
