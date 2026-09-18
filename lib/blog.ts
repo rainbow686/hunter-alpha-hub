@@ -1652,7 +1652,7 @@ Hunter Alpha is now **Xiaomi MiMo-V2.5**, so most "not working" reports today ar
 
 - Current ID, price and context window: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
 - The diagnostic steps below still work, but the live catalog is the source of truth — see the [full model directory](/openrouter-models).
-- Looking for the endpoint that is still free right now? That is the anonymous [Union Alpha](/union-alpha), with a live status badge.
+- Asking which endpoint is free today? Union Alpha's free window closed on 18 September 2026, when it was revealed as Unbiased Pareto and delisted — the [free models page](/openrouter-free-models) is the list that gets re-checked against the catalogue.
 
 ## Quick Answer
 
@@ -2274,7 +2274,7 @@ Hunter Alpha turned out to be **Xiaomi MiMo-V2.5**, and OpenRouter has since rep
 
 - Current pricing and context for the model: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
 - Picking an endpoint for long documents today: compare the [model directory](/openrouter-models) instead of assuming the old free tier.
-- Timeouts on **stealth** models usually come from the free window being rate-limited — the current one is [Union Alpha](/union-alpha), where we track live status.
+- Timeouts on **stealth** models usually come from the free window being rate-limited. The last one in this line, [Union Alpha](/union-alpha), ran from 16 to 18 September 2026 and is now revealed and delisted.
 
 ## Quick Answer
 
@@ -4668,7 +4668,7 @@ Use Hunter Alpha for long-context tasks, and specialized models for specific nee
 Hunter Alpha is no longer free — it is [Xiaomi MiMo-V2.5](/openrouter-models/mimo-v2.5), priced like the rest of the catalog. The alternatives below still hold, and the free tier itself has moved on:
 
 - Current free routes: [OpenRouter free models](/openrouter-free-models).
-- The live free stealth model right now: [Union Alpha](/union-alpha) — 256K context, image input, anonymous provider (evaluation only, no published data policy).
+- The last free stealth model of the line: [Union Alpha](/union-alpha) — 256K context, image input, revealed on 18 September 2026 as Unbiased Pareto and billed since.
 
 ## Quick Answer
 
@@ -5104,7 +5104,7 @@ For **hobbyists/students**:
 The 1M-context landscape has moved since this comparison was written: two entries were renamed after their stealth windows closed — Hunter Alpha is now [MiMo-V2.5](/openrouter-models/mimo-v2.5) and OX Alpha is now [GLM 5.3 Flash](/openrouter-models/glm-5.3-flash).
 
 - The price table below is a September 2026 snapshot; live per-million pricing is in the [pricing calculator](/openrouter-pricing-calculator).
-- Newest long-context entry: [Union Alpha](/union-alpha) — 256K, free, image input, unclaimed maker.
+- Newest long-context entry: [Union Alpha](/union-alpha) — 256K, image input; free for two days in September 2026 and revealed since as Unbiased Pareto.
 - Everything current: [OpenRouter model directory](/openrouter-models).
 
 ## Quick Answer
@@ -5267,7 +5267,7 @@ Industry predictions:
 
 ---
 
-*Live status, re-read from the catalogue, is on the [Union Alpha tracker](/union-alpha).*
+*The reveal, and the live catalogue read that confirmed it, are on the [Union Alpha tracker](/union-alpha).*
 `,
     author: "Hunter Alpha Hub Team",
     publishedAt: "2026-03-23",
@@ -5359,7 +5359,7 @@ If Xiaomi announces any new models or variants, we'll update this page. For now,
 Hunter Alpha 已被确认为小米 **MiMo-V2.5**，而且在 OpenRouter 上已经不再是免费模型 —— 标题里的「免费 1M 上下文」指的是当年的窗口，现在要按付费模型来看。
 
 - 当前模型 ID、定价与上下文窗口：[MiMo-V2.5 模型页](/openrouter-models/mimo-v2.5)。
-- 想要现在仍然免费的额度：[免费模型页](/openrouter-free-models)；当前匿名免费模型是 [Union Alpha](/union-alpha)（带实时在线状态）。
+- 想要现在仍然免费的额度：[免费模型页](/openrouter-free-models)；上一轮的匿名免费模型 [Union Alpha](/union-alpha) 已于 2026-09-18 揭晓为 Unbiased Pareto 并从目录下架。
 
 ## 快速摘要
 
@@ -6267,9 +6267,11 @@ I will refresh the comparison page and pricing snapshot as providers change. If 
     slug: "union-alpha-stealth-model-openrouter",
     title: "Union Alpha: What We Actually Know About the New Stealth Model on OpenRouter",
     excerpt:
-      "Union Alpha appeared on OpenRouter on 16 September 2026 with 256K context, image input, tool calling and $0 pricing. Here are the verified specs, the community theories, and how to use it without getting burned.",
+      "Union Alpha appeared on OpenRouter on 16 September 2026 with 256K context, image input, tool calling and $0 pricing — and was revealed two days later as Unbiased Pareto. The verified specs, the community theories, and the reveal.",
     content: `
 # Union Alpha: What We Actually Know
+
+> **Update, 18 September 2026 — the codename is over.** Union Alpha was revealed as **Unbiased Pareto**, developed and operated by **Unbiased**. OpenRouter's stealth page now states it, \`stealth/union-alpha\` has been removed from the catalogue (the endpoint answers 404), and the same model — same 262,144-token window — is listed as \`unbiased/pareto\` at $2.50 in / $7.50 out per million tokens. The free window below lasted two days. See the [tracker](/union-alpha) for the dated version of all of it.
 
 On 16 September 2026 an anonymous model called **Union Alpha** appeared on OpenRouter as \`stealth/union-alpha\`. No announcement, no model card, no named maker — the same pattern as Hunter Alpha and OX Alpha before it.
 
@@ -6280,11 +6282,11 @@ This post separates the two things most write-ups mix together: **what the catal
 | Field | Value |
 |---|---|
 | OpenRouter ID | \`stealth/union-alpha\` |
-| Maker | Undisclosed (provider listed as "Stealth") |
+| Maker | Unbiased — revealed 2026-09-18 (provider was listed as "Stealth" while anonymous) |
 | Context | 262,144 tokens (256K) |
 | Max output | 131,072 tokens (128K) |
 | Modality | Text + image in, text out |
-| Pricing | Free — $0 in / $0 out |
+| Pricing | Free during the window ($0 in / $0 out, 16–18 September); now $2.50 in / $7.50 out per million as \`unbiased/pareto\` |
 | Tool calling | Supported (tools, tool_choice auto, response_format) |
 | Added | 2026-09-16 14:42 UTC |
 
@@ -6332,13 +6334,17 @@ Use it for experiments, comparisons and throwaway tasks. Do not put customer dat
 
 ## How to try it
 
+The ID below is dead as of 18 September 2026 — \`stealth/union-alpha\` answers 404. What the window looked like, for the record:
+
 1. Create an OpenRouter account and open the model page.
 2. Select \`stealth/union-alpha\` in the model picker, or call it through the OpenRouter API with that ID.
 3. If you are testing tool calling, note the endpoint advertises \`tools\`, \`tool_choice\` (auto), \`response_format\`, \`temperature\`, \`top_p\` and \`max_tokens\`.
 
+To use the model now, call \`unbiased/pareto\` — same weights as far as the catalogue shows (identical context window and modality), billed at $2.50 in / $7.50 out per million tokens.
+
 ## What to watch for next
 
-The pattern from the first two Alpha models is: free window, community investigation, then a reveal and a rename. When that happens, pricing and the model ID usually change. If you want the live status rather than a static article, use the [Union Alpha tracker](/union-alpha) — it checks the catalog on every visit and labels speculation separately from verified specs.
+The pattern has now held three times: a free window, community investigation, then a reveal and a rename. For Union Alpha that took two days — the shortest of the three. If you want the live status rather than a static article, use the [Union Alpha tracker](/union-alpha) — it checks the catalog on every visit and labels speculation separately from verified specs.
 
 Want to compare Union Alpha against paid models on real workloads? Start from the [model directory](/openrouter-models) or the [comparison hub](/comparison).
 `,

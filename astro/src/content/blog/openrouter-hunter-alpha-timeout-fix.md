@@ -20,7 +20,7 @@ Hunter Alpha turned out to be **Xiaomi MiMo-V2.5**, and OpenRouter has since rep
 
 - Current pricing and context for the model: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
 - Picking an endpoint for long documents today: compare the [model directory](/openrouter-models) instead of assuming the old free tier.
-- Timeouts on **stealth** models usually come from the free window being rate-limited — the current one is [Union Alpha](/union-alpha), where we track live status.
+- Timeouts on **stealth** models usually come from the free window being rate-limited. The last one in this line, [Union Alpha](/union-alpha), ran from 16 to 18 September 2026 and is now revealed and delisted.
 
 ## Quick Answer
 

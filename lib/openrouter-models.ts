@@ -105,10 +105,14 @@ export const openrouterModels: HubModel[] = [
     name: "DeepSeek V4 Pro",
     vendor: "DeepSeek",
     contextWindow: 1_048_576,
-    // Repriced by the provider; caught by npm run sync-models on 2026-09-18
-    // (was $0.66 / $1.98, catalogue now reads $0.57948 / $1.73844 per 1M).
-    inputPricePerMillion: 0.57948,
-    outputPricePerMillion: 1.73844,
+    // Caught twice by `npm run sync-models` on 2026-09-18: the catalogue reads
+    // $0.66 / $1.98 per 1M for this id, and an earlier read that day returned
+    // $0.57948 / $1.73844 — an 0.878x multiplier on both numbers, i.e. a
+    // promotional price on the same route. Only one of those can be published at
+    // a time, so publish the undiscounted read and let the daily check tell us
+    // when it moves again.
+    inputPricePerMillion: 0.66,
+    outputPricePerMillion: 1.98,
     modalities: ["Text"],
     bestFor: ["Long Context", "Budget", "Agents"],
     strengths: [

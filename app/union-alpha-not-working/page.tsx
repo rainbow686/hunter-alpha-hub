@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Card } from "@/components/card";
+import { RevealNotice } from "@/components/reveal-notice";
 import { SubscriptionForm } from "@/components/subscription-form";
 import {
   ArticleSchema,
   BreadcrumbListSchema,
   FAQSchema,
 } from "@/components/structured-data";
-import { UNION_ALPHA_DATA_AS_OF, UNION_ALPHA_MODEL_ID } from "@/lib/union-alpha";
+import {
+  UNION_ALPHA_DATA_AS_OF,
+  UNION_ALPHA_MODEL_ID,
+  UNION_ALPHA_REVEAL,
+} from "@/lib/union-alpha";
 
 const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/union-alpha-not-working`;
@@ -83,22 +88,22 @@ const faqs = [
   {
     question: "Is Union Alpha down right now?",
     answer:
-      "Check it rather than guess: the status endpoint on this site reads the OpenRouter catalogue live and reports whether the model is still listed, along with its current price and window. If the catalogue lists it and your requests still fail, the problem is between you and the endpoint — saturation, limits or your client.",
+      "It is gone, not down: stealth/union-alpha was removed from the OpenRouter catalogue on 2026-09-18 when the model was revealed as Unbiased Pareto, and the endpoint answers 404. The status endpoint on this site reads the catalogue live and still reports it as unlisted. The replacement is unbiased/pareto, at a listed $2.50 in / $7.50 out per million tokens.",
   },
   {
     question: "Does Union Alpha have an official error reference?",
     answer:
-      "No. There is no public documentation from the maker, because the maker is anonymous. Anything presented as a definitive Union-Alpha-specific error code list is somebody's inference. We list failure modes and what to check, and we say when we do not know.",
+      "No. While the model was anonymous there was no documentation from the maker, and anything presented as a definitive Union-Alpha-specific error code list was somebody's inference. The failure modes below are general to stealth endpoints, which is why they are still useful for the next codename.",
   },
   {
     question: "Why did it work yesterday and not today?",
     answer:
-      "Three ordinary reasons: the free preview ended or was repriced, the endpoint is saturated by a traffic spike, or the codename was replaced when the model was revealed. The status endpoint distinguishes the first and third from the second.",
+      "In this case: the third of the three ordinary reasons, and it happened on schedule. Stealth endpoints stop when the reveal lands, and the reveal landed on 2026-09-18 — the codename was replaced by the real model name in the same 24 hours. Saturation (rate limits, queueing) is the other common cause, and it is the one that resolves itself.",
   },
   {
     question: "Should I report the error to anyone?",
     answer:
-      "There is no support channel to report it to — no vendor account, no status page, no issue tracker. That is inherent to using an anonymous endpoint, and it is the strongest argument for keeping a fallback model configured.",
+      "There was never a support channel — no vendor account, no status page, no issue tracker, which is inherent to an anonymous endpoint. There is now a named vendor behind the revealed model, so the ordinary route for a bug report is the model's listing on OpenRouter. The stronger lesson is unchanged: keep a fallback configured.",
   },
 ];
 
@@ -107,7 +112,7 @@ export default function UnionAlphaNotWorkingPage() {
     <>
       <ArticleSchema
         title="Union Alpha Not Working? Rate Limits, Empty Replies, Missing Model"
-        description="Four failure modes on the Union Alpha stealth endpoint and the order to check them in."
+        description="The endpoint is delisted, not broken — and why the other three failure modes still apply to the next codename."
         publishedAt="2026-09-17"
         updatedAt={UNION_ALPHA_DATA_AS_OF}
         image={`${baseUrl}/og-image.png`}
@@ -135,17 +140,21 @@ export default function UnionAlphaNotWorkingPage() {
           <span className="gradient-text">Union Alpha not working?</span>
         </h1>
         <p className="text-lg mb-6 leading-relaxed" style={{ color: "var(--muted)" }}>
-          Start with the one check that settles most of it: is the model still listed, and still free? Everything else
-          is a smaller question, and there are only four of them.
+          If it stopped working on 18 September 2026, the reason is settled: the codename was retired. Everything else
+          on this page is the other three failure modes, kept because they apply to every stealth release — and to the
+          next one.
         </p>
+
+        <RevealNotice compact />
 
         <Card className="p-6 mb-10" glow>
           <div className="text-xs uppercase tracking-widest mb-2" style={{ color: "var(--muted)" }}>Step zero</div>
           <p className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
             Open <a href="/api/union-alpha/status" className="text-violet-400 hover:underline">/api/union-alpha/status</a>.
             It reads the OpenRouter catalogue live and answers three questions at once: is <code>{UNION_ALPHA_MODEL_ID}</code>{" "}
-            still there, is it still $0, and what window and output cap does it currently declare. If the answer is
-            &ldquo;no longer listed&rdquo;, stop here — the reveal has happened and the codename is historical.
+            still there, is it still free, and what window and output cap does it currently declare. Today it answers
+            &ldquo;no longer listed&rdquo; — the reveal has happened, the codename is historical, and the replacement is{" "}
+            <code>{UNION_ALPHA_REVEAL.modelId}</code>.
           </p>
         </Card>
 
@@ -175,9 +184,9 @@ export default function UnionAlphaNotWorkingPage() {
           <h2 className="text-2xl font-bold mb-4">What nobody outside the maker can tell you</h2>
           <ul className="space-y-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
             <li>• Whether your specific account is limited, and to what — there is no account console to look at.</li>
-            <li>• When the free window closes. No notice period has ever been published for this line.</li>
-            <li>• Whether the endpoint will exist tomorrow. Delisting is the normal end of a stealth release.</li>
             <li>• Why a particular generation came back wrong. Without an operator, &ldquo;the model was busy&rdquo; stays a hypothesis.</li>
+            <li>• Whether the OpenCode route ever really served it. We could never check that from outside, and the window is closed now.</li>
+            <li>• How long the next codename will last. Three releases, three unannounced endings — that is the whole sample.</li>
           </ul>
           <p className="text-sm mt-4" style={{ color: "var(--muted)" }}>
             We keep those limits on the page instead of writing confident-sounding filler, because the point of a
@@ -199,9 +208,10 @@ export default function UnionAlphaNotWorkingPage() {
 
         <section className="mb-10">
           <Card className="p-6">
-            <h2 className="text-xl font-bold mb-2">Get told when the codename is replaced</h2>
+            <h2 className="text-xl font-bold mb-2">Get told when the next codename appears</h2>
             <p className="text-sm mb-5 leading-relaxed" style={{ color: "var(--muted)" }}>
-              When Union Alpha is revealed, this is the change that breaks the endpoint for everyone.
+              One email when the next stealth model is listed — and one when its identity comes out, which is the
+              change that breaks the endpoint for everyone.
             </p>
             <SubscriptionForm />
           </Card>

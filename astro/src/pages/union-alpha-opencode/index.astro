@@ -14,45 +14,47 @@
 import System from "../../layouts/System.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import Faq from "../../components/Faq.astro";
+import RevealNotice from "../../components/RevealNotice.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
 import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
 import {
   UNION_ALPHA_DATA_AS_OF,
   UNION_ALPHA_MODEL_ID,
   UNION_ALPHA_OPENROUTER_URL,
+  UNION_ALPHA_REVEAL,
 } from "@repo/lib/union-alpha";
 
-const title = "Union Alpha on OpenCode: How to Use the Free Tier (2026)";
+const title = "Union Alpha on OpenCode: What Happened to the Free Route (2026)";
 const description =
-  "Union Alpha is reportedly reachable from OpenCode's free tier as well as OpenRouter. What is verified, what is only a claim, how to try it, and the limits you should assume before you put it in a workflow.";
+  "The Union Alpha free route is over: the model was revealed as Unbiased Pareto on 2026-09-18 and delisted. What was verified about the OpenCode route, what was only reported, and what to do instead.";
 const canonical = `${SITE}/union-alpha-opencode`;
 
 const frontDoors = [
   {
     label: "OpenRouter route",
-    verdict: "Verified",
-    tone: "verified",
-    detail: `${UNION_ALPHA_MODEL_ID}, free, 262K context, read from the catalogue on ${UNION_ALPHA_DATA_AS_OF}.`,
+    verdict: "Gone",
+    tone: "warn",
+    detail: `${UNION_ALPHA_MODEL_ID} was delisted on ${UNION_ALPHA_DATA_AS_OF}; the same model is listed as ${UNION_ALPHA_REVEAL.modelId}, billed.`,
   },
   {
     label: "OpenCode route",
-    verdict: "Reported",
+    verdict: "Reported, and now moot",
     tone: "claim",
     detail:
-      "Third-party write-ups and the model's own landing page say the same anonymous model is on OpenCode's free tier. We have not been able to confirm it independently.",
+      "Third-party write-ups said the same anonymous model was on OpenCode's free tier. We never confirmed it independently, and the anonymous model no longer exists to serve.",
   },
   {
     label: "API key needed",
-    verdict: "None for OpenCode",
+    verdict: "Key needed now",
     tone: "",
     detail:
-      "The OpenRouter route needs an OpenRouter key. Neither route needs a key from the anonymous maker.",
+      `Using ${UNION_ALPHA_REVEAL.modelId} means billing it, which means an OpenRouter key. No key from the maker was ever published.`,
   },
   {
-    label: "Data policy",
-    verdict: "None published",
-    tone: "warn",
-    detail: "Anonymous provider on both routes. No retention or privacy terms exist to read.",
+    label: "Was it worth setting up",
+    verdict: "For two days",
+    tone: "",
+    detail: "The free window lasted 2026-09-16 to 2026-09-18. Anything built to depend on it had to change on day three.",
   },
 ];
 
@@ -78,15 +80,15 @@ const howToTry = [
 const checkYourself = [
   {
     want: "Is it still on OpenRouter, and still free?",
-    where: `<a href="/api/union-alpha/status">status endpoint</a> or the <a href="${UNION_ALPHA_OPENROUTER_URL}" rel="noopener noreferrer">listing itself ↗</a>`,
+    where: `No. The <a href="/api/union-alpha/status">status endpoint</a> answers “no longer listed”, and the <a href="${UNION_ALPHA_OPENROUTER_URL}" rel="noopener noreferrer">stealth page ↗</a> still carries the reveal notice.`,
   },
   {
     want: "Is the OpenCode free tier still serving it?",
-    where: "Only from inside your OpenCode client — there is no public endpoint we can poll",
+    where: "Unknown, and no longer worth checking: the anonymous model was delisted from OpenRouter, which is the route both write-ups pointed at.",
   },
   {
-    want: "What it will cost after the preview",
-    where: `Unknown. See <a href="/union-alpha-free">the free-window page</a>`,
+    want: "What it costs now",
+    where: `$${UNION_ALPHA_REVEAL.inputPricePerMillion.toFixed(2)} in / $${UNION_ALPHA_REVEAL.outputPricePerMillion.toFixed(2)} out per million, read from the catalogue. See <a href="/union-alpha-free">the free-window page</a>.`,
   },
 ];
 
@@ -94,22 +96,22 @@ const faqs = [
   {
     question: "Is Union Alpha really available on OpenCode?",
     answer:
-      "That is the claim, not a verified fact. OpenCode's free tier is described by third parties — including material published for the model itself — as serving the same anonymous model. Our own verification is limited to OpenRouter, where we read the catalogue directly. Treat the OpenCode route as reported-but-unconfirmed and check it yourself before relying on it.",
+      "It was reported, never verified by us — and it is now moot. OpenCode's free tier was described by third parties as serving the same anonymous model; our own verification was always limited to OpenRouter, where we read the catalogue directly. That catalogue entry was removed on 2026-09-18 when the model was revealed as Unbiased Pareto, so there is no anonymous Union Alpha left to route anywhere.",
   },
   {
     question: "Do I need an OpenRouter API key to use Union Alpha through OpenCode?",
     answer:
-      "No. The point of the OpenCode route is that the model is reachable from its free tier without wiring up your own key. If you call it on OpenRouter instead, you do need an OpenRouter key — but not a key from the anonymous maker, who has not published one.",
+      "That was the appeal of the OpenCode route: no key of your own. It is gone with the free window. The revealed model, unbiased/pareto, is a normal billed OpenRouter listing, so using it now does need an OpenRouter key.",
   },
   {
-    question: "Is it the same model on both routes?",
+    question: "Was it the same model on both routes?",
     answer:
-      "Reportedly yes: same anonymous release, two front doors. We cannot prove it from outside, and the model's own answers about its identity are unreliable — testers have reported inconsistent behaviour between sessions.",
+      "Reportedly yes: same anonymous release, two front doors. We could never prove it from outside, and the model's own answers about its identity were unreliable — testers reported inconsistent behaviour between sessions, which is one of the reasons people suspected more than one model behind the name.",
   },
   {
     question: "What should I not use Union Alpha for?",
     answer:
-      "Anything with secrets or other people's data. The provider is anonymous, no privacy or retention policy has been published, and free stealth previews have historically ended without warning. Evaluation and side projects, yes; production credentials or customer data, no.",
+      "Anything with secrets or other people's data — the advice has not changed now that the vendor has a name. Free stealth previews on this line have ended without warning three times, and the anonymous era of this model lasted two days. Evaluation and side projects, yes; production credentials or customer data, no.",
   },
 ];
 ---
@@ -119,7 +121,7 @@ const faqs = [
     data={articleSchema({
       title: "Union Alpha on OpenCode: How to Use the Free Tier",
       description:
-        "The free route into the anonymous Union Alpha model, with verified facts and unverified claims kept apart.",
+        "The OpenCode route as it stood during the anonymous window, and what replaced it after the 2026-09-18 reveal.",
       publishedAt: "2026-09-17",
       updatedAt: UNION_ALPHA_DATA_AS_OF,
       image: `${SITE}/og-image.png`,
@@ -139,10 +141,13 @@ const faqs = [
   <p class="kicker">Stealth line · Union Alpha · access</p>
   <h1 class="display">Union Alpha on OpenCode</h1>
   <p class="lede">
-    Union Alpha has two front doors: the OpenRouter listing we can verify directly, and an OpenCode free-tier
-    route that third parties report. This page keeps those two apart, tells you how to try the second one, and
-    states what we cannot check from outside.
+    Union Alpha was reported to have two front doors: the OpenRouter listing we could verify directly, and an
+    OpenCode free-tier route that third parties described. Both closed on 2026-09-18, when the model was
+    revealed as Unbiased Pareto. This page keeps the verified route and the reported one apart — and says which
+    of the two we never managed to confirm.
   </p>
+
+  <RevealNotice compact />
 
   <section id="short-version">
     <h2>The short version</h2>
@@ -158,11 +163,12 @@ const faqs = [
   </section>
 
   <section id="two-doors">
-    <h2>Two front doors, one anonymous release</h2>
+    <h2>Two front doors, one anonymous release — both shut</h2>
     <p class="measure">
-      OpenRouter is the route we track. Its public catalogue lists <code>{UNION_ALPHA_MODEL_ID}</code> under the{" "}
-      <em>stealth</em> namespace with a provider tag of “Stealth”, and it is the source every verified number on
-      our <a href="/union-alpha">tracker</a> comes from.
+      OpenRouter was the route we track, and the source of every verified number on our{" "}
+      <a href="/union-alpha">tracker</a>: its catalogue listed <code>{UNION_ALPHA_MODEL_ID}</code> under the{" "}
+      <em>stealth</em> namespace with a provider tag of “Stealth” from 2026-09-16 until it was delisted on the
+      18th.
     </p>
     <p class="measure">
       OpenCode is the route we cannot see. The claim is that the free tier of the OpenCode coding tool serves the
@@ -173,7 +179,7 @@ const faqs = [
   </section>
 
   <section id="how-to-try">
-    <h2>How to try the OpenCode route</h2>
+    <h2>How the route worked, while it was open</h2>
     <ol class="stages">
       {howToTry.map((step) => (
         <li>
@@ -183,7 +189,8 @@ const faqs = [
     </ol>
     <p class="measure">
       We deliberately do not print a screenshot-accurate click path: the free tier's menu wording changes
-      between OpenCode releases, and a stale step-by-step would be worse than none.
+      between OpenCode releases, and a stale step-by-step would be worse than none. These four steps are kept
+      as the record of what a stealth seeding looked like, because the next codename will repeat the pattern.
     </p>
   </section>
 
@@ -215,14 +222,16 @@ const faqs = [
   </section>
 
   <section class="card" style="margin-top: var(--space-10);">
-    <h2 style="margin-top: 0;">Get notified when Union Alpha is revealed</h2>
-    <p class="measure">Identity, and the price once the free preview ends. One email per reveal.</p>
+    <h2 style="margin-top: 0;">Get notified about the next codename</h2>
+    <p class="measure">
+      This reveal is over. One email when the next stealth model is listed, and one when its identity comes out.
+    </p>
     <SubscribeForm />
   </section>
 
   <p class="hero-actions">
     <a class="btn primary" href="/union-alpha">Union Alpha tracker →</a>
-    <a class="btn ghost" href="/union-alpha-free">Is it still free?</a>
+    <a class="btn ghost" href="/union-alpha-free">What it costs now</a>
     <a class="btn ghost" href="/alpha-models">How the Alpha line works</a>
   </p>
 </System>

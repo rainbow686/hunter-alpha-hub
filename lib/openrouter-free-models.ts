@@ -15,6 +15,10 @@
  *
  * Only `:free` routes are included. A model that happens to be cheap is not a
  * free route, and the difference is the whole point of the page.
+ *
+ * Second instance, same rule (2026-09-18): `stealth/union-alpha` had been the
+ * headline entry, and it was delisted the day the codename was revealed as
+ * `unbiased/pareto`. Removing it was the fix; the drift check is what said so.
  */
 
 export interface FreeModel {
@@ -28,12 +32,6 @@ export interface FreeModel {
 export const FREE_MODELS_DATA_AS_OF = "2026-09-18";
 
 export const freeModels: FreeModel[] = [
-  {
-    id: "stealth/union-alpha",
-    name: "Union Alpha",
-    contextWindow: 262_144,
-    bestFor: "Agentic + vision experiments · maker still anonymous",
-  },
   {
     id: "nvidia/nemotron-3.5-lightning:free",
     name: "NVIDIA Nemotron 3.5 Lightning",

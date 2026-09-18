@@ -78,7 +78,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
 
     if (!existingResponse.ok) {
-      return json({ error: "Failed to subscribe" }, 500);
+      // 503, not 500: the request was fine and our credentials are set, but the
+      // database did not answer. Saying so is more useful than "try again" — it
+      // is the difference between a user retyping their address and an operator
+      // looking at the deployment. Measured 2026-09-18: a Supabase project that
+      // has been deleted answers like this, and the old code hid it.
+      console.error(
+        `subscribe: supabase read failed ${existingResponse.status} ${await existingResponse.text().catch(() => "")}`.slice(0, 500),
+      );
+      return json(
+        {
+          error: "Subscription store unavailable",
+          detail: "The subscription database did not answer, so nothing was stored. Please try again later.",
+        },
+        503,
+      );
     }
 
     const existing = (await existingResponse.json()) as unknown[];
@@ -93,11 +107,27 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
 
     if (!insertResponse.ok) {
-      return json({ error: "Failed to subscribe" }, 500);
+      console.error(
+        `subscribe: supabase insert failed ${insertResponse.status} ${await insertResponse.text().catch(() => "")}`.slice(0, 500),
+      );
+      return json(
+        {
+          error: "Subscription store unavailable",
+          detail: "The subscription database refused the write, so nothing was stored. Please try again later.",
+        },
+        503,
+      );
     }
 
     return json({ success: true }, 201);
-  } catch {
-    return json({ error: "Failed to subscribe" }, 500);
+  } catch (error) {
+    console.error(`subscribe: request failed ${error instanceof Error ? error.message : String(error)}`.slice(0, 500));
+    return json(
+      {
+        error: "Subscription store unavailable",
+        detail: "The subscription database could not be reached, so nothing was stored. Please try again later.",
+      },
+      503,
+    );
   }
 };

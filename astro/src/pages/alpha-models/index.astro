@@ -46,8 +46,8 @@ const alphaLine = [
     appeared: "2026-09-16",
     context: "256K",
     vision: "Yes",
-    outcome: "Unclaimed",
-    status: "Live now",
+    outcome: "Unbiased Pareto",
+    status: "Revealed",
   },
 ];
 
@@ -94,7 +94,7 @@ const faqs = [
   {
     question: "What did the Alpha models turn out to be?",
     answer:
-      "Hunter Alpha was confirmed as Xiaomi MiMo-V2.5. OX Alpha was confirmed as Z.ai GLM 5.3 Flash. Union Alpha is still anonymous and unclaimed as of 2026-09-17.",
+      "All three are now confirmed: Hunter Alpha was Xiaomi MiMo-V2.5, OX Alpha was Z.ai GLM 5.3 Flash, and Union Alpha — revealed on 2026-09-18, two days after it appeared — was Unbiased Pareto, the first model in the line with image input.",
   },
   {
     question: "Why do labs release stealth models on OpenRouter?",
@@ -162,7 +162,7 @@ const faqs = [
         <li>
           <a href={m.href}>{m.name}</a> — appeared {m.appeared}, {m.context} context,{" "}
           {m.vision.toLowerCase()}. {m.outcome}
-          {m.status === "Live now" ? " Still anonymous and live." : ""}
+          {m.name === "Union Alpha" ? " Revealed two days after it appeared — the shortest window of the three." : ""}
         </li>
       ))}
     </ul>
@@ -201,7 +201,7 @@ const faqs = [
   </section>
 
   <p class="hero-actions">
-    <a class="btn primary" href="/union-alpha">Union Alpha tracker (live) →</a>
+    <a class="btn primary" href="/union-alpha">Union Alpha → Unbiased Pareto</a>
     <a class="btn ghost" href="/openrouter-free-models">Current free models</a>
     <a class="btn ghost" href="/comparison">Compare models</a>
   </p>

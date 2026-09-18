@@ -221,18 +221,18 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "union-alpha",
     bSlug: "glm-5.3-flash",
     keyDifference:
-      "Union Alpha is free during its stealth preview and accepts images; GLM 5.3 Flash is a paid, text-only model from a disclosed vendor with a known track record.",
+      "Both are revealed stealth models — Union Alpha is Unbiased Pareto (256K, image input, revealed 2026-09-18) and GLM 5.3 Flash is Z.ai's model that was OX Alpha. The practical difference is input type and price: Pareto takes images at $2.50 in / $7.50 out per million, GLM 5.3 Flash is text-only at $0.09 in / $0.30 out.",
     quickVerdict:
-      "Use Union Alpha for free evaluation of agentic and multimodal prompts. Use GLM 5.3 Flash when you need a named vendor, published pricing and predictable production behaviour.",
+      "Pick Pareto when the prompt contains an image; pick GLM 5.3 Flash for text-only work at volume, where it costs roughly a twenty-fifth as much per token. Both now have a named vendor, so the anonymity that made Union Alpha hard to recommend is gone.",
     chooseAIf: [
-      "You are evaluating, prototyping or benchmarking and want zero cost",
       "Your prompt includes screenshots, charts or diagrams",
-      "You accept an anonymous provider with no published data policy",
+      "You want the Alpha line's newest reveal rather than its oldest",
+      "256K of context is enough for the document you are sending",
     ],
     chooseBIf: [
-      "This is going into production and needs a vendor you can name",
-      "You need stable pricing and rate limits you can plan around",
-      "You only need text and want the lowest cost per token from a known lab",
+      "The input is text and cost per token matters",
+      "You want the longer 1M-class context window",
+      "You want the vendor that has been shipping publicly the longest of the three",
     ],
   },
   {
@@ -240,18 +240,18 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "union-alpha",
     bSlug: "mimo-v2.5",
     keyDifference:
-      "Both are Alpha-line stealth models, but MiMo-V2.5 has been revealed as Xiaomi's model and is paid; Union Alpha is still anonymous and free, with a smaller context window but image input.",
+      "Both are Alpha-line stealth models that have since been revealed and billed: Union Alpha is Unbiased Pareto (256K, image input, revealed 2026-09-18, $2.50 in / $7.50 out per million) and MiMo-V2.5 is Xiaomi's (1M, text in, $0.14 in / $0.28 out).",
     quickVerdict:
-      "Pick Union Alpha while it is free and when image input matters. Pick MiMo-V2.5 when you want the larger 1M context with a disclosed vendor — and remember it was once the free stealth model of the line.",
+      "Pareto is the only one of the two that takes images; MiMo-V2.5 is the only one that reaches 1M of context — and costs about a twentieth as much per token. With both codenames retired, the free-versus-known tradeoff that used to separate them no longer exists.",
     chooseAIf: [
-      "You want the current free window and can tolerate an anonymous endpoint",
       "You are sending images alongside text",
-      "You are comparing the Alpha line and want to test all three",
+      "You want the newest of the three Alpha-line reveals",
+      "You are comparing the Alpha line and want to see how the third one ended",
     ],
     chooseBIf: [
       "You need a 1M-token window rather than 256K",
-      "You need a vendor with a name, terms and published data handling",
-      "You need pricing and availability you can commit to",
+      "The input is text and you want the cheaper per-token rate",
+      "You want the Alpha-line model with the longest public track record",
     ],
   },
   {
@@ -259,18 +259,18 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "union-alpha",
     bSlug: "deepseek-v4-flash",
     keyDifference:
-      "Union Alpha is a free anonymous multimodal preview; DeepSeek V4 Flash is a cheap, paid, text-only model with published pricing and a disclosed vendor.",
+      "Union Alpha is now Unbiased Pareto — a paid multimodal model (256K, images in, $2.50 in / $7.50 out per million) revealed on 2026-09-18. DeepSeek V4 Flash is a text-only model at $0.06 in / $0.12 out with a 1.3M-token window.",
     quickVerdict:
-      "Union Alpha wins on cost (zero) and image input during the preview. DeepSeek V4 Flash wins on predictability, listed pricing and long-running production use.",
+      "Pareto is the pick when the input is an image, which V4 Flash cannot take at all. For text, V4 Flash is roughly forty times cheaper per token with a five-times-larger window — the old 'Union Alpha is free' reasoning disappeared with the reveal.",
     chooseAIf: [
-      "You want free inference for experiments now",
-      "You need vision input on a budget of zero",
-      "You do not need vendor guarantees",
+      "You need vision input, which V4 Flash does not offer",
+      "You want the model behind the Union Alpha codename specifically",
+      "256K of context covers your use case",
     ],
     chooseBIf: [
-      "You want a known per-million price and no anonymous dependency",
-      "You need stable throughput for a running workload",
       "Text-only is enough",
+      "You are optimising spend per token at volume",
+      "You need a window in the million-token range",
     ],
   },
 ];
