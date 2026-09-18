@@ -1,74 +1,98 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabase } from "@/lib/supabase";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-// POST /api/subscribe - 邮件订阅
-export async function POST(request: NextRequest) {
+/**
+ * POST /api/subscribe — reveal-notification signup.
+ *
+ * Storage is Cloudflare D1 via the Worker binding (ADR-0014). The previous
+ * version called Supabase through @supabase/supabase-js and needed
+ * NEXT_PUBLIC_SUPABASE_* at build time, which production never had — so every
+ * submit since launch landed in the catch block and not one address was stored.
+ *
+ * The binding is the deployment's own database, so there is no credential to
+ * configure and no third-party project that can quietly disappear.
+ */
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** RFC 5321: anything longer cannot be delivered. */
+const MAX_EMAIL_LENGTH = 254;
+
+/**
+ * The slice of D1 this route uses, declared structurally on purpose.
+ *
+ * Pulling in `@cloudflare/workers-types` for one `D1Database` name would add
+ * Workers globals (`Request`, `Response`, `fetch` kinds) to a Next build that is
+ * typed against the DOM, and those two sets conflict. Naming the two methods we
+ * actually call keeps the check useful without the collision.
+ */
+interface SubscriberStatement {
+  bind(...values: unknown[]): { run(): Promise<unknown> };
+}
+interface SubscriberDb {
+  prepare(query: string): SubscriberStatement;
+}
+
+/**
+ * The binding, or undefined when the app is running somewhere without Workers
+ * (a bare `next build`, a preview without D1). Returning undefined rather than
+ * throwing keeps "not configured" a 503 with a reason instead of a bare 500.
+ */
+function subscriberDb(): SubscriberDb | undefined {
   try {
-    const body = await request.json();
-    const { email } = body;
+    const { env } = getCloudflareContext();
+    return (env as { DB?: SubscriberDb }).DB;
+  } catch {
+    return undefined;
+  }
+}
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json(
-        { error: "Invalid email address" },
-        { status: 400 }
-      );
-    }
+export async function POST(request: NextRequest) {
+  let email: unknown;
+  try {
+    ({ email } = (await request.json()) as { email?: unknown });
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
 
-    const supabase = getSupabase();
+  if (typeof email !== "string" || email.length > MAX_EMAIL_LENGTH || !EMAIL_RE.test(email)) {
+    return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+  }
 
-    // 检查是否已订阅
-    const { data: existing } = await supabase
-      .from("subscribers")
-      .select("id")
-      .eq("email", email)
-      .single();
+  // One canonical form per address: the unique index is on LOWER(email), so the
+  // constraint decides duplicates rather than a read-then-write race.
+  const normalised = email.trim().toLowerCase();
+  const db = subscriberDb();
 
-    if (existing) {
-      return NextResponse.json(
-        { error: "Already subscribed" },
-        { status: 409 }
-      );
-    }
+  if (!db) {
+    return NextResponse.json(
+      {
+        error: "Not configured on this deployment",
+        detail:
+          "This deployment has no subscription database bound, so nothing was stored. Email contact@hunteralphahub.com and we will add you by hand.",
+      },
+      { status: 503 },
+    );
+  }
 
-    // 添加到数据库
-    const { error } = await supabase.from("subscribers").insert({
-      email,
-      subscribed_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      throw error;
-    }
-
+  try {
+    await db
+      .prepare("INSERT INTO subscribers (email, source) VALUES (?, ?)")
+      .bind(normalised, "site-form")
+      .run();
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
-    /*
-     * "Our side cannot store this" is a 503, not a 500: the submission was fine,
-     * the database is the problem. Two variants, because the fix differs — no
-     * credentials (an operator configures something) versus a configured project
-     * that does not answer (an operator looks at the project).
-     *
-     * Measured on 2026-09-18: production has never had NEXT_PUBLIC_SUPABASE_*
-     * set, so every submit since launch landed here and the form could only say
-     * "failed". Telling the truth is the difference between a user retyping their
-     * address and an operator noticing there is no database at all.
-     */
     const message = error instanceof Error ? error.message : String(error);
-    const notConfigured = /Missing NEXT_PUBLIC_SUPABASE/.test(message);
+    if (/UNIQUE constraint|SQLITE_CONSTRAINT/i.test(message)) {
+      return NextResponse.json({ error: "Already subscribed" }, { status: 409 });
+    }
     console.error("Subscribe error:", message);
     return NextResponse.json(
-      notConfigured
-        ? {
-            error: "Not configured on this deployment",
-            detail:
-              "This deployment has no Supabase credentials, so nothing was stored. Email contact@hunteralphahub.com and we will add you by hand.",
-          }
-        : {
-            error: "Subscription store unavailable",
-            detail:
-              "The subscription database could not be reached, so nothing was stored. Email contact@hunteralphahub.com and we will add you by hand.",
-          },
-      { status: 503 }
+      {
+        error: "Subscription store unavailable",
+        detail:
+          "The subscription database refused the write, so nothing was stored. Email contact@hunteralphahub.com and we will add you by hand.",
+      },
+      { status: 503 },
     );
   }
 }

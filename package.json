@@ -13,11 +13,10 @@
     "preview:cf": "wrangler dev",
     "start": "next start",
     "lint": "next lint",
-    "fetch-evidence": "ts-node scripts/fetch-evidence.ts",
-    "sync-models": "node --experimental-strip-types scripts/sync-openrouter-models.ts"
+    "sync-models": "node --experimental-strip-types scripts/sync-openrouter-models.ts",
+    "db:migrate": "wrangler d1 execute hunter-alpha-hub-subscribers --remote --file=d1/migrations/0001_subscribers.sql"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.99.1",
     "autoprefixer": "^10.4.27",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -33,7 +32,6 @@
     "eslint-config-next": "^15.0.0",
     "next": "^15.5.24",
     "tailwindcss": "^3.4.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.0.0",
     "wrangler": "^4.127.1"
   }
