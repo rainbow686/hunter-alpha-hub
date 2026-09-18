@@ -66,6 +66,38 @@ const indexNowKey = readdirSync(DIST).find((name) => /^[a-f0-9]{16,128}\.txt$/.t
 if (!indexNowKey) failures.push("no IndexNow key file in dist/ (the submit workflow verifies it on the live site)");
 
 /**
+ * `<lastmod>` has to be believable or it is worse than absent: Google ignores a
+ * value it cannot trust, so a sitemap that says "every URL changed just now"
+ * silently loses the one hint that says which pages are new. That is exactly what
+ * both apps did until 2026-09-18 (`const lastModified = new Date()`).
+ *
+ * The invariant is deliberately mechanical: a sitemap with this many pages must
+ * carry more than a couple of distinct dates, no date may be in the future, and
+ * no url may appear twice. The regression this is aimed at — "stamp now for
+ * everything" — collapses the date set to one value and fails immediately.
+ */
+const sitemap = read("sitemap.xml");
+if (sitemap !== null) {
+  const lastmods = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  const distinct = new Set(lastmods);
+  if (locs.length > 20 && distinct.size < 3) {
+    failures.push(
+      `sitemap.xml has ${distinct.size} distinct <lastmod> value(s) across ${locs.length} URLs — dates are being generated, not recorded`,
+    );
+  }
+  const future = lastmods.filter((value) => {
+    const parsed = Date.parse(value);
+    return Number.isNaN(parsed) || parsed > Date.now() + 24 * 60 * 60 * 1000;
+  });
+  if (future.length) {
+    failures.push(`sitemap.xml has ${future.length} unparseable or future <lastmod> value(s), e.g. ${future[0]}`);
+  }
+  if (new Set(locs).size !== locs.length) failures.push("sitemap.xml lists the same URL more than once");
+  console.log(`sitemap: ${locs.length} URLs, ${distinct.size} distinct lastmod dates, ${locs.length - lastmods.length} undated`);
+}
+
+/**
  * Every page points its og:image/twitter:image at its own generated card
  * (scripts/generate-og-images.mjs). A card URL that resolves to nothing is worse
  * than no card at all: the social crawler shows a blank preview *and* caches it.

@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { openrouterModels } from "@repo/lib/openrouter-models";
 import { comparisonPairs } from "@repo/lib/openrouter-comparisons";
+import { lastmodFor } from "@repo/lib/content-dates";
 
 /**
  * /sitemap.xml
@@ -26,10 +27,18 @@ interface Entry {
   path: string;
   changeFrequency: string;
   priority: string;
+  /**
+   * The date this page's content last changed, when we know it. Omitted rather
+   * than guessed — see lib/content-dates.ts for why "now" for every URL is worse
+   * than nothing.
+   */
+  lastmod?: string;
 }
 
 const STATIC_ENTRIES: Entry[] = [
   { path: "/", changeFrequency: "weekly", priority: "1" },
+  // The blog index changes when a post is added, so its date comes from the
+  // newest post — filled in inside GET(), which has the collection.
   { path: "/blog", changeFrequency: "daily", priority: "0.8" },
   { path: "/faq", changeFrequency: "monthly", priority: "0.7" },
   { path: "/access", changeFrequency: "monthly", priority: "0.7" },
@@ -60,38 +69,54 @@ const escapeXml = (value: string) =>
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection("blog");
+  const newestPost = [...posts].sort((a, b) =>
+    a.data.publishedAt < b.data.publishedAt ? 1 : -1,
+  )[0]?.data.publishedAt;
 
   const entries: Entry[] = [
-    ...STATIC_ENTRIES,
+    ...STATIC_ENTRIES.map((entry) => {
+      if (entry.path === "/blog" && newestPost) return { ...entry, lastmod: newestPost };
+      // These two render the curated snapshot directly, so their content changed
+      // on the day the snapshot did — that date is theirs.
+      if (entry.path === "/openrouter-models" || entry.path === "/openrouter-pricing-calculator") {
+        return { ...entry, lastmod: openrouterModels[0]?.dataAsOf };
+      }
+      return entry;
+    }),
     ...openrouterModels.map((model) => ({
       path: `/openrouter-models/${model.slug}`,
       changeFrequency: "weekly",
       priority: "0.7",
+      lastmod: model.dataAsOf,
     })),
     ...comparisonPairs.map((pair) => ({
       path: `/compare/${pair.slug}`,
       changeFrequency: "weekly",
       priority: "0.7",
+      // Comparison pages print the same snapshot date their models carry; take it
+      // from a model rather than hardcoding a second copy of it here.
+      lastmod: openrouterModels[0]?.dataAsOf,
     })),
     ...posts.map((post) => ({
       path: `/blog/${post.id.replace(/\.md$/, "")}`,
       changeFrequency: "monthly",
       priority: "0.6",
+      lastmod: post.data.publishedAt,
     })),
   ];
 
-  const lastmod = new Date().toISOString();
   const body = entries
-    .map((entry) =>
-      [
+    .map((entry) => {
+      const lastmod = lastmodFor(entry.path, entry.lastmod);
+      return [
         "  <url>",
         `    <loc>${escapeXml(`${BASE}${entry.path === "/" ? "" : entry.path}`)}</loc>`,
-        `    <lastmod>${lastmod}</lastmod>`,
+        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
         `    <changefreq>${entry.changeFrequency}</changefreq>`,
         `    <priority>${entry.priority}</priority>`,
         "  </url>",
-      ].join("\n"),
-    )
+      ].join("\n");
+    })
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
