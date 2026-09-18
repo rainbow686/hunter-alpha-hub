@@ -9,7 +9,8 @@
     {
       "binding": "DB",
       "database_name": "hunter-alpha-hub-subscribers",
-      "database_id": "941d6f24-ecc4-4f45-bc3a-888d9b6df00e"
+      "database_id": "941d6f24-ecc4-4f45-bc3a-888d9b6df00e",
+      "migrations_dir": "../d1/migrations"
     }
   ],
 

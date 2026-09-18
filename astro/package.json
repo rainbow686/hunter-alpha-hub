@@ -10,7 +10,7 @@
     "check:analytics": "node scripts/check-analytics.mjs",
     "check:parity": "node scripts/check-page-parity.mjs",
     "check:files": "node scripts/check-site-files.mjs",
-    "checks": "npm run build && npm run check:theme && npm run check:content && npm run check:analytics && npm run check:parity && npm run check:files && npm run verify:pages",
+    "checks": "npm run build && npm run check:theme && npm run check:content && npm run check:analytics && npm run check:parity && npm run check:files && npm run check:subscription && npm run verify:pages",
     "verify:pages": "node scripts/verify-pages.mjs",
     "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
     "preview": "wrangler dev",
@@ -18,7 +18,9 @@
     "deploy:production": "npm run build && wrangler deploy --config wrangler.production.jsonc",
     "og": "node scripts/generate-og-images.mjs",
     "deploy:apex": "wrangler deploy --config wrangler.apex.jsonc",
-    "db:migrate:local": "wrangler d1 execute hunter-alpha-hub-subscribers --local --file=../d1/migrations/0001_subscribers.sql"
+    "check:subscription": "node scripts/check-subscription.mjs",
+    "db:migrate": "CLOUDFLARE_ACCOUNT_ID=de677f38b96340f3a63a53e5044a1c98 wrangler d1 migrations apply hunter-alpha-hub-subscribers --remote",
+    "db:migrate:local": "wrangler d1 migrations apply hunter-alpha-hub-subscribers --local"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",

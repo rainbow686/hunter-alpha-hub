@@ -18,6 +18,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_EMAIL_LENGTH = 254;
 
 /**
+ * The unsubscribe token (ADR-0015): 128 bits of randomness, hex, no dashes. It
+ * is the only credential that can remove a row, and the only thing the reveal
+ * email has to carry. Generated here so the whole signup stays one INSERT.
+ */
+const newToken = (): string => crypto.randomUUID().replace(/-/g, "");
+
+/**
  * The slice of D1 this route uses, declared structurally on purpose.
  *
  * Pulling in `@cloudflare/workers-types` for one `D1Database` name would add
@@ -76,8 +83,8 @@ export async function POST(request: NextRequest) {
 
   try {
     await db
-      .prepare("INSERT INTO subscribers (email, source) VALUES (?, ?)")
-      .bind(normalised, "site-form")
+      .prepare("INSERT INTO subscribers (email, source, token) VALUES (?, ?, ?)")
+      .bind(normalised, "site-form", newToken())
       .run();
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
