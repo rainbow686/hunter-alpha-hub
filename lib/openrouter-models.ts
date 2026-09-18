@@ -18,6 +18,13 @@ export interface HubModel {
   maxOutput?: number;
   inputPricePerMillion: number;
   outputPricePerMillion: number;
+  /**
+   * What OpenRouter charges for a cache *read*, i.e. re-sending a prefix it has
+   * already seen. Absent when the catalogue declares no `input_cache_read` for
+   * the model — which is 3 of our 15, and a real difference rather than a gap in
+   * our data. Validated against the live catalogue by `npm run sync-models`.
+   */
+  cachedInputPricePerMillion?: number;
   modalities: ModelModality[];
   bestFor: ModelScenario[];
   strengths: string[];
@@ -42,6 +49,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_050_000,
     inputPricePerMillion: 0.14,
     outputPricePerMillion: 0.28,
+    cachedInputPricePerMillion: 0.0028,
     modalities: ["Text", "Vision", "Audio", "Video"],
     bestFor: ["Long Context", "Budget", "Multimodal"],
     strengths: [
@@ -64,6 +72,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_310_720,
     inputPricePerMillion: 0.09,
     outputPricePerMillion: 0.3,
+    cachedInputPricePerMillion: 0.018,
     modalities: ["Text", "Vision", "Video"],
     bestFor: ["Budget", "Long Context", "Multimodal"],
     strengths: [
@@ -86,6 +95,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_310_720,
     inputPricePerMillion: 0.06,
     outputPricePerMillion: 0.12,
+    cachedInputPricePerMillion: 0.012,
     modalities: ["Text"],
     bestFor: ["Budget", "Long Context"],
     strengths: [
@@ -113,6 +123,7 @@ export const openrouterModels: HubModel[] = [
     // when it moves again.
     inputPricePerMillion: 0.66,
     outputPricePerMillion: 1.98,
+    cachedInputPricePerMillion: 0.022,
     modalities: ["Text"],
     bestFor: ["Long Context", "Budget", "Agents"],
     strengths: [
@@ -134,6 +145,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_000_000,
     inputPricePerMillion: 0.15,
     outputPricePerMillion: 0.47,
+    cachedInputPricePerMillion: 0.016,
     modalities: ["Text", "Vision", "Video"],
     bestFor: ["Budget", "Long Context", "Multimodal"],
     strengths: [
@@ -155,6 +167,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_000_000,
     inputPricePerMillion: 2.0,
     outputPricePerMillion: 6.0,
+    cachedInputPricePerMillion: 0.25,
     modalities: ["Text", "Vision", "Video"],
     bestFor: ["Overall", "Multimodal", "Long Context"],
     strengths: [
@@ -176,6 +189,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_048_576,
     inputPricePerMillion: 0.75,
     outputPricePerMillion: 3.75,
+    cachedInputPricePerMillion: 0.075,
     modalities: ["Text", "Vision", "Audio", "Video", "Files"],
     bestFor: ["Multimodal", "Overall", "Long Context"],
     strengths: [
@@ -197,6 +211,7 @@ export const openrouterModels: HubModel[] = [
     contextWindow: 1_000_000,
     inputPricePerMillion: 2.0,
     outputPricePerMillion: 10.0,
+    cachedInputPricePerMillion: 0.2,
     modalities: ["Text", "Vision", "Files"],
     bestFor: ["Overall", "Coding", "Agents"],
     strengths: [
@@ -219,6 +234,7 @@ export const openrouterModels: HubModel[] = [
     maxOutput: 128_000,
     inputPricePerMillion: 5.0,
     outputPricePerMillion: 25.0,
+    cachedInputPricePerMillion: 0.5,
     modalities: ["Text", "Vision", "Files"],
     bestFor: ["Overall", "Agents", "Coding"],
     strengths: [
@@ -241,6 +257,7 @@ export const openrouterModels: HubModel[] = [
     maxOutput: 128_000,
     inputPricePerMillion: 0.2,
     outputPricePerMillion: 1.2,
+    cachedInputPricePerMillion: 0.02,
     modalities: ["Text", "Vision", "Files"],
     bestFor: ["Budget", "Coding", "Agents"],
     strengths: [
@@ -263,6 +280,7 @@ export const openrouterModels: HubModel[] = [
     maxOutput: 128_000,
     inputPricePerMillion: 2.0,
     outputPricePerMillion: 10.0,
+    cachedInputPricePerMillion: 0.2,
     modalities: ["Text", "Vision", "Files"],
     bestFor: ["Overall", "Coding", "Agents"],
     strengths: [
@@ -285,6 +303,7 @@ export const openrouterModels: HubModel[] = [
     maxOutput: 128_000,
     inputPricePerMillion: 2.0,
     outputPricePerMillion: 12.0,
+    cachedInputPricePerMillion: 0.2,
     modalities: ["Text", "Vision", "Files"],
     bestFor: ["Overall", "Multimodal", "Agents"],
     strengths: [
