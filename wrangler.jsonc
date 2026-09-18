@@ -8,7 +8,14 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  "services": [
+    "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hunter-alpha-hub-subscribers",
+      "database_id": "941d6f24-ecc4-4f45-bc3a-888d9b6df00e"
+    }
+  ],
+"services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "hunter-alpha-hub"

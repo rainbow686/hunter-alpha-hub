@@ -12,8 +12,6 @@
 
 | Name | Value | 说明 |
 |------|-------|------|
-| `SUPABASE_URL` | `https://lugzvzeggmuakdyogoqh.supabase.co` | Supabase 项目 URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | （在 Supabase Dashboard 复制，**不要写进任何文件**） | Service Role Key |
 
 ### 获取 Service Role Key
 

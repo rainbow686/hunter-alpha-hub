@@ -3,29 +3,20 @@ import type { APIRoute } from "astro";
 /**
  * POST /api/subscribe — reveal-notification signup.
  *
- * Same path, same body and same status codes as the Next route it replaces, so
- * the form does not care which app answers:
- *   400 invalid email · 409 already subscribed · 201 created · 500 upstream · 503 not configured
+ * Same path, same body and the same status codes the form already understands:
+ *   400 invalid email · 409 already subscribed · 201 created · 503 not stored
  *
- * Two deliberate differences from the Next implementation:
- *   - no @supabase/supabase-js dependency: this is two REST calls, which keeps the
- *     Worker bundle small and the behaviour explicit. The contract, not the
- *     client library, is what has to match.
- *   - **it refuses to pretend.** The Next route throws on missing credentials and
- *     returns a generic 500. Here, if the deployment has no Supabase
- *     configuration, the answer is 503 with a message that says exactly that, and
- *     the form shows it. On this preview that is the real state of the world:
- *     nothing is stored until the secrets are set on the Worker.
- *
- * Phase-4 prerequisite (see docs/decisions/ADR-0011): set SUPABASE_URL and
- * SUPABASE_ANON_KEY as secrets on the Astro Worker before cutover, or every
- * signup silently answers 503 instead of being recorded.
+ * Storage is Cloudflare D1 (`env.DB`, see ADR-0014). It used to be Supabase over
+ * REST with an anon key: two HTTP calls per signup, a third-party account to keep
+ * alive, and a failure mode nobody sees — the project behind that key no longer
+ * resolves, so every submit answered 503 and not one address was ever stored. A
+ * Worker binding removes that whole class of silent failure: either the
+ * deployment has the database or it says it does not.
  */
 export const prerender = false;
 
 interface Env {
-  SUPABASE_URL?: string;
-  SUPABASE_ANON_KEY?: string;
+  DB?: D1Database;
 }
 
 const json = (body: unknown, status: number) =>
@@ -35,11 +26,12 @@ const json = (body: unknown, status: number) =>
   });
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** RFC 5321: anything longer than this cannot be delivered to anyone. */
+const MAX_EMAIL_LENGTH = 254;
 
 export const POST: APIRoute = async ({ request, locals }) => {
   const env = (locals as { runtime?: { env?: Env } })?.runtime?.env ?? (process.env as Env);
-  const supabaseUrl = env.SUPABASE_URL;
-  const supabaseKey = env.SUPABASE_ANON_KEY;
+  const db = env.DB;
 
   let email: unknown;
   try {
@@ -48,84 +40,50 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  // Validate before checking configuration: the contract says a bad address is
-  // 400, and that should hold whatever the deployment's credentials look like.
-  if (typeof email !== "string" || !EMAIL_RE.test(email)) {
+  // Validation runs before the configuration check, so a bad address is always a
+  // 400 whatever shape the deployment is in.
+  if (typeof email !== "string" || email.length > MAX_EMAIL_LENGTH || !EMAIL_RE.test(email)) {
     return json({ error: "Invalid email address" }, 400);
   }
 
-  if (!supabaseUrl || !supabaseKey) {
+  /*
+   * One canonical form per address. Stored lower-cased, and the table has a
+   * unique index on LOWER(email), so Alice@Example.com cannot subscribe twice —
+   * the constraint is the arbiter, not a read-then-write race.
+   */
+  const normalised = email.trim().toLowerCase();
+
+  if (!db) {
     return json(
       {
         error: "Not configured on this deployment",
         detail:
-          "This build of the site has no Supabase credentials, so nothing was stored. The form is wired up; the deployment is not.",
+          "This deployment has no subscription database bound, so nothing was stored. Email contact@hunteralphahub.com and we will add you by hand.",
       },
       503,
     );
   }
 
-  const headers = {
-    apikey: supabaseKey,
-    Authorization: `Bearer ${supabaseKey}`,
-    "Content-Type": "application/json",
-  };
-
   try {
-    const existingResponse = await fetch(
-      `${supabaseUrl}/rest/v1/subscribers?email=eq.${encodeURIComponent(email)}&select=id`,
-      { headers },
-    );
-
-    if (!existingResponse.ok) {
-      // 503, not 500: the request was fine and our credentials are set, but the
-      // database did not answer. Saying so is more useful than "try again" — it
-      // is the difference between a user retyping their address and an operator
-      // looking at the deployment. Measured 2026-09-18: a Supabase project that
-      // has been deleted answers like this, and the old code hid it.
-      console.error(
-        `subscribe: supabase read failed ${existingResponse.status} ${await existingResponse.text().catch(() => "")}`.slice(0, 500),
-      );
-      return json(
-        {
-          error: "Subscription store unavailable",
-          detail: "The subscription database did not answer, so nothing was stored. Please try again later.",
-        },
-        503,
-      );
-    }
-
-    const existing = (await existingResponse.json()) as unknown[];
-    if (Array.isArray(existing) && existing.length > 0) {
-      return json({ error: "Already subscribed" }, 409);
-    }
-
-    const insertResponse = await fetch(`${supabaseUrl}/rest/v1/subscribers`, {
-      method: "POST",
-      headers: { ...headers, Prefer: "return=minimal" },
-      body: JSON.stringify({ email, subscribed_at: new Date().toISOString() }),
-    });
-
-    if (!insertResponse.ok) {
-      console.error(
-        `subscribe: supabase insert failed ${insertResponse.status} ${await insertResponse.text().catch(() => "")}`.slice(0, 500),
-      );
-      return json(
-        {
-          error: "Subscription store unavailable",
-          detail: "The subscription database refused the write, so nothing was stored. Please try again later.",
-        },
-        503,
-      );
-    }
-
+    await db
+      .prepare("INSERT INTO subscribers (email, source) VALUES (?, ?)")
+      .bind(normalised, "site-form")
+      .run();
     return json({ success: true }, 201);
   } catch (error) {
-    console.error(`subscribe: request failed ${error instanceof Error ? error.message : String(error)}`.slice(0, 500));
+    const message = error instanceof Error ? error.message : String(error);
+    if (/UNIQUE constraint|SQLITE_CONSTRAINT/i.test(message)) {
+      return json({ error: "Already subscribed" }, 409);
+    }
+    // 503, not 500: the request was well formed and the binding exists, but the
+    // write did not land. That distinction is the difference between a user
+    // retyping their address and an operator looking at the deployment.
+    console.error(`subscribe: D1 write failed ${message}`.slice(0, 500));
     return json(
       {
         error: "Subscription store unavailable",
-        detail: "The subscription database could not be reached, so nothing was stored. Please try again later.",
+        detail:
+          "The subscription database refused the write, so nothing was stored. Email contact@hunteralphahub.com and we will add you by hand.",
       },
       503,
     );

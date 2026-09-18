@@ -102,10 +102,10 @@ export default function PrivacyPage() {
               </a>
             </li>
             <li>
-              <strong>Supabase:</strong> We use Supabase to store email subscriptions.
+              <strong>Cloudflare:</strong> Email subscriptions are stored in a Cloudflare D1 database that runs in the same account as the site itself.
               <br />
-              <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">
-                Supabase Privacy Policy
+              <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300">
+                Cloudflare Privacy Policy
               </a>
             </li>
           </ul>

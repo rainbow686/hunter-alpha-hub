@@ -41,6 +41,13 @@
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page"
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hunter-alpha-hub-subscribers",
+      "database_id": "941d6f24-ecc4-4f45-bc3a-888d9b6df00e"
+    }
+  ],
   "routes": [
     { "pattern": "hunteralphahub.com", "custom_domain": true },
     { "pattern": "www.hunteralphahub.com", "custom_domain": true }

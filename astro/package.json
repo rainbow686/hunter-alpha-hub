@@ -17,7 +17,8 @@
     "deploy": "npm run build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
     "deploy:production": "npm run build && wrangler deploy --config wrangler.production.jsonc",
     "og": "node scripts/generate-og-images.mjs",
-    "deploy:apex": "wrangler deploy --config wrangler.apex.jsonc"
+    "deploy:apex": "wrangler deploy --config wrangler.apex.jsonc",
+    "db:migrate:local": "wrangler d1 execute hunter-alpha-hub-subscribers --local --file=../d1/migrations/0001_subscribers.sql"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
