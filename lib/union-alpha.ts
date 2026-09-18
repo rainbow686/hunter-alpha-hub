@@ -88,9 +88,9 @@ export const verifiedSpecs: VerifiedSpec[] = [
     note: "First Alpha-line stealth model that accepts images; Hunter Alpha and OX Alpha were text-only.",
   },
   {
-    label: "Pricing",
+    label: "Price during the window",
     value: "Free — $0 in / $0 out",
-    note: "Free stealth previews have historically been repriced or delisted without notice.",
+    note: "True from 2026-09-16 to 2026-09-18 only. The stealth route is gone; the revealed listing is billed.",
   },
   {
     label: "Supported parameters",
@@ -123,9 +123,9 @@ export const verifiedSpecs: VerifiedSpec[] = [
     note: "A public landing page for the model describes it as running multiple LLMs in parallel and synthesising one answer. Matches the router theory testers raised on day one. Not confirmed by OpenRouter or the maker.",
   },
   {
-    label: "Expected paid pricing (third-party)",
+    label: "Reported pricing (third-party, did not hold)",
     value: "$0.50 in / $1.50 out per million tokens",
-    note: "Same public landing page lists this as anticipated pricing after the free preview. Today the OpenRouter endpoint still bills $0.",
+    note: "A public landing page listed this as anticipated pricing after the free preview. The listing that actually appeared is $2.50 in / $7.50 out per million — the claim was wrong by roughly 5x, which is why claims stay in this column.",
   },
 ];
 
