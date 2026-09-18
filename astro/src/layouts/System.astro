@@ -66,8 +66,22 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     {alternates.map((alternate) => (
       <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />
     ))}
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    {/*
+      Three icons, because they answer three different clients:
+        - the SVG is what current browsers use, and it carries the night variant;
+        - `/favicon.ico` answers the clients that request that path blind (it 404'd
+          until 2026-09-18, so those clients showed nothing rather than the old mark);
+        - `apple-touch-icon` must be a PNG — iOS does not read SVG there, so the
+          link that used to point at the SVG produced no icon at all on a home screen.
+
+      `?v=2` is not decoration: browsers cache favicons harder than almost anything
+      else and often keep showing the previous one after a deploy. A new URL is the
+      only reliable way to make a returning visitor fetch it. Bump it when the mark
+      changes; `npm run icons` regenerates the bitmaps from the SVG.
+    */}
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />

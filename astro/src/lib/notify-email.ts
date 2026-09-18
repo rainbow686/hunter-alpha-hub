@@ -35,8 +35,14 @@ export interface RevealEmailInput {
   blurb?: string;
   /** Where to read the full page. Path or absolute URL; defaults to the tracker. */
   url?: string;
-  /** This recipient's own unsubscribe URL. */
-  unsubscribeUrl: string;
+  /**
+   * This recipient's own unsubscribe URL — **omitted when there is nothing to
+   * unsubscribe**. Only a subscriber has a token; a test sent to an address that
+   * is not on the list has none, and inventing a placeholder (the first version
+   * used 32 zeros) produced a link that looked real, landed on "that address is
+   * not on the list", and taught the operator the wrong thing about the flow.
+   */
+  unsubscribeUrl?: string;
   /** Marks a send as a test in the subject line, so a test can never be mistaken for a notification. */
   test?: boolean;
 }
@@ -69,8 +75,10 @@ export function textFor(input: RevealEmailInput): string {
     input.blurb ?? "",
     `Details: ${url}`,
     "",
-    "You are getting this because you asked to be told when a new codename appears.",
-    `Unsubscribe in one click: ${input.unsubscribeUrl}`,
+    input.unsubscribeUrl
+      ? "You are getting this because you asked to be told when a new codename appears."
+      : "This is a test send to an address that is not on the list, so there is nothing to unsubscribe.",
+    input.unsubscribeUrl ? `Unsubscribe in one click: ${input.unsubscribeUrl}` : "",
     "",
     `${SITE_NAME} · ${SITE}`,
   ];
@@ -97,15 +105,13 @@ export function htmlFor(input: RevealEmailInput): string {
       ${input.blurb ? `<p style="margin:0 0 16px">${escapeHtml(input.blurb)}</p>` : ""}
       <p style="margin:0 0 20px">${body}</p>
       <p style="margin:0 0 24px"><a href="${escapeHtml(url)}" style="color:#14507d">Read the details on ${escapeHtml(SITE_NAME)} →</a></p>
-      <p style="margin:0;font-size:13px;color:#5f5849">
-        You are getting this because you asked to be told when a new codename appears.
-        <a href="${escapeHtml(input.unsubscribeUrl)}" style="color:#5f5849">Unsubscribe in one click</a>.
-      </p>
-      ${
-        input.test
-          ? `<p style="margin:12px 0 0;font-size:12px;color:#5f5849">This is a test send from the operator, not a notification. If this address is not on the list, the unsubscribe link above is a placeholder.</p>`
-          : ""
-      }
+      <p style="margin:0;font-size:13px;color:#5f5849">${
+        input.unsubscribeUrl
+          ? `You are getting this because you asked to be told when a new codename appears.
+        <a href="${escapeHtml(input.unsubscribeUrl)}" style="color:#5f5849">Unsubscribe in one click</a>.`
+          : `This is a test send to an address that is not on the list, so there is nothing to unsubscribe — and nothing was stored.`
+      }</p>
+      ${input.test && input.unsubscribeUrl ? `<p style="margin:12px 0 0;font-size:12px;color:#5f5849">This is a test send from the operator, not a notification.</p>` : ""}
     </div>
   </body>
 </html>
@@ -118,6 +124,12 @@ export function htmlFor(input: RevealEmailInput): string {
  * reverse), which is how a list quietly becomes non-compliant.
  */
 export function headersFor(input: RevealEmailInput): Record<string, string> {
+  /*
+   * No unsubscribe link means no list headers. `List-Unsubscribe` is a promise
+   * that the URI removes the recipient; sending it to someone who was never on the
+   * list would be a header that cannot do what it says.
+   */
+  if (!input.unsubscribeUrl) return {};
   return {
     "List-Unsubscribe": `<${input.unsubscribeUrl}>`,
     "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",

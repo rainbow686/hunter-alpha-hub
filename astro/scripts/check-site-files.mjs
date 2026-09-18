@@ -66,6 +66,49 @@ const indexNowKey = readdirSync(DIST).find((name) => /^[a-f0-9]{16,128}\.txt$/.t
 if (!indexNowKey) failures.push("no IndexNow key file in dist/ (the submit workflow verifies it on the live site)");
 
 /**
+ * The icons: three files, three clients, and a mark that has to stay current.
+ *
+ * Until 2026-09-18 the site shipped only `favicon.svg` — and that SVG was still the
+ * retired navy/violet/teal magnifying glass from the pre-Astro design, while the
+ * page pointed `apple-touch-icon` at it (iOS does not read SVG there) and
+ * `/favicon.ico` simply 404'd. Nothing noticed, because a favicon is not a page,
+ * not a crawler file and not part of parity. It was the last asset wearing the old
+ * visual language, and the user is the one who saw it in a browser tab.
+ *
+ * So: all three files must exist, the markup must point at the right one for the
+ * right client, and the mark must not drift back to the retired palette — that
+ * last check is what makes this more than a file-exists test.
+ */
+const iconPage = readdirSync(DIST).find((name) => name.endsWith(".html"));
+const iconHtml = iconPage ? readFileSync(join(DIST, iconPage), "utf8") : "";
+for (const [what, pattern] of [
+  ["the SVG icon link", /rel="icon"[^>]*href="\/favicon\.svg(\?v=\d+)?"[^>]*type="image\/svg\+xml"/],
+  ["a bitmapped /favicon.ico link", /rel="icon"[^>]*href="\/favicon\.ico"/],
+  ["a PNG apple-touch-icon link", /rel="apple-touch-icon"[^>]*href="\/apple-touch-icon\.png"/],
+]) {
+  if (!pattern.test(iconHtml)) failures.push(`no ${what} in the built HTML`);
+}
+for (const icon of ["favicon.svg", "favicon.ico", "apple-touch-icon.png"]) {
+  const path = join(DIST, icon);
+  if (!existsSync(path)) {
+    failures.push(`${icon} is missing from dist/ — one of the three clients would get nothing`);
+    continue;
+  }
+  if (statSync(path).size < 300) failures.push(`${icon} is suspiciously small (${statSync(path).size} bytes)`);
+}
+const faviconSvg = existsSync(join(DIST, "favicon.svg")) ? readFileSync(join(DIST, "favicon.svg"), "utf8") : "";
+for (const [colour, name] of [
+  ["#8b5cf6", "violet"],
+  ["#14b8a6", "teal"],
+  ["#1a1a2e", "navy"],
+]) {
+  if (faviconSvg.toLowerCase().includes(colour)) {
+    failures.push(`favicon.svg uses the retired ${name} ${colour} — the mark is back in the pre-Astro palette`);
+  }
+}
+if (!/#14507d/.test(faviconSvg)) failures.push("favicon.svg does not use the frozen ink-blue accent (#14507d)");
+
+/**
  * The cutover config must stay asset-first, and the apex must have its own Worker.
  *
  * Measured 2026-09-18: adding `assets.run_worker_first: true` to get the apex

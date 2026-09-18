@@ -55,7 +55,7 @@ const json = (body: unknown, status: number) =>
   });
 
 interface Body {
-  action?: "count" | "test" | "broadcast";
+  action?: "count" | "preview" | "test" | "broadcast";
   to?: string;
   key?: string;
   force?: boolean;
@@ -109,8 +109,51 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json({ error: "Subscriber list unavailable", detail: message.slice(0, 300) }, 503);
   }
 
+  const base: Omit<RevealEmailInput, "unsubscribeUrl"> = {
+    kind: body.kind ?? "new-codename",
+    codename: body.codename ?? "Unknown codename",
+    revealedAs: body.revealedAs,
+    blurb: body.blurb,
+    url: body.url,
+  };
+
   if (body.action === "count") {
     return json({ subscribers: subscribers.length }, 200);
+  }
+
+  /*
+   * `preview` renders the exact email for one address and sends nothing. It exists
+   * because the two branches of the template — recipient is on the list (real
+   * `List-Unsubscribe` header + working link) and recipient is not (no link, no
+   * header, and a sentence that says so) — are otherwise only observable by
+   * mailing somebody and reading their inbox. Checking them over HTTP is the
+   * difference between "the code looks right" and "the email is right".
+   */
+  if (body.action === "preview") {
+    if (!body.to || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.to)) {
+      return json({ error: "A preview needs a valid `to` address" }, 400);
+    }
+    const own = subscribers.find((s) => s.email === body.to!.trim().toLowerCase());
+    const input: RevealEmailInput = {
+      kind: base.kind,
+      codename: base.codename,
+      revealedAs: base.revealedAs,
+      blurb: base.blurb,
+      url: base.url,
+      unsubscribeUrl: own ? unsubscribeUrlFor(own.token) : undefined,
+      test: Boolean(body.test),
+    };
+    return json(
+      {
+        onList: Boolean(own),
+        subject: subjectFor(input),
+        headers: headersFor(input),
+        hasUnsubscribeLink: htmlFor(input).includes("/unsubscribe"),
+        text: textFor(input),
+        html: htmlFor(input),
+      },
+      200,
+    );
   }
 
   const email = env.EMAIL;
@@ -125,16 +168,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 
-  const base: Omit<RevealEmailInput, "unsubscribeUrl"> = {
-    kind: body.kind ?? "new-codename",
-    codename: body.codename ?? "Unknown codename",
-    revealedAs: body.revealedAs,
-    blurb: body.blurb,
-    url: body.url,
-  };
-
-  const sendOne = async (to: string, token: string, test: boolean) => {
-    const input: RevealEmailInput = { ...base, unsubscribeUrl: unsubscribeUrlFor(token), test };
+  const sendOne = async (to: string, token: string | undefined, test: boolean) => {
+    const input: RevealEmailInput = {
+      ...base,
+      unsubscribeUrl: token ? unsubscribeUrlFor(token) : undefined,
+      test,
+    };
     return email.send({
       to,
       from: FROM,
@@ -159,15 +198,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
      * so in the response and the email says so in its footer.
      */
     const own = subscribers.find((s) => s.email === body.to!.trim().toLowerCase());
-    const token = own?.token ?? "0".repeat(32);
     try {
-      const result = await sendOne(body.to, token, true);
+      const result = await sendOne(body.to, own?.token, true);
       return json(
         {
           sent: 1,
           to: body.to,
           messageId: result?.messageId ?? null,
-          subject: subjectFor({ ...base, unsubscribeUrl: unsubscribeUrlFor(token), test: true }),
+          subject: subjectFor({ ...base, unsubscribeUrl: own?.token ? "x" : undefined, test: true }),
           unsubscribeLinkIsReal: Boolean(own),
         },
         200,
