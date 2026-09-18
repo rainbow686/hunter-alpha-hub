@@ -140,6 +140,20 @@ function headFeatures(html) {
  * is the regression this guard is about; a different value is a design choice.
  */
 const PRESENCE_ONLY = new Set([
+  /*
+   * `icons` is presence-only, and that is a correction made the day the guard
+   * blocked a legitimate change. The live site declared the *retired* mark
+   * (`/favicon.svg` twice — navy, violet, teal, magnifying glass) while the build
+   * declares the frozen system's mark plus a bitmapped `/favicon.ico` for clients
+   * that request it blind and a PNG `apple-touch-icon` for iOS. Comparing values
+   * would have forced the build to keep serving the old icon to pass its own
+   * guard — the exact way the old mark survived a whole redesign. What this guard
+   * is for is losing the *tags*; a different file name is a design decision.
+   * (`check:files` is where the icons are checked properly: the three files exist,
+   * the markup points each client at the right one, and the palette is the frozen
+   * one.)
+   */
+  "icons",
   "og:title",
   "og:description",
   "og:image",

@@ -17,6 +17,7 @@
     "deploy": "npm run build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
     "deploy:production": "npm run build && wrangler deploy --config wrangler.production.jsonc",
     "og": "node scripts/generate-og-images.mjs",
+    "icons": "node scripts/generate-favicons.mjs",
     "deploy:apex": "wrangler deploy --config wrangler.apex.jsonc",
     "check:subscription": "node scripts/check-subscription.mjs",
     "db:migrate": "CLOUDFLARE_ACCOUNT_ID=de677f38b96340f3a63a53e5044a1c98 wrangler d1 migrations apply hunter-alpha-hub-subscribers --remote",
