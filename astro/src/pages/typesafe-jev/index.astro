@@ -196,6 +196,93 @@ const relatedPages = [
     <span>Vendor framing <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">the launch post</a></span>
   </div>
 
+  {/*
+    Figure 1 — the shape of a call. Drawn rather than described because the whole
+    product is the difference between these two arrows: what goes in is state,
+    what comes back is a typed value you can branch on without parsing it.
+    Colours come from the theme tokens so the light/dark palettes both hold.
+  */}
+  <figure style="margin: var(--space-8) 0; padding: var(--space-6); border: 1px solid var(--field-border); border-radius: var(--radius); background: var(--bg-sunken);">
+    <svg viewBox="0 0 760 210" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+      <title>One Jev call: program state and typed questions go in, typed decisions with probabilities come out.</title>
+      <defs>
+        <marker id="jev-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-faint)" />
+        </marker>
+      </defs>
+
+      <rect x="6" y="46" width="196" height="60" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
+      <text x="20" y="72" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">IN</text>
+      <text x="20" y="93" font-family="var(--sans)" font-size="15" fill="var(--text)">Program state</text>
+
+      <rect x="6" y="120" width="196" height="72" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
+      <text x="20" y="146" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">IN</text>
+      <text x="20" y="167" font-family="var(--sans)" font-size="15" fill="var(--text)">Typed questions</text>
+      <text x="20" y="184" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">Noul · Choice · Score</text>
+
+      <path d="M 206 76 L 268 76" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
+      <path d="M 206 156 L 268 156" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
+      <path d="M 268 76 L 268 156" stroke="var(--text-faint)" stroke-width="1.5" />
+      <path d="M 268 116 L 300 116" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
+
+      <rect x="304" y="76" width="150" height="80" rx="8" fill="var(--accent)" />
+      <text x="379" y="110" font-family="var(--sans)" font-size="18" font-weight="600" fill="var(--on-accent)" text-anchor="middle">Jev</text>
+      <text x="379" y="132" font-family="var(--mono)" font-size="12" fill="var(--on-accent)" text-anchor="middle">70–500 ms</text>
+
+      <path d="M 458 116 L 494 116" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
+
+      <rect x="498" y="86" width="256" height="60" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
+      <text x="512" y="112" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">OUT</text>
+      <text x="512" y="133" font-family="var(--sans)" font-size="15" fill="var(--text)">A typed value — never malformed</text>
+
+      <rect x="498" y="152" width="256" height="56" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
+      <text x="512" y="176" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">OUT</text>
+      <text x="512" y="196" font-family="var(--sans)" font-size="15" fill="var(--text)">Confidence + probability</text>
+
+      <text x="6" y="26" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">ONE CALL, NO PARSING STEP</text>
+      <text x="754" y="26" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">NO STRING GENERATION</text>
+    </svg>
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      Figure 1 — why this is not a chat call. A chat model returns text that code has to parse and validate; Jev returns the decision, already typed, with the uncertainty attached. Diagram ours; the latency band is the vendor's claim.
+    </figcaption>
+  </figure>
+
+  {/*
+    Figure 2 — the vendor's two headline ranges on a logarithmic axis, because
+    0.07 s and 329 s on a linear axis is one visible bar and one invisible dot.
+    Log scale is stated on the figure so nobody reads the bar lengths as ratios.
+  */}
+  <figure style="margin: var(--space-8) 0; padding: var(--space-6); border: 1px solid var(--field-border); border-radius: var(--radius); background: var(--bg-sunken);">
+    <svg viewBox="0 0 760 170" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+      <title>End-to-end latency on a logarithmic scale: Jev 70 to 500 milliseconds, frontier LLMs 3 to 329 seconds.</title>
+      <text x="0" y="14" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">END-TO-END LATENCY · LOG SCALE · VENDOR'S FIGURES</text>
+
+      <line x1="60" y1="118" x2="700" y2="118" stroke="var(--field-border)" />
+      {[
+        [136, "0.1 s"],
+        [289, "1 s"],
+        [441, "10 s"],
+        [593, "100 s"],
+      ].map(([x, label]) => (
+        <g>
+          <line x1={x} y1="114" x2={x} y2="122" stroke="var(--field-border)" />
+          <text x={x} y="136" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">{label}</text>
+        </g>
+      ))}
+
+      <text x="54" y="58" font-family="var(--sans)" font-size="14" fill="var(--text)" text-anchor="end">Jev</text>
+      <rect x="113" y="44" width="130" height="20" rx="10" fill="var(--success)" />
+      <text x="253" y="58" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">70–500 ms</text>
+
+      <text x="54" y="98" font-family="var(--sans)" font-size="14" fill="var(--text)" text-anchor="end">Frontier LLM</text>
+      <rect x="361" y="84" width="311" height="20" rx="10" fill="var(--text-faint)" opacity="0.45" />
+      <text x="682" y="98" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">3–329 s</text>
+    </svg>
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      Figure 2 — the gap is real, and it is also the maker's own measurement, run from their machines on System One shaped queries. We have not reproduced it. Note the axis: at this scale the difference looks like roughly a decade, which is the same thing the vendor calls 40×–200×.
+    </figcaption>
+  </figure>
+
   <h2>Why this model is being searched for</h2>
   <p style="color: var(--text-muted); max-width: var(--measure);">
     The bare word “jev” sat flat for three months and then moved within a day of the announcement. The
