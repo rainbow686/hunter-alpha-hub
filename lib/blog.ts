@@ -538,18 +538,18 @@ This community made Hunter Alpha Hub what it is. The mystery is solved, but the 
   },
   {
     slug: "one-week-with-hunter-alpha",
-    title: "One Week with Hunter Alpha: Free 1M Context, Game Changer or Overhyped?",
+    title: "One Week with Hunter Alpha: 1M Context, Game Changer or Overhyped?",
     excerpt: "My honest experience using Hunter Alpha for a week - the good, the bad, and everything in between.",
     content: `
 > **Identity Update (March 23, 2026):** Hunter Alpha has been confirmed as Xiaomi's **mimo-v2** model. This article was originally written during the mystery period. The experiences and benchmarks remain valid —Hunter Alpha was simply the codename used before Xiaomi's official announcement. [Read our full announcement →](/blog/hunter-alpha-identity-revealed-xiaomi-mimo-v2)
 
-# One Week with Hunter Alpha: Free 1M Context, Game Changer or Overhyped?
+# One Week with Hunter Alpha: 1M Context, Game Changer or Overhyped?
 
 ## Introduction
 
 I've been using Hunter Alpha daily for about a week now. Here's my honest take - no fluff, just real experience.
 
-**Bottom line upfront**: For something free, it's genuinely impressive. But there are some caveats you should know about.
+**Bottom line upfront**: For something free — which it was during the preview this review covers — it was genuinely impressive. It is billed now as MiMo-V2.5 at $0.14 in / $0.28 out per million tokens, and the caveats below are about the model, not the price.
 
 ## The Good Stuff
 
@@ -689,7 +689,7 @@ Yes. Even with 90% accuracy, saving 6 hours of manual work is worth it. The key 
 
 ## Final Thought
 
-This is the kind of task that was nearly impossible before. You couldn't fit 500 pages in most model contexts. Hunter Alpha changes that - and it's free.
+This is the kind of task that was nearly impossible before. You couldn't fit 500 pages in most model contexts. Hunter Alpha changed that, and during its March 2026 preview it did so for free; the model is billed as MiMo-V2.5 now.
 
 That's genuinely useful.
 
@@ -717,7 +717,7 @@ That's genuinely useful.
 Too many "best free AI model" listicles, not enough real testing. So I ran my own comparison.
 
 **Contestants**:
-- Hunter Alpha (1M context, free)
+- Hunter Alpha (1M context; free during the preview, billed as MiMo-V2.5 since)
 - GPT-4o Mini (free tier)
 - Claude 3.5 Sonnet (free tier)
 - Gemini 1.5 Flash (free)
@@ -1818,11 +1818,11 @@ Visit [Hunter Alpha Hub](/) for community updates on model status.
 
 ---
 
-## Issue #5: "Insufficient Credits" (Even Though It's Free)
+## Issue #5: "Insufficient Credits" (on a Model That Used to Be Free)
 
 ### Symptoms
 - Error: "Insufficient credits" or "Insufficient funds"
-- Hunter Alpha shows as free but still fails
+- Hunter Alpha was free during the preview and is billed as MiMo-V2.5 now, so a credits error is expected
 
 ### Solution
 
@@ -5280,7 +5280,7 @@ Industry predictions:
   {
     slug: "is-there-mimo-v2-pro-explained",
     title: "Is There a mimo-v2-pro? What We Know (March 2026)",
-    excerpt: "Search interest in 'mimo-v2-pro' is surging. We clarify: there is no Pro version. Only mimo-v2 (Hunter Alpha) exists with 1M context, free on OpenRouter.",
+    excerpt: "Search interest in 'mimo-v2-pro' is surging. We clarify: there is no Pro version. Only MiMo-V2.5 (the model that appeared as Hunter Alpha) exists, with a 1M-token context window at $0.14 in / $0.28 out per M.",
     content: `
 # Is There a mimo-v2-pro? What We Know (March 2026)
 
@@ -6192,7 +6192,7 @@ Be realistic about limitations:
 
 The common thread across all use cases: **mimo-v2 excels when you need to process more text than fits in standard models**.
 
-For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, mimo-v2 is unmatched — especially at free pricing.
+For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, MiMo-V2.5 is hard to beat on price — $0.14 in / $0.28 out per M, and free only during the March 2026 preview.
 
 ---
 
