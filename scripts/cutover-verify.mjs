@@ -126,9 +126,25 @@ try {
   if (/That page is not here/.test(notFound)) pass("404 page", "branded not-found page served");
   else fail("404 page", "unknown path does not render the build's 404");
 
+  /*
+   * robots.txt is host-dependent on purpose. `astro/scripts/mark-preview.mjs`
+   * overwrites it with `Disallow: /` in the preview build (ADR-0009), which is
+   * correct for a non-canonical host — so demanding the production Sitemap line
+   * here made the preview report a failure that cannot be fixed and should not
+   * be. The gate now checks the expectation that belongs to the host it is
+   * pointed at, and says which one it applied.
+   */
   const robotsTxt = await body("/robots.txt");
-  if (/Sitemap: https:\/\/www\.hunteralphahub\.com\/sitemap\.xml/.test(robotsTxt)) pass("robots.txt", "Sitemap line present");
-  else fail("robots.txt", "no Sitemap line");
+  const declaresSitemap = /Sitemap: https:\/\/www\.hunteralphahub\.com\/sitemap\.xml/.test(robotsTxt);
+  const blocksAll = /User-agent: \*\s*\nDisallow: \//.test(robotsTxt);
+  if (isPreviewHost) {
+    if (blocksAll && !declaresSitemap) pass("robots.txt", "preview host correctly disallows all crawling");
+    else fail("robots.txt", "preview host must serve the preview robots.txt (Disallow: /), not the production one");
+  } else if (declaresSitemap) {
+    pass("robots.txt", "Sitemap line present");
+  } else {
+    fail("robots.txt", "canonical host has no Sitemap line — is the preview stamp in this build?");
+  }
 
   const sitemap = await body("/sitemap.xml");
   const urlCount = (sitemap.match(/<loc>/g) ?? []).length;
@@ -163,9 +179,21 @@ try {
   if (subscribe.status === 200 || subscribe.status === 409) {
     pass("api: subscribe", `${subscribe.status} (Supabase credentials are configured)`);
   } else {
+    /*
+     * Report the server's own reason. The first version of this gate assumed the
+     * only cause was missing secrets, and said so — which was wrong on
+     * 2026-09-18, when the secrets were present and the project behind them had
+     * been deleted. A gate that names the wrong cause sends the operator to the
+     * wrong screen.
+     */
+    const payload = await subscribe.json().catch(() => ({}));
+    const detail = payload.detail || payload.error || "(no body)";
+    const configured = !/Not configured/i.test(payload.error ?? "");
     fail(
       "api: subscribe",
-      `${subscribe.status} — without Supabase secrets every signup fails silently. Set SUPABASE_URL and SUPABASE_ANON_KEY on the Worker before switching.`,
+      configured
+        ? `${subscribe.status} — credentials are present but the store did not answer: ${detail}`
+        : `${subscribe.status} — no Supabase credentials on this Worker, so every signup fails. Set SUPABASE_URL and SUPABASE_ANON_KEY before switching. ${detail}`,
     );
   }
 
