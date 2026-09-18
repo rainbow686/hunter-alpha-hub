@@ -42,7 +42,7 @@ export const siteFaqs: SiteFaq[] = [
     category: "The Alpha line",
     question: "What are the Alpha models?",
     answer:
-      "Alpha is the naming pattern for anonymous models published to OpenRouter as free previews, then claimed and renamed by their maker. We can document three: Hunter Alpha (became Xiaomi MiMo-V2.5), OX Alpha (became Z.ai GLM 5.3 Flash) and Union Alpha, which is still unclaimed.",
+      "Alpha is the naming pattern for anonymous models published to OpenRouter as free previews, then claimed and renamed by their maker. Three have now run their course: Hunter Alpha (became Xiaomi MiMo-V2.5), OX Alpha (became Z.ai GLM 5.3 Flash) and Union Alpha (became Unbiased Pareto on 2026-09-18, two days after it appeared). None of the three is anonymous or free any more.",
     links: [
       { href: "/stealth-models", label: "Register of every stealth release" },
       { href: "/alpha-models", label: "How the line works" },

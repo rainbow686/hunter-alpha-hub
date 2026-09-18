@@ -162,7 +162,7 @@ export default function ComparisonPage() {
                         {stealthRow.name}
                       </Link>
                     </td>
-                    <td className="py-3 pr-4 text-emerald-400">Anonymous, live</td>
+                    <td className="py-3 pr-4">Revealed 2026-09-18</td>
                     <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
                       {Math.round(stealthRow.contextWindow / 1024)}K
                     </td>
@@ -170,10 +170,11 @@ export default function ComparisonPage() {
                       Text + image
                     </td>
                     <td className="py-3 pr-4 font-medium" style={{ color: "var(--foreground)" }}>
-                      Free
+                      ${stealthRow.inputPricePerMillion.toFixed(2)}
                     </td>
                     <td className="py-3 pr-4" style={{ color: "var(--muted)" }}>
-                      Unclaimed stealth release — repriced or delisted without notice
+                      Was the unclaimed stealth release; revealed as {stealthRow.vendor} and delisted on{" "}
+                      {stealthRow.dataAsOf}
                     </td>
                   </tr>
                   {revealed.map((model) => (

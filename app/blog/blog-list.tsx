@@ -34,7 +34,7 @@ export default function BlogList() {
           </Link>{" "}
           ·{" "}
           <Link href="/union-alpha" className="text-violet-400 hover:underline">
-            Union Alpha, live now
+            Union Alpha, revealed as Unbiased Pareto
           </Link>
         </p>
       </div>

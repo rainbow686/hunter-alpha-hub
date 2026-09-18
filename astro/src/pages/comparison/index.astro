@@ -161,12 +161,12 @@ const millions = (tokens: number) =>
         <tbody>
           <tr>
             <td><a href="/union-alpha">{stealthRow.name}</a></td>
-            <td class="free">Anonymous, live</td>
+            <td>Revealed 2026-09-18</td>
             <td class="num">{shortContext(stealthRow.contextWindow)}</td>
             <td style="color: var(--text-muted);">{stealthRow.modalities.join(" + ")}</td>
-            <td class="num free">Free</td>
+            <td class="num">${(stealthRow.inputPricePerMillion).toFixed(2)}</td>
             <td style="color: var(--text-muted);">
-              Unclaimed stealth release — repriced or delisted without notice
+              Was the unclaimed stealth release; revealed as {stealthRow.vendor} and delisted on {stealthRow.dataAsOf}
             </td>
           </tr>
           {revealed.map((model) => (
