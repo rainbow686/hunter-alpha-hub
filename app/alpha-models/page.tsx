@@ -121,11 +121,12 @@ export default function AlphaModelsPage() {
           Alpha models: the anonymous line on OpenRouter
         </h1>
         <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
-          Three stealth models, one pattern. Last verified 2026-09-17 — the live entry is{" "}
+          Three stealth models, one pattern — and none of them is anonymous any more. Last verified
+          2026-09-18: the newest entry,{" "}
           <Link href="/union-alpha" className="text-violet-400 hover:underline">
             Union Alpha
           </Link>
-          .
+          , was revealed as Unbiased Pareto the day this line logged it as live.
         </p>
 
         <p className="text-lg mb-10 leading-relaxed" style={{ color: "var(--muted)" }}>
@@ -155,7 +156,7 @@ export default function AlphaModelsPage() {
                   {m.name}
                 </Link>{" "}
                 — appeared {m.appeared}, {m.context} context, {m.vision.toLowerCase()}. {m.outcome}
-                {m.name === "Union Alpha" ? " Revealed two days after it appeared — the shortest window of the three." : ""}
+                {m.name === "Union Alpha" ? ", revealed two days after it appeared — the shortest window of the three." : ""}
               </li>
             ))}
           </ul>

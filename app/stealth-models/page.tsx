@@ -209,11 +209,11 @@ export default function StealthModelsPage() {
         </h1>
         <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
           Anonymous releases we can point at a public listing — nothing rumoured, nothing unverifiable.
-          Last verified 2026-09-17. Live entry:{" "}
+          Last verified 2026-09-18. Newest entry:{" "}
           <Link href="/union-alpha" className="text-violet-400 hover:underline">
             Union Alpha
           </Link>
-          .
+          , revealed as Unbiased Pareto and delisted the same day.
         </p>
 
         <p className="text-lg mb-10 leading-relaxed" style={{ color: "var(--muted)" }}>

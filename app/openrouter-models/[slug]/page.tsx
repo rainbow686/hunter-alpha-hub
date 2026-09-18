@@ -419,11 +419,12 @@ export default async function OpenRouterModelPage({ params }: ModelPageProps) {
                 for the timeline of the reveal.
               </>
             )}{" "}
-            The codename live right now is{" "}
+            The line's most recent codename,{" "}
             <Link href="/union-alpha" className="text-violet-400 hover:underline">
               Union Alpha
             </Link>
-            .
+            , has since been revealed as Unbiased Pareto too — so there is no anonymous release on OpenRouter
+            at the moment.
           </p>
         )}
       </div>
