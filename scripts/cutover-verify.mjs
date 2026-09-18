@@ -219,6 +219,59 @@ try {
       );
     }
   }
+
+  /*
+   * The unsubscribe page, probed the way a **browser** asks for it.
+   *
+   * This check exists because every other probe in this file uses a plain fetch,
+   * and on 2026-09-18 that is exactly why a real outage got through: a 404 for
+   * `/unsubscribe?t=…` had been stored in Cloudflare's edge cache, and the edge
+   * served it to browser-like requests while plain/curl requests reached the
+   * Worker and got the correct page. The failure was invisible to a check that
+   * does not send a browser's `Accept: text/html` and `Accept-Encoding`, and the
+   * first person to see it was the user clicking their own unsubscribe link.
+   *
+   * A well-formed but unknown token is enough: the correct answer is our own page
+   * ("not on the list", 200, `x-robots-tag: noindex`), and the wrong answer is the
+   * asset layer's branded 404. So assert on our header and on the absence of the
+   * 404 page's headline rather than on a status code the cache can also return.
+   */
+  const probeToken = "0123456789abcdef0123456789abcdef";
+  const unsubscribe = await fetch(`${ORIGIN}/unsubscribe?t=${probeToken}`, {
+    headers: {
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate, br",
+      /*
+       * These four are the whole reason the first version of this check passed
+       * while the site was broken. Measured on 2026-09-18 by adding Chrome's
+       * headers one at a time: bare curl → 200, `Accept` → 200, `Accept-Encoding`
+       * → 200, **`Sec-Fetch-*` → 404 from the edge cache**. Cloudflare treats a
+       * navigation differently from a fetch, so a probe that does not say it is a
+       * navigation is probing a different code path than the reader uses.
+       */
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1",
+      "Upgrade-Insecure-Requests": "1",
+      "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128 Safari/537.36",
+    },
+  });
+  const unsubscribeBody = await unsubscribe.text();
+  const looksLikeOurPage = /Stop the reveal emails\?|not on the list|incomplete/i.test(unsubscribeBody);
+  const looksLikeThe404 = /That page is not here/i.test(unsubscribeBody);
+  if (unsubscribe.status === 200 && looksLikeOurPage && !looksLikeThe404) {
+    pass("unsubscribe page", `200, our page (x-robots-tag: ${unsubscribe.headers.get("x-robots-tag") ?? "—"})`);
+  } else {
+    fail(
+      "unsubscribe page",
+      `browser-like request got ${unsubscribe.status}${
+        looksLikeThe404 ? " and the branded 404 page" : ""
+      } — a cached 404 on this path breaks every unsubscribe link in every email. ` +
+        `Check cf-cache-status and purge the URL.`,
+    );
+  }
 } catch (error) {
   fail("origin checks", String(error));
 }
