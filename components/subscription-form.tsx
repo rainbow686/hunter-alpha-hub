@@ -7,6 +7,7 @@ import { trackOxAlphaSubscribe, trackSubscribeResult, trackSubscribeSubmit } fro
 export function SubscriptionForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState("Failed to subscribe. Please try again.");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,10 +36,19 @@ export function SubscriptionForm() {
           result: response.status === 409 ? "duplicate" : "error",
           http_status: response.status,
         });
+        // Surface the server's own explanation when it has one. A deployment
+        // with no database says so, and that is not "try again" — the Astro side
+        // has done this since the reveal; this path used to throw it away.
+        const problem = await response
+          .json()
+          .then((body: { error?: string; detail?: string }) => body.detail || body.error)
+          .catch(() => undefined);
+        setError(problem ?? "Failed to subscribe. Please try again.");
         setStatus("error");
       }
     } catch {
       trackSubscribeResult({ result: "error" });
+      setError("Failed to subscribe. Please try again.");
       setStatus("error");
     }
   };
@@ -58,7 +68,9 @@ export function SubscriptionForm() {
           borderStyle: "solid",
           color: "var(--foreground)",
         }}
-        placeholder="Enter your email - join 200+ subscribers"
+        // No social proof here on purpose: the number would be invented, and the
+        // store behind this form has never been reachable in production.
+        placeholder="Enter your email"
       />
       <Button type="submit" disabled={status === "submitting"} size="lg">
         {status === "submitting" ? "Subscribing..." : "Subscribe"}
@@ -68,7 +80,7 @@ export function SubscriptionForm() {
         <p className="text-green-400 text-sm w-full">Subscribed successfully!</p>
       )}
       {status === "error" && (
-        <p className="text-red-400 text-sm w-full">Failed to subscribe. Please try again.</p>
+        <p className="text-red-400 text-sm w-full">{error}</p>
       )}
     </form>
   );
