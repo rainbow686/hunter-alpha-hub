@@ -125,9 +125,9 @@ const PINNED_DIFFERENCES = {
       "the catalogue read for deepseek/deepseek-v4-pro-0813 on 2026-09-18 is $0.66/$1.98 per 1M; an earlier read that day returned a 0.878x promotional price, so the snapshot moved back to the undiscounted figure and live catches up on deploy",
   },
   "union-alpha title": {
-    expect: "Union Alpha on OpenRouter: Revealed as Unbiased Pareto (2026) | OpenRouter Model Hub",
+    expect: "Union Alpha Specs, Cost & API: Revealed as Unbiased Pareto (2026) | OpenRouter Model Hub",
     reason:
-      "the codename was revealed on 2026-09-18 (Unbiased Pareto, stealth route delisted); the page has to answer the post-reveal question, and live catches up on deploy",
+      "retitled 2026-09-18 against the live SERP: the pages ranking for this word title themselves with its vocabulary (specs / cost / API), and this page was answering only the post-reveal question. The reveal stays in the title because it is the part competitors cannot answer. Live catches up on deploy",
   },
   "union-alpha description": {
     expect:
