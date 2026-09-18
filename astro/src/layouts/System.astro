@@ -36,6 +36,14 @@ const {
   ogImage: ogImageProp,
   alternates = [],
 } = Astro.props;
+
+/**
+ * Publisher id for the AdSense script, injected from the build environment so the
+ * production deploy can carry it and the preview deploy cannot. `ca-pub-…` is not
+ * a secret — it is already published in `public/ads.txt` — but gating it at build
+ * time is what keeps ad code off the preview host.
+ */
+const adsenseId = import.meta.env.PUBLIC_ADSENSE_ID as string | undefined;
 /**
  * One card per page, generated after the build by scripts/generate-og-images.mjs.
  * The path is derived from the URL (not passed in per page) so a new page gets a
@@ -79,6 +87,20 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
       only reliable way to make a returning visitor fetch it. Bump it when the mark
       changes; `npm run icons` regenerates the bitmaps from the SVG.
     */}
+    {/*
+      AdSense lives in the head, server-rendered, and only when the build was given
+      a publisher id — `npm run deploy:production` sets one, `npm run deploy`
+      (preview) does not. A tag the crawler can read in the HTML is what the review
+      looks for; a script injected at runtime is not the same thing. There are no
+      ad units on the site, so this loads the programme's script without showing
+      an ad anywhere.
+    */}
+    {adsenseId && (
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+        crossorigin="anonymous"></script>
+    )}
     <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

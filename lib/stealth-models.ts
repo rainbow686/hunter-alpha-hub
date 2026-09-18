@@ -45,3 +45,23 @@ export const stealthModels: HubModel[] = [
 export function getStealthModelBySlug(slug: string): HubModel | undefined {
   return stealthModels.find((model) => model.slug === slug);
 }
+
+/**
+ * The state of the Alpha line, as one place the UI can read.
+ *
+ * The masthead used to hardcode `<span class="badge live">Union Alpha live</span>`
+ * and `Verified 2026-09-17`, so on the day Union Alpha was revealed the home page
+ * said "live" at the top and "Revealed 2026-09-18" halfway down — on a site whose
+ * whole claim is "Facts from the public catalogue, dated and labelled". The date
+ * appeared in three places and disagreed with itself.
+ *
+ * Nothing here is derived from a timestamp: `live` is a claim about the world, so
+ * it is a field a human updates with the same evidence that updates the entry
+ * above, and `dataAsOf` is the same date the catalogue snapshot uses.
+ */
+export const stealthLine = {
+  /** The codename still serving a stealth route right now, or null. Verified 2026-09-18: none. */
+  liveCodename: null as string | null,
+  /** The most recent codename that was revealed, and what it turned out to be. */
+  lastRevealed: { codename: "Union Alpha", revealedAs: "Unbiased Pareto", on: "2026-09-18" },
+} as const;

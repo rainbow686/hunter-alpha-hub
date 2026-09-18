@@ -109,6 +109,52 @@ for (const [colour, name] of [
 if (!/#14507d/.test(faviconSvg)) failures.push("favicon.svg does not use the frozen ink-blue accent (#14507d)");
 
 /**
+ * What the site loads for money, checked in both directions.
+ *
+ * 2026-09-18: the live site ran an Adsterra social bar on every page (the only ad
+ * code actually present) while its privacy policy described popunders it never
+ * served, and its AdSense script was absent because no publisher id was set at
+ * build time — on a site that was between AdSense reviews. Three separate
+ * mismatches between what the site says, what it does and what it declares:
+ *
+ *   - no third-party ad-network script may appear in the build (the social bar is
+ *     removed, and an accidental reintroduction should fail here rather than ship);
+ *   - ads.txt must not authorise a seller whose code is absent;
+ *   - the privacy policy must not describe an ad network the site does not use.
+ *
+ * The AdSense tag itself is build-gated (`PUBLIC_ADSENSE_ID`, production only), so
+ * it is checked for presence in the *production* build path below rather than in
+ * every build.
+ */
+for (const file of readdirSync(DIST).filter((name) => name.endsWith(".html"))) {
+  const html = readFileSync(join(DIST, file), "utf8");
+  if (/developdomicile\.com|adsterra/i.test(html)) {
+    failures.push(`${file} still references an ad network that is no longer loaded (developdomicile/adsterra)`);
+  }
+}
+/*
+ * ads.txt comments are stripped before matching. The first version of this check
+ * failed on the *comment* that documents the removal ("adsterra.com, 29047445 …
+ * was removed on 2026-09-18") — the third time in this repo that a regex matched
+ * the prose about the code instead of the code. See
+ * docs/lessons/guard-matched-the-comment-not-the-code.md.
+ */
+const adsTxt = (read("ads.txt") ?? "")
+  .split("\n")
+  .filter((line) => !line.trimStart().startsWith("#"))
+  .join("\n");
+if (/adsterra\.com/i.test(adsTxt)) {
+  failures.push("ads.txt still authorises adsterra.com, but no Adsterra code is loaded");
+}
+if (!/^google\.com, pub-\d+, DIRECT/m.test(adsTxt)) {
+  failures.push("ads.txt lost the AdSense line — that line is what the review reads");
+}
+const privacyHtml = existsSync(join(DIST, "privacy.html")) ? readFileSync(join(DIST, "privacy.html"), "utf8") : "";
+if (/Adsterra/i.test(privacyHtml)) {
+  failures.push("the privacy policy still describes Adsterra, which the site no longer loads");
+}
+
+/**
  * The cutover config must stay asset-first, and the apex must have its own Worker.
  *
  * Measured 2026-09-18: adding `assets.run_worker_first: true` to get the apex

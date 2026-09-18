@@ -1,4 +1,5 @@
 ---
+import { DATA_AS_OF } from "@repo/lib/openrouter-models";
 /**
  * The footer is where a reference site keeps its credibility, so it carries four
  * jobs rather than a legal line: where the numbers come from, how to navigate the
@@ -7,7 +8,7 @@
 const sources = [
   ["Model fields", "openrouter.ai/api/v1/models"],
   ["Drift check", "daily 06:00 UTC"],
-  ["Last verified", "2026-09-17"],
+  ["Last verified", DATA_AS_OF],
   ["Stealth status", "/api/union-alpha/status"],
 ];
 

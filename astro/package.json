@@ -15,7 +15,7 @@
     "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
     "preview": "wrangler dev",
     "deploy": "npm run build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
-    "deploy:production": "npm run build && wrangler deploy --config wrangler.production.jsonc",
+    "deploy:production": "PUBLIC_ADSENSE_ID=ca-pub-4516753695428109 npm run build && wrangler deploy --config wrangler.production.jsonc",
     "og": "node scripts/generate-og-images.mjs",
     "icons": "node scripts/generate-favicons.mjs",
     "deploy:apex": "wrangler deploy --config wrangler.apex.jsonc",
