@@ -139,8 +139,8 @@ const faqs = [
   <h1 class="display">Alpha models: the anonymous line on OpenRouter</h1>
   <div class="byline">
     <span>Explainer</span>
-    <span>Last verified 2026-09-17</span>
-    <span>Live entry: <a href="/union-alpha">Union Alpha</a></span>
+    <span>Last verified 2026-09-18</span>
+    <span>Newest entry: <a href="/union-alpha">Union Alpha · Unbiased Pareto</a></span>
   </div>
   <p class="lede">
     Every few weeks an unnamed model shows up on OpenRouter with a large context window, no price and no
@@ -162,7 +162,7 @@ const faqs = [
         <li>
           <a href={m.href}>{m.name}</a> — appeared {m.appeared}, {m.context} context,{" "}
           {m.vision.toLowerCase()}. {m.outcome}
-          {m.name === "Union Alpha" ? " Revealed two days after it appeared — the shortest window of the three." : ""}
+          {m.name === "Union Alpha" ? ", revealed two days after it appeared — the shortest window of the three." : ""}
         </li>
       ))}
     </ul>

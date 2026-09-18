@@ -263,9 +263,9 @@ export const unionAlphaFaqs: TrackerFaq[] = [
       "Evidence points to a single endpoint that orchestrates several models: testers reported inconsistent behaviour between sessions on day one, and a public landing page for the model describes it as running multiple LLMs in parallel and synthesising one answer. That would also explain why asking the model about its own identity gives unreliable answers. Neither OpenRouter nor the maker has confirmed it.",
   },
   {
-    question: "How much will Union Alpha cost after the free preview?",
+    question: "How much did Union Alpha cost after the free preview?",
     answer:
-      "Unconfirmed, but the model's public landing page lists anticipated pricing of $0.50 per million input tokens and $1.50 per million output tokens once the preview ends. Right now OpenRouter still bills $0 for it, and free stealth previews have historically ended without much warning.",
+      "$2.50 per million input tokens and $7.50 per million output tokens, read from the catalogue on 2026-09-18 under the model's real name, unbiased/pareto. The ≈$0.50 / $1.50 that a landing page listed during the preview did not hold — the real listing is roughly five times higher, which is the argument for quoting a catalogue read rather than an anticipated price.",
   },
   {
     question: "What are Union Alpha's benchmarks?",
