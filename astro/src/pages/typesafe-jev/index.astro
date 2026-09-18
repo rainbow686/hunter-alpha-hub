@@ -1,0 +1,346 @@
+---
+/**
+ * Jev (TypeSafe) — hand-written model reference.
+ *
+ * Why this page is not generated from the snapshot: `typesafe/jev-1.13` is
+ * served by OpenRouter but is absent from the `/api/v1/models` list that
+ * `scripts/sync-openrouter-models.ts` reads, so nothing in the build would ever
+ * create it. It is the one model page in the site that a human has to keep, and
+ * the date stamp is the price of that.
+ *
+ * Contract carried over from the stealth-line pages: facts live in a FactTable
+ * with a provenance line, other people's reporting lives in ClaimList with a
+ * confidence tag, and the two never share a surface. The disambiguation block
+ * exists because the bare word "jev" is not ours to claim.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import FactTable from "../../components/FactTable.astro";
+import ClaimList from "../../components/ClaimList.astro";
+import TimelineList from "../../components/TimelineList.astro";
+import Faq from "../../components/Faq.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  JEV_CLOUDFLARE_URL,
+  JEV_DATA_AS_OF,
+  JEV_INPUT_PRICE_PER_MILLION,
+  JEV_LISTED_AT_UTC,
+  JEV_MODEL_ID,
+  JEV_OPENROUTER_URL,
+  JEV_TYPESAFE_BLOG_URL,
+  alsoCalledJev,
+  claims,
+  jevFaqs,
+  timeline,
+  verifiedSpecs,
+} from "@repo/lib/jev";
+
+const title = "Jev on OpenRouter: TypeSafe's System One Model, Priced and Explained (2026)";
+const h1 = "What is Jev? TypeSafe's decision model, on OpenRouter";
+const description =
+  "Jev is TypeSafe's System One model: text state in, typed decisions out, 32K context, $0.042 per million input tokens and free output. Listed on OpenRouter as typesafe/jev-1.13 — specs, price, and what it is not.";
+const canonical = `${SITE}/typesafe-jev`;
+
+const tldr = [
+  ["Maker", "TypeSafe AI", "Announced 2026-09-15"],
+  ["Class", "System One", "Decisions, not text"],
+  ["OpenRouter ID", "typesafe/jev-1.13", "Listed 18 Sep 2026"],
+  ["Context", "32,000", "tokens"],
+  ["Input price", `$${JEV_INPUT_PRICE_PER_MILLION}`, "per million tokens"],
+  ["Output price", "Free", "returns a decision"],
+  ["Latency", "70–500 ms", "vendor-claimed"],
+  ["Writes text?", "No", "gives up string generation"],
+];
+
+/** The three question types, in the shape the answer comes back in. */
+const questionTypes = [
+  {
+    name: "Noul",
+    shape: "a probability between 0 and 1",
+    detail: "You name the true and false criteria; the model answers how likely the true one is.",
+  },
+  {
+    name: "Choice",
+    shape: "one option from a set you define",
+    detail: "Routing, classification, triage — wherever the branches are already written down.",
+  },
+  {
+    name: "Score",
+    shape: "a position on an ordered scale you define",
+    detail: "Grading, priors, severity. The scale is yours, so the output is already meaningful to code.",
+  },
+];
+
+const vias = [
+  {
+    name: "OpenRouter",
+    id: JEV_MODEL_ID,
+    note: "One key, one bill, the same endpoint the rest of the directory is read from.",
+    href: JEV_OPENROUTER_URL,
+  },
+  {
+    name: "Cloudflare Workers AI",
+    id: "typesafe/jev",
+    note: "Listed as a third-party model; called through env.AI.run with a state and a questions object.",
+    href: JEV_CLOUDFLARE_URL,
+  },
+];
+
+const relatedPages = [
+  {
+    href: "/comparison",
+    title: "Compare the models that do write text",
+    body: "15 LLMs side by side on price, context and fit — the tools Jev is meant to be called instead of, not alongside.",
+  },
+  {
+    href: "/openrouter-models",
+    title: "The full model directory",
+    body: "Every model this site tracks, with the price and window read from the public catalogue.",
+  },
+  {
+    href: "/stealth-models",
+    title: "The Alpha line",
+    body: "The other way a new model shows up on OpenRouter: anonymous, free, and gone in days. Jev did not arrive that way, and the difference matters.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Jev (TypeSafe): the System One model on OpenRouter",
+      description:
+        "TypeSafe's Jev returns typed decisions with calibrated probabilities instead of generating text. Specs, price and question types, read from the public listings on 2026-09-18.",
+      publishedAt: JEV_DATA_AS_OF,
+      updatedAt: JEV_DATA_AS_OF,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(jevFaqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter models", url: `${SITE}/openrouter-models` },
+      { name: "Jev (TypeSafe)", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Model reference · verified</p>
+  <h1 class="display">{h1}</h1>
+  <p class="lede">
+    Jev is TypeSafe's first model, announced on 15 September 2026 and listed on OpenRouter three days
+    later. It does not write. You hand it program state and a typed question, and it hands back a decision
+    with a probability attached — the thing a chat model is worst at and a program needs most. This page
+    carries the specs, the price, the three question types, and a clear list of what it is not.
+  </p>
+  <div class="byline">
+    <span>Reference</span>
+    <span>Listed {JEV_LISTED_AT_UTC}</span>
+    <span>Verified {JEV_DATA_AS_OF}</span>
+    <span>
+      <a href={JEV_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter listing →</a>
+    </span>
+  </div>
+
+  <h2 id="tldr">The short version</h2>
+  <div class="stats">
+    {tldr.map(([label, value, sub]) => (
+      <div class="stat">
+        <div class="label">{label}</div>
+        <div class="value" style="font-size: var(--text-xl);">{value}</div>
+        <div class="sub">{sub}</div>
+      </div>
+    ))}
+  </div>
+
+  <h2>Verified specs</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure); margin-bottom: var(--space-4);">
+    Read on {JEV_DATA_AS_OF} from the OpenRouter endpoint, the Cloudflare Workers AI model card and
+    TypeSafe's own announcement. Every row can be re-checked at the links below; the vendor's claims are
+    labelled as the vendor's claims, including the ones we would like to be true.
+  </p>
+  <FactTable rows={verifiedSpecs} />
+  <div class="provenance">
+    <span>Source <code>openrouter.ai/api/v1/models/typesafe/jev-1.13/endpoints</code></span>
+    <span>Verified <code>{JEV_DATA_AS_OF}</code></span>
+    <span>Announcement <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">typesafe.ai</a></span>
+  </div>
+
+  <h2>What it actually returns</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Every call is a state plus a set of named questions. There are three question types, and the shape of
+    each answer is fixed in advance — which is what makes the output safe to hand straight to code
+    instead of parsing it and hoping.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Type</th><th>Comes back as</th><th>Use it for</th></tr>
+      </thead>
+      <tbody>
+        {questionTypes.map((row) => (
+          <tr>
+            <td><strong>{row.name}</strong></td>
+            <td>{row.shape}</td>
+            <td style="color: var(--text-muted);">{row.detail}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="provenance">
+    <span>Source <code>developers.cloudflare.com/ai/models/typesafe/jev</code></span>
+    <span>Vendor framing <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">the launch post</a></span>
+  </div>
+
+  <h2>Why this model is being searched for</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    The bare word “jev” sat flat for three months and then moved within a day of the announcement. The
+    interesting part is not the size of the spike — it is which words come with it.
+  </p>
+  <TimelineList entries={timeline} />
+  <div class="provenance">
+    <span>Source <code>Google Trends, worldwide, trailing 3 months</code></span>
+    <span>Read <code>{JEV_DATA_AS_OF}</code></span>
+    <span>Index is relative to the term's own peak, not a search volume</span>
+  </div>
+
+  <h2>What the community claims</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure); margin-bottom: var(--space-6);">
+    None of this comes from TypeSafe, OpenRouter or Cloudflare. It is here because it is what people are
+    actually saying, with the evidence attached so you can weigh it — and because the loudest claim of the
+    week is the one nobody can check.
+  </p>
+  <ClaimList claims={claims} />
+
+  <h2>How to call it</h2>
+  <ol style="max-width: var(--measure); color: var(--text-muted); padding-left: var(--space-6);">
+    <li>
+      <strong style="color: var(--text);">Get access.</strong> Jev ships in early access, and TypeSafe's
+      site runs a waitlist. OpenRouter and Cloudflare both list it already, so an account on either side is
+      the shorter path.
+    </li>
+    <li>
+      <strong style="color: var(--text);">Pick a front door.</strong> Same model id on both; Cloudflare is
+      the shorter hop if your code is already a Worker.
+    </li>
+    <li>
+      <strong style="color: var(--text);">Send state, not a prompt.</strong> The input is program state —
+      the thing your code already has — plus questions with the criteria named in them.
+    </li>
+    <li>
+      <strong style="color: var(--text);">Read the probability, not just the label.</strong> Every answer
+      carries a confidence. Threshold it in your own code; that is the whole point of the design.
+    </li>
+  </ol>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Where</th><th>Model id</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        {vias.map((via) => (
+          <tr>
+            <td><a href={via.href} rel="noopener noreferrer">{via.name}</a></td>
+            <td><code>{via.id}</code></td>
+            <td style="color: var(--text-muted);">{via.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>How it differs from the models in our directory</h2>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th></th><th>Chat LLM</th><th>Jev</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color: var(--text-muted);">Sends back</td>
+          <td>Text you parse and validate</td>
+          <td><strong>A typed value, already valid</strong></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted);">Says when it is unsure</td>
+          <td>Only if prompted, and inconsistently</td>
+          <td><strong>Every answer carries a probability</strong></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted);">Output cost</td>
+          <td>Roughly 5× the input price</td>
+          <td><strong>Free</strong></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted);">Latency</td>
+          <td>Seconds — 3 to 329 s per the vendor</td>
+          <td><strong>70–500 ms, vendor-claimed</strong></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted);">Can it explain itself?</td>
+          <td>Yes</td>
+          <td>No — and that is the trade</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="provenance">
+    <span>Comparison built from <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">TypeSafe's own table</a></span>
+    <span>Vendor claims are marked as such</span>
+  </div>
+
+  <h2>Four other things called Jev</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Three letters, four unrelated meanings, and all of them outrank this model on search volume. If you
+    searched “jev” and wanted one of these, the table is the fastest way out — and if you wanted the model,
+    it is the reason to add a qualifier.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Also “jev”</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        {alsoCalledJev.map((row) => (
+          <tr>
+            <td style="white-space: nowrap;"><strong>{row.name}</strong></td>
+            <td style="color: var(--text-muted);">{row.what}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>FAQ</h2>
+  <Faq items={jevFaqs} />
+
+  <section class="card" style="margin-top: var(--space-12);">
+    <h2 style="margin-top: 0;">When the next model lands, you will hear about it</h2>
+    <p style="color: var(--text-muted); max-width: var(--measure);">
+      Jev arrived with an announcement, a company and a founder — unlike the Alpha line, which shows up
+      anonymous and free. We track both. Leave an email and we will send one note when the next one appears,
+      with the specs read from the catalogue.
+    </p>
+    <SubscribeForm note="One email per model. No newsletter, no forwarding, unsubscribe in one click." />
+  </section>
+
+  <h2>Where to go next</h2>
+  <div class="grid-cards">
+    {relatedPages.map((page) => (
+      <article class="card">
+        <h3 class="card-title"><a href={page.href}>{page.title}</a></h3>
+        <p class="card-body">{page.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="hero-actions">
+    <a class="btn primary" href={JEV_OPENROUTER_URL} rel="noopener noreferrer">Open Jev on OpenRouter →</a>
+    <a class="btn ghost" href={JEV_CLOUDFLARE_URL} rel="noopener noreferrer">Cloudflare model card</a>
+    <a class="btn ghost" href="/openrouter-models">Full model directory</a>
+  </p>
+</System>

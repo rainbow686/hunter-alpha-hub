@@ -18,6 +18,7 @@ import {
   openrouterModelUrl,
   openrouterModels,
 } from "@repo/lib/openrouter-models";
+import { JEV_OPENROUTER_URL } from "@repo/lib/jev";
 
 const title = "OpenRouter Models Directory: Pricing, Context & Use Cases";
 const description =
@@ -148,6 +149,29 @@ const shortContext = (tokens: number) => formatContextWindow(tokens).replace(" t
         </p>
       </article>
     ))}
+
+    {/*
+      Not in the grid above on purpose: this page is hand-written, because
+      `typesafe/jev-1.13` is not in the /api/v1/models list the rest of this
+      page is built from. Marking it here keeps it discoverable without
+      pretending it came out of the sync.
+    */}
+    <article class="card" style="border-style: dashed;">
+      <div style="display: flex; justify-content: space-between; gap: var(--space-3); align-items: baseline;">
+        <h3 style="margin: 0;"><a href="/typesafe-jev">Jev (TypeSafe)</a></h3>
+        <span style="font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint);">32K</span>
+      </div>
+      <p style="margin: var(--space-1) 0 var(--space-3); font-size: var(--text-xs); color: var(--text-faint);">
+        TypeSafe · <code>typesafe/jev-1.13</code> · hand-verified
+      </p>
+      <p style="margin: 0; font-size: var(--text-sm); color: var(--text-muted);">
+        Returns typed decisions with calibrated probabilities instead of text. Not in the API list this
+        directory is built from, so it is read and dated by hand.
+      </p>
+      <p style="margin: var(--space-3) 0 0; font-size: var(--text-xs); color: var(--text-faint);">
+        $0.042 in / free out per 1M · <a href={JEV_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter ↗</a>
+      </p>
+    </article>
   </div>
 </System>
 
