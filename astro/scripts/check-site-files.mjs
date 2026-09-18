@@ -124,6 +124,21 @@ if (productionConfig !== null) {
       "wrangler.production.jsonc enables run_worker_first — that drops every _redirects rule (see docs/lessons); the apex redirect belongs in wrangler.apex.jsonc",
     );
   }
+  /*
+   * The array form is required, for the opposite reason to the line above: with
+   * asset-first routing the asset layer answers a *navigation* to a path that has
+   * no file with the 404 page, and the Worker never runs. `/unsubscribe` is exactly
+   * that path, so a build without this list ships an unsubscribe link that only
+   * works for curl. (Measured 2026-09-18: `Sec-Fetch-Mode: navigate` → 404,
+   * without it → our page.)
+   */
+  for (const route of ["/unsubscribe", "/api/*"]) {
+    if (!new RegExp(`"run_worker_first"\\s*:\\s*\\[[^\\]]*"${route.replace("*", "\\*")}"`).test(productionConfig)) {
+      failures.push(
+        `wrangler.production.jsonc does not route ${route} to the Worker first — asset-first serves the 404 page to browsers`,
+      );
+    }
+  }
   if (!/"main"\s*:\s*"dist\/_worker\.js\/index\.js"/.test(productionConfig)) {
     failures.push("wrangler.production.jsonc no longer points main at the generated Astro entry");
   }

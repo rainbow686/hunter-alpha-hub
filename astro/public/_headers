@@ -14,3 +14,22 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Robots-Tag: index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1
+
+# Dynamic endpoints must never be cached by anything in the middle.
+#
+# This zone runs `cache_level: aggressive`, so HTML is cacheable here — fine for
+# 87 static pages whose ETags change per build, wrong for a one-time credential in
+# a URL. The Worker's own responses already say `no-store`; this block covers the
+# responses the **asset layer** can produce for these paths (for example a
+# fallback page), which the Worker's headers do not reach.
+#
+# Not this incident's fix: on 2026-09-18 the unsubscribe page was invisible in
+# browsers because asset-first routing answers a *navigation* to a path with no
+# file with the 404 page before the Worker runs. That is fixed in the assets
+# config (`run_worker_first: ["/unsubscribe", "/api/*"]`) and the lesson is in
+# docs/lessons/asset-first-hides-worker-routes-from-browsers.md. This block stays
+# because a credential in a URL should never be cacheable in the first place.
+/unsubscribe
+  Cache-Control: no-store
+/api/*
+  Cache-Control: no-store

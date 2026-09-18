@@ -24,7 +24,20 @@
     // 307 is temporary, so Google keeps both forms instead of consolidating.
     "html_handling": "drop-trailing-slash",
     // Unknown paths get the build's own 404.html instead of the bare asset-layer page.
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    /*
+     * `/unsubscribe` has no file in dist/, and the asset layer answers a
+     * **navigation** request for a path with no asset with the 404 page — before the
+     * Worker is ever consulted. Measured 2026-09-18: the same URL returned our page
+     * to curl and the branded 404 to Chrome, and the only difference in the request
+     * was `Sec-Fetch-Mode: navigate`. So the one page whose whole job is to be
+     * opened from an email link was invisible in every browser.
+     *
+     * The array form (not `true`!) is what keeps this safe: only these paths go to
+     * the Worker first, everything else stays asset-first, so the 92 `_redirects`
+     * rules keep working. `run_worker_first: true` was measured to drop all of them.
+     */
+    "run_worker_first": ["/unsubscribe", "/api/*"]
   },
   "workers_dev": true,
   "preview_urls": true
