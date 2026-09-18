@@ -19,6 +19,14 @@ const PRICE_EPSILON = 0.000_001;
 interface OpenRouterPricing {
   prompt?: string;
   completion?: string;
+  /**
+   * Present on 276 of the 445 catalogue entries. It is the price of re-sending a
+   * prefix the provider has already seen, and it is typically a tenth of `prompt`
+   * — which makes it the number that actually sets the bill for agent workloads.
+   * Not every model declares one, so absence is a fact about the model, not about
+   * our reading of it.
+   */
+  input_cache_read?: string;
 }
 
 interface OpenRouterModel {
@@ -128,6 +136,38 @@ async function main() {
           actual: actual.toFixed(6),
         });
       }
+    }
+
+    /*
+     * The cache price drifts like any other price, and it drifts silently: a
+     * provider can move `input_cache_read` without touching `prompt`, and every
+     * fresh-price check above would still pass. Checked in both directions —
+     * declared in the catalogue when we have no number, and missing from the
+     * catalogue when we do.
+     */
+    const remoteCachePrice = Number.parseFloat(remote.pricing?.input_cache_read ?? "");
+    if (Number.isFinite(remoteCachePrice)) {
+      const actual = remoteCachePrice * 1_000_000;
+      const declared = model.cachedInputPricePerMillion;
+      if (declared === undefined) {
+        drift.push({
+          field: "cachedInputPricePerMillion",
+          expected: "not recorded",
+          actual: actual.toFixed(6),
+        });
+      } else if (Math.abs(actual - declared) > PRICE_EPSILON) {
+        drift.push({
+          field: "cachedInputPricePerMillion",
+          expected: declared.toFixed(6),
+          actual: actual.toFixed(6),
+        });
+      }
+    } else if (model.cachedInputPricePerMillion !== undefined) {
+      drift.push({
+        field: "cachedInputPricePerMillion",
+        expected: model.cachedInputPricePerMillion.toFixed(6),
+        actual: "the catalogue declares no input_cache_read",
+      });
     }
 
     const expectedModalities = mapModalities(model).sort();
