@@ -16,8 +16,17 @@
  *   - `workers_dev: false` + `preview_urls: false` — the Astro Worker must not be
  *     reachable (and indexable) at *.<account>.workers.dev once it is the real
  *     site. The preview Worker keeps its own workers.dev URL for testing.
- *   - both custom domains bound here. Cloudflare will refuse this deploy while the
- *     Next Worker still holds them — that refusal is the cutover gate, not a bug.
+ *   - **only `www.hunteralphahub.com` is bound here.** The apex belongs to
+ *     `hunter-alpha-hub-apex` (wrangler.apex.jsonc): this Worker is asset-first,
+ *     so an apex request never reaches its script and the 308 has to live in a
+ *     Worker that has no assets of its own. Until 2026-09-18 this file also
+ *     declared the apex, which would have fought the apex Worker for the same
+ *     hostname on the next deploy.
+ *
+ *   - Cloudflare refuses a custom-domain deploy while another Worker holds the
+ *     hostname, which is what makes the cutover order matter: the hostnames were
+ *     moved with the API option `override_existing_origin` (atomic, no window
+ *     with no Worker attached), then this config was deployed to match.
  *
  *   - `assets` stays **asset-first** (no `run_worker_first`). Apex → www is NOT
  *     handled here: Workers Assets answer static files before this script runs, so
@@ -49,8 +58,5 @@
       "migrations_dir": "../d1/migrations"
     }
   ],
-  "routes": [
-    { "pattern": "hunteralphahub.com", "custom_domain": true },
-    { "pattern": "www.hunteralphahub.com", "custom_domain": true }
-  ]
+  "routes": [{ "pattern": "www.hunteralphahub.com", "custom_domain": true }]
 }
