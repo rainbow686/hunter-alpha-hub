@@ -1,5 +1,5 @@
 ---
-title: "One Week with Hunter Alpha: Free 1M Context, Game Changer or Overhyped?"
+title: "One Week with Hunter Alpha: 1M Context, Game Changer or Overhyped?"
 excerpt: "My honest experience using Hunter Alpha for a week - the good, the bad, and everything in between."
 author: "Alex Chen"
 publishedAt: "2026-03-17"
@@ -13,13 +13,13 @@ tags:
 ---
 > **Identity Update (March 23, 2026):** Hunter Alpha has been confirmed as Xiaomi's **mimo-v2** model. This article was originally written during the mystery period. The experiences and benchmarks remain valid —Hunter Alpha was simply the codename used before Xiaomi's official announcement. [Read our full announcement →](/blog/hunter-alpha-identity-revealed-xiaomi-mimo-v2)
 
-## One Week with Hunter Alpha: Free 1M Context, Game Changer or Overhyped?
+## One Week with Hunter Alpha: 1M Context, Game Changer or Overhyped?
 
 ## Introduction
 
 I've been using Hunter Alpha daily for about a week now. Here's my honest take - no fluff, just real experience.
 
-**Bottom line upfront**: For something free, it's genuinely impressive. But there are some caveats you should know about.
+**Bottom line upfront**: For something free — which it was during the preview this review covers — it was genuinely impressive. It is billed now as MiMo-V2.5 at $0.14 in / $0.28 out per million tokens, and the caveats below are about the model, not the price.
 
 ## The Good Stuff
 

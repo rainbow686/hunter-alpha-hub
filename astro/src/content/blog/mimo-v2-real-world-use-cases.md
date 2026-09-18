@@ -257,7 +257,7 @@ Be realistic about limitations:
 
 The common thread across all use cases: **mimo-v2 excels when you need to process more text than fits in standard models**.
 
-For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, mimo-v2 is unmatched — especially at free pricing.
+For 4K-context tasks, use Claude or GPT-4o. For document-scale tasks, MiMo-V2.5 is hard to beat on price — $0.14 in / $0.28 out per M, and free only during the March 2026 preview.
 
 ---
 

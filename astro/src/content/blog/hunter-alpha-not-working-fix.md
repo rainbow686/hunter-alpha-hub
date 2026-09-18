@@ -184,11 +184,11 @@ Visit [Hunter Alpha Hub](/) for community updates on model status.
 
 ---
 
-## Issue #5: "Insufficient Credits" (Even Though It's Free)
+## Issue #5: "Insufficient Credits" (on a Model That Used to Be Free)
 
 ### Symptoms
 - Error: "Insufficient credits" or "Insufficient funds"
-- Hunter Alpha shows as free but still fails
+- Hunter Alpha was free during the preview and is billed as MiMo-V2.5 now, so a credits error is expected
 
 ### Solution
 

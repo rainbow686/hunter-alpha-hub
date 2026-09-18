@@ -1,6 +1,6 @@
 ---
 title: "Is There a mimo-v2-pro? What We Know (March 2026)"
-excerpt: "Search interest in 'mimo-v2-pro' is surging. We clarify: there is no Pro version. Only mimo-v2 (Hunter Alpha) exists with 1M context, free on OpenRouter."
+excerpt: "Search interest in 'mimo-v2-pro' is surging. We clarify: there is no Pro version. Only MiMo-V2.5 (the model that appeared as Hunter Alpha) exists, with a 1M-token context window at $0.14 in / $0.28 out per M."
 author: "Hunter Alpha Hub Team"
 publishedAt: "2026-03-23"
 category: "FAQ"

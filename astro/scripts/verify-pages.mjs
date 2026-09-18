@@ -167,6 +167,17 @@ const PINNED_DIFFERENCES = {
     reason:
       "the excerpt advertised '1M token context window for free', which stopped being true on 2026-03-23 when Xiaomi claimed the model and it was billed; the build carries the corrected sentence and live catches up on deploy",
   },
+  "blog/one-week-with-hunter-alpha title": {
+    expect: "One Week with Hunter Alpha: 1M Context, Game Changer or Overhyped? | OpenRouter Model Hub",
+    reason:
+      "the title asserted 'Free 1M Context' and is rendered in the related-article list of every blog page, so the claim appeared on 28 pages; the price half of it stopped being true on 2026-03-23",
+  },
+  "blog/is-there-mimo-v2-pro-explained description": {
+    expect:
+      "Search interest in 'mimo-v2-pro' is surging. We clarify: there is no Pro version. Only MiMo-V2.5 (the model that appeared as Hunter Alpha) exists, with a 1M-token context window at $0.14 in / $0.28 out per M.",
+    reason:
+      "the description said that model 'exists with 1M context, free on OpenRouter' — same correction as the rest of the corpus",
+  },
 };
 
 const decode = (value) =>

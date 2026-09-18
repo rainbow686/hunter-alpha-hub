@@ -82,7 +82,7 @@ Yes. Even with 90% accuracy, saving 6 hours of manual work is worth it. The key 
 
 ## Final Thought
 
-This is the kind of task that was nearly impossible before. You couldn't fit 500 pages in most model contexts. Hunter Alpha changes that - and it's free.
+This is the kind of task that was nearly impossible before. You couldn't fit 500 pages in most model contexts. Hunter Alpha changed that, and during its March 2026 preview it did so for free; the model is billed as MiMo-V2.5 now.
 
 That's genuinely useful.
 

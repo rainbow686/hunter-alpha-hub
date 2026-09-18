@@ -22,7 +22,7 @@ tags:
 Too many "best free AI model" listicles, not enough real testing. So I ran my own comparison.
 
 **Contestants**:
-- Hunter Alpha (1M context, free)
+- Hunter Alpha (1M context; free during the preview, billed as MiMo-V2.5 since)
 - GPT-4o Mini (free tier)
 - Claude 3.5 Sonnet (free tier)
 - Gemini 1.5 Flash (free)
