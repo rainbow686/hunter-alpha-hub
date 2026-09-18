@@ -253,30 +253,36 @@ const relatedPages = [
     Log scale is stated on the figure so nobody reads the bar lengths as ratios.
   */}
   <figure style="margin: var(--space-8) 0; padding: var(--space-6); border: 1px solid var(--field-border); border-radius: var(--radius); background: var(--bg-sunken);">
-    <svg viewBox="0 0 760 170" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+    <svg viewBox="0 0 760 175" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
       <title>End-to-end latency on a logarithmic scale: Jev 70 to 500 milliseconds, frontier LLMs 3 to 329 seconds.</title>
       <text x="0" y="14" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">END-TO-END LATENCY · LOG SCALE · VENDOR'S FIGURES</text>
 
-      <line x1="60" y1="118" x2="700" y2="118" stroke="var(--field-border)" />
+      {/*
+        Row labels sit above their bars, not beside them: "Frontier LLM"
+        anchored to the left edge of the plot ran off the viewBox and rendered
+        as "ntier LLM" in production. The label has to live inside the width the
+        axis already reserves.
+      */}
+      <line x1="60" y1="134" x2="700" y2="134" stroke="var(--field-border)" />
       {[
-        [136, "0.1 s"],
-        [289, "1 s"],
-        [441, "10 s"],
-        [593, "100 s"],
+        [129, "0.1 s"],
+        [267, "1 s"],
+        [405, "10 s"],
+        [543, "100 s"],
       ].map(([x, label]) => (
         <g>
-          <line x1={x} y1="114" x2={x} y2="122" stroke="var(--field-border)" />
-          <text x={x} y="136" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">{label}</text>
+          <line x1={x} y1="130" x2={x} y2="138" stroke="var(--field-border)" />
+          <text x={x} y="154" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">{label}</text>
         </g>
       ))}
 
-      <text x="54" y="58" font-family="var(--sans)" font-size="14" fill="var(--text)" text-anchor="end">Jev</text>
-      <rect x="113" y="44" width="130" height="20" rx="10" fill="var(--success)" />
-      <text x="253" y="58" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">70–500 ms</text>
+      <text x="60" y="38" font-family="var(--sans)" font-size="14" fill="var(--text)">Jev</text>
+      <rect x="108" y="46" width="118" height="18" rx="9" fill="var(--success)" />
+      <text x="236" y="60" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">70–500 ms</text>
 
-      <text x="54" y="98" font-family="var(--sans)" font-size="14" fill="var(--text)" text-anchor="end">Frontier LLM</text>
-      <rect x="361" y="84" width="311" height="20" rx="10" fill="var(--text-faint)" opacity="0.45" />
-      <text x="682" y="98" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">3–329 s</text>
+      <text x="60" y="94" font-family="var(--sans)" font-size="14" fill="var(--text)">Frontier LLM</text>
+      <rect x="333" y="102" width="282" height="18" rx="9" fill="var(--text-faint)" opacity="0.45" />
+      <text x="625" y="116" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">3–329 s</text>
     </svg>
     <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
       Figure 2 — the gap is real, and it is also the maker's own measurement, run from their machines on System One shaped queries. We have not reproduced it. Note the axis: at this scale the difference looks like roughly a decade, which is the same thing the vendor calls 40×–200×.
