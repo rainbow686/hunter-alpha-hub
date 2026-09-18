@@ -408,6 +408,84 @@ const relatedPages = [
     </table>
   </div>
 
+  {/*
+    The receipts section. Every other page on the web that covers Jev is
+    summarising the same two sources; this table says which requests we actually
+    made, when, and what came back — including the row where the answer was
+    "we could not check this". That last row is the point: a verification log
+    with no gaps in it is an advertisement, not a log.
+  */}
+  <h2>What we checked ourselves</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    This page is not a summarised press release. Below is every read we made on
+    {JEV_DATA_AS_OF}, what we asked, and what came back — including the one thing we
+    could not check.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Question</th><th>How we asked</th><th>What came back</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Is Jev really on OpenRouter?</td>
+          <td><code>GET /api/v1/models/typesafe/jev-1.13/endpoints</code></td>
+          <td>200. Provider <strong>TypeSafe</strong>, modality <code>text-&gt;decisions</code>.</td>
+        </tr>
+        <tr>
+          <td>When was it listed, and where does that timestamp come from?</td>
+          <td>the <code>created</code> field of the same response</td>
+          <td><code>1789689684</code> — {JEV_LISTED_AT_UTC}. Read from the catalogue, not from the announcement.</td>
+        </tr>
+        <tr>
+          <td>What does it actually cost?</td>
+          <td>the <code>pricing</code> block of the same response</td>
+          <td><code>prompt 0.000000042</code> per token (= ${JEV_INPUT_PRICE_PER_MILLION} per million), <code>completion 0</code>.</td>
+        </tr>
+        <tr>
+          <td>Do the two catalogues agree on context?</td>
+          <td>OpenRouter endpoint vs the Cloudflare model card</td>
+          <td>Both say <strong>32,000</strong>. When two independent listings agree, we print the number without a hedge.</td>
+        </tr>
+        <tr>
+          <td>Why is this page hand-written?</td>
+          <td>grep the whole <code>/api/v1/models</code> list (445 entries) for <code>jev</code> and <code>typesafe</code></td>
+          <td><strong>No match.</strong> It is served, and absent from the list our sync reads. That is the finding this page exists to record.</td>
+        </tr>
+        <tr>
+          <td>What are the question types, exactly?</td>
+          <td>the code sample on the Cloudflare Workers AI model card</td>
+          <td><code>noul</code> with named true/false criteria, <code>choice</code> with named options, <code>score</code> with an ordered list.</td>
+        </tr>
+        <tr>
+          <td>Is the speed and price claim real?</td>
+          <td>the vendor's launch post, 2026-09-15</td>
+          <td>They publish 70–500 ms, $0.042 per million in, output free. <strong>We have not reproduced any of it</strong> — so it is labelled as theirs everywhere on this page.</td>
+        </tr>
+        <tr>
+          <td>Is anyone actually searching for it?</td>
+          <td>Google Trends, worldwide, three months, daily</td>
+          <td>Index 1 for 92 of 93 days, then 4 → 26 → 61 → 100. Related queries are AI-side, not the rapper.</td>
+        </tr>
+        <tr style="background: var(--bg-sunken);">
+          <td><strong>Does it work?</strong></td>
+          <td>a live call</td>
+          <td>
+            <strong>Not checked.</strong> We have no key for the early-access model, so
+            nothing on this page comes from a real run — no sample output, no measured
+            latency, no probability we observed ourselves. When we get access, this row
+            becomes the first figure on the page.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="provenance">
+    <span>Read <code>{JEV_DATA_AS_OF}</code></span>
+    <span>Requests <code>openrouter.ai/api/v1</code></span>
+    <span>These are our reads, not the vendor's claims</span>
+  </div>
+
   <h2>FAQ</h2>
   <Faq items={jevFaqs} />
 
