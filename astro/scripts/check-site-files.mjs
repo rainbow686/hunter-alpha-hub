@@ -93,6 +93,60 @@ if (apexConfig === null) {
 }
 
 /**
+ * Each hostname belongs to exactly one Worker, and the retired one holds none.
+ *
+ * Two failure modes got here, both invisible until the moment they matter:
+ *
+ *   - 2026-09-18 morning: `wrangler.production.jsonc` declared **both** the apex
+ *     and www even after the apex got its own Worker, so whichever of the two
+ *     deployed last would take the apex and the other would start failing;
+ *   - the Next Worker is still built on every push to main. As long as its config
+ *     declares a custom domain, a routine push would silently move the live site
+ *     back to Next — the cutover would undo itself, on a commit that says nothing
+ *     about it.
+ *
+ * So: www → the Astro production Worker, apex → the apex Worker, and the Next
+ * Worker declares none (it stays deployed and unreachable, which is the rollback).
+ */
+const routeHosts = (source) =>
+  [...source.matchAll(/"pattern"\s*:\s*"([^"]+)"[^}]*?"custom_domain"\s*:\s*true/g)].map((m) => m[1]);
+
+const nextConfig = read("../../wrangler.jsonc");
+const declaredHosts = {
+  "Next (root wrangler.jsonc)": routeHosts(nextConfig ?? ""),
+  "Astro production (wrangler.production.jsonc)": routeHosts(productionConfig ?? ""),
+  "apex (wrangler.apex.jsonc)": routeHosts(apexConfig ?? ""),
+};
+
+if (nextConfig === null) {
+  failures.push("the Next Worker's wrangler.jsonc is missing — rollback would have no config to redeploy");
+} else if (declaredHosts["Next (root wrangler.jsonc)"].length > 0) {
+  failures.push(
+    `the Next Worker still declares custom domain(s) ${declaredHosts["Next (root wrangler.jsonc)"].join(", ")} — the next push to main would take them back from the Astro Worker`,
+  );
+}
+
+const owners = new Map();
+for (const [where, hosts] of Object.entries(declaredHosts)) {
+  for (const host of hosts) owners.set(host, [...(owners.get(host) ?? []), where]);
+}
+for (const [host, claimants] of owners) {
+  if (claimants.length !== 1) {
+    failures.push(
+      `${host} is declared by ${claimants.length} configs (${claimants.join(", ")}) — two Workers fighting over one hostname`,
+    );
+  }
+}
+for (const [where, host] of [
+  ["Astro production (wrangler.production.jsonc)", "www.hunteralphahub.com"],
+  ["apex (wrangler.apex.jsonc)", "hunteralphahub.com"],
+]) {
+  if (!declaredHosts[where].includes(host)) {
+    failures.push(`${where} does not declare ${host} — that host would have no Worker`);
+  }
+}
+
+/**
  * `<lastmod>` has to be believable or it is worse than absent: Google ignores a
  * value it cannot trust, so a sitemap that says "every URL changed just now"
  * silently loses the one hint that says which pages are new. That is exactly what

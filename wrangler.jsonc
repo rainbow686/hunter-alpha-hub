@@ -24,14 +24,19 @@
   ],
   "workers_dev": true,
   "preview_urls": true,
-  "routes": [
-    {
-      "pattern": "hunteralphahub.com",
-      "custom_domain": true
-    },
-    {
-      "pattern": "www.hunteralphahub.com",
-      "custom_domain": true
-    }
-  ]
+  /*
+   * No custom domains (cutover 2026-09-18, ADR-0011 Phase 4).
+   *
+   * The two hostnames now belong to the Astro Workers — `www.hunteralphahub.com`
+   * → `hunter-alpha-hub-astro`, `hunteralphahub.com` → `hunter-alpha-hub-apex`.
+   * Leaving them here would make every push to main try to take them back: this
+   * Worker is still built and deployed on each push, and a Worker that declares a
+   * custom domain claims it, so the live site would flip back to Next on the next
+   * build, or the build would fail against the other Worker's attachment.
+   *
+   * Keeping the app deployed but unreachable is the point of the rollback: move
+   * both hostnames back (Cloudflare API or wrangler `routes`) and the old site
+   * serves again without a rebuild. See OPERATIONS.md → Phase 4 → rollback.
+   */
+  "routes": []
 }
