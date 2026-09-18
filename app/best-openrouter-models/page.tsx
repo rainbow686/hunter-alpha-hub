@@ -49,16 +49,16 @@ export default function BestOpenRouterModelsPage() {
             Data snapshot: {modelHubDataAsOf}
           </p>
           <p className="text-sm mt-6" style={{ color: "var(--muted)" }}>
-            Every pick here is a named, priced model on purpose. If you want the free option, the
-            current anonymous release is{" "}
+            Every pick here is a named, priced model on purpose. The line&apos;s newest codename,{" "}
             <Link href="/union-alpha" className="text-violet-400 hover:underline">
               Union Alpha
-            </Link>{" "}
-            — read{" "}
+            </Link>
+            , is no longer the exception either: it was revealed as Unbiased Pareto on 18 September 2026
+            and delisted, so read{" "}
             <Link href="/union-alpha-free" className="text-violet-400 hover:underline">
-              what its free window means
+              what happened to its free window
             </Link>{" "}
-            before you depend on it. Full side-by-side:{" "}
+            rather than planning around free capacity. Full side-by-side:{" "}
             <Link href="/comparison" className="text-violet-400 hover:underline">
               model comparison
             </Link>

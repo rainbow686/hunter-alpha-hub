@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 const whereToGo = [
   { href: "/openrouter-models/mimo-v2.5", label: "Xiaomi MiMo-V2.5 — what it is now" },
   { href: "/stealth-models", label: "Stealth models register" },
-  { href: "/union-alpha", label: "Union Alpha (live now)" },
+  { href: "/union-alpha", label: "Union Alpha · revealed" },
   { href: "/alpha-models", label: "How the Alpha line works" },
   { href: "/access", label: "How to use OpenRouter" },
   { href: "/comparison", label: "Compare every model" },

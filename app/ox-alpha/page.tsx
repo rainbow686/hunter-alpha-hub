@@ -99,7 +99,8 @@ export default function OxAlphaPage() {
             OX Alpha was later identified as Z.ai GLM 5.3 Flash. This page is kept for historical reference.
           </p>
           <p className="text-sm text-amber-200/90 mt-2">
-            A newer anonymous model is live now — see the{" "}
+            The next codename in the line has since come and gone — Union Alpha was revealed as Unbiased
+            Pareto on 18 September 2026. See the{" "}
             <Link href="/union-alpha" className="underline hover:text-amber-100">
               Union Alpha tracker
             </Link>
