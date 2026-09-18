@@ -93,6 +93,63 @@ for (const route of UNSUB_ROUTES) {
   }
 }
 
+// ── 3b. the sending half exists, is guarded, and cannot double-send ──────────
+/*
+ * "We will tell you when the next codename appears" is only true if something can
+ * send. Three things are load-bearing and each has its own way of being absent:
+ * the binding (capability), the token (nobody else can mail the list), and the
+ * unique broadcast key (running it twice cannot mail everyone twice).
+ */
+const NOTIFY_ROUTE = "astro/src/pages/api/notify.ts";
+/*
+ * Comments are stripped before matching. Both of the checks below were blind on
+ * the first run because the patterns matched the *documentation* of the guard
+ * rather than the guard itself: deleting the runtime token read still passed
+ * (the interface still said `NOTIFY_TOKEN?`), and pointing the unsubscribe URL
+ * at `/opt-out` still passed (the header comment still said `/unsubscribe?t=`).
+ * A guard that passes because it matched a comment is worse than no guard.
+ */
+const notify = stripComments(read(NOTIFY_ROUTE));
+for (const [what, pattern] of [
+  ["an Authorization check", /authorization[\s\S]{0,120}=== expected|offered !== expected/],
+  ["a runtime NOTIFY_TOKEN read", /const expected = env\.NOTIFY_TOKEN/],
+  ["a per-recipient unsubscribe link", /unsubscribeUrlFor\(/],
+  ["the List-Unsubscribe headers", /headersFor\(/],
+  ["a duplicate-broadcast guard", /INSERT INTO broadcasts/],
+]) {
+  if (!pattern.test(notify)) failures.push(`${NOTIFY_ROUTE} is missing ${what}`);
+}
+
+const TEMPLATE = "astro/src/lib/notify-email.ts";
+const template = stripComments(read(TEMPLATE));
+if (!/List-Unsubscribe":\s*`<\$\{input\.unsubscribeUrl\}>`/.test(template)) {
+  failures.push(
+    `${TEMPLATE}: List-Unsubscribe must be an angle-bracketed HTTPS URI — Cloudflare rejects any other form with E_HEADER_VALUE_INVALID`,
+  );
+}
+if (!/List-Unsubscribe-Post":\s*"List-Unsubscribe=One-Click"/.test(template)) {
+  failures.push(`${TEMPLATE}: List-Unsubscribe-Post must be exactly "List-Unsubscribe=One-Click" (RFC 8058)`);
+}
+if (!/\/unsubscribe\?t=/.test(template)) {
+  failures.push(`${TEMPLATE}: the unsubscribe URL does not point at the /unsubscribe route that exists`);
+}
+
+for (const config of ["astro/wrangler.jsonc", "astro/wrangler.production.jsonc"]) {
+  const source = read(config).replace(/\/\*[\s\S]*?\*\//g, " ").replace(/^\s*\/\/.*$/gm, " ");
+  if (!/"send_email"\s*:\s*\[\s*\{\s*"name"\s*:\s*"EMAIL"\s*\}\s*\]/.test(source)) {
+    failures.push(`${config} has no send_email binding named EMAIL — the notify endpoint would answer 503`);
+  }
+}
+
+const migration = readdirSync(migrationDir)
+  .filter((name) => name.endsWith(".sql"))
+  .sort()
+  .map((name) => readFileSync(join(migrationDir, name), "utf8"))
+  .join("\n");
+if (!/CREATE UNIQUE INDEX IF NOT EXISTS broadcasts_key_unique ON broadcasts \(broadcast_key\)/.test(migration)) {
+  failures.push("no unique index on broadcasts.broadcast_key — a broadcast could be sent twice by accident");
+}
+
 // ── 5. the two documents are one document, and the palette is the system ───
 /*
  * Astro's CSRF check has to stay off while /unsubscribe accepts a POST from a
