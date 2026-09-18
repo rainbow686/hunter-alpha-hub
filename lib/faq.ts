@@ -52,7 +52,7 @@ export const siteFaqs: SiteFaq[] = [
     category: "The Alpha line",
     question: "Which stealth model is live right now?",
     answer:
-      "Union Alpha, as of 2026-09-18: 262,144 tokens of context, up to 131,072 tokens of output, text and image input, and $0 pricing on OpenRouter. Stealth endpoints can be delisted or repriced without notice, so the tracker re-reads the catalogue live rather than trusting a snapshot.",
+      "None — there is no anonymous release on OpenRouter as of 2026-09-18. The last one, Union Alpha, was delisted the same day it was revealed as Unbiased Pareto. The line has produced a new codename roughly every one to two months since March 2026, so the honest answer is \"check the register\" rather than \"this one\". Our tracker re-reads the catalogue live instead of trusting a snapshot.",
     links: [
       { href: "/union-alpha", label: "Union Alpha tracker" },
       { href: "/api/union-alpha/status", label: "Live status endpoint" },
@@ -69,7 +69,7 @@ export const siteFaqs: SiteFaq[] = [
     category: "Access & pricing",
     question: "Is Union Alpha free, and for how long?",
     answer:
-      "It bills $0 per million tokens today, verified against the public catalogue. How long that lasts is unknown: the maker is anonymous, no notice period has ever been published for this line, and material published for the model itself lists an anticipated paid price of about $0.50 input / $1.50 output per million once the preview ends.",
+      "It is not free any more. Union Alpha was billed at $0 per million tokens for the two days of its stealth window (16–18 September 2026); the same day it was revealed as Unbiased Pareto, the stealth route was delisted and the model was relisted at $2.50 input / $7.50 output per million. The ≈$0.50 / $1.50 figure that circulated during the window was a third-party claim about an unreleased model, and the real listing did not match it.",
     links: [
       { href: "/union-alpha-free", label: "The free window explained" },
       { href: "/union-alpha-opencode", label: "Using it through OpenCode" },

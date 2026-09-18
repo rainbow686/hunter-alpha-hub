@@ -535,8 +535,9 @@ export default function OxAlphaPage() {
                   <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:underline">
                     openrouter.ai
                   </a>{" "}
-                  and sign up with Google or email. No credit card is required to chat; API use needs a key but still bills $0 for OX-alpha while
-                  free.
+                  and sign up with Google or email. No credit card is required to chat, and API use needs a key
+                  — but OX Alpha is long past its free window: it is GLM 5.3 Flash now, billed at list price. The
+                  steps below are kept as the record of how the preview was used.
                 </p>
               </div>
             </li>

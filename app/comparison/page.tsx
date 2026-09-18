@@ -20,10 +20,11 @@ const baseUrl = "https://www.hunteralphahub.com";
 const pageUrl = `${baseUrl}/comparison`;
 
 /**
- * The free-and-anonymous row. This is the comparison the rest of the internet
- * does not show: the model that is free right now next to the two models that
- * used to be free and are now ordinary paid products — which is the decision a
- * reader is actually trying to make.
+ * The codename row. It used to be "the model that is free right now" next to the
+ * two that had already been revealed; as of 2026-09-18 the third reveal has
+ * landed too, so the row is now the same shape as the other two — a codename, its
+ * vendor, its real price. Kept as its own row because the codename is what people
+ * search for, and because it is the only one of the three with image input.
  */
 const stealthRow = stealthModels[0];
 const revealed = openrouterModels.filter((model) => model.formerAlias);
