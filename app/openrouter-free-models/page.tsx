@@ -47,11 +47,12 @@ export default function FreeModelsPage() {
         <Card className="p-6 mb-10">
           <h2 className="text-xl font-semibold mb-4">Notable free options</h2>
           <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
-            The newest entry is an anonymous stealth preview —{" "}
+            This list used to start with an anonymous stealth preview. That route is gone: Union Alpha was
+            revealed as Unbiased Pareto, delisted and billed, so the entry was dropped rather than left to rot —{" "}
             <Link href="/union-alpha" className="text-violet-400 hover:underline">
-              follow the Union Alpha tracker
+              the tracker has the before-and-after
             </Link>{" "}
-            for live status and verified specs. Every context figure below was read from the public
+            . Every context figure below was read from the public
             catalogue on {FREE_MODELS_DATA_AS_OF}, and the list is re-checked against that catalogue by
             the daily drift job — free routes disappear and change window size without notice, which is
             why this list is short and dated rather than long and confident.
