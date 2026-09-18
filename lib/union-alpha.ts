@@ -34,7 +34,28 @@ export const UNION_ALPHA_REVEAL = {
   contextWindow: 262144,
   inputPricePerMillion: 2.5,
   outputPricePerMillion: 7.5,
+  /**
+   * Read from the same endpoint payload on 2026-09-18: `input_cache_read`
+   * is $0.00000025 per token, i.e. $0.25 per million — a tenth of fresh input.
+   * It was missing from the reveal row until the API section was written, and it
+   * is the one number on this page that changes what a workload costs.
+   */
+  cachedInputPricePerMillion: 0.25,
   source: "https://openrouter.ai/stealth/union-alpha",
+} as const;
+
+/**
+ * What the serving endpoint declares. Read 2026-09-18 from
+ * `GET /api/v1/models/unbiased/pareto/endpoints` — not from a model card, and
+ * not from the stealth era. Single provider (Unbiased).
+ */
+export const UNION_ALPHA_ENDPOINT = {
+  provider: "Unbiased",
+  contextWindow: 262144,
+  maxOutputTokens: 131072,
+  inputModalities: ["text", "image"],
+  modality: "text+image->text",
+  supportedParameters: ["max_tokens", "temperature", "top_p", "tools", "tool_choice"],
 } as const;
 
 /**

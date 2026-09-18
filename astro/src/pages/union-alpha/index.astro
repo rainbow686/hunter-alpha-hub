@@ -24,6 +24,7 @@ import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../
 import {
   UNION_ALPHA_ADDED_AT_UTC,
   UNION_ALPHA_DATA_AS_OF,
+  UNION_ALPHA_ENDPOINT,
   UNION_ALPHA_MODEL_ID,
   UNION_ALPHA_OPENROUTER_URL,
   UNION_ALPHA_REVEAL,
@@ -33,7 +34,20 @@ import {
   verifiedSpecs,
 } from "@repo/lib/union-alpha";
 
-const title = "Union Alpha on OpenRouter: Revealed as Unbiased Pareto (2026)";
+/**
+ * Title rewritten 2026-09-18 after reading the live SERP for "union alpha":
+ * every page holding a top-8 position titles itself with the query's own
+ * vocabulary — "Union Alpha AI Model: Specs, Benchmarks, Cost & API" (union-alpha.com),
+ * "Union Alpha AI: Benchmarks, Specs, Cost & How to Use It" (kingy.ai),
+ * "Union Alpha Stealth Model: Coding, Vision, and ..." (mindstudio.ai) — while
+ * this page was answering the post-reveal question instead. Both intents are
+ * real, so the title now carries the query language *and* the one thing the
+ * competitors cannot answer, because they were not tracking it.
+ *
+ * We still do not publish benchmarks we do not have; that word is deliberately
+ * absent rather than borrowed.
+ */
+const title = "Union Alpha Specs, Cost & API: Revealed as Unbiased Pareto (2026)";
 const h1 = "What is Union Alpha? The Stealth Model That Turned Out to Be Unbiased Pareto";
 const description =
   "Union Alpha appeared on OpenRouter on 16 September 2026 and was revealed two days later as Unbiased Pareto: 262K context, 128K output, image input, tool calling. The full specs, the reveal, and what it costs now.";
@@ -182,6 +196,104 @@ const relatedPages = [
     the anonymous model was delisted alongside the reveal. <a href="/union-alpha-opencode">The OpenCode page</a>
     keeps the record of the claim.
   </p>
+
+  {/*
+    Cost and API. This section exists because of what the ranking pages actually
+    answer: every one of them titles itself "Specs, Benchmarks, Cost & API", and
+    we had the specs and none of the other two. The numbers below are read from
+    the serving endpoint, including the cache price that was missing from the
+    reveal row until this was written.
+  */}
+  <h2>What it costs now, and how to call it</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Read from <code>GET /api/v1/models/unbiased/pareto/endpoints</code> on
+    {UNION_ALPHA_DATA_AS_OF}. One provider serves it, so there is one price and no
+    routing to reason about.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Field</th><th class="num">Value</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Input</td>
+          <td class="num">$2.50 / 1M</td>
+          <td style="color: var(--text-muted);"><code>prompt 0.0000025</code> per token</td>
+        </tr>
+        <tr>
+          <td><strong>Cached input</strong></td>
+          <td class="num"><strong>$0.25 / 1M</strong></td>
+          <td style="color: var(--text-muted);">
+            <code>input_cache_read 0.00000025</code> — a tenth of fresh input. If you
+            resend the same long prefix, this is the number that sets your bill, not
+            the $2.50.
+          </td>
+        </tr>
+        <tr>
+          <td>Output</td>
+          <td class="num">$7.50 / 1M</td>
+          <td style="color: var(--text-muted);"><code>completion 0.0000075</code> per token</td>
+        </tr>
+        <tr>
+          <td>Context window</td>
+          <td class="num">262,144</td>
+          <td style="color: var(--text-muted);">unchanged from the stealth era</td>
+        </tr>
+        <tr>
+          <td>Max output</td>
+          <td class="num">131,072</td>
+          <td style="color: var(--text-muted);">declared by the single endpoint</td>
+        </tr>
+        <tr>
+          <td>Accepts</td>
+          <td class="num">text + image</td>
+          <td style="color: var(--text-muted);"><code>text+image-&gt;text</code> — the first Alpha-line model that took images</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-muted);">
+            <code>{UNION_ALPHA_ENDPOINT.supportedParameters.join(", ")}</code>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="provenance">
+    <span>Source <code>openrouter.ai/api/v1/models/unbiased/pareto/endpoints</code></span>
+    <span>Verified <code>{UNION_ALPHA_DATA_AS_OF}</code></span>
+    <span>Not quoted from a model card — read from the endpoint that serves it</span>
+  </div>
+
+  <h3>Calling it</h3>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    The model id is <code>{UNION_ALPHA_REVEAL.modelId}</code> — the stealth id
+    <code>stealth/union-alpha</code> no longer resolves. It is a normal
+    OpenRouter route, so the request shape is the same as for any other model on
+    the platform; only the id and the declared parameters above change.
+  </p>
+  <pre style="max-width: var(--measure); overflow-x: auto; padding: var(--space-4); background: var(--bg-sunken); border: 1px solid var(--field-border); border-radius: var(--radius); font-size: var(--text-sm);"><code>{`curl https://openrouter.ai/api/v1/chat/completions \\
+  -H "Authorization: Bearer $OPENROUTER_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "unbiased/pareto",
+    "messages": [
+      { "role": "user", "content": "Summarise this error log." }
+    ],
+    "temperature": 0.2,
+    "max_tokens": 2048
+  }'`}</code></pre>
+  <p style="color: var(--text-muted); max-width: var(--measure); font-size: var(--text-sm);">
+    Tool calling is declared on the endpoint, so agent harnesses that send
+    <code>tools</code> and <code>tool_choice</code> work without a wrapper. The
+    image modality is why the request above can carry an image part alongside
+    text — something Hunter Alpha and OX Alpha never accepted.
+  </p>
+  <div class="provenance">
+    <span>Parameters <code>read 2026-09-18</code></span>
+    <span>Request shape <a href="https://openrouter.ai/docs" rel="noopener noreferrer">OpenRouter docs</a></span>
+  </div>
 
   <h2>How it compares to the earlier Alpha models</h2>
   <div class="table-scroll">
