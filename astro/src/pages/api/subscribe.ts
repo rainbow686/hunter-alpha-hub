@@ -29,6 +29,14 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /** RFC 5321: anything longer than this cannot be delivered to anyone. */
 const MAX_EMAIL_LENGTH = 254;
 
+/**
+ * The unsubscribe token (ADR-0015). 128 bits of randomness, hex, no dashes —
+ * this is the only credential that can remove a row, and the only thing the
+ * reveal email needs to carry. Generated here rather than by the database so the
+ * whole signup stays one INSERT.
+ */
+const newToken = (): string => crypto.randomUUID().replace(/-/g, "");
+
 export const POST: APIRoute = async ({ request, locals }) => {
   const env = (locals as { runtime?: { env?: Env } })?.runtime?.env ?? (process.env as Env);
   const db = env.DB;
@@ -66,8 +74,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   try {
     await db
-      .prepare("INSERT INTO subscribers (email, source) VALUES (?, ?)")
-      .bind(normalised, "site-form")
+      .prepare("INSERT INTO subscribers (email, source, token) VALUES (?, ?, ?)")
+      .bind(normalised, "site-form", newToken())
       .run();
     return json({ success: true }, 201);
   } catch (error) {

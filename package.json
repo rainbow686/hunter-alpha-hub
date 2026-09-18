@@ -14,7 +14,8 @@
     "start": "next start",
     "lint": "next lint",
     "sync-models": "node --experimental-strip-types scripts/sync-openrouter-models.ts",
-    "db:migrate": "wrangler d1 execute hunter-alpha-hub-subscribers --remote --file=d1/migrations/0001_subscribers.sql"
+    "db:migrate": "wrangler d1 migrations apply hunter-alpha-hub-subscribers --remote",
+    "db:migrate:local": "wrangler d1 migrations apply hunter-alpha-hub-subscribers --local"
   },
   "dependencies": {
     "autoprefixer": "^10.4.27",
