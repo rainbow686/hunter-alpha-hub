@@ -1,6 +1,6 @@
 ---
 title: "Xiaomi mimo-v2 Complete Guide: How to Use the 1M Context AI Model (2026)"
-excerpt: "Formerly known as Hunter Alpha, Xiaomi's mimo-v2 offers 1M token context window for free. Complete guide to accessing and using this powerful AI model."
+excerpt: "Formerly known as Hunter Alpha, Xiaomi's MiMo-V2.5 offers a 1M-token context window at $0.14 in / $0.28 out per million tokens — it was free only during the March 2026 preview. Complete guide to using it."
 author: "Hunter Alpha Hub Team"
 publishedAt: "2026-03-23"
 category: "Guide"
@@ -51,7 +51,7 @@ The model originally appeared on OpenRouter as "Hunter Alpha" with unknown origi
 
 1. Use the web chat interface for casual testing
 2. Or generate an API key for programmatic access
-3. The model is completely free — no credit card required
+3. A credit card is needed for API use: the preview is over and MiMo-V2.5 is billed at $0.14 in / $0.28 out per million tokens
 
 ## Getting Started: First Prompts
 
@@ -178,7 +178,7 @@ Review this codebase and identify:
 | Feature | mimo-v2 | Claude 3.5 | GPT-4o | Gemini 1.5 Pro |
 |---------|---------|------------|--------|----------------|
 | Context Window | 1M tokens | 200K tokens | 128K tokens | 1M tokens |
-| Price | Free | Paid tier | Paid tier | Paid tier |
+| Price | $0.14/$0.28 per M | Paid tier | Paid tier | Paid tier |
 | Speed | Slower | Fast | Fastest | Medium |
 | Code Quality | Good | Excellent | Excellent | Good |
 | Long Doc Accuracy | Excellent | Good | Limited | Excellent |

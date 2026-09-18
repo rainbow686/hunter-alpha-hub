@@ -16,9 +16,9 @@ tags:
 
 ## Quick Verdict
 
-**Best for 1M context:** Hunter Alpha (free!) or Gemini 1.5 Pro (multimodal)
+**Best for 1M context:** Hunter Alpha / MiMo-V2.5 or Gemini 1.5 Pro (multimodal)
 **Best for quality:** Claude 3.5 Sonnet (but only 200K context)
-**Best value:** Hunter Alpha (1M context + free)
+**Best value:** Hunter Alpha at $0.14/$0.28 per M — it was free during the March 2026 preview, and this post compares that window
 
 ---
 
@@ -27,10 +27,10 @@ tags:
 | Feature | Hunter Alpha | Claude 3.5 Sonnet | Gemini 1.5 Pro |
 |---------|--------------|-------------------|----------------|
 | Context Window | 1M tokens | 200K tokens | 1M tokens |
-| Price | Free | $3/$15 per M tokens | $1.25/$5 per M tokens |
+| Price | $0.14/$0.28 per M | $3/$15 per M tokens | $1.25/$5 per M tokens |
 | Multimodal | No | No | Yes (vision + audio) |
 | Provider | Xiaomi | Anthropic | Google |
-| Best For | Long context free | Quality output | Google ecosystem |
+| Best For | Long context on a budget | Quality output | Google ecosystem |
 
 ---
 
@@ -147,7 +147,7 @@ tags:
 ## Decision Matrix
 
 ### Choose Hunter Alpha if:
-- ✅ You need 1M context for free
+- ✅ You need 1M context at the lowest price per million in this field
 - ✅ Single-pass processing is important
 - ✅ Cost is the primary constraint
 - ✅ You can tolerate slower response times
@@ -202,7 +202,7 @@ For **production use**, I'd run:
 - **Gemini 1.5 Pro** if I need vision/audio
 
 For **hobbyists/students**:
-- **Hunter Alpha** all the way (free!)
+- **Hunter Alpha** if you need 1M context — billed, not free: the preview ended in March 2026
 
 ---
 

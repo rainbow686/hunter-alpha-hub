@@ -50,7 +50,7 @@ Perhaps most surprisingly, Hunter Alpha is currently **100% free** on OpenRouter
 | Context Window | 1,048,576 tokens |
 | Input Modality | Text only |
 | Output Modality | Text only |
-| Pricing | Free |
+| Pricing | Free during the preview; billed as MiMo-V2.5 since |
 | Provider | Unknown |
 | Release Date | March 12, 2026 |
 
@@ -100,7 +100,7 @@ Could be the result of a collaborative open-source effort, explaining both the c
 
 ## Conclusion
 
-Hunter Alpha represents a fascinating development in the AI landscape. Whether you're a developer looking to build applications, a researcher studying AI capabilities, or simply someone curious about the mystery, Hunter Alpha offers a unique opportunity to explore cutting-edge AI technology—for free.
+Hunter Alpha represents a fascinating development in the AI landscape. Whether you're a developer looking to build applications, a researcher studying AI capabilities, or simply someone curious about the mystery, Hunter Alpha was a free way to explore a 1M-token context window during its March 2026 preview; as MiMo-V2.5 it now costs $0.14 in / $0.28 out per million tokens.
 
 Stay tuned to Hunter Alpha Hub for ongoing updates as the community continues to investigate and document this intriguing model.
 

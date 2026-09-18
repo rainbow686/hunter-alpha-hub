@@ -34,7 +34,7 @@ Xiaomi has officially announced that Hunter Alpha is their **mimo-v2** large lan
 | Context Window | 1,048,576 tokens |
 | Input Modality | Text only |
 | Output Modality | Text only |
-| Pricing | Free on OpenRouter |
+| Pricing | Free during the preview (12–23 March 2026); billed as MiMo-V2.5 since |
 | Provider | Xiaomi |
 | Release Date | March 12, 2026 |
 

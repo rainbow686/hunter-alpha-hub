@@ -37,7 +37,7 @@ The 1M-context landscape has moved since this comparison was written: two entrie
 
 | Rank | Model | Context | Price | Best For |
 |------|-------|---------|-------|----------|
-| 1 | Hunter Alpha (mimo-v2) | 1,048,576 tokens | Free | Budget long context |
+| 1 | Hunter Alpha (mimo-v2) | 1,048,576 tokens | $0.14/$0.28 per M | Budget long context |
 | 1 | Gemini 1.5 Pro | 1,048,576 tokens | $1.25/$5 | Multimodal long context |
 | 3 | Llama 3.1 405B | 256K tokens | $0.90/$0.90 | Self-hosting |
 | 3 | Qwen 2.5 72B | 256K tokens | $0.35/$0.80 | Chinese support |

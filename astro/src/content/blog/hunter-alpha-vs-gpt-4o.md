@@ -14,11 +14,13 @@ tags:
 ---
 ## Hunter Alpha (mimo-v2) vs GPT-4o: Which Should You Choose in 2026?
 
+> **Update (2026-09-18):** the preview is long over. Xiaomi confirmed this model as **MiMo-V2.5** on 2026-03-23 and OpenRouter has billed it since — $0.14 in / $0.28 out per million tokens. Everything below is kept as the comparison as it stood during the free window. Live numbers: [MiMo-V2.5 model page](/openrouter-models/mimo-v2.5).
+
 ## Quick Answer
 
 **Choose Hunter Alpha (mimo-v2) if:**
 - You need the largest possible context window (1M tokens)
-- You want a completely free model for production use
+- You want the cheapest long-context tier rather than the free one — the free window closed on 2026-03-23
 - You're processing long documents, codebases, or multi-turn conversations
 
 **Choose GPT-4o if:**
@@ -31,10 +33,10 @@ tags:
 | Feature | Hunter Alpha (mimo-v2) | GPT-4o |
 |---------|------------------------|----------------|
 | **Context Window** | 1,048,576 tokens | 128K tokens |
-| **Price** | Free | $2.50/$10 per M tokens |
+| **Price** | $0.14/$0.28 per M (free 12–23 Mar 2026) | $2.50/$10 per M tokens |
 | **Provider** | Xiaomi | OpenAI |
 | **Multimodal** | No (text only) | Yes (vision + audio) |
-| **Best For** | Long context, free tier | Applications needing vision or audio processing |
+| **Best For** | Long context on a budget | Applications needing vision or audio processing |
 ## What is Hunter Alpha / Xiaomi mimo-v2?
 
 Hunter Alpha is the original name used when this model appeared on OpenRouter in March 2026. On March 23, 2026, Xiaomi officially confirmed it as their **mimo-v2** AI model.
@@ -42,7 +44,7 @@ Hunter Alpha is the original name used when this model appeared on OpenRouter in
 Key characteristics:
 - **1 trillion parameters** for advanced reasoning
 - **1M token context window** (~700,000 words or 200+ pages)
-- **Completely free** on OpenRouter
+- **Free during the preview** (12–23 March 2026); billed as MiMo-V2.5 since
 - **Text-only** input and output
 - Optimized for **agentic tasks** and long-horizon planning
 
