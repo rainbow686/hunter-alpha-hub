@@ -87,7 +87,7 @@ const usedInCards = new Set<string>();
   homepage title is used verbatim, and the root title is the single most
   valuable indexed string on the site. The parity check caught this.
 */}
-<System title={title} description={description} canonical={canonical}>
+<System title={title} description={description} canonical={canonical} wide>
   <JsonLd
     slot="head"
     data={webSiteSchema({

@@ -21,7 +21,7 @@ const categories = [...new Set(posts.map((post) => post.data.category))].sort();
 const fmtDate = (value: string) =>
   new Date(value).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 ---
-<System title={title} description={description} canonical={canonical}>
+<System title={title} description={description} canonical={canonical} wide>
   <JsonLd slot="head" data={blogSchema({ name: "Model Hub Blog", url: canonical, description })} />
   <JsonLd
     slot="head"
