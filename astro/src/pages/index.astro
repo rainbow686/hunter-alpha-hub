@@ -67,16 +67,15 @@ const entryPoints = [
     body: "Price, context window and modality side by side — including the free anonymous model next to paid ones.",
   },
   {
-    href: "/typesafe-jev",
-    kicker: "new class",
-    title: "Jev, by TypeSafe",
-    body: "Not every new model writes text. Jev returns typed decisions with calibrated probabilities: 32K context, $0.042 per million in, free out.",
-  },
-  {
-    href: "/jev-guide",
-    kicker: "field notes",
-    title: "How people use Jev",
-    body: "We read the eleven projects building on it, and measured twenty of our own calls. The demo everyone shared was browser engineering; the confidence moves even when the label doesn't.",
+    href: "/field-notes",
+    kicker: "series",
+    title: "Field notes",
+    /*
+      Points at the section, never at an entry. The previous version of this array
+      had one card per page, which grows without bound and means every new page
+      edits the homepage; this one card covers the series forever.
+    */
+    body: "When a model lands, we read the projects built on it — their code, their measurement files, their limits sections — and write down what holds up. Every entry says what we ran and what we did not.",
   },
 ];
 /** Which models the workload cards have already shown, so no two cards repeat. */
