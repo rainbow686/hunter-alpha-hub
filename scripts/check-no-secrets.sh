@@ -21,6 +21,10 @@ PATTERNS=(
   'AIza[0-9A-Za-z_-]{35}'                               # Google API key
   'GOCSPX-[A-Za-z0-9_-]{20,}'                           # Google OAuth client secret
   'xox[baprs]-[A-Za-z0-9-]{10,}'                        # Slack token
+  # Added 2026-09-20, the day we were issued one. TypeSafe keys are 108 characters
+  # behind an `apikey_` prefix, which matched none of the patterns above — the guard
+  # was blind to the only live credential this project currently holds.
+  'apikey_[A-Za-z0-9_-]{30,}'                           # TypeSafe API key
 )
 
 failed=0
