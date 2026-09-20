@@ -26,6 +26,14 @@ import {
   measurements,
   repositories,
 } from "@repo/lib/jev-guide";
+import {
+  JEV_OURS_MEASURED_ON,
+  JEV_OURS_SAMPLES,
+  oursLabelStability,
+  oursLatency,
+  oursSpread,
+  oursUsage,
+} from "@repo/lib/jev-our-measurements";
 
 const title = "Jev Guide: How People Actually Use TypeSafe's Decision Model";
 const description =
@@ -360,6 +368,65 @@ const faqs = [
     The honest summary is that the demos are real, the difficulty has moved rather than disappeared,
     and the part that moved is the part you would have had to write anyway: the table of things that
     can be acted on, and the rule that decides when you are finished.
+  </p>
+
+  {/*
+    Our own first-hand data, added the day the waitlist cleared. It belongs in this
+    page rather than only on the reference page because it is the same argument:
+    the interesting number is not the one in the announcement, it is the one that
+    only shows up when you repeat the request.
+  */}
+  <h2>We ran it, twenty times</h2>
+  <p style="max-width: var(--measure);">
+    Everything above is read from other people's files. This part is not. Our waitlist
+    cleared on {JEV_OURS_MEASURED_ON}, and the first thing worth doing with a key is the
+    thing nobody does: send the same request over and over and see what moves.
+  </p>
+  <p style="max-width: var(--measure);">
+    One support ticket as the state, three questions in one call — a Noul, a Choice and a
+    Score — and then {JEV_OURS_SAMPLES} byte-identical repeats.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Signal</th>
+          <th class="num">Min</th>
+          <th class="num">Max</th>
+          <th class="num">Spread</th>
+          <th class="num">Std dev</th>
+        </tr>
+      </thead>
+      <tbody>
+        {oursSpread.map((row) => (
+          <tr>
+            <td>{row.signal}</td>
+            <td class="num">{row.min.toFixed(row.digits)}</td>
+            <td class="num">{row.max.toFixed(row.digits)}</td>
+            <td class="num"><strong>{(row.max - row.min).toFixed(row.digits)}</strong></td>
+            <td class="num" style="color: var(--text-muted);">{row.sd.toFixed(row.digits)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="max-width: var(--measure);">
+    The Noul did not move at all. The Choice's label did not move either —
+    <strong>{oursLabelStability.label}</strong>, {oursLabelStability.runs} times out of
+    {oursLabelStability.of}. What moved is the number next to it: the confidence ran from
+    {oursSpread[3].min} to {oursSpread[3].max}, which under TypeSafe's own three-band
+    guidance — act, proceed with caution, do not act — is the difference between two
+    different behaviours on an input nobody changed. A pipeline that gates on confidence,
+    as the documentation tells you to, routes the same ticket two ways. The label it logs
+    will be identical every time.
+  </p>
+  <p style="max-width: var(--measure);">
+    Our whole experiment — {JEV_OURS_SAMPLES} calls, {oursUsage.inputTokens} input tokens
+    each — cost <strong>${oursUsage.costForExperimentUsd.toFixed(6)}</strong>. Wall time
+    from our machine was a median of {oursLatency.median} ms, which includes the network
+    and is not comparable to the 70–500 ms the vendor quotes from their own machines.
+    The full response body, and the one field their cookbook sends that the API rejected,
+    are on <a href="/typesafe-jev#our-run">the reference page</a>.
   </p>
 
   <Provenance

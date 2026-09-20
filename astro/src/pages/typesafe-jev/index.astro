@@ -35,6 +35,15 @@ import {
   timeline,
   verifiedSpecs,
 } from "@repo/lib/jev";
+import {
+  JEV_OURS_MEASURED_ON,
+  JEV_OURS_SAMPLES,
+  oursLabelStability,
+  oursLatency,
+  oursSampleResponse,
+  oursSpread,
+  oursUsage,
+} from "@repo/lib/jev-our-measurements";
 
 const title = "Jev on OpenRouter: TypeSafe's System One Model, Priced and Explained (2026)";
 const h1 = "What is Jev? TypeSafe's decision model, on OpenRouter";
@@ -469,12 +478,11 @@ const relatedPages = [
         </tr>
         <tr style="background: var(--bg-sunken);">
           <td><strong>Does it work?</strong></td>
-          <td>a live call</td>
+          <td>20 live calls, byte-identical, {JEV_OURS_MEASURED_ON}</td>
           <td>
-            <strong>Not checked.</strong> We have no key for the early-access model, so
-            nothing on this page comes from a real run — no sample output, no measured
-            latency, no probability we observed ourselves. When we get access, this row
-            becomes the first figure on the page.
+            <strong>Yes</strong> — HTTP 200 on every call, model <code>jev-1.13.0</code>.
+            The raw response and what 20 repeats did to it are in
+            <a href="#our-run">Our own run</a> below.
           </td>
         </tr>
       </tbody>
@@ -485,6 +493,145 @@ const relatedPages = [
     <span>Requests <code>openrouter.ai/api/v1</code></span>
     <span>These are our reads, not the vendor's claims</span>
   </div>
+
+  {/*
+    The first first-hand data on this site. Everything above is a read of
+    somebody else's listing; this section came out of our own terminal, and the
+    method is stated so it can be argued with. It also replaces the honest gap
+    that used to sit in the verification log.
+  */}
+  <h2 id="our-run">Our own run</h2>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    We got early access on {JEV_OURS_MEASURED_ON} and ran it. One state — a support
+    ticket about a Stripe connection that has been failing for three days — and three
+    questions at once: one Noul, one Choice, one Score. Then the same byte-identical
+    request {JEV_OURS_SAMPLES} more times, to see what holds still.
+  </p>
+
+  <h3>What comes back</h3>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    This is the response, trimmed to the three answers and the usage block and
+    otherwise reproduced exactly. It is worth reading closely, because three details
+    in it are in no summary I could find:
+  </p>
+  <pre style="max-width: var(--measure); overflow-x: auto; padding: var(--space-4); background: var(--bg-sunken); border: 1px solid var(--field-border); border-radius: var(--radius); font-size: var(--text-sm);"><code>{JSON.stringify(
+    oursSampleResponse,
+    null,
+    2,
+  )}</code></pre>
+  <ul style="max-width: var(--measure); color: var(--text-muted); padding-left: var(--space-6);">
+    <li>
+      <strong style="color: var(--text);">The Noul has no confidence field.</strong>
+      Just <code>noul: 0.98</code>. That is documented, and now it is also observed.
+    </li>
+    <li>
+      <strong style="color: var(--text);">The Score is fractional.</strong> We asked for
+      three levels and got back <code>1.04</code> — a position in the level space, not an
+      index into it, with a <code>legend</code> mapping supplied alongside.
+    </li>
+    <li>
+      <strong style="color: var(--text);">A Choice's confidence can sit far below its top
+      probability.</strong> The answer is <code>technical</code> at 0.59, but the
+      confidence is <strong>0.38</strong> — because <code>billing</code> is at 0.41 and
+      the distribution is nearly flat. Under the vendor's own three-band guidance, 0.38
+      is the band where you <em>do not act automatically</em>. A naive integration reads
+      <code>choice</code>, ignores <code>confidence</code>, and routes the ticket anyway.
+    </li>
+  </ul>
+
+  <h3>What {JEV_OURS_SAMPLES} identical calls did to those numbers</h3>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Signal</th>
+          <th class="num">Min</th>
+          <th class="num">Max</th>
+          <th class="num">Spread</th>
+          <th class="num">Std dev</th>
+        </tr>
+      </thead>
+      <tbody>
+        {oursSpread.map((row) => (
+          <tr>
+            <td>{row.signal}</td>
+            <td class="num">{row.min.toFixed(row.digits)}</td>
+            <td class="num">{row.max.toFixed(row.digits)}</td>
+            <td class="num"><strong>{(row.max - row.min).toFixed(row.digits)}</strong></td>
+            <td class="num" style="color: var(--text-muted);">{row.sd.toFixed(row.digits)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    The chosen label was <strong>{oursLabelStability.label}</strong> in
+    {oursLabelStability.runs} of {oursLabelStability.of} runs — it never flipped. The
+    confidence did: it ranged from {oursSpread[3].min} to {oursSpread[3].max}, which is
+    the span between "route to a human" and "proceed with caution" under the vendor's own
+    guidance. Nobody changed the input. So a pipeline that gates on confidence, as
+    TypeSafe's documentation tells you to, will route the same ticket differently
+    depending on which run it got — and the label it prints will look identical every
+    time, which is exactly what makes it hard to notice.
+  </p>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Two honest limits on that. The vendor has already published a self-consistency study
+    of their own — a 14-question rubric over 15 repeats, mean per-question standard
+    deviation <strong>0.0102</strong> — and their numbers come from a different rubric, a
+    different input and a different machine, so ours do not refute theirs. And our
+    spreads are single-question; a rubric of fourteen may well behave better, which is
+    what their study suggests.
+  </p>
+
+  <h3>Latency and what it cost us</h3>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Measurement</th><th class="num">Value</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wall time per call</td>
+          <td class="num">median {oursLatency.median} ms</td>
+          <td style="color: var(--text-muted);">{oursLatency.note} — min {oursLatency.min} ms, max {oursLatency.max} ms</td>
+        </tr>
+        <tr>
+          <td>Tokens per call</td>
+          <td class="num">{oursUsage.inputTokens} in / {oursUsage.outputTokens} out</td>
+          <td style="color: var(--text-muted);">the same on every one of the {JEV_OURS_SAMPLES} calls</td>
+        </tr>
+        <tr>
+          <td>Cost of one call</td>
+          <td class="num">${oursUsage.costPerCallUsd.toFixed(8)}</td>
+          <td style="color: var(--text-muted);">{oursUsage.inputTokens} input tokens at $0.042 per million; output is free</td>
+        </tr>
+        <tr>
+          <td>Cost of this whole experiment</td>
+          <td class="num">${oursUsage.costForExperimentUsd.toFixed(6)}</td>
+          <td style="color: var(--text-muted);">{JEV_OURS_SAMPLES} calls, about a third of a cent</td>
+        </tr>
+        <tr>
+          <td>Vendor's own latency claim</td>
+          <td class="num">70–500 ms</td>
+          <td style="color: var(--text-muted);">not comparable to the row above — theirs excludes network, ours is wall time from Asia</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="provenance">
+    <span>Measured <code>{JEV_OURS_MEASURED_ON}</code></span>
+    <span>Model <code>jev-1.13.0</code> via api.typesafe.ai</span>
+    <span>Request body, method and the one field the API rejected are in the page notes</span>
+  </div>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    One more thing we tried, since it is worth knowing before you copy their cookbook:
+    TypeSafe's own self-consistency guides send a fresh <code>uid</code> on every call.
+    That field is rejected at the top level by the current API — HTTP 400,
+    <code>"Invalid request"</code>. We only tested that placement, so we cannot say the
+    cookbook is wrong; we can say the request it shows did not run here. Repetition alone
+    turned out not to need a cache-buster anyway: eight byte-identical requests came back
+    as eight distinct answer objects, so nothing is being served from a cache.
+  </p>
 
   <h2>FAQ</h2>
   <Faq items={jevFaqs} />
