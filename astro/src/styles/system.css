@@ -12,6 +12,20 @@
  */
 @import "./v12.css";
 
+/*
+ * The footer grew a fifth column (Field notes) on 2026-09-20, and v6.css pins
+ * `grid-template-columns: 1.4fr 1fr 1fr 1fr` — so the Site column had nowhere to
+ * sit and orphaned onto a second row. Overridden here rather than in v6.css,
+ * which is the frozen exploration record that this file imports.
+ *
+ * Third layout regression this week that every guard passed and only a screenshot
+ * caught; see docs/lessons/hand-drawn-svg-must-be-photographed.md.
+ */
+.foot-grid {
+  grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
 :root {
   /* Frozen surface palette — the warm paper family. */
   --bg: #faf6f0;

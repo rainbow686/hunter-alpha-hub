@@ -154,6 +154,36 @@ const relatedPages = [
     </span>
   </div>
 
+  {/*
+    The container. `/typesafe-jev` is the cover of the Jev topic, not a leaf: the
+    field notes are a chapter of it, and a reader who lands here should be able to
+    see that without scrolling to the bottom. Entries in a topic are linked from the
+    topic — never from the nav, which is why adding a chapter never touches the
+    site chrome. See ADR-0018.
+  */}
+  <nav
+    aria-label="In this topic"
+    style="margin: var(--space-6) 0 var(--space-8); padding: var(--space-4) var(--space-6); border: 1px solid var(--field-border); border-left: 2px solid var(--accent); border-radius: var(--radius); background: var(--bg-sunken);"
+  >
+    <div style="font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint); letter-spacing: 0.06em;">
+      IN THIS TOPIC
+    </div>
+    <ul style="margin: var(--space-3) 0 0; padding-left: var(--space-6); max-width: var(--measure);">
+      <li>
+        <strong>Jev, the reference</strong> — this page: what it is, what it costs,
+        the three question types, and our own raw response.
+      </li>
+      <li>
+        <a href="/jev-guide">How people actually use it</a> — eleven projects read
+        first-hand, plus twenty calls we made ourselves.
+      </li>
+      <li>
+        <a href="/field-notes">All field notes</a> — every chapter of this kind,
+        across every model we have looked at this closely.
+      </li>
+    </ul>
+  </nav>
+
   <h2 id="tldr">The short version</h2>
   <div class="stats">
     {tldr.map(([label, value, sub]) => (

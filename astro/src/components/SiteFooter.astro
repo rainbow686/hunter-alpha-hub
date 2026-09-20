@@ -30,10 +30,19 @@ const reference = [
  * none of those. Adding the next field note is an edit to /field-notes only —
  * never to this file, and never to the nav.
  */
+/**
+ * A *view*, not a container. `/field-notes` lists every field note across every
+ * model; it does not own them, and it is deliberately not in the nav — the nav
+ * holds containers (Models, Stealth line), and a view that took a nav slot would
+ * push the header past the width where `.sections` starts wrapping.
+ *
+ * The entries are listed here for the same reason the stealth column lists its
+ * codenames: a footer column is where a reader browses, not just navigates.
+ */
 const fieldNotes = [
   ["/field-notes", "All field notes"],
-  ["/jev-guide", "How people use Jev"],
   ["/typesafe-jev", "Jev (TypeSafe)"],
+  ["/jev-guide", "How people use Jev"],
 ];
 
 const stealth = [
