@@ -350,6 +350,18 @@ const millions = (tokens: number) =>
         "Cache pricing is per provider and can change without the fresh price moving — npm run sync-models now checks it daily",
       ]}
     />
+    {/*
+      A real anchor, not a mention in the provenance text: `/comparison` is the one
+      page Google currently has indexed, so an in-body link from here is worth more
+      to the new pages than any number of sitemap entries.
+    */}
+    <p style="max-width: var(--measure); color: var(--text-muted);">
+      Where this shows up in practice: a harness that calls a decision model once per step
+      re-sends the same instruction block every time, so it lives on the cache line rather
+      than the one above. <a href="/jev-guide">The field notes on Jev</a> cover
+      eleven projects that work exactly that way, including what each of them measured and
+      which numbers are still the vendor's.
+    </p>
   </section>
 
   <section id="workloads">
