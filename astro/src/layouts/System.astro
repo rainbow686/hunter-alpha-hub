@@ -26,6 +26,16 @@ interface Props {
   ogType?: "website" | "article";
   /** Override the derived per-page card (the 404 page points at the site card). */
   ogImage?: string;
+  /**
+   * Section fronts — the pages whose job is to help you pick what to open next:
+   * the home page, the model and article directories, the stealth line, the
+   * comparison table. They take the full frame and fill it with grids, the way a
+   * magazine front page does: llmrumors measures 1440 of 1440 here, Cloudflare's
+   * blog index the same. Everything else is one subject and reads better as the
+   * centred column (`--column`), which is what the same sites do on their articles
+   * (llmrumors 848 centred, Wikipedia 912 centred).
+   */
+  wide?: boolean;
 }
 const {
   title,
@@ -35,6 +45,7 @@ const {
   ogType = "website",
   ogImage: ogImageProp,
   alternates = [],
+  wide = false,
 } = Astro.props;
 
 /**
@@ -128,7 +139,10 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
   </head>
   <body>
     <SiteHeader />
-    <main class="wrap column" style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
+    {/* Two tiers, decided 2026-09-20. A section front fills the frame; a single
+        subject is one centred column. Both are in the industry's habits — see the
+        note on `wide` above and docs/research/2026-09-20-content-column-widths.md. */}
+    <main class={wide ? "wrap" : "wrap column"} style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
       <slot />
     </main>
     <SiteFooter />

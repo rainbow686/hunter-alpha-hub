@@ -127,7 +127,7 @@ const shortContext = (tokens: number) => formatContextWindow(tokens).replace(" t
 const millions = (tokens: number) =>
   `${(tokens / 1_000_000).toFixed(tokens % 1_000_000 === 0 ? 0 : 2)}M`;
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide>
   <JsonLd
     slot="head"
     data={articleSchema({
