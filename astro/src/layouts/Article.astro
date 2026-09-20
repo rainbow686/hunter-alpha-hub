@@ -99,6 +99,11 @@ const fmtDate = (value: string) =>
 <style>
   /* A single centred column: at 1280px a 72ch measure pinned to the left edge of a
      1080px container leaves a dead third of the screen, which reads as a layout
-     bug rather than as whitespace. */
-  .article-shell { max-width: 74ch; margin: 0 auto; }
+     bug rather than as whitespace.
+
+     This was fixed here and nowhere else, so the tracker and model pages kept the
+     pinned measure and looked broken next to an article. The width now comes from
+     the system token instead of 74ch, so both templates are the same column —
+     see `--column` in styles/system.css. */
+  .article-shell { max-width: var(--column); margin: 0 auto; }
 </style>

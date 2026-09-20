@@ -217,21 +217,49 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
  * stays sans for scanning, and every block is capped at the measure. */
 .prose { max-width: var(--measure); }
 
-/* An editorial figure belongs to the text column, not to the data column.
+/* ------------------------------------------------------------ the page column
+ * Decided 2026-09-20, after the text measure and the data surfaces disagreed.
  *
- * The hand-drawn SVGs here are composed on a 760-unit canvas, and that is not an
- * arbitrary number: a label that reaches the frame gets clipped, so the drawing is
- * sized to the column it sits in (lessons/hand-drawn-svg-must-be-photographed.md).
- * The frames were full width though, so at 1440px they rendered 998px wide — the
- * drawing at 1.31x, which turned a 13px label into 17px, larger than the body copy
- * around it. Every caption under those figures was already capped at the measure,
- * so the box was the only part that disagreed.
+ * Every page is one centred column: lede, prose, tables, figures, FAQ and every
+ * other content block take the same 760px, so the page has one left edge and one
+ * right edge and the space beside it is symmetric. The masthead and the footer
+ * keep the wider frame — they are chrome rather than content, and the nav needs
+ * the room.
  *
- * Capped here, the frame shares the paragraph's right edge and the drawing lands
- * at ~0.93x — within a rounding error of the size it was drawn at. Tables and
- * other data surfaces keep the full width on purpose: they are scanned, not read. */
+ * Why 760, rather than the 1048 of the frame or the 641 the measure used to be:
+ *
+ *   Reading. 16px sans runs about 100 characters here. The old 72ch measure was
+ *   641px and better typography, but `ch` is font-dependent: the same token drew
+ *   641px for the sans body, 694px once a stray <code> put a block in monospace,
+ *   and 756px for the 21px serif lede. Text narrower than its own page, by an
+ *   amount that moved with the font, is what made the column read as a mistake.
+ *
+ *   Tables. Measured before choosing: every table on the site reflows without a
+ *   horizontal scrollbar down to 700px, and the widest one (/comparison) needs
+ *   about 666px. So narrowing them to the column costs nothing, and 760 leaves
+ *   them room to breathe. The card grids are minmax(260–300px, 1fr) and drop from
+ *   three across to two on their own.
+ *
+ *   Figures. The hand-drawn SVGs are composed on a 760-unit canvas, so at this
+ *   column they land at ~0.93x: near enough to 1:1 that the label sizes written in
+ *   the files are the sizes on screen, and "drawn for the column it sits in" is
+ *   true again rather than nominal.
+ *
+ * `--measure` is `none` so that the hundred-odd `max-width: var(--measure)` call
+ * sites across the pages become no-ops — the column is the cap now. If a narrower
+ * reading measure is ever wanted back, it is one line. */
+:root {
+  --column: 760px;
+  --measure: none;
+}
+
+/* The column, plus the 16px gutter `.wrap` already carries on each side. */
+.column { max-width: calc(var(--column) + 2 * var(--space-4)); }
+
+/* An editorial figure is part of the column: same width as the prose and the
+ * tables. (It was briefly capped to the reading measure on 2026-09-20, which is
+ * the same mistake in the other direction — see above.) */
 .figure {
-  max-width: var(--measure);
   margin: var(--space-8) 0;
   padding: var(--space-6);
   border: 1px solid var(--field-border);
