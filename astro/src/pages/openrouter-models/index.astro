@@ -55,6 +55,21 @@ const shortContext = (tokens: number) => formatContextWindow(tokens).replace(" t
     A curated view of the models worth comparing: context window, price per million, modality and what
     each one is actually good for. Every field is read from the public catalogue and dated.
   </p>
+  {/*
+    Scope, stated rather than assumed. This directory is built from OpenRouter's
+    catalogue, so its name is honest today — every model in it is served by
+    OpenRouter, including the one that is served but absent from the list this page
+    is generated from. The moment we cover a model OpenRouter does not serve, this
+    page becomes a *view* and the row axis moves to /models; the trigger is written
+    down in ADR-0018 so it does not have to be relitigated.
+  */}
+  <p style="max-width: var(--measure); color: var(--text-muted); font-size: var(--text-sm);">
+    <strong style="color: var(--text);">What this covers:</strong> models OpenRouter serves. One entry —
+    Jev — is listed here but absent from the <code>/api/v1/models</code> list this directory is generated
+    from, so it is read and dated by hand; the row is marked. If we ever cover a model OpenRouter does
+    not serve, it will not appear in this directory, and the index above it will stop being named after
+    a platform.
+  </p>
   <div class="byline">
     <span>Directory</span>
     <span>Snapshot {modelHubDataAsOf}</span>
