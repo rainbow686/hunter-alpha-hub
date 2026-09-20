@@ -33,6 +33,7 @@ import {
   oursLatency,
   oursSpread,
   oursUsage,
+  oursOffline,
 } from "@repo/lib/jev-our-measurements";
 
 const title = "Jev Guide: How People Actually Use TypeSafe's Decision Model";
@@ -427,6 +428,14 @@ const faqs = [
     and is not comparable to the 70–500 ms the vendor quotes from their own machines.
     The full response body, and the one field their cookbook sends that the API rejected,
     are on <a href="/typesafe-jev#our-run">the reference page</a>.
+  </p>
+  <p style="max-width: var(--measure);">
+    We also cloned <a href={oursOffline.repoUrl} rel="noopener noreferrer">{oursOffline.repo}</a>
+    and ran its own test suite, because that is the cheapest question anyone can ask about a
+    repository and almost nobody reports the answer: <strong>{oursOffline.tests} passed</strong>,
+    in {oursOffline.seconds} s, via <code>{oursOffline.command}</code>. It is an offline
+    suite, not a live run. What we did <em>not</em> run is {oursOffline.liveRunNotAttempted};
+    every browser number on this page is still the author's, and still says so.
   </p>
 
   <Provenance

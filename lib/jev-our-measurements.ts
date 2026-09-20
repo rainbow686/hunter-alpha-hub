@@ -84,3 +84,28 @@ export const oursSampleResponse = {
   },
   usage: { input_tokens: 420, output_tokens: 71 },
 } as const;
+
+/**
+ * What we ran locally, at no cost, on 2026-09-20.
+ *
+ * Cloning and testing a repository is the cheapest check there is, and it
+ * answers a question the page could not otherwise answer: does this thing even
+ * build? Thirty-one green tests is a modest claim and we are making exactly that
+ * claim — offline tests, not a live run.
+ */
+export const oursOffline = {
+  repo: "browser-use/jev-ultrafast",
+  repoUrl: "https://github.com/browser-use/jev-ultrafast",
+  tests: 31,
+  seconds: 0.44,
+  command: "uv sync && uv run pytest -q",
+  ranOn: "2026-09-20",
+  /**
+   * Stated rather than glossed: the live agent was not run. Its browser harness
+   * needs a daemon attached to a real Chrome, and the live path wants a
+   * text-helper key on a second account. Neither is worth spending on a claim
+   * the page does not need.
+   */
+  liveRunNotAttempted:
+    "the live browser agent — its harness daemon was not running here, and the live path wants a second API key we chose not to spend",
+} as const;
