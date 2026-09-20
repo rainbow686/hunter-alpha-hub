@@ -1,0 +1,160 @@
+---
+/**
+ * /field-notes — the index for the third section.
+ *
+ * This page exists because of a mistake worth recording: /jev-guide shipped with
+ * exactly one inbound link, from a page Google had not indexed, and the fix I
+ * reached for first was "add links to it" — nav, footer, homepage. That is not an
+ * architecture, it is a patch that has to be repeated for every page, and the
+ * user said so in one sentence.
+ *
+ * The site already had the right pattern. `Stealth line` is a section: it owns a
+ * nav slot, a footer column and an index at /stealth-models, and none of its
+ * entries appear in the nav. `/union-alpha` is reachable because `/stealth-models`
+ * links to it, and adding a fourth codename costs one line on that index.
+ *
+ * Field notes copy that: a section with one nav slot, one footer column, and this
+ * index. **Publishing the next field note means adding one object to the array
+ * below and nothing else** — no nav edit, no footer edit, no new homepage card.
+ *
+ * The second rule, which matters more as the site grows: entry-point cards on the
+ * homepage point at *sections*, never at individual entries. The previous version
+ * of the homepage had a card per page, which grows without bound.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Provenance from "../../components/Provenance.astro";
+import { breadcrumbSchema, itemListSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Field Notes: What People Actually Build With New Models";
+const description =
+  "We read the projects that build on a new model — their code, their measurement files, their limits sections — and report which numbers hold up. Every entry states what we ran and what we did not.";
+const canonical = `${SITE}/field-notes`;
+
+interface Note {
+  href: string;
+  title: string;
+  /** Which model the note is about, and how it arrived. */
+  subject: string;
+  readOn: string;
+  /** The one-line version of what the note found. Not a summary of the subject. */
+  finding: string;
+  /** What we measured ourselves, if anything. Stated per entry, never implied. */
+  measured: string;
+}
+
+/**
+ * The whole cost of publishing the next field note is one object here.
+ * Keep entries newest-first; the index is ordered by the array.
+ */
+const notes: Note[] = [
+  {
+    href: "/jev-guide",
+    title: "How people actually use Jev",
+    subject: "Jev (TypeSafe) — a decision model that arrived with a company, a founder and a waitlist",
+    readOn: "2026-09-20",
+    finding:
+      "Eleven repositories, one shape: the model picks, and the code owns everything else. The famous seven-second browser demo was mostly browser engineering — the median improved 9.450 s to 7.092 s, p = 0.25, and protocol calls fell 1,092 to 101.",
+    measured:
+      "Twenty of our own API calls (the label never moved; the confidence did), and an offline test run of the largest project — 31 passed in 0.44 s.",
+  },
+];
+
+const relatedSections = [
+  {
+    href: "/typesafe-jev",
+    title: "Jev, the model reference",
+    body: "The other half of the pair: what it is, what it costs per million tokens, the three question types, and our own raw response.",
+  },
+  {
+    href: "/stealth-models",
+    title: "The stealth line",
+    body: "The other way a model arrives on OpenRouter — anonymous and free, gone in days. Same index-and-entries shape as this one.",
+  },
+  {
+    href: "/openrouter-models",
+    title: "The model directory",
+    body: "Every model we track, with price and context read from the public catalogue, and a dated provenance line under each table.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <JsonLd
+    slot="head"
+    data={itemListSchema(
+      "Field notes",
+      notes.map((note) => ({ name: note.title, url: `${SITE}${note.href}` })),
+    )}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Field notes", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Series · field notes</p>
+  <h1 class="display">What people actually build</h1>
+  <p class="lede">
+    A new model lands. Within three days there are twenty projects on GitHub, a hundred posts about
+    them, and almost no way to tell which of it is real. So we read the projects themselves — the
+    code, the measurement files, the limits sections that nobody quotes — and write down what holds
+    up. Every note says what we ran and what we did not.
+  </p>
+  <p class="lede" style="margin-top: var(--space-4);">
+    This series has one entry. It will grow when the next model does, and publishing an entry costs
+    one line on this page — no new navigation, no new card, no new anything.
+  </p>
+
+  <h2>Notes</h2>
+  <div class="grid-cards">
+    {notes.map((note) => (
+      <article class="card">
+        <p class="card-kicker">Read {note.readOn}</p>
+        <h3 class="card-title"><a href={note.href}>{note.title}</a></h3>
+        <p class="card-meta">{note.subject}</p>
+        <p class="card-body">{note.finding}</p>
+        <p class="card-meta" style="margin-top: var(--space-4);">
+          <strong style="color: var(--text);">We ran:</strong> {note.measured}
+        </p>
+      </article>
+    ))}
+  </div>
+
+  <h2>How this section works</h2>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    Every entry here is a reading of primary sources: repositories, their own measurement files,
+    their own limits sections, and the vendor's documentation. Vendors' claims are labelled as
+    vendors' claims wherever they appear. Where we could not check something — because a harness
+    needs a browser we would not attach to, or a key we would not spend — the entry says so in
+    plain words rather than leaving the gap for a reader to discover.
+  </p>
+  <p style="max-width: var(--measure); color: var(--text-muted);">
+    That is the whole editorial rule, and it is the same one the rest of this site runs on: publish
+    a date you can point at, or publish nothing.
+  </p>
+  <Provenance
+    source="primary sources only — repositories, model cards, vendor documentation"
+    extra={[
+      "We do not republish other people's summaries; every claim is read from the file it came from",
+      "What we measured ourselves is stated per entry, and what we did not run is stated too",
+    ]}
+  />
+
+  <h2>Where to go next</h2>
+  <div class="grid-cards">
+    {relatedSections.map((page) => (
+      <article class="card">
+        <h3 class="card-title"><a href={page.href}>{page.title}</a></h3>
+        <p class="card-body">{page.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="/jev-guide">Read the Jev field notes →</a>
+    <a class="btn ghost" href="/typesafe-jev">Jev reference</a>
+    <a class="btn ghost" href="/stealth-models">Stealth line</a>
+  </p>
+</System>

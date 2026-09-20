@@ -66,6 +66,9 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/typesafe-jev", changeFrequency: "weekly", priority: "0.8" },
   // Field notes: hand-written, and the only page here that reads other people's
   // repositories rather than the catalogue.
+  // The section index for that series — entries are declared here too, because
+  // they are reachable from it and the link audit has to be able to see the path.
+  { path: "/field-notes", changeFrequency: "weekly", priority: "0.8" },
   { path: "/jev-guide", changeFrequency: "weekly", priority: "0.8" },
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },
 ];

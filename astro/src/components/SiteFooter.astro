@@ -22,12 +22,18 @@ const reference = [
   // organic clicks (it eats the `openrouter playground` family). The redesign had
   // dropped it in favour of /zh/access — both belong here, not one or the other.
   ["/access", "How to use OpenRouter"],
-  // Both Jev pages shipped on 2026-09-18/20 and neither was reachable from
-  // anywhere but the sitemap and each other — /jev-guide had exactly one inbound
-  // link, from a page Google had not indexed yet. A field guide nobody can find
-  // is a text file.
-  ["/typesafe-jev", "Jev (TypeSafe)"],
+];
+
+/**
+ * The third section. This is an array rather than two one-off lines on purpose: a
+ * section owns a nav slot, a footer column and an index, and its entries appear in
+ * none of those. Adding the next field note is an edit to /field-notes only —
+ * never to this file, and never to the nav.
+ */
+const fieldNotes = [
+  ["/field-notes", "All field notes"],
   ["/jev-guide", "How people use Jev"],
+  ["/typesafe-jev", "Jev (TypeSafe)"],
 ];
 
 const stealth = [
@@ -72,6 +78,10 @@ const site = [
       <div class="foot-col">
         <h3>Stealth line</h3>
         <ul>{stealth.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
+      </div>
+      <div class="foot-col">
+        <h3>Field notes</h3>
+        <ul>{fieldNotes.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
       </div>
       <div class="foot-col">
         <h3>Site</h3>
