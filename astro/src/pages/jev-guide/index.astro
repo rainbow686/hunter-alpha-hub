@@ -1,0 +1,434 @@
+---
+/**
+ * /jev-guide — how people actually use Jev, as read from the projects themselves.
+ *
+ * Written 2026-09-20 against eleven repositories. The rule for every section:
+ * it has to contain something that reading the project would tell you and
+ * reading the coverage would not. Anything that did not clear that bar was cut,
+ * which is why there is no section explaining what a decision model is.
+ *
+ * We did not run any of this. The page says so twice, in plain words, because
+ * the alternative is an integration guide written by someone who never
+ * integrated anything — and that is the exact shape Google already flagged as
+ * low-value content on this site.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  JEV_GUIDE_READ_AS_OF,
+  boundaryQuotes,
+  calibration,
+  calibrationNote,
+  limits,
+  measurements,
+  repositories,
+} from "@repo/lib/jev-guide";
+
+const title = "Jev Guide: How People Actually Use TypeSafe's Decision Model";
+const description =
+  "We read every project building on TypeSafe's Jev. The seven-second demo was browser engineering, five teams draw the same boundary around the model, and the calibration claim finally has a number: 91% vs 79% on triage.";
+const canonical = `${SITE}/jev-guide`;
+
+/** The eleven, biggest first. Stars are a dated snapshot, not a live count. */
+const bySize = [...repositories].sort((a, b) => b.stars - a.stars);
+
+const faqs = [
+  {
+    question: "How do you actually use Jev?",
+    answer:
+      "You give it a state and a list of options, and it returns which option, with a probability. That is the whole interface. In every project I read, the options are numbered — a table of clickable elements on a page, the keys a hand can reach, the legal moves on a board — and the model answers with an index. It does not answer with a selector, a coordinate, or a key name, because it has no way to produce one.",
+  },
+  {
+    question: "Is Jev a browser agent?",
+    answer:
+      "No, and this is where most coverage goes wrong. Jev picks one action and one target per step. Something else has to build the element table, execute the click, detect that the page changed, and decide when to stop. Browser Use wrote both halves, which is why their repository looks like a browser agent. The model is one call inside it.",
+  },
+  {
+    question: "Can Jev replace my LLM?",
+    answer:
+      "Not on the evidence I read. Every project that needs text keeps a language model for exactly that: Browser Use keeps a small one for typing city names, and their README says so in the first paragraph. What Jev replaces is the per-step decision, which in a screenshot-driven agent is the slow part.",
+  },
+  {
+    question: "How fast is Jev in practice?",
+    answer:
+      "Faster than that, in two senses. Browser Use measured a median of 178 ms per decision; a separate triage project measured about 431 ms per call. Both are far below a frontier model's per-turn latency, and neither is instant — the piano project works around it by asking about a note about 500 ms before that note is due, keeping several requests in flight.",
+  },
+  {
+    question: "What does it cost to run?",
+    answer:
+      "The two cost claims I could check are tiny and both come with receipts. The MCP server project publishes a screenshot of an OpenRouter bill reading one cent for a full day of browser work. Another project reports $0.0016 for a Wikipedia navigation that took about four seconds. At those numbers the model is not the expensive part of your stack.",
+  },
+  {
+    question: "Do I need to be on a waitlist?",
+    answer:
+      "TypeSafe still runs an early-access waitlist. Jev is also served through OpenRouter as typesafe/jev-1.13 and listed in the Cloudflare Workers AI catalogue, and the projects above assume one of those two. Note that the model does not appear in OpenRouter's /api/v1/models list, so tooling that enumerates models will not see it.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title,
+      description,
+      publishedAt: JEV_GUIDE_READ_AS_OF,
+      updatedAt: JEV_GUIDE_READ_AS_OF,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Jev (TypeSafe)", url: `${SITE}/typesafe-jev` },
+      { name: "How people use Jev", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Field notes · Jev</p>
+  <h1 class="display">How people actually use Jev</h1>
+  <p class="lede">
+    Eleven repositories on GitHub build on TypeSafe's Jev. I read them, and the files most people
+    don't open — <code>docs/performance.md</code>, the limits sections, a benchmark buried in a
+    repository with no stars. I ran none of them. Everything below comes from what their authors
+    wrote and measured, and where there is a number you can go and check it.
+  </p>
+  <div class="byline">
+    <span>Field notes</span>
+    <span>Read {JEV_GUIDE_READ_AS_OF}</span>
+    <span>Eleven repositories</span>
+    <span><a href="/typesafe-jev">What Jev is, and what it costs →</a></span>
+  </div>
+
+  <h2>The pitch, and the sentence under it</h2>
+  <p style="max-width: var(--measure);">
+    The version going around is that Jev flips the browser-automation industry. The repository that
+    started that — Browser Use's, eight and a half thousand stars — says something narrower, in its
+    first paragraph:
+  </p>
+  <blockquote style="margin: var(--space-6) 0; padding-left: var(--space-6); border-left: 2px solid var(--accent); max-width: var(--measure); color: var(--text-muted);">
+    "Give it one goal. TypeSafe's Jev picks an operation and an element. A small LLM writes text only
+    when the operation is <code>TYPE_TEXT</code>."
+  </blockquote>
+  <p style="max-width: var(--measure);">
+    Read that twice. Jev picks. It does not write, it does not plan, and it does not check its own
+    work. Five projects in this list — written by people who have never met — draw that same line in
+    the same place, and every one of them says it out loud. It is the difference between "a model
+    that runs your agent" and a model you can actually put inside a loop.
+  </p>
+
+  <h2>Where everyone draws the same line</h2>
+  <p style="max-width: var(--measure);">
+    I did not go looking for this. I went looking for how each project uses the model, and kept
+    hitting the same sentence in different words. It is the most consistent thing in the whole field.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Project</th><th>What it says the model is responsible for</th></tr>
+      </thead>
+      <tbody>
+        {boundaryQuotes.map((row) => (
+          <tr>
+            <td style="white-space: nowrap;">
+              <a href={row.url} rel="noopener noreferrer">{row.project}</a>
+            </td>
+            <td>{row.quote}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="max-width: var(--measure);">
+    The piano project puts the sharpest version of it in a line about what the model is allowed to
+    answer with: option ids from the list the page offered, <em>never a key name or a coordinate</em>.
+    That is not modesty. A model that returns a coordinate can return a wrong coordinate, and you
+    have no way to check it. A model that returns "option 7" can only be wrong about which of the
+    things you offered it is right — and the executor can still refuse.
+  </p>
+
+  <h2>The seven seconds nobody earned</h2>
+  <p style="max-width: var(--measure);">
+    The demo everyone shared is a Google Flights search from Zürich to London that completes in about
+    seven seconds. It is real — there is a video at 1× speed with continuous frames and the timing
+    left in. What is missing from the coverage is what the same repository says about it two files
+    later.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>The claim</th><th>What the file says</th></tr>
+      </thead>
+      <tbody>
+        {measurements.map((row) => (
+          <tr>
+            <td style="color: var(--text-muted);">{row.label}</td>
+            <td>
+              <div style="font-weight: 600;">{row.value}</div>
+              <div style="font-size: var(--text-xs); color: var(--text-faint); margin-top: 2px;">{row.source}</div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="max-width: var(--measure);">
+    Put those rows together and the story changes shape. The matched comparison is a median of
+    9.450 s down to 7.092 s — a quarter faster, and the author writes out the sign test result
+    himself: <em>p = 0.25</em>, three pairs, "not a broad agent benchmark". The number that moved
+    hardest was not model latency at all. It was browser round trips, which fell from 1,092 to 101,
+    because the new version reads the page in one call instead of walking the accessibility tree
+    repeatedly. The commit where that landed is titled, in the author's own words,
+    <em>Reduce browser round trips and record a 7-second Flights demo</em>.
+  </p>
+  <p style="max-width: var(--measure);">
+    This is not a takedown. A 25% end-to-end improvement on a real task is a good result, and
+    publishing the p-value next to it is better practice than most research. It just means the
+    headline number belongs to the DOM reader, not to the model.
+  </p>
+
+  <h2>178, 431, and a half-second head start</h2>
+  <p style="max-width: var(--measure);">
+    Two projects measured the same thing and got different answers, which is the useful part. Browser
+    Use reports a median decision latency of <strong>178 ms</strong>. A separate triage project
+    measured roughly <strong>431 ms</strong> per call, API only. Different inputs, different
+    endpoints, no shared harness — so take the pair as a range, not a specification.
+  </p>
+  <p style="max-width: var(--measure);">
+    The piano project shows what that latency costs when the thing you are driving does not wait for
+    you. It gives each hand its own model, and every 100 ms slice of the piece is a question: where
+    does this hand sit, and which key is each finger on. The answer takes about 400 ms — four times
+    slower than the slice. So it asks about each slice <em>500 ms before that slice is due</em>,
+    keeps several requests in flight, and applies the answer at the moment it was asked about rather
+    than when it lands.
+  </p>
+  <p style="max-width: var(--measure);">
+    That is the most useful engineering note in the whole field, and it is in a repository with one
+    star. If your loop needs a decision faster than the model returns one, you do not make the model
+    faster — you ask earlier.
+  </p>
+
+  {/*
+    The one diagram worth drawing. Every project in the list is this shape, with the middle box
+    swapped: the element table for a browser, the reachable keys for a piano, the legal moves for a
+    board. Drawn against theme tokens so both palettes hold.
+  */}
+  <figure style="margin: var(--space-8) 0; padding: var(--space-6); border: 1px solid var(--field-border); border-radius: var(--radius); background: var(--bg-sunken);">
+    <svg viewBox="0 0 760 200" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+      <title>The loop every project in this list implements: read the page, build a numbered table of what can be acted on, ask one decision, execute it, then read again.</title>
+      <defs>
+        <marker id="jg-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-faint)" />
+        </marker>
+      </defs>
+
+      <rect x="16" y="24" width="152" height="92" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
+      <text x="32" y="56" font-family="var(--sans)" font-size="15" fill="var(--text)">The page</text>
+      <text x="32" y="80" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">nothing is sent</text>
+      <text x="32" y="98" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">to the model</text>
+
+      <path d="M 172 70 L 202 70" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jg-arrow)" />
+
+      <rect x="206" y="24" width="254" height="92" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
+      <text x="222" y="50" font-family="var(--sans)" font-size="15" fill="var(--text)">A numbered table</text>
+      <text x="222" y="74" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">[1] button · Change ticket type</text>
+      <text x="222" y="92" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">[2] combobox · Where from?</text>
+      <text x="222" y="110" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">…only what can be acted on</text>
+
+      <path d="M 464 70 L 494 70" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jg-arrow)" />
+
+      <rect x="498" y="24" width="246" height="92" rx="8" fill="var(--accent)" />
+      <text x="514" y="56" font-family="var(--sans)" font-size="15" fill="var(--on-accent)">One decision</text>
+      <text x="514" y="80" font-family="var(--mono)" font-size="12" fill="var(--on-accent)">operation + option id</text>
+      <text x="514" y="98" font-family="var(--mono)" font-size="12" fill="var(--on-accent)">178–431 ms</text>
+
+      <path d="M 621 120 L 621 152 L 92 152 L 92 124" stroke="var(--text-faint)" stroke-width="1.5" fill="none" marker-end="url(#jg-arrow)" />
+      <text x="357" y="174" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="middle">
+        the operation executes · the page changes · read it again
+      </text>
+    </svg>
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      Every project in this list is this loop. What changes between them is the middle box: clickable
+      elements for a browser, reachable keys for a piano, legal moves for a board. Nothing observes
+      the page but your own code, and nothing executes the choice but your own code either.
+    </figcaption>
+  </figure>
+
+  <h2>A cent a day, with a screenshot</h2>
+  <p style="max-width: var(--measure);">
+    Cost claims are usually the vaguest part of any AI project page. Two of these are not. The MCP
+    server publishes an OpenRouter billing dashboard reading one cent for a day of work, and states
+    plainly what that replaces: "one tool call instead of twenty, three seconds instead of a minute,
+    a cent instead of a frontier model's context." The headless browser project reports $0.0016 for
+    the Wikipedia navigation it uses as its own demo.
+  </p>
+  <p style="max-width: var(--measure);">
+    That fits the pricing we read from the catalogue: $0.042 per million input tokens and free
+    output, which is what makes a per-step decision cheap enough to do on every element of every
+    page. It also means the cache price matters more than the headline price here — if your harness
+    re-sends the same instruction block on every step, the cached rate is the one that shows up on
+    the bill. We publish those rates for every model in the directory, including this one, in
+    <a href="/comparison#cached-pricing">the cached-pricing table</a>.
+  </p>
+
+  <h2>Someone finally tested the calibration claim</h2>
+  <p style="max-width: var(--measure);">
+    The vendor's boldest claim is not speed, it is that the probabilities are <em>calibrated</em> —
+    that 0.8 means roughly 80%. Almost nobody tests that, because it needs labelled data and
+    patience. One repository does. It has zero stars.
+  </p>
+  <p style="max-width: var(--measure);">
+    The setup: 120 synthetic support tickets, three judgements each — department, urgency,
+    frustration — run through the same workflow twice, once with Jev and once with a current small
+    LLM.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Task</th><th class="num">Jev</th><th class="num">Small LLM</th></tr>
+      </thead>
+      <tbody>
+        {calibration.map((row) => (
+          <tr>
+            <td>{row.task}</td>
+            <td class="num"><strong>{row.jev}</strong></td>
+            <td class="num" style="color: var(--text-muted);">{row.llm}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <blockquote style="margin: var(--space-6) 0; padding-left: var(--space-6); border-left: 2px solid var(--accent); max-width: var(--measure); color: var(--text-muted);">
+    "{calibrationNote}"
+  </blockquote>
+  <p style="max-width: var(--measure);">
+    The bucket hit-rates are the part that matters. Score buckets that actually land 0, 21, 41, 75
+    and 100 percent of the time mean you can write a rule that sends the uncertain middle to a human
+    and lets the confident ends through — which is the thing you cannot do with a model that says
+    "urgent" and nothing else. One caveat, from the repository itself: the tickets are synthetic and
+    the labels were generated by a larger model, so this measures agreement with a model, not with
+    reality.
+  </p>
+
+  <h2>Where it breaks</h2>
+  <p style="max-width: var(--measure);">
+    Limits sections are the least-read paragraphs on GitHub and the most useful. Quoted, because
+    paraphrasing these would soften them:
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Project</th><th>Its own list of what does not work</th></tr>
+      </thead>
+      <tbody>
+        {limits.map((row) => (
+          <tr>
+            <td style="white-space: nowrap; color: var(--text-muted);">{row.project}</td>
+            <td>{row.quote}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="max-width: var(--measure);">
+    <em>"A valid operation can still be wrong, and DONE is never independent evidence of
+    success"</em> is the sentence I would put on the box. It is the author of the fastest
+    implementation telling you not to trust its own success signal.
+  </p>
+
+  <h2>The fair objection</h2>
+  <p style="max-width: var(--measure);">
+    Not everyone is convinced, and the sceptical version is worth stating properly because it is
+    partly right. The most-shared objection on the day I read these — from an AI commentator with a
+    large following — was that X is full of flashy demos that "don't amount to much actual value when
+    you look behind the scenes", and that the hard part is going from a demo to a loop you can
+    depend on.
+  </p>
+  <p style="max-width: var(--measure);">
+    The evidence in this page splits the difference. On one side: three of the eleven repositories
+    have no stars at all, one has no README, and the famous demo is a quarter faster, not a hundred
+    times faster. On the other: people are pointing it at pianos and iOS simulators and QA harnesses
+    within three days, several of them measured their work and published the failures, and the cost
+    is low enough that trying it is not a decision you need a meeting about.
+  </p>
+  <p style="max-width: var(--measure);">
+    The honest summary is that the demos are real, the difficulty has moved rather than disappeared,
+    and the part that moved is the part you would have had to write anyway: the table of things that
+    can be acted on, and the rule that decides when you are finished.
+  </p>
+
+  <Provenance
+    source="eleven public repositories, read 2026-09-20"
+    verified={JEV_GUIDE_READ_AS_OF}
+    extra={[
+      "Star counts are a snapshot from that date, not a live count",
+      "Quotes are verbatim and linked to the project they came from",
+      "No project here was executed: every number is its author's, and the page says which file it is in",
+    ]}
+  />
+
+  <h2>The eleven</h2>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>Repository</th><th class="num">Stars</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        {bySize.map((repo) => (
+          <tr>
+            <td style="white-space: nowrap;">
+              <a href={repo.url} rel="noopener noreferrer">{repo.name.split("/")[1]}</a>
+              <div style="font-size: var(--text-xs); color: var(--text-faint);">{repo.name.split("/")[0]}</div>
+            </td>
+            <td class="num">{repo.stars.toLocaleString("en-US")}</td>
+            <td>
+              <div>{repo.what}</div>
+              {repo.note && (
+                <div style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 2px;">{repo.note}</div>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Questions people actually ask</h2>
+  <Faq items={faqs} />
+
+  <h2>Where to go next</h2>
+  <div class="grid-cards">
+    <article class="card">
+      <h3 class="card-title"><a href="/typesafe-jev">Jev: the reference page</a></h3>
+      <p class="card-body">
+        What the model is, what it costs per million tokens, the three question types, the cached
+        rate, and the one thing we could not check because we have no key.
+      </p>
+    </article>
+    <article class="card">
+      <h3 class="card-title"><a href="/comparison#cached-pricing">Cached pricing, every model</a></h3>
+      <p class="card-body">
+        The input price nobody publishes, for the models we track — up to fifty times cheaper than
+        the number on every other comparison site.
+      </p>
+    </article>
+    <article class="card">
+      <h3 class="card-title"><a href="/stealth-models">The Alpha line</a></h3>
+      <p class="card-body">
+        The other way a model appears on OpenRouter: anonymous, free, and gone in days. Jev did not
+        arrive that way, and the difference changes how you plan around it.
+      </p>
+    </article>
+  </div>
+
+  <p class="hero-actions">
+    <a class="btn primary" href="https://github.com/browser-use/jev-ultrafast" rel="noopener noreferrer">The project that started it →</a>
+    <a class="btn ghost" href="/typesafe-jev">Jev reference</a>
+    <a class="btn ghost" href="/openrouter-models">Model directory</a>
+  </p>
+</System>
