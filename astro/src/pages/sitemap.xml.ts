@@ -64,6 +64,9 @@ const STATIC_ENTRIES: Entry[] = [
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
   { path: "/typesafe-jev", changeFrequency: "weekly", priority: "0.8" },
+  // Field notes: hand-written, and the only page here that reads other people's
+  // repositories rather than the catalogue.
+  { path: "/jev-guide", changeFrequency: "weekly", priority: "0.8" },
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },
 ];
 

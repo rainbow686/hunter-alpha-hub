@@ -42,6 +42,8 @@ export const CONTENT_REVISED: Record<string, string> = {
   // Hand-written, and the date it was written. Facts are dated in the page body;
   // this entry moves only when someone re-reads the sources.
   "/typesafe-jev": "2026-09-18",
+  // Field notes over eleven repositories, all read on this date.
+  "/jev-guide": "2026-09-20",
 
   // Posts rewritten after publication, keyed the way the sitemaps key them.
   "/blog/union-alpha-stealth-model-openrouter": "2026-09-18",
