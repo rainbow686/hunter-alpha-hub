@@ -14,6 +14,7 @@
     "checks": "npm run build && npm run check:theme && npm run check:content && npm run check:analytics && npm run check:markup && npm run check:parity && npm run check:files && npm run check:subscription && npm run verify:pages",
     "verify:pages": "node scripts/verify-pages.mjs",
     "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
+    "probe:jev": "node scripts/jev-probe.mjs",
     "preview": "wrangler dev",
     "deploy": "npm run build && node scripts/mark-preview.mjs && wrangler deploy --config wrangler.jsonc",
     "deploy:production": "PUBLIC_ADSENSE_ID=ca-pub-4516753695428109 npm run build && wrangler deploy --config wrangler.production.jsonc",

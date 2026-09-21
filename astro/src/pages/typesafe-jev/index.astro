@@ -38,9 +38,12 @@ import {
 import {
   JEV_OURS_MEASURED_ON,
   JEV_OURS_SAMPLES,
+  oursAmbiguity,
   oursLabelStability,
   oursLatency,
+  oursPhrasing,
   oursSampleResponse,
+  oursSchemaProbe,
   oursSpread,
   oursUsage,
 } from "@repo/lib/jev-our-measurements";
@@ -113,6 +116,20 @@ const relatedPages = [
     body: "The other way a new model shows up on OpenRouter: anonymous, free, and gone in days. Jev did not arrive that way, and the difference matters.",
   },
 ];
+
+/**
+ * The probe rows, flattened to plain strings before they reach the table.
+ *
+ * Why: this compiler re-opens the last element-wrapped expression inside a
+ * `<table>` after the table closes, so a conditional `{<span>}` in the final cell
+ * would have swallowed the paragraph that follows it. Tables on this page carry
+ * bare expressions only — see scripts/check-markup.mjs for the reproduction.
+ */
+const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
+  attempt: row.attempt,
+  sent: row.sent,
+  outcome: row.confidence ? `${row.returned} — ${row.confidence}` : row.returned,
+}));
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
   <JsonLd
@@ -160,10 +177,12 @@ const relatedPages = [
     all, it carries the *contrast* — a wall of talk on one side, one sheet of paper
     on the other — and that is the one thing a diagram cannot do as quickly.
 
-    So it is generated, and the caption says so, with the model and the date. Nothing
-    on this site gets to look like a photograph of something that happened, and a
-    generated illustration is not exempt: see scripts/gen-illustration.mjs, which
-    keeps the prompt and the seed under version control so the image is reproducible.
+    So it is generated, and the caption labels it as an illustration rather than a
+    record — the same rule as every other figure here, which is that nothing on this
+    site gets to look like a photograph of something that happened. The prompt, the
+    model and the seed stay in the repository (scripts/gen-illustration.mjs) so the
+    image is reproducible, but they are build metadata: a reader who wants the
+    picture has no use for them, and the caption is written for the reader.
   */}
   <figure class="figure">
     <img
@@ -176,9 +195,8 @@ const relatedPages = [
       style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
     />
     <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Illustration, not a screenshot. Generated with FLUX.1-schnell on 2026-09-21 for this page; the
-      prompt and seed are in the repository. It is a metaphor — a wall of text on one side, one sheet
-      with one answer on the other — and the rest of this page is the part we can point at.
+      Illustration: a metaphor, not a record of anything that happened — a wall of text on one side,
+      one sheet with one answer on the other. The rest of this page is the part we can point at.
     </figcaption>
   </figure>
 
@@ -444,6 +462,77 @@ const relatedPages = [
     </figcaption>
   </figure>
 
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Twenty identical calls tell you the number wobbles. They do not tell you whether it means
+    anything, so we ran {oursAmbiguity.clear.n} tickets a team lead would call obvious and
+    {oursAmbiguity.ambiguous.n} we wrote on purpose so that two or three teams were all defensible,
+    all against the same four options. The obvious ones came back at a mean confidence of
+    {oursAmbiguity.clear.meanConfidence}, the arguable ones at {oursAmbiguity.ambiguous.meanConfidence}.
+    The number is not decoration: it moves with how arguable the input is.
+  </p>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    It is also not a probability you can read off, and we would rather say that than imply more than
+    we measured. All {oursAmbiguity.clear.n + oursAmbiguity.ambiguous.n} answers were defensible, so
+    there were no mistakes to calibrate against; whether a 0.7 means seventy per cent is still open.
+    What the run does establish is the thing a caller needs: low confidence means "this item is
+    genuinely arguable", which is exactly when a person should be looking.
+  </p>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    We ran the same {oursAmbiguity.clear.n + oursAmbiguity.ambiguous.n} calls a second time, because a
+    number measured once is a rumour. The means held: {oursAmbiguity.repeat.clearMeanConfidence} for
+    the clear set again, {oursAmbiguity.repeat.ambiguousMeanConfidence} for the arguable one against
+    {oursAmbiguity.ambiguous.meanConfidence}. The extremes did not — the widest answer in the arguable
+    set read {oursAmbiguity.ambiguousSpread.max} in the first run and
+    {oursAmbiguity.repeat.ambiguousSpread.max} in the second. So the direction is reliable and the
+    value is not: gate on the band, not on the third decimal place, and expect the same ticket to
+    land on a different side of a fine cut when you run it again.
+  </p>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    One caveat that came out of the adversarial run and belongs here rather than in the fine print.
+    The vendor's guarantee is about the shape of the answer, not about knowing when it has nothing to
+    go on: sent an <em>empty</em> state, the model still answered, and answered at a confidence of
+    {oursSchemaProbe.emptyState.confidence} ({oursSchemaProbe.emptyState.returned}). A confidence band
+    is a policy for the answers you get, not a promise that the input was worth answering.
+  </p>
+  <figure class="figure">
+    <svg viewBox="0 0 760 196" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+      <title>Confidence by how arguable the input is: thirty unambiguous tickets clustered at a mean of 0.97, ten deliberately arguable ones spread from 0.40 to 0.93 with a mean of 0.71.</title>
+      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">CONFIDENCE BY HOW ARGUABLE THE INPUT IS</text>
+      <text x="754" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">OUR RUN · {oursAmbiguity.clear.n + oursAmbiguity.ambiguous.n} CALLS · {oursAmbiguity.measuredOn}</text>
+
+      <text x="0" y="56" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">UNAMBIGUOUS · {oursAmbiguity.clear.n} TICKETS</text>
+      <line x1="716" y1="70" x2="754" y2="70" stroke="var(--accent)" stroke-width="2" />
+      <line x1="716" y1="63" x2="716" y2="77" stroke="var(--accent)" stroke-width="2" />
+      <line x1="754" y1="63" x2="754" y2="77" stroke="var(--accent)" stroke-width="2" />
+      <circle cx="731" cy="70" r="5" fill="var(--accent)" />
+      <text x="754" y="52" font-family="var(--mono)" font-size="11" fill="var(--accent)" text-anchor="end">MEAN {oursAmbiguity.clear.meanConfidence}</text>
+
+      <text x="0" y="112" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">DELIBERATELY ARGUABLE · {oursAmbiguity.ambiguous.n} TICKETS</text>
+      <line x1={302} y1="126" x2={701} y2="126" stroke="var(--accent)" stroke-width="2" />
+      <line x1={302} y1="119" x2={302} y2="133" stroke="var(--accent)" stroke-width="2" />
+      <line x1={701} y1="119" x2={701} y2="133" stroke="var(--accent)" stroke-width="2" />
+      <circle cx={535} cy="126" r="5" fill="var(--accent)" />
+      <text x="754" y="108" font-family="var(--mono)" font-size="11" fill="var(--accent)" text-anchor="end">MEAN {oursAmbiguity.ambiguous.meanConfidence}</text>
+      <text x={302} y="147" font-family="var(--mono)" font-size="10" fill="var(--text-faint)" text-anchor="middle">{oursAmbiguity.ambiguousSpread.min}</text>
+      <text x={701} y="147" font-family="var(--mono)" font-size="10" fill="var(--text-faint)" text-anchor="middle">{oursAmbiguity.ambiguousSpread.max}</text>
+
+      <line x1="0" y1="166" x2="754" y2="166" stroke="var(--field-border)" stroke-width="1.5" />
+      <line x1="188" y1="166" x2="188" y2="172" stroke="var(--field-border)" />
+      <line x1="377" y1="166" x2="377" y2="172" stroke="var(--field-border)" />
+      <line x1="565" y1="166" x2="565" y2="172" stroke="var(--field-border)" />
+      <text x="0" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">0</text>
+      <text x="188" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.25</text>
+      <text x="377" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.5</text>
+      <text x="565" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.75</text>
+      <text x="754" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="end">1</text>
+    </svg>
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      Figure 4 — range and mean per group, not a distribution: the unambiguous set sits in a band a
+      hundredth wide, the arguable one spreads across half the axis. The band is one run; a repeat
+      pushed its widest answer to the top of the scale. {oursAmbiguity.limitation}.
+    </figcaption>
+  </figure>
+
   <h3 id="decompose">How to use it: split the vague question</h3>
   <p style="color: var(--text-muted); max-width: var(--measure);">
     The most common mistake is asking the model the same vague question a person would ask. "Is this
@@ -459,6 +548,19 @@ const relatedPages = [
     describes, not by how strong it is: "broken, but there is a workaround" is answerable; "medium
     severity" is not, because medium has nothing to refer to. And write the levels out — the model
     does not read your 0, 1, 2 as an ordering.
+  </p>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    That is the advice everywhere, so we tested it instead of repeating it. The same
+    {oursPhrasing.items} reports were scored twice — once with the levels described by situation,
+    once with the levels described only by how strong they are — and the two runs of numbers do not
+    agree. Scores moved by a mean of {oursPhrasing.meanAbsDelta} of a level, and the ranking of the
+    twelve changed for {oursPhrasing.orderAgreement.pairs - oursPhrasing.orderAgreement.agreed} of
+    {oursPhrasing.orderAgreement.pairs} pairs, about one pair in seven. The widest single move was
+    <em>{oursPhrasing.largestMove.item}</em>, which we would call a minor annoyance and which scored
+    {oursPhrasing.largestMove.situational} against {oursPhrasing.largestMove.degree} — and
+    {oursPhrasing.largestMoveRepeat.situational} against {oursPhrasing.largestMoveRepeat.degree} on a
+    repeat, so even the size of the move is approximate. The report never changed; only the words
+    under the numbers did.
   </p>
   <p style="color: var(--text-muted); max-width: var(--measure);">
     For what this looks like in working code rather than in advice, see
@@ -503,7 +605,7 @@ const relatedPages = [
       <text x="0" y="228" font-family="var(--mono)" font-size="11.5" fill="var(--text-faint)">THE MODEL IS NEVER ASKED THE WORD SPAM. THE RULE THAT DECIDES STAYS IN CODE YOU CAN CHANGE.</text>
     </svg>
     <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 4 — decomposition. Small answerable questions in, one rule you own out. Nothing here is
+      Figure 5 — decomposition. Small answerable questions in, one rule you own out. Nothing here is
       specific to email, which is the point.
     </figcaption>
   </figure>
@@ -531,9 +633,8 @@ const relatedPages = [
       style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
     />
     <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Illustration, not a screenshot. Generated with FLUX.1-schnell on 2026-09-21 for this page; the
-      prompt and seed are in the repository. It is the inspector from the comparison above — the
-      sheets get stamped whether or not anybody is watching.
+      Illustration: a metaphor, not a record of anything that happened — the inspector from the
+      comparison above, and the sheets get stamped whether or not anybody is watching.
     </figcaption>
   </figure>
 
@@ -578,7 +679,7 @@ const relatedPages = [
   </div>
 
   {/*
-    Figure 5 — the shape of a call. Drawn rather than described because the whole
+    Figure 6 — the shape of a call. Drawn rather than described because the whole
     product is the difference between these two arrows: what goes in is state,
     what comes back is a typed value you can branch on without parsing it.
     Colours come from the theme tokens so the light/dark palettes both hold.
@@ -624,12 +725,12 @@ const relatedPages = [
       <text x="754" y="26" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">NO STRING GENERATION</text>
     </svg>
     <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 5 — why this is not a chat call. A chat model returns text that code has to parse and validate; Jev returns the decision, already typed, with the uncertainty attached. Diagram ours; the latency band is the vendor's claim.
+      Figure 6 — why this is not a chat call. A chat model returns text that code has to parse and validate; Jev returns the decision, already typed, with the uncertainty attached. Diagram ours; the latency band is the vendor's claim.
     </figcaption>
   </figure>
 
   {/*
-    Figure 6 — the vendor's two headline ranges on a logarithmic axis, because
+    Figure 7 — the vendor's two headline ranges on a logarithmic axis, because
     0.07 s and 329 s on a linear axis is one visible bar and one invisible dot.
     Log scale is stated on the figure so nobody reads the bar lengths as ratios.
   */}
@@ -666,7 +767,7 @@ const relatedPages = [
       <text x="625" y="116" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">3–329 s</text>
     </svg>
     <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 6 — the gap is real, and it is also the maker's own measurement, run from their machines on System One shaped queries. We have not reproduced it. Note the axis: at this scale the difference looks like roughly a decade, which is the same thing the vendor calls 40×–200×.
+      Figure 7 — the gap is real, and it is also the maker's own measurement, run from their machines on System One shaped queries. We have not reproduced it. Note the axis: at this scale the difference looks like roughly a decade, which is the same thing the vendor calls 40×–200×.
     </figcaption>
   </figure>
 
@@ -954,6 +1055,59 @@ const relatedPages = [
     spreads are single-question; a rubric of fourteen may well behave better, which is
     what their study suggests.
   </p>
+
+  <h3>What we checked ourselves: can an answer leave your list?</h3>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Everything above about the answer set is either the vendor's claim or somebody else's summary.
+    The claim itself is absolute — an answer outside the options you defined is impossible — and it is
+    the sentence the whole product rests on, which is a reason to attack it rather than repeat it. So
+    we did, in {oursSchemaProbe.calls} ways, each one a way a caller really gets attacked: instructions
+    inside the state, a state that implies an option nobody offered, options that nearly mean the same
+    thing, one option, ten, a criteria map crossed over on purpose, an empty state.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Attempt</th>
+          <th>What we sent</th>
+          <th>What came back</th>
+        </tr>
+      </thead>
+      <tbody>
+        {probeAttempts.map((row) => (
+          <tr>
+            <td style="color: var(--text); font-weight: 600;">{row.attempt}</td>
+            <td style="color: var(--text-muted);">{row.sent}</td>
+            <td style="font-family: var(--mono); font-size: var(--text-sm);">{row.outcome}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Not one answer left the set: {oursSchemaProbe.calls} calls,
+    {oursSchemaProbe.offMenuAnswers} off-menu, and the same {oursSchemaProbe.calls} labels on every
+    repeat of the whole suite. Both attempts that asked for a different answer set outright got
+    ordinary answers, and the customer demanding that their account be deleted was filed under
+    <code>billing</code> — the nearest option that existed. Ten thousand characters of log lines were
+    read and answered in under a second. That is the guarantee, and it held in every
+    direction we pushed.
+  </p>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Two rows are worth more than the other eleven, and neither one is a violation. The crossed criteria
+    map — the words under <code>billing</code> describing crashes, the words under
+    <code>technical</code> describing money — was followed literally. The model treats your criteria as
+    the definition of the option, not as a hint about it, so criteria that are crossed are obeyed as
+    written and you get a confident wrong routing with your own words on it. And numeric keys come back
+    as numeric-looking strings: <code>"1"</code>, not <code>1</code>, which is the kind of detail that
+    breaks a lookup table in a language that distinguishes them.
+  </p>
+  <div class="provenance">
+    <span>Probe <code>astro/scripts/jev-probe.mjs</code>, cases in <code>jev-probe-cases.json</code></span>
+    <span>Run <code>{oursSchemaProbe.measuredOn}</code>, {oursSchemaProbe.runs} times, {oursSchemaProbe.calls} calls each</span>
+    <span>Cost <code>about $0.0002 a run</code></span>
+  </div>
 
   <h3>Latency and what it cost us</h3>
   <div class="table-scroll">
