@@ -1,0 +1,20 @@
+{
+  "img/jev-hero.webp": {
+    "preset": "jev-hero",
+    "model": "black-forest-labs/FLUX.1-schnell",
+    "size": "1280x720",
+    "seed": 20260921,
+    "promptSha256": "ccfee76a0e583669",
+    "file": "img/jev-hero.webp",
+    "generatedAt": "2026-09-21"
+  },
+  "img/jev-inspector.webp": {
+    "preset": "jev-inspector",
+    "model": "black-forest-labs/FLUX.1-schnell",
+    "size": "1024x768",
+    "seed": 20260921,
+    "promptSha256": "8b1492b35b464e4a",
+    "file": "img/jev-inspector.webp",
+    "generatedAt": "2026-09-21"
+  }
+}
