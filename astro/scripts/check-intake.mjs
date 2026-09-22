@@ -22,6 +22,8 @@ const QUEUES = [
   resolve(ROOT, "lib/data/jev-builds.json"),
 ];
 const MAX_CANDIDATES = 200;
+// The facet vocabulary is a single file so the guard and the pages cannot disagree.
+const VOCAB = new Set(JSON.parse(readFileSync(resolve(ROOT, "lib/data/jev-tags.json"), "utf8")).tags.map((t) => t.slug));
 const MIN_NOTE_WORDS = 20;
 const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com", "x.com", "twitter.com"];
 
@@ -52,6 +54,13 @@ for (const QUEUE of QUEUES) {
       const host = new URL(e.url).hostname;
       if (!HOST_WHITELIST.includes(host)) fail.push(`${where}: host ${host} is not in the whitelist`);
       if (e.media?.thumb && (!e.media.thumbW || !e.media.thumbH)) fail.push(`${where}: thumbnail without width/height`);
+
+      // Facets: tags are optional (an untagged row appears in no facet — no junk-drawer
+      // bucket), but a tag that is not in the vocabulary fails the build. Without that, a
+      // typo produces a silently empty facet page — which is how x-posts once rendered zero
+      // cards (docs/lessons/).
+      const tags = e.tags ?? [];
+      for (const tag of tags) if (!VOCAB.has(tag)) fail.push(`${where}: tag "${tag}" is not in lib/data/jev-tags.json`);
 
       // The excerpt tier (docs/handbook/writing-style.md): a clip is allowed only up to
       // five seconds, silent, and only when the row states where it came from and how
