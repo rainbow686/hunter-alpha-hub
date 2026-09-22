@@ -22,6 +22,19 @@ The site is deployed to Cloudflare Workers only; Vercel is retired and `vercel.j
 
 `docs/` is local-only and must not be committed (`git add -f docs/...` is forbidden).
 
+### Content rules — 2026-09-22 (ADR-0020 + ADR-0019)
+
+Any **new or rewritten page** — and any illustration on it — must follow `docs/handbook/writing-style.md`:
+subject-first voice; `we` only where we are the source of a fact or are giving a judgement; provenance in
+structure (byline, link, table field) and never narrated; limits in one short clause; never claim care —
+demonstrate it. Diagrams are hand-drawn inline SVG; generated images go only where no fact is claimed, and are
+never captioned as illustrations or as AI-made. House style: fine-line engraving, warm paper, one accent, 16:9.
+
+Layout (ADR-0019): a page with prose is a single **760px centred column** with *all* in-page elements
+(text, tables, figures) inside it; a pure list/index page is full width. **One width per page.** Visual truth
+is `astro/src/styles/system.css` (frozen; `tokens.css` and `v1–v12.css` are the exploration record only).
+Legacy pages are frozen: do not rewrite or illustrate them.
+
 ## For Claude — Docs Map
 
 | Read | When |
@@ -36,6 +49,7 @@ The site is deployed to Cloudflare Workers only; Vercel is retired and `vercel.j
 | `docs/lessons/` | reusable cross-session lessons, one file per lesson |
 | `docs/roadmap/model-hub.md` | frozen direction (live status belongs to PROJECT-STATE) |
 | `docs/handbook/continuity-kit.md` | this repo's trimmed continuity-kit v2 |
+| `docs/handbook/writing-style.md` | **read before writing or rewriting any page, or making any illustration**: the writing contract + image mix + house drawing style and prompt template (ADR-0020) |
 
 **Rules** — long discussions go to `sessions/`; every verified unit updates the `PROJECT-STATE` snapshot and appends to `memory/`; finish any change by walking `CLOSEOUT.md`; lessons go to `lessons/`, decisions to an ADR.
 

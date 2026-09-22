@@ -29,6 +29,7 @@
 | `docs/lessons/` | 踩过同类坑时（跨会话教训，一条一文件） |
 | `docs/roadmap/model-hub.md` | 看冻结方向（活状态在 PROJECT-STATE） |
 | `docs/handbook/continuity-kit.md` | 本仓继承的 continuity-kit v2（换 agent / 搭新项目） |
+| `docs/handbook/writing-style.md` | **写/重写任何页面、配任何图之前必读**：文风契约 + 图文混排 + 画风 prompt 模板（ADR-0020） |
 
 **Rules 一句话**：长讨论增量落 `sessions/`；每个可验证单元更新 `PROJECT-STATE` 速览 + 写 `memory/` 流水；改完走 `CLOSEOUT` 写地图；教训进 `lessons/`，决策进 ADR。
 
@@ -42,3 +43,7 @@
 - docs/ 自 2026-09-01 起全量本地化，不提交 GitHub；研究、SEO、路线图、ADR、memory 均留在本机。
 - docs/ 只在本机 → 定期跑 `bash scripts/backup-docs.sh` 留第二份（ADR-0006）。
 - 变更流程：feature branch → `npx tsc --noEmit` / `npm run build`（动模型数据加 `npm run sync-models`）→ 用户确认 → 普通 PR review 合入 main → 部署 → 生产关键页复验。
+- **新内容规范（2026-09-22 定版，ADR-0020）**：新写 / 重写的内容一律照 `docs/handbook/writing-style.md`
+  （文风 + 图文混排 + 画风 prompt 模板）；**版面两档**见 ADR-0019（有正文的页 = 一栏 **760** 居中、
+  页内元素同宽；纯列表页 = 满框）；**视觉真值 = `astro/src/styles/system.css`**（暖纸米色 + 单强调色 +
+  衬线标题 / 无衬线数字，冻结 + `npm run check:theme` 守卫）。**旧站遗留内容不重写、不配图**（用户选 C，2026-09-22）。
