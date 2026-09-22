@@ -40,7 +40,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "coding-and-context"
+      ]
     },
     {
       "id": "x:2100984487802708306",
@@ -67,7 +70,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100478725393686556",
@@ -94,7 +98,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2101007482919227841",
@@ -143,7 +148,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "x:2101705843200721203",
@@ -170,7 +178,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100688880798159254",
@@ -197,7 +206,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2101206777924858319",
@@ -224,7 +234,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100927101327028484",
@@ -251,7 +262,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100859307671855113",
@@ -278,7 +290,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100877682972258619",
@@ -305,7 +318,11 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": [
+        "triage-and-routing",
+        "research-and-data"
+      ]
     },
     {
       "id": "x:2100362415187833048",
@@ -332,7 +349,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100036101809619314",
@@ -359,7 +377,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "media-and-content"
+      ]
     },
     {
       "id": "x:2100744709589316009",
@@ -386,7 +407,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100780634734002230",
@@ -413,7 +435,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": [
+        "coding-and-context"
+      ]
     },
     {
       "id": "x:2101037514945597645",
@@ -462,7 +487,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "getting-started"
+      ]
     },
     {
       "id": "x:2102087107410002345",
@@ -511,7 +539,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": [
+        "media-and-content"
+      ]
     },
     {
       "id": "x:2100739055923425589",
@@ -538,7 +569,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": []
     },
     {
       "id": "x:2100277062309179521",
@@ -565,7 +597,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "x:2100659471257366766",
@@ -592,7 +627,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "x:2100300097695232164",
@@ -619,7 +657,11 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": [
+        "triage-and-routing",
+        "coding-and-context"
+      ]
     },
     {
       "id": "x:2101018750916948237",
@@ -646,7 +688,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100411066966749359",
@@ -673,7 +716,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": [
+        "browser-agents"
+      ]
     },
     {
       "id": "x:2100982108873191861",
@@ -700,7 +746,11 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "coding-and-context",
+        "getting-started"
+      ]
     },
     {
       "id": "x:2100623016644223175",
@@ -727,7 +777,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100713337436930288",
@@ -754,7 +805,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "x:2100876273061102006",
@@ -781,7 +835,11 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "triage-and-routing",
+        "media-and-content"
+      ]
     },
     {
       "id": "x:2101453330861965672",
@@ -808,7 +866,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100314182201802811",
@@ -835,7 +894,11 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true
+      "isDemo": true,
+      "tags": [
+        "triage-and-routing",
+        "coding-and-context"
+      ]
     },
     {
       "id": "x:2100715237267660873",
@@ -862,7 +925,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "getting-started"
+      ]
     },
     {
       "id": "x:2100895894287839255",
@@ -889,7 +955,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100761338918363550",
@@ -938,7 +1005,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100113737097367896",
@@ -965,7 +1033,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100686990090047569",
@@ -992,7 +1061,11 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "browser-agents",
+        "trading-and-markets"
+      ]
     },
     {
       "id": "x:2100421326389354624",
@@ -1019,7 +1092,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100762304862384257",
@@ -1046,7 +1120,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "coding-and-context"
+      ]
     },
     {
       "id": "x:2100844854490103835",
@@ -1073,7 +1150,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     },
     {
       "id": "x:2100923960493818177",
@@ -1100,7 +1178,10 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "x:2101262191399981504",
@@ -1127,7 +1208,8 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false
+      "isDemo": false,
+      "tags": []
     }
   ]
 }

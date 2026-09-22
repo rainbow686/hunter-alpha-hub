@@ -1,0 +1,12 @@
+{
+  "note": "Controlled vocabulary for the use-case facets. A tag that is not listed here fails npm run checks, so a typo cannot silently produce an empty page — that failure mode cost us once already (see docs/lessons/). Grows as content arrives; an empty facet is not a failure.",
+  "tags": [
+    { "slug": "browser-agents", "label": "Browser agents", "blurb": "Driving a browser: clicking, reading, deciding the next step." },
+    { "slug": "triage-and-routing", "label": "Triage and routing", "blurb": "Picking a route, a label or a next model — classification where a wrong answer is recoverable." },
+    { "slug": "coding-and-context", "label": "Coding and context", "blurb": "Inside a coding agent: compaction, context windows, the harness around the model." },
+    { "slug": "research-and-data", "label": "Research and data", "blurb": "Benchmarks people ran, architectures people reverse-engineered, results that did not work." },
+    { "slug": "media-and-content", "label": "Media and content", "blurb": "Generating, sorting or reviewing words, images and posts." },
+    { "slug": "trading-and-markets", "label": "Trading and markets", "blurb": "Decisions with money attached, on a clock." },
+    { "slug": "getting-started", "label": "Getting started", "blurb": "What it is, how to install it, what it does not do — where to begin." }
+  ]
+}

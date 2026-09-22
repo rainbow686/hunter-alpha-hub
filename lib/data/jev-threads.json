@@ -18,7 +18,7 @@
     },
     "candidates": 11,
     "published": 8,
-    "note": "candidate-only queue — a page renders entries with status=published and a non-empty ourNote — published requires ourNote; the ingest never writes one",
+    "note": "candidate-only queue \u2014 a page renders entries with status=published and a non-empty ourNote \u2014 published requires ourNote; the ingest never writes one",
     "candidatesRemaining": 3
   },
   "entries": [
@@ -48,7 +48,8 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+      "_externalUrl": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "tags": []
     },
     {
       "id": "hn:49783999",
@@ -76,7 +77,8 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://github.com/jaredpalmer/kev/tree/main"
+      "_externalUrl": "https://github.com/jaredpalmer/kev/tree/main",
+      "tags": []
     },
     {
       "id": "hn:49784706",
@@ -104,7 +106,8 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://github.com/f/jev-leftpad"
+      "_externalUrl": "https://github.com/f/jev-leftpad",
+      "tags": []
     },
     {
       "id": "hn:49778162",
@@ -132,7 +135,8 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://github.com/kyle-pena-nlp/jevchat/"
+      "_externalUrl": "https://github.com/kyle-pena-nlp/jevchat/",
+      "tags": []
     },
     {
       "id": "hn:49731282",
@@ -160,7 +164,10 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://github.com/vinnylarouge/jevlike"
+      "_externalUrl": "https://github.com/vinnylarouge/jevlike",
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "hn:49736660",
@@ -188,7 +195,10 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": null
+      "_externalUrl": null,
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "hn:49735979",
@@ -216,13 +226,16 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://github.com/browser-use/jev-ultrafast"
+      "_externalUrl": "https://github.com/browser-use/jev-ultrafast",
+      "tags": [
+        "browser-agents"
+      ]
     },
     {
       "id": "hn:49767564",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49767564",
-      "title": "Show HN: CUA-S1 – A System One Model for Computer Use",
+      "title": "Show HN: CUA-S1 \u2013 A System One Model for Computer Use",
       "author": "frabonacci",
       "publishedAt": "2026-09-19",
       "media": {
@@ -244,13 +257,16 @@
         "HN item live on 2026-09-22",
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
-      "_externalUrl": "https://github.com/trycua/cua"
+      "_externalUrl": "https://github.com/trycua/cua",
+      "tags": [
+        "browser-agents"
+      ]
     },
     {
       "id": "hn:49780849",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49780849",
-      "title": "Show HN: jevals – replacing LLM judges with typed Jev decisions",
+      "title": "Show HN: jevals \u2013 replacing LLM judges with typed Jev decisions",
       "author": "gbayomi",
       "publishedAt": "2026-09-20",
       "media": {
@@ -271,7 +287,7 @@
       "id": "hn:49757757",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49757757",
-      "title": "Show HN: Jeff – A read-only CLI for semantic code review using Jev",
+      "title": "Show HN: Jeff \u2013 A read-only CLI for semantic code review using Jev",
       "author": "imalessandro",
       "publishedAt": "2026-09-18",
       "media": {

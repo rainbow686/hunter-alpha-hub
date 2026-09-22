@@ -11,7 +11,7 @@
     },
     "candidates": 24,
     "published": 8,
-    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 16
   },
   "entries": [
@@ -41,6 +41,9 @@
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
+      ],
+      "tags": [
+        "browser-agents"
       ]
     },
     {
@@ -69,6 +72,9 @@
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
+      ],
+      "tags": [
+        "trading-and-markets"
       ]
     },
     {
@@ -93,10 +99,13 @@
       "what": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "published",
-      "ourNote": "A Claude Code plugin that replaces the compaction step with a Jev call. Small, unglamorous, and among the highest-starred entries here — the pattern tends to show up in tooling before it shows up in products.",
+      "ourNote": "A Claude Code plugin that replaces the compaction step with a Jev call. Small, unglamorous, and among the highest-starred entries here \u2014 the pattern tends to show up in tooling before it shows up in products.",
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
+      ],
+      "tags": [
+        "coding-and-context"
       ]
     },
     {
@@ -125,7 +134,8 @@
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
-      ]
+      ],
+      "tags": []
     },
     {
       "id": "gh:jaredpalmer/kev",
@@ -153,7 +163,8 @@
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
-      ]
+      ],
+      "tags": []
     },
     {
       "id": "gh:jev-chat/jev-chat-jarvis",
@@ -174,13 +185,16 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-22"
       },
-      "what": "装在手机上的对话副驾：在微信 / QQ / X / 飞书里读懂对方、给出候选回复、一键填入输入框，发不发由你。非侵入，只读屏幕，不 hook 不改包。",
+      "what": "\u88c5\u5728\u624b\u673a\u4e0a\u7684\u5bf9\u8bdd\u526f\u9a7e\uff1a\u5728\u5fae\u4fe1 / QQ / X / \u98de\u4e66\u91cc\u8bfb\u61c2\u5bf9\u65b9\u3001\u7ed9\u51fa\u5019\u9009\u56de\u590d\u3001\u4e00\u952e\u586b\u5165\u8f93\u5165\u6846\uff0c\u53d1\u4e0d\u53d1\u7531\u4f60\u3002\u975e\u4fb5\u5165\uff0c\u53ea\u8bfb\u5c4f\u5e55\uff0c\u4e0d hook \u4e0d\u6539\u5305\u3002",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "published",
       "ourNote": "A phone-resident assistant that reads chat threads and proposes replies. The description is the author's and is written in Chinese; we have not run it, so nothing here is a claim about how well it works.",
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
+      ],
+      "tags": [
+        "media-and-content"
       ]
     },
     {
@@ -205,10 +219,13 @@
       "what": "One AI trade decision every Monad block. Jev on Kuru MON-USDC.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "published",
-      "ourNote": "One trade decision per Monad block, made by Jev — the most literal reading of the model in this list, a decision every few hundred milliseconds with real money behind it.",
+      "ourNote": "One trade decision per Monad block, made by Jev \u2014 the most literal reading of the model in this list, a decision every few hundred milliseconds with real money behind it.",
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
+      ],
+      "tags": [
+        "trading-and-markets"
       ]
     },
     {
@@ -237,6 +254,10 @@
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "research-and-data"
       ]
     },
     {
@@ -258,7 +279,7 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-21"
       },
-      "what": "A curated list of public projects, integrations, and discussions built on Jev — TypeSafe AI's System One model for typed decisions.",
+      "what": "A curated list of public projects, integrations, and discussions built on Jev \u2014 TypeSafe AI's System One model for typed decisions.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "candidate",
       "ourNote": "",
@@ -308,7 +329,7 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-20"
       },
-      "what": "Evidence-backed use cases, patterns, prompts, and starter code for TypeSafe Jev — a System One model for fast, typed, confidence-aware decisions in software.",
+      "what": "Evidence-backed use cases, patterns, prompts, and starter code for TypeSafe Jev \u2014 a System One model for fast, typed, confidence-aware decisions in software.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
       "status": "candidate",
       "ourNote": "",
@@ -383,7 +404,7 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-19"
       },
-      "what": "A curated list of tools  built for Jev — TypeSafe AI's System One model for typed decisions.",
+      "what": "A curated list of tools  built for Jev \u2014 TypeSafe AI's System One model for typed decisions.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "candidate",
       "ourNote": "",

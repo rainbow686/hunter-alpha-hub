@@ -20,6 +20,17 @@ interface Props {
 }
 const { items, schema = true } = Astro.props;
 const trail = [{ name: "Home", url: SITE }, ...items];
+
+/**
+ * Internal links ship as paths, not absolute URLs. Two reasons, one of them reported by
+ * the user: a preview deploy (workers.dev) whose breadcrumbs point at the production host
+ * sends a reader — and a tester — off the preview; and every absolute URL in the markup is
+ * a hard-coded assumption about which host is canonical. The host decision lives in one
+ * place (the redirect plus the canonical tag), not in a hundred anchors.
+ *
+ * The JSON-LD above keeps absolute URLs on purpose: structured data requires them.
+ */
+const hrefOf = (url: string) => (url.startsWith(SITE) ? url.slice(SITE.length) || "/" : url);
 ---
 {schema ? <JsonLd slot="head" data={breadcrumbSchema(trail)} /> : null}
 <nav class="crumbs" aria-label="Breadcrumb">
@@ -29,7 +40,7 @@ const trail = [{ name: "Home", url: SITE }, ...items];
         {i === trail.length - 1 ? (
           <span aria-current="page">{item.name}</span>
         ) : (
-          <a href={item.url}>{item.name}</a>
+          <a href={hrefOf(item.url)}>{item.name}</a>
         )}
       </li>
     ))}

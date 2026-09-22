@@ -1,0 +1,71 @@
+/**
+ * Use-case facets — the second axis over the Jev columns.
+ *
+ * The reference site files every item once and lists it again under one of eight
+ * use-case categories; measured, that is a facet, not a second copy (its /categories/*
+ * pages are views over /builds/*). We do the same: one published row, one note, and a
+ * facet listing that gathers rows across all four sources by tag.
+ *
+ * Tags are the controlled vocabulary in lib/data/jev-tags.json. A tag outside it fails
+ * npm run checks, because a typo used to be silent here: it produced an empty page and a
+ * green build (docs/lessons/).
+ */
+import vocabulary from "./data/jev-tags.json";
+import { jevThreads } from "./jev-threads";
+import { jevVideos } from "./jev-videos";
+import { jevBuilds } from "./jev-builds";
+import { jevAllPosts } from "./jev-demos";
+
+export interface FacetItem {
+  id: string;
+  url: string;
+  title: string;
+  note: string;
+  source: string;
+  sourceKind: string;
+  meta: string[];
+  tags: string[];
+  thumb: string;
+  thumbW: number;
+  thumbH: number;
+  readOn: string;
+}
+
+export const JEV_FACETS = vocabulary.tags as { slug: string; label: string; blurb: string }[];
+
+const items: FacetItem[] = [
+  ...jevBuilds.map((e) => ({
+    id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "GitHub", sourceKind: "project",
+    meta: [`${e.stars.toLocaleString("en-US")} ★`, `last push ${e.pushedAt}`],
+    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    thumb: e.card ?? "", thumbW: 1280, thumbH: 640, readOn: "",
+  })),
+  ...jevVideos.map((e) => ({
+    id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "YouTube", sourceKind: "video",
+    meta: [`${e.views.toLocaleString("en-US")} views`, `${Math.floor(e.durationS / 60)} min`],
+    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "",
+  })),
+  ...jevThreads.map((e) => ({
+    id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "Hacker News", sourceKind: "thread",
+    meta: [`${e.score.toLocaleString("en-US")} points`, `${e.comments} comments`, e.publishedAt],
+    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    thumb: e.card ?? "", thumbW: 1200, thumbH: 630, readOn: "",
+  })),
+  ...jevAllPosts.map((e) => ({
+    id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "X", sourceKind: e.kind === "video" ? "video" : e.kind === "image" ? "image" : "post",
+    meta: [e.author, e.publishedAt, `${e.likes.toLocaleString("en-US")} likes`],
+    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "",
+  })),
+];
+
+/** One row per item: an X post that is also a demo must not be counted twice. */
+const unique = [...new Map(items.map((i) => [i.id, i])).values()];
+
+export const itemsByFacet = (slug: string): FacetItem[] =>
+  unique.filter((i) => i.tags.includes(slug)).sort((a, b) => a.title.localeCompare(b.title));
+
+export const JEV_FACET_COUNTS = JEV_FACETS.map((f) => ({ ...f, count: itemsByFacet(f.slug).length }));
+export const JEV_TAGGED_TOTAL = unique.filter((i) => i.tags.length > 0).length;
+export const JEV_ITEMS_TOTAL = unique.length;

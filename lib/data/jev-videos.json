@@ -39,6 +39,9 @@
         "video listed in the YouTube Data API on 2026-09-22",
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 1705s"
+      ],
+      "tags": [
+        "getting-started"
       ]
     },
     {
@@ -67,6 +70,9 @@
         "video listed in the YouTube Data API on 2026-09-22",
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 432s"
+      ],
+      "tags": [
+        "getting-started"
       ]
     },
     {
@@ -95,7 +101,8 @@
         "video listed in the YouTube Data API on 2026-09-22",
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 636s"
-      ]
+      ],
+      "tags": []
     },
     {
       "id": "yt:F3YXg7AaKWE",
@@ -123,7 +130,8 @@
         "video listed in the YouTube Data API on 2026-09-22",
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 1830s"
-      ]
+      ],
+      "tags": []
     },
     {
       "id": "yt:X117w2Rark8",
@@ -151,6 +159,10 @@
         "video listed in the YouTube Data API on 2026-09-22",
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 979s"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "media-and-content"
       ]
     },
     {
@@ -179,6 +191,10 @@
         "video listed in the YouTube Data API on 2026-09-22",
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 1071s"
+      ],
+      "tags": [
+        "research-and-data",
+        "getting-started"
       ]
     },
     {
