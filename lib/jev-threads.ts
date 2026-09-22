@@ -23,13 +23,15 @@ export interface JevThread {
   ourNote: string;
   checked: string[];
   card: string | null;
+  /** Use-case tags, read straight from the queue. */
+  tags: string[];
 }
 
 const RAW = queue as unknown as {
   meta: { generatedAt: string; queries: string[]; candidates: number; published: number; candidatesRemaining?: number };
   entries: {
     id: string; url: string; title: string; author: string; publishedAt: string;
-    status: string; ourNote: string; checked: string[];
+    status: string; ourNote: string; checked: string[]; tags?: string[];
     media?: { card?: string };
     metrics: { score: number; comments: number; asOf: string };
   }[];
@@ -52,6 +54,7 @@ export const jevThreads: JevThread[] = RAW.entries
     ourNote: e.ourNote,
     checked: e.checked,
     card: e.media?.card ?? null,
+    tags: e.tags ?? [],
   }))
   .sort((a, b) => b.score - a.score);
 

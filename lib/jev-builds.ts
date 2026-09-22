@@ -20,12 +20,14 @@ export interface JevBuild {
   what: string;
   ourNote: string;
   card: string | null;
+  /** Use-case tags, read straight from the queue (see docs/lessons/ on filtered views). */
+  tags: string[];
 }
 
 const RAW = queue as unknown as {
   meta: { generatedAt: string; candidates: number; candidatesRemaining?: number };
   entries: {
-    id: string; url: string; title: string; author: string; status: string; ourNote: string; what: string;
+    id: string; url: string; title: string; author: string; status: string; ourNote: string; what: string; tags?: string[];
     media?: { card?: string };
     metrics: { stars: number; asOf: string; pushedAt: string };
   }[];
@@ -39,6 +41,7 @@ export const jevBuilds: JevBuild[] = RAW.entries
     id: e.id, url: e.url, title: e.title, author: e.author,
     stars: e.metrics.stars, pushedAt: e.metrics.pushedAt, what: e.what, ourNote: e.ourNote,
     card: e.media?.card ?? null,
+    tags: e.tags ?? [],
   }))
   .sort((a, b) => b.stars - a.stars);
 

@@ -1,0 +1,159 @@
+---
+/**
+ * The filter bar over a card wall.
+ *
+ * Borrowed as a *function* from madewithjev (their directory carries a filter bar with
+ * counts on every feed: `All 478 · GitHub 274 · Skills 11 · X posts 229 …`), not as a
+ * look: ours is the same small-caps pill row the rest of the site uses.
+ *
+ * Two deliberate limits:
+ *
+ * 1. **It filters what is already on the page**, in the browser, and never touches the
+ *    URL. A filter that minted `?source=github` URLs would create hundreds of near-copies
+ *    of the same cards for a crawler to find, and we already have server-rendered facet
+ *    pages for the combinations worth indexing. This is a convenience for a reader who
+ *    is already here.
+ * 2. **It is invisible without JavaScript.** The chips are `hidden` in the markup and
+ *    the script reveals them; with the script blocked the reader sees the plain wall,
+ *    which is the honest fallback.
+ */
+interface Chip {
+  /** Which group it belongs to — chips in the same group OR together, groups AND. */
+  group: string;
+  value: string;
+  label: string;
+  count: number;
+}
+interface Props {
+  chips: Chip[];
+  /** What the wall is, for the live region: "18 projects", "42 posts". */
+  noun: string;
+  total: number;
+  groups?: { key: string; label: string }[];
+}
+const { chips, noun, total, groups = [] } = Astro.props;
+const byGroup = groups.length
+  ? groups.map((g) => ({ ...g, chips: chips.filter((c) => c.group === g.key) }))
+  : [{ key: "all", label: "", chips }];
+---
+<div class="card-filter" data-card-filter data-noun={noun} hidden>
+  <div class="cf-row">
+    <button type="button" class="cf-chip is-on" data-cf-all aria-pressed="true">
+      All <span class="cf-n">{total}</span>
+    </button>
+    {byGroup.map((group) => (
+      <span class="cf-group">
+        {group.label && <span class="cf-label">{group.label}</span>}
+        {group.chips.map((chip) => (
+          <button
+            type="button"
+            class="cf-chip"
+            data-cf-group={chip.group}
+            data-cf-value={chip.value}
+            aria-pressed="false"
+          >
+            {chip.label} <span class="cf-n">{chip.count}</span>
+          </button>
+        ))}
+      </span>
+    ))}
+  </div>
+  <p class="cf-status" data-cf-status role="status" aria-live="polite"></p>
+</div>
+
+<script>
+  /**
+   * Filtering is done by hiding `<li>` elements, so the page keeps working if this
+   * module never runs. Cards carry `data-sources` (space separated) and `data-tags`.
+   */
+  for (const bar of document.querySelectorAll<HTMLElement>("[data-card-filter]")) {
+    const grid = bar.parentElement?.querySelector(".card-grid");
+    const status = bar.querySelector<HTMLElement>("[data-cf-status]");
+    if (!grid || !status) continue;
+    const cards = [...grid.querySelectorAll<HTMLElement>(":scope > li")];
+    const noun = bar.dataset.noun ?? "items";
+    const total = cards.length;
+    const active = { source: new Set<string>(), tag: new Set<string>() };
+
+    bar.hidden = false;
+
+    const matches = (card: HTMLElement) => {
+      const sources = new Set((card.dataset.sources ?? "").split(/\s+/).filter(Boolean));
+      const tags = new Set((card.dataset.tags ?? "").split(/\s+/).filter(Boolean));
+      if (active.source.size && ![...active.source].some((s) => sources.has(s))) return false;
+      if (active.tag.size && ![...active.tag].some((t) => tags.has(t))) return false;
+      return true;
+    };
+
+    const apply = () => {
+      let shown = 0;
+      for (const card of cards) {
+        const ok = matches(card);
+        card.hidden = !ok;
+        if (ok) shown += 1;
+      }
+      const filtering = active.source.size + active.tag.size > 0;
+      status.textContent = filtering ? `${shown} of ${total} ${noun}` : "";
+      const all = bar.querySelector<HTMLElement>("[data-cf-all]");
+      const on = !filtering;
+      all?.classList.toggle("is-on", on);
+      all?.setAttribute("aria-pressed", String(on));
+    };
+
+    bar.addEventListener("click", (event) => {
+      const chip = (event.target as HTMLElement).closest<HTMLButtonElement>(".cf-chip");
+      if (!chip) return;
+      if (chip.hasAttribute("data-cf-all")) {
+        active.source.clear();
+        active.tag.clear();
+        for (const c of bar.querySelectorAll(".cf-chip")) {
+          c.classList.remove("is-on");
+          c.setAttribute("aria-pressed", "false");
+        }
+        apply();
+        return;
+      }
+      const group = chip.dataset.cfGroup as "source" | "tag";
+      const value = chip.dataset.cfValue ?? "";
+      if (!group || !value) return;
+      const set = active[group];
+      if (set.has(value)) set.delete(value);
+      else set.add(value);
+      chip.classList.toggle("is-on", set.has(value));
+      chip.setAttribute("aria-pressed", String(set.has(value)));
+      apply();
+    });
+  }
+</script>
+
+<style>
+  .card-filter { margin: var(--space-6) 0 0; }
+  .cf-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+  .cf-group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  .cf-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .cf-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: var(--sans, inherit);
+    font-size: var(--text-xs);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+  .cf-chip:hover { border-color: var(--border-strong); color: var(--text); }
+  .cf-chip.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
+  .cf-n { font-family: var(--mono); font-size: 10px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  .cf-chip.is-on .cf-n { color: var(--text-muted); }
+  .cf-status { margin: var(--space-3) 0 0; font-size: var(--text-xs); color: var(--text-faint); min-height: 1em; }
+</style>

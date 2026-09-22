@@ -8,8 +8,11 @@
 import System from "../../../layouts/System.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import JsonLd from "../../../components/JsonLd.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { JEV_FACETS, itemsByFacet, thumbRatio } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
 
 export const prerender = true;
 
@@ -41,9 +44,21 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
       </p>
     </header>
 
+    <CardFilter
+      chips={[...new Set(items.map((i) => i.source))].map((source) => ({
+        group: "source",
+        value: source.toLowerCase().replace(/[^a-z]+/g, "-"),
+        label: source,
+        count: items.filter((i) => i.source === source).length,
+      }))}
+      noun="use cases"
+      total={items.length}
+      groups={[{ key: "source", label: "source" }]}
+    />
+
     <ul class="card-grid">
       {items.map((item) => (
-        <li class="card">
+        <li class="card" data-sources={item.source.toLowerCase().replace(/[^a-z]+/g, "-")} data-tags={item.tags.join(" ")}>
           {item.thumb ? (
             <div class="card-media" style={`--ratio: "16 / 9"`}>
               <span class="card-src">{item.source}</span>
@@ -64,5 +79,6 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
         </li>
       ))}
     </ul>
+    <TopicIndex entries={jevTopicEntries} current={canonical.replace(SITE, "")} />
   </article>
 </System>

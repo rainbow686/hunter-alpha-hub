@@ -32,6 +32,14 @@ for (const queue of [threadsQueue, videosQueue, buildsQueue, xPostsQueue]) {
 }
 const tagsOf = (id: string) => tagById.get(id) ?? [];
 
+/**
+ * The same map, for pages that need to filter or label rows themselves. Exported as a
+ * plain object so an `.astro` page can index it by id; the alternative — each page
+ * re-reading four JSON files — is how the tags got dropped from the mapped views in the
+ * first place (docs/lessons/). One map, one truth.
+ */
+export const jevTagsById: Record<string, string[]> = Object.fromEntries(tagById);
+
 export interface FacetItem {
   id: string;
   url: string;

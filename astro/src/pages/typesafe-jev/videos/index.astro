@@ -13,7 +13,11 @@ import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
 import { JEV_VIDEOS_READ_ON, jevVideoCounts, jevVideos } from "@repo/lib/jev-videos";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
 
 const title = "Jev Videos: Walkthroughs, Breakdowns and Demos (2026)";
 const description = `Six videos about TypeSafe's Jev — the long walkthroughs, the seven-minute explanation and the breakdowns — with views and duration read on ${JEV_VIDEOS_READ_ON}. Playable here without leaving the page.`;
@@ -56,9 +60,21 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       </p>
     </header>
 
+    <CardFilter
+      chips={JEV_FACET_COUNTS.map((facet) => ({
+        group: "tag",
+        value: facet.slug,
+        label: facet.label,
+        count: jevVideos.filter((v) => v.tags.includes(facet.slug)).length,
+      })).filter((chip) => chip.count > 0)}
+      noun="videos"
+      total={jevVideos.length}
+      groups={[{ key: "tag", label: "use case" }]}
+    />
+
     <ul class="card-grid">
       {jevVideos.map((video) => (
-        <li class="card">
+        <li class="card" data-sources="youtube" data-tags={video.tags.join(" ")}>
           <div class="card-media" style="--ratio: 16 / 9">
             <span class="card-src">YouTube</span>
             <button
@@ -96,6 +112,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
         <span><a href="/typesafe-jev">Jev topic</a></span>
       </p>
     </section>
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/videos" />
   </article>
 
   <script>

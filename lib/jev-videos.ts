@@ -25,13 +25,15 @@ export interface JevVideo {
   thumbW: number;
   thumbH: number;
   ourNote: string;
+  /** Use-case tags, read straight from the queue. */
+  tags: string[];
 }
 
 const RAW = queue as unknown as {
   meta: { generatedAt: string; candidates: number; candidatesRemaining?: number };
   entries: {
     id: string; videoId: string; url: string; title: string; author: string; publishedAt: string;
-    status: string; ourNote: string;
+    status: string; ourNote: string; tags?: string[];
     metrics: { views: number; asOf: string };
     media: { thumb: string; thumbW: number; thumbH: number; durationS: number };
   }[];
@@ -54,6 +56,7 @@ export const jevVideos: JevVideo[] = RAW.entries
     thumbW: e.media.thumbW,
     thumbH: e.media.thumbH,
     ourNote: e.ourNote,
+    tags: e.tags ?? [],
   }))
   .sort((a, b) => b.views - a.views);
 

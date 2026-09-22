@@ -15,7 +15,11 @@ import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
 import { JEV_THREADS_READ_ON, jevThreadCounts, jevThreads } from "@repo/lib/jev-threads";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
 
 const title = "Jev on Hacker News: The Threads Worth Reading (2026)";
 const description = `Eight Hacker News discussions about TypeSafe's Jev — the launch thread, the rebuilds and the arguments in between — with the score and comment count read on ${JEV_THREADS_READ_ON}.`;
@@ -57,9 +61,21 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       </p>
     </header>
 
+    <CardFilter
+      chips={JEV_FACET_COUNTS.map((facet) => ({
+        group: "tag",
+        value: facet.slug,
+        label: facet.label,
+        count: jevThreads.filter((t) => t.tags.includes(facet.slug)).length,
+      })).filter((chip) => chip.count > 0)}
+      noun="threads"
+      total={jevThreads.length}
+      groups={[{ key: "tag", label: "use case" }]}
+    />
+
     <ul class="card-grid">
       {jevThreads.map((thread) => (
-        <li class="card">
+        <li class="card" data-sources="hn" data-tags={thread.tags.join(" ")}>
           {/* Not a generated picture: a screenshot of the item page as it looked on the
               day we read it (scripts/fetch-shots.py), which is the row's own claim in
               visual form. Where the shot failed, the row falls back to the source glyph
@@ -105,6 +121,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
         <span><a href="/typesafe-jev">Jev topic</a></span>
       </p>
     </section>
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/threads" />
   </article>
 </System>
 

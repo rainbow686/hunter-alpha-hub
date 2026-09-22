@@ -11,12 +11,28 @@ import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
 import { JEV_BUILDS_READ_ON, jevBuildCounts, jevBuilds } from "@repo/lib/jev-builds";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
 
 const title = "Built With Jev: Projects and What They Do (2026)";
 const description = `${jevBuildCounts.published} projects built on TypeSafe's Jev — browser agents, trading systems, plugins — with stars and last push read on ${JEV_BUILDS_READ_ON}.`;
 const canonical = `${SITE}/typesafe-jev/builds`;
 const fmt = (n: number) => n.toLocaleString("en-US");
+
+/*
+ * Filter chips are counted from the rows on the page, never typed: a hand-written count
+ * on a chip is the same class of bug as "15 models tracked" printed for a week.
+ */
+const buildChips = JEV_FACET_COUNTS.map((facet) => ({
+  group: "tag",
+  value: facet.slug,
+  label: facet.label,
+  count: jevBuilds.filter((b) => b.tags.includes(facet.slug)).length,
+})).filter((chip) => chip.count > 0);
+
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
@@ -42,9 +58,11 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       </p>
     </header>
 
+    <CardFilter chips={buildChips} noun="projects" total={jevBuilds.length} groups={[{ key: "tag", label: "use case" }]} />
+
     <ul class="card-grid">
       {jevBuilds.map((build) => (
-        <li class="card">
+        <li class="card" data-sources="github" data-tags={build.tags.join(" ")}>
           {/* The frame owns the size; the image fills it. Putting `card-media` on the
               <img> itself meant it rendered at its intrinsic 1280px inside a ~330px
               card with overflow:hidden — you saw the left half of every GitHub card. */}
@@ -79,9 +97,10 @@ const fmt = (n: number) => n.toLocaleString("en-US");
         <a href="https://docs.github.com/rest">Source: GitHub search API</a>
         <span>Numbers are the authors'; the sentence is ours</span>
         <span><a href="/submit">Built something? Send it over</a></span>
-        <span><a href="/typesafe-jev">Jev topic</a></span>
       </p>
     </section>
+
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/builds" />
   </article>
 </System>
 

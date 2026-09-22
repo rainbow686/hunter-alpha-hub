@@ -12,11 +12,36 @@ import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
 import { JEV_X_POSTS_READ_ON, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+import { jevTagsById } from "@repo/lib/jev-facets";
 
 const title = "Jev on X: What People Are Saying (2026)";
 const description = `What the field has been saying about TypeSafe's Jev on X — vendor announcements, benchmarks, explainers, sceptical first-week notes — each with our own sentence and a link to the post.`;
 const canonical = `${SITE}/typesafe-jev/x-posts`;
+
+/*
+ * The media kind is what the card already reports in its eyebrow; the chips just let a
+ * reader say "show me only the ones with a video" without a second column claiming that
+ * "video" is a category (it is not — see lib/jev-x-posts.ts).
+ */
+const xPostChips = [
+  ...["video", "image"].map((kind) => ({
+    group: "media",
+    value: kind,
+    label: kind === "video" ? "Has a video" : "Has an image",
+    count: jevXPosts.filter((p) => p.kind === kind).length,
+  })),
+  ...JEV_FACET_COUNTS.map((facet) => ({
+    group: "tag",
+    value: facet.slug,
+    label: facet.label,
+    count: jevXPosts.filter((p) => (jevTagsById[p.id] ?? []).includes(facet.slug)).length,
+  })).filter((chip) => chip.count > 0),
+];
 
 const naturalRatio = (w: number, h: number) => {
   if (!w || !h) return "16 / 9";
@@ -72,9 +97,11 @@ const naturalRatio = (w: number, h: number) => {
         </p>
       </section>
     ) : (
+      <CardFilter chips={xPostChips} noun="posts" total={jevXPosts.length} groups={[{ key: "media", label: "media" }, { key: "tag", label: "use case" }]} />
+
       <ul class="card-grid">
         {jevXPosts.map((demo) => (
-          <li class="card">
+          <li class="card" data-sources="x" data-media={demo.kind} data-tags={(jevTagsById[demo.id] ?? []).join(" ")}>
             {/*
               No thumb, no frame. The old fallback was a grey panel with the source's
               initial centred in it: seventeen of the forty-two X posts have no media,
@@ -110,6 +137,7 @@ const naturalRatio = (w: number, h: number) => {
         <span><a href="/typesafe-jev">Jev topic</a></span>
       </p>
     </section>
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/x-posts" />
   </article>
 </System>
 
