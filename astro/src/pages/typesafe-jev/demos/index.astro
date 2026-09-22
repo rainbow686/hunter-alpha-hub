@@ -66,12 +66,29 @@ const canonical = `${SITE}/typesafe-jev/demos`;
         </p>
       </section>
     ) : (
-      <ul class="demo-list">
+      <ul class="card-grid">
         {jevDemos.map((demo) => (
-          <li class="demo">
-            <h2><a href={demo.url} rel="noopener">{demo.title}</a></h2>
-            <p class="demo-meta"><span>{demo.author}</span><span>{demo.publishedAt}</span></p>
-            <p class="demo-note">{demo.ourNote}</p>
+          <li class="card">
+            {/* The poster image stays on X's CDN: we link to it rather than copy it, and
+                the row points at the post for anything else (contract §3). */}
+            {demo.thumb ? (
+              <div class="card-media" style="--ratio: 16 / 9">
+                <span class="card-src">X</span>
+                <img src={demo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              </div>
+            ) : (
+              <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">X</div>
+            )}
+            <div class="card-body">
+              <p class="card-eyebrow">X · {demo.kind === "video" ? "video" : demo.kind === "image" ? "image" : "post"}</p>
+              <h2 class="card-title"><a href={demo.url} rel="noopener">{demo.title}</a></h2>
+              <p class="card-note card-our">{demo.ourNote}</p>
+              <p class="card-meta">
+                <span>{demo.author}</span>
+                <span>{demo.publishedAt}</span>
+                <span>{demo.likes.toLocaleString("en-US")} likes</span>
+              </p>
+            </div>
           </li>
         ))}
       </ul>

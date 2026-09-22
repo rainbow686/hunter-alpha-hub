@@ -23,7 +23,7 @@ const QUEUES = [
 ];
 const MAX_CANDIDATES = 200;
 const MIN_NOTE_WORDS = 20;
-const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com"];
+const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com", "x.com", "twitter.com"];
 
 const fail = [];
 let queued = 0, publishedTotal = 0, queryTotal = 0;

@@ -7,15 +7,15 @@
     ],
     "intake": "X and Threads are entered by hand: neither offers a read API we can afford or get approved (ADR-0023, docs/roadmap/jev-intake.md). A demo is added here only after somebody watches it and writes the note.",
     "candidates": 20,
-    "published": 0,
-    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs"
+    "published": 9,
+    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs"
   },
   "entries": [
     {
       "id": "x:2101294219633529030",
       "source": "x",
       "url": "https://x.com/0xCodez/status/2101294219633529030",
-      "title": "Jev Founder, Diogo Almeida (ex-OpenAI): \"The next era is not the Claude Code or Codex era, th…",
+      "title": "Jev Founder, Diogo Almeida (ex-OpenAI): \"The next era is not the Claude Code or Codex era, th\u2026",
       "author": "@0xCodez",
       "publishedAt": "2026-09-19",
       "media": {
@@ -29,15 +29,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A clip of the founder arguing that the next era is not coding agents. Worth having as the vendor's own framing of the direction \u2014 and worth remembering it is a claim about where things go, not a measurement.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100984487802708306",
       "source": "x",
       "url": "https://x.com/0xCodila/status/2100984487802708306",
-      "title": "Jev is the \"Internet\" moment for the AI industry It tells your agents and LLMs what to do nex…",
+      "title": "Jev is the \"Internet\" moment for the AI industry It tells your agents and LLMs what to do nex\u2026",
       "author": "@0xCodila",
       "publishedAt": "2026-09-18",
       "media": {
@@ -51,15 +55,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The strongest version of the hype, posted as text. Read it for how the analogy is argued; the post itself offers no number, and none of the claims in it are ours.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100478725393686556",
       "source": "x",
       "url": "https://x.com/0xLogicrw/status/2100478725393686556",
-      "title": "Jev 这个 waitlist 还是很给力的，昨天申请，今天就能用上。 给已经拿到 API、但还不知道怎么玩的人整理了一份 Awesome Jev，目前我能确认到的 Jev 项目基本都在…",
+      "title": "Jev \u8fd9\u4e2a waitlist \u8fd8\u662f\u5f88\u7ed9\u529b\u7684\uff0c\u6628\u5929\u7533\u8bf7\uff0c\u4eca\u5929\u5c31\u80fd\u7528\u4e0a\u3002 \u7ed9\u5df2\u7ecf\u62ff\u5230 API\u3001\u4f46\u8fd8\u4e0d\u77e5\u9053\u600e\u4e48\u73a9\u7684\u4eba\u6574\u7406\u4e86\u4e00\u4efd Awesome Jev\uff0c\u76ee\u524d\u6211\u80fd\u786e\u8ba4\u5230\u7684 Jev \u9879\u76ee\u57fa\u672c\u90fd\u5728\u2026",
       "author": "@0xLogicrw",
       "publishedAt": "2026-09-17",
       "media": {
@@ -73,9 +81,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A Chinese-language post that assembled an Awesome Jev list within a day of getting API access. The same shape as the resource columns on this site: the value is in what got included, not in the commentary around it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2101007482919227841",
@@ -103,7 +115,7 @@
       "id": "x:2101292455391809670",
       "source": "x",
       "url": "https://x.com/0xRicker/status/2101292455391809670",
-      "title": "Jev could become the control layer AI agents have been missing. Instead of spending 5–20 seco…",
+      "title": "Jev could become the control layer AI agents have been missing. Instead of spending 5\u201320 seco\u2026",
       "author": "@0xRicker",
       "publishedAt": "2026-09-19",
       "media": {
@@ -125,7 +137,7 @@
       "id": "x:2101705843200721203",
       "source": "x",
       "url": "https://x.com/0xRicker/status/2101705843200721203",
-      "title": "Jev Engineering is what turns an agent stack into an actual control system and moves the expe…",
+      "title": "Jev Engineering is what turns an agent stack into an actual control system and moves the expe\u2026",
       "author": "@0xRicker",
       "publishedAt": "2026-09-20",
       "media": {
@@ -147,7 +159,7 @@
       "id": "x:2100688880798159254",
       "source": "x",
       "url": "https://x.com/CloudflareDev/status/2100688880798159254",
-      "title": "Jev from @typesafeai is now live on @CloudflareDev AI Gateway. Try the first System One model…",
+      "title": "Jev from @typesafeai is now live on @CloudflareDev AI Gateway. Try the first System One model\u2026",
       "author": "@CloudflareDev",
       "publishedAt": "2026-09-17",
       "media": {
@@ -161,15 +173,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Cloudflare's developer account announcing Jev on AI Gateway. A platform confirmation rather than an opinion, which is the kind of primary source a resource index should carry.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2101206777924858319",
       "source": "x",
       "url": "https://x.com/DataChaz/status/2101206777924858319",
-      "title": "Jev might genuinely be an “Internet moment” for AI. TypeSafe reports up to 193x faster and 44…",
+      "title": "Jev might genuinely be an \u201cInternet moment\u201d for AI. TypeSafe reports up to 193x faster and 44\u2026",
       "author": "@DataChaz",
       "publishedAt": "2026-09-19",
       "media": {
@@ -183,15 +199,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Quotes the vendor's up-to-193\u00d7 faster claim while framing it as the maker's number. We have not reproduced that measurement, and the row says so rather than repeating it flatly.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100927101327028484",
       "source": "x",
       "url": "https://x.com/ErickSky/status/2100927101327028484",
-      "title": "Este tipo de herramientas empieza a hacer que el contexto de los agentes parezca menos una ve…",
+      "title": "Este tipo de herramientas empieza a hacer que el contexto de los agentes parezca menos una ve\u2026",
       "author": "@ErickSky",
       "publishedAt": "2026-09-18",
       "media": {
@@ -213,7 +233,7 @@
       "id": "x:2100859307671855113",
       "source": "x",
       "url": "https://x.com/GoSailGlobal/status/2100859307671855113",
-      "title": "一个只会做选择题的小模型，能长出多少玩法？ TypeSafe 的 Jev 就是这么个东西：给它最多 255 个选项，几百毫秒挑一个，再附一个校准过的置信度，输出 token 免费 结果开…",
+      "title": "\u4e00\u4e2a\u53ea\u4f1a\u505a\u9009\u62e9\u9898\u7684\u5c0f\u6a21\u578b\uff0c\u80fd\u957f\u51fa\u591a\u5c11\u73a9\u6cd5\uff1f TypeSafe \u7684 Jev \u5c31\u662f\u8fd9\u4e48\u4e2a\u4e1c\u897f\uff1a\u7ed9\u5b83\u6700\u591a 255 \u4e2a\u9009\u9879\uff0c\u51e0\u767e\u6beb\u79d2\u6311\u4e00\u4e2a\uff0c\u518d\u9644\u4e00\u4e2a\u6821\u51c6\u8fc7\u7684\u7f6e\u4fe1\u5ea6\uff0c\u8f93\u51fa token \u514d\u8d39 \u7ed3\u679c\u5f00\u2026",
       "author": "@GoSailGlobal",
       "publishedAt": "2026-09-18",
       "media": {
@@ -235,7 +255,7 @@
       "id": "x:2100877682972258619",
       "source": "x",
       "url": "https://x.com/GoSailGlobal/status/2100877682972258619",
-      "title": "拿 Jev 做搜索重排，我先泼一盆冷水：单独用，它没打赢向量检索 TypeSafe 的 Jev 这阵子很火，一堆项目拿它做重排。我们在 Agent Skills Hub 的 33,047…",
+      "title": "\u62ff Jev \u505a\u641c\u7d22\u91cd\u6392\uff0c\u6211\u5148\u6cfc\u4e00\u76c6\u51b7\u6c34\uff1a\u5355\u72ec\u7528\uff0c\u5b83\u6ca1\u6253\u8d62\u5411\u91cf\u68c0\u7d22 TypeSafe \u7684 Jev \u8fd9\u9635\u5b50\u5f88\u706b\uff0c\u4e00\u5806\u9879\u76ee\u62ff\u5b83\u505a\u91cd\u6392\u3002\u6211\u4eec\u5728 Agent Skills Hub \u7684 33,047\u2026",
       "author": "@GoSailGlobal",
       "publishedAt": "2026-09-18",
       "media": {
@@ -257,7 +277,7 @@
       "id": "x:2100362415187833048",
       "source": "x",
       "url": "https://x.com/Kostastsale/status/2100362415187833048",
-      "title": "This made me rethink where AI actually fits into security engineering. For purely engineering…",
+      "title": "This made me rethink where AI actually fits into security engineering. For purely engineering\u2026",
       "author": "@Kostastsale",
       "publishedAt": "2026-09-16",
       "media": {
@@ -279,7 +299,7 @@
       "id": "x:2100036101809619314",
       "source": "x",
       "url": "https://x.com/NathanFlurry/status/2100036101809619314",
-      "title": "hype-free explanation of jev: jev does not replace gpt / claude jev is just a *really* smart …",
+      "title": "hype-free explanation of jev: jev does not replace gpt / claude jev is just a *really* smart \u2026",
       "author": "@NathanFlurry",
       "publishedAt": "2026-09-16",
       "media": {
@@ -293,15 +313,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The most-liked explanation in this list, and the only one whose opening move is to say what Jev does not replace. Start here if the rest of the column reads as enthusiasm.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100744709589316009",
       "source": "x",
       "url": "https://x.com/OpenRouter/status/2100744709589316009",
-      "title": "Jev by @typesafeai is now on OpenRouter, in beta. Jev is a System One model. Instead of gener…",
+      "title": "Jev by @typesafeai is now on OpenRouter, in beta. Jev is a System One model. Instead of gener\u2026",
       "author": "@OpenRouter",
       "publishedAt": "2026-09-18",
       "media": {
@@ -315,15 +339,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "OpenRouter's own announcement of the beta listing \u2014 the post that made the model reachable without a waitlist, and the reason the listing page this site links to exists at all.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100780634734002230",
       "source": "x",
       "url": "https://x.com/SUOHA_AI/status/2100780634734002230",
-      "title": "连 JEV 的联合创始人 @CompleteSkeptic 都亲自下场转发点赞：这是 JEV 正确的打开方式！ 大家在 Claude Code 里写长代码，最恶心的就是上下文一满，系统就…",
+      "title": "\u8fde JEV \u7684\u8054\u5408\u521b\u59cb\u4eba @CompleteSkeptic \u90fd\u4eb2\u81ea\u4e0b\u573a\u8f6c\u53d1\u70b9\u8d5e\uff1a\u8fd9\u662f JEV \u6b63\u786e\u7684\u6253\u5f00\u65b9\u5f0f\uff01 \u5927\u5bb6\u5728 Claude Code \u91cc\u5199\u957f\u4ee3\u7801\uff0c\u6700\u6076\u5fc3\u7684\u5c31\u662f\u4e0a\u4e0b\u6587\u4e00\u6ee1\uff0c\u7cfb\u7edf\u5c31\u2026",
       "author": "@SUOHA_AI",
       "publishedAt": "2026-09-18",
       "media": {
@@ -367,7 +395,7 @@
       "id": "x:2101309986156712025",
       "source": "x",
       "url": "https://x.com/akshay_pachaar/status/2101309986156712025",
-      "title": "LLMs vs. Jev, clearly explained! TL;DR The key difference is not that Jev generates faster. J…",
+      "title": "LLMs vs. Jev, clearly explained! TL;DR The key difference is not that Jev generates faster. J\u2026",
       "author": "@akshay_pachaar",
       "publishedAt": "2026-09-19",
       "media": {
@@ -381,9 +409,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A widely shared explainer whose first move is to say the key difference is not speed. Short, and the numbers inside it are the vendor's, as they are everywhere else in this column.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2102087107410002345",
@@ -433,7 +465,7 @@
       "id": "x:2100739055923425589",
       "source": "x",
       "url": "https://x.com/altryne/status/2100739055923425589",
-      "title": "This is actually insane. This uses @typesafeai Jev model, as a plugin in Claude to review all…",
+      "title": "This is actually insane. This uses @typesafeai Jev model, as a plugin in Claude to review all\u2026",
       "author": "@altryne",
       "publishedAt": "2026-09-18",
       "media": {
@@ -447,9 +479,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The most-liked post here: Jev working as a plugin inside Claude, for review work. The interesting part is the shape rather than the excitement \u2014 a large model writes, Jev decides.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     }
   ]
 }
