@@ -19,12 +19,14 @@ export interface JevBuild {
   pushedAt: string;
   what: string;
   ourNote: string;
+  card: string | null;
 }
 
 const RAW = queue as unknown as {
   meta: { generatedAt: string; candidates: number };
   entries: {
     id: string; url: string; title: string; author: string; status: string; ourNote: string; what: string;
+    media?: { card?: string };
     metrics: { stars: number; asOf: string; pushedAt: string };
   }[];
 };
@@ -36,6 +38,7 @@ export const jevBuilds: JevBuild[] = RAW.entries
   .map((e) => ({
     id: e.id, url: e.url, title: e.title, author: e.author,
     stars: e.metrics.stars, pushedAt: e.metrics.pushedAt, what: e.what, ourNote: e.ourNote,
+    card: e.media?.card ?? null,
   }))
   .sort((a, b) => b.stars - a.stars);
 
