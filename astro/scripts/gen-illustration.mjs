@@ -96,7 +96,10 @@ const manifest = existsSync(manifestPath)
 for (const name of wanted) {
   const preset = presets.presets[name];
   if (!preset) throw new Error(`no preset named ${name}`);
-  const prompt = `${preset.scene} ${presets.style}`;
+  // A preset may carry its own style (used for style candidates, where the scene is
+  // held constant and only the manner changes). Otherwise the house style applies.
+  const style = preset.style ?? presets.style;
+  const prompt = `${preset.scene} ${style}`;
   const model = MODEL_IDS[preset.model] ?? preset.model;
   const out = join(ASTRO, preset.out);
   const record = {
