@@ -12,24 +12,24 @@ import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
-import { JEV_DEMOS_READ_ON, jevDemoCounts, jevDemos } from "@repo/lib/jev-demos";
+import { JEV_DEMOS_READ_ON, jevDemoCounts } from "@repo/lib/jev-demos";
 import { jevXPosts } from "@repo/lib/jev-x-posts";
 
-const title = "Jev Demos: Clips of It Actually Running (2026)";
-const description = `Clips where Jev is visibly doing something — a browser step, a routing decision, a plugin reviewing code — each checked before it is listed. Everything else people posted lives under X posts.`;
-const canonical = `${SITE}/typesafe-jev/demos`;
+const title = "Jev on X: What People Are Saying (2026)";
+const description = `What the field has been saying about TypeSafe's Jev on X — vendor announcements, benchmarks, explainers, sceptical first-week notes — each with our own sentence and a link to the post.`;
+const canonical = `${SITE}/typesafe-jev/x-posts`;
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
 
   <Breadcrumbs schema={true} items={[
     { name: "Jev", url: `${SITE}/typesafe-jev` },
-    { name: "Demos", url: canonical },
+    { name: "X posts", url: canonical },
   ]} />
   <JsonLd
     slot="head"
     data={articleSchema({
-      title: "Jev demos: what people built and filmed",
+      title: "Jev on X: what people are saying",
       description,
       publishedAt: JEV_DEMOS_READ_ON,
       updatedAt: JEV_DEMOS_READ_ON,
@@ -39,22 +39,22 @@ const canonical = `${SITE}/typesafe-jev/demos`;
   />
   <article>
     <header class="col">
-      <h1>Demos</h1>
+      <h1>Jev on X</h1>
       <p class="lede">
-        A demo here means one thing: somebody recorded Jev doing a job, and it is visible in the clip. Posts
-        that explain, announce or argue are kept in <a href="/typesafe-jev/x-posts">X posts</a> instead — the
-        distinction is the point, because only this column is about things we can watch.
+        The model arrived with a launch post and no tutorial, so the explaining happened in public. These
+        are the posts that mattered — the vendor's own announcements, the platform confirmations, the
+        benchmarks people ran, the first-week sceptics — each described in a sentence of ours and linked back.
       </p>
       <p class="provenance">
-        <span>{jevDemoCounts.published} demos described</span>
+        <span>{jevXPosts.length} demos described</span>
         <span>{jevDemoCounts.waiting} waiting for a note</span>
-        <span><a href="/typesafe-jev/x-posts">Everything people posted: X posts</a></span>
+        <span><a href="/typesafe-jev/demos">Things people actually ran: demos</a></span>
       </p>
     </header>
 
-    {jevDemos.length === 0 ? (
+    {jevXPosts.length === 0 ? (
       <section class="col">
-        <h2>Not many yet</h2>
+        <h2>Nothing published yet</h2>
         <p>
           The demos we have seen so far were screenshots inside X posts, and we have not watched the
           clips closely enough to tell you what they prove. That is a reason to wait, not a reason to
@@ -68,7 +68,7 @@ const canonical = `${SITE}/typesafe-jev/demos`;
       </section>
     ) : (
       <ul class="card-grid">
-        {jevDemos.map((demo) => (
+        {jevXPosts.map((demo) => (
           <li class="card">
             {/* The poster image stays on X's CDN: we link to it rather than copy it, and
                 the row points at the post for anything else (contract §3). */}

@@ -18,19 +18,28 @@ export interface JevDemo {
   likes: number;
   kind: string;
   thumb: string;
+  /** One row can be listed in two views: every published post is an X post, and the
+   *  ones showing something running are also demos. The field is a facet, not a bucket. */
+  isDemo: boolean;
 }
 
 const RAW = queue as unknown as {
   meta: { generatedAt: string; candidates: number; published: number };
   entries: { id: string; url: string; title: string; author: string; publishedAt: string; status: string; ourNote: string;
-    metrics: { likes: number; asOf: string }; media?: { kind?: string; thumb?: string } }[];
+    isDemo?: boolean; metrics: { likes: number; asOf: string }; media?: { kind?: string; thumb?: string } }[];
 };
 
 export const JEV_DEMOS_READ_ON: string = RAW.meta.generatedAt.slice(0, 10);
 
-export const jevDemos: JevDemo[] = RAW.entries
+const published: JevDemo[] = RAW.entries
   .filter((e) => e.status === "published" && e.ourNote.trim().split(/\s+/).length >= 20)
   .map((e) => ({ id: e.id, url: e.url, title: e.title, author: e.author, publishedAt: e.publishedAt, ourNote: e.ourNote,
-    likes: e.metrics.likes, kind: e.media?.kind ?? 'none', thumb: e.media?.thumb ?? '' }));
+    likes: e.metrics.likes, kind: e.media?.kind ?? 'none', thumb: e.media?.thumb ?? '', isDemo: e.isDemo === true }));
+
+/** Rows that show something running — the narrower column. */
+export const jevDemos: JevDemo[] = published.filter((e) => e.isDemo);
+
+/** Every published X post, demos included. */
+export const jevAllPosts: JevDemo[] = published;
 
 export const jevDemoCounts = { published: jevDemos.length, waiting: RAW.meta.candidates - jevDemos.length };

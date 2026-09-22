@@ -81,6 +81,7 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/typesafe-jev/threads", changeFrequency: "weekly", priority: "0.7" },
   { path: "/typesafe-jev/videos", changeFrequency: "weekly", priority: "0.7" },
   { path: "/typesafe-jev/demos", changeFrequency: "monthly", priority: "0.6" },
+  { path: "/typesafe-jev/x-posts", changeFrequency: "weekly", priority: "0.7" },
   { path: "/typesafe-jev/builds", changeFrequency: "weekly", priority: "0.8" },
   { path: "/submit", changeFrequency: "monthly", priority: "0.5" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing

@@ -8,7 +8,11 @@
     "intake": "X and Threads are entered by hand: neither offers a read API we can afford or get approved (ADR-0023, docs/roadmap/jev-intake.md). A demo is added here only after somebody watches it and writes the note.",
     "candidates": 42,
     "published": 38,
-    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs"
+    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "facets": {
+      "published": 38,
+      "withVisibleDemo": 7
+    }
   },
   "entries": [
     {
@@ -35,7 +39,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100984487802708306",
@@ -61,7 +66,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100478725393686556",
@@ -87,7 +93,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2101007482919227841",
@@ -135,7 +142,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2101705843200721203",
@@ -161,7 +169,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100688880798159254",
@@ -187,7 +196,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2101206777924858319",
@@ -213,7 +223,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100927101327028484",
@@ -239,7 +250,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100859307671855113",
@@ -265,7 +277,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100877682972258619",
@@ -291,7 +304,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2100362415187833048",
@@ -317,7 +331,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100036101809619314",
@@ -343,7 +358,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100744709589316009",
@@ -369,7 +385,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100780634734002230",
@@ -395,7 +412,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2101037514945597645",
@@ -443,7 +461,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2102087107410002345",
@@ -491,7 +510,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2100739055923425589",
@@ -517,7 +537,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2100277062309179521",
@@ -543,7 +564,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100659471257366766",
@@ -569,7 +591,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100300097695232164",
@@ -595,7 +618,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2101018750916948237",
@@ -621,7 +645,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100411066966749359",
@@ -647,7 +672,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2100982108873191861",
@@ -673,7 +699,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100623016644223175",
@@ -699,7 +726,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100713337436930288",
@@ -725,7 +753,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100876273061102006",
@@ -751,7 +780,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2101453330861965672",
@@ -777,7 +807,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100314182201802811",
@@ -803,7 +834,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": true
     },
     {
       "id": "x:2100715237267660873",
@@ -829,7 +861,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100895894287839255",
@@ -855,7 +888,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100761338918363550",
@@ -903,7 +937,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100113737097367896",
@@ -929,7 +964,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100686990090047569",
@@ -955,7 +991,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100421326389354624",
@@ -981,7 +1018,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100762304862384257",
@@ -1007,7 +1045,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100844854490103835",
@@ -1033,7 +1072,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2100923960493818177",
@@ -1059,7 +1099,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     },
     {
       "id": "x:2101262191399981504",
@@ -1085,7 +1126,8 @@
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
-      ]
+      ],
+      "isDemo": false
     }
   ]
 }

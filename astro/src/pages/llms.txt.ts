@@ -60,6 +60,7 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [Jev on OpenRouter](${BASE}/typesafe-jev): specs, price, question types, and the measurements above with their method.
 - [Jev resources](${BASE}/typesafe-jev/resources): the vendor docs and listings, ${jevResourceCounts.collection} community collections and ${jevResourceCounts.tool} repositories — every link checked and every star count read on ${JEV_RESOURCES_READ_ON}.
 - [Jev discussion](${BASE}/typesafe-jev/threads): ${jevThreadCounts.published} Hacker News threads, with score and comment count read on ${JEV_THREADS_READ_ON}.
+- [Jev on X](${BASE}/typesafe-jev/x-posts): what the field is saying — vendor announcements, benchmarks, sceptics — each with a sentence of ours and a link.
 - [Jev builds](${BASE}/typesafe-jev/builds): ${jevBuildCounts.published} projects built on Jev, stars and last push read on ${JEV_BUILDS_READ_ON}.
 - [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
 - [Jev field notes](${BASE}/jev-guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
