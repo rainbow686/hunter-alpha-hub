@@ -68,6 +68,12 @@ const STATIC_ENTRIES: Entry[] = [
    * linked from it rather than listed here, the way a data file is.
    */
   { path: "/alpha-line-report", changeFrequency: "weekly", priority: "0.8" },
+  /*
+   * Second-level column of the Jev topic. Not in the site nav by design
+   * (ADR-0018): the topic cover links it, which is also the link that gets it
+   * crawled. Weekly, because the star counts and the collections behind it move.
+   */
+  { path: "/typesafe-jev/resources", changeFrequency: "weekly", priority: "0.7" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
   { path: "/typesafe-jev", changeFrequency: "weekly", priority: "0.8" },

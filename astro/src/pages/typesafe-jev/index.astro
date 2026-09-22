@@ -223,6 +223,15 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
         <a href="/jev-guide">How people actually use it</a> — eleven projects read
         first-hand, plus twenty calls we made ourselves.
       </li>
+      {/*
+        The first second-level column of the topic (roadmap/jev-topic-columns.md).
+        Columns are listed here rather than in the site nav, for the reason ADR-0018
+        gives: adding a column must never require touching the chrome.
+      */}
+      <li>
+        <a href="/typesafe-jev/resources">Docs, collections and repositories</a> — every
+        Jev resource we could verify, with the star counts read on the day we checked.
+      </li>
       <li>
         <a href="/field-notes">All field notes</a> — every chapter of this kind,
         across every model we have looked at this closely.

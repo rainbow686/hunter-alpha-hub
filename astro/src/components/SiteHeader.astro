@@ -72,7 +72,15 @@ const sections = [
         six-hour lie on every page — a small one, on a site whose entire claim is
         that its labels are accurate.
       */}
-      <span class="meta">{openrouterModels.length} models tracked · drift-checked 06:00 CST</span>
+      {/*
+        Kept SHORTER than the string it replaced ("15 models tracked · verified
+        06:00 UTC", 38 characters). The meta is `white-space: nowrap` inside a
+        wrapping flex row, so six extra characters pushed "Articles" onto a second
+        line in the condensed header — a layout regression that only appeared once
+        the brand-mini reappeared on scroll, i.e. in a screenshot rather than in a
+        check. 36 characters: "models" carries the meaning that "tracked" repeated.
+      */}
+      <span class="meta">{openrouterModels.length} models · drift-checked 06:00 CST</span>
     </div>
   </div>
 </header>
