@@ -1,0 +1,118 @@
+---
+/**
+ * /typesafe-jev/threads — the discussion column of the Jev topic.
+ *
+ * Written to docs/handbook/writing-style.md: the page is about the threads, not about
+ * how they were collected. The numbers live in the row (score, comments, date), the
+ * provenance is one line at the bottom, and nothing here explains its own machinery.
+ *
+ * Every row was published by hand out of the intake queue (lib/data/jev-threads.json):
+ * the ingest found 26 stories, the relevance filter left 11, and eight of those
+ * earned a written note. The three that did not are not on this page — see
+ * scripts/ingest-hn.mjs and scripts/check-intake.mjs for the gate that enforces it.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { JEV_THREADS_READ_ON, jevThreadCounts, jevThreads } from "@repo/lib/jev-threads";
+
+const title = "Jev on Hacker News: The Threads Worth Reading (2026)";
+const description = `Eight Hacker News discussions about TypeSafe's Jev — the launch thread, the rebuilds and the arguments in between — with the score and comment count read on ${JEV_THREADS_READ_ON}.`;
+const canonical = `${SITE}/typesafe-jev/threads`;
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Jev on Hacker News: the threads worth reading",
+      description,
+      publishedAt: JEV_THREADS_READ_ON,
+      updatedAt: JEV_THREADS_READ_ON,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+
+  <article>
+    <header class="col">
+      <p class="eyebrow">Jev · discussion</p>
+      <h1>Jev on Hacker News</h1>
+      <p class="lede">
+        Hacker News did to Jev what it does to anything that changes how software is put together:
+        argued about it in public, then rebuilt it in public a few times over. These are the threads where that
+        happened, ordered by how many people joined in.
+      </p>
+      <p class="provenance">
+        <span>Score and comment count read {JEV_THREADS_READ_ON}</span>
+        <span>{jevThreadCounts.published} threads published</span>
+        <span>{jevThreadCounts.waiting} more waiting for a written note</span>
+      </p>
+    </header>
+
+    <ul class="thread-list">
+      {jevThreads.map((thread) => (
+        <li class="thread">
+          <h2><a href={thread.url} rel="noopener">{thread.title}</a></h2>
+          <p class="thread-meta">
+            <span>{thread.author}</span>
+            <span>{thread.publishedAt}</span>
+            <span>{fmt(thread.score)} points</span>
+            <span>{fmt(thread.comments)} comments</span>
+          </p>
+          <p class="thread-note">{thread.ourNote}</p>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        Videos. They are a separate column, because a thread is something you read and a video is
+        something you watch — an index that mixes them makes you open both to find out which you got.
+        The demonstrations and walkthroughs people recorded are collected under
+        <a href="/typesafe-jev/videos">videos</a>.
+      </p>
+      <p class="provenance">
+        <a href="https://hn.algolia.com">Source: Hacker News via the Algolia API</a>
+        <span>Every item linked, no content copied</span>
+        <span><a href="/typesafe-jev">Jev topic</a></span>
+      </p>
+    </section>
+  </article>
+</System>
+
+<style>
+  .thread-list {
+    list-style: none;
+    margin: var(--space-8) 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+    gap: var(--space-6);
+  }
+  .thread {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: var(--space-6);
+  }
+  .thread h2 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-lg);
+    font-family: var(--serif);
+    line-height: 1.3;
+  }
+  .thread-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .thread-note { margin: 0; color: var(--text-muted); }
+</style>

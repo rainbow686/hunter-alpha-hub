@@ -15,7 +15,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OUT = resolve(HERE, "../src/data/intake/hn-jev.json");
+const OUT = resolve(HERE, "../../lib/data/jev-threads.json");
 
 const QUERIES = [
   { q: "jev", why: "the model itself" },

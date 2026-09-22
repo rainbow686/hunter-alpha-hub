@@ -17,8 +17,9 @@
       "relevance": "/(\\bjev\\b(?!ons)|\\bkev\\b|typesafe|system one)/i"
     },
     "candidates": 11,
-    "published": 0,
-    "note": "candidate-only queue — a page renders entries with status=published and a non-empty ourNote"
+    "published": 8,
+    "note": "candidate-only queue \u2014 a page renders entries with status=published and a non-empty ourNote \u2014 published requires ourNote; the ingest never writes one",
+    "candidatesRemaining": 3
   },
   "entries": [
     {
@@ -37,9 +38,12 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "The launch thread, and the largest single discussion of this model we can count. Start here for volume and for the objections raised in week one; the vendor's own announcement is in the resources column.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
     },
     {
@@ -58,9 +62,12 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "A third-party rebuild of the same idea on Qwen3.5 instead of a call to the hosted model. The clearest evidence that what people are copying is the decide-act loop, not the endpoint.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://github.com/jaredpalmer/kev/tree/main"
     },
     {
@@ -79,9 +86,12 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "The joke build: the decision pattern wrapped around a trivial utility. Worth reading as a size reference for how little code the smallest useful instance needs.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://github.com/f/jev-leftpad"
     },
     {
@@ -100,9 +110,12 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "Someone aimed a decision model at a job that belongs to a language model and said so in the title. The thread is the argument about where that line actually falls.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://github.com/kyle-pena-nlp/jevchat/"
     },
     {
@@ -121,9 +134,12 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "An independent reconstruction of the architecture. Read it next to the vendor's quickstart, because the two disagree in places worth knowing about.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://github.com/vinnylarouge/jevlike"
     },
     {
@@ -142,9 +158,12 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "A prior publication arguing the pattern predates this release, with the paper and dataset linked in the thread. Useful as the before-picture when the naming conversation comes up.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": null
     },
     {
@@ -163,16 +182,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "A browser agent driving an indexed action space. We read this repository line by line for the resources column; the thread is where its author answers questions about it.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://github.com/browser-use/jev-ultrafast"
     },
     {
       "id": "hn:49767564",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49767564",
-      "title": "Show HN: CUA-S1 – A System One Model for Computer Use",
+      "title": "Show HN: CUA-S1 \u2013 A System One Model for Computer Use",
       "author": "frabonacci",
       "publishedAt": "2026-09-19",
       "media": {
@@ -184,16 +206,19 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"system one typesafe\" (the launch, by its other name)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
+      "status": "published",
+      "ourNote": "A separate System One model, aimed at computer use rather than typed decisions. The clearest sign that the name is turning into a category rather than a product.",
+      "checked": [
+        "HN item live on 2026-09-22",
+        "score and comment count read from the Algolia API on 2026-09-22"
+      ],
       "_externalUrl": "https://github.com/trycua/cua"
     },
     {
       "id": "hn:49780849",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49780849",
-      "title": "Show HN: jevals – replacing LLM judges with typed Jev decisions",
+      "title": "Show HN: jevals \u2013 replacing LLM judges with typed Jev decisions",
       "author": "gbayomi",
       "publishedAt": "2026-09-20",
       "media": {
@@ -214,7 +239,7 @@
       "id": "hn:49757757",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49757757",
-      "title": "Show HN: Jeff – A read-only CLI for semantic code review using Jev",
+      "title": "Show HN: Jeff \u2013 A read-only CLI for semantic code review using Jev",
       "author": "imalessandro",
       "publishedAt": "2026-09-18",
       "media": {
