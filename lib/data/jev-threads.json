@@ -18,7 +18,7 @@
     },
     "candidates": 11,
     "published": 8,
-    "note": "candidate-only queue \u2014 a page renders entries with status=published and a non-empty ourNote \u2014 published requires ourNote; the ingest never writes one",
+    "note": "candidate-only queue — a page renders entries with status=published and a non-empty ourNote — published requires ourNote; the ingest never writes one",
     "candidatesRemaining": 3
   },
   "entries": [
@@ -30,7 +30,11 @@
       "author": "albelfio",
       "publishedAt": "2026-09-15",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49717558.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 1949,
@@ -54,7 +58,11 @@
       "author": "tosh",
       "publishedAt": "2026-09-21",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49783999.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 429,
@@ -78,7 +86,11 @@
       "author": "fka",
       "publishedAt": "2026-09-21",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49784706.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 229,
@@ -102,7 +114,11 @@
       "author": "kp1197",
       "publishedAt": "2026-09-20",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49778162.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 170,
@@ -126,7 +142,11 @@
       "author": "rochansinha",
       "publishedAt": "2026-09-16",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49731282.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 167,
@@ -150,7 +170,11 @@
       "author": "nandakishor_ml",
       "publishedAt": "2026-09-17",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49736660.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 96,
@@ -174,7 +198,11 @@
       "author": "rahimnathwani",
       "publishedAt": "2026-09-17",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49735979.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 91,
@@ -194,11 +222,15 @@
       "id": "hn:49767564",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49767564",
-      "title": "Show HN: CUA-S1 \u2013 A System One Model for Computer Use",
+      "title": "Show HN: CUA-S1 – A System One Model for Computer Use",
       "author": "frabonacci",
       "publishedAt": "2026-09-19",
       "media": {
-        "kind": "none"
+        "kind": "screenshot",
+        "card": "/img/shots/hn-49767564.jpg",
+        "cardW": 1200,
+        "cardH": 630,
+        "cardAsOf": "2026-09-22"
       },
       "metrics": {
         "score": 90,
@@ -218,7 +250,7 @@
       "id": "hn:49780849",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49780849",
-      "title": "Show HN: jevals \u2013 replacing LLM judges with typed Jev decisions",
+      "title": "Show HN: jevals – replacing LLM judges with typed Jev decisions",
       "author": "gbayomi",
       "publishedAt": "2026-09-20",
       "media": {
@@ -239,7 +271,7 @@
       "id": "hn:49757757",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49757757",
-      "title": "Show HN: Jeff \u2013 A read-only CLI for semantic code review using Jev",
+      "title": "Show HN: Jeff – A read-only CLI for semantic code review using Jev",
       "author": "imalessandro",
       "publishedAt": "2026-09-18",
       "media": {

@@ -22,6 +22,7 @@ export interface JevThread {
   comments: number;
   ourNote: string;
   checked: string[];
+  card: string | null;
 }
 
 const RAW = queue as unknown as {
@@ -29,6 +30,7 @@ const RAW = queue as unknown as {
   entries: {
     id: string; url: string; title: string; author: string; publishedAt: string;
     status: string; ourNote: string; checked: string[];
+    media?: { card?: string };
     metrics: { score: number; comments: number; asOf: string };
   }[];
 };
@@ -49,6 +51,7 @@ export const jevThreads: JevThread[] = RAW.entries
     comments: e.metrics.comments,
     ourNote: e.ourNote,
     checked: e.checked,
+    card: e.media?.card ?? null,
   }))
   .sort((a, b) => b.score - a.score);
 

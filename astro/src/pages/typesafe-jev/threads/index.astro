@@ -60,10 +60,17 @@ const fmt = (n: number) => n.toLocaleString("en-US");
     <ul class="card-grid">
       {jevThreads.map((thread) => (
         <li class="card">
-          {/* A thread has no preview image, and a directory page is the wrong place for a
-              generated one (contract §5). The source gets a glyph instead: real, cheap,
-              and it does the same job — telling you at a glance where the row came from. */}
-          <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">HN</div>
+          {/* Not a generated picture: a screenshot of the item page as it looked on the
+              day we read it (scripts/fetch-shots.py), which is the row's own claim in
+              visual form. Where the shot failed, the row falls back to the source glyph
+              rather than to invented art. */}
+          {thread.card ? (
+            <div class="card-media" style="--ratio: 1200 / 630">
+              <img src={thread.card} width="1200" height="630" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : (
+            <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">HN</div>
+          )}
           <div class="card-body">
           <p class="card-eyebrow">Hacker News</p>
           <h2 class="card-title"><a href={thread.url} rel="noopener">{thread.title}</a></h2>
