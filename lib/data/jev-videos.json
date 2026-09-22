@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-22T07:49:04.785Z",
+    "source": "youtube-data-api-v3",
+    "queries": [
+      "jev decision model typesafe",
+      "system one jev tutorial"
+    ],
+    "quotaPerRun": 201,
+    "candidates": 12,
+    "published": 6,
+    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "candidatesRemaining": 6
+  },
+  "entries": [
+    {
+      "id": "yt:4mTLpuQpB80",
+      "videoId": "4mTLpuQpB80",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=4mTLpuQpB80",
+      "title": "Jev is HERE. How to use it",
+      "author": "Greg Isenberg",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/4mTLpuQpB80/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1705
+      },
+      "metrics": {
+        "views": 518230,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "The most-watched walkthrough we found: twenty-eight minutes, published three days after launch. Watch this one if you want to see the thing being set up and run rather than explained.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "view count read from that API on 2026-09-22",
+        "duration from contentDetails: 1705s"
+      ]
+    },
+    {
+      "id": "yt:vj7hysh0mOI",
+      "videoId": "vj7hysh0mOI",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=vj7hysh0mOI",
+      "title": "Jev explained in 7min..",
+      "author": "Caleb Writes Code",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/vj7hysh0mOI/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 432
+      },
+      "metrics": {
+        "views": 426311,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "The short version, and the one to start with if you are still deciding whether this is a category or a product. Seven minutes and no setup.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "view count read from that API on 2026-09-22",
+        "duration from contentDetails: 432s"
+      ]
+    },
+    {
+      "id": "yt:2Bs0Ink_-Uo",
+      "videoId": "2Bs0Ink_-Uo",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=2Bs0Ink_-Uo",
+      "title": "JEV Breakdown: The First AI Model Built For Code",
+      "author": "Rob Shocks",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/2Bs0Ink_-Uo/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 636
+      },
+      "metrics": {
+        "views": 377836,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "A breakdown framed around code instead of chat, which is the framing that matches what the model actually does. The claim in the title is the video's, not ours.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "view count read from that API on 2026-09-22",
+        "duration from contentDetails: 636s"
+      ]
+    },
+    {
+      "id": "yt:F3YXg7AaKWE",
+      "videoId": "F3YXg7AaKWE",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=F3YXg7AaKWE",
+      "title": "Jev is incredible",
+      "author": "Theo - t3\u2024gg",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/F3YXg7AaKWE/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1830
+      },
+      "metrics": {
+        "views": 375466,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Half an hour of enthusiasm rather than instruction, useful as a temperature reading of how the launch landed with developers who build for a living.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "view count read from that API on 2026-09-22",
+        "duration from contentDetails: 1830s"
+      ]
+    },
+    {
+      "id": "yt:X117w2Rark8",
+      "videoId": "X117w2Rark8",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=X117w2Rark8",
+      "title": "Jev - The Ultimate Classification Model?",
+      "author": "Sam Witteveen",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/X117w2Rark8/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 979
+      },
+      "metrics": {
+        "views": 323066,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Reads Jev as a classifier, which is the closest everyday description of a typed-decision model. Worth watching for that framing alone.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "view count read from that API on 2026-09-22",
+        "duration from contentDetails: 979s"
+      ]
+    },
+    {
+      "id": "yt:QbYBRjOaGOo",
+      "videoId": "QbYBRjOaGOo",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=QbYBRjOaGOo",
+      "title": "Jev Explained: Demos and Use Cases",
+      "author": "Syntax",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/QbYBRjOaGOo/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1071
+      },
+      "metrics": {
+        "views": 217129,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Demo-heavy and grounded in concrete uses rather than architecture, which makes it the better second watch after the walkthrough above.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "view count read from that API on 2026-09-22",
+        "duration from contentDetails: 1071s"
+      ]
+    },
+    {
+      "id": "yt:o1CogAtWdBk",
+      "videoId": "o1CogAtWdBk",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=o1CogAtWdBk",
+      "title": "JEV: How It Works and What You Can Build",
+      "author": "Riley Brown",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/o1CogAtWdBk/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1218
+      },
+      "metrics": {
+        "views": 152475,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "yt:53wDOI_7x8I",
+      "videoId": "53wDOI_7x8I",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=53wDOI_7x8I",
+      "title": "Open Jev Models Are Here!!",
+      "author": "Sam Witteveen",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/53wDOI_7x8I/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1292
+      },
+      "metrics": {
+        "views": 142755,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "yt:2vYV4K1RQ1w",
+      "videoId": "2vYV4K1RQ1w",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=2vYV4K1RQ1w",
+      "title": "Will Jev Replace LLM's? What is Jev From TypeSafe AI",
+      "author": "Krish Naik",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/2vYV4K1RQ1w/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1407
+      },
+      "metrics": {
+        "views": 130120,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "yt:ZgXej_9isxY",
+      "videoId": "ZgXej_9isxY",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZgXej_9isxY",
+      "title": "What is Jev and How to Use it?",
+      "author": "Codevolution",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/ZgXej_9isxY/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1332
+      },
+      "metrics": {
+        "views": 123925,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "yt:LU6K07U4wOk",
+      "videoId": "LU6K07U4wOk",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=LU6K07U4wOk",
+      "title": "Jev de TypeSafe AI: el modelo que NO escribe texto",
+      "author": "Fazt",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/LU6K07U4wOk/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1850
+      },
+      "metrics": {
+        "views": 98731,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "yt:0nASbjPuMTs",
+      "videoId": "0nASbjPuMTs",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=0nASbjPuMTs",
+      "title": "Jev - La nuova era dell\u2019ai \u00e8 arrivata (e non genera testo)",
+      "author": "Simone Rizzo",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/0nASbjPuMTs/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 2550
+      },
+      "metrics": {
+        "views": 86795,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    }
+  ]
+}

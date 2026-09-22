@@ -21,6 +21,7 @@ import { JEV_OURS_MEASURED_ON, JEV_OURS_SAMPLES, oursAmbiguity, oursLatency, our
 import { JEV_INPUT_PRICE_PER_MILLION } from "@repo/lib/jev";
 import { JEV_RESOURCES_READ_ON, jevResourceCounts } from "@repo/lib/jev-resources";
 import { JEV_THREADS_READ_ON, jevThreadCounts } from "@repo/lib/jev-threads";
+import { JEV_VIDEOS_READ_ON, jevVideoCounts } from "@repo/lib/jev-videos";
 
 export const prerender = true;
 
@@ -58,6 +59,7 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [Jev on OpenRouter](${BASE}/typesafe-jev): specs, price, question types, and the measurements above with their method.
 - [Jev resources](${BASE}/typesafe-jev/resources): the vendor docs and listings, ${jevResourceCounts.collection} community collections and ${jevResourceCounts.tool} repositories — every link checked and every star count read on ${JEV_RESOURCES_READ_ON}.
 - [Jev discussion](${BASE}/typesafe-jev/threads): ${jevThreadCounts.published} Hacker News threads, with score and comment count read on ${JEV_THREADS_READ_ON}.
+- [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
 - [Jev field notes](${BASE}/jev-guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
 - [Compare models](${BASE}/comparison): every curated model side by side on price, window and modality.
 - [Free models](${BASE}/openrouter-free-models): the free routes on the catalogue, re-checked against the API.

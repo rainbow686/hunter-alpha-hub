@@ -15,15 +15,17 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "../..");
-const QUEUE = resolve(ROOT, "lib/data/jev-threads.json");
+const QUEUES = [resolve(ROOT, "lib/data/jev-threads.json"), resolve(ROOT, "lib/data/jev-videos.json")];
 const MAX_CANDIDATES = 200;
 const MIN_NOTE_WORDS = 20;
 const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com"];
 
 const fail = [];
-if (!existsSync(QUEUE)) fail.push(`${QUEUE} missing — run node scripts/ingest-hn.mjs`);
-else {
+let queued = 0, publishedTotal = 0, queryTotal = 0;
+for (const QUEUE of QUEUES) {
+  if (!existsSync(QUEUE)) { fail.push(`${QUEUE} missing — run its ingest script`); continue; }
   const q = JSON.parse(readFileSync(QUEUE, "utf8"));
+  queryTotal += q.meta?.queries?.length ?? 0;
   const entries = q.entries ?? [];
   if (entries.length > MAX_CANDIDATES) fail.push(`candidate queue holds ${entries.length} entries (ceiling ${MAX_CANDIDATES}) — write notes or tighten the queries`);
 
@@ -47,8 +49,9 @@ else {
       if (e.media?.thumb && (!e.media.thumbW || !e.media.thumbH)) fail.push(`${where}: thumbnail without width/height`);
     }
   }
-  console.log(`Intake OK — ${entries.length} queued, ${published} published, ${entries.length - published} waiting for a note (${q.meta?.queries?.length ?? "?"} queries).`);
+  queued += entries.length; publishedTotal += published;
 }
+console.log(`Intake OK — ${queued} queued, ${publishedTotal} published, ${queued - publishedTotal} waiting for a note (${queryTotal} queries).`);
 
 if (fail.length) {
   console.error(`Intake check failed (${fail.length}):`);
