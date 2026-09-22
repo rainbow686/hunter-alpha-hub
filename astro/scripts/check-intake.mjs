@@ -15,7 +15,11 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "../..");
-const QUEUES = [resolve(ROOT, "lib/data/jev-threads.json"), resolve(ROOT, "lib/data/jev-videos.json")];
+const QUEUES = [
+  resolve(ROOT, "lib/data/jev-threads.json"),
+  resolve(ROOT, "lib/data/jev-videos.json"),
+  resolve(ROOT, "lib/data/jev-demos.json"),
+];
 const MAX_CANDIDATES = 200;
 const MIN_NOTE_WORDS = 20;
 const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com"];

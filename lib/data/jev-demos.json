@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-22T00:00:00Z",
+    "source": "manual",
+    "queries": [],
+    "intake": "X and Threads are entered by hand: neither offers a read API we can afford or get approved (ADR-0023, docs/roadmap/jev-intake.md). A demo is added here only after somebody watches it and writes the note.",
+    "candidates": 0,
+    "published": 0,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs"
+  },
+  "entries": []
+}

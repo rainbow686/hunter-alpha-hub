@@ -80,6 +80,7 @@ const STATIC_ENTRIES: Entry[] = [
    */
   { path: "/typesafe-jev/threads", changeFrequency: "weekly", priority: "0.7" },
   { path: "/typesafe-jev/videos", changeFrequency: "weekly", priority: "0.7" },
+  { path: "/typesafe-jev/demos", changeFrequency: "monthly", priority: "0.6" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
   { path: "/typesafe-jev", changeFrequency: "weekly", priority: "0.8" },
