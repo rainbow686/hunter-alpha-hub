@@ -18,6 +18,13 @@ import { jevXPosts } from "@repo/lib/jev-x-posts";
 const title = "Jev on X: What People Are Saying (2026)";
 const description = `What the field has been saying about TypeSafe's Jev on X — vendor announcements, benchmarks, explainers, sceptical first-week notes — each with our own sentence and a link to the post.`;
 const canonical = `${SITE}/typesafe-jev/x-posts`;
+
+const naturalRatio = (w: number, h: number) => {
+  if (!w || !h) return "16 / 9";
+  const r = Math.min(Math.max(w / h, 0.75), 1.78);
+  return `${r.toFixed(3)} / 1`;
+};
+
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
@@ -73,7 +80,7 @@ const canonical = `${SITE}/typesafe-jev/x-posts`;
             {/* The poster image stays on X's CDN: we link to it rather than copy it, and
                 the row points at the post for anything else (contract §3). */}
             {demo.thumb ? (
-              <div class="card-media" style="--ratio: 16 / 9">
+              <div class="card-media" style={demo.thumbW ? `--ratio: ${naturalRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
                 <span class="card-src">X</span>
                 <img src={demo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
               </div>
