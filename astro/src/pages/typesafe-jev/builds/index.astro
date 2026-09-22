@@ -37,19 +37,19 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       </p>
     </header>
 
-    <ul class="build-list">
+    <ul class="card-grid">
       {jevBuilds.map((build) => (
-        <li class="build">
+        <li class="card">
           {build.card ? (
-            <img class="build-card" src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            <img class="card-media" src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
           ) : null}
-          <h2><a href={build.url} rel="noopener">{build.title}</a></h2>
-          <p class="build-meta">
+          <h2 class="card-title"><a href={build.url} rel="noopener">{build.title}</a></h2>
+          <p class="card-meta">
             <span>{fmt(build.stars)} ★</span>
             <span>last push {build.pushedAt}</span>
           </p>
-          <p class="build-what">{build.what}</p>
-          <p class="build-note">{build.ourNote}</p>
+          <p class="card-note">{build.what}</p>
+          <p class="card-note card-our">{build.ourNote}</p>
         </li>
       ))}
     </ul>
@@ -72,13 +72,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 </System>
 
 <style>
-  .build-list { list-style: none; margin: var(--space-8) 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: var(--space-6); }
-  .build { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: var(--space-6); }
   /* GitHub's own card for the repository, snapshotted at ingest and dated in the row's
      meta — a 2:1 drawing of the repo as it stood, not a decorative illustration. */
   .build-card { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; background: var(--bg-sunken); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: var(--space-4); }
-  .build h2 { margin: 0 0 var(--space-2); font-size: var(--text-lg); font-family: var(--serif); line-height: 1.3; }
-  .build-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); margin: 0 0 var(--space-3); font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
-  .build-what { margin: 0 0 var(--space-3); color: var(--text-muted); }
-  .build-note { margin: 0; border-top: 1px solid var(--border); padding-top: var(--space-3); }
 </style>
