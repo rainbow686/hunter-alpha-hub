@@ -31,6 +31,17 @@ export interface FacetItem {
   readOn: string;
 }
 
+/**
+ * Poster ratio, clamped to 3:4 portrait … 16:9 panorama.
+ *
+ * Lives here rather than in the page's frontmatter on purpose: an arrow function with a
+ * template literal inside an .astro frontmatter block made the compiler fail with
+ * 'Unexpected export' at a line that did not contain one, and the page it blamed was a
+ * template. Moving the helper out made the error, and the page, go away.
+ */
+export const thumbRatio = (w: number, h: number): string =>
+  !w || !h ? "16 / 9" : `${Math.min(Math.max(w / h, 0.75), 1.78).toFixed(3)} / 1`;
+
 export const JEV_FACETS = vocabulary.tags as { slug: string; label: string; blurb: string }[];
 
 const items: FacetItem[] = [

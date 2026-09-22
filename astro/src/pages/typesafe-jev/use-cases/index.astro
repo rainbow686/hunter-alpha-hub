@@ -1,0 +1,60 @@
+---
+/**
+ * /typesafe-jev/use-cases — the facet index.
+ *
+ * Second axis over the Jev columns: the sources say where something came from, the facets
+ * say what it is for. The reference site does the same with eight categories over its
+ * builds; ours gathers rows from four sources, so a reader looking for "browser agents"
+ * gets the GitHub project, the X post and the video about it in one place.
+ */
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import JsonLd from "../../../components/JsonLd.astro";
+import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL } from "@repo/lib/jev-facets";
+
+const title = "Jev Use Cases: What People Are Building (2026)";
+const description = `Jev by use case rather than by source — browser agents, triage, coding context, research, trading — gathered from the projects, posts and videos we cover. ${JEV_TAGGED_TOTAL} of ${JEV_ITEMS_TOTAL} published items carry at least one tag.`;
+const canonical = `${SITE}/typesafe-jev/use-cases`;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: "2026-09-22", updatedAt: "2026-09-22", image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Use cases", url: canonical }]} />
+
+  <article>
+    <header class="col">
+      <h1>Jev by use case</h1>
+      <p class="lede">
+        The columns say where a thing came from; this says what it is for. A facet gathers one row
+        from wherever it lives — the repository, the post, the recording — so a reader looking for
+        browser agents does not have to know that the best example arrived as a tweet.
+      </p>
+      <p class="provenance">
+        <span>{JEV_FACET_COUNTS.length} facets</span>
+        <span>{JEV_TAGGED_TOTAL} of {JEV_ITEMS_TOTAL} published items tagged</span>
+        <span>Untagged rows appear in no facet — there is no catch-all bucket</span>
+      </p>
+    </header>
+
+    <ul class="card-grid">
+      {JEV_FACET_COUNTS.map((facet) => (
+        <li class="card">
+          <div class="card-body">
+            <p class="card-eyebrow">{facet.count} {facet.count === 1 ? "item" : "items"}</p>
+            <h2 class="card-title"><a href={`/typesafe-jev/use-cases/${facet.slug}`}>{facet.label}</a></h2>
+            <p class="card-note">{facet.blurb}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <p class="provenance">
+        <a href="/typesafe-jev">Jev topic</a>
+        <span><a href="/typesafe-jev/builds">Projects</a></span>
+        <span><a href="/typesafe-jev/x-posts">What X is saying</a></span>
+      </p>
+    </section>
+  </article>
+</System>
