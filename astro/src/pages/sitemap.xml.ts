@@ -81,7 +81,6 @@ const STATIC_ENTRIES: Entry[] = [
    */
   { path: "/typesafe-jev/threads", changeFrequency: "weekly", priority: "0.7" },
   { path: "/typesafe-jev/videos", changeFrequency: "weekly", priority: "0.7" },
-  { path: "/typesafe-jev/demos", changeFrequency: "monthly", priority: "0.6" },
   { path: "/typesafe-jev/x-posts", changeFrequency: "weekly", priority: "0.7" },
   /*
    * Use-case facets: the second axis over the Jev columns. Generated from the one

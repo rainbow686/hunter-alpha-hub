@@ -1,5 +1,8 @@
 /**
- * ingest-x.mjs — X posts → the demos queue, without X's API.
+ * ingest-x.mjs — X posts → the x-posts queue, without X's API.
+ *
+ * The file used to be called jev-demos.json: the column was misnamed "demos" from the
+ * start (see lib/jev-x-posts.ts). Renamed 2026-09-23 with the column.
  *
  * X's read API is priced (Free is write-only, Basic $200/mo), but the widget endpoint
  * that renders an embedded post is public and returns every field this column needs:
@@ -22,7 +25,7 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "../..");
 const SEEDS = resolve(ROOT, "lib/data/jev-x-sources.json");
-const QUEUE = resolve(ROOT, "lib/data/jev-demos.json");
+const QUEUE = resolve(ROOT, "lib/data/jev-x-posts.json");
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
 const LIMIT = Number(process.env.X_LIMIT ?? 20); // politeness: one pass, bounded
 const asOf = new Date().toISOString().slice(0, 10);
@@ -79,5 +82,5 @@ queue.meta = {
   note: "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
 };
 writeFileSync(QUEUE, `${JSON.stringify(queue, null, 2)}\n`);
-console.log(`X: ${added} resolved, ${skipped} already known, ${failed} failed → lib/data/jev-demos.json (${queue.entries.length} total)`);
+console.log(`X: ${added} resolved, ${skipped} already known, ${failed} failed → lib/data/jev-x-posts.json (${queue.entries.length} total)`);
 for (const e of queue.entries.slice(-6)) console.log(`  ${String(e.metrics.likes).padStart(5)} ♥  ${e.publishedAt}  ${e.media.kind.padEnd(5)}  ${e.author.padEnd(18)} ${e.title.slice(0, 46)}`);

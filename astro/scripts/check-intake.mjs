@@ -18,7 +18,7 @@ const ROOT = resolve(import.meta.dirname, "../..");
 const QUEUES = [
   resolve(ROOT, "lib/data/jev-threads.json"),
   resolve(ROOT, "lib/data/jev-videos.json"),
-  resolve(ROOT, "lib/data/jev-demos.json"),
+  resolve(ROOT, "lib/data/jev-x-posts.json"),
   resolve(ROOT, "lib/data/jev-builds.json"),
 ];
 const MAX_CANDIDATES = 200;

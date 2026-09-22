@@ -1,19 +1,18 @@
 ---
 /**
- * /typesafe-jev/demos — what people recorded themselves doing with Jev.
+ * /typesafe-jev/x-posts — a source hub: what the field is saying on X.
  *
- * Open by design and honest about it: X and Threads have no read API we can afford or
- * get approved (ADR-0023), so this column is filled by hand, one watched demo at a
- * time, and each entry carries a written note. An empty column that says it is empty
- * is the correct state until somebody has actually watched something; the roadmap
- * says the same thing — an empty cell is not a failure.
+ * Not a content type, and it does not pretend to be one: a post is a post, and the
+ * media inside it (video, image, none) is reported on the card's eyebrow rather than
+ * promoted into a category of its own. The seven rows that used to be shown twice, as
+ * "demos", are in this list like every other post — see lib/jev-x-posts.ts for how that
+ * column came to exist and why it was deleted on 2026-09-23.
  */
 import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
-import { JEV_DEMOS_READ_ON, jevDemoCounts } from "@repo/lib/jev-demos";
-import { jevXPosts } from "@repo/lib/jev-x-posts";
+import { JEV_X_POSTS_READ_ON, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
 
 const title = "Jev on X: What People Are Saying (2026)";
 const description = `What the field has been saying about TypeSafe's Jev on X — vendor announcements, benchmarks, explainers, sceptical first-week notes — each with our own sentence and a link to the post.`;
@@ -38,8 +37,8 @@ const naturalRatio = (w: number, h: number) => {
     data={articleSchema({
       title: "Jev on X: what people are saying",
       description,
-      publishedAt: JEV_DEMOS_READ_ON,
-      updatedAt: JEV_DEMOS_READ_ON,
+      publishedAt: JEV_X_POSTS_READ_ON,
+      updatedAt: JEV_X_POSTS_READ_ON,
       image: `${SITE}/og-image.png`,
       url: canonical,
     })}
@@ -53,9 +52,9 @@ const naturalRatio = (w: number, h: number) => {
         benchmarks people ran, the first-week sceptics — each described in a sentence of ours and linked back.
       </p>
       <p class="provenance">
-        <span>{jevDemoCounts.described} posts described</span>
-        {jevDemoCounts.waiting > 0 && <span>{jevDemoCounts.waiting} waiting for a note</span>}
-        <span><a href="/typesafe-jev/demos">Things people actually ran: demos</a></span>
+        <span>{jevXPostCounts.described} posts described</span>
+        {jevXPostCounts.waiting > 0 && <span>{jevXPostCounts.waiting} waiting for a note</span>}
+        <span><a href="/typesafe-jev/builds">The projects behind them: builds</a></span>
       </p>
     </header>
 
@@ -63,10 +62,9 @@ const naturalRatio = (w: number, h: number) => {
       <section class="col">
         <h2>Nothing published yet</h2>
         <p>
-          The demos we have seen so far were screenshots inside X posts, and we have not watched the
-          clips closely enough to tell you what they prove. That is a reason to wait, not a reason to
-          describe them from their captions — the difference between this column and a feed is
-          exactly that sentence.
+          Every post we have read so far is described from what we could verify in it — the claim in
+          the text, the number in the box, the date — and none of them is described from a caption.
+          That is a reason to wait for the next one, not a reason to guess.
         </p>
         <p>
           If you recorded something with Jev, <a href="/contact">send it over</a>: a link, what it

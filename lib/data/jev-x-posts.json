@@ -5,14 +5,10 @@
     "queries": [
       "42 curated links"
     ],
-    "intake": "X and Threads are entered by hand: neither offers a read API we can afford or get approved (ADR-0023, docs/roadmap/jev-intake.md). A demo is added here only after somebody watches it and writes the note.",
+    "intake": "X has no read API we can afford (ADR-0023), so posts are entered by hand from a curated list and resolved through the public syndication endpoint. A post is published only after somebody reads it and writes the note.",
     "candidates": 42,
     "published": 42,
-    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-    "facets": {
-      "published": 42,
-      "withVisibleDemo": 7
-    },
+    "note": "one queue, one column: a post is a post — the media inside it is reported on the card, never promoted into a category (the separate /demos column was deleted 2026-09-23)",
     "candidatesRemaining": 0
   },
   "entries": [
@@ -41,7 +37,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "coding-and-context"
       ]
@@ -71,7 +66,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing"
       ]
@@ -101,7 +95,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     },
     {
@@ -131,7 +124,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing",
         "coding-and-context"
@@ -162,7 +154,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing"
       ]
@@ -192,7 +183,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing"
       ]
@@ -222,7 +212,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -252,7 +241,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "research-and-data"
       ]
@@ -282,7 +270,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "coding-and-context"
       ]
@@ -312,7 +299,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -342,7 +328,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "triage-and-routing",
         "research-and-data"
@@ -373,7 +358,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     },
     {
@@ -401,7 +385,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "media-and-content"
       ]
@@ -431,7 +414,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -461,7 +443,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "coding-and-context"
       ]
@@ -493,7 +474,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -523,7 +503,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -555,7 +534,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "research-and-data"
       ]
@@ -585,7 +563,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "media-and-content"
       ]
@@ -615,7 +592,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "coding-and-context"
       ]
@@ -645,7 +621,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing"
       ]
@@ -675,7 +650,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing"
       ]
@@ -705,7 +679,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "triage-and-routing",
         "coding-and-context"
@@ -736,7 +709,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -766,7 +738,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "browser-agents"
       ]
@@ -796,7 +767,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "coding-and-context",
         "getting-started"
@@ -827,7 +797,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     },
     {
@@ -855,7 +824,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "research-and-data"
       ]
@@ -885,7 +853,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "triage-and-routing",
         "media-and-content"
@@ -916,7 +883,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -946,7 +912,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": true,
       "tags": [
         "triage-and-routing",
         "coding-and-context"
@@ -977,7 +942,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -1007,7 +971,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     },
     {
@@ -1036,7 +999,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -1066,7 +1028,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     },
     {
@@ -1094,7 +1055,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -1124,7 +1084,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "browser-agents",
         "trading-and-markets"
@@ -1155,7 +1114,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     },
     {
@@ -1183,7 +1141,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "coding-and-context"
       ]
@@ -1213,7 +1170,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "getting-started"
       ]
@@ -1243,7 +1199,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": [
         "research-and-data"
       ]
@@ -1273,7 +1228,6 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "isDemo": false,
       "tags": []
     }
   ]

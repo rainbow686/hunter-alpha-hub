@@ -14,7 +14,7 @@ import vocabulary from "./data/jev-tags.json";
 import { jevThreads } from "./jev-threads";
 import { jevVideos } from "./jev-videos";
 import { jevBuilds } from "./jev-builds";
-import { jevAllPosts } from "./jev-demos";
+import { jevXPosts } from "./jev-x-posts";
 // The mapped views above drop fields a facet needs, so tags come straight from the queues.
 // Reading them through the mapping silently produced seven empty pages and a green build —
 // the same failure mode as the x-posts filter, which is why the vocabulary now also fails
@@ -22,10 +22,10 @@ import { jevAllPosts } from "./jev-demos";
 import threadsQueue from "./data/jev-threads.json";
 import videosQueue from "./data/jev-videos.json";
 import buildsQueue from "./data/jev-builds.json";
-import demosQueue from "./data/jev-demos.json";
+import xPostsQueue from "./data/jev-x-posts.json";
 
 const tagById = new Map<string, string[]>();
-for (const queue of [threadsQueue, videosQueue, buildsQueue, demosQueue]) {
+for (const queue of [threadsQueue, videosQueue, buildsQueue, xPostsQueue]) {
   for (const entry of (queue as unknown as { entries?: { id: string; tags?: string[] }[] }).entries ?? []) {
     if (entry.tags?.length) tagById.set(entry.id, entry.tags);
   }
@@ -79,7 +79,7 @@ const items: FacetItem[] = [
     tags: tagsOf(e.id),
     thumb: e.card ?? "", thumbW: 1200, thumbH: 630, readOn: "",
   })),
-  ...jevAllPosts.map((e) => ({
+  ...jevXPosts.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "X", sourceKind: e.kind === "video" ? "video" : e.kind === "image" ? "image" : "post",
     meta: [e.author, e.publishedAt, `${e.likes.toLocaleString("en-US")} likes`],
     tags: tagsOf(e.id),

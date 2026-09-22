@@ -9,3 +9,9 @@
 /timeline / 301
 /videos / 301
 /profile/:nickname / 301
+
+# The demos column was deleted on 2026-09-23: it was a mis-translation of the reference
+# site's /x-posts hub, and the seven rows in it were posts that already live in
+# /typesafe-jev/x-posts (lib/jev-x-posts.ts has the full account). It never shipped to
+# production — this only catches preview links and screenshots taken while it existed.
+/typesafe-jev/demos /typesafe-jev/x-posts 308
