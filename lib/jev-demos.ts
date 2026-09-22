@@ -28,7 +28,7 @@ export interface JevDemo {
 const RAW = queue as unknown as {
   meta: { generatedAt: string; candidates: number; published: number };
   entries: { id: string; url: string; title: string; author: string; publishedAt: string; status: string; ourNote: string;
-    isDemo?: boolean; metrics: { likes: number; asOf: string }; media?: { kind?: string; thumb?: string } }[];
+    isDemo?: boolean; metrics: { likes: number; asOf: string }; media?: { kind?: string; thumb?: string; thumbW?: number; thumbH?: number } }[];
 };
 
 export const JEV_DEMOS_READ_ON: string = RAW.meta.generatedAt.slice(0, 10);
