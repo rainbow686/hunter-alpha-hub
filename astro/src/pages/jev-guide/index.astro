@@ -13,6 +13,7 @@
  * low-value content on this site.
  */
 import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import Faq from "../../components/Faq.astro";
 import Provenance from "../../components/Provenance.astro";
@@ -78,6 +79,11 @@ const faqs = [
 ];
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <Breadcrumbs schema={false} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Field notes", url: canonical },
+  ]} />
+
   <JsonLd
     slot="head"
     data={articleSchema({

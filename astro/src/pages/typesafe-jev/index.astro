@@ -14,6 +14,7 @@
  * exists because the bare word "jev" is not ours to claim.
  */
 import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import FactTable from "../../components/FactTable.astro";
 import ClaimList from "../../components/ClaimList.astro";
@@ -132,6 +133,10 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
 }));
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <Breadcrumbs schema={false} items={[
+    { name: "Jev", url: canonical },
+  ]} />
+
   <JsonLd
     slot="head"
     data={articleSchema({
