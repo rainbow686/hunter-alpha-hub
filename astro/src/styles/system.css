@@ -21,9 +21,30 @@
  * Third layout regression this week that every guard passed and only a screenshot
  * caught; see docs/lessons/hand-drawn-svg-must-be-photographed.md.
  */
-.foot-grid {
-  grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
-  gap: var(--space-6);
+/*
+ * The five-column footer is a desktop layout, and it has to say so: v6.css sets
+ * `1fr 1fr` inside a max-width media query, and this file's rule comes later in
+ * source order, so an unscoped override wins at every width. Measured at 390px:
+ * the footer laid itself out in five columns, the page ran 22px wider than the
+ * viewport, and three unrelated pages showed the same 22px — the tell that it was
+ * the chrome and not the column being worked on
+ * (docs/lessons/site-chrome-overflows-mobile-by-22px.md).
+ */
+@media (min-width: 761px) {
+  .foot-grid {
+    grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+/*
+ * Same measurement, same page width: the masthead's status slot is the other
+ * element past the viewport edge (right edge 459 on a 390px screen). It carries
+ * the live-codename status, which is worth the space on a desktop and not worth
+ * a horizontal scrollbar on a phone.
+ */
+@media (max-width: 560px) {
+  .masthead .live-slot { display: none; }
 }
 
 :root {
