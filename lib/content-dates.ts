@@ -32,6 +32,8 @@ export const CONTENT_REVISED: Record<string, string> = {
   "/typesafe-jev/threads": "2026-09-22",
   "/typesafe-jev/videos": "2026-09-22",
   "/typesafe-jev/demos": "2026-09-22",
+  "/typesafe-jev/builds": "2026-09-22",
+  "/submit": "2026-09-22",
   // First column of the Jev topic: links checked and star counts read this day.
   "/typesafe-jev/resources": "2026-09-22",
   // The Union Alpha reveal (2026-09-18) touched all of these.

@@ -1,0 +1,547 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-22T08:57:57.576Z",
+    "source": "github-search",
+    "queries": [
+      "jev in:name,description created:>2026-06-01",
+      "jev typesafe in:readme"
+    ],
+    "thresholds": {
+      "minStars": 25
+    },
+    "candidates": 24,
+    "published": 8,
+    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "candidatesRemaining": 16
+  },
+  "entries": [
+    {
+      "id": "gh:browser-use/jev-ultrafast",
+      "source": "github",
+      "url": "https://github.com/browser-use/jev-ultrafast",
+      "title": "browser-use/jev-ultrafast",
+      "author": "browser-use",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 17034,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-18"
+      },
+      "what": "Fastest and cheapest web agent",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "The browser agent we read line by line for the resources column: Jev picks the next action from an indexed space instead of emitting free-form clicks. The most-starred build in this list, and the one with the clearest engineering write-up.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:OpenByteInc/QuantDinger",
+      "source": "github",
+      "url": "https://github.com/OpenByteInc/QuantDinger",
+      "title": "OpenByteInc/QuantDinger",
+      "author": "OpenByteInc",
+      "publishedAt": "2025-12-28",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 11974,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Open-source AI Trading OS, agent trading, and vibe trading, with Jev System One integration. Research, build Python strategies, backtest, and paper/live trade across crypto, stocks, and forex. Launch your own multi-tenant trading SaaS with built-in user management, billing, payments, and settlement.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "published",
+      "ourNote": "An open-source trading OS. It is here because its own description puts the decision loop at the centre rather than a chat window; the strategy numbers are the author's, and we have not audited them.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:tamaratran/fast-jev-compaction",
+      "source": "github",
+      "url": "https://github.com/tamaratran/fast-jev-compaction",
+      "title": "tamaratran/fast-jev-compaction",
+      "author": "tamaratran",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 6135,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-18"
+      },
+      "what": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "A Claude Code plugin that replaces the compaction step with a Jev call. Small, unglamorous, and among the highest-starred entries here \u2014 the pattern tends to show up in tooling before it shows up in products.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:TheoLeeCJ/SemIf",
+      "source": "github",
+      "url": "https://github.com/TheoLeeCJ/SemIf",
+      "title": "TheoLeeCJ/SemIf",
+      "author": "TheoLeeCJ",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 3496,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Semantic ifs from open models, on a 3090 at home. Independent; not affiliated with Jev or TypeSafe.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "Semantic conditionals, run on open models on a single 3090. This is the closest thing in the list to a drop-in replacement for an if-statement, which is the plainest statement of what the idea is for.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:jaredpalmer/kev",
+      "source": "github",
+      "url": "https://github.com/jaredpalmer/kev",
+      "title": "jaredpalmer/kev",
+      "author": "jaredpalmer",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 2857,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "tiny Jev-like family of decision models built on top of Qwen3.5 you can train and run on your own",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "The Kev family: the same decide-and-act shape rebuilt on Qwen3.5 instead of the hosted API. It is also the build whose Hacker News thread trended, and the clearest sign that the pattern travels between models.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:jev-chat/jev-chat-jarvis",
+      "source": "github",
+      "url": "https://github.com/jev-chat/jev-chat-jarvis",
+      "title": "jev-chat/jev-chat-jarvis",
+      "author": "jev-chat",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 2336,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "\u88c5\u5728\u624b\u673a\u4e0a\u7684\u5bf9\u8bdd\u526f\u9a7e\uff1a\u5728\u5fae\u4fe1 / QQ / X / \u98de\u4e66\u91cc\u8bfb\u61c2\u5bf9\u65b9\u3001\u7ed9\u51fa\u5019\u9009\u56de\u590d\u3001\u4e00\u952e\u586b\u5165\u8f93\u5165\u6846\uff0c\u53d1\u4e0d\u53d1\u7531\u4f60\u3002\u975e\u4fb5\u5165\uff0c\u53ea\u8bfb\u5c4f\u5e55\uff0c\u4e0d hook \u4e0d\u6539\u5305\u3002",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "A phone-resident assistant that reads chat threads and proposes replies. The description is the author's and is written in Chinese; we have not run it, so nothing here is a claim about how well it works.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:jarrodwatts/jev-trader",
+      "source": "github",
+      "url": "https://github.com/jarrodwatts/jev-trader",
+      "title": "jarrodwatts/jev-trader",
+      "author": "jarrodwatts",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 1929,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-17"
+      },
+      "what": "One AI trade decision every Monad block. Jev on Kuru MON-USDC.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "One trade decision per Monad block, made by Jev \u2014 the most literal reading of the model in this list, a decision every few hundred milliseconds with real money behind it.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:TianyuCodings/NanoJev",
+      "source": "github",
+      "url": "https://github.com/TianyuCodings/NanoJev",
+      "title": "TianyuCodings/NanoJev",
+      "author": "TianyuCodings",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 1910,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "A nano replica of Jev: parallel decisions, dynamic candidates, and an end-to-end training pipeline.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "A small replica of the mechanics: parallel decisions, dynamic routing. Useful as the readable version of the architecture if you are not going to work through the paper.",
+      "checked": [
+        "repository live on 2026-09-22",
+        "star count and last push read from the GitHub API on 2026-09-22"
+      ]
+    },
+    {
+      "id": "gh:yibie/awesome-jev",
+      "source": "github",
+      "url": "https://github.com/yibie/awesome-jev",
+      "title": "yibie/awesome-jev",
+      "author": "yibie",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 1131,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "A curated list of public projects, integrations, and discussions built on Jev \u2014 TypeSafe AI's System One model for typed decisions.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:reticlehq/reticle",
+      "source": "github",
+      "url": "https://github.com/reticlehq/reticle",
+      "title": "reticlehq/reticle",
+      "author": "reticlehq",
+      "publishedAt": "2026-06-11",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 811,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "AI agents can generate code, but still struggle to understand what they build. Reticle brings Jev-style machine-native runtime perception to web & desktop applications.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:Anil-matcha/awesome-jev-by-typesafe",
+      "source": "github",
+      "url": "https://github.com/Anil-matcha/awesome-jev-by-typesafe",
+      "title": "Anil-matcha/awesome-jev-by-typesafe",
+      "author": "Anil-matcha",
+      "publishedAt": "2023-05-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 779,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "Evidence-backed use cases, patterns, prompts, and starter code for TypeSafe Jev \u2014 a System One model for fast, typed, confidence-aware decisions in software.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:awlevin/typesafe-computer-use",
+      "source": "github",
+      "url": "https://github.com/awlevin/typesafe-computer-use",
+      "title": "awlevin/typesafe-computer-use",
+      "author": "awlevin",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 779,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Computer use for about $0.0002 a step: OCR the screen, classify the next action with TypeSafe, click. macOS.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:kitfunso/hippo-memory",
+      "source": "github",
+      "url": "https://github.com/kitfunso/hippo-memory",
+      "title": "kitfunso/hippo-memory",
+      "author": "kitfunso",
+      "publishedAt": "2026-03-15",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 752,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Biologically-inspired memory for AI agents. Decay, retrieval strengthening, consolidation. Zero runtime deps, SQLite, MCP. Benchmarked retrieval with an opt-in TypeSafe Jev reranker.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:v-modal/awesome-jev-tools",
+      "source": "github",
+      "url": "https://github.com/v-modal/awesome-jev-tools",
+      "title": "v-modal/awesome-jev-tools",
+      "author": "v-modal",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 634,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-19"
+      },
+      "what": "A curated list of tools  built for Jev \u2014 TypeSafe AI's System One model for typed decisions.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:Sac-Y/Jev-cu",
+      "source": "github",
+      "url": "https://github.com/Sac-Y/Jev-cu",
+      "title": "Sac-Y/Jev-cu",
+      "author": "Sac-Y",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 564,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "No description published.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:devagrawal09/jev-review",
+      "source": "github",
+      "url": "https://github.com/devagrawal09/jev-review",
+      "title": "devagrawal09/jev-review",
+      "author": "devagrawal09",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 518,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-17"
+      },
+      "what": "A staged code-review workflow and local dashboard built with TypeSafe Jev.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:rmalde/minecraft-agent",
+      "source": "github",
+      "url": "https://github.com/rmalde/minecraft-agent",
+      "title": "rmalde/minecraft-agent",
+      "author": "rmalde",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 493,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "Astra planner and JEV controller for Minecraft, with native recording, tested routes, and run verification.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:thruwire/foreman",
+      "source": "github",
+      "url": "https://github.com/thruwire/foreman",
+      "title": "thruwire/foreman",
+      "author": "thruwire",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 486,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "Software factory foreman based on TypeSafe's Jev model",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:featherless-ai/simple-jev",
+      "source": "github",
+      "url": "https://github.com/featherless-ai/simple-jev",
+      "title": "featherless-ai/simple-jev",
+      "author": "featherless-ai",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 469,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Turn any open model into a classifier/jev endpoint",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:AbdelStark/awesome-typesafe-jev",
+      "source": "github",
+      "url": "https://github.com/AbdelStark/awesome-typesafe-jev",
+      "title": "AbdelStark/awesome-typesafe-jev",
+      "author": "AbdelStark",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 437,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Awesome Jev: a source-backed field guide to TypeSafe's System One model, with SDKs, live demos, agent tools, and independent evaluations.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:kerpopule/hermes-jev-skills",
+      "source": "github",
+      "url": "https://github.com/kerpopule/hermes-jev-skills",
+      "title": "kerpopule/hermes-jev-skills",
+      "author": "kerpopule",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 414,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Jev-powered model routing, memory, compaction, skill selection, computer and browser use for Hermes agents (also Claude Code and Codex)",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:wuyoscar/jev-skill",
+      "source": "github",
+      "url": "https://github.com/wuyoscar/jev-skill",
+      "title": "wuyoscar/jev-skill",
+      "author": "wuyoscar",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 401,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "An awesome collection of Jev use cases, workflows, and agent skills.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:wfzyx/von",
+      "source": "github",
+      "url": "https://github.com/wfzyx/von",
+      "title": "wfzyx/von",
+      "author": "wfzyx",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 399,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "The open-source System One decision model. Sub-15ms, non-autoregressive, local drop-in alternative to TypeSafe Jev.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "gh:superagents-lab/jev-search",
+      "source": "github",
+      "url": "https://github.com/superagents-lab/jev-search",
+      "title": "superagents-lab/jev-search",
+      "author": "superagents-lab",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 394,
+        "asOf": "2026-09-22",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "Search the web with TypeSafe's Jev: source selection, query understanding and relevance ranking. Built with Search1API.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    }
+  ]
+}

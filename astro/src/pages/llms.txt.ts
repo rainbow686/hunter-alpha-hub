@@ -22,6 +22,7 @@ import { JEV_INPUT_PRICE_PER_MILLION } from "@repo/lib/jev";
 import { JEV_RESOURCES_READ_ON, jevResourceCounts } from "@repo/lib/jev-resources";
 import { JEV_THREADS_READ_ON, jevThreadCounts } from "@repo/lib/jev-threads";
 import { JEV_VIDEOS_READ_ON, jevVideoCounts } from "@repo/lib/jev-videos";
+import { JEV_BUILDS_READ_ON, jevBuildCounts } from "@repo/lib/jev-builds";
 
 export const prerender = true;
 
@@ -59,6 +60,7 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [Jev on OpenRouter](${BASE}/typesafe-jev): specs, price, question types, and the measurements above with their method.
 - [Jev resources](${BASE}/typesafe-jev/resources): the vendor docs and listings, ${jevResourceCounts.collection} community collections and ${jevResourceCounts.tool} repositories — every link checked and every star count read on ${JEV_RESOURCES_READ_ON}.
 - [Jev discussion](${BASE}/typesafe-jev/threads): ${jevThreadCounts.published} Hacker News threads, with score and comment count read on ${JEV_THREADS_READ_ON}.
+- [Jev builds](${BASE}/typesafe-jev/builds): ${jevBuildCounts.published} projects built on Jev, stars and last push read on ${JEV_BUILDS_READ_ON}.
 - [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
 - [Jev field notes](${BASE}/jev-guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
 - [Compare models](${BASE}/comparison): every curated model side by side on price, window and modality.

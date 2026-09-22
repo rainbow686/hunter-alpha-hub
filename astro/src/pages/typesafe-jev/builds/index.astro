@@ -1,0 +1,78 @@
+---
+/**
+ * /typesafe-jev/builds — projects with Jev inside them.
+ *
+ * The numbers are the authors' (stars, last push), read on a stated date, and the
+ * sentence under each row is ours. That split is the whole column: the reference
+ * implementation publishes the same fields, and the row is only worth reading
+ * because somebody looked at the thing and said what it does.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { JEV_BUILDS_READ_ON, jevBuildCounts, jevBuilds } from "@repo/lib/jev-builds";
+
+const title = "Built With Jev: Projects and What They Do (2026)";
+const description = `${jevBuildCounts.published} projects built on TypeSafe's Jev — browser agents, trading systems, plugins — with stars and last push read on ${JEV_BUILDS_READ_ON}.`;
+const canonical = `${SITE}/typesafe-jev/builds`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "Built with Jev", description, publishedAt: JEV_BUILDS_READ_ON, updatedAt: JEV_BUILDS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+
+  <article>
+    <header class="col">
+      <p class="eyebrow">Jev · builds</p>
+      <h1>Built with Jev</h1>
+      <p class="lede">
+        Jev does not write sentences, so the interesting question is what people put around it. These
+        are the projects where a decision model replaced part of a loop — a browser step, a trade, a
+        compaction — ordered by how many people starred them.
+      </p>
+      <p class="provenance">
+        <span>Stars and last push read {JEV_BUILDS_READ_ON}</span>
+        <span>{jevBuildCounts.published} described</span>
+        <span>{jevBuildCounts.waiting} waiting for a note</span>
+      </p>
+    </header>
+
+    <ul class="build-list">
+      {jevBuilds.map((build) => (
+        <li class="build">
+          <h2><a href={build.url} rel="noopener">{build.title}</a></h2>
+          <p class="build-meta">
+            <span>{fmt(build.stars)} ★</span>
+            <span>last push {build.pushedAt}</span>
+          </p>
+          <p class="build-what">{build.what}</p>
+          <p class="build-note">{build.ourNote}</p>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        A verdict on which of these is good. Star counts order the list and nothing else — they say
+        how many people noticed, not whether the thing works. Where we read the code, the note says
+        so; everywhere else it says the description is the author's.
+      </p>
+      <p class="provenance">
+        <a href="https://docs.github.com/rest">Source: GitHub search API</a>
+        <span>Numbers are the authors'; the sentence is ours</span>
+        <span><a href="/submit">Built something? Send it over</a></span>
+        <span><a href="/typesafe-jev">Jev topic</a></span>
+      </p>
+    </section>
+  </article>
+</System>
+
+<style>
+  .build-list { list-style: none; margin: var(--space-8) 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: var(--space-6); }
+  .build { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: var(--space-6); }
+  .build h2 { margin: 0 0 var(--space-2); font-size: var(--text-lg); font-family: var(--serif); line-height: 1.3; }
+  .build-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); margin: 0 0 var(--space-3); font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  .build-what { margin: 0 0 var(--space-3); color: var(--text-muted); }
+  .build-note { margin: 0; border-top: 1px solid var(--border); padding-top: var(--space-3); }
+</style>
