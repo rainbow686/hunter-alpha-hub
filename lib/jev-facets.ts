@@ -15,6 +15,22 @@ import { jevThreads } from "./jev-threads";
 import { jevVideos } from "./jev-videos";
 import { jevBuilds } from "./jev-builds";
 import { jevAllPosts } from "./jev-demos";
+// The mapped views above drop fields a facet needs, so tags come straight from the queues.
+// Reading them through the mapping silently produced seven empty pages and a green build —
+// the same failure mode as the x-posts filter, which is why the vocabulary now also fails
+// the build when a tag is unknown.
+import threadsQueue from "./data/jev-threads.json";
+import videosQueue from "./data/jev-videos.json";
+import buildsQueue from "./data/jev-builds.json";
+import demosQueue from "./data/jev-demos.json";
+
+const tagById = new Map<string, string[]>();
+for (const queue of [threadsQueue, videosQueue, buildsQueue, demosQueue]) {
+  for (const entry of (queue as unknown as { entries?: { id: string; tags?: string[] }[] }).entries ?? []) {
+    if (entry.tags?.length) tagById.set(entry.id, entry.tags);
+  }
+}
+const tagsOf = (id: string) => tagById.get(id) ?? [];
 
 export interface FacetItem {
   id: string;
@@ -48,25 +64,25 @@ const items: FacetItem[] = [
   ...jevBuilds.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "GitHub", sourceKind: "project",
     meta: [`${e.stars.toLocaleString("en-US")} ★`, `last push ${e.pushedAt}`],
-    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    tags: tagsOf(e.id),
     thumb: e.card ?? "", thumbW: 1280, thumbH: 640, readOn: "",
   })),
   ...jevVideos.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "YouTube", sourceKind: "video",
     meta: [`${e.views.toLocaleString("en-US")} views`, `${Math.floor(e.durationS / 60)} min`],
-    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    tags: tagsOf(e.id),
     thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "",
   })),
   ...jevThreads.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "Hacker News", sourceKind: "thread",
     meta: [`${e.score.toLocaleString("en-US")} points`, `${e.comments} comments`, e.publishedAt],
-    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    tags: tagsOf(e.id),
     thumb: e.card ?? "", thumbW: 1200, thumbH: 630, readOn: "",
   })),
   ...jevAllPosts.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "X", sourceKind: e.kind === "video" ? "video" : e.kind === "image" ? "image" : "post",
     meta: [e.author, e.publishedAt, `${e.likes.toLocaleString("en-US")} likes`],
-    tags: (e as unknown as { tags?: string[] }).tags ?? [],
+    tags: tagsOf(e.id),
     thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "",
   })),
 ];
