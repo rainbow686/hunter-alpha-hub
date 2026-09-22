@@ -338,3 +338,19 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
    2. Every data surface is followed by `.provenance` (source + verified date).
    3. Unverified statements use `.tag.claimed`, never plain body text.
    4. The brand lockup is `Hunter` + italic `Alpha` + `Hub`, Title Case, no frames. */
+
+/* ------------------------------------------------------------------ covers
+ * A page cover (contract §5–§6): one engraving at the top of a long-form page.
+ * Two things this rule is doing:
+ *   - the frame is 16:9 and the image is cropped into it with `object-fit`, because
+ *     FLUX.2-flex returns 1024×1024 whatever size we ask for (measured: requested
+ *     1280×720, naturalWidth came back 1024). Letterboxing a square would show the
+ *     crop; `cover` hides it and keeps the declared width/height honest, so no CLS.
+ *   - `width: 100%` only, never a fixed 1280: an unconstrained 1280px image inside a
+ *     760px column pushed the page 205px past the viewport on three pages.
+ */
+.figure.cover { margin: 0 0 var(--space-8); max-width: 100%; }
+.figure.cover img {
+  width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+  display: block; border: 1px solid var(--border); border-radius: var(--radius);
+}

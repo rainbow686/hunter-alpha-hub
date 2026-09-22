@@ -41,6 +41,10 @@ const require = createRequire(import.meta.url);
 const sharp = require("sharp");
 
 const MODEL_IDS = {
+  // FLUX.1-schnell is no longer served (2026-09-22): the id is absent from
+  // /v1/models and a request for it has the connection dropped rather than
+  // answered. FLUX.2-flex is the current bulk model; pro stays for signature art.
+  flex: "black-forest-labs/FLUX.2-flex",
   schnell: "black-forest-labs/FLUX.1-schnell",
   "flux2-pro": "black-forest-labs/FLUX.2-pro",
   "z-image-turbo": "Tongyi-MAI/Z-Image-Turbo",
