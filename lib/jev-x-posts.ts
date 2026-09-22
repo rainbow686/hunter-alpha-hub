@@ -10,7 +10,7 @@
  * Same queue as the demos column (`lib/data/jev-demos.json`), filtered by `column`.
  * Poster images stay on X's CDN: nothing here is downloaded or rehosted.
  */
-import { jevDemos, type JevDemo } from "./jev-demos";
+import { jevAllPosts, type JevDemo } from "./jev-demos";
 
 export type { JevDemo };
-export const jevXPosts: JevDemo[] = jevDemos.filter((e) => e.column === "x-post");
+export const jevXPosts: JevDemo[] = jevAllPosts;
