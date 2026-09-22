@@ -73,7 +73,13 @@ const canonical = `${SITE}/best-openrouter-models`;
       <h2>{scenario.title}</h2>
       <p class="measure">{scenario.description}</p>
       <div class="picks">
-        {modelsForScenario(scenario.scenario, 3).map((model, index) => (
+        {/*
+          Five, not three: the snapshot grew from 15 models to 18 and the extra
+          rows pushed two models off this page altogether (the link-parity check
+          named them). A ranked list of five still reads as a ranking, and it puts
+          the new line in front of a reader without hiding what it displaced.
+        */}
+        {modelsForScenario(scenario.scenario, 5).map((model, index) => (
           <article class="card">
             <p class="rank">#{index + 1} pick</p>
             <p class="pick-name"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></p>
