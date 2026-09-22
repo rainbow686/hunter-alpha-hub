@@ -46,16 +46,24 @@ const fmt = (n: number) => n.toLocaleString("en-US");
     <ul class="card-grid">
       {jevBuilds.map((build) => (
         <li class="card">
+          {/* The frame owns the size; the image fills it. Putting `card-media` on the
+              <img> itself meant it rendered at its intrinsic 1280px inside a ~330px
+              card with overflow:hidden — you saw the left half of every GitHub card. */}
           {build.card ? (
-            <img class="card-media" src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            <div class="card-media" style="--ratio: 2 / 1">
+              <img src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
           ) : null}
-          <h2 class="card-title"><a href={build.url} rel="noopener">{build.title}</a></h2>
-          <p class="card-meta">
-            <span>{fmt(build.stars)} ★</span>
-            <span>last push {build.pushedAt}</span>
-          </p>
-          <p class="card-note">{build.what}</p>
-          <p class="card-note card-our">{build.ourNote}</p>
+          <div class="card-body">
+            <p class="card-eyebrow">GitHub</p>
+            <h2 class="card-title"><a href={build.url} rel="noopener">{build.title}</a></h2>
+            <p class="card-note">{build.what}</p>
+            <p class="card-note card-our">{build.ourNote}</p>
+            <p class="card-meta">
+              <span>{fmt(build.stars)} ★</span>
+              <span>last push {build.pushedAt}</span>
+            </p>
+          </div>
         </li>
       ))}
     </ul>
@@ -80,5 +88,4 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 <style>
   /* GitHub's own card for the repository, snapshotted at ingest and dated in the row's
      meta — a 2:1 drawing of the repo as it stood, not a decorative illustration. */
-  .build-card { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; background: var(--bg-sunken); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: var(--space-4); }
 </style>
