@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generatedAt": "2026-09-22T12:35:19.220Z",
+    "generatedAt": "2026-09-22T12:55:13.444Z",
     "source": "x-syndication",
     "queries": [
       "42 curated links"
     ],
     "intake": "X and Threads are entered by hand: neither offers a read API we can afford or get approved (ADR-0023, docs/roadmap/jev-intake.md). A demo is added here only after somebody watches it and writes the note.",
-    "candidates": 20,
-    "published": 9,
+    "candidates": 42,
+    "published": 38,
     "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs"
   },
   "entries": [
@@ -129,9 +129,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Argues that Jev belongs as the control layer rather than inside the model call. The seconds figure in the post is the author's framing of agent latency, not something we measured.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2101705843200721203",
@@ -151,9 +155,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A video version of the same argument: Jev as the thing that turns a stack into a control system. Watch it for the vocabulary, which is spreading faster than the model is.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100688880798159254",
@@ -225,9 +233,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A Spanish-language reaction noting that the agent's context stops feeling like a black box. Small reach, and the only post here making that particular observation.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100859307671855113",
@@ -247,9 +259,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A Chinese-language walkthrough of what a multiple-choice-only model grows into: up to 255 options, a few hundred milliseconds, and a calibrated confidence attached.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100877682972258619",
@@ -269,9 +285,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A negative result worth keeping: on their reranking test, Jev alone did not beat vector search. The only post in this column reporting that something did not work.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100362415187833048",
@@ -291,9 +311,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A security engineer's account of where a decision model fits in that work \u2014 a question the vendor's launch post never answers.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100036101809619314",
@@ -365,9 +389,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A Chinese-language clip about long coding sessions where the context window fills up. The co-founder reposted it, which is how it reached this list.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2101037514945597645",
@@ -457,9 +485,13 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The joke that travelled furthest in this batch: years of bookmarked posts as a workload for a fast decision model. The demo is the point.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
     },
     {
       "id": "x:2100739055923425589",
@@ -481,6 +513,574 @@
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
       "ourNote": "The most-liked post here: Jev working as a plugin inside Claude, for review work. The interesting part is the shape rather than the excitement \u2014 a large model writes, Jev decides.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100277062309179521",
+      "source": "x",
+      "url": "https://x.com/cocktailpeanut/status/2100277062309179521",
+      "title": "Jev is cool not because it re-invented classification, but because it makes ARBITRARY classif\u2026",
+      "author": "@cocktailpeanut",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSWuqu7WYAEUwFS.jpg",
+        "thumbW": 2709,
+        "thumbH": 1523
+      },
+      "metrics": {
+        "likes": 795,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most precise framing we found \u2014 not a new classifier, but arbitrary classification made cheap enough to put inside a loop. Read this before the vendor's own claims.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100659471257366766",
+      "source": "x",
+      "url": "https://x.com/da_fant/status/2100659471257366766",
+      "title": "jev will make agents 10x faster and cheaper, here's how: 1/ model routing: pick the right mod\u2026",
+      "author": "@da_fant",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 634,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A thread on model routing as the first place a decision model pays for itself. The 10x in the opening line is the author's claim, not a number we checked.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100300097695232164",
+      "source": "x",
+      "url": "https://x.com/fazxes/status/2100300097695232164",
+      "title": "We benchmarked fx auto mode (safety) classifier with @typesafeai's Jev. tl;dr: ~5-18x faster \u2026",
+      "author": "@fazxes",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSW-E8wWgAAyw9O.jpg",
+        "thumbW": 1498,
+        "thumbH": 828
+      },
+      "metrics": {
+        "likes": 650,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A benchmark post with a concrete result: roughly 5-18x faster on a safety classifier. Their numbers, their harness; it is listed because they published the setup.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2101018750916948237",
+      "source": "x",
+      "url": "https://x.com/gregisenberg/status/2101018750916948237",
+      "title": "Jev is HERE and this is the CLEAREST explanation of what it is and what NEW businesses it unl\u2026",
+      "author": "@gregisenberg",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101018301409202176/img/HP2Ycx2G3KjqvxJw.jpg",
+        "thumbW": 1280,
+        "thumbH": 720
+      },
+      "metrics": {
+        "likes": 1543,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The clearest of the explainer videos, and the one aimed at people wondering what business it unlocks rather than how the mechanism works.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100411066966749359",
+      "source": "x",
+      "url": "https://x.com/gregpr07/status/2100411066966749359",
+      "title": "Breaking: Browser Use + Jev = Ultrafast \u26a1 Findings flights took 7s and cost only $0.0039 \ud83e\udd2f &\u2026",
+      "author": "@gregpr07",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100410607807918080/img/lNfcykqoOvLoZHWa.jpg",
+        "thumbW": 1536,
+        "thumbH": 1000
+      },
+      "metrics": {
+        "likes": 8998,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most-liked post in the whole list, and the one behind the browser-use repository we already cover: a flight search in seven seconds for under half a cent. Author's numbers.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100982108873191861",
+      "source": "x",
+      "url": "https://x.com/iannuttall/status/2100982108873191861",
+      "title": "Unsure how to get started with Jev? Install the skill: npx skills add typesafe-ai/skills --sk\u2026",
+      "author": "@iannuttall",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 2602,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The shortest useful post here: one command that installs the vendor's own skills. As much a resource as a demo, and how most people in this list started.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100623016644223175",
+      "source": "x",
+      "url": "https://x.com/isaac_flath/status/2100623016644223175",
+      "title": "I've been using Jev by @typesafeai Here's the six things i've tried and am confident I'll sti\u2026",
+      "author": "@isaac_flath",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 259,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Six uses the author kept after trying them, with the ones they dropped left implied. Small reach, and the only entry reporting a durable personal workflow.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100713337436930288",
+      "source": "x",
+      "url": "https://x.com/iwashi86/status/2100713337436930288",
+      "title": "Jev\u306e\u5185\u90e8\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u3092\u63a8\u6e2c\u3057\u3066\u3044\u308b\u6280\u8853\u8a18\u4e8b(Jev\u2019s Architecture Unmasked)\u304b\u3089\u30e1\u30e2\u3002 \u30fb\u672c\u8a18\u4e8b\u306fJev\u306eAPI\u3092\u7d041\u4e07\u56de\u306e\u547c\u3073\u51fa\u3057\u3066\u3001\u5185\u90e8\u69cb\u9020\u3092\u63a8\u6e2c\u3057\u305f\u3082\u2026",
+      "author": "@iwashi86",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 437,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Japanese engineer's notes on an article that reverse-engineered the architecture from about ten thousand API calls. The closest thing here to the architecture conversation.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100876273061102006",
+      "source": "x",
+      "url": "https://x.com/jiayuan_jy/status/2100876273061102006",
+      "title": "\u4e00\u4e9b\u5173\u4e8e Jev (@typesafeai) \u7684 notes \u7814\u7a76\u4e86\u4e00\u5929 Jev\uff0c\u5e26\u6765\u7684\u65b0\u9c9c\u611f\u8fc5\u901f\u56de\u843d\uff0c\u8fd9\u597d\u50cf\u5c31\u662f\u4e00\u4e2a\u66f4\u5feb\u7684\u901a\u7528\u5206\u7c7b\u5668/\u51b3\u7b56\u5668\uff0cLLM \u5b8c\u5168\u53ef\u4ee5\u505a\u5230\u3002 \u800c\u4e14\u56e0\u4e3a\u4e0d\u4e86\u89e3\u6a21\u578b\u2026",
+      "author": "@jiayuan_jy",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 340,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A sceptical Chinese-language note: after a day of study the author reads Jev as a faster general classifier that an LLM could equally do. The counterweight this column needs.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2101453330861965672",
+      "source": "x",
+      "url": "https://x.com/jonymusky/status/2101453330861965672",
+      "title": "Hice un video de 4 min (en espa\u00f1ol) explicando qu\u00e9 es Jev, qu\u00e9 no hace, y por qu\u00e9 cambia d\u00f3nd\u2026",
+      "author": "@jonymusky",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101453228302835712/img/PUVQoJCUgTZaUByL.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080
+      },
+      "metrics": {
+        "likes": 1075,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A four-minute Spanish explainer that states what Jev does not do before what it does \u2014 the clearest non-English treatment in the list.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100314182201802811",
+      "source": "x",
+      "url": "https://x.com/mdlahfir/status/2100314182201802811",
+      "title": "Jev solved local harness/model routing I use a combination of Claude Code, Codex and Opencode\u2026",
+      "author": "@mdlahfir",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100314084990414848/img/iePXR9Edae7YVCT_.jpg",
+        "thumbW": 2992,
+        "thumbH": 1682
+      },
+      "metrics": {
+        "likes": 838,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A developer using a decision model to route between Claude Code, Codex and opencode: the practical version of the routing argument made elsewhere in this column.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100715237267660873",
+      "source": "x",
+      "url": "https://x.com/moritzkremb/status/2100715237267660873",
+      "title": "Full Jev Tutorial What it is, how you can build with it and what new applications it can unlo\u2026",
+      "author": "@moritzkremb",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100714561389129730/img/mHB9NznquD7-VkyS.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080
+      },
+      "metrics": {
+        "likes": 3066,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The fullest tutorial in this batch \u2014 what it is, how to build with it, what it unlocks. Long, and the nearest thing to the official walkthrough that was never published.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100895894287839255",
+      "source": "x",
+      "url": "https://x.com/moritzkremb/status/2100895894287839255",
+      "title": "All of the coolest Jev projects I could find on X today \ud83e\uddf5 https://t.co/2QUxMRM4pm",
+      "author": "@moritzkremb",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSfhrsxbMAEdHxj.png",
+        "thumbW": 800,
+        "thumbH": 420
+      },
+      "metrics": {
+        "likes": 4449,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A curated thread of Jev projects from X: the same instinct as this column, by somebody reading the same timeline. Overlaps our builds list and belongs beside it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100761338918363550",
+      "source": "x",
+      "url": "https://x.com/mvanhorn/status/2100761338918363550",
+      "title": "WTF is Jev by @typesafeai? Here\u2019s the tl;dr ELI5: Think AI multiple choice, not AI essay writ\u2026",
+      "author": "@mvanhorn",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 427,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100788572316139655",
+      "source": "x",
+      "url": "https://x.com/mvanhorn/status/2100788572316139655",
+      "title": "TL;DR of my new article: WTF is Jev by @typesafeai, and the 9 things people are already build\u2026",
+      "author": "@mvanhorn",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 418,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The companion post to the article above, listing nine things people were already building. A week-one snapshot, useful even where our builds column disagrees with it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100113737097367896",
+      "source": "x",
+      "url": "https://x.com/paarangatrai/status/2100113737097367896",
+      "title": "this is the easiest way to understand Jev: LLMs generate answers. Jev makes decisions. that s\u2026",
+      "author": "@paarangatrai",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 2301,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Two sentences that became the most-quoted explanation: models generate answers, Jev makes decisions. Nothing here to verify and everything to quote.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100686990090047569",
+      "source": "x",
+      "url": "https://x.com/studio_yebisu/status/2100686990090047569",
+      "title": "\u3084\u3041\uff01\u5144\u5f1f\u305f\u3061\uff01 Jev\u306b\u95a2\u3059\u308bGitHub\u306e\u5b9f\u7528\u6027\u3068\u767a\u5c55\u6027\u304c\u3042\u308a\u305d\u3046\u306a\u30ea\u30dd\u30b8\u30c8\u30ea\u3092\u307e\u3068\u3081\u305f\u3088\uff01 \u3084\u306f\u308a\u3001\u9ad8\u901f\u5224\u65ad\u3092\u8981\u3059\u308bComputerUse\u3084\u5b8c\u5168\u81ea\u52d5\u30c8\u30ec\u30fc\u30c9\u306a\u3093\u304b\u306b\u5bfe\u3057\u3066\u306e\u6d3b\u7528\u304c\u591a\u2026",
+      "author": "@studio_yebisu",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 2254,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Japanese post collecting the Jev repositories that look practically useful, especially for computer use and automated trading. A collection, so it belongs in resources too.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100421326389354624",
+      "source": "x",
+      "url": "https://x.com/swill1ams/status/2100421326389354624",
+      "title": "Prediction: millionaires will be made using custom Jev style models (parallel constrained dec\u2026",
+      "author": "@swill1ams",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 1392,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A prediction rather than evidence, kept because it names the mechanism \u2014 parallel constrained decisions \u2014 and shows what this audience is betting on.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100762304862384257",
+      "source": "x",
+      "url": "https://x.com/theo/status/2100762304862384257",
+      "title": "This is a terrible compaction strategy that fundamentally doesn't understand how compaction a\u2026",
+      "author": "@theo",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 2580,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A well-known developer arguing the compaction plugin is the wrong approach. The most useful dissenting post in the list, and it is aimed at a build we cover.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100844854490103835",
+      "source": "x",
+      "url": "https://x.com/tonnoz/status/2100844854490103835",
+      "title": "You still don't understand the use cases Jev unlocks. I've been waiting for something like th\u2026",
+      "author": "@tonnoz",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100843717791813632/img/BJXB5D_XC7MmmqdN.jpg",
+        "thumbW": 1176,
+        "thumbH": 1080
+      },
+      "metrics": {
+        "likes": 379,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A short clip arguing the use cases are still being missed. Enthusiastic rather than technical; its value is the specific examples it names.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2100923960493818177",
+      "source": "x",
+      "url": "https://x.com/xiaomovps/status/2100923960493818177",
+      "title": "Jev \u53d1\u5e03\u6ca1\u51e0\u5929\uff0c\u5f00\u6e90\u793e\u533a\u5df2\u7ecf\u5f00\u59cb\u75af\u72c2\u590d\u523b\u4e86\ud83d\udd25 \u6700\u503c\u5f97\u63a8\u8350\u7684\u4e94\u4e2a\u6a21\u578b\uff1a 1\u3001Laya 421M\uff1a\u539f\u751f\u51b3\u7b56\u6a21\u578b\uff0c\u652f\u6301 Mac 2\u3001Decider-2B\uff1a\u6700\u50cf Jev\uff0c\u57fa\u4e8e Qwen3.\u2026",
+      "author": "@xiaomovps",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 481,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language roundup of five open replications, with parameter counts and platforms \u2014 evidence for the copy-the-pattern claim that the Kev repository makes alone.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ]
+    },
+    {
+      "id": "x:2101262191399981504",
+      "source": "x",
+      "url": "https://x.com/zodchiii/status/2101262191399981504",
+      "title": "Jev Founder (ex-OpenAI): \"I believe JEV is the biggest breakthrough we've ever worked on This\u2026",
+      "author": "@zodchiii",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101258868248776704/img/z5qLJQ27b0mENN_h.jpg",
+        "thumbW": 1280,
+        "thumbH": 720
+      },
+      "metrics": {
+        "likes": 337,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Another founder clip, this one making the breakthrough claim directly. Grouped with the earlier founder video so both of his framings sit side by side.",
       "checked": [
         "post resolved through the public syndication endpoint on 2026-09-22",
         "like count read from that response on 2026-09-22",
