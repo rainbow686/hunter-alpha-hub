@@ -36,10 +36,17 @@ const description =
 /** No trailing slash: every internal link, the sitemap and Google all use this form. */
 const canonical = SITE;
 
+/**
+ * Six, not four. The card set is "the first models in scenario order", so when
+ * the MiMo-V2.6 line went in at the top of the snapshot it pushed Gemini 3.7
+ * Flash and GLM 5.3 Flash off the home page entirely — a silent internal-link
+ * loss that the link-parity check caught and that four cards could not absorb.
+ * Six cards restore both and still fit two rows of three.
+ */
 const featuredModels = [
-  ...modelsForScenario("Overall", 2),
-  ...modelsForScenario("Budget", 2),
-].slice(0, 4);
+  ...modelsForScenario("Overall", 3),
+  ...modelsForScenario("Budget", 3),
+].slice(0, 6);
 
 /**
  * The codename this domain is named after. Its numbers come from the catalogue

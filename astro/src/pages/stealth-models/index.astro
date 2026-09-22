@@ -66,7 +66,10 @@ const line = [
     modality: "Text only",
     priceWhileAnonymous: "Free",
     revealedAs: "Z.ai GLM 5.3 Flash",
-    priceAfter: "$0.09 in / $0.30 out per M",
+    // Repriced since the reveal: $0.09 / $0.30 at first reading, $0.15 / $0.50
+    // on 2026-09-22. The register shows what the model costs now, because that is
+    // the number a reader is deciding on.
+    priceAfter: "$0.15 in / $0.50 out per M",
   },
   {
     codename: "Union Alpha",
@@ -183,7 +186,7 @@ const faqs = [
   <h1 class="display">Stealth models on OpenRouter</h1>
   <div class="byline">
     <span>Register</span>
-    <span>Last verified 2026-09-18</span>
+    <span>Last verified 2026-09-22</span>
     <span>Newest entry: <a href="/union-alpha">Union Alpha · Unbiased Pareto</a></span>
   </div>
   <p class="lede">
@@ -198,6 +201,18 @@ const faqs = [
 
   <section id="index">
     <h2>Index of documented stealth releases</h2>
+    {/*
+      The register and the report are different jobs — this page is the rows you
+      re-check, that page is the arithmetic over them — and a reader who wants the
+      second should not have to guess it exists. This is also the link that gets
+      the report crawled.
+    */}
+    <p class="measure">
+      The arithmetic over these rows — how long each codename stayed anonymous, how
+      often they arrive, and what the reveal did to the price — is{" "}
+      <a href="/alpha-line-report">The Alpha Line Report</a>, with a JSON twin and a
+      licence that says quote it.
+    </p>
     <div class="table-scroll">
       <table class="data">
         <thead>

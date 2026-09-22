@@ -118,6 +118,18 @@ const ALLOWED_DIFFERENCES = {
  * away on the next deploy — not a way to silence a regression.
  */
 const PINNED_DIFFERENCES = {
+  "openrouter-models/deepseek-v4-flash description": {
+    expect:
+      "DeepSeek V4 Flash costs $0.040 input and $0.640 output per 1M tokens, with 1.31M tokens context. See strengths, limitations and best-fit workloads.",
+    reason:
+      "the catalogue repriced deepseek/deepseek-v4-flash-0731 between the 2026-09-18 read ($0.06/$0.12) and the 2026-09-22 read ($0.04/$0.64): input down, output up 5.3x. The page description is generated from the snapshot, so it moves with the fix and live catches up on deploy",
+  },
+  "openrouter-models/glm-5.3-flash description": {
+    expect:
+      "Z.ai GLM 5.3 Flash costs $0.150 input and $0.500 output per 1M tokens, with 1.31M tokens context. See strengths, limitations and best-fit workloads.",
+    reason:
+      "the same 2026-09-22 drift run found z-ai/glm-5.3-flash repriced from $0.09/$0.30 to $0.15/$0.50, cached input from $0.018 to $0.05. Generated description, so it changes with the data",
+  },
   "openrouter-models/deepseek-v4-pro description": {
     expect:
       "DeepSeek V4 Pro costs $0.660 input and $1.98 output per 1M tokens, with 1.05M tokens context. See strengths, limitations and best-fit workloads.",
@@ -235,6 +247,39 @@ async function production(path) {
   throw new Error(`unreachable: ${path}`);
 }
 
+/**
+ * Is this route live yet?
+ *
+ * Why this exists: this script compares the build against the *production* site,
+ * so a page that ships in the current branch is a 404 here — which is how it
+ * behaved on 2026-09-22, when three new model pages and a report route turned
+ * `npm run checks` red on a PR that was correct. The sibling link-parity check
+ * already handles this case ("counted as new, not compared"); this makes the two
+ * agree instead of leaving one of them unable to pass before a deploy.
+ *
+ * The safety property is what makes it mechanical rather than a mute button: a
+ * route is treated as new **only if the live sitemap does not declare it**. A
+ * page that is in the sitemap and returns 404 still fails, because that is a real
+ * break — a deletion or a broken deploy — and not a branch that has not shipped.
+ */
+async function liveSitemapRoutes() {
+  if (liveRoutes) return liveRoutes;
+  const response = await fetch(`${ORIGIN}/sitemap.xml`, {
+    headers: { "User-Agent": "hunteralphahub-parity-check" },
+  });
+  if (!response.ok) throw new Error(`sitemap.xml returned ${response.status}`);
+  const xml = await response.text();
+  liveRoutes = new Set(
+    [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) =>
+      new URL(match[1]).pathname.replace(/\/$/, "") || "/",
+    ),
+  );
+  return liveRoutes;
+}
+
+/** Memoised so the sitemap is fetched once per run, not once per page. */
+let liveRoutes = null;
+
 const localFile = (path) => {
   const base = path.replace(/^\//, "");
   const flat = join(DIST, `${base}.html`);
@@ -243,12 +288,23 @@ const localFile = (path) => {
 
 let failures = 0;
 let checkedDeviations = 0;
+const skippedNew = [];
 
 for (const path of PATHS) {
   const file = localFile(path);
   if (!existsSync(file)) {
     console.error(`✗ ${path} — not built (${file} missing)`);
     failures += 1;
+    continue;
+  }
+  /*
+   * New in this branch: built here, not declared in the live sitemap. Not
+   * compared, and named in the summary so the skip is visible rather than silent.
+   * `--offline` cannot answer this question, so it compares everything and the
+   * cache-miss error stays as loud as it was.
+   */
+  if (!offline && !(await liveSitemapRoutes()).has(path)) {
+    skippedNew.push(path);
     continue;
   }
   const live = facts(await production(path));
@@ -310,6 +366,12 @@ console.log(
   `\n${failures === 0 ? "Parity OK" : `${failures} parity failure(s)`} across ${PATHS.length} pages` +
     (checkedDeviations ? `; ${checkedDeviations} page/field deviations were expected and documented.` : "."),
 );
+if (skippedNew.length) {
+  console.log(
+    `${skippedNew.length} page(s) are built here but not declared in the live sitemap yet — ` +
+      `counted as new, not compared (${skippedNew.join(", ")}). They are compared on the run after this branch deploys.`,
+  );
+}
 
 const origin = process.env.PREVIEW_ORIGIN;
 if (origin) {

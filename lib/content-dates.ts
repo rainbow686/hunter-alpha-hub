@@ -21,18 +21,22 @@
  *   4. anything else → omitted.
  */
 export const CONTENT_REVISED: Record<string, string> = {
+  // The MiMo-V2.6 line landed in the catalogue on 2026-09-21 and the drift check
+  // found two repricings on the 22nd: both changed numbers on these pages.
+  "/": "2026-09-22",
+  "/comparison": "2026-09-22",
+  "/best-openrouter-models": "2026-09-22",
+  "/stealth-models": "2026-09-22",
+  // New page, written and dated 2026-09-22.
+  "/alpha-line-report": "2026-09-22",
   // The Union Alpha reveal (2026-09-18) touched all of these.
-  "/": "2026-09-18",
-  "/comparison": "2026-09-18",
   "/faq": "2026-09-18",
-  "/stealth-models": "2026-09-18",
   "/alpha-models": "2026-09-18",
   "/union-alpha": "2026-09-18",
   "/union-alpha-free": "2026-09-18",
   "/union-alpha-opencode": "2026-09-18",
   "/union-alpha-not-working": "2026-09-18",
   "/openrouter-free-models": "2026-09-18",
-  "/best-openrouter-models": "2026-09-18",
   "/hunter-alpha": "2026-09-18",
   "/ox-alpha": "2026-09-18",
   "/privacy": "2026-09-18",

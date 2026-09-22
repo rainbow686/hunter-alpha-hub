@@ -1,0 +1,320 @@
+---
+/**
+ * /alpha-line-report — the citable version of everything we know about the Alpha
+ * line, in the shape this kind of page has to take to be worth citing.
+ *
+ * The shape is borrowed from the build reports other directories publish
+ * (madewithjev.com/jev-statistics is the reference we looked at on 2026-09-22,
+ * teardown in docs/research/): a dated dataset, a method section, an explicit
+ * statement of what it cannot tell you, and a licence that says "quote this".
+ *
+ * It is not a second register. /stealth-models is the register — one row per
+ * codename, the fields a reader checks. This page is the arithmetic on those
+ * rows, plus the dates that only make sense in aggregate, and it exists because
+ * "how long does a stealth model stay anonymous" has an answer now that it did
+ * not have in March.
+ */
+import System from "../../layouts/System.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import {
+  ALPHA_LINE_CITATION,
+  ALPHA_LINE_LICENSE,
+  alphaLineEntries,
+  alphaLineStats,
+  daysBetween,
+} from "@repo/lib/alpha-line";
+
+const title = "OpenRouter Stealth Models: 3 Codenames, Dated and Resolved (2026)";
+const description =
+  "Every anonymous Alpha-line release on OpenRouter, with the dates: 3 codenames, a median of 6 days from codename to the maker's own listing, all three free while anonymous and none still free. Dated, sourced and free to cite.";
+const canonical = `${SITE}/alpha-line-report`;
+
+const stats = alphaLineStats;
+
+const faqs = [
+  {
+    question: "How many stealth models has OpenRouter had?",
+    answer: `We can document ${stats.count}: ${alphaLineEntries.map((entry) => entry.codename).join(", ")}. That is a floor, not a total — a codename we cannot tie to a public listing before and after is left out rather than guessed at, and the old codename disappears from the catalogue at the reveal, which makes later verification impossible.`,
+  },
+  {
+    question: "How long does a stealth model stay anonymous?",
+    answer: `Across the three we can date, the gap from the codename appearing to the maker's own model id appearing was ${stats.windows.join(", ")} days — a median of ${stats.medianWindowDays}. The range is the useful part: the fastest was ${stats.fastestWindowDays} day and the slowest ${stats.slowestWindowDays}.`,
+  },
+  {
+    question: "Do stealth models stay free?",
+    answer: `No. All ${stats.freeWhileAnonymous} were free while anonymous and none is free now (${stats.stillFreeAfterReveal} of ${stats.freeWhileAnonymous}). The free window is a trial that ends at or before the reveal, and it ends without notice — that is the operational fact to plan around, not the price.`,
+  },
+  {
+    question: "What did the codenames turn out to be?",
+    answer: alphaLineEntries
+      .map((entry) => `${entry.codename} was ${entry.became}`)
+      .join("; ") + ". All three are documented from the OpenRouter catalogue, which is where the codenames appeared in the first place.",
+  },
+  {
+    question: "How much do the revealed models cost now?",
+    answer: `Between $${stats.inputPriceFloor} and $${stats.inputPriceCeiling} per million input tokens — a spread of ${stats.priceSpreadFactor}x. The codename tells you nothing about the price you will pay afterwards, which is the strongest argument for keeping a fallback configured while you evaluate one.`,
+  },
+  {
+    question: "How is this different from the stealth models index?",
+    answer:
+      "/stealth-models is the register: one row per codename with the fields a reader re-checks in the catalogue. This page is the arithmetic over those rows — window lengths, cadence, and what the reveals did to the prices — plus the method and the licence. Both are dated; neither is generated from the other.",
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "The Alpha Line Report",
+      description,
+      publishedAt: stats.dataAsOf,
+      updatedAt: stats.dataAsOf,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Stealth models", url: `${SITE}/stealth-models` },
+      { name: "The Alpha Line Report", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Report · {stats.dataAsOf}</p>
+  <h1 class="display">The Alpha Line Report</h1>
+  <div class="byline">
+    <span>Register of {stats.count} codenames</span>
+    <span>Median {stats.medianWindowDays} days to the maker's listing</span>
+    <span>Licence {ALPHA_LINE_LICENSE}</span>
+  </div>
+  <p class="lede">
+    OpenRouter's anonymous releases are a pattern, not an accident: a frontier-class model appears with
+    no maker and no price, gets claimed and renamed weeks later, and the codename is deleted. This page
+    is the arithmetic over the three we can date — how long each stayed anonymous and what the reveal
+    did to the price.
+  </p>
+
+  <section id="in-short">
+    <h2>In short</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Codenames documented</div>
+        <div class="value">{stats.count}</div>
+        <div class="sub">before and after, tied to a listing</div>
+      </div>
+      <div class="stat">
+        <div class="label">Median days anonymous</div>
+        <div class="value">{stats.medianWindowDays}</div>
+        <div class="sub">{stats.windows.join(", ")} days across the three</div>
+      </div>
+      <div class="stat">
+        <div class="label">Still free</div>
+        <div class="value">0 of {stats.freeWhileAnonymous}</div>
+        <div class="sub">all were free while anonymous</div>
+      </div>
+      <div class="stat">
+        <div class="label">Price after the reveal</div>
+        <div class="value">{stats.priceSpreadFactor}x</div>
+        <div class="sub">${stats.inputPriceFloor} to ${stats.inputPriceCeiling} per M input</div>
+      </div>
+    </div>
+    <p class="measure">
+      The codename is not a discount tier and never was. Every model in the line was free while
+      anonymous and paid afterwards, and the price afterwards varies by a factor of
+      {" "}{stats.priceSpreadFactor} between the cheapest and the most expensive — so the useful planning
+      assumption is not "it will be cheap", it is "it will be priced by someone else, soon, without
+      notice".
+    </p>
+  </section>
+
+  <section id="register">
+    <h2>The three, with dates</h2>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Codename</th>
+            <th>Listed</th>
+            <th>Maker's listing</th>
+            <th class="num">Days</th>
+            <th>Turned out to be</th>
+            <th class="num">Now, per M in</th>
+          </tr>
+        </thead>
+        <tbody>
+          {alphaLineEntries.map((entry) => (
+            <tr>
+              <td><a href={entry.href}>{entry.codename}</a></td>
+              <td style="color: var(--text-muted);">{entry.firstListed}</td>
+              <td style="color: var(--text-muted);">{entry.productAdded}</td>
+              <td class="num"><strong>{daysBetween(entry.firstListed, entry.productAdded)}</strong></td>
+              <td style="color: var(--text-muted);">{entry.became}</td>
+              <td class="num">${entry.inputPricePerMillion}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Provenance
+      source="OpenRouter catalogue reads, dated in the register"
+      verified={stats.dataAsOf}
+      extra={[
+        "Listed = the day the codename appeared; maker's listing = the catalogue's own created date for the model id that replaced it",
+      ]}
+    />
+    <p class="footnote">
+      Two of these dates are different events, and Hunter Alpha is why the table shows both: the identity
+      was disclosed on {alphaLineEntries[0].disclosed}, but the listing under Xiaomi's own name appeared
+      on {alphaLineEntries[0].productAdded} — {daysBetween(
+        alphaLineEntries[0].disclosed as string,
+        alphaLineEntries[0].productAdded,
+      )} days later. A report that published one "reveal date" per codename would have hidden that.
+    </p>
+  </section>
+
+  <section id="cadence">
+    <h2>How often they arrive</h2>
+    <p class="measure">
+      Two gaps so far: {stats.gaps[0].days} days between {stats.gaps[0].from} and {stats.gaps[0].to}, then
+      {" "}{stats.gaps[1].days} days between {stats.gaps[1].from} and {stats.gaps[1].to}. Two intervals is
+      not a cadence, and we are not going to fit a curve to it — but the direction is the thing to watch,
+      because a reader deciding whether to build tooling for the next codename is really asking whether
+      there will be a next codename soon.
+    </p>
+  </section>
+
+  <section id="price">
+    <h2>What the reveal did to the price</h2>
+    <div class="grid-cards">
+      {alphaLineEntries.map((entry) => (
+        <article class="card">
+          <div class="reveal-head">
+            <h3 style="margin: 0;">{entry.codename} → {entry.became}</h3>
+            <span>{daysBetween(entry.firstListed, entry.productAdded)} days</span>
+          </div>
+          <p style="margin: var(--space-2) 0 0; color: var(--text-muted); font-size: var(--text-sm);">
+            {entry.priceStory}
+          </p>
+          <p style="margin: var(--space-2) 0 0; color: var(--text-faint); font-size: var(--text-xs);">
+            ${entry.inputPricePerMillion} in / ${entry.outputPricePerMillion} out per million tokens
+            {entry.cachedInputPricePerMillion
+              ? `, $${entry.cachedInputPricePerMillion} cached`
+              : ""}
+            {" · "}{entry.contextWindow.toLocaleString("en-US")} token window
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="cannot">
+    <h2>What this report cannot tell you</h2>
+    <ul class="measure" style="color: var(--text-muted);">
+      <li>
+        <strong style="color: var(--text);">Whether three is all of them.</strong> It is what we can tie
+        to a listing before and after. A codename we only saw in a forum post is not evidence, and after
+        a reveal the old id is gone from the catalogue, so we cannot go back and check.
+      </li>
+      <li>
+        <strong style="color: var(--text);">When the makers decided anything.</strong> Every date here is
+        either the day a listing appeared or the day a disclosure was published. The decision behind it
+        happened earlier and is not observable.
+      </li>
+      <li>
+        <strong style="color: var(--text);">Whether the next one follows the pattern.</strong>
+        {" "}{stats.count} observations, three of them, from one vendor each. The pattern is real enough
+        to plan around and far too small to predict from.
+      </li>
+      <li>
+        <strong style="color: var(--text);">That the revealed model is the same thing you tested.</strong>
+        Two of the three changed price and one changed window between the anonymous listing and the
+        product listing. Whether the weights changed is not public.
+      </li>
+    </ul>
+  </section>
+
+  <section id="quote">
+    <h2>Facts you can quote, already written</h2>
+    <ul class="measure" style="color: var(--text-muted);">
+      <li>
+        We can document <strong style="color: var(--text);">{stats.count} anonymous releases</strong> on
+        OpenRouter in 2026: Hunter Alpha, OX Alpha and Union Alpha.
+      </li>
+      <li>
+        Median <strong style="color: var(--text);">{stats.medianWindowDays} days</strong> from codename to
+        the maker's own listing ({stats.windows.join(", ")} days).
+      </li>
+      <li>
+        <strong style="color: var(--text);">{stats.freeWhileAnonymous} of {stats.freeWhileAnonymous}</strong>{" "}
+        were free while anonymous; <strong style="color: var(--text);">{stats.stillFreeAfterReveal}</strong>{" "}
+        are free now.
+      </li>
+      <li>
+        Post-reveal input prices span{" "}
+        <strong style="color: var(--text);">{stats.priceSpreadFactor}x</strong> — from $
+        {stats.inputPriceFloor} to ${stats.inputPriceCeiling} per million tokens.
+      </li>
+      <li>
+        The gaps between codenames so far are{" "}
+        <strong style="color: var(--text);">{stats.gaps.map((gap) => gap.days).join(" and ")} days</strong>.
+      </li>
+    </ul>
+    <p class="measure" style="color: var(--text-muted);">
+      Free to quote, chart and reprint under <strong style="color: var(--text);">{ALPHA_LINE_LICENSE}</strong>{" "}
+      with a link to this page. The same rows are at{" "}
+      <a href="/alpha-line-report.json">/alpha-line-report.json</a>, and the register they come from is{" "}
+      <a href="/stealth-models">/stealth-models</a>.
+    </p>
+    <p class="measure" style="color: var(--text-muted);">
+      <strong style="color: var(--text);">How to cite this:</strong> {ALPHA_LINE_CITATION}
+    </p>
+  </section>
+
+  <section id="method">
+    <h2>Method</h2>
+    <ul class="measure" style="color: var(--text-muted);">
+      <li>
+        Every price and window on this page is read from{" "}
+        <code>openrouter.ai/api/v1/models</code>, and the whole snapshot is re-checked against that
+        endpoint by <code>npm run sync-models</code>, which fails on any mismatch rather than warning.
+        The 2026-09-22 run is why two prices changed on this site the same day.
+      </li>
+      <li>
+        Day counts are whole days between the two ISO dates in the table, computed rather than typed.
+      </li>
+      <li>
+        The disclosure date for Hunter Alpha comes from our own record of that release; for OX Alpha we
+        never had a clickable source, and the cell is empty rather than estimated. Union Alpha's reveal
+        is documented on OpenRouter's own stealth page.
+      </li>
+      <li>
+        The register itself — one row per codename, with the fields you can re-check — is{" "}
+        <a href="/stealth-models">/stealth-models</a>.
+      </li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Common questions</h2>
+    <Faq items={faqs} />
+  </section>
+
+  <section class="card" style="margin-top: var(--space-12);">
+    <h2 style="margin-top: 0;">Get told when the next codename appears</h2>
+    <p style="color: var(--text-muted); max-width: var(--measure);">
+      The line has produced {stats.count} codenames since March 2026 and the gaps are closing. Leave an
+      email and we will send one note when the next anonymous model shows up in the catalogue, with the
+      fields read from the listing.
+    </p>
+    <p style="margin-top: var(--space-4);">
+      <a class="btn primary" href="/#subscribe">Subscribe</a>
+      <a class="btn ghost" href="/stealth-models">The register →</a>
+    </p>
+  </section>
+</System>

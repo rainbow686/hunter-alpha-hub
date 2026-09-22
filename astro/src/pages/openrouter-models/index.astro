@@ -3,7 +3,7 @@
  * OpenRouter model directory — the data-page template on real data.
  *
  * The production page is a wall of cards. This keeps the cards (they carry the
- * internal links to all 15 model pages) and puts the scannable table above them,
+ * internal links to every model page) and puts the scannable table above them,
  * because "which model is cheapest at this context" is a comparison question,
  * not a browsing question. Every number carries the same provenance line.
  */
@@ -142,7 +142,7 @@ const shortContext = (tokens: number) => formatContextWindow(tokens).replace(" t
       </tbody>
     </table>
   </div>
-  <Provenance source="openrouter.ai/api/v1/models" verified={modelHubDataAsOf} extra={["Drift check daily 06:00 UTC"]} />
+  <Provenance source="openrouter.ai/api/v1/models" verified={modelHubDataAsOf} extra={["Drift check daily 06:00 CST"]} />
 
   <h2>Model pages</h2>
   <div class="grid-cards">

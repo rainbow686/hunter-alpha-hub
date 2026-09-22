@@ -50,7 +50,14 @@ const relatedModels = openrouterModels
       candidate.slug !== model.slug &&
       candidate.bestFor.some((scenario: string) => model.bestFor.includes(scenario)),
   )
-  .slice(0, 3);
+  /*
+   * Six, not three. This block is "the first N models sharing a scenario", so it
+   * is the part of the site most sensitive to array order: adding three entries at
+   * the top silently removed a link from seventeen model pages, which the
+   * link-parity check reported and which nothing else would have noticed. Six
+   * gives the block enough slack to absorb a new generation.
+   */
+  .slice(0, 6);
 
 const relatedComparisons = getComparisonsForModel(model.slug);
 
@@ -195,7 +202,7 @@ const javascriptCommand = [
   <Provenance
     source="openrouter.ai/api/v1/models"
     verified={model.dataAsOf}
-    extra={["Drift-checked daily 06:00 UTC"]}
+    extra={["Drift-checked daily 06:00 CST"]}
   />
 
   <h2>Best-fit workloads</h2>

@@ -34,11 +34,17 @@ export interface HubModel {
 }
 
 /**
- * Bumped to 2026-09-18 with the DeepSeek V4 Pro repricing below: every entry in
- * this array was re-checked against the public catalogue by `npm run sync-models`
- * that day, which is what the date is claiming.
+ * Bumped to 2026-09-22 for the Xiaomi MiMo-V2.6 line and two repricings: every
+ * entry in this array was re-checked against the public catalogue by
+ * `npm run sync-models` that day, which is what the date is claiming.
+ *
+ * The drift check is the reason the date moved rather than the announcement: on
+ * this day it reported that Z.ai GLM 5.3 Flash and DeepSeek V4 Flash had both
+ * been repriced since the previous read, and a price we publish is a claim about
+ * the catalogue, not about the day we last felt like looking. See the two entries
+ * for what moved.
  */
-export const DATA_AS_OF = "2026-09-18";
+export const DATA_AS_OF = "2026-09-22";
 
 export const openrouterModels: HubModel[] = [
   {
@@ -65,14 +71,119 @@ export const openrouterModels: HubModel[] = [
     dataAsOf: DATA_AS_OF,
   },
   {
+    /*
+     * Listed in the catalogue 2026-09-21 20:07 UTC, i.e. the morning of the 22nd
+     * in this timezone. Read the same day.
+     *
+     * The price is the point: Flash costs exactly what MiMo-V2.5 costs ($0.14 /
+     * $0.28 per million, $0.0028 cached) on a newer generation, so it is the
+     * straight replacement in the budget tier rather than a third option beside
+     * it. The window is 1,048,576 tokens against V2.5's 1,050,000 — 1,424 tokens
+     * narrower, which is worth writing down precisely so nobody has to trust a
+     * rounded "about a million" for both.
+     */
+    id: "xiaomi/mimo-v2.6-flash",
+    slug: "mimo-v2.6-flash",
+    name: "Xiaomi MiMo-V2.6-Flash",
+    vendor: "Xiaomi",
+    contextWindow: 1_048_576,
+    maxOutput: 131_072,
+    inputPricePerMillion: 0.14,
+    outputPricePerMillion: 0.28,
+    cachedInputPricePerMillion: 0.0028,
+    modalities: ["Text", "Vision", "Audio", "Video"],
+    /*
+     * No "Long Context" tag, deliberately. It has the same 1.05M window class as
+     * MiMo-V2.5 above it and the same price, so tagging it for the same workload
+     * would put two near-identical models in the long-context scenario while the
+     * homepage's four workload cards — which take the *first* unused model per
+     * scenario — would spend the long-context card on the newer twin and then
+     * have nothing but the older one left for budget. The budget card is where a
+     * same-price, newer generation actually changes the recommendation.
+     */
+    bestFor: ["Budget", "Multimodal"],
+    strengths: [
+      "Same price as MiMo-V2.5 on a newer generation — the catalogue lists both at $0.14 in / $0.28 out per million",
+      "1.05M-token window with image, audio and video input",
+      "The catalogue describes it as an open mixture-of-experts model, 309B parameters total with 15B active per token",
+      "Cached input at $0.0028 per million, a hundredth of the fresh-input price",
+    ],
+    limitations: [
+      "Listed 2026-09-21 and read 2026-09-22: no independent evaluation of it exists yet, and nothing here is a benchmark",
+      "Output costs twice the input price per token, so long-form generation is where the bill lands",
+      "The parameter count and architecture come from the vendor's own catalogue description",
+    ],
+    dataAsOf: DATA_AS_OF,
+  },
+  {
+    id: "xiaomi/mimo-v2.6-pro",
+    slug: "mimo-v2.6-pro",
+    name: "Xiaomi MiMo-V2.6-Pro",
+    vendor: "Xiaomi",
+    contextWindow: 1_048_576,
+    maxOutput: 131_072,
+    inputPricePerMillion: 0.435,
+    outputPricePerMillion: 0.87,
+    cachedInputPricePerMillion: 0.0036,
+    modalities: ["Text", "Vision", "Audio", "Video"],
+    bestFor: ["Overall", "Agents", "Long Context", "Multimodal"],
+    strengths: [
+      "Xiaomi's flagship tier: the catalogue describes it as built at a scale of over 1T parameters",
+      "Carries an Artificial Analysis intelligence index of 46.3 in the catalogue — the only third-party number on the V2.6 line so far",
+      "Three times the Flash price for the top tier, on the same 1.05M window and the same input modalities",
+      "Reasoning and structured output are both declared supported",
+    ],
+    limitations: [
+      "The catalogue's coding and agentic indices for it are empty, so the one benchmark number published is a single composite",
+      "3.1x the input price of MiMo-V2.6-Flash for a difference no public benchmark on this page can quantify",
+      "Vendor parameter claims, not verified independently",
+    ],
+    dataAsOf: DATA_AS_OF,
+  },
+  {
+    /*
+     * The tier nobody asks for and everybody should know exists: same checkpoint
+     * as Pro, exactly 10x the price, sold on speed. Worth a page because a reader
+     * comparing three Xiaomi entries with two near-identical names will otherwise
+     * assume the cheap one is the crippled one.
+     */
+    id: "xiaomi/mimo-v2.6-pro-ultraspeed",
+    slug: "mimo-v2.6-pro-ultraspeed",
+    name: "Xiaomi MiMo-V2.6-Pro-UltraSpeed",
+    vendor: "Xiaomi",
+    contextWindow: 1_048_576,
+    maxOutput: 131_072,
+    inputPricePerMillion: 4.35,
+    outputPricePerMillion: 8.7,
+    cachedInputPricePerMillion: 0.036,
+    modalities: ["Text", "Vision", "Audio", "Video"],
+    bestFor: ["Agents"],
+    strengths: [
+      "The catalogue describes it as built from the same 1T MiMo-V2.6-Pro checkpoint and matching that model's quality",
+      "Sold on speed, for the latency-bound path rather than the batch path",
+      "Same 1.05M window and the same omnimodal input as the rest of the line",
+    ],
+    limitations: [
+      "Exactly 10x MiMo-V2.6-Pro per token ($4.35 vs $0.435 in, $8.70 vs $0.87 out) for a speed claim the catalogue does not put a number on",
+      "At $8.70 per million output tokens it is the most expensive entry in this snapshot",
+      "No published latency figure to compare against Pro, so the 10x is a price you pay in advance of evidence",
+    ],
+    dataAsOf: DATA_AS_OF,
+  },
+  {
     id: "z-ai/glm-5.3-flash",
     slug: "glm-5.3-flash",
     name: "Z.ai GLM 5.3 Flash",
     vendor: "Z.ai",
     contextWindow: 1_310_720,
-    inputPricePerMillion: 0.09,
-    outputPricePerMillion: 0.3,
-    cachedInputPricePerMillion: 0.018,
+    /*
+     * Repriced since the previous read: $0.09 / $0.30 / $0.018 on 2026-09-18,
+     * $0.15 / $0.50 / $0.05 on 2026-09-22. Input up 67%, output up 67%, cached
+     * input up 178%. Source: `npm run sync-models`, which fails on any mismatch.
+     */
+    inputPricePerMillion: 0.15,
+    outputPricePerMillion: 0.5,
+    cachedInputPricePerMillion: 0.05,
     modalities: ["Text", "Vision", "Video"],
     bestFor: ["Budget", "Long Context", "Multimodal"],
     strengths: [
@@ -93,18 +204,25 @@ export const openrouterModels: HubModel[] = [
     name: "DeepSeek V4 Flash",
     vendor: "DeepSeek",
     contextWindow: 1_310_720,
-    inputPricePerMillion: 0.06,
-    outputPricePerMillion: 0.12,
-    cachedInputPricePerMillion: 0.012,
+    /*
+     * Repriced since the previous read, and not symmetrically: input fell from
+     * $0.06 to $0.04 while output rose from $0.12 to $0.64, a 5.3x increase on
+     * the number that dominates any generation workload. Cached input $0.012 →
+     * $0.016. Read 2026-09-22; the previous figures were read 2026-09-18.
+     */
+    inputPricePerMillion: 0.04,
+    outputPricePerMillion: 0.64,
+    cachedInputPricePerMillion: 0.016,
     modalities: ["Text"],
     bestFor: ["Budget", "Long Context"],
     strengths: [
-      "Extremely low input and output cost",
+      "The cheapest input price in this snapshot at $0.04 per million tokens",
       "Very large context window for text-heavy workloads",
-      "Good default for high-volume summarization",
+      "Good default for workloads that read a lot and write a little",
     ],
     limitations: [
       "Text-only",
+      "Output costs 16x its input after the 2026-09-22 repricing: at $0.64 per million it is no longer a budget model for generation",
       "Requires careful evaluation for complex reasoning tasks",
     ],
     dataAsOf: DATA_AS_OF,
