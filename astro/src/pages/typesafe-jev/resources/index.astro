@@ -2,19 +2,15 @@
 /**
  * /typesafe-jev/resources — column one of the Jev topic.
  *
- * What this page is not: a link dump. Three things separate it from one, and all
- * three are mechanical rather than stylistic:
- *   - every URL was fetched and returned 200 on the date printed above the tables;
- *   - the star count and last-push date of every repository were read from the
- *     GitHub API in one pass, on that date. They are the only fields here that go
- *     stale by the hour, which is why the read date is on the page;
- *   - a repository whose purpose we could not verify is listed with that fact
- *     written in its row. Dropping a 1,175-star project from a resource index is a
- *     bigger error than admitting we have not read it.
+ * Written to docs/handbook/writing-style.md: the page is about Jev and the things
+ * people have published, not about how the page was assembled. Provenance lives in
+ * the byline and in the links; the method gets a line, not a section (that rule is
+ * for report pages, where the method is the subject).
  *
- * The added value over the eight community collections in the second table is
- * exactly these three lines. They also cannot be copied from another list, because
- * a list that copies star counts does not know the day it read them.
+ * What the design still guarantees, without saying so in prose: every link was
+ * fetched on the byline's date, and every star count read from the GitHub API that
+ * same day. A repository with no published description says exactly that and
+ * nothing more.
  */
 import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
@@ -59,23 +55,23 @@ const toolRows = rows("tool");
 const sections = [
   {
     id: "official",
-    heading: "Official: what TypeSafe and the two listings publish",
+    heading: "Start with the vendor's own pages",
     blurb:
-      "Everything here is maintained by the vendor or by a platform that serves the model. These are the pages to read before any of the community material, because they are the only ones whose claims are the maker's own.",
+      "The launch post and the quickstart are the two pages everything else assumes you have read. Claims on the other four are the maker's own, which is what makes them the ones to check first.",
     rows: officialRows,
   },
   {
     id: "collections",
-    heading: "Community collections",
+    heading: "What the community has already collected",
     blurb:
-      "Eight curated lists, all of them younger than a week and all updated within the last three days. They overlap heavily — read two and you have seen the field — but they differ in emphasis, which is the column worth scanning.",
+      "Eight lists, all of them younger than a week. They overlap heavily — two of them and you have seen the field — and they differ in emphasis, which is the column worth scanning.",
     rows: collectionRows,
   },
   {
     id: "tools",
-    heading: "Tools, plugins and starter kits",
+    heading: "Tools you can install",
     blurb:
-      "Repositories that put Jev inside something else. The split that recurs across them is the same one our field notes found in five independent implementations: a larger model writes, Jev decides, and code owns the loop.",
+      "Repositories that put Jev inside something else. The same split recurs across them: a larger model writes, Jev decides, and code owns the loop — five independent implementations drew that line before anybody wrote it down.",
     rows: toolRows,
   },
 ];
@@ -105,58 +101,19 @@ const sections = [
   <h1 class="display">Jev docs, collections and repositories</h1>
   <div class="byline">
     <span>{jevResourceCounts.total} resources</span>
-    <span>Links checked {JEV_RESOURCES_READ_ON}</span>
-    <span>Stars read from the GitHub API the same day</span>
+    <span>Last checked {JEV_RESOURCES_READ_ON}</span>
   </div>
   <p class="lede">
-    Jev arrived without a documentation ecosystem and grew one in six days, which means the useful
-    material is now spread across a vendor blog, two model listings and a hundred repositories — and the
-    community has already produced eight competing link lists. This page is the index of that index: what
-    exists, who made it, and which parts we have actually read.
+    Jev grew a documentation ecosystem in six days: a vendor blog, two model listings, eight competing
+    community lists and more than a hundred repositories. Six of those pages are TypeSafe's own, eight are
+    collections somebody else assembled, and fourteen are tools you can install. This is what each one is.
   </p>
 
-  {/*
-    The cover of the topic links every column, and every column links back. This is
-    the paragraph a reader lands on when they arrived from a search engine rather
-    than from the cover, so it says what the topic is and where the rest of it is.
-  */}
   <p class="measure">
-    Part of the <a href="/typesafe-jev">Jev topic</a>, which carries the specs, the price and our own
-    measurements. The repositories we read line by line — including several the star ranking does not
-    surface — are in <a href="/jev-guide">the field notes</a>.
+    Part of the <a href="/typesafe-jev">Jev topic</a>, which carries the specs and the price. Eleven
+    repositories read line by line — including several this star ranking does not surface — are in{" "}
+    <a href="/jev-guide">the field notes</a>.
   </p>
-
-  <section class="card" style="margin-top: var(--space-8);">
-    <h2 style="margin-top: 0;">How to read this list</h2>
-    <ul class="measure" style="color: var(--text-muted);">
-      <li>
-        Every link returned 200 on <code>{JEV_RESOURCES_READ_ON}</code>. A dead one is removed, not
-        kept with a warning — and the same day is printed in the byline so you can tell how old the
-        check is.
-      </li>
-      <li>
-        Star counts and last-push dates were read from the GitHub API on that date, in one pass. They
-        are the only fields on this page that expire, and they are the reason the date is stated rather
-        than implied.
-      </li>
-      <li>
-        Two repositories here publish no description at all. <strong style="color: var(--text);">Their
-        rows say so.</strong> Describing them from the name alone is how link lists get their worst rows.
-      </li>
-      <li>
-        We have not run any of these projects. "Read" below means we opened the code and wrote down what
-        holds up; everything else is quoted from the source with the source linked.
-      </li>
-    </ul>
-    <Provenance
-      source="github.com API + each publisher's own page"
-      verified={JEV_RESOURCES_READ_ON}
-      extra={[
-        `Model facts on the topic cover are read ${JEV_DATA_AS_OF}`,
-        "Nothing here is paid placement; there are no sponsors on this site yet",
-      ]}
-    />
-  </section>
 
   {sections.map((section) => (
     <section id={section.id}>
@@ -194,32 +151,30 @@ const sections = [
     </section>
   ))}
 
-  <section id="what-is-missing">
-    <h2>What this page does not have</h2>
-    <ul class="measure" style="color: var(--text-muted);">
-      <li>
-        <strong style="color: var(--text);">Tutorials and videos.</strong> The community has produced a
-        large amount of both; we have watched none of it, and an index of videos we have not watched is
-        a list of titles. That column waits until we can describe what each one actually shows.
-      </li>
-      <li>
-        <strong style="color: var(--text);">The repositories we read.</strong> They are not duplicated
-        here — <a href="/jev-guide">the field notes</a> carry them, including three with a few hundred
-        stars that no collection has picked up.
-      </li>
-      <li>
-        <strong style="color: var(--text);">Anything we could not open.</strong> Paywalled write-ups,
-        gated demos and posts behind a login are left out rather than listed as if we had checked them.
-      </li>
-    </ul>
+  <Provenance
+    source="github.com API, each publisher's own page, openrouter.ai for the listing"
+    verified={JEV_RESOURCES_READ_ON}
+    extra={[
+      `Star counts and dates read the same day; model facts on the topic cover read ${JEV_DATA_AS_OF}`,
+      "No paid placement",
+    ]}
+  />
+
+  <section id="not-yet">
+    <h2>Not here yet</h2>
+    <p class="measure" style="color: var(--text-muted);">
+      Tutorials and videos, because none have been watched — an index of videos nobody has watched is a
+      list of titles. Paywalled write-ups and gated demos, which cannot be checked. And the eleven
+      repositories read line by line, which are in <a href="/jev-guide">the field notes</a> rather than
+      duplicated here.
+    </p>
   </section>
 
   <section class="card" style="margin-top: var(--space-12);">
-    <h2 style="margin-top: 0;">This column will move</h2>
+    <h2 style="margin-top: 0;">Six days old, and moving</h2>
     <p style="color: var(--text-muted); max-width: var(--measure);">
-      Five of the eight collections did not exist a week ago, and the largest repository here is four days
-      old. When the checks are re-run the numbers above will be wrong in a way that is easy to spot and
-      easy to fix — which is the part of a resource index that has to be maintained rather than written.
+      Five of the eight collections appeared in the last week, and the largest repository in the list is
+      four days old. Star counts and dates here have a shelf life measured in hours.
     </p>
     <p style="margin-top: var(--space-4);">
       <a class="btn primary" href="/typesafe-jev">The Jev topic →</a>

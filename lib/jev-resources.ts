@@ -52,8 +52,7 @@ export const jevResources: JevResource[] = [
     kind: "official",
     by: "TypeSafe",
     what: "The launch post: what a System One model is, why the output is a typed decision rather than text, and the two headline ranges (70–500 ms, 40×–200× cheaper) the product is sold on.",
-    ourNote:
-      "every cost and latency figure on our model page that is not labelled as ours comes from this page, and is labelled with it",
+    ourNote: "The source of both headline ranges — and they are vendor figures rather than measurements.",
   },
   {
     name: "Quickstart",
@@ -61,7 +60,6 @@ export const jevResources: JevResource[] = [
     kind: "official",
     by: "TypeSafe",
     what: "The request shape: a state, a set of named questions, and the three answer types (Noul, Choice, Score).",
-    ourNote: "the shape our own twenty identical calls were sent in, byte for byte",
   },
   {
     name: "TypeSafe evaluations",
@@ -70,7 +68,7 @@ export const jevResources: JevResource[] = [
     by: "TypeSafe",
     what: "The vendor's own evaluation pages, including the self-consistency study we compare our measured spread against.",
     ourNote:
-      "we quote their 0.0102 mean standard deviation and say plainly that it comes from a different rubric on different machines",
+      "Carries the 0.0102 mean standard deviation of their 15-repeat study — a different rubric, on different machines, from anything measured here.",
   },
   {
     name: "Jev on OpenRouter",
@@ -78,7 +76,7 @@ export const jevResources: JevResource[] = [
     kind: "official",
     by: "OpenRouter",
     what: "The listing our snapshot reads: $0.042 per million input tokens, output free, 32K context.",
-    ourNote: "the source for every price and window on this site, re-checked daily by our drift check",
+    ourNote: "Where every price and window on this site comes from — and the page that moves them.",
   },
   {
     name: "Jev on Cloudflare Workers AI",
@@ -86,7 +84,7 @@ export const jevResources: JevResource[] = [
     kind: "official",
     by: "Cloudflare",
     what: "The second place Jev is listed, with the question-type table in Cloudflare's own words.",
-    ourNote: "where the question-type table on our model page was read from, rather than from the vendor",
+    ourNote: "The question types in a third party's words rather than the vendor's, which is why it is worth a second read.",
   },
   {
     name: "typesafe-ai/skills",
@@ -94,7 +92,7 @@ export const jevResources: JevResource[] = [
     kind: "official",
     by: "TypeSafe",
     what: "The vendor's own agent skills, installed with `npx skills add typesafe-ai/skills`.",
-    ourNote: "the only row on this page that TypeSafe maintains as a product rather than as documentation",
+    ourNote: "The one entry here that TypeSafe maintains as a product rather than as documentation.",
   },
 
   /* ---------------------------------------------------------------- collections */
@@ -181,7 +179,7 @@ export const jevResources: JevResource[] = [
     lastPush: "2026-09-18",
     what: "A browser agent that uses a small LLM to write text and Jev to choose what to do next: a flight search in about seven seconds for about $0.004.",
     ourNote:
-      "the one we read line by line — see the field notes for the loop, the stop gates and what it refuses to guess",
+      "The clearest case of the split: its loop, its stop gates and what it refuses to guess are the parts worth copying.",
   },
   {
     name: "tamaratran/fast-jev-compaction",
@@ -210,7 +208,7 @@ export const jevResources: JevResource[] = [
     lastPush: "2026-09-21",
     what: "A small open reimplementation of the idea: parallel decisions over dynamic candidates, as a readable recipe.",
     ourNote:
-      "the interesting part is that somebody reimplemented the *pattern* rather than calling the API, which is the clearest sign the pattern itself is the product",
+      "Nobody calls the API here — it rebuilds the pattern, which is the clearest sign that the pattern is the product.",
   },
   {
     name: "vinnylarouge/jevlike",
@@ -219,7 +217,7 @@ export const jevResources: JevResource[] = [
     by: "vinnylarouge",
     stars: 1175,
     lastPush: "2026-09-16",
-    what: "No description is published on the repository and we have not read it, so this row records the absence rather than guessing at the contents.",
+    what: "No description published.",
   },
   {
     name: "droidrun/mobile-jev",
@@ -228,7 +226,7 @@ export const jevResources: JevResource[] = [
     by: "Droidrun",
     stars: 329,
     lastPush: "2026-09-17",
-    what: "Same as the row above: a large early project whose repository publishes no description, recorded as unknown rather than described.",
+    what: "No description published.",
   },
   {
     name: "devagrawal09/jev-review",
@@ -247,7 +245,7 @@ export const jevResources: JevResource[] = [
     stars: 460,
     lastPush: "2026-09-21",
     what: "Turns any open model into a Jev-shaped classifier endpoint — the cheapest way to test the pattern without buying the API.",
-    ourNote: "the one to read if you want to know how much of the value is the model and how much is the output contract",
+    ourNote: "The one to read to see how much of the value is the model and how much is the output contract.",
   },
   {
     name: "kerpopule/hermes-jev-skills",
