@@ -65,8 +65,14 @@ const sections = [
         The count is derived, not typed. It read "15 models tracked" while the
         snapshot had grown to 18 — the MiMo-V2.6 line went in and this line did
         not move, on the one piece of chrome that appears on every page.
+
+        The time is CST because that is when the job actually runs:
+        `.github/workflows/model-drift-check.yml` is `0 22 * * *`, i.e. 06:00 in
+        Asia/Shanghai. The line said "06:00 UTC" until 2026-09-22, which was a
+        six-hour lie on every page — a small one, on a site whose entire claim is
+        that its labels are accurate.
       */}
-      <span class="meta">{openrouterModels.length} models tracked · verified 06:00 UTC</span>
+      <span class="meta">{openrouterModels.length} models tracked · drift-checked 06:00 CST</span>
     </div>
   </div>
 </header>

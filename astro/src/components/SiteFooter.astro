@@ -7,7 +7,9 @@ import { DATA_AS_OF } from "@repo/lib/openrouter-models";
  */
 const sources = [
   ["Model fields", "openrouter.ai/api/v1/models"],
-  ["Drift check", "daily 06:00 UTC"],
+  // 06:00 Asia/Shanghai — the cron is `0 22 * * *`. This said "UTC" until
+  // 2026-09-22 in four places, including the header.
+  ["Drift check", "daily 06:00 CST"],
   ["Last verified", DATA_AS_OF],
   ["Stealth status", "/api/union-alpha/status"],
 ];
