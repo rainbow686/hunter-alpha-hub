@@ -66,6 +66,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
               rather than to invented art. */}
           {thread.card ? (
             <div class="card-media" style="--ratio: 1200 / 630">
+              <span class="card-src">Hacker News</span>
               <img src={thread.card} width="1200" height="630" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             </div>
           ) : (

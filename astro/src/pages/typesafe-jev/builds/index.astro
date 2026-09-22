@@ -50,6 +50,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
               card with overflow:hidden — you saw the left half of every GitHub card. */}
           {build.card ? (
             <div class="card-media" style="--ratio: 2 / 1">
+            <span class="card-src">GitHub</span>
               <img src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             </div>
           ) : null}
