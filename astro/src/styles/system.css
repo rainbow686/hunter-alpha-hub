@@ -382,3 +382,14 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .card-title a:hover { text-decoration: underline; }
 .card-note { margin: 0; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .card-meta { margin: auto 0 0; padding-top: var(--space-2); display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------------ crumbs
+ * The trail sits above a page's own header, so it must not compete with it: small,
+ * muted, and separated by less space than the header block uses internally.
+ * The pages also dropped their "Jev · discussion" eyebrows once this landed — the
+ * trail already says Jev, and two labels stacked above one title read as noise
+ * (the h1 was the third thing in a row saying what the page was).
+ */
+.crumbs ol { margin: 0 0 var(--space-6); }
+article > header.col > .crumbs ol, header.col > .crumbs ol { margin-bottom: var(--space-4); }
+h1 + .lede { margin-top: 0; }
