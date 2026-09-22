@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { JEV_FACETS } from "@repo/lib/jev-facets";
 import { getCollection } from "astro:content";
 import { openrouterModels } from "@repo/lib/openrouter-models";
 import { comparisonPairs } from "@repo/lib/openrouter-comparisons";
@@ -82,6 +83,12 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/typesafe-jev/videos", changeFrequency: "weekly", priority: "0.7" },
   { path: "/typesafe-jev/demos", changeFrequency: "monthly", priority: "0.6" },
   { path: "/typesafe-jev/x-posts", changeFrequency: "weekly", priority: "0.7" },
+  /*
+   * Use-case facets: the second axis over the Jev columns. Generated from the one
+   * vocabulary file so a new tag cannot be added to the pages and forgotten here.
+   */
+  { path: "/typesafe-jev/use-cases", changeFrequency: "weekly", priority: "0.7" },
+  ...JEV_FACETS.map((f) => ({ path: `/typesafe-jev/use-cases/${f.slug}`, changeFrequency: "weekly", priority: "0.6" })),
   { path: "/typesafe-jev/builds", changeFrequency: "weekly", priority: "0.8" },
   { path: "/submit", changeFrequency: "monthly", priority: "0.5" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing

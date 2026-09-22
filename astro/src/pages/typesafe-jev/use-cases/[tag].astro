@@ -57,6 +57,11 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
             <h2 class="card-title"><a href={item.url} rel="noopener">{item.title}</a></h2>
             <p class="card-note card-our">{item.note}</p>
             <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
+            <p class="card-meta">
+              {item.tags.map((tag) => (
+                <a href={`/typesafe-jev/use-cases/${tag}`}>{JEV_FACETS.find((f) => f.slug === tag)?.label ?? tag}</a>
+              ))}
+            </p>
           </div>
         </li>
       ))}
