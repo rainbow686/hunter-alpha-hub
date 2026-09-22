@@ -1108,6 +1108,18 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
     <span>Run <code>{oursSchemaProbe.measuredOn}</code>, {oursSchemaProbe.runs} times, {oursSchemaProbe.calls} calls each</span>
     <span>Cost <code>about $0.0002 a run</code></span>
   </div>
+  {/*
+    The numbers on this page are the one thing here nobody else publishes, and
+    until 2026-09-22 they were only quotable by scraping a paragraph. This block
+    is the licence and the machine-readable pointer, not a second summary.
+  */}
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    These measurements are ours, and they are free to quote under CC BY 4.0 with a
+    link to this page. The machine-readable version of everything measurable on
+    this site — including the probe results above and the model snapshot — is{" "}
+    <a href="/facts.json">/facts.json</a>, and the Alpha line's numbers are on{" "}
+    <a href="/alpha-line-report">The Alpha Line Report</a>.
+  </p>
 
   <h3>Latency and what it cost us</h3>
   <div class="table-scroll">
