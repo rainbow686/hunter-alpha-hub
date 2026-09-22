@@ -38,7 +38,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       <p class="provenance">
         <span>Stars and last push read {JEV_BUILDS_READ_ON}</span>
         <span>{jevBuildCounts.published} described</span>
-        <span>{jevBuildCounts.waiting} waiting for a note</span>
+        {jevBuildCounts.waiting > 0 && <span>{jevBuildCounts.waiting} waiting for a note</span>}
       </p>
     </header>
 

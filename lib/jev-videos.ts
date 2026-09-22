@@ -28,7 +28,7 @@ export interface JevVideo {
 }
 
 const RAW = queue as unknown as {
-  meta: { generatedAt: string; candidates: number };
+  meta: { generatedAt: string; candidates: number; candidatesRemaining?: number };
   entries: {
     id: string; videoId: string; url: string; title: string; author: string; publishedAt: string;
     status: string; ourNote: string;
@@ -59,5 +59,6 @@ export const jevVideos: JevVideo[] = RAW.entries
 
 export const jevVideoCounts = {
   published: jevVideos.length,
-  waiting: RAW.meta.candidates - jevVideos.length,
+  /** Candidates with no note yet, from the queue's own count — see jev-builds.ts. */
+  waiting: RAW.meta.candidatesRemaining ?? 0,
 };

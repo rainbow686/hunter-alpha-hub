@@ -492,7 +492,13 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .card-media { position: relative; display: block; aspect-ratio: var(--ratio, 2 / 1); background: var(--bg-sunken); }
 .card-src { position: absolute; left: var(--space-2); bottom: var(--space-2); padding: 2px var(--space-2); border-radius: var(--radius-sm); background: rgb(0 0 0 / 62%); color: #fff; font-size: var(--text-xs); letter-spacing: 0.04em; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.card-chip { display: grid; place-items: center; font-family: var(--mono); font-size: var(--text-2xl); letter-spacing: 0.08em; color: var(--text-faint); background: var(--bg-sunken); }
+/*
+ * `.card-chip` was the no-media fallback: a sunken panel with the source's initials
+ * centred in it. Removed 2026-09-22 — seventeen of the forty-two X posts have no
+ * media, and forty-two cards where a third of them are identical empty rectangles
+ * reads as a machine's grid rather than a wall. Cards without a picture now start at
+ * their eyebrow line; the source is in the eyebrow, so nothing is lost.
+ */
 .card-body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-5); flex: 1; }
 .card-eyebrow { margin: 0; font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); }
 .card-title { margin: 0; font-family: var(--serif); font-size: var(--text-lg); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

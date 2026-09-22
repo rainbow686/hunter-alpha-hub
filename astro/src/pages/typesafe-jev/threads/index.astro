@@ -53,7 +53,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       <p class="provenance">
         <span>Score and comment count read {JEV_THREADS_READ_ON}</span>
         <span>{jevThreadCounts.published} threads published</span>
-        <span>{jevThreadCounts.waiting} more waiting for a written note</span>
+        {jevThreadCounts.waiting > 0 && <span>{jevThreadCounts.waiting} more waiting for a written note</span>}
       </p>
     </header>
 
@@ -69,9 +69,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
               <span class="card-src">Hacker News</span>
               <img src={thread.card} width="1200" height="630" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             </div>
-          ) : (
-            <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">HN</div>
-          )}
+          ) : null}
           <div class="card-body">
           <p class="card-eyebrow">Hacker News</p>
           <h2 class="card-title"><a href={thread.url} rel="noopener">{thread.title}</a></h2>

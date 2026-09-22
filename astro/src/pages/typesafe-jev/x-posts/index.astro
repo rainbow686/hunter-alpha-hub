@@ -53,8 +53,8 @@ const naturalRatio = (w: number, h: number) => {
         benchmarks people ran, the first-week sceptics — each described in a sentence of ours and linked back.
       </p>
       <p class="provenance">
-        <span>{jevXPosts.length} demos described</span>
-        <span>{jevDemoCounts.waiting} waiting for a note</span>
+        <span>{jevDemoCounts.described} posts described</span>
+        {jevDemoCounts.waiting > 0 && <span>{jevDemoCounts.waiting} waiting for a note</span>}
         <span><a href="/typesafe-jev/demos">Things people actually ran: demos</a></span>
       </p>
     </header>
@@ -77,16 +77,20 @@ const naturalRatio = (w: number, h: number) => {
       <ul class="card-grid">
         {jevXPosts.map((demo) => (
           <li class="card">
-            {/* The poster image stays on X's CDN: we link to it rather than copy it, and
-                the row points at the post for anything else (contract §3). */}
+            {/*
+              No thumb, no frame. The old fallback was a grey panel with the source's
+              initial centred in it: seventeen of the forty-two X posts have no media,
+              so the wall came out as a grid of identical empty rectangles — the thing a
+              reader called machine-made. A text-only card now starts at its eyebrow and
+              runs shorter, which is what a poster wall is supposed to look like. The
+              source is not lost: the eyebrow below already says "X · post".
+            */}
             {demo.thumb ? (
               <div class="card-media" style={demo.thumbW ? `--ratio: ${naturalRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
                 <span class="card-src">X</span>
                 <img src={demo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
               </div>
-            ) : (
-              <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">X</div>
-            )}
+            ) : null}
             <div class="card-body">
               <p class="card-eyebrow">X · {demo.kind === "video" ? "video" : demo.kind === "image" ? "image" : "post"}</p>
               <h2 class="card-title"><a href={demo.url} rel="noopener">{demo.title}</a></h2>

@@ -17,9 +17,9 @@
       "relevance": "/(\\bjev\\b(?!ons)|\\bkev\\b|typesafe|system one)/i"
     },
     "candidates": 11,
-    "published": 8,
-    "note": "candidate-only queue \u2014 a page renders entries with status=published and a non-empty ourNote \u2014 published requires ourNote; the ingest never writes one",
-    "candidatesRemaining": 3
+    "published": 11,
+    "note": "candidate-only queue — a page renders entries with status=published and a non-empty ourNote — published requires ourNote; the ingest never writes one",
+    "candidatesRemaining": 0
   },
   "entries": [
     {
@@ -49,7 +49,9 @@
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
       "_externalUrl": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
-      "tags": []
+      "tags": [
+        "getting-started"
+      ]
     },
     {
       "id": "hn:49783999",
@@ -78,7 +80,9 @@
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
       "_externalUrl": "https://github.com/jaredpalmer/kev/tree/main",
-      "tags": []
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "hn:49784706",
@@ -136,7 +140,9 @@
         "score and comment count read from the Algolia API on 2026-09-22"
       ],
       "_externalUrl": "https://github.com/kyle-pena-nlp/jevchat/",
-      "tags": []
+      "tags": [
+        "media-and-content"
+      ]
     },
     {
       "id": "hn:49731282",
@@ -235,7 +241,7 @@
       "id": "hn:49767564",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49767564",
-      "title": "Show HN: CUA-S1 \u2013 A System One Model for Computer Use",
+      "title": "Show HN: CUA-S1 – A System One Model for Computer Use",
       "author": "frabonacci",
       "publishedAt": "2026-09-19",
       "media": {
@@ -266,7 +272,7 @@
       "id": "hn:49780849",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49780849",
-      "title": "Show HN: jevals \u2013 replacing LLM judges with typed Jev decisions",
+      "title": "Show HN: jevals – replacing LLM judges with typed Jev decisions",
       "author": "gbayomi",
       "publishedAt": "2026-09-20",
       "media": {
@@ -278,16 +284,22 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
-      "_externalUrl": "https://github.com/openlayer-ai/jevals"
+      "status": "published",
+      "ourNote": "Replaces the LLM judge with a typed decision, which is the use case we expected to appear first and the one with the clearest failure mode. The thread's own objection is the one to keep: what happens when the judgement depends on context the typed decision cannot carry.",
+      "checked": [
+        "item and comment count read from the Hacker News API on 2026-09-22",
+        "42 points, 3 comments, points to github.com/openlayer-ai/jevals"
+      ],
+      "_externalUrl": "https://github.com/openlayer-ai/jevals",
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "hn:49757757",
       "source": "hn",
       "url": "https://news.ycombinator.com/item?id=49757757",
-      "title": "Show HN: Jeff \u2013 A read-only CLI for semantic code review using Jev",
+      "title": "Show HN: Jeff – A read-only CLI for semantic code review using Jev",
       "author": "imalessandro",
       "publishedAt": "2026-09-18",
       "media": {
@@ -299,10 +311,16 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
-      "_externalUrl": "https://github.com/Alurith/jeff"
+      "status": "published",
+      "ourNote": "A read-only review CLI, and the thread argues about the word read-only rather than the model: one commenter points out that in a coding agent an edit is refused unless the file was already read in that conversation. Good thread for the enforcement question.",
+      "checked": [
+        "item and comment count read from the Hacker News API on 2026-09-22",
+        "27 points, 4 comments, points to github.com/Alurith/jeff"
+      ],
+      "_externalUrl": "https://github.com/Alurith/jeff",
+      "tags": [
+        "coding-and-context"
+      ]
     },
     {
       "id": "hn:49781694",
@@ -320,10 +338,16 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched \"jev\" (the model itself)",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": [],
-      "_externalUrl": "https://deepclause.substack.com/p/jev-prolog-pi-and-the-dream-of-probabilistic"
+      "status": "published",
+      "ourNote": "No comments yet, which is itself the interesting part: an essay putting Jev next to Prolog and probabilistic logic programming — the argument that a decision is a query, not a completion. Read it for where the idea came from.",
+      "checked": [
+        "item read from the Hacker News API on 2026-09-22",
+        "21 points, 0 comments at that time, points to a Substack essay"
+      ],
+      "_externalUrl": "https://deepclause.substack.com/p/jev-prolog-pi-and-the-dream-of-probabilistic",
+      "tags": [
+        "research-and-data"
+      ]
     }
   ]
 }

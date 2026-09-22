@@ -10,9 +10,9 @@
       "minStars": 25
     },
     "candidates": 24,
-    "published": 8,
-    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-    "candidatesRemaining": 16
+    "published": 18,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs; a rejected row carries its reason",
+    "candidatesRemaining": 0
   },
   "entries": [
     {
@@ -99,7 +99,7 @@
       "what": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "published",
-      "ourNote": "A Claude Code plugin that replaces the compaction step with a Jev call. Small, unglamorous, and among the highest-starred entries here \u2014 the pattern tends to show up in tooling before it shows up in products.",
+      "ourNote": "A Claude Code plugin that replaces the compaction step with a Jev call. Small, unglamorous, and among the highest-starred entries here — the pattern tends to show up in tooling before it shows up in products.",
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
@@ -135,7 +135,9 @@
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
       ],
-      "tags": []
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "gh:jaredpalmer/kev",
@@ -164,7 +166,9 @@
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
       ],
-      "tags": []
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "gh:jev-chat/jev-chat-jarvis",
@@ -185,7 +189,7 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-22"
       },
-      "what": "\u88c5\u5728\u624b\u673a\u4e0a\u7684\u5bf9\u8bdd\u526f\u9a7e\uff1a\u5728\u5fae\u4fe1 / QQ / X / \u98de\u4e66\u91cc\u8bfb\u61c2\u5bf9\u65b9\u3001\u7ed9\u51fa\u5019\u9009\u56de\u590d\u3001\u4e00\u952e\u586b\u5165\u8f93\u5165\u6846\uff0c\u53d1\u4e0d\u53d1\u7531\u4f60\u3002\u975e\u4fb5\u5165\uff0c\u53ea\u8bfb\u5c4f\u5e55\uff0c\u4e0d hook \u4e0d\u6539\u5305\u3002",
+      "what": "装在手机上的对话副驾：在微信 / QQ / X / 飞书里读懂对方、给出候选回复、一键填入输入框，发不发由你。非侵入，只读屏幕，不 hook 不改包。",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "published",
       "ourNote": "A phone-resident assistant that reads chat threads and proposes replies. The description is the author's and is written in Chinese; we have not run it, so nothing here is a claim about how well it works.",
@@ -219,7 +223,7 @@
       "what": "One AI trade decision every Monad block. Jev on Kuru MON-USDC.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
       "status": "published",
-      "ourNote": "One trade decision per Monad block, made by Jev \u2014 the most literal reading of the model in this list, a decision every few hundred milliseconds with real money behind it.",
+      "ourNote": "One trade decision per Monad block, made by Jev — the most literal reading of the model in this list, a decision every few hundred milliseconds with real money behind it.",
       "checked": [
         "repository live on 2026-09-22",
         "star count and last push read from the GitHub API on 2026-09-22"
@@ -279,11 +283,12 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-21"
       },
-      "what": "A curated list of public projects, integrations, and discussions built on Jev \u2014 TypeSafe AI's System One model for typed decisions.",
+      "what": "A curated list of public projects, integrations, and discussions built on Jev — TypeSafe AI's System One model for typed decisions.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a curated list, so it is a row in the resources column, not a build"
     },
     {
       "id": "gh:reticlehq/reticle",
@@ -306,9 +311,16 @@
       },
       "what": "AI agents can generate code, but still struggle to understand what they build. Reticle brings Jev-style machine-native runtime perception to web & desktop applications.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "File this one under roadmap, which is where Reticle puts Jev: the README says plainly that nothing ships against it yet. The case is still worth reading, because it is the only project here that names the decisions it would route — is this page settled, is this finding worth chasing — and then says why a 70–500ms typed answer beats an LLM there.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "the roadmap paragraph quoted from the README"
+      ],
+      "tags": [
+        "coding-and-context"
+      ]
     },
     {
       "id": "gh:Anil-matcha/awesome-jev-by-typesafe",
@@ -329,11 +341,12 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-20"
       },
-      "what": "Evidence-backed use cases, patterns, prompts, and starter code for TypeSafe Jev \u2014 a System One model for fast, typed, confidence-aware decisions in software.",
+      "what": "Evidence-backed use cases, patterns, prompts, and starter code for TypeSafe Jev — a System One model for fast, typed, confidence-aware decisions in software.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a curated list, so it is a row in the resources column, not a build (and the repository predates Jev by three years)"
     },
     {
       "id": "gh:awlevin/typesafe-computer-use",
@@ -356,9 +369,16 @@
       },
       "what": "Computer use for about $0.0002 a step: OCR the screen, classify the next action with TypeSafe, click. macOS.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Computer use for about $0.0002 a step, on macOS: OCR the screen, classify the next action with TypeSafe, click. Python 3.12 with an MIT licence and a CI badge, and the price per step is in the repository description rather than buried in a table. We have not run it.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "README, licence and CI badge read on the repository page"
+      ],
+      "tags": [
+        "browser-agents"
+      ]
     },
     {
       "id": "gh:kitfunso/hippo-memory",
@@ -381,9 +401,17 @@
       },
       "what": "Biologically-inspired memory for AI agents. Decay, retrieval strengthening, consolidation. Zero runtime deps, SQLite, MCP. Benchmarked retrieval with an opt-in TypeSafe Jev reranker.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The most carefully reported Jev result in this list, including its own negative: an opt-in reranker takes R@1 from 0.41 to 0.62 on a private 300-query store at about $0.0004 a recall, the margin held in 20 of 20 seeds — and three graded tests still did not beat the free local cross-encoder. Off by default.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "the eval doc the README links (docs/evals/2026-09-19-jev-reranker.md)"
+      ],
+      "tags": [
+        "research-and-data",
+        "coding-and-context"
+      ]
     },
     {
       "id": "gh:v-modal/awesome-jev-tools",
@@ -404,11 +432,12 @@
         "asOf": "2026-09-22",
         "pushedAt": "2026-09-19"
       },
-      "what": "A curated list of tools  built for Jev \u2014 TypeSafe AI's System One model for typed decisions.",
+      "what": "A curated list of tools  built for Jev — TypeSafe AI's System One model for typed decisions.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a curated list, so it is a row in the resources column, not a build"
     },
     {
       "id": "gh:Sac-Y/Jev-cu",
@@ -431,9 +460,17 @@
       },
       "what": "No description published.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The one repository in this queue with no published description, and the one that states its design constraint most plainly: text goes in and screenshots do not, a local policy gate blocks the sensitive actions, and Codex does the reading and clicking. The README is in Chinese.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "GitHub publishes no description for this repository",
+        "README read (Chinese) on the repository page"
+      ],
+      "tags": [
+        "browser-agents"
+      ]
     },
     {
       "id": "gh:devagrawal09/jev-review",
@@ -456,9 +493,17 @@
       },
       "what": "A staged code-review workflow and local dashboard built with TypeSafe Jev.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Read the README for the pipeline rather than the dashboard: a Null risk matrix, then Choice and Score file profiles, evidence selection, mechanism classification, severity, and a conditional Choice that routes which reviewer sees it. Orchestration stays in code and Jev only answers the bounded judgements — which is the pattern to copy.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "the pipeline diagram quoted from the README"
+      ],
+      "tags": [
+        "coding-and-context",
+        "triage-and-routing"
+      ]
     },
     {
       "id": "gh:rmalde/minecraft-agent",
@@ -481,9 +526,16 @@
       },
       "what": "Astra planner and JEV controller for Minecraft, with native recording, tested routes, and run verification.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A planner picks the goal and Jev picks the action, and then the repository publishes the run: nether-final-08 finished in 8 minutes 43.300 seconds against 14 minutes for the previous attempt, with the routes and a read-only sensor kept separate from the game. End-to-end times for a Jev loop are rare enough to be worth the row.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "the verified run time quoted from the README"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "gh:thruwire/foreman",
@@ -502,9 +554,17 @@
       },
       "what": "Software factory foreman based on TypeSafe's Jev model",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Puts the decision model above the coding agent instead of inside it: a Codex or OpenCode worker does the engineering, and Foreman independently asks whether the ticket is finished, the tests exist and the requirements were met. The separation of the worker from the thing that checks the worker is the pattern most of our field notes end up describing.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "README read on the repository page"
+      ],
+      "tags": [
+        "coding-and-context",
+        "triage-and-routing"
+      ]
     },
     {
       "id": "gh:featherless-ai/simple-jev",
@@ -527,9 +587,16 @@
       },
       "what": "Turn any open model into a classifier/jev endpoint",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A different route to the same output contract: read the next-token logits for each question and assemble choices, rubric scores or truth values, with no classifier head and no training. Served as a playground, which makes it the quickest way to see the shape of a Jev answer without a key.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "README read on the repository page"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "gh:AbdelStark/awesome-typesafe-jev",
@@ -552,9 +619,10 @@
       },
       "what": "Awesome Jev: a source-backed field guide to TypeSafe's System One model, with SDKs, live demos, agent tools, and independent evaluations.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a source-backed field guide, which is the resources column's job"
     },
     {
       "id": "gh:kerpopule/hermes-jev-skills",
@@ -577,9 +645,10 @@
       },
       "what": "Jev-powered model routing, memory, compaction, skill selection, computer and browser use for Hermes agents (also Claude Code and Codex)",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a skill pack, already listed in the resources column"
     },
     {
       "id": "gh:wuyoscar/jev-skill",
@@ -602,9 +671,10 @@
       },
       "what": "An awesome collection of Jev use cases, workflows, and agent skills.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a collection of skills and use cases, already listed in the resources column"
     },
     {
       "id": "gh:wfzyx/von",
@@ -627,9 +697,16 @@
       },
       "what": "The open-source System One decision model. Sub-15ms, non-autoregressive, local drop-in alternative to TypeSafe Jev.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The open substitute, published with its own comparison against the model it substitutes: 72.0% macro on a 49-task suite against TypeSafe's 96.6%, and 9.00 kills against 5.62 in ViZDoom — a clear loss on accuracy and a win on the real-time loop. Its GitHub description says sub-15ms and its README headline says sub-25ms; both numbers are the publisher's.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "the benchmark table and its two headline latency claims read in the README"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "gh:superagents-lab/jev-search",
@@ -652,9 +729,16 @@
       },
       "what": "Search the web with TypeSafe's Jev: source selection, query understanding and relevance ranking. Built with Search1API.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Search where Jev chooses the sources, the time range and the terms, and then ranks what comes back — links and snippets with visible relevance scores, no generated answers. There is a live instance, so this is the one row in the column you can check in a browser without cloning anything.",
+      "checked": [
+        "repository read on github.com 2026-09-22",
+        "star count and last push read from the GitHub API the same day",
+        "README read, live instance linked from it"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     }
   ]
 }

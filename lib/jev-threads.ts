@@ -26,7 +26,7 @@ export interface JevThread {
 }
 
 const RAW = queue as unknown as {
-  meta: { generatedAt: string; queries: string[]; candidates: number; published: number };
+  meta: { generatedAt: string; queries: string[]; candidates: number; published: number; candidatesRemaining?: number };
   entries: {
     id: string; url: string; title: string; author: string; publishedAt: string;
     status: string; ourNote: string; checked: string[];
@@ -58,6 +58,6 @@ export const jevThreads: JevThread[] = RAW.entries
 export const jevThreadCounts = {
   published: jevThreads.length,
   /** Candidates waiting for a written note: visible to us, never to a reader. */
-  waiting: RAW.meta.candidates - jevThreads.length,
+  waiting: RAW.meta.candidatesRemaining ?? 0,
   queries: RAW.meta.queries.length,
 };

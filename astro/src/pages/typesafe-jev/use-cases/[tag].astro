@@ -49,9 +49,7 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
               <span class="card-src">{item.source}</span>
               <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             </div>
-          ) : (
-            <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">{item.source.slice(0, 2).toUpperCase()}</div>
-          )}
+          ) : null}
           <div class="card-body">
             <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
             <h2 class="card-title"><a href={item.url} rel="noopener">{item.title}</a></h2>

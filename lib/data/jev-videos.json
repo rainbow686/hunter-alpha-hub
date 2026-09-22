@@ -8,9 +8,9 @@
     ],
     "quotaPerRun": 201,
     "candidates": 12,
-    "published": 6,
-    "note": "candidate-only queue \u2014 publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-    "candidatesRemaining": 6
+    "published": 12,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "candidatesRemaining": 0
   },
   "entries": [
     {
@@ -102,7 +102,9 @@
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 636s"
       ],
-      "tags": []
+      "tags": [
+        "coding-and-context"
+      ]
     },
     {
       "id": "yt:F3YXg7AaKWE",
@@ -110,7 +112,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=F3YXg7AaKWE",
       "title": "Jev is incredible",
-      "author": "Theo - t3\u2024gg",
+      "author": "Theo - t3․gg",
       "publishedAt": "2026-09-21",
       "media": {
         "kind": "video",
@@ -131,7 +133,9 @@
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 1830s"
       ],
-      "tags": []
+      "tags": [
+        "getting-started"
+      ]
     },
     {
       "id": "yt:X117w2Rark8",
@@ -217,9 +221,17 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched a qualified search for this Jev",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The only walkthrough in this column that publishes its own chapter list, and the order is the one we would suggest: routing at 2:08, then what Jev is, then the three answer types, and cost and speed only after that. Twenty minutes, and the first four are the part a developer needs.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "description, channel, duration and publish date read from that API the same day",
+        "chapters quoted from the description: 02:08 routing, 05:19 choice/score/null, 11:14 speed and cost"
+      ],
+      "tags": [
+        "getting-started",
+        "triage-and-routing"
+      ]
     },
     {
       "id": "yt:53wDOI_7x8I",
@@ -241,9 +253,16 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched a qualified search for this Jev",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Runs seven open Jev-style models against a public benchmark rather than explaining the API again, which makes it the most useful of the second wave. Sponsored by Dell for the compute and the sponsorship is stated in the description; the models named there are the ones we list in the builds column.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "description, channel, duration and publish date read from that API the same day",
+        "the description names the seven open models and links a benchmark site; sponsored by Dell, disclosed in the description"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "yt:2vYV4K1RQ1w",
@@ -265,9 +284,16 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched a qualified search for this Jev",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Framed as a question — will Jev replace LLMs — which is the debate rather than the specification. Worth knowing that the description spends more of its lines on the channel's bootcamp than on the model; if you want the answer types, the shorter explainers in this column get there faster.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "description, channel, duration and publish date read from that API the same day",
+        "the description's own framing and the bootcamp links in it"
+      ],
+      "tags": [
+        "getting-started"
+      ]
     },
     {
       "id": "yt:ZgXej_9isxY",
@@ -289,9 +315,17 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched a qualified search for this Jev",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A twenty-two minute explainer whose chapter list is a syllabus: what Jev is, how it differs, speed and price, then state, questions and answers, the three answer types, the playground, and finally requests. It is the one to send somebody who has never heard of a System One model.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "description, channel, duration and publish date read from that API the same day",
+        "chapter list quoted from the description, including the three answer types and the playground"
+      ],
+      "tags": [
+        "getting-started",
+        "coding-and-context"
+      ]
     },
     {
       "id": "yt:LU6K07U4wOk",
@@ -313,16 +347,23 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched a qualified search for this Jev",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "In Spanish, thirty-one minutes, and it explains the category before the API: what a System One model is and why the decision stays in your code. Worth listing for the half of the audience that does not read English explainers — the framing is the same, the language is not.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "description, channel, duration and publish date read from that API the same day",
+        "defaultAudioLanguage es-419; description read in Spanish"
+      ],
+      "tags": [
+        "getting-started"
+      ]
     },
     {
       "id": "yt:0nASbjPuMTs",
       "videoId": "0nASbjPuMTs",
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=0nASbjPuMTs",
-      "title": "Jev - La nuova era dell\u2019ai \u00e8 arrivata (e non genera testo)",
+      "title": "Jev - La nuova era dell’ai è arrivata (e non genera testo)",
       "author": "Simone Rizzo",
       "publishedAt": "2026-09-19",
       "media": {
@@ -337,9 +378,16 @@
         "asOf": "2026-09-22"
       },
       "candidateReason": "matched a qualified search for this Jev",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The longest of the explainers at forty-two minutes, in Italian, and the only one that opens by arguing about the category rather than the model: not an LLM, not a chatbot, a system built to return decisions. Its own framing, not ours.",
+      "checked": [
+        "video listed in the YouTube Data API on 2026-09-22",
+        "description, channel, duration and publish date read from that API the same day",
+        "defaultAudioLanguage it; description read in Italian"
+      ],
+      "tags": [
+        "getting-started"
+      ]
     }
   ]
 }

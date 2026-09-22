@@ -23,7 +23,7 @@ export interface JevBuild {
 }
 
 const RAW = queue as unknown as {
-  meta: { generatedAt: string; candidates: number };
+  meta: { generatedAt: string; candidates: number; candidatesRemaining?: number };
   entries: {
     id: string; url: string; title: string; author: string; status: string; ourNote: string; what: string;
     media?: { card?: string };
@@ -42,4 +42,13 @@ export const jevBuilds: JevBuild[] = RAW.entries
   }))
   .sort((a, b) => b.stars - a.stars);
 
-export const jevBuildCounts = { published: jevBuilds.length, waiting: RAW.meta.candidates - jevBuilds.length };
+/**
+ * Counts for the page header. `waiting` reads the queue's own `candidatesRemaining`
+ * rather than subtracting this column's published rows from the queue total — that
+ * subtraction counted rejected rows as waiting, and after the 2026-09-22 triage it
+ * printed "6 waiting for a note" on a queue with nothing left in it.
+ */
+export const jevBuildCounts = {
+  published: jevBuilds.length,
+  waiting: RAW.meta.candidatesRemaining ?? 0,
+};

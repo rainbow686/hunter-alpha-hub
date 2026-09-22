@@ -28,7 +28,7 @@ const MIN_NOTE_WORDS = 20;
 const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com", "x.com", "twitter.com"];
 
 const fail = [];
-let queued = 0, publishedTotal = 0, queryTotal = 0;
+let queued = 0, publishedTotal = 0, queryTotal = 0, waiting = 0, rejectedTotal = 0;
 for (const QUEUE of QUEUES) {
   if (!existsSync(QUEUE)) { fail.push(`${QUEUE} missing — run its ingest script`); continue; }
   const q = JSON.parse(readFileSync(QUEUE, "utf8"));
@@ -45,6 +45,18 @@ for (const QUEUE of QUEUES) {
 
     if (!["candidate", "published", "rejected", "removed"].includes(e.status)) fail.push(`${where}: unknown status "${e.status}"`);
     if (!e.url || !e.author || !e.publishedAt) fail.push(`${where}: url/author/publishedAt are required`);
+    /*
+     * A rejection is a decision, and a decision without a written reason is the
+     * beginning of a queue that quietly becomes a graveyard. Six "awesome-*" lists
+     * were rejected on 2026-09-22 because the resources column already carries them;
+     * the reason is what stops the next person re-adding them.
+     */
+    if (["rejected", "removed"].includes(e.status)) {
+      const reason = (e.reason ?? "").trim().split(/\s+/).filter(Boolean).length;
+      if (reason < 5) fail.push(`${where}: ${e.status} with a ${reason}-word reason (minimum 5)`);
+      rejectedTotal += 1;
+    }
+    if (e.status === "candidate") waiting += 1;
 
     if (e.status === "published") {
       published += 1;
@@ -76,7 +88,9 @@ for (const QUEUE of QUEUES) {
   }
   queued += entries.length; publishedTotal += published;
 }
-console.log(`Intake OK — ${queued} queued, ${publishedTotal} published, ${queued - publishedTotal} waiting for a note (${queryTotal} queries).`);
+console.log(
+  `Intake OK — ${queued} queued: ${publishedTotal} published, ${waiting} waiting for a note, ${rejectedTotal} rejected with a reason (${queryTotal} queries).`,
+);
 
 if (fail.length) {
   console.error(`Intake check failed (${fail.length}):`);

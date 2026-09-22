@@ -52,7 +52,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       <p class="provenance">
         <span>Views and duration read {JEV_VIDEOS_READ_ON}</span>
         <span>{jevVideoCounts.published} videos published</span>
-        <span>{jevVideoCounts.waiting} more waiting for a written note</span>
+        {jevVideoCounts.waiting > 0 && <span>{jevVideoCounts.waiting} more waiting for a written note</span>}
       </p>
     </header>
 
