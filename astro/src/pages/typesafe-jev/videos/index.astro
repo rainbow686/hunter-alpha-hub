@@ -60,6 +60,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       {jevVideos.map((video) => (
         <li class="card">
           <div class="card-media" style="--ratio: 16 / 9">
+            <span class="card-src">YouTube</span>
             <button
               class="facade"
               data-video={video.videoId}
