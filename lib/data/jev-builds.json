@@ -11,7 +11,7 @@
     },
     "candidates": 24,
     "published": 18,
-    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs; a rejected row carries its reason",
+    "note": "candidate-only queue — publish requires a written ourNote AND a dossier (what it does, how it works, what we read, what we did NOT check); both are enforced by scripts/check-intake.mjs. Every dossier claim was read off the repository on its readOn date.",
     "candidatesRemaining": 0
   },
   "entries": [
@@ -44,7 +44,23 @@
       ],
       "tags": [
         "browser-agents"
-      ]
+      ],
+      "dossier": {
+        "slug": "browser-use-jev-ultrafast",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "Python (pyproject.toml + uv.lock)",
+        "whatItDoes": "A browser agent with a dynamic, indexed action space: TypeSafe's Jev picks an operation and an element out of an index built from the live page, and a small LLM writes text only when the operation is TYPE_TEXT. The README's headline result is Zürich to London on Google Flights in 7.1 seconds, with the text generation and the page's loading waits included in that number.",
+        "howItWorks": "The repository is a Python package (`jev_ultrafast/`) with `docs/`, `examples/`, `scripts/` and `tests/`, managed by uv. The action space is rebuilt per page rather than fixed, which is what lets Jev choose from an index of elements instead of emitting coordinates.",
+        "whatWeChecked": [
+          "the top-level tree: docs, examples, jev_ultrafast, scripts, tests",
+          "pyproject.toml and uv.lock at the root — a uv-managed Python package",
+          "LICENSE is MIT (Browser Use)",
+          "the README states the 7.1-second Google Flights run and that a small LLM writes text only when the operation is TYPE_TEXT"
+        ],
+        "whatWeDidNotCheck": "We did not run the agent, so the 7.1 seconds and any cost figure are the authors'; the repository publishes no test results from that run.",
+        "bestFor": "the fastest way to see the decide-don't-generate thesis in a real agent"
+      }
     },
     {
       "id": "gh:OpenByteInc/QuantDinger",
@@ -75,7 +91,23 @@
       ],
       "tags": [
         "trading-and-markets"
-      ]
+      ],
+      "dossier": {
+        "slug": "openbyteinc-quantdinger",
+        "readOn": "2026-09-23",
+        "license": "Apache-2.0",
+        "stack": "Python backend with docs, ops and an MCP server",
+        "whatItDoes": "A self-hosted \"AI trading OS\": turn an idea into a Python strategy, backtest it, paper trade, then go live, with monitoring. The README's own line for the pipeline is research → strategy code → backtest → paper/live execution → monitoring, and it lists a Jev System One integration alongside agent and MCP documentation.",
+        "howItWorks": "`backend_api_python/` is the server, `mcp_server/` exposes it to agents, `ops/` holds deployment material, and there is a `.cursor/skills/quantdinger-agent-workflow` skill — the agent layer is a first-class part of the repository, not an add-on.",
+        "whatWeChecked": [
+          "the tree: backend_api_python, mcp_server, ops, docs, scripts",
+          "Apache-2.0 LICENSE",
+          "README describes the five-stage pipeline and a live app at ai.quantdinger.com",
+          "the description names a Jev System One integration and links separate agent/MCP docs"
+        ],
+        "whatWeDidNotCheck": "We did not install it and there is no published performance or P&L figure in the README to check.",
+        "bestFor": "a trading stack that ships with the decision layer documented rather than implied"
+      }
     },
     {
       "id": "gh:tamaratran/fast-jev-compaction",
@@ -106,7 +138,23 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "dossier": {
+        "slug": "tamaratran-fast-jev-compaction",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "TypeScript (npm package + Claude Code plugin)",
+        "whatItDoes": "A Claude Code plugin, also usable as an npm library, that replaces the usual LLM summarisation of a long session with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, and everything kept stays verbatim.",
+        "howItWorks": "It never rewrites what it keeps — the README's sentence is \"This library never rewrites anything. It only deletes tool calls and tool results\" — which is the opposite of a lossy summary: a file path or an exact error cannot be paraphrased away if it is never paraphrased.",
+        "whatWeChecked": [
+          "the tree: hooks, src, tests, types, examples, .claude-plugin",
+          "package.json plus tsconfig files — an npm package with a test directory",
+          "MIT LICENSE",
+          "README states the delete/truncate-only rule and the reason (summaries lose exact details)"
+        ],
+        "whatWeDidNotCheck": "We did not install the plugin into a session, so how much context it actually saves is unmeasured here.",
+        "bestFor": "the honest version of shrink-the-context: deletion instead of paraphrase"
+      }
     },
     {
       "id": "gh:TheoLeeCJ/SemIf",
@@ -137,7 +185,23 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "dossier": {
+        "slug": "theoleecj-semif",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "Python for the model, plus a WebGPU browser demo",
+        "whatItDoes": "Typed decisions from open models, run locally — \"Semantic ifs from open models, on a 3090 at home\". The repository was formerly named OpenJev, says plainly that it is independent and not affiliated with TypeSafe, and packages a measured replay: the same frozen 4B model, the same state and the same 21 questions, with typed decisions appearing together while JSON streams token by token.",
+        "howItWorks": "`src/semif_phase1/` holds the implementation; `benchmarks/`, `results/` and `demo/` carry the measurements; `webgpu-demo/` runs a version in the browser with no waitlist and no key.",
+        "whatWeChecked": [
+          "the tree: benchmarks, results, demo, webgpu-demo, src/semif_phase1, tests",
+          "MIT LICENSE (TheoLeeCJ)",
+          "README names the project as formerly OpenJev and disclaims affiliation",
+          "README describes the aligned replay of one frozen 4B model over 21 questions"
+        ],
+        "whatWeDidNotCheck": "We read the benchmark's naming and framing, not its methodology; nothing here was re-run.",
+        "bestFor": "the open-model route with the measurements attached"
+      }
     },
     {
       "id": "gh:jaredpalmer/kev",
@@ -168,7 +232,23 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "dossier": {
+        "slug": "jaredpalmer-kev",
+        "readOn": "2026-09-23",
+        "license": "Apache-2.0",
+        "stack": "Python training stack + a Hugging Face space",
+        "whatItDoes": "A small family of Jev-like decision models you can train and run yourself. The README links three sizes on Hugging Face — 0.8B, 4B and 9B — built on top of Qwen3.5, and the repository ships the training path as a skill rather than a notebook dump.",
+        "howItWorks": "`kev/` is the package, `experiments/` and `runs/` hold training runs, `evals/` holds evaluation, `skills/kev-finetune` packages the fine-tuning workflow for an agent, and `space/` is the hosted playground.",
+        "whatWeChecked": [
+          "the tree: evals, experiments, runs, skills/kev-finetune, space, tests",
+          "Apache-2.0 LICENSE",
+          "README links a Hugging Face collection with three model sizes",
+          "the description says the family is trained on top of Qwen3.5"
+        ],
+        "whatWeDidNotCheck": "We did not train or run any of the three sizes, and no accuracy figure appears in the README.",
+        "bestFor": "if you would rather own the model than call one"
+      }
     },
     {
       "id": "gh:jev-chat/jev-chat-jarvis",
@@ -199,7 +279,23 @@
       ],
       "tags": [
         "media-and-content"
-      ]
+      ],
+      "dossier": {
+        "slug": "jev-chat-jev-chat-jarvis",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "Android app (Gradle/Kotlin) with a Jev tool directory",
+        "whatItDoes": "An Android conversation copilot: while you chat in WeChat, QQ, X or Feishu it reads the screen, works out what the other person is asking, proposes replies and fills the input box — you decide whether to send. The README's own framing is non-invasive: read-only screen access, no hooks, no repackaging of the host apps.",
+        "howItWorks": "A Gradle Android app (`app/`) with an APK in the repository, a `site/` for the project page, and `tools/jev/` where the decision calls live; `CHANGELOG.md` shows the versions it has shipped.",
+        "whatWeChecked": [
+          "the tree: apk, app, gradle wrapper, site, tools/jev, CHANGELOG",
+          "MIT LICENSE (Finderchangchang and contributors)",
+          "README describes reading the screen and offering candidate replies with one-tap fill",
+          "the app is distributed as an APK from the repository itself"
+        ],
+        "whatWeDidNotCheck": "We did not install it (no Android device here) and did not read the Android source to verify the no-hooks claim.",
+        "bestFor": "the clearest sign that this model class is about reading a situation"
+      }
     },
     {
       "id": "gh:jarrodwatts/jev-trader",
@@ -230,7 +326,23 @@
       ],
       "tags": [
         "trading-and-markets"
-      ]
+      ],
+      "dossier": {
+        "slug": "jarrodwatts-jev-trader",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "TypeScript on Bun, with a Dockerfile and a small server",
+        "whatItDoes": "One trade decision per Monad block: Jev watches the Kuru MON-USDC order book and answers buy or sell roughly every 300 ms; the bot posts a post-only limit order one tick inside the touch and replaces it each block, so it earns the spread when a taker hits it instead of paying it.",
+        "howItWorks": "`index.ts` plus `src/`, a `web/` dashboard that streams every block, and `SPEC.md` for the design. It dry-runs by default: with no PRIVATE_KEY the book is real, the decisions are real and the fills are simulated — `MODEL=jev` plus a TypeSafe key switches it onto Jev.",
+        "whatWeChecked": [
+          "the tree: src, web, scripts, Dockerfile, SPEC.md, .cursor/rules",
+          "MIT LICENSE (Jarrod Watts), bun lockfile at the root",
+          "README documents the one-decision-per-block loop and the ~300 ms cadence",
+          "README documents the dry-run default and the env keys that switch to live and to Jev"
+        ],
+        "whatWeDidNotCheck": "We did not run it against Monad or Kuru; the repository publishes no profit figure to check.",
+        "bestFor": "deciding on a clock, with a safe default"
+      }
     },
     {
       "id": "gh:TianyuCodings/NanoJev",
@@ -262,7 +374,23 @@
       "tags": [
         "triage-and-routing",
         "research-and-data"
-      ]
+      ],
+      "dossier": {
+        "slug": "tianyucodings-nanojev",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "Python for the model, TypeScript for the demos",
+        "whatItDoes": "A 0.6B \"nano replica\" of the Jev idea: states and questions in, complete probability distributions out, with zero output-token decoding. It ships the training pipeline, the results, a Hugging Face model and dataset, and playable browser demos including ViZDoom, maze and snake.",
+        "howItWorks": "Parallel decisions over dynamic candidate sets; `configs/` and `scripts/` drive training, `results/` holds the runs, `web/` the demos, and `SOURCE_MANIFEST.json` records what the authors derived from elsewhere — the kind of file most reimplementations do not publish.",
+        "whatWeChecked": [
+          "the tree: configs, results, research, scripts, web, SOURCE_MANIFEST.json",
+          "MIT LICENSE (OpenJev contributors)",
+          "README states 0.6B, zero output-token decoding, and links the model and dataset on Hugging Face",
+          "the README links a ViZDoom demo that runs with autoplay"
+        ],
+        "whatWeDidNotCheck": "We did not run it; the numbers in results/ are the authors' and we did not re-derive them.",
+        "bestFor": "the smallest fully-open reference implementation of the architecture"
+      }
     },
     {
       "id": "gh:yibie/awesome-jev",
@@ -320,7 +448,23 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "dossier": {
+        "slug": "reticlehq-reticle",
+        "readOn": "2026-09-23",
+        "license": "Reticle licence (custom, see the repository)",
+        "stack": "TypeScript monorepo (core, engine, adapters)",
+        "whatItDoes": "A verifier that answers the question a coding agent's own summary cannot: your agent says done, and Reticle drives the real running app, reads what actually happened, and returns pass, fail or couldn't tell with the file and line to fix.",
+        "howItWorks": "`adapters/`, `core/`, `engine/`, `conformance/` and `bench/` make it a real monorepo rather than a script. Its Jev work is on the roadmap section of the README, which names the three decisions it would route and then says the thing that matters: nothing ships against it yet.",
+        "whatWeChecked": [
+          "the tree: adapters, core, engine, conformance, bench, plugin, apps",
+          "the licence file is a custom Reticle licence overview, not MIT or Apache",
+          "the README's roadmap paragraph names is-this-page-settled, is-this-finding-worth-chasing and does-this-failure-warrant-a-capture",
+          "the same paragraph states that nothing ships against Jev yet"
+        ],
+        "whatWeDidNotCheck": "We did not install it, and the Jev integration described above does not exist in the code yet.",
+        "bestFor": "the argument for a verifier above the generator — filed under roadmap on purpose"
+      }
     },
     {
       "id": "gh:Anil-matcha/awesome-jev-by-typesafe",
@@ -378,7 +522,23 @@
       ],
       "tags": [
         "browser-agents"
-      ]
+      ],
+      "dossier": {
+        "slug": "awlevin-typesafe-computer-use",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "Python 3.12 (pyproject.toml + uv.lock), macOS first",
+        "whatItDoes": "Computer use for about $0.0002 a step: OCR the screen, classify the next action with TypeSafe, click. macOS is the supported platform and Windows is marked experimental in the repository's own badge line.",
+        "howItWorks": "`typesafe_computer_use/` is the package, `bench/` holds benchmarks, `tests/` plus a GitHub Actions workflow keep it honest, and uv.lock pins the dependency set — the per-step price is stated in the README rather than buried in a results table.",
+        "whatWeChecked": [
+          "the tree: typesafe_computer_use, bench, tests, docs, .github/workflows, uv.lock",
+          "MIT LICENSE (Aaron Levin)",
+          "README's badges say Python 3.12+, macOS (Windows experimental) and points at TypeSafe's docs",
+          "the per-step cost appears in the repository description and the README"
+        ],
+        "whatWeDidNotCheck": "We did not run it — it needs macOS and screen access — so the $0.0002 is the author's figure.",
+        "bestFor": "cost per action treated as a first-class number"
+      }
     },
     {
       "id": "gh:kitfunso/hippo-memory",
@@ -411,7 +571,23 @@
       "tags": [
         "research-and-data",
         "coding-and-context"
-      ]
+      ],
+      "dossier": {
+        "slug": "kitfunso-hippo-memory",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "JavaScript (npm package), SQLite underneath",
+        "whatItDoes": "A memory layer for AI agents modelled on the hippocampus: decay by default, strength through use, provenance on every memory, SQLite underneath and no runtime dependencies. It works across CLI agents rather than inside one.",
+        "howItWorks": "Jev is an opt-in reranker, and the repository reports it the way a result should be reported: `hippo recall --reranker jev` lifts R@1 from 0.41 to 0.62 on a private 300-query developer store at about $0.0004 a recall, the margin held in 20 of 20 seeds — and three graded tests still did not beat the free local cross-encoder, which is printed in the same document.",
+        "whatWeChecked": [
+          "the tree: bin, benchmarks, evals, extensions, integrations, python, docs",
+          "MIT LICENSE (Keith So) and an npm package name in package.json",
+          "README reports the Jev reranker eval with its paired-bootstrap margin and its negative result",
+          "README states the reranker is off by default"
+        ],
+        "whatWeDidNotCheck": "We did not install it, and the eval is on a private query store, so it cannot be reproduced from here.",
+        "bestFor": "the most carefully reported Jev result in this column, negative included"
+      }
     },
     {
       "id": "gh:v-modal/awesome-jev-tools",
@@ -470,7 +646,23 @@
       ],
       "tags": [
         "browser-agents"
-      ]
+      ],
+      "dossier": {
+        "slug": "sac-y-jev-cu",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "JavaScript skill + scripts, installed into Codex",
+        "whatItDoes": "Hands \"where do I click next\" to Jev while Codex does the reading and the clicking. Jev chooses the element, the action, an estimate of completion and a risk level from text candidates only — screenshots are never sent — and a local policy gate blocks sensitive actions before they run.",
+        "howItWorks": "`skill/jev-cu/` is installed into Codex (the install script rewrites a path placeholder), `scripts/` holds the Jev call, the policy gate, the decision loop and an offline evaluation, and `fixtures/` carries accessibility snapshots and P0 cases. The loop runs inside Codex's computer-use runtime.",
+        "whatWeChecked": [
+          "the tree: fixtures, scripts, skill/jev-cu, tests",
+          "MIT LICENSE (Sac-Y) and a package.json with install-skill/uninstall-skill scripts",
+          "the README states text-only: no screenshots are sent",
+          "the README describes the local policy gate and the offline evaluation directory"
+        ],
+        "whatWeDidNotCheck": "We did not install the skill or run the loop; the README is in Chinese and we read it in the original.",
+        "bestFor": "the clearest statement of a privacy and risk constraint inside the loop"
+      }
     },
     {
       "id": "gh:devagrawal09/jev-review",
@@ -503,7 +695,23 @@
       "tags": [
         "coding-and-context",
         "triage-and-routing"
-      ]
+      ],
+      "dossier": {
+        "slug": "devagrawal09-jev-review",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "TypeScript (npm scripts + a local dashboard)",
+        "whatItDoes": "A staged code review, with the model answering only bounded questions: a Null risk matrix, then Choice and Score file profiles, evidence selection, mechanism classification, severity scoring, and a conditional Choice that routes which reviewer sees the result. The output lands in a quiet local dashboard.",
+        "howItWorks": "Orchestration stays in code and Jev answers the judgements; four npm scripts split the entry points (review:changes, review:codebase and the :save variants) plus a dashboard script, so a review is a command rather than a chat.",
+        "whatWeChecked": [
+          "the tree: src, scripts, docs, tsconfig.json",
+          "MIT LICENSE (Dev Agrawal)",
+          "package.json scripts enumerate review:changes, review:codebase, their :save variants and dashboard",
+          "the README publishes the exact judgement chain the reviewer follows"
+        ],
+        "whatWeDidNotCheck": "We have not pointed it at our own repository yet; the interesting part is the chain, and no accuracy figure is published.",
+        "bestFor": "copying the shape of a review pipeline where the model only judges"
+      }
     },
     {
       "id": "gh:rmalde/minecraft-agent",
@@ -535,7 +743,23 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "dossier": {
+        "slug": "rmalde-minecraft-agent",
+        "readOn": "2026-09-23",
+        "license": "No licence file at the repository root",
+        "stack": "JavaScript (Mineflayer) with a Java observer",
+        "whatItDoes": "An agent that plays Minecraft 1.16.5 with a planner choosing goals (GPT-6 Astra or GPT-5.6 Sol) and Jev choosing the player's actions, published with the runs: the latest verified one, nether-final-08, completed in 8 minutes 43.300 seconds, against 14 minutes for the previous recording.",
+        "howItWorks": "A vanilla server plus Mineflayer for input, a read-only Java sensor that can report the exact dragon head position, and a separate native client and observer; each chosen action goes to the game through the normal player protocol, and the README states it does not change game rules or entity state.",
+        "whatWeChecked": [
+          "the tree: native-client, observer, combat-lab, optimization, research (69 entries)",
+          "no LICENSE file at the root",
+          "README's latest verified run time and the previous recording's time",
+          "README states the sensor is read-only and that game rules and entity state are not modified"
+        ],
+        "whatWeDidNotCheck": "We did not run it; the run time is the author's recording, not a measurement we made.",
+        "bestFor": "end-to-end times for a Jev loop, which almost nobody publishes"
+      }
     },
     {
       "id": "gh:thruwire/foreman",
@@ -564,7 +788,23 @@
       "tags": [
         "coding-and-context",
         "triage-and-routing"
-      ]
+      ],
+      "dossier": {
+        "slug": "thruwire-foreman",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "Python (src/foreman, pyproject.toml)",
+        "whatItDoes": "Puts the decision model above the coding agent instead of inside it: give Foreman a ticket, a specification or a bug report, let a Codex or OpenCode worker do the engineering, and Foreman independently assesses whether the implementation is complete, whether the requirements are satisfied and whether the tests are sufficient.",
+        "howItWorks": "The package lives in `src/foreman` with `tests/` and `docs/`, and the split it encodes — the worker and the thing that checks the worker — is the same split our field notes keep finding in teams that use Jev in production.",
+        "whatWeChecked": [
+          "the tree: src/foreman, tests, docs, .github",
+          "MIT LICENSE (thruwire) and a pyproject.toml",
+          "README names the Codex and OpenCode workers it supervises",
+          "the independent assessment criteria are stated in the README (complete, satisfied, sufficient)"
+        ],
+        "whatWeDidNotCheck": "We did not run it, and the repository publishes no accuracy figures for the assessment.",
+        "bestFor": "the worker-and-checker split, made runnable"
+      }
     },
     {
       "id": "gh:featherless-ai/simple-jev",
@@ -596,7 +836,23 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "dossier": {
+        "slug": "featherless-ai-simple-jev",
+        "readOn": "2026-09-23",
+        "license": "Apache-2.0",
+        "stack": "Python (hf-server, eval, demos)",
+        "whatItDoes": "Turns a compatible open model into something shaped like Jev: you send shared context plus a set of questions, and it reads the next-token logits for each question and assembles a JSON response of choices, rubric scores or truth/support judgements. No classifier head, no training run.",
+        "howItWorks": "The server constructs the answer rather than asking the model to generate JSON, which is the same output contract by a different route. The repository ships `hf-server/`, an `eval/` directory, a `demos/jevpilot` demo and a `website/`.",
+        "whatWeChecked": [
+          "the tree: common, eval, hf-server, demos/jevpilot, RFDT, website",
+          "Apache-2.0 LICENSE",
+          "README states the logits approach and that the model does not generate the JSON completion",
+          "a public playground is linked from the README"
+        ],
+        "whatWeDidNotCheck": "We did not call the hosted playground, so we have not compared its scores with the hosted model's.",
+        "bestFor": "seeing the output contract without a key"
+      }
     },
     {
       "id": "gh:AbdelStark/awesome-typesafe-jev",
@@ -706,7 +962,23 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "dossier": {
+        "slug": "wfzyx-von",
+        "readOn": "2026-09-23",
+        "license": "Apache-2.0",
+        "stack": "Python (src/von, training) with a JavaScript bridge",
+        "whatItDoes": "An open, non-autoregressive decision model — a 395M-parameter, 1.5GB local alternative — published with a head-to-head against the hosted model it substitutes: 72.0% macro accuracy on a 49-task suite against TypeSafe Jev's 96.6%, and 9.00 kills against 5.62 in the ViZDoom Defend-the-Center protocol: a clear loss on accuracy, a win on the real-time loop.",
+        "howItWorks": "A bidirectional ModernBERT backbone doing calibrated discrete, probabilistic and ordinal inference. The repository ships `training/`, `benchmarks/`, `tests/`, a Hugging Face build and a JavaScript bridge, and it names both evaluation suites it was measured on.",
+        "whatWeChecked": [
+          "the tree: benchmarks, src/von, training, tests, hf, js, SOTA.md, CONTEXT_EXPANSION.md",
+          "Apache-2.0 LICENSE and a pyproject.toml",
+          "the comparison table in the README carries both models' accuracy and kill counts",
+          "the GitHub description says sub-15ms while the README headline says sub-25ms and its table says ~18ms"
+        ],
+        "whatWeDidNotCheck": "We did not run the model or either suite; both sets of numbers are the authors'.",
+        "bestFor": "what the open alternative gives up and what it gains, in one table"
+      }
     },
     {
       "id": "gh:superagents-lab/jev-search",
@@ -738,7 +1010,23 @@
       ],
       "tags": [
         "triage-and-routing"
-      ]
+      ],
+      "dossier": {
+        "slug": "superagents-lab-jev-search",
+        "readOn": "2026-09-23",
+        "license": "MIT",
+        "stack": "TypeScript app (Cloudflare-style, pnpm)",
+        "whatItDoes": "Plain-language web search where Jev chooses the sources, the time range and the search terms, and then ranks what comes back through Search1API. You get links and snippets with visible relevance scores and editable filters — and no generated answers, which is the part that makes it checkable.",
+        "howItWorks": "A single app with `src/`, `test/` and a `design-context.md`, installable as a browser app on iOS, Chrome and Edge; the live instance runs at jev.s1.dev, so the reader can test the ranking without cloning anything.",
+        "whatWeChecked": [
+          "the tree: src, test, .github/workflows, design-context.md, pnpm-lock.yaml",
+          "MIT LICENSE (copyright Search1API)",
+          "README states the division of labour between Jev and Search1API",
+          "a live instance is linked from the README and from the repository homepage field"
+        ],
+        "whatWeDidNotCheck": "We did not run a search ourselves, so we have not judged the ranking.",
+        "bestFor": "the one row in this column you can try in a browser"
+      }
     }
   ]
 }

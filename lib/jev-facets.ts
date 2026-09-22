@@ -98,6 +98,10 @@ const items: FacetItem[] = [
 /** One row per item: an X post that is also a demo must not be counted twice. */
 const unique = [...new Map(items.map((i) => [i.id, i])).values()];
 
+/** Look a row up by its queue id — the use-case article cites examples by id, so a page
+ *  and the prose cannot drift apart the way a hand-written link would. */
+export const jevItemById = new Map(unique.map((item) => [item.id, item]));
+
 export const itemsByFacet = (slug: string): FacetItem[] =>
   unique.filter((i) => i.tags.includes(slug)).sort((a, b) => a.title.localeCompare(b.title));
 

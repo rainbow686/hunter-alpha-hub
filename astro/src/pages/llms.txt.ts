@@ -62,6 +62,7 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [Jev discussion](${BASE}/typesafe-jev/threads): ${jevThreadCounts.published} Hacker News threads, with score and comment count read on ${JEV_THREADS_READ_ON}.
 - [Jev by use case](${BASE}/typesafe-jev/use-cases): the decisions people hand to Jev — sorting, triage, routing, context, judging, verification — with the projects and posts that show each one.
 - [Jev on X](${BASE}/typesafe-jev/x-posts): what the field is saying — vendor announcements, benchmarks, sceptics — each with a sentence of ours and a link.
+- [The Jev catalogue report](${BASE}/typesafe-jev/statistics): what we counted and what we measured, with our own probe results (CC BY 4.0, JSON at /typesafe-jev/statistics.json).
 - [Jev builds](${BASE}/typesafe-jev/builds): ${jevBuildCounts.published} projects built on Jev, stars and last push read on ${JEV_BUILDS_READ_ON}.
 - [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
 - [Jev field notes](${BASE}/jev-guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.

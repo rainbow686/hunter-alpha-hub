@@ -28,6 +28,7 @@ const MIN_NOTE_WORDS = 20;
 const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com", "x.com", "twitter.com"];
 
 const fail = [];
+const dossieSlugs = new Map();
 let queued = 0, publishedTotal = 0, queryTotal = 0, waiting = 0, rejectedTotal = 0;
 for (const QUEUE of QUEUES) {
   if (!existsSync(QUEUE)) { fail.push(`${QUEUE} missing — run its ingest script`); continue; }
@@ -66,6 +67,35 @@ for (const QUEUE of QUEUES) {
       const host = new URL(e.url).hostname;
       if (!HOST_WHITELIST.includes(host)) fail.push(`${where}: host ${host} is not in the whitelist`);
       if (e.media?.thumb && (!e.media.thumbW || !e.media.thumbH)) fail.push(`${where}: thumbnail without width/height`);
+
+      /*
+       * The dossier is the first-hand layer, and for a build it is the only thing that
+       * makes a page (rather than a list row) defensible: what it does, how it works, what
+       * we read in the repository, and what we did NOT check. A dossier with the first half
+       * and not the last is an advertisement, so both halves are required, in words.
+       */
+      if (e.source === "github") {
+        const d = e.dossier;
+        if (!d) {
+          fail.push(`${where}: published without a dossier — a build with no first-hand layer is a link with a sentence`);
+        } else {
+          const words = (s) => (s ?? "").trim().split(/\s+/).filter(Boolean).length;
+          if (!/^[a-z0-9][a-z0-9-]*$/.test(d.slug ?? "")) fail.push(`${where}: dossier slug "${d.slug}" is not url-safe`);
+          if (dossieSlugs.has(d.slug)) fail.push(`${where}: dossier slug "${d.slug}" is already used by ${dossieSlugs.get(d.slug)}`);
+          dossieSlugs.set(d.slug, where);
+          if (words(d.whatItDoes) < 25) fail.push(`${where}: dossier whatItDoes is ${words(d.whatItDoes)} words (minimum 25)`);
+          if (words(d.howItWorks) < 20) fail.push(`${where}: dossier howItWorks is ${words(d.howItWorks)} words (minimum 20)`);
+          if (!Array.isArray(d.whatWeChecked) || d.whatWeChecked.length < 3) {
+            fail.push(`${where}: dossier lists ${d.whatWeChecked?.length ?? 0} checked items (minimum 3)`);
+          }
+          if (words(d.whatWeDidNotCheck) < 10) {
+            fail.push(`${where}: dossier whatWeDidNotCheck is ${words(d.whatWeDidNotCheck)} words (minimum 10) — the limit is half the value`);
+          }
+          for (const field of ["license", "stack", "readOn", "bestFor"]) {
+            if (!d[field]) fail.push(`${where}: dossier has no ${field}`);
+          }
+        }
+      }
 
       // Facets: tags are optional (an untagged row appears in no facet — no junk-drawer
       // bucket), but a tag that is not in the vocabulary fails the build. Without that, a

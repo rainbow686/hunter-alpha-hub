@@ -1,12 +1,35 @@
 {
-  "note": "Controlled vocabulary for the use-case facets. A tag that is not listed here fails npm run checks, so a typo cannot silently produce an empty page — that failure mode cost us once already (see docs/lessons/). Grows as content arrives; an empty facet is not a failure.",
+  "note": "Controlled vocabulary for the use-case facets. A tag that is not listed here fails npm run checks, so a typo cannot silently produce an empty page. 'getting-started' was removed on 2026-09-23: it is a search intent, not a use case — the reference site keeps that material in its explainer cluster, and a facet page called 'getting started' would only have collected the announcements. Rows that carried it are still in their own columns.",
   "tags": [
-    { "slug": "browser-agents", "label": "Browser agents", "blurb": "Driving a browser: clicking, reading, deciding the next step." },
-    { "slug": "triage-and-routing", "label": "Triage and routing", "blurb": "Picking a route, a label or a next model — classification where a wrong answer is recoverable." },
-    { "slug": "coding-and-context", "label": "Coding and context", "blurb": "Inside a coding agent: compaction, context windows, the harness around the model." },
-    { "slug": "research-and-data", "label": "Research and data", "blurb": "Benchmarks people ran, architectures people reverse-engineered, results that did not work." },
-    { "slug": "media-and-content", "label": "Media and content", "blurb": "Generating, sorting or reviewing words, images and posts." },
-    { "slug": "trading-and-markets", "label": "Trading and markets", "blurb": "Decisions with money attached, on a clock." },
-    { "slug": "getting-started", "label": "Getting started", "blurb": "What it is, how to install it, what it does not do — where to begin." }
+    {
+      "slug": "browser-agents",
+      "label": "Browser agents",
+      "blurb": "Driving a browser: clicking, reading, deciding the next step."
+    },
+    {
+      "slug": "triage-and-routing",
+      "label": "Triage and routing",
+      "blurb": "Picking a route, a label or a next model — classification where a wrong answer is recoverable."
+    },
+    {
+      "slug": "coding-and-context",
+      "label": "Coding and context",
+      "blurb": "Inside a coding agent: compaction, context windows, the harness around the model."
+    },
+    {
+      "slug": "research-and-data",
+      "label": "Research and data",
+      "blurb": "Benchmarks people ran, architectures people reverse-engineered, results that did not work."
+    },
+    {
+      "slug": "media-and-content",
+      "label": "Media and content",
+      "blurb": "Generating, sorting or reviewing words, images and posts."
+    },
+    {
+      "slug": "trading-and-markets",
+      "label": "Trading and markets",
+      "blurb": "Decisions with money attached, on a clock."
+    }
   ]
 }

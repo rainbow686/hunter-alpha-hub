@@ -54,6 +54,7 @@ const buildChips = JEV_FACET_COUNTS.map((facet) => ({
       <p class="provenance">
         <span>Stars and last push read {JEV_BUILDS_READ_ON}</span>
         <span>{jevBuildCounts.published} described</span>
+        <span>{jevBuildCounts.withPages} with a page of their own</span>
         {jevBuildCounts.waiting > 0 && <span>{jevBuildCounts.waiting} waiting for a note</span>}
       </p>
     </header>
@@ -73,13 +74,18 @@ const buildChips = JEV_FACET_COUNTS.map((facet) => ({
             </div>
           ) : null}
           <div class="card-body">
-            <p class="card-eyebrow">GitHub</p>
-            <h2 class="card-title"><a href={build.url} rel="noopener">{build.title}</a></h2>
+            <p class="card-eyebrow">GitHub{build.dossier ? " · page" : ""}</p>
+            <h2 class="card-title">
+              <a href={build.dossier ? `/typesafe-jev/builds/${build.dossier.slug}` : build.url} rel="noopener">
+                {build.title}
+              </a>
+            </h2>
             <p class="card-note">{build.what}</p>
             <p class="card-note card-our">{build.ourNote}</p>
             <p class="card-meta">
               <span>{fmt(build.stars)} ★</span>
               <span>last push {build.pushedAt}</span>
+              <span><a href={build.url} rel="noopener noreferrer">repository ↗</a></span>
             </p>
           </div>
         </li>

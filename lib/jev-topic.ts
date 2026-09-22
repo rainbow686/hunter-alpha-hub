@@ -35,6 +35,7 @@ export const jevTopicColumns: TopicEntry[] = [
   { href: "/typesafe-jev/threads", label: "What Hacker News made of it", group: "Columns", count: jevThreadCounts.published },
   { href: "/typesafe-jev/videos", label: "What people filmed", group: "Columns", count: jevVideoCounts.published },
   { href: "/typesafe-jev/x-posts", label: "What X is saying", group: "Columns", count: jevXPostCounts.described },
+  { href: "/typesafe-jev/statistics", label: "The catalogue report", group: "The topic", blurb: "What we counted and what we measured, with the JSON." },
 ];
 
 export const jevTopicFacets: TopicEntry[] = JEV_FACET_COUNTS.map((facet) => ({

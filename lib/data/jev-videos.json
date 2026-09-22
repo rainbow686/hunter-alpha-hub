@@ -40,9 +40,7 @@
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 1705s"
       ],
-      "tags": [
-        "getting-started"
-      ]
+      "tags": []
     },
     {
       "id": "yt:vj7hysh0mOI",
@@ -71,9 +69,7 @@
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 432s"
       ],
-      "tags": [
-        "getting-started"
-      ]
+      "tags": []
     },
     {
       "id": "yt:2Bs0Ink_-Uo",
@@ -133,9 +129,7 @@
         "view count read from that API on 2026-09-22",
         "duration from contentDetails: 1830s"
       ],
-      "tags": [
-        "getting-started"
-      ]
+      "tags": []
     },
     {
       "id": "yt:X117w2Rark8",
@@ -197,8 +191,7 @@
         "duration from contentDetails: 1071s"
       ],
       "tags": [
-        "research-and-data",
-        "getting-started"
+        "research-and-data"
       ]
     },
     {
@@ -229,7 +222,6 @@
         "chapters quoted from the description: 02:08 routing, 05:19 choice/score/null, 11:14 speed and cost"
       ],
       "tags": [
-        "getting-started",
         "triage-and-routing"
       ]
     },
@@ -291,9 +283,7 @@
         "description, channel, duration and publish date read from that API the same day",
         "the description's own framing and the bootcamp links in it"
       ],
-      "tags": [
-        "getting-started"
-      ]
+      "tags": []
     },
     {
       "id": "yt:ZgXej_9isxY",
@@ -323,7 +313,6 @@
         "chapter list quoted from the description, including the three answer types and the playground"
       ],
       "tags": [
-        "getting-started",
         "coding-and-context"
       ]
     },
@@ -354,9 +343,7 @@
         "description, channel, duration and publish date read from that API the same day",
         "defaultAudioLanguage es-419; description read in Spanish"
       ],
-      "tags": [
-        "getting-started"
-      ]
+      "tags": []
     },
     {
       "id": "yt:0nASbjPuMTs",
@@ -385,9 +372,7 @@
         "description, channel, duration and publish date read from that API the same day",
         "defaultAudioLanguage it; description read in Italian"
       ],
-      "tags": [
-        "getting-started"
-      ]
+      "tags": []
     }
   ]
 }

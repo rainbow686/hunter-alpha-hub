@@ -22,12 +22,31 @@ export interface JevBuild {
   card: string | null;
   /** Use-case tags, read straight from the queue (see docs/lessons/ on filtered views). */
   tags: string[];
+  /**
+   * The first-hand layer, and the only thing on this site that makes a build page a page:
+   * what it does and how it works in our words, what we read in the repository, and what
+   * we did not check. A published row without one is a link with a sentence, which is a
+   * list entry — not a record. `check:intake` enforces it.
+   */
+  dossier: {
+    slug: string;
+    readOn: string;
+    license: string;
+    stack: string;
+    whatItDoes: string;
+    howItWorks: string;
+    whatWeChecked: string[];
+    whatWeDidNotCheck: string;
+    bestFor: string;
+  } | null;
 }
 
 const RAW = queue as unknown as {
   meta: { generatedAt: string; candidates: number; candidatesRemaining?: number };
   entries: {
     id: string; url: string; title: string; author: string; status: string; ourNote: string; what: string; tags?: string[];
+    dossier?: { slug: string; readOn: string; license: string; stack: string; whatItDoes: string; howItWorks: string;
+                whatWeChecked: string[]; whatWeDidNotCheck: string; bestFor: string };
     media?: { card?: string };
     metrics: { stars: number; asOf: string; pushedAt: string };
   }[];
@@ -42,6 +61,7 @@ export const jevBuilds: JevBuild[] = RAW.entries
     stars: e.metrics.stars, pushedAt: e.metrics.pushedAt, what: e.what, ourNote: e.ourNote,
     card: e.media?.card ?? null,
     tags: e.tags ?? [],
+    dossier: e.dossier ?? null,
   }))
   .sort((a, b) => b.stars - a.stars);
 
@@ -51,7 +71,11 @@ export const jevBuilds: JevBuild[] = RAW.entries
  * subtraction counted rejected rows as waiting, and after the 2026-09-22 triage it
  * printed "6 waiting for a note" on a queue with nothing left in it.
  */
+/** Rows that carry a dossier, i.e. that have a page of their own. */
+export const jevBuildsWithPages: JevBuild[] = jevBuilds.filter((b) => b.dossier);
+
 export const jevBuildCounts = {
   published: jevBuilds.length,
   waiting: RAW.meta.candidatesRemaining ?? 0,
+  withPages: jevBuildsWithPages.length,
 };

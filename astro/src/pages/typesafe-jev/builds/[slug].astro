@@ -1,0 +1,226 @@
+---
+/**
+ * /typesafe-jev/builds/<slug> — one project, with the part nobody else has.
+ *
+ * The reference site's item pages are the only pages on it with unique content (478 of
+ * them; its home, hubs and categories are all views over the same records). Its shape,
+ * measured on 2026-09-23: title, one-line subtitle, the source embedded, two sentences of
+ * its own, a Details table in a right rail, three related rows — 136 to 853 words.
+ *
+ * Ours copies the shape and changes the ingredient. We do not embed the author's text
+ * (contract §3). What we put in its place is the thing we can actually vouch for: what
+ * the repository says it does, what we read in it, and — printed as a section, not as a
+ * footnote — what we did not check. The rail carries the Details table, which is content
+ * and not an advertisement: ADR-0019 leaves the sponsored rail as option A/B, undecided,
+ * and nothing here pre-empts that decision.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+
+export function getStaticPaths() {
+  return jevBuildsWithPages.map((build) => ({ params: { slug: build.dossier!.slug }, props: { build } }));
+}
+
+const { build } = Astro.props;
+const dossier = build.dossier!;
+const canonical = `${SITE}/typesafe-jev/builds/${dossier.slug}`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+const facetLabel = (slug: string) => JEV_FACET_COUNTS.find((f) => f.slug === slug)?.label ?? slug;
+
+/* "More like this": the rows that share a tag, nearest in stars, excluding this one. */
+const related = jevBuildsWithPages
+  .filter((other) => other.id !== build.id && other.tags.some((tag) => build.tags.includes(tag)))
+  .slice(0, 3);
+
+const title = `${build.title}: what it does, and what we checked`;
+const description = `${build.title} — ${dossier.bestFor}. Stars, licence and stack read from the repository on ${dossier.readOn}, with the parts we did not check stated.`;
+---
+
+{/*
+  `wide` on purpose: this is a two-column page (prose + Details rail), and the survey in
+  ADR-0019 put two-column pages in the full frame — a rail inside the 792px column frame
+  leaves ~450px for the prose, which is four words a line. First build measured 350px of
+  text beside a 300px rail; the frame was the bug, not the rail.
+*/}
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: build.title,
+      description,
+      publishedAt: dossier.readOn,
+      updatedAt: dossier.readOn,
+      image: `${SITE}${build.card ?? "/og-image.png"}`,
+      url: canonical,
+    })}
+  />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Jev", url: `${SITE}/typesafe-jev` },
+      { name: "Builds", url: `${SITE}/typesafe-jev/builds` },
+      { name: build.title, url: canonical },
+    ]}
+  />
+
+  <article class="build">
+    <div class="build-main">
+      <header>
+        <p class="card-eyebrow">GitHub · {build.tags.map((t) => facetLabel(t)).join(" · ")}</p>
+        <h1>{build.title}</h1>
+        <p class="lede">{dossier.bestFor.charAt(0).toUpperCase() + dossier.bestFor.slice(1)}.</p>
+      </header>
+
+      {build.card && (
+        <figure class="build-card">
+          <img src={build.card} width="1280" height="640" alt={`The repository's GitHub card, read on ${dossier.readOn}`} loading="eager" decoding="async" />
+        </figure>
+      )}
+
+      <section>
+        <h2>What it does</h2>
+        <p>{dossier.whatItDoes}</p>
+        {build.what && <p class="quoted">The repository's own description: “{build.what}”</p>}
+      </section>
+
+      <section>
+        <h2>How it works</h2>
+        <p>{dossier.howItWorks}</p>
+      </section>
+
+      {/*
+        The list that makes this page worth indexing. Every line is something we opened and
+        read on the stated date; the sentence after it says what we could not establish.
+        Both halves are required by check:intake — a dossier with only the first half is an
+        advertisement, and one with neither is the thin page we refuse to publish.
+      */}
+      <section>
+        <h2>What we checked</h2>
+        <ul class="checked">
+          {dossier.whatWeChecked.map((item) => <li>{item}</li>)}
+        </ul>
+        {/* The space is inside the element: across a tag boundary Astro trims it, and the first
+            build page printed "What we did not check.We did not run the agent". */}
+        <p class="not-checked"><strong>What we did not check. </strong>{dossier.whatWeDidNotCheck}</p>
+      </section>
+
+      <p class="hero-actions">
+        <a class="btn primary" href={build.url} rel="noopener noreferrer">Open the repository ↗</a>
+        <a class="btn ghost" href="/typesafe-jev/builds">All builds</a>
+      </p>
+    </div>
+
+    <aside class="build-rail">
+      <h2>Details</h2>
+      <dl>
+        <dt>Author</dt><dd>{build.author}</dd>
+        <dt>Stars</dt><dd>{fmt(build.stars)}</dd>
+        <dt>Last push</dt><dd>{build.pushedAt}</dd>
+        <dt>Licence</dt><dd>{dossier.license}</dd>
+        <dt>Stack</dt><dd>{dossier.stack}</dd>
+        <dt>Read on</dt><dd>{dossier.readOn}</dd>
+      </dl>
+      <p class="rail-note">
+        Stars and the last push come from GitHub and move; the date above is when we read
+        them. The licence and the stack come from the files in the repository.
+      </p>
+      <div class="rail-tags">
+        {build.tags.map((tag) => <a href={`/typesafe-jev/use-cases/${tag}`}>{facetLabel(tag)}</a>)}
+      </div>
+    </aside>
+  </article>
+
+  {related.length > 0 && (
+    <section class="related">
+      <h2>More like this</h2>
+      <ul class="card-grid">
+        {related.map((other) => (
+          <li class="card" data-sources="github" data-tags={other.tags.join(" ")}>
+            <div class="card-body">
+              <p class="card-eyebrow">GitHub · {other.tags.map((t) => facetLabel(t)).join(" · ")}</p>
+              <h3 class="card-title"><a href={`/typesafe-jev/builds/${other.dossier!.slug}`}>{other.title}</a></h3>
+              <p class="card-note">{other.dossier!.bestFor.charAt(0).toUpperCase() + other.dossier!.bestFor.slice(1)}.</p>
+              <p class="card-meta"><span>{fmt(other.stars)} ★</span><span>last push {other.pushedAt}</span></p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/builds" title="The rest of the topic" />
+</System>
+
+<style>
+  /*
+   * Two columns inside the frame, which is the one layout the ADR-0019 survey found next
+   * to the centred one: github.blog runs 747 + rail. A page whose right side carries a
+   * table is not a page that should be centred — the survey's own dividing line was
+   * "is there something on the right". Below 1100px the rail stops being a rail and
+   * becomes a block under the intro, because a 300px column on a 900px screen leaves
+   * neither side readable.
+   */
+  .build { display: grid; gap: var(--space-8); align-items: start; }
+  @media (min-width: 1100px) {
+    .build { grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-10); }
+  }
+  .build-main { min-width: 0; max-width: var(--measure); }
+  .build-main h1 { margin: var(--space-2) 0 var(--space-3); }
+  .build-main section { margin-top: var(--space-8); }
+  .build-main h2 { font-size: var(--text-xl); margin-bottom: var(--space-3); }
+  .build-main p { color: var(--text-muted); }
+  .build-card { margin: var(--space-6) 0 0; }
+  .build-card img { width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius); display: block; }
+  .quoted { font-style: italic; }
+  .checked { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .checked li { margin-bottom: var(--space-2); }
+  .not-checked {
+    margin-top: var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border-left: 2px solid var(--warn);
+    background: var(--warn-soft);
+    border-radius: var(--radius-sm);
+  }
+  .not-checked strong { color: var(--text); }
+
+  .build-rail {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: var(--space-5);
+  }
+  @media (min-width: 1100px) {
+    .build-rail { position: sticky; top: 84px; }
+  }
+  .build-rail h2 {
+    margin: 0 0 var(--space-3);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .build-rail dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-3); font-size: var(--text-sm); }
+  .build-rail dt { color: var(--text-faint); }
+  .build-rail dd { margin: 0; color: var(--text); }
+  .rail-note { margin: var(--space-4) 0 0; font-size: var(--text-xs); color: var(--text-faint); }
+  .rail-tags { margin-top: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .rail-tags a {
+    font-size: var(--text-xs);
+    padding: 2px var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+  }
+
+  .related { margin-top: var(--space-12); }
+  .related h2 { margin-bottom: 0; }
+</style>

@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { JEV_FACETS } from "@repo/lib/jev-facets";
+import { jevBuildsWithPages } from "@repo/lib/jev-builds";
 import { getCollection } from "astro:content";
 import { openrouterModels } from "@repo/lib/openrouter-models";
 import { comparisonPairs } from "@repo/lib/openrouter-comparisons";
@@ -86,9 +87,20 @@ const STATIC_ENTRIES: Entry[] = [
    * Use-case facets: the second axis over the Jev columns. Generated from the one
    * vocabulary file so a new tag cannot be added to the pages and forgotten here.
    */
-  { path: "/typesafe-jev/use-cases", changeFrequency: "weekly", priority: "0.7" },
+  { path: "/typesafe-jev/use-cases", changeFrequency: "weekly", priority: "0.8" },
+  { path: "/typesafe-jev/statistics", changeFrequency: "monthly", priority: "0.7" },
   ...JEV_FACETS.map((f) => ({ path: `/typesafe-jev/use-cases/${f.slug}`, changeFrequency: "weekly", priority: "0.6" })),
   { path: "/typesafe-jev/builds", changeFrequency: "weekly", priority: "0.8" },
+  /*
+   * One entry per build dossier. These are the pages with content nobody else has — the
+   * reason a card links to a page of ours instead of straight out to GitHub — so they get
+   * the highest priority in the topic after the columns themselves.
+   */
+  ...jevBuildsWithPages.map((build) => ({
+    path: `/typesafe-jev/builds/${build.dossier!.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: "0.6",
+  })),
   { path: "/submit", changeFrequency: "monthly", priority: "0.5" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
