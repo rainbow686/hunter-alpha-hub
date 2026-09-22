@@ -80,7 +80,24 @@ const sections = [
         the brand-mini reappeared on scroll, i.e. in a screenshot rather than in a
         check. 36 characters: "models" carries the meaning that "tracked" repeated.
       */}
-      <span class="meta">{openrouterModels.length} models · drift-checked 06:00 CST</span>
+      {/*
+        The search button and the model count share one right-hand group so that the
+        `margin-left: auto` that pushes them right lives on the group and not on the
+        count alone. It did live on the count: the count is `display: none` under
+        760px, which left the button as the only child in the row and no rule to pull
+        it right — it sat against the nav on every phone.
+      */}
+      <div class="nav-tools">
+        <span class="meta">{openrouterModels.length} models · drift-checked 06:00 CST</span>
+        <button type="button" class="search-trigger" data-search-open aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2" />
+            <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+          <span>Search</span>
+          <kbd>⌘K</kbd>
+        </button>
+      </div>
     </div>
   </div>
 </header>

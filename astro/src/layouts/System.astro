@@ -3,6 +3,7 @@ import "../styles/system.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Analytics from "../components/Analytics.astro";
+import SearchDialog from "../components/SearchDialog.astro";
 import { SITE, SITE_NAME } from "../lib/schema";
 
 interface Props {
@@ -142,10 +143,22 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     {/* Two tiers, decided 2026-09-20. A section front fills the frame; a single
         subject is one centred column. Both are in the industry's habits — see the
         note on `wide` above and docs/research/2026-09-20-content-column-widths.md. */}
-    <main class={wide ? "wrap" : "wrap column"} style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
+    {/*
+      `data-pagefind-body` is what the ⌘K index reads (scripts/build-search-index.mjs).
+      The masthead, the nav and the footer sit on all 113 pages, so indexing them
+      would put "Hunter Alpha Hub · OpenRouter model reference" in front of every
+      query; the marker keeps a page's own words as its content. A page without it
+      fails the build rather than disappearing from search silently.
+    */}
+    <main
+      class={wide ? "wrap" : "wrap column"}
+      data-pagefind-body
+      style="padding-top: var(--space-8); padding-bottom: var(--space-12);"
+    >
       <slot />
     </main>
     <SiteFooter />
+    <SearchDialog />
     <script is:inline>
       const header = document.querySelector("header.site");
       const CONDENSE_AT = 120;

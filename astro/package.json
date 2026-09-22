@@ -4,14 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/generate-og-images.mjs && node scripts/finalize-redirects.mjs",
+    "build": "astro build && node scripts/generate-og-images.mjs && node scripts/finalize-redirects.mjs && node scripts/build-search-index.mjs",
     "check:theme": "node scripts/check-theme-tokens.mjs",
     "check:content": "node scripts/check-content.mjs",
     "check:analytics": "node scripts/check-analytics.mjs",
     "check:markup": "node scripts/check-markup.mjs",
     "check:parity": "node scripts/check-page-parity.mjs",
     "check:files": "node scripts/check-site-files.mjs",
-    "checks": "npm run build && npm run check:theme && npm run check:intake && npm run check:content && npm run check:analytics && npm run check:markup && npm run check:parity && npm run check:files && npm run check:subscription && npm run verify:pages",
+    "checks": "npm run build && npm run check:theme && npm run check:intake && npm run check:content && npm run check:analytics && npm run check:markup && npm run check:parity && npm run check:files && npm run check:search && npm run check:subscription && npm run verify:pages",
     "verify:pages": "node scripts/verify-pages.mjs",
     "import:blog": "node --experimental-strip-types scripts/import-blog.mjs",
     "probe:jev": "node scripts/jev-probe.mjs",
@@ -24,15 +24,17 @@
     "check:subscription": "node scripts/check-subscription.mjs",
     "db:migrate": "CLOUDFLARE_ACCOUNT_ID=de677f38b96340f3a63a53e5044a1c98 wrangler d1 migrations apply hunter-alpha-hub-subscribers --remote",
     "db:migrate:local": "wrangler d1 migrations apply hunter-alpha-hub-subscribers --local",
-    "check:intake": "node scripts/check-intake.mjs"
+    "check:intake": "node scripts/check-intake.mjs",
+    "check:search": "node scripts/check-search.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
     "astro": "^5.0.0"
   },
   "devDependencies": {
-    "wrangler": "^4.127.1",
-    "sharp": "^0.35.4"
+    "pagefind": "^1.5.2",
+    "sharp": "^0.35.4",
+    "wrangler": "^4.127.1"
   },
   "engines": {
     "node": ">=22"

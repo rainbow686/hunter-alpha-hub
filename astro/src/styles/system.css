@@ -47,6 +47,112 @@
   .masthead .live-slot { display: none; }
 }
 
+/*
+ * The search button (2026-09-22). It is the only control in the nav row that
+ * introduces a new surface, so it is worth saying why it looks like this: the nav
+ * row is a strip of small caps, and a button that matched them would read as another
+ * link. It carries a hairline instead — the same treatment the price tables use for
+ * a value the reader can act on — plus the shortcut, which is the one piece of
+ * information a reader needs to stop using the mouse.
+ *
+ * `.nav-tools` also re-homes the `margin-left: auto` that used to sit on `.meta` in
+ * v7.css, so the count and the button travel together at every width (the count is
+ * hidden below 760px and would otherwise leave the button with nothing to push it).
+ */
+.navrow .nav-tools {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.navrow .nav-tools .meta { margin-left: 0; }
+.navrow .search-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.navrow .search-trigger:hover { color: var(--text); border-color: var(--text-faint); }
+.navrow .search-trigger kbd {
+  font: inherit;
+  letter-spacing: 0.04em;
+  padding: 1px 4px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--bg-sunken);
+  color: var(--text-faint);
+}
+/*
+ * How the button gives up its space, in the order the pieces are worth keeping.
+ * Measured, not guessed: the nav row is 1080 of a 1440 viewport, the nav itself
+ * needs 535 on one line, the brand that returns on scroll needs 137, and the gaps
+ * take 48 — so everything to the right of the nav has 360px, and the button plus
+ * the model count wanted 390. The count goes first because a number about the
+ * catalogue is decoration and a search box is a control; the ⌘K hint goes next,
+ * because it is a hint and not the button; the word goes last, leaving the
+ * magnifier, which is the one shape that needs no label.
+ */
+@media (max-width: 1280px) {
+  .navrow .search-trigger kbd { display: none; }
+}
+@media (max-width: 1080px) {
+  .navrow .search-trigger span { display: none; }
+  .navrow .search-trigger { padding: 5px var(--space-2); }
+}
+@media (max-width: 1000px) {
+  .navrow .meta { display: none; }
+}
+/*
+ * Six small-caps items need 535px and a phone has 334, so the nav wrapped — two
+ * lines without the search button and three with it. The row keeps its designed
+ * height and the nav scrolls sideways instead, which is also the fix for a bug that
+ * predates the button: measured at 390px, the wrapped nav was 73px tall inside a
+ * 56px row and painted over the top of the page.
+ */
+@media (max-width: 760px) {
+  /* `header.site .navrow nav`, not `.navrow nav`: tokens.css sets
+     `header.site nav { flex-wrap: wrap }`, which is one class plus two elements and
+     so outranks the shorter selector however late this file loads. Measured after
+     the first attempt: `overflow-x` applied and `flex-wrap` did not. */
+  header.site .navrow nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* The half-word at the right edge is deliberate but reads as a layout fault;
+       a fade says "there is more this way" the way a carousel does. */
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  }
+  header.site .navrow nav::-webkit-scrollbar { display: none; }
+  header.site .navrow nav a { flex: 0 0 auto; }
+}
+/*
+ * …and on scroll the count leaves entirely, which is the same trade the masthead
+ * makes one row above: what disappears is the meta, and what appears is the brand.
+ * It fades rather than vanishes so the row does not reflow under the reader's eye.
+ */
+.nav-tools .meta {
+  transition: opacity 160ms ease, max-width 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+header.site.is-condensed .nav-tools .meta {
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-tools .meta { transition: none; }
+}
+
 :root {
   /* Frozen surface palette — the warm paper family. */
   --bg: #faf6f0;
