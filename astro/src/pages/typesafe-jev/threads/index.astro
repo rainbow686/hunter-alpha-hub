@@ -55,6 +55,12 @@ const fmt = (n: number) => n.toLocaleString("en-US");
     <ul class="card-grid">
       {jevThreads.map((thread) => (
         <li class="card">
+          {/* A thread has no preview image, and a directory page is the wrong place for a
+              generated one (contract §5). The source gets a glyph instead: real, cheap,
+              and it does the same job — telling you at a glance where the row came from. */}
+          <div class="card-media card-chip" style="--ratio: 21 / 9" aria-hidden="true">HN</div>
+          <div class="card-body">
+          <p class="card-eyebrow">Hacker News</p>
           <h2 class="card-title"><a href={thread.url} rel="noopener">{thread.title}</a></h2>
           <p class="card-meta">
             <span>{thread.author}</span>
@@ -63,6 +69,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
             <span>{fmt(thread.comments)} comments</span>
           </p>
           <p class="card-note card-our">{thread.ourNote}</p>
+          </div>
         </li>
       ))}
     </ul>
