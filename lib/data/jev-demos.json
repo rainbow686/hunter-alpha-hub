@@ -1,12 +1,455 @@
 {
   "meta": {
-    "generatedAt": "2026-09-22T00:00:00Z",
-    "source": "manual",
-    "queries": [],
+    "generatedAt": "2026-09-22T12:35:19.220Z",
+    "source": "x-syndication",
+    "queries": [
+      "42 curated links"
+    ],
     "intake": "X and Threads are entered by hand: neither offers a read API we can afford or get approved (ADR-0023, docs/roadmap/jev-intake.md). A demo is added here only after somebody watches it and writes the note.",
-    "candidates": 0,
+    "candidates": 20,
     "published": 0,
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs"
   },
-  "entries": []
+  "entries": [
+    {
+      "id": "x:2101294219633529030",
+      "source": "x",
+      "url": "https://x.com/0xCodez/status/2101294219633529030",
+      "title": "Jev Founder, Diogo Almeida (ex-OpenAI): \"The next era is not the Claude Code or Codex era, th…",
+      "author": "@0xCodez",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101293440843591680/img/3BtdoFBd-JH1wJc6.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080
+      },
+      "metrics": {
+        "likes": 2094,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100984487802708306",
+      "source": "x",
+      "url": "https://x.com/0xCodila/status/2100984487802708306",
+      "title": "Jev is the \"Internet\" moment for the AI industry It tells your agents and LLMs what to do nex…",
+      "author": "@0xCodila",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 3079,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100478725393686556",
+      "source": "x",
+      "url": "https://x.com/0xLogicrw/status/2100478725393686556",
+      "title": "Jev 这个 waitlist 还是很给力的，昨天申请，今天就能用上。 给已经拿到 API、但还不知道怎么玩的人整理了一份 Awesome Jev，目前我能确认到的 Jev 项目基本都在…",
+      "author": "@0xLogicrw",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSZeDLvbUAAo33S.jpg",
+        "thumbW": 1188,
+        "thumbH": 1036
+      },
+      "metrics": {
+        "likes": 1639,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101007482919227841",
+      "source": "x",
+      "url": "https://x.com/0xMovez/status/2101007482919227841",
+      "title": "https://t.co/qQDIN39Vj5",
+      "author": "@0xMovez",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 717,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101292455391809670",
+      "source": "x",
+      "url": "https://x.com/0xRicker/status/2101292455391809670",
+      "title": "Jev could become the control layer AI agents have been missing. Instead of spending 5–20 seco…",
+      "author": "@0xRicker",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 308,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101705843200721203",
+      "source": "x",
+      "url": "https://x.com/0xRicker/status/2101705843200721203",
+      "title": "Jev Engineering is what turns an agent stack into an actual control system and moves the expe…",
+      "author": "@0xRicker",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101703757109006336/img/VMm2Coeq4m1vZaAs.jpg",
+        "thumbW": 1080,
+        "thumbH": 1322
+      },
+      "metrics": {
+        "likes": 1619,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100688880798159254",
+      "source": "x",
+      "url": "https://x.com/CloudflareDev/status/2100688880798159254",
+      "title": "Jev from @typesafeai is now live on @CloudflareDev AI Gateway. Try the first System One model…",
+      "author": "@CloudflareDev",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 1078,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101206777924858319",
+      "source": "x",
+      "url": "https://x.com/DataChaz/status/2101206777924858319",
+      "title": "Jev might genuinely be an “Internet moment” for AI. TypeSafe reports up to 193x faster and 44…",
+      "author": "@DataChaz",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSj8bdNa0AAPYPc.jpg",
+        "thumbW": 1054,
+        "thumbH": 1492
+      },
+      "metrics": {
+        "likes": 2144,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100927101327028484",
+      "source": "x",
+      "url": "https://x.com/ErickSky/status/2100927101327028484",
+      "title": "Este tipo de herramientas empieza a hacer que el contexto de los agentes parezca menos una ve…",
+      "author": "@ErickSky",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSf9F2QW8AACj6_.png",
+        "thumbW": 758,
+        "thumbH": 336
+      },
+      "metrics": {
+        "likes": 54,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100859307671855113",
+      "source": "x",
+      "url": "https://x.com/GoSailGlobal/status/2100859307671855113",
+      "title": "一个只会做选择题的小模型，能长出多少玩法？ TypeSafe 的 Jev 就是这么个东西：给它最多 255 个选项，几百毫秒挑一个，再附一个校准过的置信度，输出 token 免费 结果开…",
+      "author": "@GoSailGlobal",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100859271961583616/img/c3dp_afY11zXvZ69.jpg",
+        "thumbW": 1280,
+        "thumbH": 720
+      },
+      "metrics": {
+        "likes": 37,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100877682972258619",
+      "source": "x",
+      "url": "https://x.com/GoSailGlobal/status/2100877682972258619",
+      "title": "拿 Jev 做搜索重排，我先泼一盆冷水：单独用，它没打赢向量检索 TypeSafe 的 Jev 这阵子很火，一堆项目拿它做重排。我们在 Agent Skills Hub 的 33,047…",
+      "author": "@GoSailGlobal",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100877620292583424/img/7Ztuku-R01C1GvlU.jpg",
+        "thumbW": 1280,
+        "thumbH": 720
+      },
+      "metrics": {
+        "likes": 71,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100362415187833048",
+      "source": "x",
+      "url": "https://x.com/Kostastsale/status/2100362415187833048",
+      "title": "This made me rethink where AI actually fits into security engineering. For purely engineering…",
+      "author": "@Kostastsale",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 205,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100036101809619314",
+      "source": "x",
+      "url": "https://x.com/NathanFlurry/status/2100036101809619314",
+      "title": "hype-free explanation of jev: jev does not replace gpt / claude jev is just a *really* smart …",
+      "author": "@NathanFlurry",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 7522,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100744709589316009",
+      "source": "x",
+      "url": "https://x.com/OpenRouter/status/2100744709589316009",
+      "title": "Jev by @typesafeai is now on OpenRouter, in beta. Jev is a System One model. Instead of gener…",
+      "author": "@OpenRouter",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100744692048818176/img/lnRQ8fZbTFSI0YuV.jpg",
+        "thumbW": 1440,
+        "thumbH": 1080
+      },
+      "metrics": {
+        "likes": 3860,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100780634734002230",
+      "source": "x",
+      "url": "https://x.com/SUOHA_AI/status/2100780634734002230",
+      "title": "连 JEV 的联合创始人 @CompleteSkeptic 都亲自下场转发点赞：这是 JEV 正确的打开方式！ 大家在 Claude Code 里写长代码，最恶心的就是上下文一满，系统就…",
+      "author": "@SUOHA_AI",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100780075931029504/img/ue1TlYTuwEoykRhs.jpg",
+        "thumbW": 1180,
+        "thumbH": 932
+      },
+      "metrics": {
+        "likes": 2848,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101037514945597645",
+      "source": "x",
+      "url": "https://x.com/akshay_pachaar/status/2101037514945597645",
+      "title": "https://t.co/haL8IGhx3h",
+      "author": "@akshay_pachaar",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 5118,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101309986156712025",
+      "source": "x",
+      "url": "https://x.com/akshay_pachaar/status/2101309986156712025",
+      "title": "LLMs vs. Jev, clearly explained! TL;DR The key difference is not that Jev generates faster. J…",
+      "author": "@akshay_pachaar",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101309969044054016/img/33Ud7QFDU8aMgYlW.jpg",
+        "thumbW": 1930,
+        "thumbH": 1428
+      },
+      "metrics": {
+        "likes": 2934,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2102087107410002345",
+      "source": "x",
+      "url": "https://x.com/akshay_pachaar/status/2102087107410002345",
+      "title": "https://t.co/XbYTbrX3Ug",
+      "author": "@akshay_pachaar",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 408,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2101674202361221376",
+      "source": "x",
+      "url": "https://x.com/alexchristou_/status/2101674202361221376",
+      "title": "Years of twitter bookmark hoarding Light work for Jev to run through https://t.co/TA1OG3FSiG",
+      "author": "@alexchristou_",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101673555813453825/img/nfWWuk_nW1mtGBW2.jpg",
+        "thumbW": 2018,
+        "thumbH": 1196
+      },
+      "metrics": {
+        "likes": 3127,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    },
+    {
+      "id": "x:2100739055923425589",
+      "source": "x",
+      "url": "https://x.com/altryne/status/2100739055923425589",
+      "title": "This is actually insane. This uses @typesafeai Jev model, as a plugin in Claude to review all…",
+      "author": "@altryne",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSdTBk8bAAAPtk8.png",
+        "thumbW": 816,
+        "thumbH": 400
+      },
+      "metrics": {
+        "likes": 8406,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": []
+    }
+  ]
 }
