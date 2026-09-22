@@ -68,19 +68,27 @@ export const comparisonPairs: ComparisonPair[] = [
     slug: "deepseek-v4-flash-vs-glm-5.3-flash",
     aSlug: "deepseek-v4-flash",
     bSlug: "glm-5.3-flash",
+    /*
+     * Rewritten 2026-09-22, when the drift check found both had been repriced and
+     * they had swapped places: DeepSeek V4 Flash is now the cheaper one to *read*
+     * ($0.04 in) and the expensive one to *write* ($0.64 out, 5.3x its old price),
+     * while GLM 5.3 Flash moved to $0.15 / $0.50. The old copy called DeepSeek
+     * "slightly cheaper" on both, which was true on 2026-09-18 and is now wrong in
+     * one direction and right in the other.
+     */
     keyDifference:
-      "GLM 5.3 Flash adds vision and video input, while DeepSeek V4 Flash is text-only but slightly cheaper and still very large-context.",
+      "GLM 5.3 Flash adds vision and video input at $0.15 in / $0.50 out per million. DeepSeek V4 Flash is text-only, with the cheaper input of the two ($0.04) and the dearer output ($0.64). Both declare the same 1.31M-token window, so the window is not the tiebreaker it looks like.",
     quickVerdict:
-      "Use GLM 5.3 Flash when you need low-cost multimodal processing at more than 1M tokens. Use DeepSeek V4 Flash for pure-text batch work where cost and large context matter more than modality.",
+      "Since the 2026-09-22 repricing this is a read-versus-write decision rather than a cheaper-versus-dearer one. DeepSeek V4 Flash wins on anything that reads a lot and writes a little; GLM 5.3 Flash wins on mixed-media input and on generation.",
     chooseAIf: [
       "Your workload is text-only",
-      "You want the lowest possible input and output cost",
-      "You process long documents, logs or transcripts in batches",
+      "You send far more input than you expect back — classification, extraction, retrieval, log triage",
+      "You want the lowest input price in the snapshot at $0.04 per million",
     ],
     chooseBIf: [
       "You need image or video input",
-      "You want one large-context model for mixed media extraction",
-      "Your benchmark shows GLM handles your document structure better",
+      "The job writes a lot: GLM's output costs $0.50 against DeepSeek's $0.64",
+      "You want one model for mixed-media extraction across a 1.31M-token window",
     ],
   },
   {
@@ -88,9 +96,9 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "mimo-v2.5",
     bSlug: "deepseek-v4-flash",
     keyDifference:
-      "Xiaomi MiMo-V2.5 supports multimodal input; DeepSeek V4 Flash is text-only but has a lower price and comparable large-context reach.",
+      "Xiaomi MiMo-V2.5 supports multimodal input at $0.14 in / $0.28 out per million. DeepSeek V4 Flash is text-only, cheaper to read at $0.04 in and dearer to write at $0.64 out since its 2026-09-22 repricing.",
     quickVerdict:
-      "MiMo-V2.5 is better for mixed-media long-context work. DeepSeek V4 Flash is the more cost-focused option for pure-text summarization and extraction.",
+      "MiMo-V2.5 is the one to test for mixed-media input, and it is the cheaper model per output token. DeepSeek V4 Flash is the better fit for pure-text work whose output is short — the two swap places as soon as the job starts generating.",
     chooseAIf: [
       "You need image, audio or video input",
       "You want one model across mixed-media analysis",
@@ -98,8 +106,8 @@ export const comparisonPairs: ComparisonPair[] = [
     ],
     chooseBIf: [
       "Your workload is text-only and high-volume",
-      "Cost is the primary constraint",
-      "You are building document and log summarization pipelines",
+      "You expect far more input tokens than output tokens — summarization, extraction, log triage",
+      "You are building pipelines where the answer is a label, not a paragraph",
     ],
   },
   {
@@ -107,18 +115,18 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "mimo-v2.5",
     bSlug: "glm-5.3-flash",
     keyDifference:
-      "GLM 5.3 Flash has a larger context window and lower pricing; MiMo-V2.5 adds audio input and may perform differently on long-context quality.",
+      "GLM 5.3 Flash has the larger context window (1.31M against 1.05M) and now the higher price after its 2026-09-22 repricing ($0.15 in / $0.50 out per million). MiMo-V2.5 adds audio input at $0.14 in / $0.28 out.",
     quickVerdict:
-      "GLM 5.3 Flash is the lower-cost choice for very long multimodal context. MiMo-V2.5 is worth testing when you need audio input or prefer its long-context behavior.",
+      "GLM 5.3 Flash is still the pick when the document genuinely needs more than a million tokens of window. MiMo-V2.5 is now the cheaper of the two for everything else, and the only one of the pair that takes audio.",
     chooseAIf: [
       "You need audio plus image or video input",
       "Your real documents favor MiMo's retrieval behavior",
-      "You want an alternative to the lowest-cost GLM route",
+      "You want the cheaper of the two per token, output included",
     ],
     chooseBIf: [
-      "You want the larger context window and lower price",
-      "Your workload is bulk media extraction",
-      "You need cheap processing across very long documents",
+      "You want the larger context window: 1.31M tokens",
+      "Your workload is bulk media extraction, images and video rather than audio",
+      "Your documents run past the 1.05M line",
     ],
   },
   {
@@ -221,16 +229,16 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "union-alpha",
     bSlug: "glm-5.3-flash",
     keyDifference:
-      "Both are revealed stealth models — Union Alpha is Unbiased Pareto (256K, image input, revealed 2026-09-18) and GLM 5.3 Flash is Z.ai's model that was OX Alpha. The practical difference is input type and price: Pareto takes images at $2.50 in / $7.50 out per million, GLM 5.3 Flash is text-only at $0.09 in / $0.30 out.",
+      "Both are revealed stealth models — Union Alpha is Unbiased Pareto (256K, image input, revealed 2026-09-18) and GLM 5.3 Flash is Z.ai's model that was OX Alpha. The practical difference is input type and price: Pareto takes images at $2.50 in / $7.50 out per million, GLM 5.3 Flash takes images and video too at $0.15 in / $0.50 out.",
     quickVerdict:
-      "Pick Pareto when the prompt contains an image; pick GLM 5.3 Flash for text-only work at volume, where it costs roughly a twenty-fifth as much per token. Both now have a named vendor, so the anonymity that made Union Alpha hard to recommend is gone.",
+      "Pick Pareto only when something else about it wins your evaluation — it is roughly fifteen times the price per token, and since the 2026-09-22 repricing GLM 5.3 Flash is cheaper on both directions than it was. Both now have a named vendor, so the anonymity that made Union Alpha hard to recommend is gone.",
     chooseAIf: [
       "Your prompt includes screenshots, charts or diagrams",
       "You want the Alpha line's newest reveal rather than its oldest",
       "256K of context is enough for the document you are sending",
     ],
     chooseBIf: [
-      "The input is text and cost per token matters",
+      "Cost per token matters: GLM is about a fifteenth of the price",
       "You want the longer 1M-class context window",
       "You want the vendor that has been shipping publicly the longest of the three",
     ],
@@ -259,9 +267,9 @@ export const comparisonPairs: ComparisonPair[] = [
     aSlug: "union-alpha",
     bSlug: "deepseek-v4-flash",
     keyDifference:
-      "Union Alpha is now Unbiased Pareto — a paid multimodal model (256K, images in, $2.50 in / $7.50 out per million) revealed on 2026-09-18. DeepSeek V4 Flash is a text-only model at $0.06 in / $0.12 out with a 1.3M-token window.",
+      "Union Alpha is now Unbiased Pareto — a paid multimodal model (256K, images in, $2.50 in / $7.50 out per million) revealed on 2026-09-18. DeepSeek V4 Flash is a text-only model at $0.04 in / $0.64 out with a 1.3M-token window, repriced on 2026-09-22.",
     quickVerdict:
-      "Pareto is the pick when the input is an image, which V4 Flash cannot take at all. For text, V4 Flash is roughly forty times cheaper per token with a five-times-larger window — the old 'Union Alpha is free' reasoning disappeared with the reveal.",
+      "Pareto is the pick when the input is an image, which V4 Flash cannot take at all. For text the gap is uneven rather than uniform: V4 Flash costs about a sixty-second of Pareto's input price and about a twelfth of its output price, with a five-times-larger window — the old 'Union Alpha is free' reasoning disappeared with the reveal, and the arithmetic on the other side moved on 2026-09-22.",
     chooseAIf: [
       "You need vision input, which V4 Flash does not offer",
       "You want the model behind the Union Alpha codename specifically",
@@ -271,6 +279,69 @@ export const comparisonPairs: ComparisonPair[] = [
       "Text-only is enough",
       "You are optimising spend per token at volume",
       "You need a window in the million-token range",
+    ],
+  },
+  /*
+   * The MiMo-V2.6 line, added 2026-09-22 — the day after the three entries
+   * appeared in the catalogue. These are the comparisons a reader has to make
+   * before choosing inside one release: which tier, and whether the speed
+   * edition's 10x price is worth it.
+   */
+  {
+    slug: "mimo-v2.6-flash-vs-mimo-v2.6-pro",
+    aSlug: "mimo-v2.6-flash",
+    bSlug: "mimo-v2.6-pro",
+    keyDifference:
+      "Same release, same 1.05M-token window and the same four input modalities. Flash is $0.14 in / $0.28 out per million; Pro is $0.435 in / $0.87 out — 3.1x the price.",
+    quickVerdict:
+      "Start on Flash and keep it unless your own evaluation shows Pro winning on the work you actually do. The only published number separating them is Pro's Artificial Analysis intelligence index of 46.3, and the catalogue carries no equivalent for Flash — so the tier difference is currently asserted rather than measured.",
+    chooseAIf: [
+      "Cost per token is the constraint, which it is for anything running at volume",
+      "Your task is classification, extraction, routing or summarization rather than open-ended generation",
+      "You want the cheaper cached input: $0.0028 per million against Pro's $0.0036",
+    ],
+    chooseBIf: [
+      "You have evaluated both on your own prompts and Pro wins",
+      "The workload is the flagship one: long agent traces, hard reasoning, low tolerance for a wrong answer",
+      "A 3.1x price difference is small next to the cost of the failure you are preventing",
+    ],
+  },
+  {
+    slug: "mimo-v2.6-flash-vs-deepseek-v4-flash",
+    aSlug: "mimo-v2.6-flash",
+    bSlug: "deepseek-v4-flash",
+    keyDifference:
+      "The two cheapest tiers in the snapshot, read differently. MiMo-V2.6-Flash costs $0.14 / $0.28 per million and takes image, audio and video. DeepSeek V4 Flash costs $0.04 to read and $0.64 to write, and takes text only — both around a 1M-token window.",
+    quickVerdict:
+      "DeepSeek V4 Flash is cheaper to read and much dearer to write; since the repricing its output costs 16x its input, which makes it a reading model. MiMo-V2.6-Flash is the safer default because the two directions are priced within a factor of two of each other and it accepts media, so a workload that changes shape does not force a migration.",
+    chooseAIf: [
+      "You want one cheap model for whatever arrives: text, screenshots, audio or clips",
+      "Your input-to-output ratio is uncertain or changes with the features you ship",
+      "You want a working output price: $0.28 per million against $0.64",
+    ],
+    chooseBIf: [
+      "You are certain the workload reads far more than it writes",
+      "You want the cheapest input in the snapshot at $0.04 per million",
+      "Text-only is acceptable and the window is the part that matters",
+    ],
+  },
+  {
+    slug: "mimo-v2.6-pro-vs-mimo-v2.6-pro-ultraspeed",
+    aSlug: "mimo-v2.6-pro",
+    bSlug: "mimo-v2.6-pro-ultraspeed",
+    keyDifference:
+      "The catalogue describes both as the same 1T MiMo-V2.6-Pro checkpoint and says UltraSpeed matches Pro's quality. UltraSpeed costs exactly 10x more: $4.35 in / $8.70 out per million against $0.435 / $0.87.",
+    quickVerdict:
+      "This is a speed purchase, and the catalogue does not publish the speed number — no latency or throughput figure appears for either entry. Buy UltraSpeed only after measuring it against Pro on your own path; otherwise the 10x is a premium paid on faith, and at $8.70 per million output tokens it is the most expensive entry in the snapshot.",
+    chooseAIf: [
+      "You have not measured the latency difference on your own workload",
+      "The job is a batch, an overnight run or anything a user is not waiting on",
+      "You would rather spend the 10x on more attempts at the cheaper tier",
+    ],
+    chooseBIf: [
+      "A human is waiting on each call and you have measured the gap yourself",
+      "The workload is an interactive control loop — an agent picking its next action, a live UI",
+      "Pro's latency is the thing that fails your product, not its quality",
     ],
   },
 ];
