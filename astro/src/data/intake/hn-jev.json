@@ -1,0 +1,256 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-22T07:41:15.766Z",
+    "source": "hn-algolia",
+    "queries": [
+      "jev",
+      "system one typesafe",
+      "jev decision model",
+      "kev jev",
+      "jev leftpad",
+      "madewithjev"
+    ],
+    "thresholds": {
+      "minPoints": 20,
+      "minComments": 10,
+      "minDate": "2026-06-01",
+      "relevance": "/(\\bjev\\b(?!ons)|\\bkev\\b|typesafe|system one)/i"
+    },
+    "candidates": 11,
+    "published": 0,
+    "note": "candidate-only queue — a page renders entries with status=published and a non-empty ourNote"
+  },
+  "entries": [
+    {
+      "id": "hn:49717558",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49717558",
+      "title": "Introducing System One Models and Jev",
+      "author": "albelfio",
+      "publishedAt": "2026-09-15",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 1949,
+        "comments": 511,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+    },
+    {
+      "id": "hn:49783999",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49783999",
+      "title": "Kev: Tiny Jev-like family of decision models built on top of Qwen3.5",
+      "author": "tosh",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 429,
+        "comments": 192,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/jaredpalmer/kev/tree/main"
+    },
+    {
+      "id": "hn:49784706",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49784706",
+      "title": "Jev-Leftpad",
+      "author": "fka",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 229,
+        "comments": 87,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/f/jev-leftpad"
+    },
+    {
+      "id": "hn:49778162",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49778162",
+      "title": "I turned Jev into a (lousy) chatbot",
+      "author": "kp1197",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 170,
+        "comments": 48,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/kyle-pena-nlp/jevchat/"
+    },
+    {
+      "id": "hn:49731282",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49731282",
+      "title": "Reverse-engineered Jev-like model",
+      "author": "rochansinha",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 167,
+        "comments": 24,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/vinnylarouge/jevlike"
+    },
+    {
+      "id": "hn:49736660",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49736660",
+      "title": "Open-sourced jev architecture last year with model,paper and dataset",
+      "author": "nandakishor_ml",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 96,
+        "comments": 15,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": null
+    },
+    {
+      "id": "hn:49735979",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49735979",
+      "title": "Jev Ultrafast: A browser agent with a dynamic, indexed action space",
+      "author": "rahimnathwani",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 91,
+        "comments": 14,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/browser-use/jev-ultrafast"
+    },
+    {
+      "id": "hn:49767564",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49767564",
+      "title": "Show HN: CUA-S1 – A System One Model for Computer Use",
+      "author": "frabonacci",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 90,
+        "comments": 10,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"system one typesafe\" (the launch, by its other name)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/trycua/cua"
+    },
+    {
+      "id": "hn:49780849",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49780849",
+      "title": "Show HN: jevals – replacing LLM judges with typed Jev decisions",
+      "author": "gbayomi",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 42,
+        "comments": 3,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/openlayer-ai/jevals"
+    },
+    {
+      "id": "hn:49757757",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49757757",
+      "title": "Show HN: Jeff – A read-only CLI for semantic code review using Jev",
+      "author": "imalessandro",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 27,
+        "comments": 5,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://github.com/Alurith/jeff"
+    },
+    {
+      "id": "hn:49781694",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49781694",
+      "title": "Jev, Prolog, Pi, and the dream of probabilistic logic programming",
+      "author": "schmuhblaster",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 21,
+        "comments": 0,
+        "asOf": "2026-09-22"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "candidate",
+      "ourNote": "",
+      "checked": [],
+      "_externalUrl": "https://deepclause.substack.com/p/jev-prolog-pi-and-the-dream-of-probabilistic"
+    }
+  ]
+}
