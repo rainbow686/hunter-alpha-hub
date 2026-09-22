@@ -1,0 +1,497 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "hunteralphahub Hunter Alpha Hub" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "hunteralphahub" [ref=e7]
+        - generic [ref=e11]:
+          - generic [ref=e12]: Hunter
+          - emphasis [ref=e13]: Alpha
+          - generic [ref=e14]: Hub
+      - generic [ref=e15]:
+        - generic [ref=e16]: OpenRouter model reference
+        - generic [ref=e17]: Facts from the public catalogue, dated and labelled
+      - generic [ref=e18]:
+        - generic [ref=e19]: Union Alpha revealed
+        - generic [ref=e21]: no live codename
+        - generic [ref=e23]: Verified2026-09-22
+    - generic [ref=e25]:
+      - link [ref=e26] [cursor=pointer]:
+        - /url: /
+        - img "hunteralphahub" [ref=e28]
+        - generic [ref=e32]:
+          - text: Hunter
+          - emphasis [ref=e33]: Alpha
+          - text: Hub
+      - navigation [ref=e34]:
+        - link "Comparison" [ref=e35] [cursor=pointer]:
+          - /url: /comparison
+        - link "Models" [ref=e36] [cursor=pointer]:
+          - /url: /openrouter-models
+        - link "Pricing" [ref=e37] [cursor=pointer]:
+          - /url: /openrouter-pricing-calculator
+        - link "Stealth line" [ref=e38] [cursor=pointer]:
+          - /url: /stealth-models
+        - link "Free models" [ref=e39] [cursor=pointer]:
+          - /url: /openrouter-free-models
+        - link "Articles" [ref=e40] [cursor=pointer]:
+          - /url: /blog
+      - generic [ref=e41]:
+        - generic [ref=e42]: 18 models · drift-checked 06:00 CST
+        - button "Search" [ref=e43] [cursor=pointer]
+  - main [ref=e48]:
+    - navigation "Breadcrumb" [ref=e49]:
+      - list [ref=e50]:
+        - listitem [ref=e51]:
+          - link "Home" [ref=e52] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=e53]:
+          - text: ›
+          - link "Jev" [ref=e54] [cursor=pointer]:
+            - /url: /typesafe-jev
+        - listitem [ref=e55]: › Builds
+    - article [ref=e56]:
+      - generic [ref=e57]:
+        - heading "Built with Jev" [level=1] [ref=e58]
+        - paragraph [ref=e59]: Jev does not write sentences, so the interesting question is what people put around it. These are the projects where a decision model replaced part of a loop — a browser step, a trade, a compaction — ordered by how many people starred them.
+        - paragraph [ref=e60]:
+          - generic [ref=e61]: Stars and last push read 2026-09-22
+          - generic [ref=e62]: 18 described
+      - generic [ref=e63]:
+        - generic [ref=e64]:
+          - button "All 18" [pressed] [ref=e65] [cursor=pointer]:
+            - text: All
+            - generic [ref=e66]: "18"
+          - generic [ref=e67]:
+            - generic [ref=e68]: use case
+            - button "Browser agents 3" [ref=e69] [cursor=pointer]:
+              - text: Browser agents
+              - generic [ref=e70]: "3"
+            - button "Triage and routing 4" [ref=e71] [cursor=pointer]:
+              - text: Triage and routing
+              - generic [ref=e72]: "4"
+            - button "Coding and context 5" [ref=e73] [cursor=pointer]:
+              - text: Coding and context
+              - generic [ref=e74]: "5"
+            - button "Research and data 7" [ref=e75] [cursor=pointer]:
+              - text: Research and data
+              - generic [ref=e76]: "7"
+            - button "Media and content 1" [ref=e77] [cursor=pointer]:
+              - text: Media and content
+              - generic [ref=e78]: "1"
+            - button "Trading and markets 2" [ref=e79] [cursor=pointer]:
+              - text: Trading and markets
+              - generic [ref=e80]: "2"
+        - status [ref=e81]
+      - list [ref=e82]:
+        - listitem [ref=e83]:
+          - generic [ref=e84]: GitHub
+          - generic [ref=e86]:
+            - paragraph [ref=e87]: GitHub
+            - heading [level=2] [ref=e88]:
+              - link "browser-use/jev-ultrafast" [ref=e89] [cursor=pointer]:
+                - /url: https://github.com/browser-use/jev-ultrafast
+            - paragraph [ref=e90]: Fastest and cheapest web agent
+            - paragraph [ref=e91]: "The browser agent we read line by line for the resources column: Jev picks the next action from an indexed space instead of emitting free-form clicks. The most-starred build in this list, and the one with the clearest engineering write-up."
+            - paragraph [ref=e92]:
+              - generic [ref=e93]: 17,034 ★
+              - generic [ref=e94]: last push 2026-09-18
+        - listitem [ref=e95]:
+          - generic [ref=e96]: GitHub
+          - generic [ref=e98]:
+            - paragraph [ref=e99]: GitHub
+            - heading [level=2] [ref=e100]:
+              - link "OpenByteInc/QuantDinger" [ref=e101] [cursor=pointer]:
+                - /url: https://github.com/OpenByteInc/QuantDinger
+            - paragraph [ref=e102]: Open-source AI Trading OS, agent trading, and vibe trading, with Jev System One integration. Research, build Python strategies, backtest, and paper/live trade across crypto, stocks, and forex. Launch your own multi-tenant trading SaaS with built-in user management, billing, payments, and settlement.
+            - paragraph [ref=e103]: An open-source trading OS. It is here because its own description puts the decision loop at the centre rather than a chat window; the strategy numbers are the author's, and we have not audited them.
+            - paragraph [ref=e104]:
+              - generic [ref=e105]: 11,974 ★
+              - generic [ref=e106]: last push 2026-09-21
+        - listitem [ref=e107]:
+          - generic [ref=e108]: GitHub
+          - generic [ref=e110]:
+            - paragraph [ref=e111]: GitHub
+            - heading [level=2] [ref=e112]:
+              - link "tamaratran/fast-jev-compaction" [ref=e113] [cursor=pointer]:
+                - /url: https://github.com/tamaratran/fast-jev-compaction
+            - paragraph [ref=e114]: "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim."
+            - paragraph [ref=e115]: A Claude Code plugin that replaces the compaction step with a Jev call. Small, unglamorous, and among the highest-starred entries here — the pattern tends to show up in tooling before it shows up in products.
+            - paragraph [ref=e116]:
+              - generic [ref=e117]: 6,135 ★
+              - generic [ref=e118]: last push 2026-09-18
+        - listitem [ref=e119]:
+          - generic [ref=e120]: GitHub
+          - generic [ref=e122]:
+            - paragraph [ref=e123]: GitHub
+            - heading [level=2] [ref=e124]:
+              - link "TheoLeeCJ/SemIf" [ref=e125] [cursor=pointer]:
+                - /url: https://github.com/TheoLeeCJ/SemIf
+            - paragraph [ref=e126]: Semantic ifs from open models, on a 3090 at home. Independent; not affiliated with Jev or TypeSafe.
+            - paragraph [ref=e127]: Semantic conditionals, run on open models on a single 3090. This is the closest thing in the list to a drop-in replacement for an if-statement, which is the plainest statement of what the idea is for.
+            - paragraph [ref=e128]:
+              - generic [ref=e129]: 3,496 ★
+              - generic [ref=e130]: last push 2026-09-21
+        - listitem [ref=e131]:
+          - generic [ref=e132]: GitHub
+          - generic [ref=e134]:
+            - paragraph [ref=e135]: GitHub
+            - heading [level=2] [ref=e136]:
+              - link "jaredpalmer/kev" [ref=e137] [cursor=pointer]:
+                - /url: https://github.com/jaredpalmer/kev
+            - paragraph [ref=e138]: tiny Jev-like family of decision models built on top of Qwen3.5 you can train and run on your own
+            - paragraph [ref=e139]: "The Kev family: the same decide-and-act shape rebuilt on Qwen3.5 instead of the hosted API. It is also the build whose Hacker News thread trended, and the clearest sign that the pattern travels between models."
+            - paragraph [ref=e140]:
+              - generic [ref=e141]: 2,857 ★
+              - generic [ref=e142]: last push 2026-09-22
+        - listitem [ref=e143]:
+          - generic [ref=e144]: GitHub
+          - generic [ref=e146]:
+            - paragraph [ref=e147]: GitHub
+            - heading [level=2] [ref=e148]:
+              - link "jev-chat/jev-chat-jarvis" [ref=e149] [cursor=pointer]:
+                - /url: https://github.com/jev-chat/jev-chat-jarvis
+            - paragraph [ref=e150]: 装在手机上的对话副驾：在微信 / QQ / X / 飞书里读懂对方、给出候选回复、一键填入输入框，发不发由你。非侵入，只读屏幕，不 hook 不改包。
+            - paragraph [ref=e151]: A phone-resident assistant that reads chat threads and proposes replies. The description is the author's and is written in Chinese; we have not run it, so nothing here is a claim about how well it works.
+            - paragraph [ref=e152]:
+              - generic [ref=e153]: 2,336 ★
+              - generic [ref=e154]: last push 2026-09-22
+        - listitem [ref=e155]:
+          - generic [ref=e156]: GitHub
+          - generic [ref=e158]:
+            - paragraph [ref=e159]: GitHub
+            - heading [level=2] [ref=e160]:
+              - link "jarrodwatts/jev-trader" [ref=e161] [cursor=pointer]:
+                - /url: https://github.com/jarrodwatts/jev-trader
+            - paragraph [ref=e162]: One AI trade decision every Monad block. Jev on Kuru MON-USDC.
+            - paragraph [ref=e163]: One trade decision per Monad block, made by Jev — the most literal reading of the model in this list, a decision every few hundred milliseconds with real money behind it.
+            - paragraph [ref=e164]:
+              - generic [ref=e165]: 1,929 ★
+              - generic [ref=e166]: last push 2026-09-17
+        - listitem [ref=e167]:
+          - generic [ref=e168]: GitHub
+          - generic [ref=e170]:
+            - paragraph [ref=e171]: GitHub
+            - heading [level=2] [ref=e172]:
+              - link "TianyuCodings/NanoJev" [ref=e173] [cursor=pointer]:
+                - /url: https://github.com/TianyuCodings/NanoJev
+            - paragraph [ref=e174]: "A nano replica of Jev: parallel decisions, dynamic candidates, and an end-to-end training pipeline."
+            - paragraph [ref=e175]: "A small replica of the mechanics: parallel decisions, dynamic routing. Useful as the readable version of the architecture if you are not going to work through the paper."
+            - paragraph [ref=e176]:
+              - generic [ref=e177]: 1,910 ★
+              - generic [ref=e178]: last push 2026-09-21
+        - listitem [ref=e179]:
+          - generic [ref=e180]: GitHub
+          - generic [ref=e182]:
+            - paragraph [ref=e183]: GitHub
+            - heading [level=2] [ref=e184]:
+              - link "reticlehq/reticle" [ref=e185] [cursor=pointer]:
+                - /url: https://github.com/reticlehq/reticle
+            - paragraph [ref=e186]: AI agents can generate code, but still struggle to understand what they build. Reticle brings Jev-style machine-native runtime perception to web & desktop applications.
+            - paragraph [ref=e187]: "File this one under roadmap, which is where Reticle puts Jev: the README says plainly that nothing ships against it yet. The case is still worth reading, because it is the only project here that names the decisions it would route — is this page settled, is this finding worth chasing — and then says why a 70–500ms typed answer beats an LLM there."
+            - paragraph [ref=e188]:
+              - generic [ref=e189]: 811 ★
+              - generic [ref=e190]: last push 2026-09-22
+        - listitem [ref=e191]:
+          - generic [ref=e192]: GitHub
+          - generic [ref=e194]:
+            - paragraph [ref=e195]: GitHub
+            - heading [level=2] [ref=e196]:
+              - link "awlevin/typesafe-computer-use" [ref=e197] [cursor=pointer]:
+                - /url: https://github.com/awlevin/typesafe-computer-use
+            - paragraph [ref=e198]: "Computer use for about $0.0002 a step: OCR the screen, classify the next action with TypeSafe, click. macOS."
+            - paragraph [ref=e199]: "Computer use for about $0.0002 a step, on macOS: OCR the screen, classify the next action with TypeSafe, click. Python 3.12 with an MIT licence and a CI badge, and the price per step is in the repository description rather than buried in a table. We have not run it."
+            - paragraph [ref=e200]:
+              - generic [ref=e201]: 779 ★
+              - generic [ref=e202]: last push 2026-09-21
+        - listitem [ref=e203]:
+          - generic [ref=e204]: GitHub
+          - generic [ref=e206]:
+            - paragraph [ref=e207]: GitHub
+            - heading [level=2] [ref=e208]:
+              - link "kitfunso/hippo-memory" [ref=e209] [cursor=pointer]:
+                - /url: https://github.com/kitfunso/hippo-memory
+            - paragraph [ref=e210]: Biologically-inspired memory for AI agents. Decay, retrieval strengthening, consolidation. Zero runtime deps, SQLite, MCP. Benchmarked retrieval with an opt-in TypeSafe Jev reranker.
+            - paragraph [ref=e211]: "The most carefully reported Jev result in this list, including its own negative: an opt-in reranker takes R@1 from 0.41 to 0.62 on a private 300-query store at about $0.0004 a recall, the margin held in 20 of 20 seeds — and three graded tests still did not beat the free local cross-encoder. Off by default."
+            - paragraph [ref=e212]:
+              - generic [ref=e213]: 752 ★
+              - generic [ref=e214]: last push 2026-09-21
+        - listitem [ref=e215]:
+          - generic [ref=e216]: GitHub
+          - generic [ref=e218]:
+            - paragraph [ref=e219]: GitHub
+            - heading [level=2] [ref=e220]:
+              - link "Sac-Y/Jev-cu" [ref=e221] [cursor=pointer]:
+                - /url: https://github.com/Sac-Y/Jev-cu
+            - paragraph [ref=e222]: No description published.
+            - paragraph [ref=e223]: "The one repository in this queue with no published description, and the one that states its design constraint most plainly: text goes in and screenshots do not, a local policy gate blocks the sensitive actions, and Codex does the reading and clicking. The README is in Chinese."
+            - paragraph [ref=e224]:
+              - generic [ref=e225]: 564 ★
+              - generic [ref=e226]: last push 2026-09-22
+        - listitem [ref=e227]:
+          - generic [ref=e228]: GitHub
+          - generic [ref=e230]:
+            - paragraph [ref=e231]: GitHub
+            - heading [level=2] [ref=e232]:
+              - link "devagrawal09/jev-review" [ref=e233] [cursor=pointer]:
+                - /url: https://github.com/devagrawal09/jev-review
+            - paragraph [ref=e234]: A staged code-review workflow and local dashboard built with TypeSafe Jev.
+            - paragraph [ref=e235]: "Read the README for the pipeline rather than the dashboard: a Null risk matrix, then Choice and Score file profiles, evidence selection, mechanism classification, severity, and a conditional Choice that routes which reviewer sees it. Orchestration stays in code and Jev only answers the bounded judgements — which is the pattern to copy."
+            - paragraph [ref=e236]:
+              - generic [ref=e237]: 518 ★
+              - generic [ref=e238]: last push 2026-09-17
+        - listitem [ref=e239]:
+          - generic [ref=e240]: GitHub
+          - generic [ref=e242]:
+            - paragraph [ref=e243]: GitHub
+            - heading [level=2] [ref=e244]:
+              - link "rmalde/minecraft-agent" [ref=e245] [cursor=pointer]:
+                - /url: https://github.com/rmalde/minecraft-agent
+            - paragraph [ref=e246]: Astra planner and JEV controller for Minecraft, with native recording, tested routes, and run verification.
+            - paragraph [ref=e247]: "A planner picks the goal and Jev picks the action, and then the repository publishes the run: nether-final-08 finished in 8 minutes 43.300 seconds against 14 minutes for the previous attempt, with the routes and a read-only sensor kept separate from the game. End-to-end times for a Jev loop are rare enough to be worth the row."
+            - paragraph [ref=e248]:
+              - generic [ref=e249]: 493 ★
+              - generic [ref=e250]: last push 2026-09-20
+        - listitem [ref=e251]:
+          - generic [ref=e252]:
+            - paragraph [ref=e253]: GitHub
+            - heading [level=2] [ref=e254]:
+              - link "thruwire/foreman" [ref=e255] [cursor=pointer]:
+                - /url: https://github.com/thruwire/foreman
+            - paragraph [ref=e256]: Software factory foreman based on TypeSafe's Jev model
+            - paragraph [ref=e257]: "Puts the decision model above the coding agent instead of inside it: a Codex or OpenCode worker does the engineering, and Foreman independently asks whether the ticket is finished, the tests exist and the requirements were met. The separation of the worker from the thing that checks the worker is the pattern most of our field notes end up describing."
+            - paragraph [ref=e258]:
+              - generic [ref=e259]: 486 ★
+              - generic [ref=e260]: last push 2026-09-20
+        - listitem [ref=e261]:
+          - generic [ref=e262]: GitHub
+          - generic [ref=e264]:
+            - paragraph [ref=e265]: GitHub
+            - heading [level=2] [ref=e266]:
+              - link "featherless-ai/simple-jev" [ref=e267] [cursor=pointer]:
+                - /url: https://github.com/featherless-ai/simple-jev
+            - paragraph [ref=e268]: Turn any open model into a classifier/jev endpoint
+            - paragraph [ref=e269]: "A different route to the same output contract: read the next-token logits for each question and assemble choices, rubric scores or truth values, with no classifier head and no training. Served as a playground, which makes it the quickest way to see the shape of a Jev answer without a key."
+            - paragraph [ref=e270]:
+              - generic [ref=e271]: 469 ★
+              - generic [ref=e272]: last push 2026-09-21
+        - listitem [ref=e273]:
+          - generic [ref=e274]: GitHub
+          - generic [ref=e276]:
+            - paragraph [ref=e277]: GitHub
+            - heading [level=2] [ref=e278]:
+              - link "wfzyx/von" [ref=e279] [cursor=pointer]:
+                - /url: https://github.com/wfzyx/von
+            - paragraph [ref=e280]: The open-source System One decision model. Sub-15ms, non-autoregressive, local drop-in alternative to TypeSafe Jev.
+            - paragraph [ref=e281]: "The open substitute, published with its own comparison against the model it substitutes: 72.0% macro on a 49-task suite against TypeSafe's 96.6%, and 9.00 kills against 5.62 in ViZDoom — a clear loss on accuracy and a win on the real-time loop. Its GitHub description says sub-15ms and its README headline says sub-25ms; both numbers are the publisher's."
+            - paragraph [ref=e282]:
+              - generic [ref=e283]: 399 ★
+              - generic [ref=e284]: last push 2026-09-21
+        - listitem [ref=e285]:
+          - generic [ref=e286]: GitHub
+          - generic [ref=e288]:
+            - paragraph [ref=e289]: GitHub
+            - heading [level=2] [ref=e290]:
+              - link "superagents-lab/jev-search" [ref=e291] [cursor=pointer]:
+                - /url: https://github.com/superagents-lab/jev-search
+            - paragraph [ref=e292]: "Search the web with TypeSafe's Jev: source selection, query understanding and relevance ranking. Built with Search1API."
+            - paragraph [ref=e293]: Search where Jev chooses the sources, the time range and the terms, and then ranks what comes back — links and snippets with visible relevance scores, no generated answers. There is a live instance, so this is the one row in the column you can check in a browser without cloning anything.
+            - paragraph [ref=e294]:
+              - generic [ref=e295]: 394 ★
+              - generic [ref=e296]: last push 2026-09-20
+      - generic [ref=e297]:
+        - heading "What this column does not have" [level=2] [ref=e298]
+        - paragraph [ref=e299]: A verdict on which of these is good. Star counts order the list and nothing else — they say how many people noticed, not whether the thing works. Where we read the code, the note says so; everywhere else it says the description is the author's.
+        - paragraph [ref=e300]:
+          - 'link "Source: GitHub search API" [ref=e301] [cursor=pointer]':
+            - /url: https://docs.github.com/rest
+          - generic [ref=e302]: Numbers are the authors'; the sentence is ours
+          - link "Built something? Send it over" [ref=e304] [cursor=pointer]:
+            - /url: /submit
+      - navigation "In this topic" [ref=e305]:
+        - generic [ref=e306]:
+          - heading "In this topic" [level=2] [ref=e307]
+          - link "Jev, the reference →" [ref=e308] [cursor=pointer]:
+            - /url: /typesafe-jev
+        - generic [ref=e309]:
+          - paragraph [ref=e310]: Start here
+          - list [ref=e311]:
+            - listitem [ref=e312]:
+              - link "Jev, the reference" [ref=e313] [cursor=pointer]:
+                - /url: /typesafe-jev
+              - generic [ref=e315]: What it is, what it costs, what we measured.
+            - listitem [ref=e316]:
+              - link "How people actually use it" [ref=e317] [cursor=pointer]:
+                - /url: /jev-guide
+              - generic [ref=e319]: Eleven projects read line by line.
+        - generic [ref=e320]:
+          - paragraph [ref=e321]: Columns
+          - list [ref=e322]:
+            - listitem [ref=e323]:
+              - link "What people built 18 you are here" [ref=e324] [cursor=pointer]:
+                - /url: /typesafe-jev/builds
+                - generic [ref=e325]: What people built
+                - generic [ref=e326]: "18"
+                - generic [ref=e327]: you are here
+            - listitem [ref=e328]:
+              - link "Docs, collections and repositories 28" [ref=e329] [cursor=pointer]:
+                - /url: /typesafe-jev/resources
+                - generic [ref=e330]: Docs, collections and repositories
+                - generic [ref=e331]: "28"
+            - listitem [ref=e332]:
+              - link "What Hacker News made of it 11" [ref=e333] [cursor=pointer]:
+                - /url: /typesafe-jev/threads
+                - generic [ref=e334]: What Hacker News made of it
+                - generic [ref=e335]: "11"
+            - listitem [ref=e336]:
+              - link "What people filmed 12" [ref=e337] [cursor=pointer]:
+                - /url: /typesafe-jev/videos
+                - generic [ref=e338]: What people filmed
+                - generic [ref=e339]: "12"
+            - listitem [ref=e340]:
+              - link "What X is saying 42" [ref=e341] [cursor=pointer]:
+                - /url: /typesafe-jev/x-posts
+                - generic [ref=e342]: What X is saying
+                - generic [ref=e343]: "42"
+        - generic [ref=e344]:
+          - paragraph [ref=e345]: By use case
+          - list [ref=e346]:
+            - listitem [ref=e347]:
+              - link "Browser agents 7" [ref=e348] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/browser-agents
+                - generic [ref=e349]: Browser agents
+                - generic [ref=e350]: "7"
+              - generic [ref=e351]: "Driving a browser: clicking, reading, deciding the next step."
+            - listitem [ref=e352]:
+              - link "Triage and routing 16" [ref=e353] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/triage-and-routing
+                - generic [ref=e354]: Triage and routing
+                - generic [ref=e355]: "16"
+              - generic [ref=e356]: Picking a route, a label or a next model — classification where a wrong answer is recoverable.
+            - listitem [ref=e357]:
+              - link "Coding and context 17" [ref=e358] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/coding-and-context
+                - generic [ref=e359]: Coding and context
+                - generic [ref=e360]: "17"
+              - generic [ref=e361]: "Inside a coding agent: compaction, context windows, the harness around the model."
+            - listitem [ref=e362]:
+              - link "Research and data 19" [ref=e363] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/research-and-data
+                - generic [ref=e364]: Research and data
+                - generic [ref=e365]: "19"
+              - generic [ref=e366]: Benchmarks people ran, architectures people reverse-engineered, results that did not work.
+            - listitem [ref=e367]:
+              - link "Media and content 6" [ref=e368] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/media-and-content
+                - generic [ref=e369]: Media and content
+                - generic [ref=e370]: "6"
+              - generic [ref=e371]: Generating, sorting or reviewing words, images and posts.
+            - listitem [ref=e372]:
+              - link "Trading and markets 3" [ref=e373] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/trading-and-markets
+                - generic [ref=e374]: Trading and markets
+                - generic [ref=e375]: "3"
+              - generic [ref=e376]: Decisions with money attached, on a clock.
+            - listitem [ref=e377]:
+              - link "Getting started 22" [ref=e378] [cursor=pointer]:
+                - /url: /typesafe-jev/use-cases/getting-started
+                - generic [ref=e379]: Getting started
+                - generic [ref=e380]: "22"
+              - generic [ref=e381]: What it is, how to install it, what it does not do — where to begin.
+  - contentinfo [ref=e382]:
+    - generic [ref=e383]:
+      - generic [ref=e384]:
+        - generic [ref=e385]:
+          - heading "Where the numbers come from" [level=3] [ref=e386]
+          - generic [ref=e387]:
+            - generic [ref=e388]:
+              - generic [ref=e389]: Model fields
+              - code [ref=e390]: openrouter.ai/api/v1/models
+            - generic [ref=e391]:
+              - generic [ref=e392]: Drift check
+              - code [ref=e393]: daily 06:00 CST
+            - generic [ref=e394]:
+              - generic [ref=e395]: Last verified
+              - code [ref=e396]: 2026-09-22
+            - generic [ref=e397]:
+              - generic [ref=e398]: Stealth status
+              - code [ref=e399]: /api/union-alpha/status
+          - paragraph [ref=e400]: Verified fields are re-read from the public catalogue. Anything we could not verify is labelled a claim, never presented as fact.
+        - generic [ref=e401]:
+          - heading "Reference" [level=3] [ref=e402]
+          - list [ref=e403]:
+            - listitem [ref=e404]:
+              - link "Model index" [ref=e405] [cursor=pointer]:
+                - /url: /openrouter-models
+            - listitem [ref=e406]:
+              - link "Comparisons" [ref=e407] [cursor=pointer]:
+                - /url: /comparison
+            - listitem [ref=e408]:
+              - link "Cost calculator" [ref=e409] [cursor=pointer]:
+                - /url: /openrouter-pricing-calculator
+            - listitem [ref=e410]:
+              - link "Free models" [ref=e411] [cursor=pointer]:
+                - /url: /openrouter-free-models
+            - listitem [ref=e412]:
+              - link "Best picks" [ref=e413] [cursor=pointer]:
+                - /url: /best-openrouter-models
+            - listitem [ref=e414]:
+              - link "How to use OpenRouter" [ref=e415] [cursor=pointer]:
+                - /url: /access
+        - generic [ref=e416]:
+          - heading "Stealth line" [level=3] [ref=e417]
+          - list [ref=e418]:
+            - listitem [ref=e419]:
+              - link "All stealth releases" [ref=e420] [cursor=pointer]:
+                - /url: /stealth-models
+            - listitem [ref=e421]:
+              - link "Union Alpha · Unbiased Pareto" [ref=e422] [cursor=pointer]:
+                - /url: /union-alpha
+            - listitem [ref=e423]:
+              - link "How the Alpha line works" [ref=e424] [cursor=pointer]:
+                - /url: /alpha-models
+            - listitem [ref=e425]:
+              - link "OX Alpha (revealed)" [ref=e426] [cursor=pointer]:
+                - /url: /ox-alpha
+            - listitem [ref=e427]:
+              - link "Hunter Alpha (revealed)" [ref=e428] [cursor=pointer]:
+                - /url: /hunter-alpha
+            - listitem [ref=e429]:
+              - link "Benchmarks" [ref=e430] [cursor=pointer]:
+                - /url: /hunter-alpha-benchmarks
+        - generic [ref=e431]:
+          - heading "Field notes" [level=3] [ref=e432]
+          - list [ref=e433]:
+            - listitem [ref=e434]:
+              - link "All field notes" [ref=e435] [cursor=pointer]:
+                - /url: /field-notes
+            - listitem [ref=e436]:
+              - link "Jev (TypeSafe)" [ref=e437] [cursor=pointer]:
+                - /url: /typesafe-jev
+            - listitem [ref=e438]:
+              - link "How people use Jev" [ref=e439] [cursor=pointer]:
+                - /url: /jev-guide
+        - generic [ref=e440]:
+          - heading "Site" [level=3] [ref=e441]
+          - list [ref=e442]:
+            - listitem [ref=e443]:
+              - link "Articles" [ref=e444] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e445]:
+              - link "中文文档" [ref=e446] [cursor=pointer]:
+                - /url: /zh/access
+            - listitem [ref=e447]:
+              - link "About" [ref=e448] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e449]:
+              - link "Contact" [ref=e450] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e451]:
+              - link "Terms of service" [ref=e452] [cursor=pointer]:
+                - /url: /terms
+            - listitem [ref=e453]:
+              - link "Privacy policy" [ref=e454] [cursor=pointer]:
+                - /url: /privacy
+      - generic [ref=e455]:
+        - generic [ref=e456]: Independent reference. Not affiliated with OpenRouter or any model provider.
+        - generic [ref=e457]: Pricing, context windows and availability change without notice; stealth endpoints especially. Confirm with the provider before you commit to a model.

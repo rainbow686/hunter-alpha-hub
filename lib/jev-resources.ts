@@ -39,6 +39,14 @@ export interface JevResource {
   what: string;
   /** What we took from it. Only where we have something real to say. */
   ourNote?: string;
+  /**
+   * A hosted instance you can open without installing anything — the reference site's
+   * `/sites` shelf ("click and use, no install, no key"). We do not have enough of these to
+   * justify a column of their own, so they live here as a property of the row, and the page
+   * lists them together. `verifiedOn` is the day the URL answered, not the day the project
+   * was announced: a demo that 404s in a week must not stay in the list.
+   */
+  live?: { url: string; verifiedOn: string; needsKey: boolean };
 }
 
 /** Every link below was fetched and every star count read on this date. */
@@ -246,6 +254,7 @@ export const jevResources: JevResource[] = [
     lastPush: "2026-09-21",
     what: "Turns any open model into a Jev-shaped classifier endpoint — the cheapest way to test the pattern without buying the API.",
     ourNote: "The one to read to see how much of the value is the model and how much is the output contract.",
+    live: { url: "https://simple-jev.featherless.ai/", verifiedOn: "2026-09-23", needsKey: false },
   },
   {
     name: "kerpopule/hermes-jev-skills",
@@ -257,6 +266,17 @@ export const jevResources: JevResource[] = [
     what: "Routing, memory, compaction and skill selection: the agent's small decisions moved out of the model that writes.",
   },
   {
+    name: "jaredpalmer/kev",
+    url: "https://github.com/jaredpalmer/kev",
+    kind: "tool",
+    by: "Jared Palmer",
+    stars: 2857,
+    lastPush: "2026-09-22",
+    what: "Small Jev-like decision models you can train and run yourself (0.8B, 4B, 9B), with the fine-tuning workflow packaged as a skill.",
+    ourNote: "The one to read if you want the decision layer off someone else's API.",
+    live: { url: "https://huggingface.co/spaces/jaredpalmer/kev", verifiedOn: "2026-09-23", needsKey: false },
+  },
+  {
     name: "superagents-lab/jev-search",
     url: "https://github.com/superagents-lab/jev-search",
     kind: "tool",
@@ -264,6 +284,7 @@ export const jevResources: JevResource[] = [
     stars: 387,
     lastPush: "2026-09-20",
     what: "Web search where Jev picks the sources and the query shape, and a writing model does the answering.",
+    live: { url: "https://jev.s1.dev", verifiedOn: "2026-09-23", needsKey: false },
   },
   {
     name: "wy-coliney/jev-browser-use",
@@ -308,6 +329,9 @@ export function resourcesByKind(kind: ResourceKind): JevResource[] {
 }
 
 /** Rows per kind, used for the page's own counts so they cannot drift. */
+/** Rows with a hosted instance you can open — the "try it now" shelf. */
+export const jevResourcesLive = jevResources.filter((r) => r.live);
+
 export const jevResourceCounts = {
   official: resourcesByKind("official").length,
   collection: resourcesByKind("collection").length,

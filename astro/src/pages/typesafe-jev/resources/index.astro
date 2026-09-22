@@ -21,6 +21,7 @@ import { JEV_DATA_AS_OF } from "@repo/lib/jev";
 import {
   JEV_RESOURCES_READ_ON,
   jevResourceCounts,
+  jevResourcesLive,
   resourcesByKind,
   type JevResource,
 } from "@repo/lib/jev-resources";
@@ -48,6 +49,17 @@ function rows(kind: Parameters<typeof resourcesByKind>[0]) {
     what: resource.ourNote ? `${resource.what} ${resource.ourNote}` : resource.what,
   }));
 }
+
+/** The "try it now" shelf: rows with a hosted instance, flattened like the tables. */
+const liveRows = jevResourcesLive.map((resource) => ({
+  name: resource.name,
+  repo: resource.url,
+  url: resource.live!.url,
+  by: resource.by,
+  needsKey: resource.live!.needsKey,
+  verifiedOn: resource.live!.verifiedOn,
+  what: resource.what,
+}));
 
 const officialRows = rows("official");
 const collectionRows = rows("collection");
@@ -109,11 +121,47 @@ const sections = [
     <span>{jevResourceCounts.total} resources</span>
     <span>Last checked {JEV_RESOURCES_READ_ON}</span>
   </div>
+  {/*
+    Counts are read from the same file the tables are built from. They used to be typed into this
+    sentence ("six … eight … fourteen") and went wrong the moment a row was added — the same class
+    of bug as the "15 models tracked" line in the header.
+  */}
   <p class="lede">
-    Jev grew a documentation ecosystem in six days: a vendor blog, two model listings, eight competing
-    community lists and more than a hundred repositories. Six of those pages are TypeSafe's own, eight are
-    collections somebody else assembled, and fourteen are tools you can install. This is what each one is.
+    Jev grew a documentation ecosystem in a week: a vendor blog, two model listings, {jevResourceCounts.collection}
+    competing community lists and more than a hundred repositories. {jevResourceCounts.official} of the pages
+    below are TypeSafe's own, {jevResourceCounts.collection} are collections somebody else assembled, and{" "}
+    {jevResourceCounts.tool} are tools — of which {jevResourcesLive.length} run in a browser with no install and
+    no key. This is what each one is.
   </p>
+
+  {/*
+    The reference site keeps a separate `/sites` shelf for things you can open without
+    installing anything ("click and use, no install, no key"). We have three, which is not a
+    column — it is a property of three rows in this one — so they are lifted to the top
+    instead of being buried in a table whose other columns (stars, last push) do not apply.
+    Each says the day we opened it: a demo that 404s in a week must not stay listed.
+  */}
+  <section id="try">
+    <h2>Try it without installing anything</h2>
+    <p class="measure">
+      Three of the resources below are hosted, need no key and open in a browser — each URL was
+      opened on the date shown. These are the fastest way to see the behaviour this whole topic
+      is about, without reading a repository first.
+    </p>
+    <ul class="live-list">
+      {liveRows.map((row) => (
+        <li>
+          <a class="live-name" href={row.url} rel="noopener noreferrer">{row.name}</a>
+          <span class="live-by">{row.by}</span>
+          <span class="live-meta">
+            opens at {row.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+            {row.needsKey ? " · key required" : " · no key"} · checked {row.verifiedOn}
+          </span>
+          <span class="live-what">{row.what}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
 
   <p class="measure">
     Part of the <a href="/typesafe-jev">Jev topic</a>, which carries the specs and the price. Eleven
