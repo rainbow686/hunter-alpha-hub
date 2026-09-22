@@ -52,6 +52,17 @@ for (const QUEUE of QUEUES) {
       const host = new URL(e.url).hostname;
       if (!HOST_WHITELIST.includes(host)) fail.push(`${where}: host ${host} is not in the whitelist`);
       if (e.media?.thumb && (!e.media.thumbW || !e.media.thumbH)) fail.push(`${where}: thumbnail without width/height`);
+
+      // The excerpt tier (docs/handbook/writing-style.md): a clip is allowed only up to
+      // five seconds, silent, and only when the row states where it came from and how
+      // long it runs. Anything else is a copy wearing a quotation's clothes.
+      if (e.media?.clip) {
+        const clip = e.media.clip;
+        if (!(clip.seconds > 0 && clip.seconds <= 5)) fail.push(`${where}: clip is ${clip.seconds}s — the excerpt tier allows a maximum of 5`);
+        if (clip.audio !== false) fail.push(`${where}: clip keeps its audio — excerpts must be silent (music rights, and the loudest fingerprint)`);
+        if (!clip.source || !clip.asOf) fail.push(`${where}: clip without source/date — the row must say where it came from and when`);
+        if (!e.url) fail.push(`${where}: clip without a link back to the original post`);
+      }
     }
   }
   queued += entries.length; publishedTotal += published;
