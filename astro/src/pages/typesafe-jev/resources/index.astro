@@ -14,6 +14,7 @@
  */
 import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import Provenance from "../../../components/Provenance.astro";
 import { articleSchema, breadcrumbSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { JEV_DATA_AS_OF } from "@repo/lib/jev";
@@ -77,6 +78,11 @@ const sections = [
 ];
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+
+  <Breadcrumbs schema={false} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Resources", url: canonical },
+  ]} />
   <JsonLd
     slot="head"
     data={articleSchema({

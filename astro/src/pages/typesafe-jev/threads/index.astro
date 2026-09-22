@@ -13,6 +13,7 @@
  */
 import System from "../../../layouts/System.astro";
 import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { JEV_THREADS_READ_ON, jevThreadCounts, jevThreads } from "@repo/lib/jev-threads";
 
@@ -24,6 +25,11 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+
+  <Breadcrumbs schema={true} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Threads", url: canonical },
+  ]} />
   <JsonLd
     slot="head"
     data={articleSchema({

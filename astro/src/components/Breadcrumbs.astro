@@ -1,0 +1,44 @@
+---
+/**
+ * Breadcrumbs — the visible trail, and its structured data.
+ *
+ * Both halves matter and they are not the same job: the trail tells a reader where
+ * they are inside a topic (the Jev columns are reachable from the cover and the
+ * sitemap, not from the nav, so without this a column page has no visible parent),
+ * and the JSON-LD tells a crawler the same thing.
+ *
+ * `schema={false}` for pages that already emit a BreadcrumbList elsewhere — a second
+ * copy is worse than none, because the two can disagree.
+ */
+import JsonLd from "./JsonLd.astro";
+import { breadcrumbSchema, SITE } from "../lib/schema";
+
+interface Props {
+  /** Trail from the home page down to this page. The last item is the current page. */
+  items: { name: string; url: string }[];
+  schema?: boolean;
+}
+const { items, schema = true } = Astro.props;
+const trail = [{ name: "Home", url: SITE }, ...items];
+---
+{schema ? <JsonLd slot="head" data={breadcrumbSchema(trail)} /> : null}
+<nav class="crumbs" aria-label="Breadcrumb">
+  <ol>
+    {trail.map((item, i) => (
+      <li>
+        {i === trail.length - 1 ? (
+          <span aria-current="page">{item.name}</span>
+        ) : (
+          <a href={item.url}>{item.name}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-4); padding: 0; font-size: var(--text-xs); color: var(--text-faint); }
+  .crumbs li + li::before { content: "›"; margin-right: var(--space-2); color: var(--border-strong); }
+  .crumbs a { color: var(--text-muted); }
+  .crumbs [aria-current="page"] { color: var(--text-faint); }
+</style>
