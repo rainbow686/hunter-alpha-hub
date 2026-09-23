@@ -60,22 +60,36 @@ if (REFRESH) {
   let changed = 0, moved = 0, failed = 0;
   for (const e of published) {
     const id = e.id.replace("x:", "");
-    try {
-      const res = await fetch(`https://cdn.syndication.twimg.com/tweet-result?id=${id}&token=x`, { headers: { "user-agent": UA } });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const t = await res.json();
-      const live = t.favorite_count;
-      if (typeof live !== "number") throw new Error("no favorite_count");
-      const before = e.metrics.likes;
-      const delta = live - before;
-      if (delta !== 0) moved += 1;
-      console.log(`  ${delta === 0 ? "   same" : String(delta).padStart(7)} ♥  ${String(before).padStart(6)} → ${String(live).padStart(6)}  ${(t.text ?? "").replace(/\s+/g, " ").slice(0, 44)}`);
-      e.metrics = { ...e.metrics, likes: live, asOf };
-      changed += 1;
-    } catch (err) {
-      failed += 1;
-      console.error(`  ${id}: ${err.message.split("\n")[0]} — left at ${e.metrics.likes} (${e.metrics.asOf})`);
+    /*
+     * Two attempts. The endpoint is a public, unauthenticated one and it does intermittently
+     * refuse a request — on the first dry run one post failed and then answered fine on retry.
+     * A transient 5xx must not be the reason a card spends a day holding yesterday's number.
+     */
+    let live = null, text = "";
+    for (let attempt = 0; attempt < 2 && live === null; attempt++) {
+      try {
+        const res = await fetch(`https://cdn.syndication.twimg.com/tweet-result?id=${id}&token=x`, { headers: { "user-agent": UA } });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const t = await res.json();
+        if (typeof t.favorite_count !== "number") throw new Error("no favorite_count");
+        live = t.favorite_count;
+        text = (t.text ?? "").replace(/\s+/g, " ");
+      } catch (err) {
+        if (attempt === 1) {
+          failed += 1;
+          console.error(`  ${id}: ${err.message.split("\n")[0]} — left at ${e.metrics.likes} (${e.metrics.asOf})`);
+        } else {
+          await new Promise((r) => setTimeout(r, 1200));
+        }
+      }
     }
+    if (live === null) continue;
+    const before = e.metrics.likes;
+    const delta = live - before;
+    if (delta !== 0) moved += 1;
+    console.log(`  ${delta === 0 ? "   same" : String(delta).padStart(7)} ♥  ${String(before).padStart(6)} → ${String(live).padStart(6)}  ${text.slice(0, 44)}`);
+    e.metrics = { ...e.metrics, likes: live, asOf };
+    changed += 1;
     await new Promise((r) => setTimeout(r, 400));
   }
   /* A row we could not read keeps its old number *and its old date* — an `asOf` that moved for a

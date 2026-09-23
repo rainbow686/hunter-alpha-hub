@@ -9,7 +9,8 @@
     "candidates": 42,
     "published": 42,
     "note": "one queue, one column: a post is a post — the media inside it is reported on the card, never promoted into a category (the separate /demos column was deleted 2026-09-23)",
-    "candidatesRemaining": 0
+    "candidatesRemaining": 0,
+    "refreshedAt": "2026-09-23T03:26:17.878Z"
   },
   "entries": [
     {
@@ -35,8 +36,8 @@
         }
       },
       "metrics": {
-        "likes": 2094,
-        "asOf": "2026-09-22"
+        "likes": 2199,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -64,8 +65,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 3079,
-        "asOf": "2026-09-22"
+        "likes": 3097,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -93,8 +94,8 @@
         "thumbH": 1036
       },
       "metrics": {
-        "likes": 1639,
-        "asOf": "2026-09-22"
+        "likes": 1636,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -121,8 +122,8 @@
         "source": "X article cover"
       },
       "metrics": {
-        "likes": 717,
-        "asOf": "2026-09-22"
+        "likes": 773,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -152,8 +153,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 308,
-        "asOf": "2026-09-22"
+        "likes": 312,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -190,8 +191,8 @@
         }
       },
       "metrics": {
-        "likes": 1619,
-        "asOf": "2026-09-22"
+        "likes": 1634,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -219,8 +220,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 1078,
-        "asOf": "2026-09-22"
+        "likes": 1079,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -246,8 +247,8 @@
         "thumbH": 1492
       },
       "metrics": {
-        "likes": 2144,
-        "asOf": "2026-09-22"
+        "likes": 2152,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -276,7 +277,7 @@
       },
       "metrics": {
         "likes": 54,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -314,7 +315,7 @@
       },
       "metrics": {
         "likes": 37,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -350,7 +351,7 @@
       },
       "metrics": {
         "likes": 71,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -379,8 +380,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 205,
-        "asOf": "2026-09-22"
+        "likes": 206,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -406,8 +407,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 7522,
-        "asOf": "2026-09-22"
+        "likes": 7524,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -444,8 +445,8 @@
         }
       },
       "metrics": {
-        "likes": 3860,
-        "asOf": "2026-09-22"
+        "likes": 3862,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -480,8 +481,8 @@
         }
       },
       "metrics": {
-        "likes": 2848,
-        "asOf": "2026-09-22"
+        "likes": 2846,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -510,8 +511,8 @@
         "source": "X article cover"
       },
       "metrics": {
-        "likes": 5118,
-        "asOf": "2026-09-22"
+        "likes": 5240,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -547,8 +548,8 @@
         }
       },
       "metrics": {
-        "likes": 2934,
-        "asOf": "2026-09-22"
+        "likes": 2972,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -575,8 +576,8 @@
         "source": "X article cover"
       },
       "metrics": {
-        "likes": 408,
-        "asOf": "2026-09-22"
+        "likes": 525,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -614,8 +615,8 @@
         }
       },
       "metrics": {
-        "likes": 3127,
-        "asOf": "2026-09-22"
+        "likes": 3140,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -644,7 +645,7 @@
       },
       "metrics": {
         "likes": 8406,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -673,7 +674,7 @@
       },
       "metrics": {
         "likes": 795,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -701,8 +702,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 634,
-        "asOf": "2026-09-22"
+        "likes": 633,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -731,7 +732,7 @@
       },
       "metrics": {
         "likes": 650,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -769,8 +770,8 @@
         }
       },
       "metrics": {
-        "likes": 1543,
-        "asOf": "2026-09-22"
+        "likes": 1553,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -805,8 +806,8 @@
         }
       },
       "metrics": {
-        "likes": 8998,
-        "asOf": "2026-09-22"
+        "likes": 9047,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -834,8 +835,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 2602,
-        "asOf": "2026-09-22"
+        "likes": 2603,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -864,7 +865,7 @@
       },
       "metrics": {
         "likes": 259,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -891,7 +892,7 @@
       },
       "metrics": {
         "likes": 437,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -919,8 +920,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 340,
-        "asOf": "2026-09-22"
+        "likes": 341,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -958,8 +959,8 @@
         }
       },
       "metrics": {
-        "likes": 1075,
-        "asOf": "2026-09-22"
+        "likes": 1100,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -994,8 +995,8 @@
         }
       },
       "metrics": {
-        "likes": 838,
-        "asOf": "2026-09-22"
+        "likes": 839,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1033,8 +1034,8 @@
         }
       },
       "metrics": {
-        "likes": 3066,
-        "asOf": "2026-09-22"
+        "likes": 3099,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1060,8 +1061,8 @@
         "thumbH": 420
       },
       "metrics": {
-        "likes": 4449,
-        "asOf": "2026-09-22"
+        "likes": 4451,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1088,7 +1089,7 @@
       },
       "metrics": {
         "likes": 427,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1116,7 +1117,7 @@
       },
       "metrics": {
         "likes": 418,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1142,8 +1143,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 2301,
-        "asOf": "2026-09-22"
+        "likes": 2300,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1170,7 +1171,7 @@
       },
       "metrics": {
         "likes": 2254,
-        "asOf": "2026-09-22"
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1199,8 +1200,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 1392,
-        "asOf": "2026-09-22"
+        "likes": 1394,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1226,8 +1227,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 2580,
-        "asOf": "2026-09-22"
+        "likes": 2583,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1264,8 +1265,8 @@
         }
       },
       "metrics": {
-        "likes": 379,
-        "asOf": "2026-09-22"
+        "likes": 378,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1291,8 +1292,8 @@
         "thumbH": 0
       },
       "metrics": {
-        "likes": 481,
-        "asOf": "2026-09-22"
+        "likes": 480,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1329,8 +1330,8 @@
         }
       },
       "metrics": {
-        "likes": 337,
-        "asOf": "2026-09-22"
+        "likes": 387,
+        "asOf": "2026-09-23"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",

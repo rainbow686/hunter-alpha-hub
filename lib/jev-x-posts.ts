@@ -57,7 +57,29 @@ const RAW = queue as unknown as {
   }[];
 };
 
-export const JEV_X_POSTS_READ_ON: string = RAW.meta.generatedAt.slice(0, 10);
+/*
+ * The date the like counts were read — the newest `metrics.asOf` in the queue, not
+ * `meta.generatedAt`.
+ *
+ * They were the same number until `--refresh` existed, which is exactly why this is worth a
+ * comment: `generatedAt` is when the *queue* was last written (new posts added), while the
+ * counts move on their own schedule. Re-reading every like count without adding a post would
+ * have left the page saying "read 2026-09-22" over numbers read on the 23rd — the failure mode
+ * this whole column is built to avoid, in the one place a reader would not think to check.
+ */
+const readDates = RAW.entries
+  .filter((e) => e.status === "published" && e.metrics?.asOf)
+  .map((e) => e.metrics.asOf)
+  .sort();
+
+export const JEV_X_POSTS_READ_ON: string = readDates.at(-1) ?? RAW.meta.generatedAt.slice(0, 10);
+
+/**
+ * Published rows whose count is older than the column's date — a refresh that could not reach a
+ * post leaves it holding its previous reading *and its previous date*. Usually zero; when it is
+ * not, the page says so rather than folding one stale card into a column-level claim.
+ */
+export const JEV_X_POSTS_STALE: number = readDates.filter((d) => d !== JEV_X_POSTS_READ_ON).length;
 
 export const jevXPosts: JevXPost[] = RAW.entries
   .filter((e) => e.status === "published" && e.ourNote.trim().split(/\s+/).length >= 20)

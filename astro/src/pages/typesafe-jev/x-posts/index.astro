@@ -16,7 +16,7 @@ import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
 import ClaimChip from "../../../components/ClaimChip.astro";
 import XClipWall from "../../../components/XClipWall.astro";
-import { JEV_X_POSTS_READ_ON, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
+import { JEV_X_POSTS_READ_ON, JEV_X_POSTS_STALE, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
 import { JEV_FACET_COUNTS, thumbRatio } from "@repo/lib/jev-facets";
 import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
@@ -83,7 +83,10 @@ const xPostChips = [
           it cannot do: a reader has no way to tell a number read this morning from one read
           last week, or to notice that it is a snapshot at all.
         */}
-        <span>Likes read {JEV_X_POSTS_READ_ON}</span>
+        <span>
+          Likes read {JEV_X_POSTS_READ_ON}
+          {JEV_X_POSTS_STALE > 0 && ` · ${JEV_X_POSTS_STALE} kept an earlier reading`}
+        </span>
         <span><a href="/typesafe-jev/builds">The projects behind them: builds</a></span>
       </p>
     </header>
