@@ -17,7 +17,7 @@ import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
-import { JEV_THREADS_READ_ON, jevThreadCounts, jevThreads } from "@repo/lib/jev-threads";
+import { JEV_THREADS_READ_ON, JEV_THREADS_STALE, jevThreadCounts, jevThreads } from "@repo/lib/jev-threads";
 import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 
@@ -57,7 +57,10 @@ const fmt = (n: number) => n.toLocaleString("en-US");
         number — points on Hacker News, reactions on dev.to — and labelled so you can tell which.
       </p>
       <p class="provenance">
-        <span>Score and comment count read {JEV_THREADS_READ_ON}</span>
+        <span>
+          Points, reactions and comment counts read {JEV_THREADS_READ_ON}
+          {JEV_THREADS_STALE > 0 && ` · ${JEV_THREADS_STALE} kept an earlier reading`}
+        </span>
         <span>{jevThreadCounts.published} threads published</span>
         {jevThreadCounts.waiting > 0 && <span>{jevThreadCounts.waiting} more waiting for a written note</span>}
       </p>
@@ -125,8 +128,17 @@ const fmt = (n: number) => n.toLocaleString("en-US");
           <p class="card-meta">
             <span>{thread.author}</span>
             <span>{thread.publishedAt}</span>
-            <span>{fmt(thread.score)} {thread.scoreLabel}</span>
-            <span>{fmt(thread.comments)} comments</span>
+            {/*
+              A zero is a number, but on a wall it is noise: three dev.to posts published within a
+              day of us reading them showed "0 reactions · 0 comments" under every card, which looks
+              like a broken counter rather than a young article. The reading time (in the eyebrow) is
+              the number that means something for a write-up, so the counts appear when there is
+              something to count. Hacker News rows always have them — 1,949 points is the reason the
+              row is at the top.
+            */}
+            {thread.score > 0 && <span>{fmt(thread.score)} {thread.scoreLabel}</span>}
+            {thread.comments > 0 && <span>{fmt(thread.comments)} comments</span>}
+            {thread.score === 0 && thread.comments === 0 && <span>no reactions yet — read on {JEV_THREADS_READ_ON}</span>}
           </p>
           <p class="card-note card-our">{thread.ourNote}</p>
           </div>

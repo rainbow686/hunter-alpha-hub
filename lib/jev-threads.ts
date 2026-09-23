@@ -55,8 +55,24 @@ const RAW = queue as unknown as {
   }[];
 };
 
-/** The date the counts and the links in this column were read. */
-export const JEV_THREADS_READ_ON: string = RAW.entries[0]?.metrics.asOf ?? RAW.meta.generatedAt.slice(0, 10);
+/*
+ * The date the counts in this column were read — **the newest one**, not the first row's.
+ *
+ * It read `RAW.entries[0]?.metrics.asOf`, which happened to be right while every row came from one
+ * ingest run. The day dev.to joined, the column printed "read on 2026-09-22" over numbers read on
+ * the 23rd, because the first row in the file is still a Hacker News thread. That is the same lie
+ * ADR-0024 exists to prevent, caught a second time in a second column — which is the argument for
+ * the rule being mechanical rather than remembered.
+ */
+const readDates = RAW.entries
+  .filter((e) => e.status === "published" && e.metrics?.asOf)
+  .map((e) => e.metrics.asOf)
+  .sort();
+
+export const JEV_THREADS_READ_ON: string = readDates.at(-1) ?? RAW.meta.generatedAt.slice(0, 10);
+
+/** Published rows older than the column's date — usually zero; the page says so when it is not. */
+export const JEV_THREADS_STALE: number = readDates.filter((d) => d !== JEV_THREADS_READ_ON).length;
 
 /** Only published, annotated entries — the whole point of the queue. */
 export const jevThreads: JevThread[] = RAW.entries
