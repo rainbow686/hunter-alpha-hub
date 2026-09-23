@@ -171,7 +171,7 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       {/* The page cover (contract §5): one image, about this page's subject, with the
           meaning in the alt text and no caption announcing what it is. */}
       <figure class="figure cover">
-        <img src="/img/cover-jev-topic.webp" alt="An engraving: a sheet of paper passing under a stamping press, surrounded by empty speech bubbles of different sizes." width="1280" height="720" decoding="async" />
+        <img src="/img/cover-jev-topic.webp" alt="An engraving: a sheet of paper passing under a stamping press, surrounded by empty speech bubbles of different sizes." width="1024" height="576" decoding="async" />
       </figure>
   <div class="byline">
     <span>Reference</span>
@@ -183,29 +183,13 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
   </div>
 
   {/*
-    The opener. Every other figure on this site is a diagram we drew, because the
-    meaning is in the geometry. This one is different: it carries no information at
-    all, it carries the *contrast* — a wall of talk on one side, one sheet of paper
-    on the other — and that is the one thing a diagram cannot do as quickly.
-
-    So it is generated, and the caption labels it as an illustration rather than a
-    record — the same rule as every other figure here, which is that nothing on this
-    site gets to look like a photograph of something that happened. The prompt, the
-    model and the seed stay in the repository (scripts/gen-illustration.mjs) so the
-    image is reproducible, but they are build metadata: a reader who wants the
-    picture has no use for them, and the caption is written for the reader.
+    There was a second generated image here (jev-hero: a wall of talk on one side,
+    a single sheet on the other). It is gone on purpose. The page cover above is
+    already the same picture — empty speech bubbles and one sheet of paper — and
+    two near-identical metaphors about 100px apart put two figures inside one
+    screen, which the writing-style contract rules out (§5, "一屏之内不叠两张").
+    The asset and its preset stay in scripts/illustrations.json; the page keeps one.
   */}
-  <figure class="figure">
-    <img
-      src="/img/jev-hero.webp"
-      width="1280"
-      height="720"
-      loading="eager"
-      decoding="async"
-      alt="Engraving-style illustration: a dense wall of dark speech bubbles on the left, and on the right a figure seen from behind holding up a single blank sheet of paper."
-      style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
-    />
-  </figure>
 
   {/*
     The container. `/typesafe-jev` is the cover of the Jev topic, not a leaf: the
@@ -227,7 +211,7 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
         the three question types, and our own raw response.
       </li>
       <li>
-        <a href="/jev-guide">How people actually use it</a> — eleven projects read
+        <a href="/typesafe-jev/guide">How people actually use it</a> — eleven projects read
         first-hand, plus twenty calls we made ourselves.
       </li>
       {/*
@@ -237,17 +221,17 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
         of these and we had one.
       */}
       <li>
-        <a href="/jev-pricing">What a decision costs</a> — the published rate per million tokens,
+        <a href="/typesafe-jev/pricing">What a decision costs</a> — the published rate per million tokens,
         what one of our own calls cost, and the arithmetic for a loop that calls it ten times a
         second.
       </li>
       <li>
-        <a href="/jev-vs-llm">Jev vs LLMs</a> — the four structural differences, and the one that
+        <a href="/typesafe-jev/vs-llm">Jev vs LLMs</a> — the four structural differences, and the one that
         bites: an answer shape you chose versus a schema you asked for. Includes our twenty
         identical calls.
       </li>
       <li>
-        <a href="/open-source-jev">Open source, and what it gives up</a> — the substitutes,
+        <a href="/typesafe-jev/open-source">Open source, and what it gives up</a> — the substitutes,
         replicas and adapters we read, including the one that publishes its own losing score.
       </li>
       {/*
@@ -630,7 +614,7 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
   </p>
   <p style="color: var(--text-muted); max-width: var(--measure);">
     For what this looks like in working code rather than in advice, see
-    <a href="/jev-guide">the field notes on Jev</a> — eleven projects read first-hand, and the five
+    <a href="/typesafe-jev/guide">the field notes on Jev</a> — eleven projects read first-hand, and the five
     teams in them independently drew the same line between what the model decides and what the
     program decides. The wider list, including the collections it would take a day to find
     yourself, is under <a href="/typesafe-jev/resources">docs, collections and repositories</a>,
@@ -701,6 +685,10 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       alt="Engraving-style illustration: an inspector in a work coat beside a conveyor belt of paper forms, each sheet already stamped with a single mark."
       style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
     />
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      One sheet per item, and a person reading each one, is the work this replaces — the volume is
+      the point, not the difficulty of any single sheet.
+    </figcaption>
   </figure>
 
   <h2 id="verified-specs">Verified specs</h2>
@@ -793,6 +781,19 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       Figure 6 — why this is not a chat call. A chat model returns text that code has to parse and validate; Jev returns the decision, already typed, with the uncertainty attached. Diagram ours; the latency band is the vendor's claim.
     </figcaption>
   </figure>
+
+  {/*
+    These two figures used to sit back to back with only a comment between them,
+    which put figure 6 and figure 7 inside one screen — the writing-style contract
+    rules that out (§5). A heading and a paragraph also fix the section logic:
+    latency is not something the model "returns".
+  */}
+  <h3 id="latency">How fast, and whose number it is</h3>
+  <p style="color: var(--text-muted); max-width: var(--measure);">
+    Both ranges come from the launch post, and both are drawn on a log axis — 0.07 s and 329 s end
+    to end is one visible bar and one dot on a linear scale, which would read as a much simpler
+    story than the numbers do.
+  </p>
 
   {/*
     Figure 7 — the vendor's two headline ranges on a logarithmic axis, because
@@ -1262,7 +1263,7 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
   <p class="hero-actions">
     <a class="btn primary" href={JEV_OPENROUTER_URL} rel="noopener noreferrer">Open Jev on OpenRouter →</a>
     <a class="btn ghost" href={JEV_CLOUDFLARE_URL} rel="noopener noreferrer">Cloudflare model card</a>
-    <a class="btn ghost" href="/jev-guide">How people actually use it</a>
+    <a class="btn ghost" href="/typesafe-jev/guide">How people actually use it</a>
     <a class="btn ghost" href="/openrouter-models">Full model directory</a>
   </p>
 </System>

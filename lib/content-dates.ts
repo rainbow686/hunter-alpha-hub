@@ -63,7 +63,7 @@ export const CONTENT_REVISED: Record<string, string> = {
   // this entry moves only when someone re-reads the sources.
   "/typesafe-jev": "2026-09-18",
   // Field notes over eleven repositories, all read on this date.
-  "/jev-guide": "2026-09-20",
+  "/typesafe-jev/guide": "2026-09-20",
   // The section index for that series.
   "/field-notes": "2026-09-20",
 

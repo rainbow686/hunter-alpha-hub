@@ -1,6 +1,6 @@
 ---
 /**
- * /jev-guide — how people actually use Jev, as read from the projects themselves.
+ * /typesafe-jev/guide — how people actually use Jev, as read from the projects themselves.
  *
  * Written 2026-09-20 against eleven repositories. The rule for every section:
  * it has to contain something that reading the project would tell you and
@@ -12,12 +12,12 @@
  * integrated anything — and that is the exact shape Google already flagged as
  * low-value content on this site.
  */
-import System from "../../layouts/System.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import JsonLd from "../../components/JsonLd.astro";
-import Faq from "../../components/Faq.astro";
-import Provenance from "../../components/Provenance.astro";
-import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import {
   JEV_GUIDE_READ_AS_OF,
   boundaryQuotes,
@@ -40,7 +40,7 @@ import {
 const title = "Jev Guide: How People Actually Use TypeSafe's Decision Model";
 const description =
   "We read every project building on TypeSafe's Jev. The seven-second demo was browser engineering, five teams draw the same boundary around the model, and the calibration claim finally has a number: 91% vs 79% on triage.";
-const canonical = `${SITE}/jev-guide`;
+const canonical = `${SITE}/typesafe-jev/guide`;
 
 /** The eleven, biggest first. Stars are a dated snapshot, not a live count. */
 const bySize = [...repositories].sort((a, b) => b.stars - a.stars);
@@ -117,7 +117,7 @@ const faqs = [
       {/* The page cover (contract §5): one image, about this page's subject, with the
           meaning in the alt text and no caption announcing what it is. */}
       <figure class="figure cover">
-        <img src="/img/cover-jev-guide.webp" alt="An engraving: a person seen from behind walking a loop of stepping stones across still water, each stone carrying one stamped mark." width="1280" height="720" decoding="async" />
+        <img src="/img/cover-jev-guide.webp" alt="An engraving: a closed ring of plain stepping stones resting on still water, seen from above." width="1024" height="576" decoding="async" />
       </figure>
   <div class="byline">
     <span>Field notes</span>
@@ -173,65 +173,9 @@ const faqs = [
     things you offered it is right — and the executor can still refuse.
   </p>
 
-  <h2>The seven seconds nobody earned</h2>
   <p style="max-width: var(--measure);">
-    The demo everyone shared is a Google Flights search from Zürich to London that completes in about
-    seven seconds. It is real — there is a video at 1× speed with continuous frames and the timing
-    left in. What is missing from the coverage is what the same repository says about it two files
-    later.
-  </p>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th>The claim</th><th>What the file says</th></tr>
-      </thead>
-      <tbody>
-        {measurements.map((row) => (
-          <tr>
-            <td style="color: var(--text-muted);">{row.label}</td>
-            <td>
-              <div style="font-weight: 600;">{row.value}</div>
-              <div style="font-size: var(--text-xs); color: var(--text-faint); margin-top: 2px;">{row.source}</div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  <p style="max-width: var(--measure);">
-    Put those rows together and the story changes shape. The matched comparison is a median of
-    9.450 s down to 7.092 s — a quarter faster, and the author writes out the sign test result
-    himself: <em>p = 0.25</em>, three pairs, "not a broad agent benchmark". The number that moved
-    hardest was not model latency at all. It was browser round trips, which fell from 1,092 to 101,
-    because the new version reads the page in one call instead of walking the accessibility tree
-    repeatedly. The commit where that landed is titled, in the author's own words,
-    <em>Reduce browser round trips and record a 7-second Flights demo</em>.
-  </p>
-  <p style="max-width: var(--measure);">
-    This is not a takedown. A 25% end-to-end improvement on a real task is a good result, and
-    publishing the p-value next to it is better practice than most research. It just means the
-    headline number belongs to the DOM reader, not to the model.
-  </p>
-
-  <h2>178, 431, and a half-second head start</h2>
-  <p style="max-width: var(--measure);">
-    Two projects measured the same thing and got different answers, which is the useful part. Browser
-    Use reports a median decision latency of <strong>178 ms</strong>. A separate triage project
-    measured roughly <strong>431 ms</strong> per call, API only. Different inputs, different
-    endpoints, no shared harness — so take the pair as a range, not a specification.
-  </p>
-  <p style="max-width: var(--measure);">
-    The piano project shows what that latency costs when the thing you are driving does not wait for
-    you. It gives each hand its own model, and every 100 ms slice of the piece is a question: where
-    does this hand sit, and which key is each finger on. The answer takes about 400 ms — four times
-    slower than the slice. So it asks about each slice <em>500 ms before that slice is due</em>,
-    keeps several requests in flight, and applies the answer at the moment it was asked about rather
-    than when it lands.
-  </p>
-  <p style="max-width: var(--measure);">
-    That is the most useful engineering note in the whole field, and it is in a repository with one
-    star. If your loop needs a decision faster than the model returns one, you do not make the model
-    faster — you ask earlier.
+    Here is that boundary as a picture, because every project draws it in the same place, and the
+    place is easier to see than to describe.
   </p>
 
   {/*
@@ -279,6 +223,143 @@ const faqs = [
       the page but your own code, and nothing executes the choice but your own code either.
     </figcaption>
   </figure>
+
+  <h2>The seven seconds nobody earned</h2>
+  <p style="max-width: var(--measure);">
+    The demo everyone shared is a Google Flights search from Zürich to London that completes in about
+    seven seconds. It is real — there is a video at 1× speed with continuous frames and the timing
+    left in. What is missing from the coverage is what the same repository says about it two files
+    later.
+  </p>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr><th>The claim</th><th>What the file says</th></tr>
+      </thead>
+      <tbody>
+        {measurements.map((row) => (
+          <tr>
+            <td style="color: var(--text-muted);">{row.label}</td>
+            <td>
+              <div style="font-weight: 600;">{row.value}</div>
+              <div style="font-size: var(--text-xs); color: var(--text-faint); margin-top: 2px;">{row.source}</div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p style="max-width: var(--measure);">
+    Put those rows together and the story changes shape. The matched comparison is a median of
+    9.450 s down to 7.092 s — a quarter faster, and the author writes out the sign test result
+    himself: <em>p = 0.25</em>, three pairs, "not a broad agent benchmark". The number that moved
+    hardest was not model latency at all. It was browser round trips, which fell from 1,092 to 101,
+    10.8× fewer,
+    because the new version reads the page in one call instead of walking the accessibility tree
+    repeatedly. The commit where that landed is titled, in the author's own words,
+    <em>Reduce browser round trips and record a 7-second Flights demo</em>.
+  </p>
+  <p style="max-width: var(--measure);">
+    This is not a takedown. A 25% end-to-end improvement on a real task is a good result, and
+    publishing the p-value next to it is better practice than most research. It just means the
+    headline number belongs to the DOM reader, not to the model.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 760 208" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+      <title>Two of Browser Use's own numbers before and after the commit that produced the seven-second demo: round trips per task fell from 1,092 to 101, while the median task time fell from 9.450 seconds to 7.092 seconds.</title>
+      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">WHAT THE 7-SECOND COMMIT CHANGED — THE AUTHOR'S OWN NUMBERS</text>
+
+      {/*
+        Each pair is scaled to its own "before" bar, because round trips and seconds
+        are not the same unit. The ratio annotation carries the comparison; the bar
+        lengths only carry "how much of the old number is left".
+      */}
+      <text x="0" y="41" font-family="var(--sans)" font-size="13" fill="var(--text)">Browser round trips, per task</text>
+      <rect x="210" y="28" width="400" height="16" rx="3" fill="var(--text-faint)" />
+      <text x="618" y="41" font-family="var(--mono)" font-size="12" fill="var(--text)">1,092</text>
+      <rect x="210" y="50" width="37" height="16" rx="3" fill="var(--accent)" />
+      <text x="255" y="63" font-family="var(--mono)" font-size="12" fill="var(--text)">101</text>
+
+      <line x1="0" y1="90" x2="760" y2="90" stroke="var(--field-border)" stroke-width="1" />
+
+      <text x="0" y="119" font-family="var(--sans)" font-size="13" fill="var(--text)">Median time on task</text>
+      <rect x="210" y="106" width="400" height="16" rx="3" fill="var(--text-faint)" />
+      <text x="618" y="119" font-family="var(--mono)" font-size="12" fill="var(--text)">9.450 s</text>
+      <rect x="210" y="128" width="300" height="16" rx="3" fill="var(--accent)" />
+      <text x="518" y="141" font-family="var(--mono)" font-size="12" fill="var(--text)">7.092 s</text>
+
+      <text x="0" y="170" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">Round trips fell 10.8×. The time everyone quoted fell 25%.</text>
+      <line x1="0" y1="182" x2="760" y2="182" stroke="var(--field-border)" stroke-width="1" />
+      <text x="0" y="199" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">Three pairs, sign test p = 0.25 — the author's own words: "not a broad agent benchmark".</text>
+    </svg>
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      The two bars in each pair are scaled to each other, not across the pairs, because round trips and
+      seconds are not the same unit. The near-collapse is in the count of round trips; the headline
+      number moved a quarter, and it moved for that reason.
+    </figcaption>
+  </figure>
+
+  <h2>178, 431, and a half-second head start</h2>
+  <p style="max-width: var(--measure);">
+    Two projects measured the same thing and got different answers, which is the useful part. Browser
+    Use reports a median decision latency of <strong>178 ms</strong>. A separate triage project
+    measured roughly <strong>431 ms</strong> per call, API only. Different inputs, different
+    endpoints, no shared harness — so take the pair as a range, not a specification.
+  </p>
+  <p style="max-width: var(--measure);">
+    The piano project shows what that latency costs when the thing you are driving does not wait for
+    you. It gives each hand its own model, and every 100 ms slice of the piece is a question: where
+    does this hand sit, and which key is each finger on. The answer takes about 400 ms — four times
+    slower than the slice. So it asks about each slice <em>500 ms before that slice is due</em>,
+    keeps several requests in flight, and applies the answer at the moment it was asked about rather
+    than when it lands.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 760 212" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+      <title>One 100 ms slice of the piano piece and the three moments in its life: the question goes out 500 ms before the slice, the answer lands 400 ms later and 100 ms early, and it is applied at the slice it was asked about rather than the moment it arrived.</title>
+      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">ONE SLICE, AND THE THREE MOMENTS IN ITS LIFE</text>
+      <text x="0" y="40" font-family="var(--sans)" font-size="13" fill="var(--text)">The answer takes about 400 ms. The slice is due every 100 ms.</text>
+
+      {/*
+        Drawn at 1 ms = 1 px, so the two intervals in the picture are the two
+        intervals in the sentence above: the bracket is 400 px wide and the gap
+        after it is 100 px. Rescaling it would turn it into a picture of numbers
+        nobody published.
+      */}
+      <line x1="60" y1="74" x2="460" y2="74" stroke="var(--field-border)" stroke-width="1" />
+      <line x1="60" y1="66" x2="60" y2="82" stroke="var(--field-border)" stroke-width="1" />
+      <line x1="460" y1="66" x2="460" y2="82" stroke="var(--field-border)" stroke-width="1" />
+      <text x="260" y="62" font-family="var(--mono)" font-size="12" fill="var(--text-muted)" text-anchor="middle">400 ms, the round trip</text>
+
+      <line x1="40" y1="122" x2="700" y2="122" stroke="var(--text-faint)" stroke-width="1" />
+      <line x1="60" y1="116" x2="60" y2="128" stroke="var(--text-faint)" stroke-width="1" />
+      <line x1="460" y1="116" x2="460" y2="128" stroke="var(--text-faint)" stroke-width="1" />
+      <line x1="560" y1="116" x2="560" y2="128" stroke="var(--accent)" stroke-width="2" />
+
+      {/*
+        One label per row. The three ticks are 100 px and 400 px apart, and two of
+        the labels are wider than the gap between their ticks — on one row they
+        collided, which is how this was caught. Each label sits directly under its
+        own tick, so the staircase reads left to right without connectors.
+      */}
+      <text x="60" y="150" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">the question goes out · 500 ms early</text>
+      <text x="460" y="170" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">the answer lands · 100 ms early</text>
+      <text x="560" y="190" font-family="var(--mono)" font-size="12" fill="var(--text)">applied at the slice</text>
+    </svg>
+    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+      The model is never made faster here. The question is asked earlier and the answer waits until the
+      slice it was asked about arrives — which is the whole trick, and it works for any loop that cannot
+      wait for the model it calls.
+    </figcaption>
+  </figure>
+  <p style="max-width: var(--measure);">
+    That is the most useful engineering note in the whole field, and it is in a repository with one
+    star. If your loop needs a decision faster than the model returns one, you do not make the model
+    faster — you ask earlier.
+  </p>
+
 
   <h2>A cent a day, with a screenshot</h2>
   <p style="max-width: var(--measure);">

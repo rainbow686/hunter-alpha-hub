@@ -1,6 +1,6 @@
 ---
 /**
- * /open-source-jev — the question people ask when a hosted API is in their critical path:
+ * /typesafe-jev/open-source — the question people ask when a hosted API is in their critical path:
  * what can I run myself, and what do I give up.
  *
  * Third page of the explainer cluster. Unlike the other two this one is written almost entirely
@@ -9,18 +9,18 @@
  * one thing it refuses to do is pretend a 395M-parameter substitute is equivalent — the publisher
  * of the closest one publishes a head-to-head against the model it replaces, and it loses.
  */
-import System from "../../layouts/System.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import JsonLd from "../../components/JsonLd.astro";
-import Faq from "../../components/Faq.astro";
-import Provenance from "../../components/Provenance.astro";
-import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { jevBuilds, JEV_BUILDS_READ_ON } from "@repo/lib/jev-builds";
 
 const title = "Open Source Jev: Substitutes, Replicas and What They Give Up (2026)";
 const description =
   "Three different things get called open-source Jev: local substitutes, small replicas and training recipes. What the ones we actually read publish about themselves, including the head-to-head where the open model loses by 24 points.";
-const canonical = `${SITE}/open-source-jev`;
+const canonical = `${SITE}/typesafe-jev/open-source`;
 const READ_ON = "2026-09-23";
 
 const bySlug = (slug: string) => jevBuilds.find((b) => b.dossier?.slug === slug);
@@ -104,6 +104,16 @@ const substitutes = [
         under that headline anyway, and they answer different questions — "can I run this", "can I
         train it", "how does it work", "can I test the pattern without a key".
       </p>
+
+      {/* The page cover (contract §5): one image, about this page's subject, with the
+          meaning in the alt text and no caption announcing what it is. Placed after the
+          opening paragraph rather than between the title and the first line, which is the
+          one position the contract rules out. Dimensions are the file's own — the generator
+          returns a square and the wide frame is composed before it is written, so the HTML
+          no longer declares 16:9 over a 1:1 picture. */}
+      <figure class="figure cover">
+        <img src="/img/cover-jev-open-source.webp" alt="An engraving: a sealed wooden box on a small pedestal, surrounded by four opened copies of it on the bench, each showing one internal part missing." width="1024" height="576" decoding="async" />
+      </figure>
     </header>
 
     <div class="callout">
@@ -149,6 +159,11 @@ const substitutes = [
           <line x1="0" y1="212" x2="760" y2="212" stroke="var(--field-border)" stroke-width="1" />
           <text x="0" y="230" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">Only the last one is a drop-in for the calling shape. None of them is a drop-in for the guarantee.</text>
         </svg>
+        <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+          The left column is the question a person arrives with; the right column is what actually
+          answers it. Two of the four answers are not a Jev substitute at all, which is the confusion
+          this page exists to clear up.
+        </figcaption>
       </figure>
     </section>
 
@@ -204,6 +219,30 @@ const substitutes = [
 
     <section>
       <h2>The thing none of them copies</h2>
+
+      <figure class="figure">
+        <svg viewBox="0 0 760 220" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+          <title>A scatter of the two published numbers that matter: the open substitute at 72.0% macro accuracy and around 25 ms per decision, against the hosted model at 96.6% and 474 ms measured on the same suite's reported protocol.</title>
+          <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">PUBLISHED ACCURACY AGAINST DECISION TIME</text>
+          <line x1="70" y1="24" x2="70" y2="180" stroke="var(--field-border)" stroke-width="1" />
+          <line x1="70" y1="180" x2="740" y2="180" stroke="var(--field-border)" stroke-width="1" />
+          <text x="8" y="34" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">100%</text>
+          <text x="14" y="176" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">60%</text>
+          <text x="70" y="198" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">fast</text>
+          <text x="700" y="198" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="end">slow</text>
+          <text x="70" y="216" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">Left is better; up is better. Neither point is ours — both are the publishers'.</text>
+          <circle cx="120" cy="132" r="7" fill="var(--text-faint)" />
+          <text x="134" y="132" font-family="var(--mono)" font-size="12" fill="var(--text)">Von · 72.0% · ~25 ms</text>
+          <circle cx="600" cy="46" r="7" fill="var(--accent)" />
+          <text x="470" y="40" font-family="var(--mono)" font-size="12" fill="var(--text)">Jev · 96.6% · 474 ms</text>
+          <text x="470" y="58" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">time measured by a different party</text>
+        </svg>
+        <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+          Two points, two evaluation suites, two publishers — so the distance between them is the
+          distance between two claims rather than the result of one test anybody ran on both.
+        </figcaption>
+      </figure>
+
       <p>
         Every project here reproduces the shape: a state goes in, an option comes out, in one pass.
         What none of them can reproduce from outside is the guarantee that made the hosted model

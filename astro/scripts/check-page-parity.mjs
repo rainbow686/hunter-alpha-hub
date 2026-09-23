@@ -61,6 +61,33 @@ const paths = [...readFileSync(sitemapPath, "utf8").matchAll(/<loc>([^<]+)<\/loc
 
 const fileFor = (path) => join(DIST, path === "/" ? "index.html" : `${path}.html`);
 
+/*
+ * URL migrations: a live link the build deliberately points somewhere else.
+ *
+ * The rule this script enforces is "anything the live page has, the build must have" — and it
+ * earned that rule (it caught 81 pages dropping `/access` at cutover). But a page that *moved*
+ * is not a page that was dropped: the link still works, one hop away. Without this, moving
+ * `/jev-guide` to `/typesafe-jev/guide` fails the guard on every page that carries the footer,
+ * and the honest way out would be a hand-written exception in the PR — which is a habit that
+ * rots, because the next migration needs another one and nobody remembers the first.
+ *
+ * So the redirect table is the single source of truth: `public/_redirects` already declares
+ * every URL that moved and where it went (that file is load-bearing for the crawler anyway).
+ * Read it here and treat "live link → 301 → a page the build links" as migrated rather than
+ * missing. A link that vanished with no redirect behind it still fails, which is the behaviour
+ * that matters.
+ */
+const MIGRATIONS = new Map();
+{
+  const rules = readFileSync(join(here, "../public/_redirects"), "utf8");
+  for (const line of rules.split("\n")) {
+    const rule = line.trim();
+    if (!rule || rule.startsWith("#")) continue;
+    const [from, to, code] = rule.split(/\s+/);
+    if (from && to && /^30[18]$/.test(code ?? "")) MIGRATIONS.set(from.replace(/\/$/, "") || "/", to.replace(/\/$/, "") || "/");
+  }
+}
+
 /** Internal navigation links only: same site, no build assets, no file downloads. */
 function internalLinks(html, base) {
   const found = new Set();
@@ -192,6 +219,8 @@ let compared = 0;
 const variedPages = [];
 const retriedClean = [];
 const newPages = [];
+/** Live links whose target moved, per the redirect table — reported, not failed. */
+const migrated = [];
 
 /** Re-check a single page; returns the failures (empty array = fine). */
 async function checkPage(path) {
@@ -213,7 +242,18 @@ async function checkPage(path) {
   compared++;
   if (live.varied) variedPages.push(path);
   const built = internalLinks(readFileSync(file, "utf8"), LIVE);
-  const missing = [...live.stable].filter((href) => !built.has(href));
+  const dropped = [...live.stable].filter((href) => !built.has(href));
+  /*
+   * A dropped link is fine when the redirect table says the URL moved *and* the page now links
+   * its new home: the reader takes the same number of steps, the crawler gets a 301 instead of a
+   * 404, and the guard's real question ("did we lose a link?") is answered no.
+   */
+  const missing = dropped.filter((href) => {
+    const to = MIGRATIONS.get(href.replace(/\/$/, "") || "/");
+    if (!to) return true;
+    migrated.push(`${href} → ${to}`);
+    return !built.has(to);
+  });
   if (missing.length) issues.push(`${path}: ${missing.length} link(s) missing → ${missing.join(", ")}`);
 
   const liveHead = headFeatures(live.html);
@@ -272,6 +312,12 @@ if (newPages.length) {
 if (retriedClean.length) {
   console.log(
     `link parity: ${retriedClean.length} page(s) failed the first pass and passed on retry — the live edge was mid-rollout (${retriedClean.slice(0, 5).join(", ")})`,
+  );
+}
+if (migrated.length) {
+  const unique = [...new Set(migrated)];
+  console.log(
+    `link parity: ${unique.length} live link(s) now point at a moved URL, per public/_redirects — counted as migrated, not dropped (${unique.join("; ")})`,
   );
 }
 if (variedPages.length) {

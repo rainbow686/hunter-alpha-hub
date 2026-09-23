@@ -15,3 +15,17 @@
 # /typesafe-jev/x-posts (lib/jev-x-posts.ts has the full account). It never shipped to
 # production — this only catches preview links and screenshots taken while it existed.
 /typesafe-jev/demos /typesafe-jev/x-posts 308
+
+# The Jev explainer pages moved under the topic prefix on 2026-09-23, hours after they
+# shipped at the root. The rule they were moved to live by: **the root belongs to the site's
+# own subject** (the OpenRouter catalogue and the Alpha line — the domain is literally named
+# after it), and **every other model topic gets a prefix of its own**, because more are
+# coming. A Jev page at `/jev-pricing` reads as if Jev were the site.
+#
+# 301 rather than 308: these are permanent moves of content whose search intent has not
+# changed, and the old URLs were submitted to IndexNow the hour they went live, so the
+# redirect is load-bearing rather than decorative.
+/jev-pricing /typesafe-jev/pricing 301
+/jev-vs-llm /typesafe-jev/vs-llm 301
+/open-source-jev /typesafe-jev/open-source 301
+/jev-guide /typesafe-jev/guide 301

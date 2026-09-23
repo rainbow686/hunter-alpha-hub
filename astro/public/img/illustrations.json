@@ -57,10 +57,12 @@
     "preset": "cover-jev-guide",
     "model": "black-forest-labs/FLUX.2-flex",
     "size": "1280x720",
-    "seed": 20260923,
-    "promptSha256": "06e51f741aa4b2cf",
+    "seed": 20261002,
+    "promptSha256": "5b14b4cb9edfd063",
     "file": "img/cover-jev-guide.webp",
-    "generatedAt": "2026-09-22"
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
   },
   "img/cover-alpha-line.webp": {
     "preset": "cover-alpha-line",
@@ -70,5 +72,41 @@
     "promptSha256": "28b9a87b8ead6228",
     "file": "img/cover-alpha-line.webp",
     "generatedAt": "2026-09-22"
+  },
+  "img/cover-jev-pricing.webp": {
+    "preset": "cover-jev-pricing",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260925,
+    "promptSha256": "e0c7e70e7a82271c",
+    "file": "img/cover-jev-pricing.webp",
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-jev-vs-llm.webp": {
+    "preset": "cover-jev-vs-llm",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260926,
+    "promptSha256": "0f6d9b30e375cada",
+    "file": "img/cover-jev-vs-llm.webp",
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-jev-open-source.webp": {
+    "preset": "cover-jev-open-source",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260927,
+    "promptSha256": "1058f700ea43d395",
+    "file": "img/cover-jev-open-source.webp",
+    "generatedAt": "2026-09-23"
+  },
+  "/tmp/probe169.webp": {
+    "preset": "_probe-169",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1024x576",
+    "seed": 1,
+    "promptSha256": "1bf51e4170a60e69",
+    "file": "/tmp/probe169.webp",
+    "generatedAt": "2026-09-23"
   }
 }

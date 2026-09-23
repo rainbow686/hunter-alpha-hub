@@ -74,8 +74,14 @@ const KICKERS = [
   [/^\/blog\//, "Article"],
   [/^\/compare\//, "Model comparison"],
   [/^\/openrouter-models\//, "Model reference"],
+  /*
+   * Order matters: the topic's own pages are matched before the bare prefix, and the explainer
+   * pages get their own label. A bulk find-and-replace over this file once produced
+   * `/^\/typesafe-jev/guide/` — a regex with a `/` in the middle, which is a syntax error the
+   * build reports as "invalid regular expression flags". Keep these as two separate lines.
+   */
+  [/^\/typesafe-jev\/(guide|pricing|vs-llm|open-source)/, "Jev explained · topic"],
   [/^\/typesafe-jev/, "Model reference · verified"],
-  [/^\/jev-guide/, "Field notes · Jev"],
   [/^\/field-notes/, "Series · field notes"],
   [/^\/union-alpha/, "Stealth line · live tracker"],
   [/^\/stealth-models/, "Stealth line · register"],
