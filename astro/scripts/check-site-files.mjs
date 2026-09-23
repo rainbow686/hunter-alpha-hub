@@ -23,6 +23,56 @@ const here = fileURLToPath(new URL(".", import.meta.url));
 const DIST = join(here, "../dist");
 const failures = [];
 
+/*
+ * Every built page has to be declared in `sitemap.xml` — the "200 but not declared" check, applied
+ * to our own output rather than to the live site.
+ *
+ * Why it exists: on 2026-09-23 the build produced **174 pages and the sitemap declared 129**. The
+ * 45 missing were exactly the 42 X-post records and the 3 explainer-cluster pages — live, reachable
+ * by link, and invisible to a crawler that trusts the declaration. `verify:pages` could not catch
+ * it: that guard compares our build against the **live** site's sitemap and correctly files
+ * anything new as "not compared yet", which is the right behaviour for a pre-merge branch and the
+ * wrong question for a finished one.
+ *
+ * The allow-list is short on purpose. Everything that is not a page — the 404, API routes, the JSON
+ * twins — is named here, so adding a page that nobody linked or declared is a build failure rather
+ * than a discovery problem six weeks later.
+ */
+const NOT_IN_SITEMAP = new Set([
+  "404.html", // correct: a 404 must not be advertised
+  "typesafe-jev/statistics.json", // data twin of a declared page, and not an .html file anyway
+]);
+
+function builtPages(dir = DIST, prefix = "") {
+  const out = [];
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      if (["_astro", "pagefind", "og", "img", "api"].includes(name)) continue;
+      out.push(...builtPages(full, `${prefix}${name}/`));
+    } else if (name.endsWith(".html")) {
+      out.push(`${prefix}${name}`);
+    }
+  }
+  return out;
+}
+
+function declaredRoutes() {
+  const xml = readFileSync(join(DIST, "sitemap.xml"), "utf8");
+  const routes = new Set();
+  for (const match of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+    const path = new URL(match[1]).pathname.replace(/\/$/, "") || "/";
+    routes.add(path);
+  }
+  return routes;
+}
+
+/** `/a/b.html` on disk is the route `/a/b`; `/index.html` is `/`. */
+const routeOf = (file) => {
+  const noExt = file.replace(/\.html$/, "");
+  return (noExt.endsWith("index") ? noExt.slice(0, -"index".length) : `/${noExt}`).replace(/\/$/, "") || "/";
+};
+
 const read = (name) => {
   const path = join(DIST, name);
   if (!existsSync(path)) {
@@ -336,11 +386,35 @@ for (const file of readdirSync(DIST, { recursive: true }).filter((name) => Strin
   }
 }
 
+/*
+ * The declaration check. Runs here rather than in `verify:pages` because this script already owns
+ * the crawler-facing files, and because it runs on every build rather than only on a parity run.
+ */
+const declared = declaredRoutes();
+const undeclared = builtPages()
+  .filter((file) => !NOT_IN_SITEMAP.has(file))
+  .filter((file) => !declared.has(routeOf(file)));
+if (undeclared.length) {
+  failures.push(
+    `${undeclared.length} built page(s) are not declared in sitemap.xml: ${undeclared.slice(0, 6).join(", ")}` +
+      (undeclared.length > 6 ? ` … ${undeclared.length - 6} more` : ""),
+  );
+}
+/* And the other direction: a declared URL with no page behind it is a 404 we asked Google to fetch. */
+const orphans = [...declared].filter((route) => {
+  if (route === "/") return !existsSync(join(DIST, "index.html"));
+  return !existsSync(join(DIST, `${route.slice(1)}.html`)) && !existsSync(join(DIST, route.slice(1), "index.html"));
+});
+if (orphans.length) {
+  failures.push(`${orphans.length} sitemap URL(s) have no page in the build: ${orphans.slice(0, 6).join(", ")}`);
+}
+
 console.log(
   `site files: robots.txt ${robots ? "ok" : "missing"} · _headers ${headers ? "ok" : "missing"} · _redirects ${
     redirects ? "ok" : "missing"
   } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared · JSON-LD ${jsonLdBlocks} blocks valid`,
 );
+console.log(`  sitemap: ${declared.size} declared · ${builtPages().length} pages built · ${undeclared.length} undeclared`);
 if (failures.length) {
   console.error("\nFAIL:");
   for (const failure of failures) console.error(`  - ${failure}`);

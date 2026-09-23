@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { JEV_FACETS } from "@repo/lib/jev-facets";
 import { jevBuildsWithPages } from "@repo/lib/jev-builds";
+import { jevXPostsWithPages } from "@repo/lib/jev-x-posts";
 import { getCollection } from "astro:content";
 import { openrouterModels } from "@repo/lib/openrouter-models";
 import { comparisonPairs } from "@repo/lib/openrouter-comparisons";
@@ -101,6 +102,22 @@ const STATIC_ENTRIES: Entry[] = [
     changeFrequency: "monthly" as const,
     priority: "0.6",
   })),
+  /*
+   * One entry per X post record, generated from the same pages file the routes are built from.
+   *
+   * These were **built and not declared** until 2026-09-23: 42 pages live and reachable by link,
+   * absent from the sitemap, on a site whose whole discovery story is "the sitemap is the
+   * declaration". Found by counting: 174 built pages against 129 declared. `check:files` now fails
+   * on that difference, which is the only reason the next one will be caught on the same day.
+   *
+   * Weekly rather than monthly: a record's content is stable but its like count is re-read, and the
+   * date on the page changes when the number does (ADR-0024).
+   */
+  ...jevXPostsWithPages.map((post) => ({
+    path: `/typesafe-jev/x-posts/${post.page!.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: "0.5",
+  })),
   { path: "/submit", changeFrequency: "monthly", priority: "0.5" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
@@ -111,6 +128,14 @@ const STATIC_ENTRIES: Entry[] = [
   // they are reachable from it and the link audit has to be able to see the path.
   { path: "/field-notes", changeFrequency: "weekly", priority: "0.8" },
   { path: "/jev-guide", changeFrequency: "weekly", priority: "0.8" },
+  /*
+   * The explainer cluster (roadmap/jev-explainer-cluster.md) — one URL per search intent. Listed
+   * individually rather than globbed: a cluster page is a decision (which intents we serve), and a
+   * glob would let a half-written page declare itself the moment it renders.
+   */
+  { path: "/jev-pricing", changeFrequency: "monthly", priority: "0.8" },
+  { path: "/jev-vs-llm", changeFrequency: "monthly", priority: "0.8" },
+  { path: "/open-source-jev", changeFrequency: "weekly", priority: "0.7" },
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },
 ];
 
