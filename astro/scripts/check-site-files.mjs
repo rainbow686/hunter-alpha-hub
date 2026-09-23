@@ -462,11 +462,44 @@ for (const file of astroSources()) {
   }
 }
 
+/*
+ * Every retired route has to answer both of its forms.
+ *
+ * Found on production 2026-09-23, right after the #118 deploy: `/monitor` → 301 and `/monitor/` → 404,
+ * and the same split on all nine retired routes. The generated trailing-slash block only knew about
+ * built pages, so nothing covered the routes that had been retired. The redirect exists precisely so
+ * a URL Google already knows does not die; a 404 on the slashed variant defeats it, and nothing else
+ * in the suite reads `_redirects` for meaning (the parity guard reads it for link migration, and it
+ * only ever looks at the bare forms the live site publishes).
+ *
+ * Param routes (`/profile/:nickname`) and splats are excluded: they have no single slashed form.
+ */
+const redirectLines = readFileSync(join(DIST, "_redirects"), "utf8")
+  .split("\n")
+  .map((line) => line.trim())
+  .filter((line) => line && !line.startsWith("#"))
+  .map((line) => line.split(/\s+/));
+const redirectSources = new Set(redirectLines.map(([from]) => from));
+const missingSlash = redirectLines
+  .filter(([, , status]) => status === "301")
+  .map(([from]) => from)
+  // The generated trailing-slash rules are themselves 301s; asking for the slashed
+  // form of a slashed form is how this first reported all nine as broken.
+  .filter((from) => !from.endsWith("/"))
+  .filter((from) => !from.includes(":") && !from.includes("*"))
+  .filter((from) => !redirectSources.has(`${from}/`));
+if (missingSlash.length) {
+  failures.push(
+    `${missingSlash.length} retired route(s) 301 on the bare form but not on the slashed one: ` +
+      missingSlash.map((from) => `${from}/`).join(", "),
+  );
+}
+
 console.log(
   `site files: robots.txt ${robots ? "ok" : "missing"} · _headers ${headers ? "ok" : "missing"} · _redirects ${
     redirects ? "ok" : "missing"
   } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared · JSON-LD ${jsonLdBlocks} blocks valid` +
-    ` · img sizes ${sizesChecked} declared`,
+    ` · img sizes ${sizesChecked} declared · retired slashes ${missingSlash.length ? "MISSING" : "ok"}`,
 );
 console.log(`  sitemap: ${declared.size} declared · ${builtPages().length} pages built · ${undeclared.length} undeclared`);
 if (failures.length) {
