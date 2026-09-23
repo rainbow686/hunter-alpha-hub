@@ -22,7 +22,7 @@
  */
 import System from "../../layouts/System.astro";
 import { SITE, SITE_NAME } from "../../lib/schema";
-import { inferSource } from "@repo/lib/submission-sources";
+import { allSources, inferSource } from "@repo/lib/submission-sources";
 
 const title = "Submit Something";
 const description =
@@ -66,6 +66,43 @@ const HINTS = {
     note: "The device or browser, if it looks specific to one.",
   },
 } as const;
+
+/**
+ * Where a platform's rows land, keyed by the `column` in
+ * `lib/data/submission-sources.json` — or, when the platform has no column of
+ * ours, by the topic it usually means.
+ *
+ * This map plus that file is the whole of "which platforms do you accept": add a
+ * platform there, add its destination here, and the table below picks it up.
+ * Nothing else on this page enumerates platforms, so the second model topic does
+ * not need a second table.
+ */
+const DESTINATION: Record<string, { label: string; href: string | null }> = {
+  "jev-builds.json": { label: "Built with Jev", href: "/typesafe-jev/builds" },
+  "jev-x-posts.json": { label: "Seen on X", href: "/typesafe-jev/x-posts" },
+  "jev-videos.json": { label: "Videos", href: "/typesafe-jev/videos" },
+  "jev-threads.json": { label: "Threads and write-ups", href: "/typesafe-jev/threads" },
+  "jev-thread": { label: "Threads and write-ups, or wherever it fits", href: "/typesafe-jev/threads" },
+  "jev-project": { label: "Built with Jev", href: "/typesafe-jev/builds" },
+  "jev-video": { label: "Videos", href: "/typesafe-jev/videos" },
+  catalogue: { label: "A correction on a model page", href: "/openrouter-models" },
+  stealth: { label: "A lead for the stealth register", href: "/stealth-models" },
+  site: { label: "A fix for the page you were on", href: null },
+};
+/**
+ * By name, so a row can be found without reading the table — except the catch-all,
+ * which goes last because it is not a platform, it is the absence of one.
+ */
+const CATCH_ALL = "web";
+const PLATFORMS = [...allSources()]
+  .sort((a, b) =>
+    a.source === CATCH_ALL ? 1 : b.source === CATCH_ALL ? -1 : a.label.localeCompare(b.label),
+  )
+  .map((entry) => ({
+    label: entry.label,
+    enrich: entry.enrich,
+    destination: DESTINATION[entry.column ?? entry.topic] ?? { label: "Wherever it fits", href: null },
+  }));
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
@@ -92,12 +129,9 @@ const HINTS = {
           placeholder={"https://github.com/…\nhttps://x.com/…/status/…\n\nOne per line. Paste as many as you like."}></textarea>
         <p class="form-note" data-detected aria-live="polite"></p>
         <p class="form-note">
-          The platform is read off the link, not asked for: GitHub lands in
-          <a href="/typesafe-jev/builds">Built with Jev</a>, X in
-          <a href="/typesafe-jev/x-posts">Seen on X</a>, YouTube in
-          <a href="/typesafe-jev/videos">Videos</a>, Hacker News and dev.to in
-          <a href="/typesafe-jev/threads">the discussion column</a>. Anything else still
-          queues, and a person still reads it.
+          One link per line, as many as you like, and mixed platforms are fine — the
+          platform is read off the link rather than asked for. <a href="#platforms">Which
+          platforms work, and where each one lands →</a>
         </p>
       </div>
 
@@ -167,6 +201,37 @@ const HINTS = {
       model that is missing from it is a correction like any other, not a new page.
     </p>
 
+    <h2 id="platforms">Which platforms work</h2>
+    <p>
+      All of them. GitHub, X and some blog nobody has heard of are the same act of typing a
+      link, and which one it is gets read off the link rather than asked of you — so a paste
+      can mix them, and you never have to work out where a thing "belongs". What differs is
+      only what happens next:
+    </p>
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Where it lands</th>
+            <th>What we fill in</th>
+          </tr>
+        </thead>
+        <tbody>
+          {PLATFORMS.map((platform) => (
+            <tr>
+              <td>{platform.label}</td>
+              <td>
+                {platform.destination.href
+                  ? <a href={platform.destination.href}>{platform.destination.label}</a>
+                  : platform.destination.label}
+              </td>
+              <td>{platform.enrich}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
     <p class="provenance">
       <span><a href="/typesafe-jev/builds">Built with Jev</a></span>
       <span><a href="/typesafe-jev/x-posts">Seen on X</a></span>

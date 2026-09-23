@@ -66,3 +66,15 @@ export function sourceByKey(key: string | null | undefined): SubmissionSource | 
   if (!key) return null;
   return SOURCES.find((entry) => entry.source === key) ?? (key === FALLBACK.source ? FALLBACK : null);
 }
+
+/**
+ * The whole table, known platforms first and the catch-all last.
+ *
+ * For the one caller that has to *name* the platforms rather than classify a
+ * link: /submit lists them so a sender can see that GitHub, X and "something else
+ * entirely" all work. It renders this instead of restating it in prose, which is
+ * what keeps the answer from going stale the first time a platform is added.
+ */
+export function allSources(): SubmissionSource[] {
+  return [...SOURCES, FALLBACK];
+}
