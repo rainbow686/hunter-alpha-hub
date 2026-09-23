@@ -1,0 +1,337 @@
+---
+/**
+ * /jev-pricing — what a Jev decision costs, worked out two ways.
+ *
+ * This is the first page of the explainer cluster (`docs/roadmap/jev-explainer-cluster.md`), and
+ * it is first because it is the one intent where we have a number the vendor's own page does not
+ * print: **we have paid for calls and know what they cost** ($0.0000176 for a 420-token decision,
+ * measured 2026-09-20, `lib/jev-our-measurements.ts`).
+ *
+ * Everything about the vendor's list price is quoted from their launch announcement and dated,
+ * because a pricing page that silently goes stale is worse than no pricing page: it is the page
+ * people quote. The arithmetic in the middle is ours, and it is the part that matters — the cost
+ * driver in a decision loop is the state you send, not the model you call.
+ */
+import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { JEV_OURS_MEASURED_ON, JEV_OURS_SAMPLES, oursUsage, oursLatency } from "@repo/lib/jev-our-measurements";
+
+const title = "Jev Pricing: What a Decision Costs (2026)";
+const description =
+  "TypeSafe's Jev is billed on input tokens at $0.042 per million and returns output for free. What that means per decision, with the arithmetic — and the number that actually decides your bill: the size of the state you send.";
+const canonical = `${SITE}/jev-pricing`;
+
+/** The vendor's published figures, quoted from the announcement we read. */
+const READ_ON = "2026-09-23";
+const VENDOR = {
+  source: "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+  inputPerMTok: 0.042,
+  inputPerBillion: 42,
+  llmInputLow: 0.2,
+  llmInputHigh: 10,
+  outputMultiple: 5,
+  speedLowMs: 70,
+  speedHighMs: 500,
+  speedupLow: 40,
+  speedupHigh: 200,
+};
+
+/* Our own call, the one this site pays for: 420 input tokens in, a label and three confidences out. */
+const ourTokens = oursUsage.inputTokens;
+const ourCost = (ourTokens / 1_000_000) * VENDOR.inputPerMTok;
+const perMillion = (1_000_000 / ourTokens) * ourCost;
+const perThousandCalls = ourCost * 1000;
+
+/*
+ * The vendor's own aside in the launch post: an engineer worrying about "10 queries a second
+ * (which ends up costing ~$7/hour)". That sentence is a cost model in disguise, and running it
+ * backwards is the most useful thing on this page: it tells you the state size their own loop
+ * ships. We label it as a derivation, not as their figure.
+ */
+const callsPerHourAt10PerSecond = 10 * 3600;
+const impliedCostPerCall = 7 / callsPerHourAt10PerSecond;
+const impliedTokens = (impliedCostPerCall / VENDOR.inputPerMTok) * 1_000_000;
+
+const faqs = [
+  {
+    question: "How is Jev priced?",
+    answer:
+      "On input tokens. TypeSafe's launch post lists input at $0.042 per million tokens ($42 per billion) and output as free, because a System One model returns a choice plus probabilities in a single pass rather than generating text one token at a time.",
+  },
+  {
+    question: "What does one Jev call cost in practice?",
+    answer:
+      `At ${ourTokens} input tokens a call it is about $${ourCost.toFixed(7)} — roughly $${perMillion.toFixed(2)} per million decisions, or $${perThousandCalls.toFixed(2)} per thousand. That is our measured token count, not an estimate of yours; the state you send is the variable.`,
+  },
+  {
+    question: "What decides the bill?",
+    answer:
+      "The size of the state, and how often you call. A decision made every video frame at 4,000 tokens a look is a different product from one made per support ticket at 400. The per-call price is small enough that the loop design, not the model, is what your invoice is measuring.",
+  },
+  {
+    question: "Is it cheaper than asking a model?",
+    answer:
+      "For a decision, usually yes, and not only per token: a chat model answers in prose you then parse, so you pay for the prose and for the code that reads it. Frontier input runs from $0.20 to $10 per million against Jev's $0.042, with output about five times the input price.",
+  },
+];
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} noReferrer>
+  <JsonLd
+    slot="head"
+    data={articleSchema({ title, description, publishedAt: READ_ON, updatedAt: READ_ON, url: canonical })}
+  />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Jev", url: `${SITE}/typesafe-jev` },
+      { name: "Pricing", url: canonical },
+    ]}
+  />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Jev · pricing</p>
+      <h1>What a Jev decision costs</h1>
+      <p class="lede">
+        Two numbers decide the bill, and only one of them is on the price list: the vendor's rate
+        per input token, and how much state you send with every call. The second one is yours, and
+        it is the one that surprises people.
+      </p>
+    </header>
+
+    <div class="callout">
+      <p class="callout-eyebrow">In short</p>
+      <ul>
+        <li><strong>$0.042</strong> per million input tokens, output free — quoted from TypeSafe's launch post, read {READ_ON}.</li>
+        <li><strong>${ourCost.toFixed(7)}</strong> for one of our own decisions: {ourTokens} tokens in, a label and three confidences out.</li>
+        <li><strong>The state is the bill.</strong> The same call at 4,000 tokens costs 10× what it costs at 400.</li>
+        <li>Their own aside — "10 queries a second … ~$7/hour" — implies roughly <strong>{Math.round(impliedTokens / 100) * 100} tokens</strong> a call. Their loop, not yours.</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>What the vendor publishes</h2>
+      <p>
+        Read from the announcement on {READ_ON}. It is a launch post rather than a pricing page, so
+        the figures arrive in a comparison table against frontier models — which is also why they
+        are worth reading carefully: the contrast is the point, and the absolute number is small
+        enough that it is easy to skip past.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th></th><th>Frontier chat model</th><th>Jev</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Input</td>
+              <td>from ${VENDOR.llmInputLow.toFixed(2)} to ${VENDOR.llmInputHigh.toFixed(2)} per million tokens</td>
+              <td><strong>${VENDOR.inputPerMTok.toFixed(3)} per million tokens</strong></td>
+            </tr>
+            <tr>
+              <td>Output</td>
+              <td>about {VENDOR.outputMultiple}× the input price</td>
+              <td><strong>Free</strong>, in their words "too cheap to meter"</td>
+            </tr>
+            <tr>
+              <td>Answer shape</td>
+              <td>text, one token at a time</td>
+              <td>a choice from your option set, plus calibrated probabilities</td>
+            </tr>
+            <tr>
+              <td>Speed</td>
+              <td>{VENDOR.speedLowMs / 1000}–{VENDOR.speedHighMs / 1000} seconds, by their own table</td>
+              <td><strong>{VENDOR.speedLowMs}–{VENDOR.speedHighMs} ms</strong>, {VENDOR.speedupLow}–{VENDOR.speedupHigh}× faster for the shape it is built for</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="quoted">
+        The one line in the post that reads like a cost model: an engineer "was worried about making
+        10 queries a second (which ends up costing ~$7/hour)". That is the figure we run backwards
+        below — with the caveat that it is a sentence in a blog post, not a rate card.
+      </p>
+    </section>
+
+    <section>
+      <h2>What one call cost us</h2>
+      <p>
+        We have paid for this. On {JEV_OURS_MEASURED_ON} we sent {JEV_OURS_SAMPLES} identical
+        requests — one support-ticket state, three questions at once — with a key we own, and
+        recorded what came back. The state was {ourTokens} tokens:
+      </p>
+      <p class="equation">
+        {ourTokens} tokens ÷ 1,000,000 × ${VENDOR.inputPerMTok.toFixed(3)} =
+        <strong>${ourCost.toFixed(7)}</strong> per decision
+      </p>
+      <p>
+        That is <strong>${perMillion.toFixed(2)} per million decisions</strong>, or $
+        {perThousandCalls.toFixed(2)} per thousand. The whole experiment — every call in it — cost $
+        {oursUsage.costForExperimentUsd.toFixed(7)}. At that price the model is not a line item; the
+        engineering time you spend deciding when to call it is, and that is the honest way to read
+        this page.
+      </p>
+      <figure class="figure">
+        <svg viewBox="0 0 760 212" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+          <title>Cost of one decision at four state sizes, on the vendor's published input rate: 420 tokens costs $0.0000176, 1,000 tokens $0.000042, 4,600 tokens $0.00019 and 10,000 tokens $0.00042.</title>
+          <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">COST OF ONE DECISION, BY SIZE OF STATE</text>
+          <text x="754" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">AT $0.042 / MILLION INPUT TOKENS</text>
+
+          {/*
+            Bars are proportional to tokens, and the widest one is exactly the width of the plot —
+            480px from x=150, leaving room for the value labels on the same row. First draft drew
+            the last bar 620px wide and it ran off the canvas.
+          */}
+          <text x="0" y="52" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">420 tok · ours</text>
+          <rect x="150" y="38" width="20" height="18" rx="3" fill="var(--accent)" />
+          <text x="182" y="52" font-family="var(--mono)" font-size="12" fill="var(--text)">$0.0000176</text>
+
+          <text x="0" y="90" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">1,000 tok</text>
+          <rect x="150" y="76" width="48" height="18" rx="3" fill="var(--text-faint)" />
+          <text x="210" y="90" font-family="var(--mono)" font-size="12" fill="var(--text)">$0.000042</text>
+
+          <text x="0" y="128" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">4,600 tok · implied</text>
+          <rect x="150" y="114" width="221" height="18" rx="3" fill="var(--text-faint)" />
+          <text x="383" y="128" font-family="var(--mono)" font-size="12" fill="var(--text)">$0.00019</text>
+
+          <text x="0" y="166" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">10,000 tok</text>
+          <rect x="150" y="152" width="480" height="18" rx="3" fill="var(--warn)" />
+          <text x="642" y="166" font-family="var(--mono)" font-size="12" fill="var(--text)">$0.00042</text>
+          <line x1="0" y1="190" x2="760" y2="190" stroke="var(--field-border)" stroke-width="1" />
+          <text x="0" y="206" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">The widest bar is 24× the narrowest, and it is still under half a thousandth of a cent.</text>
+        </svg>
+        <figcaption>
+          Bars are proportional. The widest one is 24× the narrowest, and both are far below the
+          point where a per-call price decides anything — which is the whole argument of this page.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>The sentence that tells you your own bill</h2>
+      <p>
+        That aside in the launch post — a loop making 10 calls a second at about $7 an hour — is a
+        worked example of the only thing that moves this cost. Run it backwards at the published
+        rate and the state being sent is roughly {Math.round(impliedTokens / 100) * 100} tokens:
+      </p>
+      <p class="equation">
+        $7 ÷ (10 × 3,600 calls) = ${impliedCostPerCall.toFixed(6)} a call ÷ $
+        {VENDOR.inputPerMTok.toFixed(3)} per million ≈ <strong>{Math.round(impliedTokens / 100) * 100} tokens</strong>
+      </p>
+      <p>
+        We are not claiming that is the number their engineer sent — the $7 may include other
+        compute, and the sentence is a blog post. We are claiming it is the right shape of
+        question, because it produces the only arithmetic that matters:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Your loop</th><th>State per call</th><th>Cost per hour</th><th>Cost per day, running</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A ticket triaged on arrival</td><td>400 tokens</td><td>$0.000006</td><td>$0.00014</td></tr>
+            <tr><td>A page routed per user click</td><td>1,500 tokens</td><td>$0.00023</td><td>$0.0054</td></tr>
+            <tr><td>A trade decided every 300 ms</td><td>2,000 tokens</td><td>$0.0010</td><td>$0.024</td></tr>
+            <tr><td>A browser agent stepping 10×/second</td><td>4,600 tokens</td><td>$0.00696</td><td>$0.167</td></tr>
+            <tr><td>The same agent, whole DOM per step</td><td>40,000 tokens</td><td>$0.0605</td><td>$1.45</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">
+        Sorted by what actually changes: the last two rows are the same loop with a different state
+        strategy, and they differ by roughly 9×. The per-call price is the same in both.
+      </p>
+      <p>
+        Which is why the teams we have read spend their effort on the state rather than on the
+        model: index the page and send the elements that could be acted on
+        (<a href="/typesafe-jev/builds/browser-use-jev-ultrafast">browser-use</a>, 7.1 seconds for a
+        flight search), trim tool results before they fill a context
+        (<a href="/typesafe-jev/x-posts/jev-claude-plugin-tool-call-trimmer">a Claude plugin</a>,
+        1M → 86K tokens), or accept a bigger state and cap the rate.
+      </p>
+    </section>
+
+    <section>
+      <h2>What is not on the price list</h2>
+      <p>
+        The published rate is per input token, and the things that decide a real invoice are not
+        tokens:
+      </p>
+      <ul>
+        <li><strong>Retries.</strong> A decision you have to ask twice for costs twice, and the cheap way to avoid that is the option set, not the model.</li>
+        <li><strong>The confidence threshold.</strong> If you route to a second model below a threshold, that model's price is in your loop's price — see the routing patterns in <a href="/jev-guide">the guide</a>.</li>
+        <li><strong>Latency, which you pay for in a different currency.</strong> Our own calls had a median wall time of {oursLatency.median} ms from a machine in Asia, against the vendor's 70–500 ms on their own machines; the difference is network and TLS, and it is the number your users feel.</li>
+        <li><strong>Volume terms.</strong> We do not have them and cannot quote them. Nothing here is a contract.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot tell you your monthly bill, because the state is yours. It cannot tell you whether
+        Jev is worth its price, because that depends on what a wrong decision costs you — the same
+        $0.0000176 is free in a moderation queue and expensive in a trading loop where being 300 ms
+        late is the whole risk. It cannot confirm the vendor's speed numbers either: theirs are
+        measured on their machines, ours include a network from Asia, and neither is your
+        production.
+      </p>
+      <p>
+        And it is a pricing snapshot: read {READ_ON}. Rates change without notice, and this page
+        will not update itself — the arithmetic above survives it, because a rate is one factor and
+        the state is the other.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+
+    <Provenance
+      source="typesafe.ai launch post"
+      verified={READ_ON}
+      extra={[
+        "Our own call: /typesafe-jev/statistics",
+        "The vendor's figures are quoted and dated; the token counts and the arithmetic are ours, from a key we paid for.",
+      ]}
+    />
+  </article>
+</System>
+
+<style>
+  .callout {
+    margin: var(--space-8) 0;
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .callout-eyebrow {
+    margin: 0 0 var(--space-3);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .callout li { margin-bottom: var(--space-2); }
+  .callout strong { color: var(--text); }
+  /* An equation gets its own line and mono type: it is a claim a reader should be able to audit. */
+  .equation {
+    margin: var(--space-4) 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-sunken);
+    border-radius: var(--radius-sm);
+    font-family: var(--mono);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    overflow-x: auto;
+  }
+  .equation strong { color: var(--text); }
+  .table-note { font-size: var(--text-sm); color: var(--text-faint); font-style: italic; }
+</style>

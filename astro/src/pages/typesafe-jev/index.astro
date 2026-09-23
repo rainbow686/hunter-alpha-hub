@@ -231,6 +231,17 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
         first-hand, plus twenty calls we made ourselves.
       </li>
       {/*
+        The explainer cluster (roadmap/jev-explainer-cluster.md), listed here as pages are written:
+        one URL per search intent, because one URL can only rank for one. This is the column the
+        2026-09-23 recheck found missing — the reference site splits the same model across fifteen
+        of these and we had one.
+      */}
+      <li>
+        <a href="/jev-pricing">What a decision costs</a> — the published rate per million tokens,
+        what one of our own calls cost, and the arithmetic for a loop that calls it ten times a
+        second.
+      </li>
+      {/*
         The first second-level column of the topic (roadmap/jev-topic-columns.md).
         Columns are listed here rather than in the site nav, for the reason ADR-0018
         gives: adding a column must never require touching the chrome.
