@@ -53,6 +53,18 @@ const fieldNotes = [
   ["/typesafe-jev/open-source", "Open source, and what it gives up"],
 ];
 
+/**
+ * The second model topic. A topic owns its own column list, because its questions
+ * are not the first topic's: nobody asks whether Laya is a drop-in for a hosted
+ * API's *pricing*, and nobody asks Jev whether they can ship the weights.
+ */
+const laya = [
+  ["/laya", "Laya (open weights)"],
+  ["/laya/vs-jev", "Laya vs Jev"],
+  ["/laya/self-hosting", "Running it yourself"],
+  ["/laya/open-weights", "What the licence covers"],
+];
+
 const stealth = [
   ["/stealth-models", "All stealth releases"],
   ["/union-alpha", "Union Alpha · Unbiased Pareto"],
@@ -99,6 +111,10 @@ const site = [
       <div class="foot-col">
         <h3>Field notes</h3>
         <ul>{fieldNotes.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
+      </div>
+      <div class="foot-col">
+        <h3>Laya</h3>
+        <ul>{laya.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
       </div>
       <div class="foot-col">
         <h3>Site</h3>

@@ -17,6 +17,7 @@ import Faq from "../../../components/Faq.astro";
 import Provenance from "../../../components/Provenance.astro";
 import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { jevBuilds, JEV_BUILDS_READ_ON } from "@repo/lib/jev-builds";
+import { ecosystem as layaEcosystem } from "@repo/lib/laya";
 
 const title = "Open Source Jev: Substitutes, Replicas and What They Give Up (2026)";
 const description =
@@ -35,7 +36,7 @@ const faqs = [
   {
     question: "What is the closest local substitute?",
     answer:
-      "Von, by wfzyx: a 395M-parameter non-autoregressive decision model, published with its own head-to-head against Jev. It reports 72.0% macro on a 49-task suite against Jev's 96.6%, and 9.00 kills against 5.62 in the ViZDoom protocol — a clear loss on accuracy and a win on the real-time loop.",
+      "Laya, by Convai Innovations: 421M parameters, Apache-2.0, and an HTTP server that answers TypeSafe's own wire protocol, so a Jev client can be pointed at it. We ran that experiment and wrote it up under /laya. Von, by wfzyx, is the other candidate: a 395M-parameter model that publishes its own head-to-head against Jev — 72.0% macro on a 49-task suite against 96.6%, and 9.00 kills against 5.62 in ViZDoom.",
   },
   {
     question: "Can I just call a small open model instead?",
@@ -46,6 +47,22 @@ const faqs = [
 
 /* Every row is a repository we opened; the numbers are the publishers' own. */
 const substitutes = [
+  /*
+   * Laya is the row that changed what this page says. It is not a replica of the
+   * architecture or an adapter around an open model — it is a from-scratch
+   * decision model whose server speaks the same protocol, which makes it the only
+   * entry here that could actually stand in for the hosted one in a deployment.
+   * It has its own topic (/laya), so the row links there rather than to a build
+   * dossier; the rest of this table is still dossiers from the builds column.
+   */
+  {
+    href: "/laya",
+    name: "Laya",
+    stars: `${layaEcosystem.stars.toLocaleString("en-US")} ★`,
+    what: "an open decision model with the same three question types — 421M parameters, Apache-2.0, runs on a CPU",
+    gives: "a server that answers TypeSafe's `/v1/systemone`, so a client written for Jev works after a URL change — our own Jev client returned valid answers for all thirteen of our adversarial cases",
+    givesUp: "a bundled encoder adapted for decisions rather than trained from scratch, and a published benchmark table whose Jev column the publisher never measured",
+  },
   {
     slug: "wfzyx-von",
     name: "Von",
@@ -81,7 +98,7 @@ const substitutes = [
     gives: "the pattern without the vendor: testable today, at zero cost",
     givesUp: "the option-set guarantee is a prompt and a parser here, not a property of the model",
   },
-].map((row) => ({ ...row, build: bySlug(row.slug) })).filter((row) => row.build);
+].map((row) => ({ ...row, build: row.slug ? bySlug(row.slug) : undefined })).filter((row) => row.href || row.build);
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} noReferrer>
@@ -166,6 +183,33 @@ const substitutes = [
     </section>
 
     <section>
+      <h2>The one that stops being a substitute and becomes a swap</h2>
+      <p>
+        Every project above reproduces the shape of a decision model. One of them reproduces the
+        <em>interface</em>: <a href="/laya">Laya</a> ships an HTTP server that answers TypeSafe's own{" "}
+        <code>/v1/systemone</code>, which means the client you already wrote can be pointed at it and
+        will keep working. We tested exactly that, and it holds further than we expected — our Jev
+        probe returned a valid answer for all thirteen of its adversarial cases against the local
+        server, with no code change beyond the endpoint.
+      </p>
+      <p>
+        It also holds further than the claim needs it to. Sending the same thirteen cases to both
+        models, Laya agreed with Jev's label on <strong>eleven of thirteen</strong>, and neither ever
+        answered outside the option set. That is not a proof that one replaces the other — the
+        thirteen cases are adversarial probes, not a workload — but it is a different kind of result
+        from "a small model that does something similar", and it is the reason this page's answer to
+        "what is the closest substitute" changed on 2026-09-24. The full account, including the
+        twelve things that are not about accuracy, is under <a href="/laya/vs-jev">Laya vs Jev</a>.
+      </p>
+      <p class="quoted">
+        What it does not reproduce is the guarantee as a property of the service. Both models kept
+        inside the option set on our cases; only one of them promises it in a contract. A self-hosted
+        server is also a thing you now have to run, patch and watch, which is the trade this page has
+        been about since its first line.
+      </p>
+    </section>
+
+    <section>
       <h2>The five we read, and what each gives up</h2>
       <p>
         Every row is a repository we opened on {JEV_BUILDS_READ_ON}; the numbers are the publishers'
@@ -181,8 +225,8 @@ const substitutes = [
             {substitutes.map((row) => (
               <tr>
                 <td>
-                  <a href={`/typesafe-jev/builds/${row.build!.dossier!.slug}`}>{row.name}</a>
-                  <div class="cell-note">{row.build!.stars.toLocaleString("en-US")} ★</div>
+                  <a href={row.href ?? `/typesafe-jev/builds/${row.build!.dossier!.slug}`}>{row.name}</a>
+                  <div class="cell-note">{row.stars ?? (row.build ? `${row.build.stars.toLocaleString("en-US")} ★` : "")}</div>
                 </td>
                 <td>{row.what}</td>
                 <td>{row.gives}</td>

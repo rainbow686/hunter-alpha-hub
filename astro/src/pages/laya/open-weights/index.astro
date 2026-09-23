@@ -1,0 +1,263 @@
+---
+/**
+ * /laya/open-weights — what is actually in the box.
+ *
+ * The interesting work here is subtraction: "Apache-2.0, open weights" is four
+ * words that sound like one fact and are three. The licence is permissive; the
+ * file you download is a bundled encoder plus a two-layer head rather than a
+ * from-scratch model; and the training corpus, the benchmark sets and the
+ * comparison numbers are not in the licence at all.
+ *
+ * Every claim on this page was checked by opening the downloaded artifact —
+ * sizes, filenames, the config that ships with it — rather than by reading the
+ * card's summary of itself.
+ */
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Callout from "../../../components/Callout.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { checkpoints, LAYA_GITHUB_URL, LAYA_HF_URL, LAYA_LICENSE, LAYA_PYPI_URL, LAYA_READ_ON, shippedWith, trainingConfig } from "@repo/lib/laya";
+import { LAYA_OURS_MEASURED_ON, environment } from "@repo/lib/laya-our-measurements";
+
+const title = "Laya's Open Weights: What Apache-2.0 Covers, and What It Doesn't (2026)";
+const description =
+  "Laya's checkpoints are Apache-2.0, and each download is a bundled encoder plus a two-layer head. What the licence reaches — weights, code, commercial use — and the three things it does not: the training corpus, the benchmark suites, and the comparison numbers.";
+const canonical = `${SITE}/laya/open-weights`;
+
+const faqs = [
+  {
+    question: "Is Laya really open source?",
+    answer:
+      "The licence is: `apache-2.0` in the model card's frontmatter, for all three checkpoints, and the card tags it `commercial-use`. The training data is not published, so 'open weights' rather than 'open model' is the accurate phrase. You can run it, modify it, ship it and sell what it does; you cannot reproduce how it was made.",
+  },
+  {
+    question: "Can I use Laya commercially?",
+    answer:
+      "The weights and the Python package are Apache-2.0, which permits commercial use, modification and redistribution, with the usual notice requirements. The encoder inside each checkpoint comes from a third party (`answerdotai/ModernBERT-large`, and mmBERT-base for the multilingual one) — both are permissively licensed too, but they have their own notices and their own repositories.",
+  },
+  {
+    question: "What exactly is in the download?",
+    answer:
+      "One file per checkpoint: 843 MB for the English one, 644 MB for multilingual, 843 MB for typed-decisions. That single safetensors file carries the encoder weights and the decision head together — the repo's `encoder/` folder contains only a `config.json` that names the upstream encoder. The Python package that runs it is 58 KB.",
+  },
+  {
+    question: "How was it trained?",
+    answer:
+      "The shipped config records the shape: a two-layer head on ModernBERT-large, 7,313 updates, one epoch, about 1.96 hours on a single machine, fine-tuned from a checkpoint. That is the whole of what the artifact says about its own training; the corpus is not described.",
+  },
+];
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: LAYA_READ_ON, updatedAt: LAYA_OURS_MEASURED_ON, url: canonical })} />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Laya", url: `${SITE}/laya` },
+      { name: "Open weights", url: canonical },
+    ]}
+  />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Laya · licence and weights</p>
+      <h1>What is in the box</h1>
+      <p class="lede">
+        "Open weights" is four words standing in for three separate facts: what the licence permits,
+        what the files contain, and what the publisher is still holding. They are worth separating
+        because the answer is different for each — and because the difference decides whether you
+        can ship this, retrain it, or only run it.
+      </p>
+
+      <figure class="figure cover">
+        <img src="/img/cover-laya-open-weights.webp" alt="An engraving: a foundry mould opened on a bench, showing a freshly cast gear in one half and the matching cavity in the other." width="1024" height="576" decoding="async" />
+      </figure>
+    </header>
+
+    <Callout eyebrow="In short">
+      <li><strong>The licence is Apache-2.0</strong>, read from the model card's frontmatter, and the card tags the release `commercial-use`.</li>
+      <li><strong>Each checkpoint is one file:</strong> 843 MB for the English one, 644 MB for multilingual. Encoder and head travel together inside it.</li>
+      <li><strong>The training corpus is not published.</strong> You can run, modify and ship the weights; you cannot reproduce them.</li>
+      <li><strong>The head is two layers</strong> on a full ModernBERT-large, and the shipped config says the fine-tune was 7,313 updates in about two hours on one machine.</li>
+      <li><strong>The benchmarks in the comparison are other people's datasets</strong> — Banking77, AG News, SST-5, DAIR Emotion — each with its own terms, none of them covered by this licence.</li>
+    </Callout>
+
+    <section>
+      <h2>The licence line</h2>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Covers</th><th>What it means in practice</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Weights, all three checkpoints</td>
+              <td>Apache-2.0 permits commercial use, modification and redistribution. Keep the notices and the licence text with anything you ship.</td>
+            </tr>
+            <tr>
+              <td>The Python package and the server</td>
+              <td>Same licence, same obligations. `pip install "laya[serve]"` gets you the code; the weights come from the Hub on first load.</td>
+            </tr>
+            <tr>
+              <td>The TypeScript port and the integrations</td>
+              <td>In the same repository, under the same licence.</td>
+            </tr>
+            <tr>
+              <td>The encoder inside each checkpoint</td>
+              <td>Third-party: `answerdotai/ModernBERT-large` for the English and typed-decisions checkpoints, mmBERT-base for multilingual. Permissive, but they are separate projects with their own names and notices.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <Provenance
+        source="huggingface.co/convaiinnovations/laya"
+        verified={LAYA_READ_ON}
+        extra={[
+          "Frontmatter licence field, plus the file list in the downloaded snapshot.",
+          "We are not lawyers and this is not advice; the frontmatter is quoted so you can check it.",
+        ]}
+      />
+      <p>
+        One thing the licence deliberately does not settle: what the model learned. Apache-2.0
+        attaches to the artifact, not to the corpus it was built from. If the training data contained
+        something with its own terms, this licence does not launder it — which is true of every open
+        weights release and is worth remembering when one of them is used commercially.
+      </p>
+    </section>
+
+    <section>
+      <h2>What the download contains</h2>
+      <p>
+        Three checkpoints, one file each, downloaded from the Hub on first load. The sizes below are
+        the files themselves rather than a summary of them:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Checkpoint</th><th class="num">Model file</th><th>Contains</th><th class="num">Context</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>convaiinnovations/laya</code></td><td class="num">843 MB</td><td>ModernBERT-large encoder + the decision head</td><td class="num">512</td></tr>
+            <tr><td><code>convaiinnovations/laya-multilingual</code></td><td class="num">644 MB</td><td>mmBERT-base encoder + the head</td><td class="num">1,024</td></tr>
+            <tr><td><code>convaiinnovations/laya-typed-decisions</code></td><td class="num">843 MB</td><td>ModernBERT-large encoder + a head fine-tuned on four workflows</td><td class="num">1,024</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <Provenance
+        source="downloaded snapshot, file sizes read locally"
+        verified={LAYA_OURS_MEASURED_ON}
+        extra={[`All three together: ${environment.weights}.`]}
+      />
+      <p>
+        The encoder and head are bundled, which is why the numbers are large relative to "a two-layer
+        head on a 421M encoder" — you are downloading the encoder as well, in bf16. The repository's
+        `encoder/` folder holds only a `config.json` naming the upstream encoder; the weights sit
+        inside the checkpoint file next to the head that reads them.
+      </p>
+      <p>
+        Everything else in the package is small. The Python wheel is 104 KB and depends on torch,
+        transformers and, for the server, FastAPI and uvicorn. If you want the smallest install that
+        answers decisions, it is the checkpoint plus a Python environment — no key, no account, no
+        call home.
+      </p>
+    </section>
+
+    <section>
+      <h2>How the weights were made, as far as the artifact says</h2>
+      <p>
+        The checkpoint ships its own training configuration, and reading it is more informative than
+        any summary — it is the difference between "trained with reinforcement learning" and knowing
+        what that meant in machine-hours.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th class="num">Key</th><th class="num">Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Encoder</td><td class="num"><code>{trainingConfig.encoder}</code></td></tr>
+            <tr><td>Head layers</td><td class="num">{trainingConfig.headLayers}</td></tr>
+            <tr><td>Updates</td><td class="num">{trainingConfig.updates.toLocaleString("en-US")}</td></tr>
+            <tr><td>Epochs completed</td><td class="num">{trainingConfig.epochs}</td></tr>
+            <tr><td>Hours</td><td class="num">{trainingConfig.hours}</td></tr>
+            <tr><td>World size</td><td class="num">{trainingConfig.worldSize}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <Provenance source="rl_agent_config.json inside the checkpoint" verified={LAYA_OURS_MEASURED_ON} />
+      <p>
+        {trainingConfig.point} The card's own framing agrees with the arithmetic: it calls the base
+        checkpoints near-chance on its hard benchmark and says the 0.766 belongs to the checkpoint
+        fine-tuned on that benchmark's training split. What that means for you is that these weights
+        are a starting point with a strong architecture and a cheap fine-tune loop, not a finished
+        model that knows your domain.
+      </p>
+    </section>
+
+    <section>
+      <h2>What the four words do not cover</h2>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Not in the box</th><th>Why it matters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>The training corpus</td>
+              <td>Nothing in the release describes it. You cannot audit what the model learned, and you cannot rebuild the artifact from scratch.</td>
+            </tr>
+            <tr>
+              <td>The benchmark datasets</td>
+              <td>Banking77, AG News, DAIR Emotion and SST-5 belong to other people and carry their own terms. The published comparison is a claim about those sets, not a licence to redistribute them.</td>
+            </tr>
+            <tr>
+              <td>The Jev column in the comparison</td>
+              <td>Those figures are third-party measurements of a closed model. No licence covers them, and the publisher is explicit that it never reproduced them.</td>
+            </tr>
+            <tr>
+              <td>The calibration in the shipped config</td>
+              <td>Of the six fitted temperatures in the artifact, one is outside the range its own library accepts — so the advertised calibration is not the one running for choice questions with eleven or more options. Fit your own; see <a href="/laya/self-hosting">self-hosting</a>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>The rest of what ships</h2>
+      <ul>
+        {shippedWith.map((item) => <li set:html={item.replace(/`([^`]+)`/g, "<code>$1</code>")} />)}
+      </ul>
+      <p class="form-note">
+        Repository: <a href={LAYA_GITHUB_URL}>github.com/NandhaKishorM/laya</a> · model card:{" "}
+        <a href={LAYA_HF_URL}>convaiinnovations/laya</a> · package: <a href={LAYA_PYPI_URL}>pypi.org/project/laya</a>.
+        Licence line quoted from the card: <code>{LAYA_LICENSE}</code>.
+      </p>
+      <p>
+        The three checkpoints are not interchangeable, and the differences are licence-relevant only
+        in that they are all the same licence. What changes is the encoder underneath: a 322M
+        multilingual model against two 421M English ones, which is why the multilingual file is the
+        smaller download and the faster one.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot tell you whether the weights were trained on data you would object to, because the
+        corpus is not described anywhere in the release. It cannot tell you whether the Apache-2.0
+        grant is clean in your jurisdiction if a dataset inside that corpus had its own terms — that
+        is a question for a lawyer, and the honest version of it is that "open weights" and "clean
+        provenance" are different claims. And it cannot tell you how the model performs after you
+        fine-tune it, which is the only version of it you would ship.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+  </article>
+</System>

@@ -108,5 +108,49 @@
     "promptSha256": "1bf51e4170a60e69",
     "file": "/tmp/probe169.webp",
     "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-topic.webp": {
+    "preset": "cover-laya-topic",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260930,
+    "promptSha256": "293eedf1276290a5",
+    "file": "img/cover-laya-topic.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-vs-jev.webp": {
+    "preset": "cover-laya-vs-jev",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261011,
+    "promptSha256": "eb8ad6a6376c1aec",
+    "file": "img/cover-laya-vs-jev.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-self-hosting.webp": {
+    "preset": "cover-laya-self-hosting",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261002,
+    "promptSha256": "ffbea7f7025a96fa",
+    "file": "img/cover-laya-self-hosting.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-open-weights.webp": {
+    "preset": "cover-laya-open-weights",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261003,
+    "promptSha256": "601cda995ed5ec94",
+    "file": "img/cover-laya-open-weights.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
   }
 }

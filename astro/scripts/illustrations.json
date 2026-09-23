@@ -15,6 +15,42 @@
   ],
   "style": "A fine-line engraving illustration, in the manner of a 19th-century technical plate. Single subject, generous empty space, warm paper background (#f4efe6), one accent colour only. Cross-hatching for shading. No gradients. Aspect ratio 16:9.",
   "presets": {
+    "cover-laya-topic": {
+      "out": "public/img/cover-laya-topic.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20260930,
+      "scene": "A single small brass instrument with three needles stands alone in the centre of an empty ivory workbench, its three dials reading different values, a paper tag tied to its base.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-vs-jev": {
+      "out": "public/img/cover-laya-vs-jev.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261011,
+      "scene": "Two identical wooden chests standing side by side on a plain bench: the left one is closed and a brass padlock hangs from its hasp, the right one is open with its lid tilted back and holds a single small brass instrument.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-self-hosting": {
+      "out": "public/img/cover-laya-self-hosting.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261002,
+      "scene": "A small brass engine bolted to a single wooden workbench under one hanging lamp, driven by a narrow strip of paper feeding into its rollers, a folded cloth and an oil can beside it.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-open-weights": {
+      "out": "public/img/cover-laya-open-weights.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261003,
+      "scene": "A two-part foundry mould opened flat on a bench, one half holding a freshly cast gear and the other showing the empty matching cavity, a pair of tongs laid across the corner.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
     "jev-hero": {
       "out": "public/img/jev-hero.webp",
       "model": "flex",

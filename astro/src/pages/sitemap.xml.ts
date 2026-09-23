@@ -136,6 +136,15 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/typesafe-jev/pricing", changeFrequency: "monthly", priority: "0.8" },
   { path: "/typesafe-jev/vs-llm", changeFrequency: "monthly", priority: "0.8" },
   { path: "/typesafe-jev/open-source", changeFrequency: "weekly", priority: "0.7" },
+  /*
+   * The Laya topic — the second model namespace, and the first test of whether the
+   * shape generalises. Its columns are not Jev's (run it / ship it / licence it),
+   * which is the reason topics are namespaces rather than rows in one table.
+   */
+  { path: "/laya", changeFrequency: "weekly", priority: "0.8" },
+  { path: "/laya/vs-jev", changeFrequency: "weekly", priority: "0.8" },
+  { path: "/laya/self-hosting", changeFrequency: "weekly", priority: "0.7" },
+  { path: "/laya/open-weights", changeFrequency: "monthly", priority: "0.7" },
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },
 ];
 
