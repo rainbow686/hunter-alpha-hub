@@ -370,6 +370,25 @@ select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent);
  * stays sans for scanning, and every block is capped at the measure. */
 .prose { max-width: var(--measure); }
 
+/* ------------------------------------------------------------------ CJK type
+ * Chinese runs taller than Latin at the same size: Hanzi are full-height squares
+ * with no ascender/descender rhythm to break the column, so a line-height tuned
+ * for Latin text reads as a wall. The pages under /zh declare `lang="zh-CN"`, so
+ * the bump is scoped to them and the English pages keep 1.6 exactly.
+ *
+ * `.lede` is named too because it carries its own 1.55 (v3/v5.css) — a more
+ * specific selector here, in the file that loads last, so it wins without
+ * editing the archived v-files. Headings and mono labels keep their own tighter
+ * values on purpose: the rule sets the *inherited* reading rhythm, not a
+ * blanket line-height.
+ *
+ * Measured before and after at 390px and 1440px: /zh/faq lede 32.55px → 36.75px,
+ * body 21.6px → 23.6px, and the English pages are unchanged at 32.55/25.6.
+ * Source for the 1.7–1.8 band: docs/research/baoyu-design-eval.md.
+ */
+:lang(zh-CN) body,
+:lang(zh-CN) .lede { line-height: 1.75; }
+
 /* ------------------------------------------------------------ the page column
  * Decided 2026-09-20, after the text measure and the data surfaces disagreed.
  *
