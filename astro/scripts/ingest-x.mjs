@@ -17,6 +17,20 @@
  *
  * Candidates only. The queue is the same shape as the other three, so publishing still
  * requires a written ourNote (scripts/check-intake.mjs enforces it).
+ *
+ * ## Two modes
+ *
+ *   node scripts/ingest-x.mjs              add candidates from the seed list (default)
+ *   node scripts/ingest-x.mjs --refresh    re-read the like count of every published row
+ *
+ * `--refresh` exists because the like counts are a **snapshot**, not a feed: the page says
+ * "Likes read <date>" and orders the wall by that number, and without a way to bump it the date
+ * would quietly become a lie. It touches exactly two fields per row (`metrics.likes` and
+ * `metrics.asOf`) and never a note, a title or a status — the writing stays ours. Measured on
+ * 2026-09-23, one day's drift on eight sampled posts was 0–2.4%, so this is a `before a merge`
+ * chore rather than a cron.
+ *
+ * `--refresh --dry` prints what would change and writes nothing.
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -29,9 +43,51 @@ const QUEUE = resolve(ROOT, "lib/data/jev-x-posts.json");
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
 const LIMIT = Number(process.env.X_LIMIT ?? 20); // politeness: one pass, bounded
 const asOf = new Date().toISOString().slice(0, 10);
+const REFRESH = process.argv.includes("--refresh");
+const DRY = process.argv.includes("--dry");
 
 const { sources } = JSON.parse(readFileSync(SEEDS, "utf8"));
 const queue = existsSync(QUEUE) ? JSON.parse(readFileSync(QUEUE, "utf8")) : { meta: {}, entries: [] };
+
+/*
+ * `--refresh`: the like counts on the published rows, re-read.
+ *
+ * Only `metrics` is written. A refresh that could also touch `ourNote` would be a script that
+ * quietly rewrites what we said about a post while nobody is looking at that part of the diff.
+ */
+if (REFRESH) {
+  const published = queue.entries.filter((e) => e.status === "published");
+  let changed = 0, moved = 0, failed = 0;
+  for (const e of published) {
+    const id = e.id.replace("x:", "");
+    try {
+      const res = await fetch(`https://cdn.syndication.twimg.com/tweet-result?id=${id}&token=x`, { headers: { "user-agent": UA } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const t = await res.json();
+      const live = t.favorite_count;
+      if (typeof live !== "number") throw new Error("no favorite_count");
+      const before = e.metrics.likes;
+      const delta = live - before;
+      if (delta !== 0) moved += 1;
+      console.log(`  ${delta === 0 ? "   same" : String(delta).padStart(7)} ♥  ${String(before).padStart(6)} → ${String(live).padStart(6)}  ${(t.text ?? "").replace(/\s+/g, " ").slice(0, 44)}`);
+      e.metrics = { ...e.metrics, likes: live, asOf };
+      changed += 1;
+    } catch (err) {
+      failed += 1;
+      console.error(`  ${id}: ${err.message.split("\n")[0]} — left at ${e.metrics.likes} (${e.metrics.asOf})`);
+    }
+    await new Promise((r) => setTimeout(r, 400));
+  }
+  /* A row we could not read keeps its old number *and its old date* — an `asOf` that moved for a
+     number that did not would be the one thing this whole file is here to avoid. */
+  queue.meta = { ...queue.meta, refreshedAt: new Date().toISOString() };
+  if (!DRY) writeFileSync(QUEUE, `${JSON.stringify(queue, null, 2)}\n`);
+  console.log(`X refresh: ${changed} read (${moved} moved), ${failed} failed${DRY ? " — dry run, nothing written" : ""}`);
+  /* A row we could not read is worth a non-zero exit: the operator should notice that the
+     snapshot they are about to publish is a day old on one card, not discover it later. */
+  process.exit(failed > 0 ? 1 : 0);
+}
+
 const known = new Set(queue.entries.map((e) => e.id));
 
 let added = 0, failed = 0, skipped = 0;

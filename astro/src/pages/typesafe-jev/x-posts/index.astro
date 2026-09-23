@@ -76,6 +76,14 @@ const xPostChips = [
       <p class="provenance">
         <span>{jevXPostCounts.described} posts described</span>
         {jevXPostCounts.waiting > 0 && <span>{jevXPostCounts.waiting} waiting for a note</span>}
+        {/*
+          The like count had no visible read date. Videos and HN both print one ("Views and
+          duration read …", "Score and comment count read …") and this column printed its
+          numbers bare, which on a site whose pitch is *dated and labelled* is the one thing
+          it cannot do: a reader has no way to tell a number read this morning from one read
+          last week, or to notice that it is a snapshot at all.
+        */}
+        <span>Likes read {JEV_X_POSTS_READ_ON}</span>
         <span><a href="/typesafe-jev/builds">The projects behind them: builds</a></span>
       </p>
     </header>
@@ -158,6 +166,20 @@ const xPostChips = [
     )}
 
     <section class="col">
+      <h2>What the like counts are, and are not</h2>
+      <p>
+        They are a snapshot, taken when we read each post on {JEV_X_POSTS_READ_ON} — not a live
+        feed. A like count keeps moving after we look; the ones on this page do not. That is
+        deliberate. X's read API is priced (ADR-0023 — the free tier is write-only), and the
+        endpoint that fills these rows is the widget endpoint a browser uses to draw an
+        embedded post. We read it once, write the number down with the date, and do not poll it:
+        a number that updates itself is a number nobody can check.
+      </p>
+      <p>
+        So the ordering on this page is "most liked when we looked", which is a weaker claim than
+        "most liked" and an honest one. Where a post's own words carry a figure — a latency, a
+        cost — it goes on the card as the author's, with the sentence it came from.
+      </p>
       <p class="provenance">
         <span>Entered by hand — see <a href="/contact">contact</a></span>
         <span><a href="/typesafe-jev">Jev topic</a></span>
