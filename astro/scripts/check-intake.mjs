@@ -27,7 +27,14 @@ const MAX_CANDIDATES = 200;
 // The facet vocabulary is a single file so the guard and the pages cannot disagree.
 const VOCAB = new Set(JSON.parse(readFileSync(resolve(ROOT, "lib/data/jev-tags.json"), "utf8")).tags.map((t) => t.slug));
 const MIN_NOTE_WORDS = 20;
-const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com", "github.com", "x.com", "twitter.com"];
+const HOST_WHITELIST = [
+  "news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com",
+  "github.com", "x.com", "twitter.com",
+  /* dev.to joined the discussion column on 2026-09-23 — the second source after Reddit turned out
+     to be closed (403 without OAuth). Its API is open, unrelated to us, and one of the articles in
+     the queue is an independent benchmark, which is the only reason a source earns a place here. */
+  "dev.to",
+];
 
 const fail = [];
 const dossieSlugs = new Map();

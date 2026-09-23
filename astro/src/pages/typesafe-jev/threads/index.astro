@@ -21,8 +21,8 @@ import { JEV_THREADS_READ_ON, jevThreadCounts, jevThreads } from "@repo/lib/jev-
 import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 
-const title = "Jev on Hacker News: The Threads Worth Reading (2026)";
-const description = `Eight Hacker News discussions about TypeSafe's Jev — the launch thread, the rebuilds and the arguments in between — with the score and comment count read on ${JEV_THREADS_READ_ON}.`;
+const title = "Jev in Discussion: Hacker News Threads and dev.to Write-ups (2026)";
+const description = `Hacker News threads and dev.to write-ups about TypeSafe's Jev — the launch threads, the independent benchmarks, and the integration notes — with every score, comment count and link read on ${JEV_THREADS_READ_ON}.`;
 const canonical = `${SITE}/typesafe-jev/threads`;
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -48,11 +48,13 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 
   <article>
     <header class="col">
-      <h1>Jev on Hacker News</h1>
+      <h1>Jev in discussion</h1>
       <p class="lede">
-        Hacker News did to Jev what it does to anything that changes how software is put together:
-        argued about it in public, then rebuilt it in public a few times over. These are the threads where that
-        happened, ordered by how many people joined in.
+        Two places did to Jev what they do to anything that changes how software is put together:
+        argued about it in public, then rebuilt it in public a few times over. Hacker News ran the
+        launch threads; dev.to is where the people who actually integrated it wrote up what
+        happened, including the two independent benchmarks below. Ordered by the platform's own
+        number — points on Hacker News, reactions on dev.to — and labelled so you can tell which.
       </p>
       <p class="provenance">
         <span>Score and comment count read {JEV_THREADS_READ_ON}</span>
@@ -62,20 +64,35 @@ const fmt = (n: number) => n.toLocaleString("en-US");
     </header>
 
     <CardFilter
-      chips={JEV_FACET_COUNTS.map((facet) => ({
-        group: "tag",
-        value: facet.slug,
-        label: facet.label,
-        count: jevThreads.filter((t) => t.tags.includes(facet.slug)).length,
-      })).filter((chip) => chip.count > 0)}
+      {/*
+        Two groups now: which platform, then which kind of work. The source chips come first because
+        that is the question a reader has first on a wall that mixes a forum thread with a
+        write-up — and because the two numbers on the cards are not the same number.
+      */}
+      chips={[
+        ...["hn", "devto"]
+          .map((source) => ({
+            group: "source",
+            value: source,
+            label: source === "devto" ? "dev.to" : "Hacker News",
+            count: jevThreads.filter((t) => t.source === source).length,
+          }))
+          .filter((chip) => chip.count > 0),
+        ...JEV_FACET_COUNTS.map((facet) => ({
+          group: "tag",
+          value: facet.slug,
+          label: facet.label,
+          count: jevThreads.filter((t) => t.tags.includes(facet.slug)).length,
+        })).filter((chip) => chip.count > 0),
+      ]}
       noun="threads"
       total={jevThreads.length}
-      groups={[{ key: "tag", label: "use case" }]}
+      groups={[{ key: "source", label: "source" }, { key: "tag", label: "use case" }]}
     />
 
     <ul class="card-grid">
       {jevThreads.map((thread) => (
-        <li class="card" data-sources="hn" data-tags={thread.tags.join(" ")}>
+        <li class="card" data-sources={thread.source} data-tags={thread.tags.join(" ")}>
           {/* Not a generated picture: a screenshot of the item page as it looked on the
               day we read it (scripts/fetch-shots.py), which is the row's own claim in
               visual form. Where the shot failed, the row falls back to the source glyph
@@ -85,14 +102,30 @@ const fmt = (n: number) => n.toLocaleString("en-US");
               <span class="card-src">Hacker News</span>
               <img src={thread.card} width="1200" height="630" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             </div>
+          ) : thread.thumb ? (
+            /* dev.to publishes a cover image. Hotlinked from its CDN, never downloaded. */
+            <div class="card-media" style="--ratio: 2 / 1">
+              <span class="card-src">dev.to</span>
+              <img src={thread.thumb} width="1000" height="420" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
           ) : null}
           <div class="card-body">
-          <p class="card-eyebrow">Hacker News</p>
+          {/*
+            The source, on the card. Two platforms with two different currencies now share this
+            wall: a Hacker News thread is measured in points, a dev.to write-up in reactions, and
+            neither number means what the other one means. The eyebrow and the metric line say
+            which is which instead of printing both as "score".
+          */}
+          <p class="card-eyebrow">
+            {thread.source === "devto" ? "dev.to" : "Hacker News"}
+            {thread.readingMinutes ? ` · ${thread.readingMinutes} min read` : ""}
+            {thread.aiDisclosure === "some_ai" ? " · AI-assisted" : ""}
+          </p>
           <h2 class="card-title"><a href={thread.url} rel="noopener">{thread.title}</a></h2>
           <p class="card-meta">
             <span>{thread.author}</span>
             <span>{thread.publishedAt}</span>
-            <span>{fmt(thread.score)} points</span>
+            <span>{fmt(thread.score)} {thread.scoreLabel}</span>
             <span>{fmt(thread.comments)} comments</span>
           </p>
           <p class="card-note card-our">{thread.ourNote}</p>
@@ -116,21 +149,26 @@ const fmt = (n: number) => n.toLocaleString("en-US");
         this is a column with one source and a second one waiting rather than a design that cannot
         grow.
       */}
-      <h2>What this column covers, and what is missing from it</h2>
+      <h2>What this column covers, and what is still missing</h2>
       <p>
-        One forum: Hacker News, read through the Algolia API. That is narrower than it looks, and
-        the gap is not for want of trying — on {JEV_THREADS_READ_ON} we re-checked the obvious second
-        source:
+        Two sources: <strong>Hacker News</strong>, read through the Algolia API, and{" "}
+        <strong>dev.to</strong>, read through its public API. Both were re-checked on{" "}
+        {JEV_THREADS_READ_ON}, because this column started as Hacker News only and the reference
+        implementation we mapped it onto carries two sources:
       </p>
       <ul class="checked">
         <li><strong>Reddit</strong> — the public JSON returns 403 without OAuth, and creating the app is still blocked; that is a dead end we have already written down once.</li>
         <li><strong>Bluesky</strong> — <code>public.api.bsky.app</code> answers 403 to an unauthenticated search.</li>
         <li><strong>Lobsters</strong> — 400, "unpermitted query or form parameter".</li>
-        <li><strong>dev.to</strong> — 200. Its API is open, and it already returns Jev posts. This is the next source this column gets.</li>
+        <li><strong>dev.to</strong> — 200, and now in. Its API is open and it already had thirty Jev posts, including two independent benchmarks.</li>
       </ul>
       <p>
-        When dev.to lands, the page stops being "Jev on Hacker News" and becomes a discussion column
-        with two sources — the URL stays, because it never said Hacker News in the first place.
+        Which is why the page is called "Jev in discussion" and not "Jev on Hacker News": it stopped
+        being one forum today. The URL never said Hacker News, so nothing has to move for a source
+        to be added — that was the point of naming the column after the shape rather than the site.
+        What a reader should watch for is that the two platforms measure different things: Hacker
+        News counts points, dev.to counts reactions, and a wall that printed both as "score" would be
+        quietly lying about one of them. Each card says which number it is showing.
       </p>
 
       <p>
