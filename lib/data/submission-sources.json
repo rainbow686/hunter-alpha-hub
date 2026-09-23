@@ -1,0 +1,151 @@
+{
+  "_comment": [
+    "Where a submitted link belongs, and how it gets filled in.",
+    "",
+    "The source is read off the URL rather than asked for, because the sender",
+    "should not have to know that github.com goes to /builds and news.ycombinator.com",
+    "goes to /threads. One table, read by three things: the endpoint (to stamp each",
+    "row), the /submit page (to show what it detected and pre-pick the topic), and",
+    "scripts/submissions.mjs (to route a pulled row into the right queue file).",
+    "",
+    "`column` is the repo queue a source's rows are pulled into — the same files the",
+    "ingest-* scripts write, because a submitted link and a discovered link become",
+    "the same kind of candidate and are read by the same person. A null column means",
+    "there is no home for it: the platform's API is closed to us, or it is just some",
+    "blog. Those still queue, and a human still reads them; they simply cannot be",
+    "enriched automatically.",
+    "",
+    "`source` values are the ones already in lib/data/jev-*.json (github, x, hn,",
+    "devto, youtube). Do not invent a parallel vocabulary — the id prefixes in the",
+    "ingest scripts (gh:, x:, hn:, yt:) are derived from these.",
+    "`seed` is the URL list an ingest script reads, for sources that cannot be searched. X is the only one today: its ingest takes URLs because there is no affordable read API to query. A source with a seed can be fed by scripts/submissions.mjs seed; the rest need a search query or a hand-written row, and the script says so."
+  ],
+  "sources": [
+    {
+      "source": "x",
+      "hosts": [
+        "x.com",
+        "twitter.com",
+        "mobile.twitter.com"
+      ],
+      "column": "jev-x-posts.json",
+      "topic": "jev-thread",
+      "label": "X",
+      "enrich": "no affordable read API, so the row carries the link and the quote, media and metrics are filled in by hand",
+      "seed": "lib/data/jev-x-sources.json"
+    },
+    {
+      "source": "arxiv",
+      "hosts": [
+        "arxiv.org"
+      ],
+      "column": null,
+      "topic": "catalogue",
+      "label": "arXiv",
+      "enrich": "a paper — read by hand",
+      "seed": null
+    },
+    {
+      "source": "bluesky",
+      "hosts": [
+        "bsky.app",
+        "bsky.social"
+      ],
+      "column": null,
+      "topic": "jev-thread",
+      "label": "Bluesky",
+      "enrich": "Bluesky answers 403 for us, so a person reads these",
+      "seed": null
+    },
+    {
+      "source": "devto",
+      "hosts": [
+        "dev.to"
+      ],
+      "column": "jev-threads.json",
+      "topic": "jev-thread",
+      "label": "dev.to",
+      "enrich": "the dev.to API gives reactions and reading time",
+      "seed": null
+    },
+    {
+      "source": "github",
+      "hosts": [
+        "github.com"
+      ],
+      "column": "jev-builds.json",
+      "topic": "jev-project",
+      "label": "GitHub",
+      "enrich": "the GitHub API gives stars, licence and last push",
+      "seed": null
+    },
+    {
+      "source": "hn",
+      "hosts": [
+        "news.ycombinator.com"
+      ],
+      "column": "jev-threads.json",
+      "topic": "jev-thread",
+      "label": "Hacker News",
+      "enrich": "the Algolia API gives score and comment count",
+      "seed": null
+    },
+    {
+      "source": "huggingface",
+      "hosts": [
+        "huggingface.co"
+      ],
+      "column": null,
+      "topic": "catalogue",
+      "label": "Hugging Face",
+      "enrich": "a model card or an open release — read by hand, and often a stealth-model lead",
+      "seed": null
+    },
+    {
+      "source": "lobsters",
+      "hosts": [
+        "lobste.rs"
+      ],
+      "column": null,
+      "topic": "jev-thread",
+      "label": "Lobsters",
+      "enrich": "Lobsters answers 400 for us, so a person reads these",
+      "seed": null
+    },
+    {
+      "source": "reddit",
+      "hosts": [
+        "reddit.com",
+        "old.reddit.com",
+        "www.reddit.com"
+      ],
+      "column": null,
+      "topic": "jev-thread",
+      "label": "Reddit",
+      "enrich": "Reddit's API is closed to us (403, and app creation is blocked), so a person reads these",
+      "seed": null
+    },
+    {
+      "source": "youtube",
+      "hosts": [
+        "youtube.com",
+        "youtu.be",
+        "m.youtube.com"
+      ],
+      "column": "jev-videos.json",
+      "topic": "jev-video",
+      "label": "YouTube",
+      "enrich": "the Data API gives title, duration and thumbnail",
+      "seed": null
+    }
+  ],
+  "fallback": {
+    "source": "web",
+    "column": null,
+    "topic": "jev-thread",
+    "label": "Web",
+    "enrich": "any other host: a person reads it",
+    "seed": null,
+    "hosts": []
+  }
+}
