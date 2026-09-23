@@ -65,7 +65,7 @@ const faqs = [
 const fmt = (n: number) => n.toLocaleString("en-US");
 ---
 
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer>
   <JsonLd slot="head" data={articleSchema({ title: "Jev use cases", description, publishedAt: "2026-09-23", updatedAt: "2026-09-23", image: `${SITE}/og-image.png`, url: canonical })} />
   <Breadcrumbs schema={true} items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Use cases", url: canonical }]} />
 
@@ -126,7 +126,15 @@ const fmt = (n: number) => n.toLocaleString("en-US");
         <ul class="card-grid job-cards">
           {job.items.map((item) => (
             <li class="card" data-sources={item.source.toLowerCase().replace(/[^a-z]+/g, "-")} data-tags={item.tags.join(" ")}>
-              {item.thumb ? (
+              {item.thumb && item.video ? (
+                <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+                  <span class="card-src">{item.source}</span>
+                  <button class="xvideo-facade" type="button" data-xvideo={item.video.url} data-poster={item.thumb} aria-label={`Play the clip in this post: ${item.title}`}>
+                    <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                    <span class="xvideo-play" aria-hidden="true">▶</span>
+                  </button>
+                </div>
+              ) : item.thumb ? (
                 <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
                   <span class="card-src">{item.source}</span>
                   <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
@@ -178,6 +186,8 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 
     <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/use-cases" />
   </article>
+
+
 </System>
 
 <style>
@@ -206,4 +216,76 @@ const fmt = (n: number) => n.toLocaleString("en-US");
   /* The cards inside prose sit in the full frame, so a job section is the one place in the
      topic where a three-column grid is narrower than its neighbours — deliberate. */
   .job-cards { margin-top: var(--space-5); }
+</style>
+
+<script>
+  /*
+   * Click-to-play for X clips.
+   *
+   * The reference site embeds 138 <video> elements and lets the browser sort it out; we do it
+   * on click, for two reasons. A wall of a dozen <video preload="metadata"> tags fetches a
+   * dozen manifests and first frames for a reader who may watch none, and the clip lives on
+   * X's CDN — the reader should pay for it when they ask for it, not when the page loads.
+   *
+   * This is a hotlink, not a copy (writing contract §3): the mp4 URL is X's, the file stays on
+   * video.twimg.com, and the CSP allows exactly that host.
+   */
+  for (const button of document.querySelectorAll("[data-xvideo]")) {
+    button.addEventListener("click", () => {
+      const src = button.getAttribute("data-xvideo");
+      const poster = button.getAttribute("data-poster") ?? undefined;
+      if (!src) return;
+      const video = document.createElement("video");
+      video.className = "xvideo-player";
+      /*
+       * `referrerPolicy = "no-referrer"` is not politeness, it is the difference between a
+       * video and a black rectangle: x's CDN answers **403 to any request carrying a Referer**
+       * (checked with and without the header on 2026-09-23 — no referer 200, referer 403).
+       * A browser sends one for media by default, so without this the player sets its src, the
+       * fetch is refused, and the element reports MEDIA_ERR_SRC_NOT_SUPPORTED. The poster images
+       * have carried the same attribute since the first X card for the same reason.
+       */
+      video.referrerPolicy = "no-referrer";
+      video.src = src;
+      if (poster) video.poster = poster;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.preload = "auto";
+      // The click is the gesture, so audio is allowed — but a muted start is still the
+      // politest default in an office, and one tap un-mutes.
+      video.muted = false;
+      button.replaceWith(video);
+      video.play().catch(() => { video.muted = true; video.play().catch(() => {}); });
+    });
+  }
+</script>
+<style is:global>
+  .xvideo-facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: var(--bg-sunken);
+    cursor: pointer;
+    aspect-ratio: var(--ratio, 16 / 9);
+  }
+  .xvideo-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .xvideo-play {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 62%);
+    color: #fff;
+    font-size: 16px;
+    padding-left: 3px;
+  }
+  .xvideo-facade:hover .xvideo-play { background: rgb(0 0 0 / 78%); }
+  .xvideo-player { display: block; width: 100%; height: auto; background: #000; }
 </style>

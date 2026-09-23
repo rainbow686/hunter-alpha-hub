@@ -66,6 +66,18 @@ const byGroup = groups.length
    * Filtering is done by hiding `<li>` elements, so the page keeps working if this
    * module never runs. Cards carry `data-sources` (space separated) and `data-tags`.
    */
+  /*
+   * Groups are read off the chip, not hard-coded: a chip says `data-cf-group="media"` and the
+   * card carries `data-media`. Two plural attributes need mapping ("source" -> `data-sources`,
+   * "tag" -> `data-tags`), and getting that wrong is what made the tag chips filter everything
+   * away: `card.dataset.tag` is undefined, so no card matched and the wall went empty. The
+   * x-posts media chips failed the other way, throwing on `active.media.has(...)` inside the
+   * click handler so the page did nothing at all. Both fixed, both verified by counting the
+   * cards the browser actually lays out.
+   */
+  const attributeFor = (group: string) =>
+    group === "source" ? "sources" : group === "tag" ? "tags" : group;
+
   for (const bar of document.querySelectorAll<HTMLElement>("[data-card-filter]")) {
     const grid = bar.parentElement?.querySelector(".card-grid");
     const status = bar.querySelector<HTMLElement>("[data-cf-status]");
@@ -73,15 +85,20 @@ const byGroup = groups.length
     const cards = [...grid.querySelectorAll<HTMLElement>(":scope > li")];
     const noun = bar.dataset.noun ?? "items";
     const total = cards.length;
-    const active = { source: new Set<string>(), tag: new Set<string>() };
+    /** group -> the values the reader has selected in it. */
+    const active = new Map<string, Set<string>>();
 
     bar.hidden = false;
 
+    const valuesOf = (card: HTMLElement, group: string) =>
+      new Set((card.dataset[attributeFor(group)] ?? "").split(/\s+/).filter(Boolean));
+
     const matches = (card: HTMLElement) => {
-      const sources = new Set((card.dataset.sources ?? "").split(/\s+/).filter(Boolean));
-      const tags = new Set((card.dataset.tags ?? "").split(/\s+/).filter(Boolean));
-      if (active.source.size && ![...active.source].some((s) => sources.has(s))) return false;
-      if (active.tag.size && ![...active.tag].some((t) => tags.has(t))) return false;
+      for (const [group, wanted] of active) {
+        if (!wanted.size) continue;
+        const values = valuesOf(card, group);
+        if (![...wanted].some((value) => values.has(value))) return false;
+      }
       return true;
     };
 
@@ -92,7 +109,7 @@ const byGroup = groups.length
         card.hidden = !ok;
         if (ok) shown += 1;
       }
-      const filtering = active.source.size + active.tag.size > 0;
+      const filtering = [...active.values()].some((set) => set.size > 0);
       status.textContent = filtering ? `${shown} of ${total} ${noun}` : "";
       const all = bar.querySelector<HTMLElement>("[data-cf-all]");
       const on = !filtering;
@@ -104,8 +121,7 @@ const byGroup = groups.length
       const chip = (event.target as HTMLElement).closest<HTMLButtonElement>(".cf-chip");
       if (!chip) return;
       if (chip.hasAttribute("data-cf-all")) {
-        active.source.clear();
-        active.tag.clear();
+        active.clear();
         for (const c of bar.querySelectorAll(".cf-chip")) {
           c.classList.remove("is-on");
           c.setAttribute("aria-pressed", "false");
@@ -113,10 +129,11 @@ const byGroup = groups.length
         apply();
         return;
       }
-      const group = chip.dataset.cfGroup as "source" | "tag";
+      const group = chip.dataset.cfGroup ?? "";
       const value = chip.dataset.cfValue ?? "";
       if (!group || !value) return;
-      const set = active[group];
+      if (!active.has(group)) active.set(group, new Set<string>());
+      const set = active.get(group)!;
       if (set.has(value)) set.delete(value);
       else set.add(value);
       chip.classList.toggle("is-on", set.has(value));

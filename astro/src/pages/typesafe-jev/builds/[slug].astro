@@ -169,7 +169,12 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
    */
   .build { display: grid; gap: var(--space-8); align-items: start; }
   @media (min-width: 1100px) {
-    .build { grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-10); }
+    /* 48px of gutter, and a hairline down it: the first version's `gap: var(--space-10)`
+       was an undefined token, so the rail sat flush against the prose and read as one
+       crowded block (the reader said "贴得非常近"). The gutter is now a token that exists
+       and a rule that shows where the column ends. */
+    .build { grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-12); }
+    .build-rail { border-left: 1px solid var(--border-strong); border-top: 0; border-right: 0; border-bottom: 0; border-radius: 0; background: transparent; padding: var(--space-1) 0 0 var(--space-5); }
   }
   .build-main { min-width: 0; max-width: var(--measure); }
   .build-main h1 { margin: var(--space-2) 0 var(--space-3); }
@@ -196,6 +201,8 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
     background: var(--surface);
     padding: var(--space-5);
   }
+  /* The rail's own heading sits on the same baseline as the page's first line, so the two
+     columns start together instead of the rail appearing to float. */
   @media (min-width: 1100px) {
     .build-rail { position: sticky; top: 84px; }
   }

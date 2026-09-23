@@ -38,8 +38,18 @@
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  /*
+   * 5 and 10 were *used* for months and never defined — 21 and 8 call sites, every one of
+   * them silently invalid: `padding: var(--space-5) var(--space-6)` has no fallback, so the
+   * whole declaration is dropped at computed-value time. The visible symptom was a right
+   * rail sitting flush against the prose ("贴得非常近"); the invisible one was every
+   * `--space-5` padding on the site doing nothing. A guard now fails the build on a used-
+   * but-undefined token, so the next one cannot be silent.
+   */
+  --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
+  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
 

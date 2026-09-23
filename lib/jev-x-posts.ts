@@ -36,6 +36,13 @@ export interface JevXPost {
   thumb: string;
   thumbW: number;
   thumbH: number;
+  /**
+   * A progressive mp4 on X's own CDN, when one fits the size cap (see
+   * scripts/ingest-x-video.mjs). Hotlinked, never downloaded or rehosted, the same way the
+   * poster image is. Null means the card keeps its poster and links out — either the post has
+   * no video, or every variant was larger than a card is worth streaming.
+   */
+  video: { url: string; width: number; height: number; bytes: number; durationS: number | null } | null;
 }
 
 const RAW = queue as unknown as {
@@ -43,7 +50,10 @@ const RAW = queue as unknown as {
   entries: {
     id: string; url: string; title: string; author: string; publishedAt: string; status: string;
     ourNote: string; metrics: { likes: number; asOf: string };
-    media?: { kind?: string; thumb?: string; thumbW?: number; thumbH?: number };
+    media?: {
+      kind?: string; thumb?: string; thumbW?: number; thumbH?: number;
+      video?: { url: string; width: number; height: number; bytes: number; durationS: number | null };
+    };
   }[];
 };
 
@@ -55,6 +65,7 @@ export const jevXPosts: JevXPost[] = RAW.entries
     id: e.id, url: e.url, title: e.title, author: e.author, publishedAt: e.publishedAt,
     ourNote: e.ourNote, likes: e.metrics.likes, kind: e.media?.kind ?? "none",
     thumb: e.media?.thumb ?? "", thumbW: e.media?.thumbW ?? 0, thumbH: e.media?.thumbH ?? 0,
+    video: e.media?.video ?? null,
   }))
   .sort((a, b) => b.likes - a.likes);
 
