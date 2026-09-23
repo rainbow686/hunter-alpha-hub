@@ -15,6 +15,7 @@ import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
 import ClaimChip from "../../../components/ClaimChip.astro";
+import XClipWall from "../../../components/XClipWall.astro";
 import { JEV_X_POSTS_READ_ON, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
 import { JEV_FACET_COUNTS, thumbRatio } from "@repo/lib/jev-facets";
 import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
@@ -176,74 +177,4 @@ const xPostChips = [
   .demo-note { margin: 0; color: var(--text-muted); }
 </style>
 
-<script>
-  /*
-   * Click-to-play for X clips.
-   *
-   * The reference site embeds 138 <video> elements and lets the browser sort it out; we do it
-   * on click, for two reasons. A wall of a dozen <video preload="metadata"> tags fetches a
-   * dozen manifests and first frames for a reader who may watch none, and the clip lives on
-   * X's CDN — the reader should pay for it when they ask for it, not when the page loads.
-   *
-   * This is a hotlink, not a copy (writing contract §3): the mp4 URL is X's, the file stays on
-   * video.twimg.com, and the CSP allows exactly that host.
-   */
-  for (const button of document.querySelectorAll("[data-xvideo]")) {
-    button.addEventListener("click", () => {
-      const src = button.getAttribute("data-xvideo");
-      const poster = button.getAttribute("data-poster") ?? undefined;
-      if (!src) return;
-      const video = document.createElement("video");
-      video.className = "xvideo-player";
-      /*
-       * `referrerPolicy = "no-referrer"` is not politeness, it is the difference between a
-       * video and a black rectangle: x's CDN answers **403 to any request carrying a Referer**
-       * (checked with and without the header on 2026-09-23 — no referer 200, referer 403).
-       * A browser sends one for media by default, so without this the player sets its src, the
-       * fetch is refused, and the element reports MEDIA_ERR_SRC_NOT_SUPPORTED. The poster images
-       * have carried the same attribute since the first X card for the same reason.
-       */
-      video.referrerPolicy = "no-referrer";
-      video.src = src;
-      if (poster) video.poster = poster;
-      video.controls = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      video.preload = "auto";
-      // The click is the gesture, so audio is allowed — but a muted start is still the
-      // politest default in an office, and one tap un-mutes.
-      video.muted = false;
-      button.replaceWith(video);
-      video.play().catch(() => { video.muted = true; video.play().catch(() => {}); });
-    });
-  }
-</script>
-<style is:global>
-  .xvideo-facade {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: var(--bg-sunken);
-    cursor: pointer;
-    aspect-ratio: var(--ratio, 16 / 9);
-  }
-  .xvideo-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .xvideo-play {
-    position: absolute;
-    inset: 50% auto auto 50%;
-    transform: translate(-50%, -50%);
-    width: 46px;
-    height: 46px;
-    display: grid;
-    place-items: center;
-    border-radius: 999px;
-    background: rgb(0 0 0 / 62%);
-    color: #fff;
-    font-size: 16px;
-    padding-left: 3px;
-  }
-  .xvideo-facade:hover .xvideo-play { background: rgb(0 0 0 / 78%); }
-  .xvideo-player { display: block; width: 100%; height: auto; background: #000; }
-</style>
+<XClipWall />
