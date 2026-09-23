@@ -10,6 +10,7 @@
  * never moved and the confidence wobbled (0.38–0.58 on the same input), and the projects where the
  * two kinds of model are wired together.
  */
+import Callout from "../../../components/Callout.astro";
 import System from "../../../layouts/System.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import JsonLd from "../../../components/JsonLd.astro";
@@ -81,16 +82,13 @@ const faqs = [
       </figure>
     </header>
 
-    <div class="callout">
-      <p class="callout-eyebrow">In short</p>
-      <ul>
-        <li><strong>One pass vs one token at a time.</strong> Jev produces every answer in parallel; an LLM conditions each token on the last.</li>
-        <li><strong>The answer shape is yours.</strong> A choice from a list you wrote, a number on a scale you wrote — not prose you then parse.</li>
-        <li><strong>Output tokens are the variable cost of an LLM</strong> and about five times its input price; Jev's output is free, in the vendor's words.</li>
-        <li><strong>Our twenty identical calls:</strong> the label never moved ({oursLabelStability.runs}/{oursLabelStability.of}), the confidence did — 0.38 to 0.58 on the same request.</li>
-        <li><strong>They compose.</strong> The interesting architecture is not either/or: it is Jev choosing and an LLM writing.</li>
-      </ul>
-    </div>
+    <Callout eyebrow="In short">
+      <li><strong>One pass vs one token at a time.</strong> Jev produces every answer in parallel; an LLM conditions each token on the last.</li>
+      <li><strong>The answer shape is yours.</strong> A choice from a list you wrote, a number on a scale you wrote — not prose you then parse.</li>
+      <li><strong>Output tokens are the variable cost of an LLM</strong> and about five times its input price; Jev's output is free, in the vendor's words.</li>
+      <li><strong>Our twenty identical calls:</strong> the label never moved ({oursLabelStability.runs}/{oursLabelStability.of}), the confidence did — 0.38 to 0.58 on the same request.</li>
+      <li><strong>They compose.</strong> The interesting architecture is not either/or: it is Jev choosing and an LLM writing.</li>
+    </Callout>
 
     <section>
       <h2>What a chat model actually returns</h2>
@@ -293,22 +291,4 @@ const faqs = [
 </System>
 
 <style>
-  .callout {
-    margin: var(--space-8) 0;
-    padding: var(--space-5) var(--space-6);
-    border-left: 3px solid var(--accent);
-    background: var(--surface);
-    border-radius: 0 var(--radius) var(--radius) 0;
-  }
-  .callout-eyebrow {
-    margin: 0 0 var(--space-3);
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-  }
-  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
-  .callout li { margin-bottom: var(--space-2); }
-  .callout strong { color: var(--text); }
 </style>
