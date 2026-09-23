@@ -12,7 +12,7 @@
  * filter the HN ingest uses applies — the title must name this Jev, and nothing older
  * than June 2026 can be about it.
  */
-import { writeFileSync, mkdirSync } from "node:fs";
+import { mergeQueue } from "./lib/merge-queue.mjs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -98,18 +98,16 @@ const entries = details.filter((v) => v.views >= MIN_VIEWS).slice(0, MAX_RESULTS
   checked: [],
 }));
 
-mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, `${JSON.stringify({
-  meta: {
-    generatedAt: new Date().toISOString(),
-    source: "youtube-data-api-v3",
-    queries: QUERIES,
-    quotaPerRun: QUERIES.length * 100 + 1,
-    candidates: entries.length,
-    published: 0,
-    note: "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-  },
-  entries,
-}, null, 2)}\n`);
-console.log(`\n${entries.length} candidates → lib/data/jev-videos.json`);
-for (const e of entries) console.log(`  ${String(e.metrics.views).padStart(9)} views  ${String(e.media.durationS).padStart(5)}s  ${e.publishedAt}  ${e.title.slice(0, 58)}`);
+/*
+ * Merge, never overwrite — a second run used to replace the whole queue with this run's search
+ * results, deleting the notes on the videos already published. See lib/merge-queue.mjs.
+ */
+const dry = process.argv.includes("--dry");
+const { added, kept, total, published } = mergeQueue(OUT, entries, {
+  source: "youtube-data-api-v3",
+  queries: QUERIES,
+  quotaPerRun: QUERIES.length * 100 + 1,
+  note: "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+}, { dry });
+console.log(`\n${entries.length} found · ${added} new · ${kept} already here · ${published} published · ${total} total${dry ? " (dry run)" : ""}`);
+for (const e of entries.slice(0, 8)) console.log(`  ${String(e.metrics.views).padStart(9)} views  ${e.publishedAt}  ${e.title.slice(0, 60)}`);

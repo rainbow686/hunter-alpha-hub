@@ -10,7 +10,7 @@
  * Output: astro/src/data/intake/hn-jev.json — committed, diffable, reviewable.
  * No key, no quota: Algolia's HN API is free. Politeness: one pass, serial, 6 queries.
  */
-import { writeFileSync, mkdirSync } from "node:fs";
+import { mergeQueue } from "./lib/merge-queue.mjs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -78,23 +78,20 @@ for (const spec of QUERIES) {
 
 entries.sort((a, b) => b.metrics.score - a.metrics.score);
 
-const payload = {
-  meta: {
-    generatedAt: new Date().toISOString(),
-    source: "hn-algolia",
-    queries: QUERIES.map((q) => q.q),
-    thresholds: { minPoints: MIN_POINTS, minComments: MIN_COMMENTS, minDate: MIN_DATE, relevance: String(RELEVANT) },
-    candidates: entries.length,
-    published: 0,
-    // The gate in one line: nothing here may reach a page until ourNote is written.
-    note: "candidate-only queue — a page renders entries with status=published and a non-empty ourNote",
-  },
-  entries,
-};
-
-mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, `${JSON.stringify(payload, null, 2)}\n`);
-console.log(`\n${entries.length} candidates → ${OUT.replace(`${process.cwd()}/`, "")}`);
+/*
+ * Merge, never overwrite. This file used to end with `writeFileSync(OUT, {meta, entries})` built
+ * from this run's Algolia response — which meant a second run deleted every published thread and
+ * its note. See lib/merge-queue.mjs.
+ */
+const dry = process.argv.includes("--dry");
+const { added, kept, total, published } = mergeQueue(OUT, entries, {
+  source: "hn-algolia",
+  queries: QUERIES.map((q) => q.q),
+  thresholds: { minPoints: MIN_POINTS, minComments: MIN_COMMENTS, minDate: MIN_DATE, relevance: String(RELEVANT) },
+  // The gate in one line: nothing here may reach a page until ourNote is written.
+  note: "candidate-only queue — a page renders entries with status=published and a non-empty ourNote",
+}, { dry });
+console.log(`\n${entries.length} found · ${added} new · ${kept} already here · ${published} published · ${total} total${dry ? " (dry run)" : ""}`);
 for (const e of entries.slice(0, 8)) {
   console.log(`  ${String(e.metrics.score).padStart(5)} pts  ${String(e.metrics.comments).padStart(4)} c  ${e.publishedAt}  ${e.title.slice(0, 64)}`);
 }

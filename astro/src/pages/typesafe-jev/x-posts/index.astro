@@ -140,8 +140,38 @@ const xPostChips = [
               </div>
             ) : null}
             <div class="card-body">
-              <p class="card-eyebrow">X · {demo.kind === "video" ? "video" : demo.kind === "image" ? "image" : "post"}</p>
-              <h2 class="card-title"><a href={demo.url} rel="noopener">{demo.title}</a></h2>
+              {/*
+                The head of the card carries the person, the way the reference site's does: an
+                avatar, the handle, and what the media inside is. A wall of handle-less rectangles
+                is the "machine-made" look a reader complained about, and a face is the cheapest
+                fix for it. The avatar is hotlinked from X's CDN and never downloaded.
+              */}
+              <div class="card-byline">
+                {demo.avatar && (
+                  <img
+                    class="card-avatar"
+                    src={demo.avatar}
+                    width="32"
+                    height="32"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                  />
+                )}
+                <p class="card-eyebrow">{demo.author} · {demo.kind === "video" ? "video" : demo.kind === "image" ? "image" : "post"}</p>
+              </div>
+              {/*
+                Internal when a record exists. The card used to send every reader straight to X,
+                which made the hub a doorway — the writing behind each row scrolled away with it.
+                The outbound link is still on the card, one line down, for a reader who wants the
+                post itself rather than our note about it.
+              */}
+              <h2 class="card-title">
+                <a href={demo.page ? `/typesafe-jev/x-posts/${demo.page.slug}` : demo.url} rel="noopener">
+                  {demo.page?.headline ?? demo.title}
+                </a>
+              </h2>
               <p class="card-note card-our">{demo.ourNote}</p>
               {claimsFor(demo.id).length > 0 && (
                 <p class="card-claims">
@@ -158,15 +188,22 @@ const xPostChips = [
                 </p>
               )}
               <p class="card-meta">
-                <span>{demo.author}</span>
                 <span>{demo.publishedAt}</span>
                 <span>{demo.likes.toLocaleString("en-US")} likes</span>
+                <span><a href={demo.url} rel="noopener noreferrer">{demo.page ? "the post" : "on X"} ↗</a></span>
               </p>
             </div>
           </li>
         ))}
       </ul>
     )}
+
+    <section class="col">
+      <p class="provenance">
+        <span>{jevXPostCounts.withPage} of {jevXPostCounts.described} posts have a record of their own</span>
+        <span><a href="/submit">Send us one we missed</a></span>
+      </p>
+    </section>
 
     <section class="col">
       <h2>What the like counts are, and are not</h2>

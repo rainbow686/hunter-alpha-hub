@@ -86,7 +86,7 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
           ) : null}
           <div class="card-body">
             <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
-            <h2 class="card-title"><a href={item.url} rel="noopener">{item.title}</a></h2>
+            <h2 class="card-title"><a href={item.pageSlug ? `/typesafe-jev/x-posts/${item.pageSlug}` : item.url} rel="noopener">{item.title}</a></h2>
             <p class="card-note card-our">{item.note}</p>
             <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
             <p class="card-meta">

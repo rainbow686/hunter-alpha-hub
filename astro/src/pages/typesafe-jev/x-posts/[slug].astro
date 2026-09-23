@@ -1,0 +1,234 @@
+---
+/**
+ * /typesafe-jev/x-posts/<slug> — the record for one post.
+ *
+ * ## Why this page exists (it was decided against, then decided for)
+ *
+ * On 2026-09-23 this column's cards linked **out** to X, and the rule on the wall was "no item
+ * page, no new view". Then the reference site was measured (audit `madewithjev-2026-09-23-recheck`
+ * §5-b): **every card's headline links to an internal record** (`/builds/zillow-listing-search`),
+ * and nothing pointed off-site from the card title. The difference is not cosmetic — a hub whose
+ * only job is to hand a reader to X accumulates nothing, and the writing we do for each row
+ * (a 20-word note, a list of what we checked) was spent on a card that scrolls away.
+ *
+ * ## What makes this not a doorway page
+ *
+ * A short page that exists to hold a link out is exactly what Google calls thin, and we refuse
+ * to publish one. So the page carries material that exists nowhere else:
+ *
+ *   - the post's own words, **quoted up to 280 characters** with the link back (never the whole
+ *     timeline, never rehosted);
+ *   - our note, which is the reason the row is in the queue at all;
+ *   - the figures the author states, each with the sentence it came from;
+ *   - **what we checked**, and what we did not: we did not run it, and the numbers are the author's;
+ *   - the like count **with the day it was read** (ADR-0024), and the honest statement that it has
+ *     moved since.
+ *
+ * The one thing every row shares is the last paragraph: we are reporting an argument, not a result.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ClaimChip from "../../../components/ClaimChip.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
+import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
+import { JEV_FACET_COUNTS, jevTagsById } from "@repo/lib/jev-facets";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return jevXPostsWithPages.map((post) => ({ params: { slug: post.page!.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const page = post.page!;
+const canonical = `${SITE}/typesafe-jev/x-posts/${page.slug}`;
+const claims = claimsFor(post.id);
+const tags = jevTagsById[post.id] ?? [];
+const facetLabel = (slug: string) => JEV_FACET_COUNTS.find((f) => f.slug === slug)?.label ?? slug;
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+/* Other posts that share a use case, nearest in likes, excluding this one. */
+const related = jevXPosts
+  .filter((other) => other.id !== post.id && (jevTagsById[other.id] ?? []).some((t) => tags.includes(t)))
+  .slice(0, 3);
+
+/* The build page behind a post, when the post is about a project we also cover in /builds. */
+const isKind = post.kind === "video" ? "clip" : post.kind === "image" ? "image post" : "text post";
+
+const title = `${page.headline}: what the post says`;
+const description = `${post.author} on ${post.publishedAt} — ${post.ourNote.split(". ")[0]}. The figures are the author's; our note and what we checked are ours.`;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article" noReferrer>
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: page.headline,
+      description,
+      publishedAt: post.publishedAt,
+      updatedAt: jevClaimsReadOn,
+      image: post.thumb || `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Jev", url: `${SITE}/typesafe-jev` },
+      { name: "X posts", url: `${SITE}/typesafe-jev/x-posts` },
+      { name: page.headline, url: canonical },
+    ]}
+  />
+
+  <article class="post">
+    <header class="post-head">
+      <div class="byline">
+        {post.avatar && (
+          <img class="avatar" src={post.avatar} width="48" height="48" alt="" loading="eager" decoding="async" referrerpolicy="no-referrer" />
+        )}
+        <p class="who">
+          <strong>{post.author}</strong>
+          <span>{isKind} · {post.publishedAt}</span>
+        </p>
+      </div>
+      <h1>{page.headline}</h1>
+    </header>
+
+    {post.quote && (
+      <blockquote class="post-quote">
+        <p>{post.quote.text}</p>
+        <footer>
+          {post.author} on X, {post.publishedAt}
+          {post.quote.chars > post.quote.text.length - 1 ? " (quoted, cut here)" : ""} ·{" "}
+          <a href={post.url} rel="noopener noreferrer">read the post ↗</a>
+        </footer>
+      </blockquote>
+    )}
+
+    <section>
+      <h2>Why it is here</h2>
+      <p>{post.ourNote}</p>
+    </section>
+
+    {claims.length > 0 && (
+      <section>
+        <h2>Numbers the author reports</h2>
+        <p>
+          The post's own figures, not our measurements — we keep ours on{" "}
+          <a href="/typesafe-jev/statistics">the statistics page</a>. Read on {jevClaimsReadOn}, with
+          the sentence each figure appeared in:
+        </p>
+        <dl class="claims">
+          {claims.map((claim) => (
+            <>
+              <dt>
+                <span class="claimchip-value">{claim.value}</span>
+                <span class="claimchip-label">{claim.label}</span>
+              </dt>
+              <dd>“{claim.quote}” — <a href={claim.from} rel="noopener noreferrer">{claim.source}</a></dd>
+            </>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    <section>
+      <h2>What we checked</h2>
+      <ul class="checked">
+        {post.checked.map((item) => <li>{item}</li>)}
+      </ul>
+      {/*
+        The same sentence the build pages carry, and for the same reason: this site publishes
+        arguments people make about a model, and an argument is not a result. Saying so on every
+        record is what separates it from a re-post.
+      */}
+      <p class="not-checked">
+        <strong>What we did not check. </strong>
+        We did not re-run the thing the post describes, so every figure on this page is the
+        author's own and every claim is theirs — the note above is what we make of it after
+        reading, not a measurement. The like count is a snapshot read on {jevClaimsReadOn} and it
+        has moved since; {fmt(post.likes)} is what it said when we looked.
+      </p>
+    </section>
+
+    <p class="hero-actions">
+      <a class="btn primary" href={post.url} rel="noopener noreferrer">Read the post on X ↗</a>
+      <a class="btn ghost" href="/typesafe-jev/x-posts">All X posts</a>
+    </p>
+  </article>
+
+  {related.length > 0 && (
+    <section class="related">
+      <h2>More like this</h2>
+      <ul class="card-grid">
+        {related.map((other) => (
+          <li class="card" data-tags={(jevTagsById[other.id] ?? []).join(" ")}>
+            <div class="card-body">
+              <p class="card-eyebrow">X · {other.author}</p>
+              <h3 class="card-title">
+                <a href={other.page ? `/typesafe-jev/x-posts/${other.page.slug}` : other.url} rel="noopener">
+                  {other.page?.headline ?? other.title}
+                </a>
+              </h3>
+              <p class="card-note card-our">{other.ourNote}</p>
+              <p class="card-meta"><span>{fmt(other.likes)} likes</span><span>{other.publishedAt}</span></p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {tags.length > 0 && (
+    <p class="provenance">
+      <span>Filed under</span>
+      {tags.map((tag) => <span><a href={`/typesafe-jev/use-cases/${tag}`}>{facetLabel(tag)}</a></span>)}
+      <span><a href="/typesafe-jev">The Jev topic</a></span>
+    </p>
+  )}
+</System>
+
+<style>
+  .post { max-width: var(--measure); }
+  .post-head h1 { margin: var(--space-3) 0 var(--space-3); }
+  .byline { display: flex; align-items: center; gap: var(--space-3); }
+  .avatar { width: 48px; height: 48px; border-radius: 999px; border: 1px solid var(--border); object-fit: cover; }
+  .who { margin: 0; display: flex; flex-direction: column; font-size: var(--text-sm); }
+  .who strong { color: var(--text); }
+  .who span { color: var(--text-faint); font-size: var(--text-xs); }
+  .post section { margin-top: var(--space-8); }
+  .post h2 { font-size: var(--text-xl); margin-bottom: var(--space-3); }
+  .post p { color: var(--text-muted); }
+  /*
+   * The post's own words, set apart and never dressed as ours: a left rule and the footer
+   * carrying the author, the date and the link back.
+   */
+  .post-quote {
+    margin: var(--space-8) 0 0;
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--border-strong);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .post-quote p { margin: 0; color: var(--text); font-size: var(--text-lg); line-height: 1.5; }
+  .post-quote footer { margin-top: var(--space-3); font-size: var(--text-xs); color: var(--text-faint); }
+  .checked { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .checked li { margin-bottom: var(--space-2); }
+  .not-checked {
+    margin-top: var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border-left: 2px solid var(--warn);
+    background: var(--warn-soft);
+    border-radius: var(--radius-sm);
+  }
+  .not-checked strong { color: var(--text); }
+  .claims { margin: 0; }
+  .claims dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-4); }
+  .claims dd { margin: var(--space-1) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .claims dd a { color: var(--text-muted); }
+  .related { margin-top: var(--space-12); max-width: var(--measure); }
+  .related ul { columns: 1; }
+</style>

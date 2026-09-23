@@ -7,7 +7,7 @@
  * what the reference site publishes too; our addition is the date we read them and
  * the sentence saying what the thing does.
  */
-import { writeFileSync, mkdirSync } from "node:fs";
+import { mergeQueue } from "./lib/merge-queue.mjs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -56,15 +56,15 @@ for (const q of QUERIES) {
   console.log(`${q.padEnd(46)} ${(json.items ?? []).length} returned, ${kept} kept`);
 }
 
-const entries = [...seen.values()].sort((a, b) => b.metrics.stars - a.metrics.stars).slice(0, 24);
-mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, `${JSON.stringify({
-  meta: {
-    generatedAt: new Date().toISOString(), source: "github-search", queries: QUERIES,
-    thresholds: { minStars: MIN_STARS }, candidates: entries.length, published: 0,
-    note: "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-  },
-  entries,
-}, null, 2)}\n`);
-console.log(`\n${entries.length} candidates → lib/data/jev-builds.json`);
-for (const e of entries.slice(0, 14)) console.log(`  ${String(e.metrics.stars).padStart(6)} ★  ${e.metrics.pushedAt}  ${e.title.slice(0, 42).padEnd(42)} ${(e.what ?? "").slice(0, 46)}`);
+const fresh = [...seen.values()].sort((a, b) => b.metrics.stars - a.metrics.stars).slice(0, 24);
+/*
+ * Merge, never overwrite: the 24 rows in this response are *candidates*, and the queue already
+ * holds dossiers somebody wrote (see lib/merge-queue.mjs for what the old write did instead).
+ */
+const dry = process.argv.includes("--dry");
+const { added, kept, total, published } = mergeQueue(OUT, fresh, {
+  source: "github-search", queries: QUERIES, thresholds: { minStars: MIN_STARS },
+  note: "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+}, { dry });
+console.log(`\n${fresh.length} found · ${added} new · ${kept} already here · ${published} published · ${total} total${dry ? " (dry run)" : ""}`);
+for (const e of fresh.slice(0, 14)) console.log(`  ${String(e.metrics.stars).padStart(6)} \u2605  ${e.metrics.pushedAt}  ${e.title.slice(0, 42).padEnd(42)} ${(e.what ?? "").slice(0, 46)}`);

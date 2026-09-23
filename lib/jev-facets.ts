@@ -53,6 +53,12 @@ export interface FacetItem {
   thumbW: number;
   thumbH: number;
   readOn: string;
+  /**
+   * The canonical record for this row, when we have written one. A facet page is a *view*: it
+   * should point at the record rather than off-site, which is the rule the X hub broke until
+   * 2026-09-23 (`lib/jev-x-pages.json`).
+   */
+  pageSlug: string | null;
   /** Set for X rows whose clip is small enough to play in the card (see ingest-x-video.mjs). */
   video: { url: string; width: number; height: number } | null;
 }
@@ -89,25 +95,26 @@ const items: FacetItem[] = [
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "GitHub", sourceKind: "project",
     meta: [`${e.stars.toLocaleString("en-US")} ★`, `last push ${e.pushedAt}`],
     tags: tagsOf(e.id),
-    thumb: e.card ?? "", thumbW: 1280, thumbH: 640, readOn: "", video: null,
+    thumb: e.card ?? "", thumbW: 1280, thumbH: 640, readOn: "", pageSlug: null, video: null,
   })),
   ...jevVideos.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "YouTube", sourceKind: "video",
     meta: [`${e.views.toLocaleString("en-US")} views`, `${Math.floor(e.durationS / 60)} min`],
     tags: tagsOf(e.id),
-    thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "", video: null,
+    thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "", pageSlug: null, video: null,
   })),
   ...jevThreads.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "Hacker News", sourceKind: "thread",
     meta: [`${e.score.toLocaleString("en-US")} points`, `${e.comments} comments`, e.publishedAt],
     tags: tagsOf(e.id),
-    thumb: e.card ?? "", thumbW: 1200, thumbH: 630, readOn: "", video: null,
+    thumb: e.card ?? "", thumbW: 1200, thumbH: 630, readOn: "", pageSlug: null, video: null,
   })),
   ...jevXPosts.map((e) => ({
     id: e.id, url: e.url, title: e.title, note: e.ourNote, source: "X", sourceKind: e.kind === "video" ? "video" : e.kind === "image" ? "image" : "post",
     meta: [e.author, e.publishedAt, `${e.likes.toLocaleString("en-US")} likes`],
     tags: tagsOf(e.id),
     thumb: e.thumb, thumbW: e.thumbW, thumbH: e.thumbH, readOn: "",
+    pageSlug: e.page?.slug ?? null,
     video: e.video ? { url: e.video.url, width: e.video.width, height: e.video.height } : null,
   })),
 ];

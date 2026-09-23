@@ -21,6 +21,7 @@
  * Poster images stay on X's CDN: nothing here is downloaded or rehosted.
  */
 import queue from "./data/jev-x-posts.json";
+import xPages from "./data/jev-x-pages.json";
 
 export interface JevXPost {
   id: string;
@@ -43,6 +44,17 @@ export interface JevXPost {
    * no video, or every variant was larger than a card is worth streaming.
    */
   video: { url: string; width: number; height: number; bytes: number; durationS: number | null } | null;
+  /** The author's profile image URL — hotlinked from pbs.twimg.com, never downloaded. */
+  avatar: string;
+  /**
+   * The post's own opening words, capped at 280 characters by `ingest-x-detail.mjs`, kept so the
+   * item page can show what the post said rather than only what we made of it.
+   */
+  quote: { text: string; chars: number; from: string; readOn: string } | null;
+  /** What we opened and read for this row (`check:intake` requires at least one line). */
+  checked: string[];
+  /** The canonical page, when one has been written for this post. */
+  page: { slug: string; headline: string } | null;
 }
 
 const RAW = queue as unknown as {
@@ -50,12 +62,18 @@ const RAW = queue as unknown as {
   entries: {
     id: string; url: string; title: string; author: string; publishedAt: string; status: string;
     ourNote: string; metrics: { likes: number; asOf: string };
+    checked?: string[];
+    quote?: { text: string; chars: number; from: string; readOn: string };
     media?: {
       kind?: string; thumb?: string; thumbW?: number; thumbH?: number;
       video?: { url: string; width: number; height: number; bytes: number; durationS: number | null };
+      avatar?: string;
     };
   }[];
 };
+
+const PAGES = (xPages as unknown as { pages: Record<string, { slug: string; headline: string }> }).pages;
+export const JEV_X_PAGES_WRITTEN: string = (xPages as unknown as { meta: { written: string } }).meta.written;
 
 /*
  * The date the like counts were read — the newest `metrics.asOf` in the queue, not
@@ -88,10 +106,21 @@ export const jevXPosts: JevXPost[] = RAW.entries
     ourNote: e.ourNote, likes: e.metrics.likes, kind: e.media?.kind ?? "none",
     thumb: e.media?.thumb ?? "", thumbW: e.media?.thumbW ?? 0, thumbH: e.media?.thumbH ?? 0,
     video: e.media?.video ?? null,
+    avatar: e.media?.avatar ?? "",
+    quote: e.quote ?? null,
+    checked: e.checked ?? [],
+    page: PAGES[e.id] ?? null,
   }))
   .sort((a, b) => b.likes - a.likes);
 
+/** The canonical pages, for `getStaticPaths` and for the hub's "read the record" links. */
+export const jevXPostsWithPages: JevXPost[] = jevXPosts.filter((p) => p.page);
+
+export const jevXPostBySlug = new Map(jevXPostsWithPages.map((p) => [p.page!.slug, p]));
+
 export const jevXPostCounts = {
   described: jevXPosts.length,
+  /** How many of them have a canonical page of their own (`lib/data/jev-x-pages.json`). */
+  withPage: jevXPostsWithPages.length,
   waiting: RAW.meta.candidatesRemaining ?? 0,
 };

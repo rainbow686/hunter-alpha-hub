@@ -33,7 +33,8 @@
           "bitrate": 256000,
           "bytes": 23509462,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2054197823738871808/3M0Lf362_normal.jpg"
       },
       "metrics": {
         "likes": 2199,
@@ -49,7 +50,13 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "Jev Founder, Diogo Almeida (ex-OpenAI): \"The next era is not the Claude Code or Codex era, they are still part of the assistance era with human in the loop - JEV is what comes next for LLMs x200 faster, x400 cheaper, 0 hallucination, no human in the loop - that's JEV, this is…",
+        "chars": 300,
+        "from": "https://x.com/0xCodez/status/2101294219633529030",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100984487802708306",
@@ -62,7 +69,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2064453666661441536/nj8n8Mei_normal.jpg"
       },
       "metrics": {
         "likes": 3097,
@@ -78,7 +86,13 @@
       ],
       "tags": [
         "triage-and-routing"
-      ]
+      ],
+      "quote": {
+        "text": "Jev is the \"Internet\" moment for the AI industry It tells your agents and LLMs what to do next, in milliseconds and at almost zero cost If you set it up correctly, you will have the AI engineer’s stack for 2028 In this article, I show you how https://t.co/x3qn41ejnr",
+        "chars": 266,
+        "from": "https://x.com/0xCodila/status/2100984487802708306",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100478725393686556",
@@ -91,7 +105,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSZeDLvbUAAo33S.jpg",
         "thumbW": 1188,
-        "thumbH": 1036
+        "thumbH": 1036,
+        "avatar": "https://pbs.twimg.com/profile_images/2083261639135244288/KoOQO6zp_normal.jpg"
       },
       "metrics": {
         "likes": 1636,
@@ -105,7 +120,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Jev 这个 waitlist 还是很给力的，昨天申请，今天就能用上。 给已经拿到 API、但还不知道怎么玩的人整理了一份 Awesome Jev，目前我能确认到的 Jev 项目基本都在这里： 1. jev-ultrafast Browser Use 做的高速浏览器 Agent。Jev https://t.co/bJQR42CiHV",
+        "chars": 167,
+        "from": "https://x.com/0xLogicrw/status/2100478725393686556",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101007482919227841",
@@ -119,7 +140,8 @@
         "thumb": "https://pbs.twimg.com/media/HShGxV4XgAA2JRK.jpg",
         "thumbW": 1983,
         "thumbH": 793,
-        "source": "X article cover"
+        "source": "X article cover",
+        "avatar": "https://pbs.twimg.com/profile_images/1998148360478322688/851J4fBL_normal.jpg"
       },
       "metrics": {
         "likes": 773,
@@ -137,7 +159,13 @@
       "tags": [
         "triage-and-routing",
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "https://t.co/qQDIN39Vj5",
+        "chars": 23,
+        "from": "https://x.com/0xMovez/status/2101007482919227841",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101292455391809670",
@@ -150,7 +178,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_normal.jpg"
       },
       "metrics": {
         "likes": 312,
@@ -166,7 +195,13 @@
       ],
       "tags": [
         "triage-and-routing"
-      ]
+      ],
+      "quote": {
+        "text": "Jev could become the control layer AI agents have been missing. Instead of spending 5–20 seconds and expensive LLM calls deciding every next step, it can route actions in milliseconds at near-zero cost. In this article, I break down how https://t.co/T9wU8CdOsj",
+        "chars": 260,
+        "from": "https://x.com/0xRicker/status/2101292455391809670",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101705843200721203",
@@ -188,7 +223,8 @@
           "bitrate": 2176000,
           "bytes": 7580993,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_normal.jpg"
       },
       "metrics": {
         "likes": 1634,
@@ -204,7 +240,13 @@
       ],
       "tags": [
         "triage-and-routing"
-      ]
+      ],
+      "quote": {
+        "text": "Jev Engineering is what turns an agent stack into an actual control system and moves the expensive model out of every decision loop. and up to 193x faster and 444x cheaper in tests. the model shouldn’t decide everything. in this setup: request → structured state → Jev…",
+        "chars": 292,
+        "from": "https://x.com/0xRicker/status/2101705843200721203",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100688880798159254",
@@ -217,7 +259,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2091957221253173248/kB_huM5C_normal.jpg"
       },
       "metrics": {
         "likes": 1079,
@@ -231,7 +274,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Jev from @typesafeai is now live on @CloudflareDev AI Gateway. Try the first System One model — send state and typed questions; get structured answers your code can use directly. https://t.co/yLYH6Sigvh",
+        "chars": 202,
+        "from": "https://x.com/CloudflareDev/status/2100688880798159254",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101206777924858319",
@@ -244,7 +293,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSj8bdNa0AAPYPc.jpg",
         "thumbW": 1054,
-        "thumbH": 1492
+        "thumbH": 1492,
+        "avatar": "https://pbs.twimg.com/profile_images/1967672234056523776/FoFd2843_normal.jpg"
       },
       "metrics": {
         "likes": 2152,
@@ -260,7 +310,13 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "quote": {
+        "text": "Jev might genuinely be an “Internet moment” for AI. TypeSafe reports up to 193x faster and 444x cheaper performance in tests with Claude Fable 5.1 and GPT-6 Astra. @0xCodila just wrote a great 10-page article explaining what Jev is, how to use it, and where its 100x advantage…",
+        "chars": 300,
+        "from": "https://x.com/DataChaz/status/2101206777924858319",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100927101327028484",
@@ -273,7 +329,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSf9F2QW8AACj6_.png",
         "thumbW": 758,
-        "thumbH": 336
+        "thumbH": 336,
+        "avatar": "https://pbs.twimg.com/profile_images/2074858199350444032/vKaYkqSV_normal.jpg"
       },
       "metrics": {
         "likes": 54,
@@ -289,7 +346,13 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "Este tipo de herramientas empieza a hacer que el contexto de los agentes parezca menos una ventana limitada y más una memoria que se administra dinámicamente. [fast-jev-compaction] No resume, hace que Jev analice cada tool call y su resultado para decidir qué sigue siendo…",
+        "chars": 296,
+        "from": "https://x.com/ErickSky/status/2100927101327028484",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100859307671855113",
@@ -311,7 +374,8 @@
           "bitrate": 832000,
           "bytes": 1151516,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2002004911635210240/14rERQZ7_normal.jpg"
       },
       "metrics": {
         "likes": 37,
@@ -325,7 +389,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "一个只会做选择题的小模型，能长出多少玩法？ TypeSafe 的 Jev 就是这么个东西：给它最多 255 个选项，几百毫秒挑一个，再附一个校准过的置信度，输出 token 免费 结果开发者们已经拿它做出了 19 个开源项目，加起来 6800 多星 挑几个最有意思的 jev-ultrafast，browser-use 出品，2700 星，一句 https://t.co/c81s7xMCsg",
+        "chars": 196,
+        "from": "https://x.com/GoSailGlobal/status/2100859307671855113",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100877682972258619",
@@ -347,7 +417,8 @@
           "bitrate": 832000,
           "bytes": 2051950,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2002004911635210240/14rERQZ7_normal.jpg"
       },
       "metrics": {
         "likes": 71,
@@ -364,7 +435,13 @@
       "tags": [
         "triage-and-routing",
         "research-and-data"
-      ]
+      ],
+      "quote": {
+        "text": "拿 Jev 做搜索重排，我先泼一盆冷水：单独用，它没打赢向量检索 TypeSafe 的 Jev 这阵子很火，一堆项目拿它做重排。我们在 Agent Skills Hub 的 33,047 条目录上认真测了一次，164 条中英文真实查询，9,831 对分级标注，整套只花了 2.6 美元 三个结论 01｜单独重排，约等于没赢 Jev 重排 bge-m3 https://t.co/mCewc3bjNQ",
+        "chars": 199,
+        "from": "https://x.com/GoSailGlobal/status/2100877682972258619",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100362415187833048",
@@ -377,7 +454,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1324840358405046272/mAwSPmaX_normal.jpg"
       },
       "metrics": {
         "likes": 206,
@@ -391,7 +469,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "This made me rethink where AI actually fits into security engineering. For purely engineering work, forget about ChatGPT or Claude. TypeSafe AI just released Jev, and I think it’s going to change how we build AI into security workflows. Instead of asking an LLM to “investigate",
+        "chars": 277,
+        "from": "https://x.com/Kostastsale/status/2100362415187833048",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100036101809619314",
@@ -404,7 +488,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1846325112402071557/JpWNvwoO_normal.jpg"
       },
       "metrics": {
         "likes": 7524,
@@ -420,7 +505,13 @@
       ],
       "tags": [
         "media-and-content"
-      ]
+      ],
+      "quote": {
+        "text": "hype-free explanation of jev: jev does not replace gpt / claude jev is just a *really* smart switch statement like if 2016 ml classifiers got 2026 levels of intelligence it's a new* type of tool that will make a lot of workloads insanely fast, cheap, and accurate * = and by",
+        "chars": 274,
+        "from": "https://x.com/NathanFlurry/status/2100036101809619314",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100744709589316009",
@@ -442,7 +533,8 @@
           "bitrate": 2176000,
           "bytes": 813875,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2076693957258727424/AyRghTGJ_normal.jpg"
       },
       "metrics": {
         "likes": 3862,
@@ -456,7 +548,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Jev by @typesafeai is now on OpenRouter, in beta. Jev is a System One model. Instead of generating text, it takes your app's state plus a typed question and returns a typed decision with a probability attached. There is no JSON prompting, parsing layer, and nothing to validate…",
+        "chars": 301,
+        "from": "https://x.com/OpenRouter/status/2100744709589316009",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100780634734002230",
@@ -478,7 +576,8 @@
           "bitrate": 2176000,
           "bytes": 277222,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2072451349061533696/vwo_gqSQ_normal.jpg"
       },
       "metrics": {
         "likes": 2846,
@@ -494,7 +593,13 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "连 JEV 的联合创始人 @CompleteSkeptic 都亲自下场转发点赞：这是 JEV 正确的打开方式！ 大家在 Claude Code 里写长代码，最恶心的就是上下文一满，系统就卡住 10 秒去写总结小作文 开发者 @tamarajtran 刚刚开源了这个插件：利用 JEV https://t.co/xUE23BPJ7E",
+        "chars": 165,
+        "from": "https://x.com/SUOHA_AI/status/2100780634734002230",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101037514945597645",
@@ -508,7 +613,8 @@
         "thumb": "https://pbs.twimg.com/media/HShfvSbaMAAZt9E.png",
         "thumbW": 2000,
         "thumbH": 800,
-        "source": "X article cover"
+        "source": "X article cover",
+        "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
       },
       "metrics": {
         "likes": 5240,
@@ -523,7 +629,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "https://t.co/haL8IGhx3h",
+        "chars": 23,
+        "from": "https://x.com/akshay_pachaar/status/2101037514945597645",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101309986156712025",
@@ -545,7 +657,8 @@
           "bitrate": 2176000,
           "bytes": 144993,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
       },
       "metrics": {
         "likes": 2972,
@@ -559,7 +672,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "LLMs vs. Jev, clearly explained! TL;DR The key difference is not that Jev generates faster. Jev does not generate text at all. A traditional LLM receives context and produces an answer one token at a time. Even when the output is a small JSON object, every token depends on…",
+        "chars": 297,
+        "from": "https://x.com/akshay_pachaar/status/2101309986156712025",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2102087107410002345",
@@ -573,7 +692,8 @@
         "thumb": "https://pbs.twimg.com/media/HSsB_z2bMAATp-F.jpg",
         "thumbW": 1983,
         "thumbH": 793,
-        "source": "X article cover"
+        "source": "X article cover",
+        "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
       },
       "metrics": {
         "likes": 525,
@@ -590,7 +710,13 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "quote": {
+        "text": "https://t.co/XbYTbrX3Ug",
+        "chars": 23,
+        "from": "https://x.com/akshay_pachaar/status/2102087107410002345",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101674202361221376",
@@ -612,7 +738,8 @@
           "bitrate": 2176000,
           "bytes": 902323,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1812743569746055168/AxCp7bZa_normal.jpg"
       },
       "metrics": {
         "likes": 3140,
@@ -628,7 +755,13 @@
       ],
       "tags": [
         "media-and-content"
-      ]
+      ],
+      "quote": {
+        "text": "Years of twitter bookmark hoarding Light work for Jev to run through https://t.co/TA1OG3FSiG",
+        "chars": 92,
+        "from": "https://x.com/alexchristou_/status/2101674202361221376",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100739055923425589",
@@ -641,7 +774,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSdTBk8bAAAPtk8.png",
         "thumbW": 816,
-        "thumbH": 400
+        "thumbH": 400,
+        "avatar": "https://pbs.twimg.com/profile_images/2022567054579228672/Ofvtmqi0_normal.jpg"
       },
       "metrics": {
         "likes": 8406,
@@ -657,7 +791,13 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "This is actually insane. This uses @typesafeai Jev model, as a plugin in Claude to review all the un-nesseasary tool calls, and it takes 1s to run! Like, literally, 1 second to take my Claude session from nearly 1M to ... 86K tokens! 😮 Ask your claude to install it and be…",
+        "chars": 297,
+        "from": "https://x.com/altryne/status/2100739055923425589",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100277062309179521",
@@ -670,7 +810,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSWuqu7WYAEUwFS.jpg",
         "thumbW": 2709,
-        "thumbH": 1523
+        "thumbH": 1523,
+        "avatar": "https://pbs.twimg.com/profile_images/1904994154658373632/CKBBVmtg_normal.jpg"
       },
       "metrics": {
         "likes": 795,
@@ -686,7 +827,13 @@
       ],
       "tags": [
         "triage-and-routing"
-      ]
+      ],
+      "quote": {
+        "text": "Jev is cool not because it re-invented classification, but because it makes ARBITRARY classification into a type-safe programmable primitive. A general purpose zero shot decision model whose native interface is RUNTIME-DEFINED typed decisions, optimized for that exact interface…",
+        "chars": 302,
+        "from": "https://x.com/cocktailpeanut/status/2100277062309179521",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100659471257366766",
@@ -699,7 +846,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1957502976521826305/41Pxt7lY_normal.jpg"
       },
       "metrics": {
         "likes": 633,
@@ -715,7 +863,13 @@
       ],
       "tags": [
         "triage-and-routing"
-      ]
+      ],
+      "quote": {
+        "text": "jev will make agents 10x faster and cheaper, here's how: 1/ model routing: pick the right model for each task, without training a custom router https://t.co/c9tIo6skBf 2/ computer use: faster, cheaper and more reliable for action-heavy tasks https://t.co/9YYBprwJwx 3/ auto",
+        "chars": 273,
+        "from": "https://x.com/da_fant/status/2100659471257366766",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100300097695232164",
@@ -728,7 +882,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSW-E8wWgAAyw9O.jpg",
         "thumbW": 1498,
-        "thumbH": 828
+        "thumbH": 828,
+        "avatar": "https://pbs.twimg.com/profile_images/2086719570862034944/4TvSh04K_normal.jpg"
       },
       "metrics": {
         "likes": 650,
@@ -745,7 +900,13 @@
       "tags": [
         "triage-and-routing",
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "We benchmarked fx auto mode (safety) classifier with @typesafeai's Jev. tl;dr: ~5-18x faster and more accurate than 𝚐𝚙𝚝-𝟻.𝟼-𝚕𝚞𝚗𝚊, our current top choice https://t.co/3G8tpRz7AG",
+        "chars": 185,
+        "from": "https://x.com/fazxes/status/2100300097695232164",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101018750916948237",
@@ -767,7 +928,8 @@
           "bitrate": 256000,
           "bytes": 18749658,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1577116785656139776/5mi0qgTz_normal.jpg"
       },
       "metrics": {
         "likes": 1553,
@@ -781,7 +943,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Jev is HERE and this is the CLEAREST explanation of what it is and what NEW businesses it unlocks. (and at the end I'll tell you how to get Jev even if you're on the waitlist) WHAT IT IS You know how you open your inbox and have to decide what's junk, what needs a reply, and…",
+        "chars": 299,
+        "from": "https://x.com/gregisenberg/status/2101018750916948237",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100411066966749359",
@@ -803,7 +971,8 @@
           "bitrate": 2176000,
           "bytes": 260409,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1980037752797175809/cTfw6IDz_normal.jpg"
       },
       "metrics": {
         "likes": 9047,
@@ -819,7 +988,13 @@
       ],
       "tags": [
         "browser-agents"
-      ]
+      ],
+      "quote": {
+        "text": "Breaking: Browser Use + Jev = Ultrafast ⚡ Findings flights took 7s and cost only $0.0039 🤯 > new action space every step > DOM state space > small LLM fallback to type (this video is at 1x speed btw) Built a tiny open source browser agent. try it below ↓…",
+        "chars": 288,
+        "from": "https://x.com/gregpr07/status/2100411066966749359",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100982108873191861",
@@ -832,7 +1007,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg"
       },
       "metrics": {
         "likes": 2603,
@@ -848,7 +1024,13 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "Unsure how to get started with Jev? Install the skill: npx skills add typesafe-ai/skills --skill typesafe-ai Then prompt in your project: use /typesafe-ai to see how Jev can be used to replace slow, expensive LLM usage and find possible new features it would enable for users.",
+        "chars": 276,
+        "from": "https://x.com/iannuttall/status/2100982108873191861",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100623016644223175",
@@ -861,7 +1043,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2096294446333841408/jwrDt_K__normal.jpg"
       },
       "metrics": {
         "likes": 259,
@@ -875,7 +1058,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "I've been using Jev by @typesafeai Here's the six things i've tried and am confident I'll still use Jev for 60 days from now. There's many more experiments, ideas, and things I think I will use it for. It's a big deal (more on why in next post). But I am only sharing things",
+        "chars": 274,
+        "from": "https://x.com/isaac_flath/status/2100623016644223175",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100713337436930288",
@@ -888,7 +1077,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1409992269973704705/PIGP4eEZ_normal.jpg"
       },
       "metrics": {
         "likes": 437,
@@ -904,7 +1094,13 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "quote": {
+        "text": "Jevの内部アーキテクチャを推測している技術記事(Jev’s Architecture Unmasked)からメモ。 ・本記事はJevのAPIを約1万回の呼び出して、内部構造を推測したもの ・従来の言語モデルを用いた分類やルーティングでは、トークンを1文字ずつ逐次生成するために膨大な無駄な計算コストが発生していた。",
+        "chars": 158,
+        "from": "https://x.com/iwashi86/status/2100713337436930288",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100876273061102006",
@@ -917,7 +1113,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1967524274161487872/3ha2ag9N_normal.jpg"
       },
       "metrics": {
         "likes": 341,
@@ -934,7 +1131,13 @@
       "tags": [
         "triage-and-routing",
         "media-and-content"
-      ]
+      ],
+      "quote": {
+        "text": "一些关于 Jev (@typesafeai) 的 notes 研究了一天 Jev，带来的新鲜感迅速回落，这好像就是一个更快的通用分类器/决策器，LLM 完全可以做到。 而且因为不了解模型背后的参数规模（应该不会很大），世界知识可能不一定有常规 LLM",
+        "chars": 125,
+        "from": "https://x.com/jiayuan_jy/status/2100876273061102006",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101453330861965672",
@@ -956,7 +1159,8 @@
           "bitrate": 832000,
           "bytes": 3958888,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1945848027115130880/5V7GQKEB_normal.jpg"
       },
       "metrics": {
         "likes": 1100,
@@ -970,7 +1174,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Hice un video de 4 min (en español) explicando qué es Jev, qué no hace, y por qué cambia dónde ponés un modelo. https://t.co/KMwEFgVs9D",
+        "chars": 135,
+        "from": "https://x.com/jonymusky/status/2101453330861965672",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100314182201802811",
@@ -992,7 +1202,8 @@
           "bitrate": 832000,
           "bytes": 792714,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2067437579251978240/sCczd797_normal.jpg"
       },
       "metrics": {
         "likes": 839,
@@ -1009,7 +1220,13 @@
       "tags": [
         "triage-and-routing",
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "Jev solved local harness/model routing I use a combination of Claude Code, Codex and Opencode as my local agentic stack and routing to other harnesses was always enforced in the system prompt/rules With a deterministic hook that Claude Code can decide before delegation, Jev…",
+        "chars": 298,
+        "from": "https://x.com/mdlahfir/status/2100314182201802811",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100715237267660873",
@@ -1031,7 +1248,8 @@
           "bitrate": 256000,
           "bytes": 13864142,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
       },
       "metrics": {
         "likes": 3099,
@@ -1045,7 +1263,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Full Jev Tutorial What it is, how you can build with it and what new applications it can unlock → 0:00 Intro → 0:34 Jev explained → 4:06 API setup → 5:59 Demo 1: Voice-controlled browser → 11:33 Demo 2: AI memory → 17:27 Demo 3: YouTube predictor https://t.co/V7iK3jZTLZ",
+        "chars": 270,
+        "from": "https://x.com/moritzkremb/status/2100715237267660873",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100895894287839255",
@@ -1058,7 +1282,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSfhrsxbMAEdHxj.png",
         "thumbW": 800,
-        "thumbH": 420
+        "thumbH": 420,
+        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
       },
       "metrics": {
         "likes": 4451,
@@ -1072,7 +1297,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "All of the coolest Jev projects I could find on X today 🧵 https://t.co/2QUxMRM4pm",
+        "chars": 82,
+        "from": "https://x.com/moritzkremb/status/2100895894287839255",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100761338918363550",
@@ -1085,7 +1316,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1565403341647400960/55RW_HGX_normal.jpg"
       },
       "metrics": {
         "likes": 427,
@@ -1100,7 +1332,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "WTF is Jev by @typesafeai? Here’s the tl;dr ELI5: Think AI multiple choice, not AI essay writing. It doesn’t chat. It makes decisions your software can act on: “Spam or not?” “Which tool should this agent use?” “Does this need a human?” The exciting part: roughly 200x faster",
+        "chars": 275,
+        "from": "https://x.com/mvanhorn/status/2100761338918363550",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100788572316139655",
@@ -1113,7 +1351,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1565403341647400960/55RW_HGX_normal.jpg"
       },
       "metrics": {
         "likes": 418,
@@ -1127,7 +1366,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "TL;DR of my new article: WTF is Jev by @typesafeai, and the 9 things people are already building with it. The thesis: 𝗮 𝗰𝗼-𝗰𝗿𝗲𝗮𝘁𝗼𝗿 𝗼𝗳 𝗖𝗵𝗮𝘁𝗚𝗣𝗧 𝘀𝗽𝗲𝗻𝘁 𝘁𝘄𝗼 𝘆𝗲𝗮𝗿𝘀 𝗶𝗻 𝘀𝘁𝗲𝗮𝗹𝘁𝗵 𝗼𝗻 𝗮 𝗺𝗼𝗱𝗲𝗹 𝘁𝗵𝗮𝘁 𝗰𝗮𝗻𝗻𝗼𝘁 𝘄𝗿𝗶𝘁𝗲 𝗮",
+        "chars": 264,
+        "from": "https://x.com/mvanhorn/status/2100788572316139655",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100113737097367896",
@@ -1140,7 +1385,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2032204941813796864/ct5nPYgc_normal.jpg"
       },
       "metrics": {
         "likes": 2300,
@@ -1154,7 +1400,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "this is the easiest way to understand Jev: LLMs generate answers. Jev makes decisions. that sounds like a small difference, but it actually changes the entire use case. say you give a normal LLM this: “here’s a user, their account history, payment behavior, support chats,",
+        "chars": 272,
+        "from": "https://x.com/paarangatrai/status/2100113737097367896",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100686990090047569",
@@ -1167,7 +1419,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2095218586046652416/pyuFtKH0_normal.jpg"
       },
       "metrics": {
         "likes": 2254,
@@ -1184,7 +1437,13 @@
       "tags": [
         "browser-agents",
         "trading-and-markets"
-      ]
+      ],
+      "quote": {
+        "text": "やぁ！兄弟たち！ Jevに関するGitHubの実用性と発展性がありそうなリポジトリをまとめたよ！ やはり、高速判断を要するComputerUseや完全自動トレードなんかに対しての活用が多い印象だね！ Jevは公式のウェイトリストも1日ほどで承認されるけど、待たなくてもVercel AI GatewayからModel:",
+        "chars": 159,
+        "from": "https://x.com/studio_yebisu/status/2100686990090047569",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100421326389354624",
@@ -1197,7 +1456,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2089145858608566272/rUORWtmK_normal.jpg"
       },
       "metrics": {
         "likes": 1394,
@@ -1211,7 +1471,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Prediction: millionaires will be made using custom Jev style models (parallel constrained decoding) to make the agent systems companies already run more token efficient. Let me explain with a scenario: Imagine a company already has an agent workflow running where an llm reviews",
+        "chars": 278,
+        "from": "https://x.com/swill1ams/status/2100421326389354624",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100762304862384257",
@@ -1224,7 +1490,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1909353910130950147/EeSGdgA5_normal.jpg"
       },
       "metrics": {
         "likes": 2583,
@@ -1240,7 +1507,13 @@
       ],
       "tags": [
         "coding-and-context"
-      ]
+      ],
+      "quote": {
+        "text": "This is a terrible compaction strategy that fundamentally doesn't understand how compaction and context management work. Seems like a lot of people are confused so let's break this down. 1. Compaction isn't a filter The role of compaction is to clean up history to keep the",
+        "chars": 273,
+        "from": "https://x.com/theo/status/2100762304862384257",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100844854490103835",
@@ -1262,7 +1535,8 @@
           "bitrate": 2176000,
           "bytes": 314907,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1972213681560621056/qtLrUur5_normal.jpg"
       },
       "metrics": {
         "likes": 378,
@@ -1276,7 +1550,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "You still don't understand the use cases Jev unlocks. I've been waiting for something like this since early ChatGPT models. prediction: we will see the fastest-growing SaaS by MRR in history within the next month or two https://t.co/JCBqWLbMuF",
+        "chars": 243,
+        "from": "https://x.com/tonnoz/status/2100844854490103835",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2100923960493818177",
@@ -1289,7 +1569,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2006310479975858176/PWGiJqg9_normal.jpg"
       },
       "metrics": {
         "likes": 480,
@@ -1305,7 +1586,13 @@
       ],
       "tags": [
         "research-and-data"
-      ]
+      ],
+      "quote": {
+        "text": "Jev 发布没几天，开源社区已经开始疯狂复刻了🔥 最值得推荐的五个模型： 1、Laya 421M：原生决策模型，支持 Mac 2、Decider-2B：最像 Jev，基于 Qwen3.5 3、NanoJev 0.6B：专门的 Decision Head 4、Reflex：Qwen3.5 + Direct Logits 5、System-One 4B：专门做概率校准",
+        "chars": 184,
+        "from": "https://x.com/xiaomovps/status/2100923960493818177",
+        "readOn": "2026-09-23"
+      }
     },
     {
       "id": "x:2101262191399981504",
@@ -1327,7 +1614,8 @@
           "bitrate": 832000,
           "bytes": 7914534,
           "readOn": "2026-09-23"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1999509933302124544/ABxY9N7S_normal.jpg"
       },
       "metrics": {
         "likes": 387,
@@ -1341,7 +1629,13 @@
         "like count read from that response on 2026-09-22",
         "poster image stays on X's CDN; nothing downloaded or rehosted"
       ],
-      "tags": []
+      "tags": [],
+      "quote": {
+        "text": "Jev Founder (ex-OpenAI): \"I believe JEV is the biggest breakthrough we've ever worked on This sounds too good to be true but it's beating everything\" In 5 minutes, he breaks down why older LLMs were great at talking and terrible at deciding and building. Watch it and then…",
+        "chars": 296,
+        "from": "https://x.com/zodchiii/status/2101262191399981504",
+        "readOn": "2026-09-23"
+      }
     }
   ]
 }

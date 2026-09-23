@@ -160,6 +160,33 @@ if (!existsSync(CLAIMS_FILE)) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(file.meta?.readOn ?? "")) fail.push("claims meta.readOn is not an ISO date");
   console.log(`  claims: ${claimTotal} figures across ${Object.keys(claims).length} rows, read on ${file.meta.readOn}`);
 }
+
+/*
+ * The canonical X pages (`lib/data/jev-x-pages.json`).
+ *
+ * A slug is a URL that Google will index and that we can never quietly change, so the gate asks
+ * three things: it points at a published row, it is unique, and it looks like a slug. The headline
+ * gets a length floor for the same reason the notes do — `Jev` is not a headline, it is a shrug,
+ * and a page titled that way is the thin doorway this column is not allowed to publish.
+ */
+const X_PAGES_FILE = resolve(ROOT, "lib/data/jev-x-pages.json");
+if (!existsSync(X_PAGES_FILE)) {
+  fail.push("lib/data/jev-x-pages.json missing — the X cards link into it");
+} else {
+  const file = JSON.parse(readFileSync(X_PAGES_FILE, "utf8"));
+  const pages = file.pages ?? {};
+  const slugs = new Map();
+  for (const [id, page] of Object.entries(pages)) {
+    if (!publishedIds.has(id)) fail.push(`x-pages/${id}: no published row with that id`);
+    const slug = page?.slug ?? "";
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) fail.push(`x-pages/${id}: slug "${slug}" is not lowercase-hyphenated`);
+    if (slugs.has(slug)) fail.push(`x-pages/${id}: slug "${slug}" is already used by ${slugs.get(slug)}`);
+    slugs.set(slug, id);
+    const words = (page?.headline ?? "").trim().split(/\s+/).filter(Boolean).length;
+    if (words < 4) fail.push(`x-pages/${id}: headline "${page?.headline}" is ${words} words — too short to be a page title`);
+  }
+  console.log(`  x pages: ${Object.keys(pages).length} canonical records, ${slugs.size} unique slugs`);
+}
 console.log(
   `Intake OK — ${queued} queued: ${publishedTotal} published, ${waiting} waiting for a note, ${rejectedTotal} rejected with a reason (${queryTotal} queries).`,
 );

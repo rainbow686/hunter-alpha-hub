@@ -143,7 +143,7 @@ const fmt = (n: number) => n.toLocaleString("en-US");
               ) : null}
               <div class="card-body">
                 <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
-                <h3 class="card-title"><a href={item.url} rel="noopener">{item.title}</a></h3>
+                <h3 class="card-title"><a href={item.pageSlug ? `/typesafe-jev/x-posts/${item.pageSlug}` : item.url} rel="noopener">{item.title}</a></h3>
                 <p class="card-note card-our">{item.note}</p>
                 <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
               </div>
