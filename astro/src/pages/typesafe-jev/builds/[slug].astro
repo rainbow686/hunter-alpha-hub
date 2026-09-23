@@ -22,6 +22,7 @@ import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
 
 export function getStaticPaths() {
   return jevBuildsWithPages.map((build) => ({ params: { slug: build.dossier!.slug }, props: { build } }));
@@ -32,6 +33,7 @@ const dossier = build.dossier!;
 const canonical = `${SITE}/typesafe-jev/builds/${dossier.slug}`;
 const fmt = (n: number) => n.toLocaleString("en-US");
 const facetLabel = (slug: string) => JEV_FACET_COUNTS.find((f) => f.slug === slug)?.label ?? slug;
+const claims = claimsFor(build.id);
 
 /* "More like this": the rows that share a tag, nearest in stars, excluding this one. */
 const related = jevBuildsWithPages
@@ -94,6 +96,37 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
         <h2>How it works</h2>
         <p>{dossier.howItWorks}</p>
       </section>
+
+      {/*
+        The figures the project publishes about itself — and the sentence each one came from.
+        The alternative is what the reference site does on its cards: a bare `300 ms` next to
+        a Jev project, which a reader has every reason to read as *our* measurement of Jev.
+        It is neither ours nor, on two rows, about Jev at all; the label says which is which.
+      */}
+      {claims.length > 0 && (
+        <section>
+          <h2>Numbers the author reports</h2>
+          <p>
+            These are the project's own figures, not our measurements — we keep ours on{" "}
+            <a href="/typesafe-jev/statistics">the statistics page</a> and label them as ours.
+            Read on {jevClaimsReadOn}, with the sentence each figure appeared in:
+          </p>
+          <dl class="claims">
+            {claims.map((claim) => (
+              <>
+                <dt>
+                  <span class="claimchip-value">{claim.value}</span>
+                  <span class="claimchip-label">{claim.label}</span>
+                </dt>
+                <dd>
+                  “{claim.quote}” —{" "}
+                  <a href={claim.from} rel="noopener noreferrer">{claim.source}</a>
+                </dd>
+              </>
+            ))}
+          </dl>
+        </section>
+      )}
 
       {/*
         The list that makes this page worth indexing. Every line is something we opened and
@@ -194,6 +227,12 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
     border-radius: var(--radius-sm);
   }
   .not-checked strong { color: var(--text); }
+  /* The author's figures, each with the sentence it came from. Two columns so the number
+     and its label sit on one line and the quote reads as the evidence under it. */
+  .claims { margin: 0; }
+  .claims dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-4); }
+  .claims dd { margin: var(--space-1) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .claims dd a { color: var(--text-muted); }
 
   .build-rail {
     border: 1px solid var(--border);

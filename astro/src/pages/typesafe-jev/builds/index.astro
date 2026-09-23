@@ -13,8 +13,10 @@ import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
+import ClaimChip from "../../../components/ClaimChip.astro";
 import { JEV_BUILDS_READ_ON, jevBuildCounts, jevBuilds } from "@repo/lib/jev-builds";
 import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 
 const title = "Built With Jev: Projects and What They Do (2026)";
@@ -82,6 +84,20 @@ const buildChips = JEV_FACET_COUNTS.map((facet) => ({
             </h2>
             <p class="card-note">{build.what}</p>
             <p class="card-note card-our">{build.ourNote}</p>
+            {claimsFor(build.id).length > 0 && (
+              <p class="card-claims">
+                {claimsFor(build.id).map((claim) => (
+                  <ClaimChip
+                    value={claim.value}
+                    label={claim.label}
+                    quote={claim.quote}
+                    from={claim.from}
+                    source={claim.source}
+                    readOn={jevClaimsReadOn}
+                  />
+                ))}
+              </p>
+            )}
             <p class="card-meta">
               <span>{fmt(build.stars)} ★</span>
               <span>last push {build.pushedAt}</span>

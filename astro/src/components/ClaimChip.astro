@@ -1,0 +1,30 @@
+---
+/**
+ * One author-reported figure, on a card.
+ *
+ * Shape borrowed from madewithjev, which prints `~300 ms` in the card footer with the label
+ * in a `title=`. Two deliberate differences, both about not misleading a reader:
+ *
+ *   - the label is **visible**, not a tooltip. A bare `300 ms` next to a Jev card reads as
+ *     our measurement of Jev; it is neither ours nor, in two rows, about Jev at all.
+ *   - the quote is in the `title` alongside the source and the date we read it, so the
+ *     provenance is one hover away on the card and spelled out on the item page.
+ */
+interface Props {
+  value: string;
+  label: string;
+  quote: string;
+  from: string;
+  source: string;
+  /** The day we read it, from the queue's meta. */
+  readOn: string;
+}
+
+const { value, label, quote, from, source, readOn } = Astro.props;
+---
+
+<span class="claimchip">
+  <b class="claimchip-value">{value}</b>
+  <span class="claimchip-label">{label}</span>
+  <span class="claimchip-src" title={`${source} — ${from} (read ${readOn}): “${quote}”`}>{source}</span>
+</span>

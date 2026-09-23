@@ -14,8 +14,10 @@ import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
+import ClaimChip from "../../../components/ClaimChip.astro";
 import { JEV_X_POSTS_READ_ON, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
 import { JEV_FACET_COUNTS, thumbRatio } from "@repo/lib/jev-facets";
+import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 import { jevTagsById } from "@repo/lib/jev-facets";
 
@@ -129,6 +131,20 @@ const xPostChips = [
               <p class="card-eyebrow">X · {demo.kind === "video" ? "video" : demo.kind === "image" ? "image" : "post"}</p>
               <h2 class="card-title"><a href={demo.url} rel="noopener">{demo.title}</a></h2>
               <p class="card-note card-our">{demo.ourNote}</p>
+              {claimsFor(demo.id).length > 0 && (
+                <p class="card-claims">
+                  {claimsFor(demo.id).map((claim) => (
+                    <ClaimChip
+                      value={claim.value}
+                      label={claim.label}
+                      quote={claim.quote}
+                      from={claim.from}
+                      source={claim.source}
+                      readOn={jevClaimsReadOn}
+                    />
+                  ))}
+                </p>
+              )}
               <p class="card-meta">
                 <span>{demo.author}</span>
                 <span>{demo.publishedAt}</span>

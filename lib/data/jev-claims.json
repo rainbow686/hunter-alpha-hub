@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "readOn": "2026-09-23",
+    "what": "Numbers the authors publish about their own work, quoted from the page we read them on. None of these are our measurements — ours are on /typesafe-jev/statistics, and they are labelled as ours.",
+    "shape": "value / label / quote / from / source. The label says what the number is about, and it says so even when the answer is unflattering to the entry: a number about a local substitute model, an OCR pass or a whole run is not a Jev decision and does not pretend to be one.",
+    "cameFrom": "The reference site (madewithjev.com) prints one of these on every card as a bare figure with the label in a tooltip. Copied as a function — a card that shows a number is more useful than one that only describes — and hardened in the one place we differ from it: our label is visible text, and the sentence the number came from is attached."
+  },
+  "claims": {
+    "gh:browser-use/jev-ultrafast": [
+      {
+        "value": "7.1 s",
+        "label": "one flight search, start to finish",
+        "quote": "Zürich → London on Google Flights in 7.1 seconds. One natural-language goal, actual text generation, and loading waits included.",
+        "from": "https://github.com/browser-use/jev-ultrafast#readme",
+        "source": "repository README"
+      }
+    ],
+    "gh:jarrodwatts/jev-trader": [
+      {
+        "value": "~300 ms",
+        "label": "the budget for one buy or sell decision",
+        "quote": "A TypeSafe Jev model watches the Kuru MON-USDC order book and answers buy or sell every ~300 ms.",
+        "from": "https://github.com/jarrodwatts/jev-trader#readme",
+        "source": "repository README"
+      },
+      {
+        "value": "~18 ms",
+        "label": "one RPC read of the order book, on the public endpoint",
+        "quote": "the hot loop makes exactly two RPC round trips: one eth_call for the book (~18 ms on the public RPC, READ_RPC_URL) and one eth_sendRawTransaction",
+        "from": "https://github.com/jarrodwatts/jev-trader#readme",
+        "source": "repository README"
+      }
+    ],
+    "gh:reticlehq/reticle": [
+      {
+        "value": "176 ms",
+        "label": "checking a 2.6-second time-gated transition instead of waiting it out",
+        "quote": "Wall-clock time to a verdict: a 2.6 second time-gated transition verified in 176 ms versus a 2,978 ms real wait, and a 16-flow batch in 5.2 seconds versus 31.7 seconds one at a time.",
+        "from": "https://github.com/reticlehq/reticle#readme",
+        "source": "repository README, image alt text"
+      }
+    ],
+    "gh:awlevin/typesafe-computer-use": [
+      {
+        "value": "302–380 ms",
+        "label": "one full step at p50, of which ~280–350 ms is the decision",
+        "quote": "End-to-end loop, p50: 302-380 ms per step (2.6-3.5 steps/sec), of which ~280-350 ms is the TypeSafe decision.",
+        "from": "https://github.com/awlevin/typesafe-computer-use#readme",
+        "source": "repository README"
+      }
+    ],
+    "gh:rmalde/minecraft-agent": [
+      {
+        "value": "8 min 43 s",
+        "label": "one Nether run, start to finish",
+        "quote": "The latest run, nether-final-08, completed in 8 minutes 43.300 seconds.",
+        "from": "https://github.com/rmalde/minecraft-agent#readme",
+        "source": "repository README"
+      }
+    ],
+    "gh:jaredpalmer/kev": [
+      {
+        "value": "118 ms",
+        "label": "one 101-token request on Kev-4B in bf16 — Kev's own local model, not Jev",
+        "quote": "measured on Kev-4B on an L4 with three questions and 20 requests per row … | bf16 (default) | 118 ms | 189 ms |",
+        "from": "https://github.com/jaredpalmer/kev#readme",
+        "source": "repository README"
+      }
+    ],
+    "gh:wfzyx/von": [
+      {
+        "value": "sub-25 ms",
+        "label": "per inference — the open substitute's own claim, not Jev's",
+        "quote": "Calibrated discrete, probabilistic, and ordinal inference in sub-25ms.",
+        "from": "https://github.com/wfzyx/von#readme",
+        "source": "repository README"
+      }
+    ],
+    "x:2100411066966749359": [
+      {
+        "value": "7 s",
+        "label": "the flight search in the clip, and $0.0039 for it",
+        "quote": "Findings flights took 7s and cost only $0.0039",
+        "from": "https://x.com/gregpr07/status/2100411066966749359",
+        "source": "the post's own text"
+      }
+    ],
+    "x:2100739055923425589": [
+      {
+        "value": "1 s",
+        "label": "one review pass over a Claude session, 1M → 86K tokens",
+        "quote": "it takes 1s to run! Like, literally, 1 second to take my Claude session from nearly 1M to ... 86K tokens!",
+        "from": "https://x.com/altryne/status/2100739055923425589",
+        "source": "the post's own text"
+      }
+    ]
+  }
+}

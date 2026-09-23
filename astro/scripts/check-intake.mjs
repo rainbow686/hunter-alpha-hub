@@ -10,6 +10,8 @@
  *   3. no URL appears twice;
  *   4. thumbnails declare their size (CLS) — enforced where thumbnails exist;
  *   5. the candidate queue has a ceiling: past it we are hoarding, not writing.
+ *   6. every author-reported figure carries its evidence (value, what it is about, the
+ *      sentence, the page, the date) and belongs to a published row.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
@@ -29,6 +31,8 @@ const HOST_WHITELIST = ["news.ycombinator.com", "www.reddit.com", "reddit.com", 
 
 const fail = [];
 const dossieSlugs = new Map();
+/* Published ids, so a number can never be attached to a row that is not on the site. */
+const publishedIds = new Set();
 let queued = 0, publishedTotal = 0, queryTotal = 0, waiting = 0, rejectedTotal = 0;
 for (const QUEUE of QUEUES) {
   if (!existsSync(QUEUE)) { fail.push(`${QUEUE} missing — run its ingest script`); continue; }
@@ -61,6 +65,7 @@ for (const QUEUE of QUEUES) {
 
     if (e.status === "published") {
       published += 1;
+      publishedIds.add(e.id);
       const words = (e.ourNote ?? "").trim().split(/\s+/).filter(Boolean).length;
       if (words < MIN_NOTE_WORDS) fail.push(`${where}: published with a ${words}-word note (minimum ${MIN_NOTE_WORDS}) — the note is the only thing that makes this not a link dump`);
       if (!Array.isArray(e.checked) || e.checked.length === 0) fail.push(`${where}: published with nothing recorded in "checked"`);
@@ -117,6 +122,43 @@ for (const QUEUE of QUEUES) {
     }
   }
   queued += entries.length; publishedTotal += published;
+}
+
+/*
+ * The author-reported figures on the cards (`lib/jev-claims.json`).
+ *
+ * A number on a card is the easiest thing on this site to fake and the most damaging to get
+ * wrong: a bare `300 ms` reads as our measurement of Jev unless the label says otherwise, and
+ * two rows in this file are about models that are not Jev at all. So the gate asks for the
+ * whole chain — what it is about, the sentence, the page, the day — and refuses a figure with
+ * no quote, because an unsourced number is exactly what the reference site prints.
+ */
+const CLAIMS_FILE = resolve(ROOT, "lib/data/jev-claims.json");
+if (!existsSync(CLAIMS_FILE)) {
+  fail.push("lib/data/jev-claims.json missing — the cards reference it");
+} else {
+  const file = JSON.parse(readFileSync(CLAIMS_FILE, "utf8"));
+  const claims = file.claims ?? {};
+  let claimTotal = 0;
+  for (const [id, list] of Object.entries(claims)) {
+    if (!publishedIds.has(id)) fail.push(`claims/${id}: no published row with that id`);
+    if (!Array.isArray(list) || list.length === 0) fail.push(`claims/${id}: empty list — delete the key instead`);
+    for (const [i, c] of (list ?? []).entries()) {
+      const at = `claims/${id}[${i}]`;
+      const missing = ["value", "label", "quote", "from", "source"].filter((k) => typeof c[k] !== "string" || !c[k].trim());
+      if (missing.length) { fail.push(`${at}: missing ${missing.join(", ")}`); continue; }
+      if (!/\d/.test(c.value)) fail.push(`${at}: value "${c.value}" carries no digit`);
+      // The label has to say what the number is about. "Latency" is not an answer: latency of
+      // what, measured by whom, and if it is a substitute model's number, say so.
+      if (c.label.trim().split(/\s+/).length < 3) fail.push(`${at}: label "${c.label}" is too short to say what the number is about`);
+      if (c.quote.trim().split(/\s+/).length < 6) fail.push(`${at}: quote is too short to be the sentence the number came from`);
+      if (!/^https?:\/\//.test(c.from)) fail.push(`${at}: from is not a URL`);
+      else if (!HOST_WHITELIST.includes(new URL(c.from).hostname)) fail.push(`${at}: from points at ${new URL(c.from).hostname}, outside the source whitelist`);
+      claimTotal += 1;
+    }
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(file.meta?.readOn ?? "")) fail.push("claims meta.readOn is not an ISO date");
+  console.log(`  claims: ${claimTotal} figures across ${Object.keys(claims).length} rows, read on ${file.meta.readOn}`);
 }
 console.log(
   `Intake OK — ${queued} queued: ${publishedTotal} published, ${waiting} waiting for a note, ${rejectedTotal} rejected with a reason (${queryTotal} queries).`,

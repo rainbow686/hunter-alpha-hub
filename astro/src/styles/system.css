@@ -529,6 +529,25 @@ ul, ol { padding-left: var(--space-6); }
 .card-title a:hover { text-decoration: underline; }
 .card-note { margin: 0; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
 .card-meta { margin: auto 0 0; padding-top: var(--space-2); display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+/*
+ * Author-reported figures on a card.
+ *
+ * The reference site prints one bare `~300 ms` per card and puts the label in a tooltip.
+ * We show the label, because a bare number next to a Jev card reads as our measurement of
+ * Jev and is not: it is the author's figure, about the author's thing. The quote and the
+ * date ride in the `title` here and are written out on the item page.
+ *
+ * Kept to one line each and pushed to the bottom of the body: a card with a number should
+ * not grow taller than its neighbour without one, or the wall stops reading as a wall.
+ */
+.card-claims { margin: 0; padding-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); }
+/* The names carry the `chip` suffix on purpose: a bare `.claim` is already taken by the
+   frozen legacy sheets (v2/v3/v5 — the left-bar "claim" block on the model pages), and a
+   collision there is invisible in the source and obvious only on the rendered card. */
+.claimchip { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); font-size: var(--text-xs); line-height: 1.4; }
+.claimchip-value { font-family: var(--mono); font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--text); }
+.claimchip-label { color: var(--text-muted); }
+.claimchip-src { color: var(--text-faint); text-decoration: underline dotted; text-underline-offset: 2px; }
 
 /* ------------------------------------------------------------------ crumbs
  * The trail sits above a page's own header, so it must not compete with it: small,
