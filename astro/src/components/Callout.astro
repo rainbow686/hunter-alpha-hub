@@ -1,0 +1,62 @@
+---
+/**
+ * The "In short" summary that opens an explainer page: an eyebrow, then the
+ * three or four numbers the rest of the page argues from.
+ *
+ * Why it is a component rather than markup per page: the three cluster pages
+ * each carried a byte-identical copy of these 20 lines of CSS (same md5,
+ * checked 2026-09-23), which is the arrangement where one page gets a fix and
+ * the other two keep the bug. This repo has already paid for that twice —
+ * `--space-5` undefined in 29 places, and `data-tags` vs `data-tag` breaking
+ * four filters — so a shared block gets one definition.
+ *
+ * Scoped `<style>` rather than a rule in `system.css` on purpose: system.css is
+ * frozen and guarded (ADR-0011), and this is a page-level block, not part of the
+ * site's design system. Astro scopes the selector, so nothing else can inherit it.
+ *
+ * The left accent rule + rounded right corners is the house treatment for a
+ * block that interrupts the column. It is also, near enough, the shape of
+ * "rounded container with a left-border accent colour" that reads as a default
+ * tell (see docs/research/baoyu-design-eval.md). Kept because it appears once per
+ * page for a specific job, not on every card — the moment there are three of
+ * these on one screen it stops being an interruption and becomes the layout.
+ */
+interface Props {
+  eyebrow: string;
+}
+const { eyebrow } = Astro.props;
+---
+
+<div class="callout">
+  <p class="callout-eyebrow">{eyebrow}</p>
+  <ul>
+    <slot />
+  </ul>
+</div>
+
+<style>
+  .callout {
+    margin: var(--space-8) 0;
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .callout-eyebrow {
+    margin: 0 0 var(--space-3);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  /*
+   * The <li> and <strong> come in through the slot, so they carry the *caller's*
+   * scope attribute and a plain descendant selector would not match them.
+   * `:global()` under the scoped ancestor is the fix: the rule still only applies
+   * inside this component's own div, but the child selector is left alone.
+   */
+  .callout :global(li) { margin-bottom: var(--space-2); }
+  .callout :global(strong) { color: var(--text); }
+</style>

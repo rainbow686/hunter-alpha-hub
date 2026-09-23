@@ -9,6 +9,7 @@
  * one thing it refuses to do is pretend a 395M-parameter substitute is equivalent — the publisher
  * of the closest one publishes a head-to-head against the model it replaces, and it loses.
  */
+import Callout from "../../../components/Callout.astro";
 import System from "../../../layouts/System.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import JsonLd from "../../../components/JsonLd.astro";
@@ -116,16 +117,13 @@ const substitutes = [
       </figure>
     </header>
 
-    <div class="callout">
-      <p class="callout-eyebrow">In short</p>
-      <ul>
-        <li><strong>No open release of the model.</strong> Jev is a hosted API; everything below is somebody else's build.</li>
-        <li><strong>The closest substitute publishes its own losing score:</strong> 72.0% vs 96.6% macro, and it wins the real-time loop at 9.00 vs 5.62 kills.</li>
-        <li><strong>You can own the whole stack</strong> — Kev is a Jev-shaped family on Qwen3.5, 0.8B to 9B, with the training path included.</li>
-        <li><strong>You can test the pattern today</strong> without a TypeSafe key by giving an open model the same request shape.</li>
-        <li><strong>None of them promises what the hosted model promises:</strong> an answer that cannot leave your option set.</li>
-      </ul>
-    </div>
+    <Callout eyebrow="In short">
+      <li><strong>No open release of the model.</strong> Jev is a hosted API; everything below is somebody else's build.</li>
+      <li><strong>The closest substitute publishes its own losing score:</strong> 72.0% vs 96.6% macro, and it wins the real-time loop at 9.00 vs 5.62 kills.</li>
+      <li><strong>You can own the whole stack</strong> — Kev is a Jev-shaped family on Qwen3.5, 0.8B to 9B, with the training path included.</li>
+      <li><strong>You can test the pattern today</strong> without a TypeSafe key by giving an open model the same request shape.</li>
+      <li><strong>None of them promises what the hosted model promises:</strong> an answer that cannot leave your option set.</li>
+    </Callout>
 
     <section>
       <h2>Four questions, four kinds of project</h2>
@@ -285,23 +283,5 @@ const substitutes = [
 </System>
 
 <style>
-  .callout {
-    margin: var(--space-8) 0;
-    padding: var(--space-5) var(--space-6);
-    border-left: 3px solid var(--accent);
-    background: var(--surface);
-    border-radius: 0 var(--radius) var(--radius) 0;
-  }
-  .callout-eyebrow {
-    margin: 0 0 var(--space-3);
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-  }
-  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
-  .callout li { margin-bottom: var(--space-2); }
-  .callout strong { color: var(--text); }
   .cell-note { margin-top: 2px; font-size: var(--text-xs); color: var(--text-faint); }
 </style>

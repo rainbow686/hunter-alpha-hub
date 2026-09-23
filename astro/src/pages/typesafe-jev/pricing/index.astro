@@ -12,6 +12,7 @@
  * people quote. The arithmetic in the middle is ours, and it is the part that matters — the cost
  * driver in a decision loop is the state you send, not the model you call.
  */
+import Callout from "../../../components/Callout.astro";
 import System from "../../../layouts/System.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import JsonLd from "../../../components/JsonLd.astro";
@@ -116,15 +117,12 @@ const faqs = [
       </figure>
     </header>
 
-    <div class="callout">
-      <p class="callout-eyebrow">In short</p>
-      <ul>
-        <li><strong>$0.042</strong> per million input tokens, output free — quoted from TypeSafe's launch post, read {READ_ON}.</li>
-        <li><strong>${ourCost.toFixed(7)}</strong> for one of our own decisions: {ourTokens} tokens in, a label and three confidences out.</li>
-        <li><strong>The state is the bill.</strong> The same call at 4,000 tokens costs 10× what it costs at 400.</li>
-        <li>Their own aside — "10 queries a second … ~$7/hour" — implies roughly <strong>{Math.round(impliedTokens / 100) * 100} tokens</strong> a call. Their loop, not yours.</li>
-      </ul>
-    </div>
+    <Callout eyebrow="In short">
+      <li><strong>$0.042</strong> per million input tokens, output free — quoted from TypeSafe's launch post, read {READ_ON}.</li>
+      <li><strong>${ourCost.toFixed(7)}</strong> for one of our own decisions: {ourTokens} tokens in, a label and three confidences out.</li>
+      <li><strong>The state is the bill.</strong> The same call at 4,000 tokens costs 10× what it costs at 400.</li>
+      <li>Their own aside — "10 queries a second … ~$7/hour" — implies roughly <strong>{Math.round(impliedTokens / 100) * 100} tokens</strong> a call. Their loop, not yours.</li>
+    </Callout>
 
     <section>
       <h2>What the vendor publishes</h2>
@@ -341,24 +339,6 @@ const faqs = [
 </System>
 
 <style>
-  .callout {
-    margin: var(--space-8) 0;
-    padding: var(--space-5) var(--space-6);
-    border-left: 3px solid var(--accent);
-    background: var(--surface);
-    border-radius: 0 var(--radius) var(--radius) 0;
-  }
-  .callout-eyebrow {
-    margin: 0 0 var(--space-3);
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-  }
-  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
-  .callout li { margin-bottom: var(--space-2); }
-  .callout strong { color: var(--text); }
   /* An equation gets its own line and mono type: it is a claim a reader should be able to audit. */
   .equation {
     margin: var(--space-4) 0;
