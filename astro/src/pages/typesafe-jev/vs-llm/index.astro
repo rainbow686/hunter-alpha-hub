@@ -1,6 +1,6 @@
 ---
 /**
- * /jev-vs-llm — the comparison people actually search for, argued from measurements instead of
+ * /typesafe-jev/vs-llm — the comparison people actually search for, argued from measurements instead of
  * metaphors.
  *
  * Second page of the explainer cluster (`docs/roadmap/jev-explainer-cluster.md`), and the one with
@@ -10,18 +10,18 @@
  * never moved and the confidence wobbled (0.38–0.58 on the same input), and the projects where the
  * two kinds of model are wired together.
  */
-import System from "../../layouts/System.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import JsonLd from "../../components/JsonLd.astro";
-import Faq from "../../components/Faq.astro";
-import Provenance from "../../components/Provenance.astro";
-import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { JEV_OURS_SAMPLES, oursLabelStability, oursSpread, oursLatency } from "@repo/lib/jev-our-measurements";
 
 const title = "Jev vs LLMs: The Difference Is Not That One Is Smaller";
 const description =
   "A chat model generates text a token at a time; Jev returns a choice from your option set in one pass. What that changes in a codebase — with our own twenty calls, where the label never moved and the confidence went from 0.38 to 0.58 on identical input.";
-const canonical = `${SITE}/jev-vs-llm`;
+const canonical = `${SITE}/typesafe-jev/vs-llm`;
 const READ_ON = "2026-09-23";
 
 const faqs = [
@@ -69,6 +69,16 @@ const faqs = [
         useful part. The useful part is what changes in your code when the answer arrives in a
         shape you chose before you asked — and what you give up.
       </p>
+
+      {/* The page cover (contract §5): one image, about this page's subject, with the
+          meaning in the alt text and no caption announcing what it is. Placed after the
+          opening paragraph rather than between the title and the first line, which is the
+          one position the contract rules out. Dimensions are the file's own — the generator
+          returns a square and the wide frame is composed before it is written, so the HTML
+          no longer declares 16:9 over a 1:1 picture. */}
+      <figure class="figure cover">
+        <img src="/img/cover-jev-vs-llm.webp" alt="An engraving: two machines side by side on a workbench — a press unspooling a long ribbon of dense handwriting, and a shallow brass tray of identical stamped discs while a mechanical finger lifts one out." width="1024" height="576" decoding="async" />
+      </figure>
     </header>
 
     <div class="callout">
@@ -118,6 +128,10 @@ const faqs = [
           <text x="534" y="134" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">output free, no parser</text>
           <text x="0" y="176" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">The bottom row is faster <tspan font-weight="600" fill="var(--text)">and</tspan> cheaper — but it can only answer questions you put a shape around.</text>
         </svg>
+        <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+          Follow the third box in each row. One of them is something a program has to read, and the
+          step that makes it readable is the one Jev moves out of the loop entirely.
+        </figcaption>
       </figure>
     </section>
 
@@ -216,6 +230,29 @@ const faqs = [
 
     <section>
       <h2>When an LLM is simply the right answer</h2>
+
+      <figure class="figure">
+        <svg viewBox="0 0 760 200" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+          <title>Three ways the projects wire a decision model into a loop that still contains an LLM: the decision guards the loop, the decision takes the cheap rung, and the decision throttles what the model may do.</title>
+          <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">THREE SHAPES WE HAVE READ, NOT THREE OPINIONS</text>
+          <text x="0" y="46" font-family="var(--sans)" font-size="14" fill="var(--text)">1 · The decision guards the loop</text>
+          <text x="0" y="64" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">trim the tool result before it reaches the context</text>
+          <text x="560" y="64" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">~1 s, 1M → 86K tokens</text>
+          <line x1="0" y1="78" x2="760" y2="78" stroke="var(--field-border)" stroke-width="1" />
+          <text x="0" y="108" font-family="var(--sans)" font-size="14" fill="var(--text)">2 · The decision takes the cheap rung</text>
+          <text x="0" y="126" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">the repeated choice is a decision, the one-off is a sentence</text>
+          <text x="560" y="126" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">ten steps, one article</text>
+          <line x1="0" y1="140" x2="760" y2="140" stroke="var(--field-border)" stroke-width="1" />
+          <text x="0" y="170" font-family="var(--sans)" font-size="14" fill="var(--text)">3 · The decision throttles the model</text>
+          <text x="0" y="188" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">pick from an indexed space; never free-form coordinates</text>
+          <text x="560" y="188" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">7.1 s for a flight search</text>
+        </svg>
+        <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+          Read the right-hand column first: one number per shape, and each number is what a project
+          measured about itself rather than anything measured here.
+        </figcaption>
+      </figure>
+
       <p>
         If the output is read by a human, if the categories are not known in advance, if the task
         is to explain or rewrite or translate, if you need the model to notice a category that does

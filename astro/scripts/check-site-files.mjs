@@ -16,12 +16,15 @@
  * runs on a plain `npm run build`, where a noindex line means exactly that.
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { createRequire } from "node:module";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 const DIST = join(here, "../dist");
 const failures = [];
+// sharp is already a devDependency (scripts/gen-illustration.mjs writes the webp files this reads).
+const sharp = createRequire(import.meta.url)("sharp");
 
 /*
  * Every built page has to be declared in `sitemap.xml` — the "200 but not declared" check, applied
@@ -409,10 +412,61 @@ if (orphans.length) {
   failures.push(`${orphans.length} sitemap URL(s) have no page in the build: ${orphans.slice(0, 6).join(", ")}`);
 }
 
+/*
+ * Declared image dimensions have to be the file's real dimensions.
+ *
+ * `width`/`height` on an `<img>` exists to reserve layout space, which only works if it is true —
+ * a wrong pair is worse than none, because the browser reserves the wrong box and then reflows.
+ * This reached production three times the same way: the image API ignores the requested aspect
+ * ratio and always returns a square (checked 2026-09-23), so three covers whose HTML said
+ * `1280x720` were 1024x1024 files, hidden behind `aspect-ratio: 16/9; object-fit: cover` in CSS.
+ * The writing-style contract asks for "declared width/height" and for 16:9 covers; CSS was
+ * silently satisfying the second and defeating the first (see
+ * docs/lessons/generated-cover-is-not-done-until-you-look-at-it.md).
+ *
+ * Source files are read rather than dist output: the declaration is an authoring fact, and
+ * checking the source names the file someone has to edit.
+ */
+function astroSources(dir = join(here, "../src")) {
+  const out = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) out.push(...astroSources(full));
+    else if (entry.endsWith(".astro")) out.push(full);
+  }
+  return out;
+}
+
+const IMG_TAG = /<img\b[^>]*?>/gs;
+let sizesChecked = 0;
+for (const file of astroSources()) {
+  const source = readFileSync(file, "utf8");
+  for (const tag of source.match(IMG_TAG) ?? []) {
+    const src = tag.match(/src="(\/img\/[^"]+)"/);
+    const w = tag.match(/\bwidth="(\d+)"/);
+    const h = tag.match(/\bheight="(\d+)"/);
+    if (!src || !w || !h) continue;
+    const asset = join(here, "../public", src[1].replace(/^\//, ""));
+    const rel = file.slice(join(here, "..").length + 1);
+    if (!existsSync(asset)) {
+      failures.push(`${rel} points at ${src[1]}, which is not in public/`);
+      continue;
+    }
+    const real = await sharp(asset).metadata();
+    if (Number(w[1]) !== real.width || Number(h[1]) !== real.height) {
+      failures.push(
+        `${rel} declares ${src[1]} as ${w[1]}x${h[1]} but the file is ${real.width}x${real.height}`,
+      );
+    }
+    sizesChecked += 1;
+  }
+}
+
 console.log(
   `site files: robots.txt ${robots ? "ok" : "missing"} · _headers ${headers ? "ok" : "missing"} · _redirects ${
     redirects ? "ok" : "missing"
-  } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared · JSON-LD ${jsonLdBlocks} blocks valid`,
+  } · indexnow key ${indexNowKey ?? "missing"} · og cards ${cardsChecked} declared · JSON-LD ${jsonLdBlocks} blocks valid` +
+    ` · img sizes ${sizesChecked} declared`,
 );
 console.log(`  sitemap: ${declared.size} declared · ${builtPages().length} pages built · ${undeclared.length} undeclared`);
 if (failures.length) {

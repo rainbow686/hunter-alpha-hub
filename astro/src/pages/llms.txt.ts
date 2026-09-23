@@ -65,7 +65,7 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [The Jev catalogue report](${BASE}/typesafe-jev/statistics): what we counted and what we measured, with our own probe results (CC BY 4.0, JSON at /typesafe-jev/statistics.json).
 - [Jev builds](${BASE}/typesafe-jev/builds): ${jevBuildCounts.published} projects built on Jev, stars and last push read on ${JEV_BUILDS_READ_ON}.
 - [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
-- [Jev field notes](${BASE}/jev-guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
+- [Jev field notes](${BASE}/typesafe-jev/guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
 - [Compare models](${BASE}/comparison): every curated model side by side on price, window and modality.
 - [Free models](${BASE}/openrouter-free-models): the free routes on the catalogue, re-checked against the API.
 - [Cost calculator](${BASE}/openrouter-pricing-calculator): monthly spend by token volume and input/output mix.

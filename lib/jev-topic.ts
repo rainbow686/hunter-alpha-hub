@@ -29,7 +29,7 @@ export interface TopicEntry {
 
 export const jevTopicColumns: TopicEntry[] = [
   { href: "/typesafe-jev", label: "Jev, the reference", group: "Start here", blurb: "What it is, what it costs, what we measured." },
-  { href: "/jev-guide", label: "How people actually use it", group: "Start here", blurb: "Eleven projects read line by line." },
+  { href: "/typesafe-jev/guide", label: "How people actually use it", group: "Start here", blurb: "Eleven projects read line by line." },
   { href: "/typesafe-jev/builds", label: "What people built", group: "Columns", count: jevBuildCounts.published },
   { href: "/typesafe-jev/resources", label: "Docs, collections and repositories", group: "Columns", count: jevResourceCounts.total },
   { href: "/typesafe-jev/threads", label: "What Hacker News made of it", group: "Columns", count: jevThreadCounts.published },

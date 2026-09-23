@@ -1,6 +1,6 @@
 ---
 /**
- * /jev-pricing — what a Jev decision costs, worked out two ways.
+ * /typesafe-jev/pricing — what a Jev decision costs, worked out two ways.
  *
  * This is the first page of the explainer cluster (`docs/roadmap/jev-explainer-cluster.md`), and
  * it is first because it is the one intent where we have a number the vendor's own page does not
@@ -12,18 +12,18 @@
  * people quote. The arithmetic in the middle is ours, and it is the part that matters — the cost
  * driver in a decision loop is the state you send, not the model you call.
  */
-import System from "../../layouts/System.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import JsonLd from "../../components/JsonLd.astro";
-import Faq from "../../components/Faq.astro";
-import Provenance from "../../components/Provenance.astro";
-import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { JEV_OURS_MEASURED_ON, JEV_OURS_SAMPLES, oursUsage, oursLatency } from "@repo/lib/jev-our-measurements";
 
 const title = "Jev Pricing: What a Decision Costs (2026)";
 const description =
   "TypeSafe's Jev is billed on input tokens at $0.042 per million and returns output for free. What that means per decision, with the arithmetic — and the number that actually decides your bill: the size of the state you send.";
-const canonical = `${SITE}/jev-pricing`;
+const canonical = `${SITE}/typesafe-jev/pricing`;
 
 /** The vendor's published figures, quoted from the announcement we read. */
 const READ_ON = "2026-09-23";
@@ -104,6 +104,16 @@ const faqs = [
         per input token, and how much state you send with every call. The second one is yours, and
         it is the one that surprises people.
       </p>
+
+      {/* The page cover (contract §5): one image, about this page's subject, with the
+          meaning in the alt text and no caption announcing what it is. Placed after the
+          opening paragraph rather than between the title and the first line, which is the
+          one position the contract rules out. Dimensions are the file's own — the generator
+          returns a square and the wide frame is composed before it is written, so the HTML
+          no longer declares 16:9 over a 1:1 picture. */}
+      <figure class="figure cover">
+        <img src="/img/cover-jev-pricing.webp" alt="An engraving: a brass weighing scale on an ivory desk, one pan holding a single folded sheet and the other a thick closed ledger, with a pile of blank tokens falling through a slot into a tray below." width="1024" height="576" decoding="async" />
+      </figure>
     </header>
 
     <div class="callout">
@@ -207,7 +217,7 @@ const faqs = [
           <line x1="0" y1="190" x2="760" y2="190" stroke="var(--field-border)" stroke-width="1" />
           <text x="0" y="206" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">The widest bar is 24× the narrowest, and it is still under half a thousandth of a cent.</text>
         </svg>
-        <figcaption>
+        <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
           Bars are proportional. The widest one is 24× the narrowest, and both are far below the
           point where a per-call price decides anything — which is the whole argument of this page.
         </figcaption>
@@ -216,6 +226,34 @@ const faqs = [
 
     <section>
       <h2>The sentence that tells you your own bill</h2>
+
+      <figure class="figure">
+        <svg viewBox="0 0 760 176" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+          <title>The same loop with two state strategies: sending 4,600 tokens a step costs about $0.007 an hour, and sending the whole DOM at 40,000 tokens a step costs about $0.06 an hour — 8.7 times more, at an identical per-token price.</title>
+          <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">THE SAME LOOP, TWO STATE STRATEGIES — COST PER HOUR</text>
+
+          {/*
+            Both bars start at x=0 on purpose. The claim is the ratio, and a ratio
+            is only readable if the two bars share a baseline — the first draft
+            started them at x=300 under a left-hand gutter and the lengths then
+            looked like two unrelated floats. Scale is 40,000 tokens → 470px.
+          */}
+          <text x="0" y="44" font-family="var(--sans)" font-size="14" fill="var(--text)">Index the page, act on an element</text>
+          <text x="0" y="62" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">4,600 tokens a step</text>
+          <rect x="0" y="72" width="54" height="18" rx="3" fill="var(--accent)" />
+          <text x="62" y="86" font-family="var(--mono)" font-size="12" fill="var(--text)">$0.007/h</text>
+
+          <text x="0" y="122" font-family="var(--sans)" font-size="14" fill="var(--text)">Send the whole DOM each step</text>
+          <text x="0" y="140" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">40,000 tokens a step</text>
+          <rect x="0" y="150" width="470" height="18" rx="3" fill="var(--warn)" />
+          <text x="478" y="164" font-family="var(--mono)" font-size="12" fill="var(--text)">$0.06/h</text>
+        </svg>
+        <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
+          Both rows start at the same left edge, so the bar lengths are the bill: the same token
+          price either way, and the difference is entirely what you send as state.
+        </figcaption>
+      </figure>
+
       <p>
         That aside in the launch post — a loop making 10 calls a second at about $7 an hour — is a
         worked example of the only thing that moves this cost. Run it backwards at the published
@@ -266,7 +304,7 @@ const faqs = [
       </p>
       <ul>
         <li><strong>Retries.</strong> A decision you have to ask twice for costs twice, and the cheap way to avoid that is the option set, not the model.</li>
-        <li><strong>The confidence threshold.</strong> If you route to a second model below a threshold, that model's price is in your loop's price — see the routing patterns in <a href="/jev-guide">the guide</a>.</li>
+        <li><strong>The confidence threshold.</strong> If you route to a second model below a threshold, that model's price is in your loop's price — see the routing patterns in <a href="/typesafe-jev/pricing">the guide</a>.</li>
         <li><strong>Latency, which you pay for in a different currency.</strong> Our own calls had a median wall time of {oursLatency.median} ms from a machine in Asia, against the vendor's 70–500 ms on their own machines; the difference is network and TLS, and it is the number your users feel.</li>
         <li><strong>Volume terms.</strong> We do not have them and cannot quote them. Nothing here is a contract.</li>
       </ul>

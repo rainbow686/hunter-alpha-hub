@@ -1,5 +1,5 @@
 /**
- * /jev-guide — field notes on how Jev is actually being used.
+ * /typesafe-jev/guide — field notes on how Jev is actually being used.
  *
  * Everything here was read on 2026-09-20 from the repositories themselves:
  * READMEs, `docs/performance.md`, the limits sections, and the benchmark buried

@@ -127,15 +127,15 @@ const STATIC_ENTRIES: Entry[] = [
   // The section index for that series — entries are declared here too, because
   // they are reachable from it and the link audit has to be able to see the path.
   { path: "/field-notes", changeFrequency: "weekly", priority: "0.8" },
-  { path: "/jev-guide", changeFrequency: "weekly", priority: "0.8" },
+  { path: "/typesafe-jev/guide", changeFrequency: "weekly", priority: "0.8" },
   /*
    * The explainer cluster (roadmap/jev-explainer-cluster.md) — one URL per search intent. Listed
    * individually rather than globbed: a cluster page is a decision (which intents we serve), and a
    * glob would let a half-written page declare itself the moment it renders.
    */
-  { path: "/jev-pricing", changeFrequency: "monthly", priority: "0.8" },
-  { path: "/jev-vs-llm", changeFrequency: "monthly", priority: "0.8" },
-  { path: "/open-source-jev", changeFrequency: "weekly", priority: "0.7" },
+  { path: "/typesafe-jev/pricing", changeFrequency: "monthly", priority: "0.8" },
+  { path: "/typesafe-jev/vs-llm", changeFrequency: "monthly", priority: "0.8" },
+  { path: "/typesafe-jev/open-source", changeFrequency: "weekly", priority: "0.7" },
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },
 ];
 
