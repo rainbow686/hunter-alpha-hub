@@ -1,0 +1,277 @@
+---
+/**
+ * /jev-vs-llm — the comparison people actually search for, argued from measurements instead of
+ * metaphors.
+ *
+ * Second page of the explainer cluster (`docs/roadmap/jev-explainer-cluster.md`), and the one with
+ * the most competition: every write-up of this model opens with the same "it is not an LLM"
+ * sentence. Ours has to be worth reading anyway, so it is built on three things the others do not
+ * have — the vendor's own numbers quoted and dated, **our twenty identical calls** where the label
+ * never moved and the confidence wobbled (0.38–0.58 on the same input), and the projects where the
+ * two kinds of model are wired together.
+ */
+import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { JEV_OURS_SAMPLES, oursLabelStability, oursSpread, oursLatency } from "@repo/lib/jev-our-measurements";
+
+const title = "Jev vs LLMs: The Difference Is Not That One Is Smaller";
+const description =
+  "A chat model generates text a token at a time; Jev returns a choice from your option set in one pass. What that changes in a codebase — with our own twenty calls, where the label never moved and the confidence went from 0.38 to 0.58 on identical input.";
+const canonical = `${SITE}/jev-vs-llm`;
+const READ_ON = "2026-09-23";
+
+const faqs = [
+  {
+    question: "Is Jev an LLM?",
+    answer:
+      "No. It is a System One model: it returns a choice from a fixed option set plus calibrated probabilities, in a single parallel pass, instead of generating text one token at a time. TypeSafe's own framing is that strings are general and expensive while decisions are narrow and cheap.",
+  },
+  {
+    question: "Can an LLM do what Jev does?",
+    answer:
+      "Yes, and most teams start there. The cost is structural rather than in quality: you get prose back, so you write a parser, you maintain a schema prompt, and occasionally the model invents an option. We measured the other side of that trade below.",
+  },
+  {
+    question: "What does Jev not do?",
+    answer:
+      "It does not write, summarise, translate or explain. If the answer is a paragraph a human will read, Jev is the wrong tool — the pattern is to let it choose and let an LLM write, which is what several of the projects we read do.",
+  },
+  {
+    question: "Which is faster in production?",
+    answer:
+      "For the shape it is built for, Jev, by the vendor's figures: 70–500 ms against 3–329 seconds for frontier models. Our own calls had a median wall time of 783 ms from one machine in Asia, which is network and TLS on top of their number, not a contradiction of it.",
+  },
+];
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} noReferrer>
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: READ_ON, updatedAt: READ_ON, url: canonical })} />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Jev", url: `${SITE}/typesafe-jev` },
+      { name: "Jev vs LLMs", url: canonical },
+    ]}
+  />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Jev · compared</p>
+      <h1>Jev is not a smaller LLM</h1>
+      <p class="lede">
+        The sentence everyone writes is "it does not generate text". That is true and it is not the
+        useful part. The useful part is what changes in your code when the answer arrives in a
+        shape you chose before you asked — and what you give up.
+      </p>
+    </header>
+
+    <div class="callout">
+      <p class="callout-eyebrow">In short</p>
+      <ul>
+        <li><strong>One pass vs one token at a time.</strong> Jev produces every answer in parallel; an LLM conditions each token on the last.</li>
+        <li><strong>The answer shape is yours.</strong> A choice from a list you wrote, a number on a scale you wrote — not prose you then parse.</li>
+        <li><strong>Output tokens are the variable cost of an LLM</strong> and about five times its input price; Jev's output is free, in the vendor's words.</li>
+        <li><strong>Our twenty identical calls:</strong> the label never moved ({oursLabelStability.runs}/{oursLabelStability.of}), the confidence did — 0.38 to 0.58 on the same request.</li>
+        <li><strong>They compose.</strong> The interesting architecture is not either/or: it is Jev choosing and an LLM writing.</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>What a chat model actually returns</h2>
+      <p>
+        Ask a frontier model to classify a support ticket and you get a paragraph. It will be a
+        good paragraph, and writing it cost you output tokens at roughly five times the input rate.
+        To use it in code you then need a parser, a prompt that asks for JSON, a schema check, and
+        an answer for the day the model invents a category you never defined.
+      </p>
+      <figure class="figure">
+        <svg viewBox="0 0 760 196" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+          <title>Two ways to get a decision: an LLM generates prose token by token which your code must parse, or a System One model returns a fixed-shape answer in one pass.</title>
+          <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">CHAT MODEL</text>
+          <rect x="0" y="24" width="120" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="12" y="46" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">your state</text>
+          <line x1="124" y1="41" x2="166" y2="41" stroke="var(--field-border)" stroke-width="1.5" />
+          <rect x="170" y="24" width="150" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="182" y="46" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">tokens, one by one</text>
+          <line x1="324" y1="41" x2="366" y2="41" stroke="var(--field-border)" stroke-width="1.5" />
+          <rect x="370" y="24" width="150" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--warn)" />
+          <text x="382" y="46" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">prose you parse</text>
+          <text x="534" y="46" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">~5× input price, per token</text>
+
+          <line x1="0" y1="76" x2="760" y2="76" stroke="var(--field-border)" stroke-width="1" />
+
+          <text x="0" y="100" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">SYSTEM ONE</text>
+          <rect x="0" y="112" width="120" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="12" y="134" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">your state</text>
+          <line x1="124" y1="129" x2="166" y2="129" stroke="var(--field-border)" stroke-width="1.5" />
+          <rect x="170" y="112" width="150" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="182" y="134" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">all options at once</text>
+          <line x1="324" y1="129" x2="366" y2="129" stroke="var(--field-border)" stroke-width="1.5" />
+          <rect x="370" y="112" width="150" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--accent)" />
+          <text x="382" y="134" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">a label you defined</text>
+          <text x="534" y="134" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">output free, no parser</text>
+          <text x="0" y="176" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">The bottom row is faster <tspan font-weight="600" fill="var(--text)">and</tspan> cheaper — but it can only answer questions you put a shape around.</text>
+        </svg>
+      </figure>
+    </section>
+
+    <section>
+      <h2>The four differences, and which one actually bites</h2>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th></th><th>Chat model</th><th>Jev</th><th>Which one bites in production</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Generation</td><td>one token at a time, conditioned on the last</td>
+              <td>every answer in one parallel pass</td>
+              <td>latency, and the bill: you pay for the tokens you never needed</td>
+            </tr>
+            <tr>
+              <td>Answer shape</td><td>prose, by default</td>
+              <td>fixed before the call: an option, a point on your scale, a probability</td>
+              <td><strong>this one.</strong> A schema you enforce in the prompt is a promise; a schema in the model is a property</td>
+            </tr>
+            <tr>
+              <td>When it is unsure</td><td>says so in sentences, or does not</td>
+              <td>returns a calibrated probability you can route on</td>
+              <td>the threshold you set becomes the correctness argument</td>
+            </tr>
+            <tr>
+              <td>What it does well</td><td>anything with words in it</td>
+              <td>one decision from a closed set, under a clock</td>
+              <td>the moment you want a summary, you want a different tool</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The third row is the one teams get wrong, in both directions. A confidence between 0.4 and
+        0.6 is not a decision, it is a coin you can see; if your code treats it as a label you have
+        built a silent failure. We measured the size of that window on {JEV_OURS_SAMPLES} identical
+        requests:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr><th>Signal</th><th>Lowest</th><th>Highest</th><th>Standard deviation</th></tr></thead>
+          <tbody>
+            {oursSpread.map((row) => (
+              <tr>
+                <td>{row.signal}</td>
+                <td>{row.min.toFixed(row.digits)}</td>
+                <td>{row.max.toFixed(row.digits)}</td>
+                <td>{row.sd.toFixed(row.digits)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="quoted">
+        The label never changed — {oursLabelStability.label}, {oursLabelStability.runs} times out of{" "}
+        {oursLabelStability.of}. The number attached to it moved by a fifth of its range. Read the
+        label as the answer and the score as a dial, not as a second answer.
+      </p>
+    </section>
+
+    <section>
+      <h2>They are not alternatives, they are two halves</h2>
+      <p>
+        The projects we have read mostly do not replace one model with the other; they put the
+        decision in the middle of a loop that still uses an LLM for the parts that need words. Three
+        shapes recur:
+      </p>
+      <ul>
+        <li>
+          <strong>Jev takes the cheap rung, the LLM keeps the expensive one.</strong> A ten-step
+          write-up about putting Jev where an LLM was doing the cheap work inside an agent loop —{" "}
+          <a href="/typesafe-jev/x-posts/jev-engineering-in-ten-steps">Jev Engineering in ten
+          steps</a>. It is the same shape our builds column keeps finding, and it is the reason the
+          "either/or" framing is wrong.
+        </li>
+        <li>
+          <strong>Jev guards the loop and the LLM does the work.</strong> A Claude plugin that
+          trims bulky tool results before they fill the context — the&nbsp;
+          <a href="/typesafe-jev/x-posts/jev-claude-plugin-tool-call-trimmer">review pass</a> takes
+          about a second and took a session from nearly a million tokens to 86K.
+        </li>
+        <li>
+          <strong>Jev throttles what the LLM is allowed to do.</strong> The browser agent that
+          indexes a page and asks which element to act on, so the model never sees free-form
+          coordinates — <a href="/typesafe-jev/builds/browser-use-jev-ultrafast">browser-use</a>,
+          7.1 seconds for a flight search, per its README.
+        </li>
+      </ul>
+      <p>
+        In all three the LLM is still there. What changed is that the part of the loop that runs
+        hundreds of times is now a decision, and the part that runs once is still a sentence.
+      </p>
+    </section>
+
+    <section>
+      <h2>When an LLM is simply the right answer</h2>
+      <p>
+        If the output is read by a human, if the categories are not known in advance, if the task
+        is to explain or rewrite or translate, if you need the model to notice a category that does
+        not exist yet — Jev is the wrong tool and the vendor says so themselves: strings are
+        general, and general is what you want when the problem is open.
+      </p>
+      <p>
+        The honest version of the comparison: a chat model is a consultant you ask, and Jev is a
+        switchboard operator. The switchboard is faster and cheaper and never improvises. It is
+        also useless if the thing you needed was advice.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot tell you which is more accurate on your task, because accuracy is a property of a
+        prompt and an option set, not of a model family — and nobody has published a head-to-head on
+        a workload you would recognise. The vendor's 40–200× speed claim is theirs, run on their
+        machines; our median wall time of {oursLatency.median} ms includes a network from Asia and
+        is not a rebuttal. And the confidence figures above are from one state, three questions and{" "}
+        {JEV_OURS_SAMPLES} calls: enough to show the band is real, not enough to tell you where your
+        threshold belongs — that you measure yourself, on your own traffic.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+
+    <Provenance
+      source="our own calls + typesafe.ai"
+      verified={READ_ON}
+      extra={[
+        "Our 20 identical calls and the adversarial probe: /typesafe-jev/statistics",
+        "Vendor figures are quoted from their launch post and dated; the token counts and spreads are ours.",
+      ]}
+    />
+  </article>
+</System>
+
+<style>
+  .callout {
+    margin: var(--space-8) 0;
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .callout-eyebrow {
+    margin: 0 0 var(--space-3);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .callout li { margin-bottom: var(--space-2); }
+  .callout strong { color: var(--text); }
+</style>

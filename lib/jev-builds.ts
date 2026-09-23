@@ -16,6 +16,15 @@ export interface JevBuild {
   title: string;
   author: string;
   stars: number;
+  /**
+   * The two cells the stat strip only has once `ingest-github.mjs --refresh` has run against the
+   * repo. Null is the honest state for "we have not read it yet", and the page falls back to the
+   * licence and the stack rather than printing a zero a reader would read as a count.
+   */
+  forks: number | null;
+  language: string | null;
+  /** The day the stars above were read (ADR-0024 — every third-party number carries one). */
+  starsAsOf: string;
   pushedAt: string;
   what: string;
   ourNote: string;
@@ -48,7 +57,7 @@ const RAW = queue as unknown as {
     dossier?: { slug: string; readOn: string; license: string; stack: string; whatItDoes: string; howItWorks: string;
                 whatWeChecked: string[]; whatWeDidNotCheck: string; bestFor: string };
     media?: { card?: string };
-    metrics: { stars: number; asOf: string; pushedAt: string };
+    metrics: { stars: number; asOf: string; pushedAt: string; forks?: number | null; language?: string | null };
   }[];
 };
 
@@ -58,7 +67,8 @@ export const jevBuilds: JevBuild[] = RAW.entries
   .filter((e) => e.status === "published" && e.ourNote.trim().split(/\s+/).length >= 20)
   .map((e) => ({
     id: e.id, url: e.url, title: e.title, author: e.author,
-    stars: e.metrics.stars, pushedAt: e.metrics.pushedAt, what: e.what, ourNote: e.ourNote,
+    stars: e.metrics.stars, forks: e.metrics.forks ?? null, language: e.metrics.language ?? null,
+    starsAsOf: e.metrics.asOf, pushedAt: e.metrics.pushedAt, what: e.what, ourNote: e.ourNote,
     card: e.media?.card ?? null,
     tags: e.tags ?? [],
     dossier: e.dossier ?? null,

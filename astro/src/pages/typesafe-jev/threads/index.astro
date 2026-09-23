@@ -103,6 +103,36 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 
     <section class="col">
       <h2>What this column does not have</h2>
+      {/*
+        Scope, stated out loud.
+
+        This column was mapped onto the reference site's `/community`, which carries Reddit and
+        Hacker News under one roof. Ours carries Hacker News, and the title says so — because a
+        column that claims to be "the community" while covering one forum is the kind of quiet
+        overstatement this site is not allowed to make. Checked 2026-09-23: reddit.com's public
+        JSON returns 403 without OAuth (the reason the app is still a dead end,
+        `lessons/reddit-app-creation-is-a-dead-end.md`), Bluesky's public API returns 403, Lobsters
+        rejects the query shape — and **dev.to's API answers**, already with Jev posts in it. So
+        this is a column with one source and a second one waiting rather than a design that cannot
+        grow.
+      */}
+      <h2>What this column covers, and what is missing from it</h2>
+      <p>
+        One forum: Hacker News, read through the Algolia API. That is narrower than it looks, and
+        the gap is not for want of trying — on {JEV_THREADS_READ_ON} we re-checked the obvious second
+        source:
+      </p>
+      <ul class="checked">
+        <li><strong>Reddit</strong> — the public JSON returns 403 without OAuth, and creating the app is still blocked; that is a dead end we have already written down once.</li>
+        <li><strong>Bluesky</strong> — <code>public.api.bsky.app</code> answers 403 to an unauthenticated search.</li>
+        <li><strong>Lobsters</strong> — 400, "unpermitted query or form parameter".</li>
+        <li><strong>dev.to</strong> — 200. Its API is open, and it already returns Jev posts. This is the next source this column gets.</li>
+      </ul>
+      <p>
+        When dev.to lands, the page stops being "Jev on Hacker News" and becomes a discussion column
+        with two sources — the URL stays, because it never said Hacker News in the first place.
+      </p>
+
       <p>
         Videos. They are a separate column, because a thread is something you read and a video is
         something you watch — an index that mixes them makes you open both to find out which you got.

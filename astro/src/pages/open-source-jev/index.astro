@@ -1,0 +1,268 @@
+---
+/**
+ * /open-source-jev — the question people ask when a hosted API is in their critical path:
+ * what can I run myself, and what do I give up.
+ *
+ * Third page of the explainer cluster. Unlike the other two this one is written almost entirely
+ * from first-hand reading: we opened the repositories, read the READMEs, the licences and the
+ * evaluation tables, and quoted the publishers' own numbers rather than repeating coverage. The
+ * one thing it refuses to do is pretend a 395M-parameter substitute is equivalent — the publisher
+ * of the closest one publishes a head-to-head against the model it replaces, and it loses.
+ */
+import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import Provenance from "../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+import { jevBuilds, JEV_BUILDS_READ_ON } from "@repo/lib/jev-builds";
+
+const title = "Open Source Jev: Substitutes, Replicas and What They Give Up (2026)";
+const description =
+  "Three different things get called open-source Jev: local substitutes, small replicas and training recipes. What the ones we actually read publish about themselves, including the head-to-head where the open model loses by 24 points.";
+const canonical = `${SITE}/open-source-jev`;
+const READ_ON = "2026-09-23";
+
+const bySlug = (slug: string) => jevBuilds.find((b) => b.dossier?.slug === slug);
+
+const faqs = [
+  {
+    question: "Is there an open-source Jev?",
+    answer:
+      "Not a release of the model. TypeSafe's Jev is a hosted API. What exists are three different things with the same name in the headline: local substitutes trained from scratch, small replicas built to study the architecture, and projects that turn another open model into a decision endpoint with the same calling shape.",
+  },
+  {
+    question: "What is the closest local substitute?",
+    answer:
+      "Von, by wfzyx: a 395M-parameter non-autoregressive decision model, published with its own head-to-head against Jev. It reports 72.0% macro on a 49-task suite against Jev's 96.6%, and 9.00 kills against 5.62 in the ViZDoom protocol — a clear loss on accuracy and a win on the real-time loop.",
+  },
+  {
+    question: "Can I just call a small open model instead?",
+    answer:
+      "That is what featherless-ai/simple-jev does: it turns an open model into a classifier endpoint with the same request shape. It is the cheapest way to test the pattern without a TypeSafe key, and it does not carry the guarantee the hosted model makes — a fixed option set cannot be left.",
+  },
+];
+
+/* Every row is a repository we opened; the numbers are the publishers' own. */
+const substitutes = [
+  {
+    slug: "wfzyx-von",
+    name: "Von",
+    what: "an open non-autoregressive decision model — 395M parameters, 1.5GB, runs locally",
+    gives: "publishes its own head-to-head against the model it replaces: 72.0% macro on a 49-task suite vs 96.6%, and 9.00 kills vs 5.62 in ViZDoom",
+    givesUp: "24 points of accuracy for a real-time loop it wins at 25 ms a decision",
+  },
+  {
+    slug: "jaredpalmer-kev",
+    name: "Kev",
+    what: "a family of Jev-like decision models on Qwen3.5 — 0.8B, 4B and 9B — with the training path included",
+    gives: "you own the model and the weights; measured on Kev-4B on an L4 in bf16, 118 ms for a 101-token request",
+    givesUp: "you also own the training, the serving and the calibration",
+  },
+  {
+    slug: "theoleecj-semif",
+    name: "SemIf",
+    what: "semantic ifs from open models, on a single 3090 at home",
+    gives: "the boundary drawn in your own code, with an open model behind it",
+    givesUp: "consumer hardware and your own judgement about the boundary",
+  },
+  {
+    slug: "tianyucodings-nanojev",
+    name: "NanoJev",
+    what: "a small replica of the architecture: parallel decisions, dynamic option sets",
+    gives: "the clearest read of how the thing works — a replica is an explanation",
+    givesUp: "it is a teaching implementation, not a service",
+  },
+  {
+    slug: "featherless-ai-simple-jev",
+    name: "simple-jev",
+    what: "turns any open model into a classifier endpoint with the same calling shape",
+    gives: "the pattern without the vendor: testable today, at zero cost",
+    givesUp: "the option-set guarantee is a prompt and a parser here, not a property of the model",
+  },
+].map((row) => ({ ...row, build: bySlug(row.slug) })).filter((row) => row.build);
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} noReferrer>
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: READ_ON, updatedAt: READ_ON, url: canonical })} />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Jev", url: `${SITE}/typesafe-jev` },
+      { name: "Open source", url: canonical },
+    ]}
+  />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Jev · open source</p>
+      <h1>What "open-source Jev" actually means</h1>
+      <p class="lede">
+        TypeSafe has not released the model. Several different kinds of project get written up
+        under that headline anyway, and they answer different questions — "can I run this", "can I
+        train it", "how does it work", "can I test the pattern without a key".
+      </p>
+    </header>
+
+    <div class="callout">
+      <p class="callout-eyebrow">In short</p>
+      <ul>
+        <li><strong>No open release of the model.</strong> Jev is a hosted API; everything below is somebody else's build.</li>
+        <li><strong>The closest substitute publishes its own losing score:</strong> 72.0% vs 96.6% macro, and it wins the real-time loop at 9.00 vs 5.62 kills.</li>
+        <li><strong>You can own the whole stack</strong> — Kev is a Jev-shaped family on Qwen3.5, 0.8B to 9B, with the training path included.</li>
+        <li><strong>You can test the pattern today</strong> without a TypeSafe key by giving an open model the same request shape.</li>
+        <li><strong>None of them promises what the hosted model promises:</strong> an answer that cannot leave your option set.</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>Four questions, four kinds of project</h2>
+      <p>
+        Sorting them by the question they answer is the only way this stops being confusing, because
+        these projects are not competing with each other — they are competing with different parts
+        of your problem.
+      </p>
+      <figure class="figure">
+        <svg viewBox="0 0 760 236" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
+          <title>A map of what gets called open-source Jev: local substitutes, model families you can train, small replicas that explain the architecture, and adapters that give an open model the same calling shape.</title>
+          <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">THE QUESTION YOU ARE ASKING</text>
+          <text x="754" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">WHAT ANSWERS IT</text>
+
+          <text x="0" y="50" font-family="var(--sans)" font-size="14" fill="var(--text)">Can I run a decision model on my own box?</text>
+          <rect x="470" y="34" width="290" height="30" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="484" y="54" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">Von · 395M, 1.5GB · SemIf · a 3090</text>
+
+          <text x="0" y="96" font-family="var(--sans)" font-size="14" fill="var(--text)">Can I own the model and keep training it?</text>
+          <rect x="470" y="80" width="290" height="30" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="484" y="100" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">Kev · 0.8B / 4B / 9B on Qwen3.5</text>
+
+          <text x="0" y="142" font-family="var(--sans)" font-size="14" fill="var(--text)">How does the thing actually work?</text>
+          <rect x="470" y="126" width="290" height="30" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
+          <text x="484" y="146" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">NanoJev · a replica as an explanation</text>
+
+          <text x="0" y="188" font-family="var(--sans)" font-size="14" fill="var(--text)">Can I test the pattern without a key?</text>
+          <rect x="470" y="172" width="290" height="30" rx="6" fill="var(--bg-sunken)" stroke="var(--accent)" />
+          <text x="484" y="192" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">simple-jev · an open model, same shape</text>
+
+          <line x1="0" y1="212" x2="760" y2="212" stroke="var(--field-border)" stroke-width="1" />
+          <text x="0" y="230" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">Only the last one is a drop-in for the calling shape. None of them is a drop-in for the guarantee.</text>
+        </svg>
+      </figure>
+    </section>
+
+    <section>
+      <h2>The five we read, and what each gives up</h2>
+      <p>
+        Every row is a repository we opened on {JEV_BUILDS_READ_ON}; the numbers are the publishers'
+        own, and where a project publishes a head-to-head against the model it replaces, the losing
+        side is printed too.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Project</th><th>What it is</th><th>What you get</th><th>What it gives up</th></tr>
+          </thead>
+          <tbody>
+            {substitutes.map((row) => (
+              <tr>
+                <td>
+                  <a href={`/typesafe-jev/builds/${row.build!.dossier!.slug}`}>{row.name}</a>
+                  <div class="cell-note">{row.build!.stars.toLocaleString("en-US")} ★</div>
+                </td>
+                <td>{row.what}</td>
+                <td>{row.gives}</td>
+                <td>{row.givesUp}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Von is the honest one, and that is why it is the useful one</h2>
+      <p>
+        The nearest thing to a substitute publishes the comparison that makes it look worse. On a
+        49-task suite it reports <strong>72.0% macro against Jev's 96.6%</strong>, and in the ViZDoom
+        Defend-the-Center protocol <strong>9.00 kills against 5.62</strong> — a 24-point accuracy gap
+        and a real-time win, in one table, from the people who built it.
+      </p>
+      <p>
+        That is the shape of the trade, and it is worth more than a benchmark somebody else ran: the
+        open model is fast and cheap enough to sit in a loop, and it is wrong more often in ways that
+        matter. Whether that is acceptable is a property of your loop. In a game the 395M model
+        plays at 25 ms a decision and nobody is billed for a mistake; in a payment routing decision
+        the same gap is not a trade, it is a defect.
+      </p>
+      <p class="quoted">
+        Both sides of Von's comparison are the publisher's, including the number that flatters the
+        hosted model. We have not reproduced either.
+      </p>
+    </section>
+
+    <section>
+      <h2>The thing none of them copies</h2>
+      <p>
+        Every project here reproduces the shape: a state goes in, an option comes out, in one pass.
+        What none of them can reproduce from outside is the guarantee that made the hosted model
+        worth writing about — that the answer <em>cannot</em> be something you did not offer. In{" "}
+        <a href="/typesafe-jev/builds/featherless-ai-simple-jev">simple-jev</a> that guarantee is a
+        prompt and a parser; in a replica it is whatever the evaluation showed.
+      </p>
+      <p>
+        We tried to break the hosted model's version of it and could not, in thirteen attempts
+        across four runs — and we published every attempt, including the two that tried to widen the
+        answer set itself. So the honest summary of this page: if you need the guarantee you are
+        buying a service and these projects are how you learn what it does; if you need the shape,
+        several of them will give it to you this afternoon, and one will tell you where it fails.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot rank these projects, because they were not measured on the same tasks — one
+        publishes a 49-task suite, another publishes latency on an L4, a third publishes nothing but
+        a README. It cannot tell you which is cheaper over a month, since the honest comparison is
+        your tokens against your electricity and your weekend. And it leaves out the forks that exist
+        only as a description: a repository we cannot read is not a project, and this page is built
+        from repositories we opened.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+
+    <Provenance
+      source="repository READMEs"
+      verified={JEV_BUILDS_READ_ON}
+      extra={[
+        "Each project links to its own page, where the dossier says what we checked and what we did not.",
+        "Scores are the publishers' own; we reproduced none of them.",
+      ]}
+    />
+  </article>
+</System>
+
+<style>
+  .callout {
+    margin: var(--space-8) 0;
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .callout-eyebrow {
+    margin: 0 0 var(--space-3);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .callout ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .callout li { margin-bottom: var(--space-2); }
+  .callout strong { color: var(--text); }
+  .cell-note { margin-top: 2px; font-size: var(--text-xs); color: var(--text-faint); }
+</style>

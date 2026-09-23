@@ -98,6 +98,42 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
       </section>
 
       {/*
+        The repository's own numbers, in the strip the reference site puts under its card image —
+        four cells, read on a stated day, in the body rather than buried in the rail. The rule from
+        ADR-0024 applies to every cell: these move, and the sentence underneath says so.
+
+        Two cells are opportunistic. `forks` and `language` only exist once
+        `ingest-github.mjs --refresh` has run against a repo (the first attempt died on GitHub's
+        60/hour unauthenticated limit), so the strip falls back to licence and stack — which we
+        have always had — rather than printing an empty box a reader would read as zero.
+      */}
+      <section>
+        <h2>The repository, by the numbers</h2>
+        <div class="stat-strip">
+          <div class="stat">
+            <div class="stat-label">Stars</div>
+            <div class="stat-value">{fmt(build.stars)}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">{build.forks === null ? "Licence" : "Forks"}</div>
+            <div class="stat-value">{build.forks === null ? dossier.license : fmt(build.forks)}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">{build.language ? "Language" : "Stack"}</div>
+            <div class="stat-value">{build.language ?? dossier.stack}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Last push</div>
+            <div class="stat-value">{build.pushedAt}</div>
+          </div>
+        </div>
+        <p class="stat-note">
+          Read from the GitHub API on {build.starsAsOf}. Stars and the last push move daily — quote
+          them with the date, the way we do.
+        </p>
+      </section>
+
+      {/*
         The figures the project publishes about itself — and the sentence each one came from.
         The alternative is what the reference site does on its cards: a bare `300 ms` next to
         a Jev project, which a reader has every reason to read as *our* measurement of Jev.
@@ -233,6 +269,27 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
   .claims dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); margin-top: var(--space-4); }
   .claims dd { margin: var(--space-1) 0 0; color: var(--text-muted); font-size: var(--text-sm); }
   .claims dd a { color: var(--text-muted); }
+  /* Four cells, in the shape the reference site puts under its card image: the repository's own
+     numbers in the body where a reader looking for them will find them, not buried in the rail. */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .stat { background: var(--surface); padding: var(--space-3) var(--space-4); }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .stat-value { margin-top: var(--space-1); font-size: var(--text-lg); color: var(--text); font-variant-numeric: tabular-nums; }
+  .stat-note { margin: var(--space-3) 0 0; font-size: var(--text-xs); color: var(--text-faint); }
 
   .build-rail {
     border: 1px solid var(--border);
