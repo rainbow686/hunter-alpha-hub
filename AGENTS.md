@@ -28,6 +28,7 @@
 | `docs/lessons/` | 跨会话教训（一条一文件 + 索引） |
 | `docs/handbook/continuity-kit.md` | 本项目纪律全文（通用 Kit 的本仓实例：快照预算 / 三处记忆 / 反模式） |
 | `docs/handbook/writing-style.md` | ★**写/重写任何页面、配任何图之前必读**：文风契约 + 图文混排 + 画风 prompt（ADR-0020） |
+| `docs/handbook/adding-content.md` | ★**要加内容时第一件事**：三条入口（新模型 / Jev 四个栏目 / 解释簇）+ 每步命令 + 哪道守卫拦 + 收尾清单 |
 | `docs/roadmap/model-hub.md` | 冻结方向（活状态只看 PROJECT-STATE） |
 
 **Rules 一句话**：长讨论增量落 `sessions/`；每个可验证单元更新 `PROJECT-STATE` 速览 + 写 `memory/` 流水；
