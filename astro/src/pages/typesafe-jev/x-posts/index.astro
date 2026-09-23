@@ -15,7 +15,7 @@ import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
 import { JEV_X_POSTS_READ_ON, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
-import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { JEV_FACET_COUNTS, thumbRatio } from "@repo/lib/jev-facets";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 import { jevTagsById } from "@repo/lib/jev-facets";
 
@@ -42,12 +42,6 @@ const xPostChips = [
     count: jevXPosts.filter((p) => (jevTagsById[p.id] ?? []).includes(facet.slug)).length,
   })).filter((chip) => chip.count > 0),
 ];
-
-const naturalRatio = (w: number, h: number) => {
-  if (!w || !h) return "16 / 9";
-  const r = Math.min(Math.max(w / h, 0.75), 1.78);
-  return `${r.toFixed(3)} / 1`;
-};
 
 ---
 
@@ -112,7 +106,7 @@ const naturalRatio = (w: number, h: number) => {
             */}
             {demo.thumb && demo.video ? (
               /* Playable clip: the poster is the button, and the mp4 only loads on click. */
-              <div class="card-media" style={demo.thumbW ? `--ratio: ${naturalRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
+              <div class="card-media" style={demo.thumbW ? `--ratio: ${thumbRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
                 <span class="card-src">X</span>
                 <button
                   class="xvideo-facade"
@@ -126,7 +120,7 @@ const naturalRatio = (w: number, h: number) => {
                 </button>
               </div>
             ) : demo.thumb ? (
-              <div class="card-media" style={demo.thumbW ? `--ratio: ${naturalRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
+              <div class="card-media" style={demo.thumbW ? `--ratio: ${thumbRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
                 <span class="card-src">X</span>
                 <img src={demo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
               </div>

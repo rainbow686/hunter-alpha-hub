@@ -59,8 +59,18 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
     <ul class="card-grid">
       {items.map((item) => (
         <li class="card" data-sources={item.source.toLowerCase().replace(/[^a-z]+/g, "-")} data-tags={item.tags.join(" ")}>
+          {/*
+            The frame ratio comes from the file, same helper as the use-cases index.
+            Until 2026-09-23 this line read `style={`--ratio: "16 / 9"`}` — the quotes are
+            *inside* the value, so the custom property held the string `"16 / 9"`, and
+            `aspect-ratio: var(--ratio)` is invalid against a string. Computed value came
+            back `auto` and the frame took its height from the image, which happened to look
+            right on the two rows that were 2:1 and would have collapsed on any other. It
+            also meant the height depended on the download — a layout shift with the image's
+            name on it, on a page whose whole promise is that nothing moves.
+          */}
           {item.thumb && item.video ? (
-            <div class="card-media" style={`--ratio: "16 / 9"`}>
+            <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
               <span class="card-src">{item.source}</span>
               <button class="xvideo-facade" type="button" data-xvideo={item.video.url} data-poster={item.thumb} aria-label={`Play the clip in this post: ${item.title}`}>
                 <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
@@ -68,7 +78,7 @@ const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "
               </button>
             </div>
           ) : item.thumb ? (
-            <div class="card-media" style={`--ratio: "16 / 9"`}>
+            <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
               <span class="card-src">{item.source}</span>
               <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
             </div>

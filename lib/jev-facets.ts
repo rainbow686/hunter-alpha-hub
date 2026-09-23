@@ -58,7 +58,21 @@ export interface FacetItem {
 }
 
 /**
- * Poster ratio, clamped to 3:4 portrait … 16:9 panorama.
+ * Poster ratio: the image's own, kept honest.
+ *
+ * It used to clamp to 0.75 … 1.78 "so the wall does not get ragged", and that was the bug
+ * behind a reader's complaint that images on a card looked cut in half. A clamp does not
+ * resize a picture, it crops it: the frame takes the clamped ratio and `object-fit: cover`
+ * hides the difference. Measured on 2026-09-23, three X article covers at 1983×793 (2.50)
+ * were being shown at 1.78 — 29% of the width gone, and on `Jev as LLM judge` that is the
+ * "J" on one side and the "e" of "judge" on the other. The fix is to let the frame match
+ * the file: at the natural ratio `cover` crops nothing, and the wall gets the varied
+ * heights a photo wall is supposed to have (which is what the reference site does, and what
+ * the same reader asked for).
+ *
+ * The guard band is a guard, not a style: ±0.6 … 3.0 still stops a 12:1 banner or a 1:5
+ * phone screenshot from turning one card into a stripe, and every real row in the queue
+ * (0.60 … 2.50) sits inside it unclipped.
  *
  * Lives here rather than in the page's frontmatter on purpose: an arrow function with a
  * template literal inside an .astro frontmatter block made the compiler fail with
@@ -66,7 +80,7 @@ export interface FacetItem {
  * template. Moving the helper out made the error, and the page, go away.
  */
 export const thumbRatio = (w: number, h: number): string =>
-  !w || !h ? "16 / 9" : `${Math.min(Math.max(w / h, 0.75), 1.78).toFixed(3)} / 1`;
+  !w || !h ? "16 / 9" : `${Math.min(Math.max(w / h, 0.6), 3).toFixed(3)} / 1`;
 
 export const JEV_FACETS = vocabulary.tags as { slug: string; label: string; blurb: string }[];
 
