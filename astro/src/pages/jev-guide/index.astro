@@ -13,6 +13,7 @@
  * low-value content on this site.
  */
 import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import Faq from "../../components/Faq.astro";
 import Provenance from "../../components/Provenance.astro";
@@ -78,6 +79,11 @@ const faqs = [
 ];
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <Breadcrumbs schema={false} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Field notes", url: canonical },
+  ]} />
+
   <JsonLd
     slot="head"
     data={articleSchema({
@@ -107,6 +113,12 @@ const faqs = [
     repository with no stars. I ran none of them. Everything below comes from what their authors
     wrote and measured, and where there is a number you can go and check it.
   </p>
+
+      {/* The page cover (contract §5): one image, about this page's subject, with the
+          meaning in the alt text and no caption announcing what it is. */}
+      <figure class="figure cover">
+        <img src="/img/cover-jev-guide.webp" alt="An engraving: a person seen from behind walking a loop of stepping stones across still water, each stone carrying one stamped mark." width="1280" height="720" decoding="async" />
+      </figure>
   <div class="byline">
     <span>Field notes</span>
     <span>Read {JEV_GUIDE_READ_AS_OF}</span>
@@ -498,6 +510,26 @@ const faqs = [
       <p class="card-body">
         The other way a model appears on OpenRouter: anonymous, free, and gone in days. Jev did not
         arrive that way, and the difference changes how you plan around it.
+      </p>
+    </article>
+    {/*
+      The reciprocal link for the column that quotes these notes back: the builds page is
+      where the repositories we read here are listed with their current star counts, and
+      the resources page is the wider list. Both were single-inbound before this; see the
+      link audit in docs/memory/2026-09-22.md.
+    */}
+    <article class="card">
+      <h3 class="card-title"><a href="/typesafe-jev/builds">What people built</a></h3>
+      <p class="card-body">
+        The projects read here, listed with the star count and last push we saw on the day — so you can
+        tell which of them still have somebody behind them.
+      </p>
+    </article>
+    <article class="card">
+      <h3 class="card-title"><a href="/typesafe-jev/resources">Docs, collections and repositories</a></h3>
+      <p class="card-body">
+        Every Jev resource we could verify, in one page: the official docs, the community collections,
+        and what we could not check, marked as such.
       </p>
     </article>
   </div>

@@ -1,0 +1,242 @@
+---
+/**
+ * /typesafe-jev/x-posts — a source hub: what the field is saying on X.
+ *
+ * Not a content type, and it does not pretend to be one: a post is a post, and the
+ * media inside it (video, image, none) is reported on the card's eyebrow rather than
+ * promoted into a category of its own. The seven rows that used to be shown twice, as
+ * "demos", are in this list like every other post — see lib/jev-x-posts.ts for how that
+ * column came to exist and why it was deleted on 2026-09-23.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import ClaimChip from "../../../components/ClaimChip.astro";
+import XClipWall from "../../../components/XClipWall.astro";
+import { JEV_X_POSTS_READ_ON, JEV_X_POSTS_STALE, jevXPostCounts, jevXPosts } from "@repo/lib/jev-x-posts";
+import { JEV_FACET_COUNTS, thumbRatio } from "@repo/lib/jev-facets";
+import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+import { jevTagsById } from "@repo/lib/jev-facets";
+
+const title = "Jev on X: What People Are Saying (2026)";
+const description = `What the field has been saying about TypeSafe's Jev on X — vendor announcements, benchmarks, explainers, sceptical first-week notes — each with our own sentence and a link to the post.`;
+const canonical = `${SITE}/typesafe-jev/x-posts`;
+
+/*
+ * The media kind is what the card already reports in its eyebrow; the chips just let a
+ * reader say "show me only the ones with a video" without a second column claiming that
+ * "video" is a category (it is not — see lib/jev-x-posts.ts).
+ */
+const xPostChips = [
+  ...["video", "image"].map((kind) => ({
+    group: "media",
+    value: kind,
+    label: kind === "video" ? "Has a video" : "Has an image",
+    count: jevXPosts.filter((p) => p.kind === kind).length,
+  })),
+  ...JEV_FACET_COUNTS.map((facet) => ({
+    group: "tag",
+    value: facet.slug,
+    label: facet.label,
+    count: jevXPosts.filter((p) => (jevTagsById[p.id] ?? []).includes(facet.slug)).length,
+  })).filter((chip) => chip.count > 0),
+];
+
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article" noReferrer>
+
+  <Breadcrumbs schema={true} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "X posts", url: canonical },
+  ]} />
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Jev on X: what people are saying",
+      description,
+      publishedAt: JEV_X_POSTS_READ_ON,
+      updatedAt: JEV_X_POSTS_READ_ON,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <article>
+    <header class="col">
+      <h1>Jev on X</h1>
+      <p class="lede">
+        The model arrived with a launch post and no tutorial, so the explaining happened in public. These
+        are the posts that mattered — the vendor's own announcements, the platform confirmations, the
+        benchmarks people ran, the first-week sceptics — each described in a sentence of ours and linked back.
+      </p>
+      <p class="provenance">
+        <span>{jevXPostCounts.described} posts described</span>
+        {jevXPostCounts.waiting > 0 && <span>{jevXPostCounts.waiting} waiting for a note</span>}
+        {/*
+          The like count had no visible read date. Videos and HN both print one ("Views and
+          duration read …", "Score and comment count read …") and this column printed its
+          numbers bare, which on a site whose pitch is *dated and labelled* is the one thing
+          it cannot do: a reader has no way to tell a number read this morning from one read
+          last week, or to notice that it is a snapshot at all.
+        */}
+        <span>
+          Likes read {JEV_X_POSTS_READ_ON}
+          {JEV_X_POSTS_STALE > 0 && ` · ${JEV_X_POSTS_STALE} kept an earlier reading`}
+        </span>
+        <span><a href="/typesafe-jev/builds">The projects behind them: builds</a></span>
+      </p>
+    </header>
+
+    {jevXPosts.length === 0 ? (
+      <section class="col">
+        <h2>Nothing published yet</h2>
+        <p>
+          Every post we have read so far is described from what we could verify in it — the claim in
+          the text, the number in the box, the date — and none of them is described from a caption.
+          That is a reason to wait for the next one, not a reason to guess.
+        </p>
+        <p>
+          If you recorded something with Jev, <a href="/contact">send it over</a>: a link, what it
+          does, and roughly what it cost you is enough for us to watch it and write it up.
+        </p>
+      </section>
+    ) : (
+      <CardFilter chips={xPostChips} noun="posts" total={jevXPosts.length} groups={[{ key: "media", label: "media" }, { key: "tag", label: "use case" }]} />
+
+      <ul class="card-grid">
+        {jevXPosts.map((demo) => (
+          <li class="card" data-sources="x" data-media={demo.kind} data-tags={(jevTagsById[demo.id] ?? []).join(" ")}>
+            {/*
+              No thumb, no frame. The old fallback was a grey panel with the source's
+              initial centred in it: seventeen of the forty-two X posts have no media,
+              so the wall came out as a grid of identical empty rectangles — the thing a
+              reader called machine-made. A text-only card now starts at its eyebrow and
+              runs shorter, which is what a poster wall is supposed to look like. The
+              source is not lost: the eyebrow below already says "X · post".
+            */}
+            {demo.thumb && demo.video ? (
+              /* Playable clip: the poster is the button, and the mp4 only loads on click. */
+              <div class="card-media" style={demo.thumbW ? `--ratio: ${thumbRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
+                <span class="card-src">X</span>
+                <button
+                  class="xvideo-facade"
+                  type="button"
+                  data-xvideo={demo.video.url}
+                  data-poster={demo.thumb}
+                  aria-label={`Play the clip in this post: ${demo.title}`}
+                >
+                  <img src={demo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                  <span class="xvideo-play" aria-hidden="true">▶</span>
+                </button>
+              </div>
+            ) : demo.thumb ? (
+              <div class="card-media" style={demo.thumbW ? `--ratio: ${thumbRatio(demo.thumbW, demo.thumbH)}` : "--ratio: 16 / 9"}>
+                <span class="card-src">X</span>
+                <img src={demo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              </div>
+            ) : null}
+            <div class="card-body">
+              {/*
+                The head of the card carries the person, the way the reference site's does: an
+                avatar, the handle, and what the media inside is. A wall of handle-less rectangles
+                is the "machine-made" look a reader complained about, and a face is the cheapest
+                fix for it. The avatar is hotlinked from X's CDN and never downloaded.
+              */}
+              <div class="card-byline">
+                {demo.avatar && (
+                  <img
+                    class="card-avatar"
+                    src={demo.avatar}
+                    width="32"
+                    height="32"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                  />
+                )}
+                <p class="card-eyebrow">{demo.author} · {demo.kind === "video" ? "video" : demo.kind === "image" ? "image" : "post"}</p>
+              </div>
+              {/*
+                Internal when a record exists. The card used to send every reader straight to X,
+                which made the hub a doorway — the writing behind each row scrolled away with it.
+                The outbound link is still on the card, one line down, for a reader who wants the
+                post itself rather than our note about it.
+              */}
+              <h2 class="card-title">
+                <a href={demo.page ? `/typesafe-jev/x-posts/${demo.page.slug}` : demo.url} rel="noopener">
+                  {demo.page?.headline ?? demo.title}
+                </a>
+              </h2>
+              <p class="card-note card-our">{demo.ourNote}</p>
+              {claimsFor(demo.id).length > 0 && (
+                <p class="card-claims">
+                  {claimsFor(demo.id).map((claim) => (
+                    <ClaimChip
+                      value={claim.value}
+                      label={claim.label}
+                      quote={claim.quote}
+                      from={claim.from}
+                      source={claim.source}
+                      readOn={jevClaimsReadOn}
+                    />
+                  ))}
+                </p>
+              )}
+              <p class="card-meta">
+                <span>{demo.publishedAt}</span>
+                <span>{demo.likes.toLocaleString("en-US")} likes</span>
+                <span><a href={demo.url} rel="noopener noreferrer">{demo.page ? "the post" : "on X"} ↗</a></span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <section class="col">
+      <p class="provenance">
+        <span>{jevXPostCounts.withPage} of {jevXPostCounts.described} posts have a record of their own</span>
+        <span><a href="/submit">Send us one we missed</a></span>
+      </p>
+    </section>
+
+    <section class="col">
+      <h2>What the like counts are, and are not</h2>
+      <p>
+        They are a snapshot, taken when we read each post on {JEV_X_POSTS_READ_ON} — not a live
+        feed. A like count keeps moving after we look; the ones on this page do not. That is
+        deliberate. X's read API is priced (ADR-0023 — the free tier is write-only), and the
+        endpoint that fills these rows is the widget endpoint a browser uses to draw an
+        embedded post. We read it once, write the number down with the date, and do not poll it:
+        a number that updates itself is a number nobody can check.
+      </p>
+      <p>
+        So the ordering on this page is "most liked when we looked", which is a weaker claim than
+        "most liked" and an honest one. Where a post's own words carry a figure — a latency, a
+        cost — it goes on the card as the author's, with the sentence it came from.
+      </p>
+      <p class="provenance">
+        <span>Entered by hand — see <a href="/contact">contact</a></span>
+        <span><a href="/typesafe-jev">Jev topic</a></span>
+      </p>
+    </section>
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/x-posts" />
+  </article>
+
+
+</System>
+
+<style>
+  .demo-list { list-style: none; margin: var(--space-8) 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: var(--space-6); }
+  .demo { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: var(--space-6); }
+  .demo h2 { margin: 0 0 var(--space-2); font-size: var(--text-lg); font-family: var(--serif); }
+  .demo-meta { display: flex; gap: var(--space-3); margin: 0 0 var(--space-3); font-size: var(--text-xs); color: var(--text-faint); }
+  .demo-note { margin: 0; color: var(--text-muted); }
+</style>
+
+<XClipWall />

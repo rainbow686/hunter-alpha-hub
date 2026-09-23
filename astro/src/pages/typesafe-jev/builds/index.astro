@@ -1,0 +1,132 @@
+---
+/**
+ * /typesafe-jev/builds — projects with Jev inside them.
+ *
+ * The numbers are the authors' (stars, last push), read on a stated date, and the
+ * sentence under each row is ours. That split is the whole column: the reference
+ * implementation publishes the same fields, and the row is only worth reading
+ * because somebody looked at the thing and said what it does.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import ClaimChip from "../../../components/ClaimChip.astro";
+import { JEV_BUILDS_READ_ON, jevBuildCounts, jevBuilds } from "@repo/lib/jev-builds";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { claimsFor, jevClaimsReadOn } from "@repo/lib/jev-claims";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+
+const title = "Built With Jev: Projects and What They Do (2026)";
+const description = `${jevBuildCounts.published} projects built on TypeSafe's Jev — browser agents, trading systems, plugins — with stars and last push read on ${JEV_BUILDS_READ_ON}.`;
+const canonical = `${SITE}/typesafe-jev/builds`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+/*
+ * Filter chips are counted from the rows on the page, never typed: a hand-written count
+ * on a chip is the same class of bug as "15 models tracked" printed for a week.
+ */
+const buildChips = JEV_FACET_COUNTS.map((facet) => ({
+  group: "tag",
+  value: facet.slug,
+  label: facet.label,
+  count: jevBuilds.filter((b) => b.tags.includes(facet.slug)).length,
+})).filter((chip) => chip.count > 0);
+
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+
+  <Breadcrumbs schema={true} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Builds", url: canonical },
+  ]} />
+  <JsonLd slot="head" data={articleSchema({ title: "Built with Jev", description, publishedAt: JEV_BUILDS_READ_ON, updatedAt: JEV_BUILDS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+
+  <article>
+    <header class="col">
+      <h1>Built with Jev</h1>
+      <p class="lede">
+        Jev does not write sentences, so the interesting question is what people put around it. These
+        are the projects where a decision model replaced part of a loop — a browser step, a trade, a
+        compaction — ordered by how many people starred them.
+      </p>
+      <p class="provenance">
+        <span>Stars and last push read {JEV_BUILDS_READ_ON}</span>
+        <span>{jevBuildCounts.published} described</span>
+        <span>{jevBuildCounts.withPages} with a page of their own</span>
+        {jevBuildCounts.waiting > 0 && <span>{jevBuildCounts.waiting} waiting for a note</span>}
+      </p>
+    </header>
+
+    <CardFilter chips={buildChips} noun="projects" total={jevBuilds.length} groups={[{ key: "tag", label: "use case" }]} />
+
+    <ul class="card-grid">
+      {jevBuilds.map((build) => (
+        <li class="card" data-sources="github" data-tags={build.tags.join(" ")}>
+          {/* The frame owns the size; the image fills it. Putting `card-media` on the
+              <img> itself meant it rendered at its intrinsic 1280px inside a ~330px
+              card with overflow:hidden — you saw the left half of every GitHub card. */}
+          {build.card ? (
+            <div class="card-media" style="--ratio: 2 / 1">
+            <span class="card-src">GitHub</span>
+              <img src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : null}
+          <div class="card-body">
+            <p class="card-eyebrow">GitHub{build.dossier ? " · page" : ""}</p>
+            <h2 class="card-title">
+              <a href={build.dossier ? `/typesafe-jev/builds/${build.dossier.slug}` : build.url} rel="noopener">
+                {build.title}
+              </a>
+            </h2>
+            <p class="card-note">{build.what}</p>
+            <p class="card-note card-our">{build.ourNote}</p>
+            {claimsFor(build.id).length > 0 && (
+              <p class="card-claims">
+                {claimsFor(build.id).map((claim) => (
+                  <ClaimChip
+                    value={claim.value}
+                    label={claim.label}
+                    quote={claim.quote}
+                    from={claim.from}
+                    source={claim.source}
+                    readOn={jevClaimsReadOn}
+                  />
+                ))}
+              </p>
+            )}
+            <p class="card-meta">
+              <span>{fmt(build.stars)} ★</span>
+              <span>last push {build.pushedAt}</span>
+              <span><a href={build.url} rel="noopener noreferrer">repository ↗</a></span>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        A verdict on which of these is good. Star counts order the list and nothing else — they say
+        how many people noticed, not whether the thing works. Where we read the code, the note says
+        so; everywhere else it says the description is the author's.
+      </p>
+      <p class="provenance">
+        <a href="https://docs.github.com/rest">Source: GitHub search API</a>
+        <span>Numbers are the authors'; the sentence is ours</span>
+        <span><a href="/submit">Built something? Send it over</a></span>
+      </p>
+    </section>
+
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/builds" />
+  </article>
+</System>
+
+<style>
+  /* GitHub's own card for the repository, snapshotted at ingest and dated in the row's
+     meta — a 2:1 drawing of the repo as it stood, not a decorative illustration. */
+</style>

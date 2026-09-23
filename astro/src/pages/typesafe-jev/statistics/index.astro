@@ -1,0 +1,190 @@
+---
+/**
+ * /typesafe-jev/statistics — the catalogue report.
+ *
+ * This is the reference site's `/jev-statistics` in our shape (measured 2026-09-23: four
+ * number tiles, an "In short" box of six findings, a table, a bar chart, a method section
+ * and a "what this cannot tell you"). We already had the pattern from
+ * `/alpha-line-report`; the Jev topic had the data and no page for it.
+ *
+ * The one rule: every number says whether it is about *our catalogue* (moves daily) or
+ * *our measurements* (ours, re-runnable, dated). A report that mixes the two is a report
+ * whose numbers stop meaning anything.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import Faq from "../../../components/Faq.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+import {
+  JEV_STATISTICS_CITATION,
+  JEV_STATISTICS_LICENSE,
+  JEV_STATISTICS_READ_ON,
+  catalogued,
+  facetDistribution,
+  measured,
+  queueStats,
+} from "@repo/lib/jev-statistics";
+
+const title = "The Jev catalogue report: what we counted and what we measured (2026)";
+const description = `${catalogued.published} catalogued items across four sources, ${catalogued.withPages} of them with a page of their own, plus our own probe: ${measured.probe.calls} adversarial calls × ${measured.probe.runs} runs, median ${measured.latency.median} ms, $${measured.usage.costPerCallUsd.toFixed(7)} a call. Free to quote under ${JEV_STATISTICS_LICENSE}.`;
+const canonical = `${SITE}/typesafe-jev/statistics`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+const maxFacet = Math.max(...facetDistribution.map((f) => f.count));
+
+const faqs = [
+  {
+    q: "Which of these numbers are about the model, and which about your site?",
+    a: `Only the measured section is about the model: ${measured.probe.calls} adversarial calls, the latency, the token counts and the cost, all ours and re-runnable at astro/scripts/jev-probe.mjs. Everything above it counts what we have catalogued, which is a fact about a reading list and changes every day the intake runs.`,
+  },
+  {
+    q: "Why publish a report at all?",
+    a: "Because a directory on its own has no argument. The list says what exists; the report says what it adds up to, and the method section says what the numbers cannot support. That is also what makes it quotable — the reference site's version is the page other people link to.",
+  },
+  {
+    q: "Can I reuse this?",
+    a: `Yes — ${JEV_STATISTICS_LICENSE}, with a link to this page. The machine-readable version is at /typesafe-jev/statistics.json, generated from the same file this page renders, so the two cannot disagree.`,
+  },
+];
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "The Jev catalogue report", description, publishedAt: JEV_STATISTICS_READ_ON, updatedAt: JEV_STATISTICS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Statistics", url: canonical }]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">Report · read {JEV_STATISTICS_READ_ON} · {JEV_STATISTICS_LICENSE}</p>
+      <h1>The Jev catalogue report</h1>
+      <p class="lede">
+        What we have catalogued in the Jev topic, what it adds up to, and what we measured
+        ourselves: {measured.probe.calls} adversarial calls × {measured.probe.runs} runs against the
+        live API, with the latency and the cost per call that came back. Everything here is free to
+        quote with a link, and every section says whether it is about the catalogue or about the model.
+      </p>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="label">Published</div><div class="value">{catalogued.published}</div><div class="sub">items across four sources</div></div>
+      <div class="stat"><div class="label">With a page of their own</div><div class="value">{catalogued.withPages}</div><div class="sub">projects we read, not just listed</div></div>
+      <div class="stat"><div class="label">Median wall time</div><div class="value">{fmt(measured.latency.median)} ms</div><div class="sub">ours: {measured.latency.min}–{measured.latency.max} ms, network included</div></div>
+      <div class="stat"><div class="label">Cost of one call</div><div class="value">${measured.usage.costPerCallUsd.toFixed(7)}</div><div class="sub">{measured.usage.inputTokens} input tokens, output free</div></div>
+    </div>
+
+    <section class="short col">
+      <p class="short-label">In short</p>
+      <ul>
+        <li>{catalogued.rows} rows are queued in total: {catalogued.published} published, {catalogued.rejected} rejected with a written reason, {catalogued.waiting} still waiting for a note.</li>
+        <li>{catalogued.tagged} of the {catalogued.published} published rows carry at least one job tag; the rest are explainers and announcements, which is why the facet vocabulary has no "getting started".</li>
+        <li>The two largest facets are research and data ({facetDistribution.find((f) => f.slug === "research-and-data")?.count} items) and coding and context ({facetDistribution.find((f) => f.slug === "coding-and-context")?.count}) — the field is mostly reading and reimplementing this model, not shipping with it yet.</li>
+        <li>The smallest facet is trading and markets ({facetDistribution.find((f) => f.slug === "trading-and-markets")?.count}), which is the opposite of what the launch-week posts suggested.</li>
+        <li>Our probe: {measured.probe.calls} calls designed to break the answer set ({measured.probe.injectionsAttempted} of them injections), run {measured.probe.runs} times, with {measured.probe.offMenuAnswers} answers outside the options we defined.</li>
+        <li>The cost of the whole experiment — every call in this report — was ${measured.usage.costForExperimentUsd.toFixed(6)}.</li>
+      </ul>
+    </section>
+
+    <section class="col">
+      <h2>What the catalogue holds</h2>
+      <p>Counts over the four queues, read on {JEV_STATISTICS_READ_ON}. These move every day the intake runs; they are a fact about this reading list, not about the model.</p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr><th>Source</th><th class="num">Published</th><th class="num">Rejected</th><th class="num">Waiting</th></tr></thead>
+          <tbody>
+            {queueStats.map((q) => (
+              <tr>
+                <td><a href={`/typesafe-jev/${q.slug}`}>{q.name}</a></td>
+                <td class="num">{q.published}</td>
+                <td class="num">{q.rejected}</td>
+                <td class="num">{q.waiting}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="provenance">
+        <span>A row is published only with a written note</span>
+        <span>A rejected row carries its reason</span>
+      </p>
+    </section>
+
+    <section class="col">
+      <h2>What people are doing with it</h2>
+      <p>
+        Rows per job, counting an item once in every facet it belongs to — the same row can be
+        sorting and routing at the same time, which is why these do not sum to the published total.
+      </p>
+      <div class="bars">
+        {facetDistribution.map((f) => (
+          <div class="bar-row">
+            <a class="bar-label" href={`/typesafe-jev/use-cases/${f.slug}`}>{f.label}</a>
+            <span class="bar" style={`width: ${Math.max(4, Math.round((f.count / maxFacet) * 100))}%`}></span>
+            <span class="bar-n">{f.count}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="col">
+      <h2>What we measured ourselves</h2>
+      <p>
+        These are ours: run on {measured.probe.measuredOn}, with the case file and the script in the
+        repository (`astro/scripts/jev-probe.mjs`), so anybody can repeat them and get their own
+        numbers. The model answered every call from the option set we defined — including the two
+        calls that tried to widen it — and its confidence moved more than its answer did.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr><th>Measurement</th><th class="num">Value</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>Adversarial calls</td><td class="num">{measured.probe.calls} × {measured.probe.runs} runs</td><td style="color: var(--text-muted);">instructions inside the state, forged options, near-duplicate options, one and ten options, punctuation in a question name, an empty state</td></tr>
+            <tr><td>Answers outside the option set</td><td class="num">{measured.probe.offMenuAnswers}</td><td style="color: var(--text-muted);">the product's central claim, tested rather than repeated</td></tr>
+            <tr><td>Median wall time</td><td class="num">{fmt(measured.latency.median)} ms</td><td style="color: var(--text-muted);">{measured.latency.note}</td></tr>
+            <tr><td>Tokens per call</td><td class="num">{measured.usage.inputTokens} in / {measured.usage.outputTokens} out</td><td style="color: var(--text-muted);">identical on every call in the run</td></tr>
+            <tr><td>Cost of one call</td><td class="num">${measured.usage.costPerCallUsd.toFixed(7)}</td><td style="color: var(--text-muted);">$0.042 per million input tokens, output free — the catalogue price</td></tr>
+            <tr><td>Cost of this report's experiment</td><td class="num">${measured.usage.costForExperimentUsd.toFixed(6)}</td><td style="color: var(--text-muted);">{measured.usage.inputTokens * measured.probe.calls * measured.probe.runs / 1_000_000 * 0.042 < 0.000001 ? "about a third of a cent" : "the whole run"}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="col">
+      <h2>What this cannot tell you</h2>
+      <p>
+        It cannot tell you whether Jev is accurate. Our probe measures whether the answer stays
+        inside the option set and how the confidence behaves — not whether the answer is right, and
+        not how it compares with a chat model on the same task. It cannot tell you what the
+        catalogued projects are worth either: the star counts order a list, they do not rate a
+        repository, and the cost and latency figures inside those rows are the authors'.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+
+    <section class="col card">
+      <h2 style="margin-top: 0;">Quote it</h2>
+      <p style="color: var(--text-muted);">
+        {JEV_STATISTICS_LICENSE}. Cite it as: <em>{JEV_STATISTICS_CITATION}</em>.
+        The same numbers as JSON: <a href="/typesafe-jev/statistics.json">/typesafe-jev/statistics.json</a>.
+      </p>
+    </section>
+
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/statistics" />
+  </article>
+</System>
+
+<style>
+  /* Reuses the site's .stats/.stat tiles and .data table; the only new piece is the bar
+     row, which is a table of one number each and reads faster as bars than as digits. */
+  .bars { margin-top: var(--space-5); display: grid; gap: var(--space-2); }
+  .bar-row { display: grid; grid-template-columns: minmax(140px, 200px) 1fr auto; align-items: center; gap: var(--space-3); }
+  .bar-label { font-size: var(--text-sm); }
+  .bar { display: block; height: 10px; border-radius: 3px; background: var(--accent); opacity: 0.85; }
+  .bar-n { font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  @media (max-width: 560px) { .bar-row { grid-template-columns: 1fr auto; } .bar { grid-column: 1 / -1; } }
+  .short { margin-top: var(--space-8); padding: var(--space-5) var(--space-6); border: 1px solid var(--field-border); border-left: 2px solid var(--accent); border-radius: var(--radius); background: var(--bg-sunken); }
+  .short-label { margin: 0 0 var(--space-3); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+  .short ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .short li { margin-bottom: var(--space-2); }
+</style>

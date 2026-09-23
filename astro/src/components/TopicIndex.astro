@@ -1,0 +1,113 @@
+---
+/**
+ * The topic's own directory, at the foot of every page in it.
+ *
+ * This is the *function* of madewithjev's persistent left rail — from anywhere in the
+ * topic you can see the whole topic, with a count per shelf — without adopting the rail's
+ * layout. Their rail works because the site owns the full width; ours is a centred
+ * editorial column (ADR-0019), and a permanent sidebar would mean a third layout to
+ * maintain and a narrower measure for prose. A numbered directory at the end of the page
+ * costs no frame, is a real internal-linking surface (measured after the fact: the Jev
+ * columns sat at 2–5 inbound links each), and reads the way a magazine's contents page
+ * does.
+ *
+ * Counts come in from the caller so this stays a pure presentation component: the page
+ * already knows how many rows it has.
+ */
+interface Entry {
+  href: string;
+  label: string;
+  count?: number;
+  blurb?: string;
+  /** The shelf this entry belongs to, e.g. "Columns" or "By use case". */
+  group: string;
+}
+interface Props {
+  entries: Entry[];
+  current?: string;
+  /** Where the directory sits, in the page's own words. */
+  title?: string;
+}
+const { entries, current = "", title = "In this topic" } = Astro.props;
+const groups = [...new Set(entries.map((e) => e.group))];
+---
+<nav class="topic-index" aria-label={title}>
+  <div class="ti-head">
+    <h2>{title}</h2>
+    <a class="ti-up" href="/typesafe-jev">Jev, the reference →</a>
+  </div>
+  {groups.map((group) => (
+    <div class="ti-group">
+      <p class="ti-group-label">{group}</p>
+      <ul>
+        {entries.filter((e) => e.group === group).map((entry) => (
+          <li class:list={["ti-item", { "is-here": entry.href === current }]}>
+            <a href={entry.href}>
+              <span class="ti-label">{entry.label}</span>
+              {typeof entry.count === "number" && <span class="ti-count">{entry.count}</span>}
+              {entry.href === current && <span class="ti-here">you are here</span>}
+            </a>
+            {entry.blurb && <span class="ti-blurb">{entry.blurb}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</nav>
+
+<style>
+  .topic-index {
+    margin: var(--space-12) 0 var(--space-4);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-strong);
+  }
+  .ti-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+  .ti-head h2 {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .ti-up { font-size: var(--text-xs); }
+  .ti-group { margin-top: var(--space-5); }
+  .ti-group-label {
+    margin: 0 0 var(--space-2);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .ti-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+  .ti-item { line-height: 1.45; }
+  .ti-item a { display: inline-flex; align-items: baseline; gap: var(--space-2); font-size: var(--text-sm); }
+  .ti-item.is-here .ti-label { color: var(--text); font-weight: 600; }
+  /* Said with an element, not a pseudo-suffix on the label: "What people built ·you are
+     here  18" read as one run of text with a number glued to the end. */
+  .ti-here {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: 6px;
+  }
+  .ti-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .ti-blurb { display: block; font-size: var(--text-xs); color: var(--text-faint); }
+</style>

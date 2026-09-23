@@ -1,0 +1,240 @@
+---
+/**
+ * /typesafe-jev/resources — column one of the Jev topic.
+ *
+ * Written to docs/handbook/writing-style.md: the page is about Jev and the things
+ * people have published, not about how the page was assembled. Provenance lives in
+ * the byline and in the links; the method gets a line, not a section (that rule is
+ * for report pages, where the method is the subject).
+ *
+ * What the design still guarantees, without saying so in prose: every link was
+ * fetched on the byline's date, and every star count read from the GitHub API that
+ * same day. A repository with no published description says exactly that and
+ * nothing more.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, breadcrumbSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { JEV_DATA_AS_OF } from "@repo/lib/jev";
+import {
+  JEV_RESOURCES_READ_ON,
+  jevResourceCounts,
+  jevResourcesLive,
+  resourcesByKind,
+  type JevResource,
+} from "@repo/lib/jev-resources";
+
+const title = "Jev Resources: Official Docs, Repos and Collections (2026)";
+const description =
+  "Every Jev resource we could verify: the official docs and listings, 8 community collections and 14 repositories — each link checked and each star count read on 2026-09-22. Including the repos nobody wrote a description for.";
+const canonical = `${SITE}/typesafe-jev/resources`;
+
+/**
+ * Rows are flattened to plain strings before they reach a table.
+ *
+ * Not a style choice: this compiler re-opens the last element-wrapped expression
+ * inside a `<table>` around whatever follows the table, so a cell built from a
+ * conditional element silently swallows the next section. `scripts/check-markup.mjs`
+ * has the reproduction; every table on this page carries bare expressions only.
+ */
+function rows(kind: Parameters<typeof resourcesByKind>[0]) {
+  return resourcesByKind(kind).map((resource: JevResource) => ({
+    name: resource.name,
+    url: resource.url,
+    by: resource.by,
+    stars: typeof resource.stars === "number" ? resource.stars.toLocaleString("en-US") : "—",
+    lastPush: resource.lastPush ?? "—",
+    what: resource.ourNote ? `${resource.what} ${resource.ourNote}` : resource.what,
+  }));
+}
+
+/** The "try it now" shelf: rows with a hosted instance, flattened like the tables. */
+const liveRows = jevResourcesLive.map((resource) => ({
+  name: resource.name,
+  repo: resource.url,
+  url: resource.live!.url,
+  by: resource.by,
+  needsKey: resource.live!.needsKey,
+  verifiedOn: resource.live!.verifiedOn,
+  what: resource.what,
+}));
+
+const officialRows = rows("official");
+const collectionRows = rows("collection");
+const toolRows = rows("tool");
+
+const sections = [
+  {
+    id: "official",
+    heading: "Start with the vendor's own pages",
+    blurb:
+      "The launch post and the quickstart are the two pages everything else assumes you have read. Claims on the other four are the maker's own, which is what makes them the ones to check first.",
+    rows: officialRows,
+  },
+  {
+    id: "collections",
+    heading: "What the community has already collected",
+    blurb:
+      "Eight lists, all of them younger than a week. They overlap heavily — two of them and you have seen the field — and they differ in emphasis, which is the column worth scanning.",
+    rows: collectionRows,
+  },
+  {
+    id: "tools",
+    heading: "Tools you can install",
+    blurb:
+      "Repositories that put Jev inside something else. The same split recurs across them: a larger model writes, Jev decides, and code owns the loop — five independent implementations drew that line before anybody wrote it down.",
+    rows: toolRows,
+  },
+];
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+
+  <Breadcrumbs schema={false} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Resources", url: canonical },
+  ]} />
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Jev resources: docs, collections and repositories",
+      description,
+      publishedAt: JEV_RESOURCES_READ_ON,
+      updatedAt: JEV_RESOURCES_READ_ON,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "Jev", url: `${SITE}/typesafe-jev` },
+      { name: "Resources", url: canonical },
+    ])}
+  />
+
+  <p class="kicker">Jev topic · resources</p>
+  <h1 class="display">Jev docs, collections and repositories</h1>
+  <div class="byline">
+    <span>{jevResourceCounts.total} resources</span>
+    <span>Last checked {JEV_RESOURCES_READ_ON}</span>
+  </div>
+  {/*
+    Counts are read from the same file the tables are built from. They used to be typed into this
+    sentence ("six … eight … fourteen") and went wrong the moment a row was added — the same class
+    of bug as the "15 models tracked" line in the header.
+  */}
+  <p class="lede">
+    Jev grew a documentation ecosystem in a week: a vendor blog, two model listings, {jevResourceCounts.collection}
+    competing community lists and more than a hundred repositories. {jevResourceCounts.official} of the pages
+    below are TypeSafe's own, {jevResourceCounts.collection} are collections somebody else assembled, and{" "}
+    {jevResourceCounts.tool} are tools — of which {jevResourcesLive.length} run in a browser with no install and
+    no key. This is what each one is.
+  </p>
+
+  {/*
+    The reference site keeps a separate `/sites` shelf for things you can open without
+    installing anything ("click and use, no install, no key"). We have three, which is not a
+    column — it is a property of three rows in this one — so they are lifted to the top
+    instead of being buried in a table whose other columns (stars, last push) do not apply.
+    Each says the day we opened it: a demo that 404s in a week must not stay listed.
+  */}
+  <section id="try">
+    <h2>Try it without installing anything</h2>
+    <p class="measure">
+      Three of the resources below are hosted, need no key and open in a browser — each URL was
+      opened on the date shown. These are the fastest way to see the behaviour this whole topic
+      is about, without reading a repository first.
+    </p>
+    <ul class="live-list">
+      {liveRows.map((row) => (
+        <li>
+          <a class="live-name" href={row.url} rel="noopener noreferrer">{row.name}</a>
+          <span class="live-by">{row.by}</span>
+          <span class="live-meta">
+            opens at {row.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+            {row.needsKey ? " · key required" : " · no key"} · checked {row.verifiedOn}
+          </span>
+          <span class="live-what">{row.what}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <p class="measure">
+    Part of the <a href="/typesafe-jev">Jev topic</a>, which carries the specs and the price. Eleven
+    repositories read line by line — including several this star ranking does not surface — are in{" "}
+    <a href="/jev-guide">the field notes</a>.
+  </p>
+
+  {sections.map((section) => (
+    <section id={section.id}>
+      <h2>{section.heading}</h2>
+      <p class="measure">{section.blurb}</p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Resource</th>
+              <th>By</th>
+              <th class="num">Stars</th>
+              <th>Last push</th>
+              <th>What it is</th>
+            </tr>
+          </thead>
+          <tbody>
+            {section.rows.map((row) => (
+              <tr>
+                <td><a href={row.url} rel="noopener noreferrer">{row.name}</a></td>
+                <td style="color: var(--text-muted);">{row.by}</td>
+                {/*
+                  nowrap on both numeric columns: without it the date breaks after
+                  "2026-09-" and the table grows a second line per row for no reason.
+                  Reading the rendered page is what caught it.
+                */}
+                <td class="num" style="color: var(--text-muted); white-space: nowrap;">{row.stars}</td>
+                <td style="color: var(--text-muted); white-space: nowrap;">{row.lastPush}</td>
+                <td style="color: var(--text-muted);">{row.what}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+
+  <Provenance
+    source="github.com API, each publisher's own page, openrouter.ai for the listing"
+    verified={JEV_RESOURCES_READ_ON}
+    extra={[
+      `Star counts and dates read the same day; model facts on the topic cover read ${JEV_DATA_AS_OF}`,
+      "No paid placement",
+    ]}
+  />
+
+  <section id="not-yet">
+    <h2>Not here yet</h2>
+    <p class="measure" style="color: var(--text-muted);">
+      Tutorials and videos, because none have been watched — an index of videos nobody has watched is a
+      list of titles. Paywalled write-ups and gated demos, which cannot be checked. And the eleven
+      repositories read line by line, which are in <a href="/jev-guide">the field notes</a> rather than
+      duplicated here.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: var(--space-12);">
+    <h2 style="margin-top: 0;">Six days old, and moving</h2>
+    <p style="color: var(--text-muted); max-width: var(--measure);">
+      Five of the eight collections appeared in the last week, and the largest repository in the list is
+      four days old. Star counts and dates here have a shelf life measured in hours. Most of them were
+      posted in the launch thread first, which is where we found them — that thread and the rest are in
+      <a href="/typesafe-jev/threads">what Hacker News made of it</a>.
+    </p>
+    <p style="margin-top: var(--space-4);">
+      <a class="btn primary" href="/typesafe-jev">The Jev topic →</a>
+      <a class="btn ghost" href="/jev-guide">Field notes →</a>
+    </p>
+  </section>
+</System>

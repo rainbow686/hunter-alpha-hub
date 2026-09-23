@@ -44,23 +44,25 @@ const fmtDate = (value: string) =>
 
   <div style="margin-top: var(--space-8);">
     {categories.map((category) => (
-      <section style="margin-bottom: var(--space-8);">
+      <section>
         <h2 style="margin-top: 0;">{category}</h2>
-        <ul style="list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border);">
+        <ul class="card-grid">
           {posts
             .filter((post) => post.data.category === category)
             .map((post) => (
-              <li style="border-bottom: 1px solid var(--border); padding: var(--space-4) 0;">
-                <a href={`/blog/${post.id}`} style="font-weight: 600; font-size: var(--text-lg);">
-                  {post.data.title}
-                </a>
-                <div style="color: var(--text-muted); font-size: var(--text-sm); margin-top: var(--space-1); max-width: var(--measure);">
-                  {post.data.excerpt}
-                </div>
-                <div class="byline" style="margin-top: var(--space-2);">
-                  <span>{fmtDate(post.data.publishedAt)}</span>
-                  <span>{post.data.readTime} min read</span>
-                  <span>{post.data.author}</span>
+              <li class="card">
+                {/* No image slot here yet, and deliberately not a generated one: an
+                    article card borrows the page's own cover once that is wired, and
+                    until then a card with honest text beats a card with invented art. */}
+                <div class="card-body">
+                  <p class="card-eyebrow">{category}</p>
+                  <h2 class="card-title"><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+                  <p class="card-note">{post.data.excerpt}</p>
+                  <p class="card-meta">
+                    <span>{fmtDate(post.data.publishedAt)}</span>
+                    <span>{post.data.readTime} min read</span>
+                    <span>{post.data.author}</span>
+                  </p>
                 </div>
               </li>
             ))}

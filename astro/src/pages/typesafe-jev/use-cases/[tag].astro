@@ -1,0 +1,107 @@
+---
+/**
+ * /typesafe-jev/use-cases/<tag> — one facet.
+ *
+ * Rows come from four sources through lib/jev-facets.ts, which is also where the
+ * duplicate guard lives: an X post that is also a demo is counted once.
+ */
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import XClipWall from "../../../components/XClipWall.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { JEV_FACETS, itemsByFacet, thumbRatio } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return JEV_FACETS.map((facet) => ({ params: { tag: facet.slug }, props: { facet } }));
+}
+const { facet } = Astro.props;
+const items = itemsByFacet(facet.slug);
+const canonical = `${SITE}/typesafe-jev/use-cases/${facet.slug}`;
+const title = `Jev for ${facet.label.toLowerCase()}: Projects, Posts and Videos (2026)`;
+const description = `${facet.blurb} ${items.length} item${items.length === 1 ? "" : "s"} gathered from the projects, posts and recordings we cover, each with a sentence of ours and a link to the source.`;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article" noReferrer>
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: "2026-09-22", updatedAt: "2026-09-22", image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Use cases", url: `${SITE}/typesafe-jev/use-cases` },
+    { name: facet.label, url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <h1>Jev for {facet.label.toLowerCase()}</h1>
+      <p class="lede">{facet.blurb}</p>
+      <p class="provenance">
+        <span>{items.length} items, from every source we cover</span>
+        <span><a href="/typesafe-jev/use-cases">All use cases</a></span>
+      </p>
+    </header>
+
+    <CardFilter
+      chips={[...new Set(items.map((i) => i.source))].map((source) => ({
+        group: "source",
+        value: source.toLowerCase().replace(/[^a-z]+/g, "-"),
+        label: source,
+        count: items.filter((i) => i.source === source).length,
+      }))}
+      noun="use cases"
+      total={items.length}
+      groups={[{ key: "source", label: "source" }]}
+    />
+
+    <ul class="card-grid">
+      {items.map((item) => (
+        <li class="card" data-sources={item.source.toLowerCase().replace(/[^a-z]+/g, "-")} data-tags={item.tags.join(" ")}>
+          {/*
+            The frame ratio comes from the file, same helper as the use-cases index.
+            Until 2026-09-23 this line read `style={`--ratio: "16 / 9"`}` — the quotes are
+            *inside* the value, so the custom property held the string `"16 / 9"`, and
+            `aspect-ratio: var(--ratio)` is invalid against a string. Computed value came
+            back `auto` and the frame took its height from the image, which happened to look
+            right on the two rows that were 2:1 and would have collapsed on any other. It
+            also meant the height depended on the download — a layout shift with the image's
+            name on it, on a page whose whole promise is that nothing moves.
+          */}
+          {item.thumb && item.video ? (
+            <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+              <span class="card-src">{item.source}</span>
+              <button class="xvideo-facade" type="button" data-xvideo={item.video.url} data-poster={item.thumb} aria-label={`Play the clip in this post: ${item.title}`}>
+                <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                <span class="xvideo-play" aria-hidden="true">▶</span>
+              </button>
+            </div>
+          ) : item.thumb ? (
+            <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+              <span class="card-src">{item.source}</span>
+              <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : null}
+          <div class="card-body">
+            <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
+            <h2 class="card-title"><a href={item.pageSlug ? `/typesafe-jev/x-posts/${item.pageSlug}` : item.url} rel="noopener">{item.title}</a></h2>
+            <p class="card-note card-our">{item.note}</p>
+            <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
+            <p class="card-meta">
+              {item.tags.map((tag) => (
+                <a href={`/typesafe-jev/use-cases/${tag}`}>{JEV_FACETS.find((f) => f.slug === tag)?.label ?? tag}</a>
+              ))}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <TopicIndex entries={jevTopicEntries} current={canonical.replace(SITE, "")} />
+  </article>
+
+
+</System>
+
+<XClipWall />

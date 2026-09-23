@@ -1,0 +1,1641 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-22T12:55:13.444Z",
+    "source": "x-syndication",
+    "queries": [
+      "42 curated links"
+    ],
+    "intake": "X has no read API we can afford (ADR-0023), so posts are entered by hand from a curated list and resolved through the public syndication endpoint. A post is published only after somebody reads it and writes the note.",
+    "candidates": 42,
+    "published": 42,
+    "note": "one queue, one column: a post is a post — the media inside it is reported on the card, never promoted into a category (the separate /demos column was deleted 2026-09-23)",
+    "candidatesRemaining": 0,
+    "refreshedAt": "2026-09-23T03:26:17.878Z"
+  },
+  "entries": [
+    {
+      "id": "x:2101294219633529030",
+      "source": "x",
+      "url": "https://x.com/0xCodez/status/2101294219633529030",
+      "title": "Jev Founder, Diogo Almeida (ex-OpenAI): \"The next era is not the Claude Code or Codex era, th…",
+      "author": "@0xCodez",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101293440843591680/img/3BtdoFBd-JH1wJc6.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101293440843591680/vid/avc1/480x270/w8h1BjoKNyLcM0qk.mp4",
+          "width": 480,
+          "height": 270,
+          "durationS": 2174,
+          "bitrate": 256000,
+          "bytes": 23509462,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2054197823738871808/3M0Lf362_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2199,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A clip of the founder arguing that the next era is not coding agents. Worth having as the vendor's own framing of the direction — and worth remembering it is a claim about where things go, not a measurement.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "Jev Founder, Diogo Almeida (ex-OpenAI): \"The next era is not the Claude Code or Codex era, they are still part of the assistance era with human in the loop - JEV is what comes next for LLMs x200 faster, x400 cheaper, 0 hallucination, no human in the loop - that's JEV, this is…",
+        "chars": 300,
+        "from": "https://x.com/0xCodez/status/2101294219633529030",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100984487802708306",
+      "source": "x",
+      "url": "https://x.com/0xCodila/status/2100984487802708306",
+      "title": "Jev is the \"Internet\" moment for the AI industry It tells your agents and LLMs what to do nex…",
+      "author": "@0xCodila",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2064453666661441536/nj8n8Mei_normal.jpg"
+      },
+      "metrics": {
+        "likes": 3097,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The strongest version of the hype, posted as text. Read it for how the analogy is argued; the post itself offers no number, and none of the claims in it are ours.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Jev is the \"Internet\" moment for the AI industry It tells your agents and LLMs what to do next, in milliseconds and at almost zero cost If you set it up correctly, you will have the AI engineer’s stack for 2028 In this article, I show you how https://t.co/x3qn41ejnr",
+        "chars": 266,
+        "from": "https://x.com/0xCodila/status/2100984487802708306",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100478725393686556",
+      "source": "x",
+      "url": "https://x.com/0xLogicrw/status/2100478725393686556",
+      "title": "Jev 这个 waitlist 还是很给力的，昨天申请，今天就能用上。 给已经拿到 API、但还不知道怎么玩的人整理了一份 Awesome Jev，目前我能确认到的 Jev 项目基本都在…",
+      "author": "@0xLogicrw",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSZeDLvbUAAo33S.jpg",
+        "thumbW": 1188,
+        "thumbH": 1036,
+        "avatar": "https://pbs.twimg.com/profile_images/2083261639135244288/KoOQO6zp_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1636,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language post that assembled an Awesome Jev list within a day of getting API access. The same shape as the resource columns on this site: the value is in what got included, not in the commentary around it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Jev 这个 waitlist 还是很给力的，昨天申请，今天就能用上。 给已经拿到 API、但还不知道怎么玩的人整理了一份 Awesome Jev，目前我能确认到的 Jev 项目基本都在这里： 1. jev-ultrafast Browser Use 做的高速浏览器 Agent。Jev https://t.co/bJQR42CiHV",
+        "chars": 167,
+        "from": "https://x.com/0xLogicrw/status/2100478725393686556",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101007482919227841",
+      "source": "x",
+      "url": "https://x.com/0xMovez/status/2101007482919227841",
+      "title": "Jev Engineering: how to build the fastest AI Agent Brain in 10 Steps (Full-Setup)",
+      "author": "@0xMovez",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HShGxV4XgAA2JRK.jpg",
+        "thumbW": 1983,
+        "thumbH": 793,
+        "source": "X article cover",
+        "avatar": "https://pbs.twimg.com/profile_images/1998148360478322688/851J4fBL_normal.jpg"
+      },
+      "metrics": {
+        "likes": 773,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A ten-step article about putting Jev where an LLM was doing the cheap work inside an agent loop — the same case our builds column keeps finding, written as a walkthrough with the setup included. The numbers in it are the author's, not ours; 750 likes and 31 replies at the time we read it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "X long-form article: title, cover and preview text read from that response (article 2100991305535164417)",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "https://t.co/qQDIN39Vj5",
+        "chars": 23,
+        "from": "https://x.com/0xMovez/status/2101007482919227841",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101292455391809670",
+      "source": "x",
+      "url": "https://x.com/0xRicker/status/2101292455391809670",
+      "title": "Jev could become the control layer AI agents have been missing. Instead of spending 5–20 seco…",
+      "author": "@0xRicker",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_normal.jpg"
+      },
+      "metrics": {
+        "likes": 312,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Argues that Jev belongs as the control layer rather than inside the model call. The seconds figure in the post is the author's framing of agent latency, not something we measured.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Jev could become the control layer AI agents have been missing. Instead of spending 5–20 seconds and expensive LLM calls deciding every next step, it can route actions in milliseconds at near-zero cost. In this article, I break down how https://t.co/T9wU8CdOsj",
+        "chars": 260,
+        "from": "https://x.com/0xRicker/status/2101292455391809670",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101705843200721203",
+      "source": "x",
+      "url": "https://x.com/0xRicker/status/2101705843200721203",
+      "title": "Jev Engineering is what turns an agent stack into an actual control system and moves the expe…",
+      "author": "@0xRicker",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101703757109006336/img/VMm2Coeq4m1vZaAs.jpg",
+        "thumbW": 1080,
+        "thumbH": 1322,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101703757109006336/vid/avc1/720x880/tDP3S8egUu8AOCtB.mp4",
+          "width": 720,
+          "height": 881,
+          "durationS": 40,
+          "bitrate": 2176000,
+          "bytes": 7580993,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1634,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A video version of the same argument: Jev as the thing that turns a stack into a control system. Watch it for the vocabulary, which is spreading faster than the model is.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Jev Engineering is what turns an agent stack into an actual control system and moves the expensive model out of every decision loop. and up to 193x faster and 444x cheaper in tests. the model shouldn’t decide everything. in this setup: request → structured state → Jev…",
+        "chars": 292,
+        "from": "https://x.com/0xRicker/status/2101705843200721203",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100688880798159254",
+      "source": "x",
+      "url": "https://x.com/CloudflareDev/status/2100688880798159254",
+      "title": "Jev from @typesafeai is now live on @CloudflareDev AI Gateway. Try the first System One model…",
+      "author": "@CloudflareDev",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2091957221253173248/kB_huM5C_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1079,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Cloudflare's developer account announcing Jev on AI Gateway. A platform confirmation rather than an opinion, which is the kind of primary source a resource index should carry.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Jev from @typesafeai is now live on @CloudflareDev AI Gateway. Try the first System One model — send state and typed questions; get structured answers your code can use directly. https://t.co/yLYH6Sigvh",
+        "chars": 202,
+        "from": "https://x.com/CloudflareDev/status/2100688880798159254",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101206777924858319",
+      "source": "x",
+      "url": "https://x.com/DataChaz/status/2101206777924858319",
+      "title": "Jev might genuinely be an “Internet moment” for AI. TypeSafe reports up to 193x faster and 44…",
+      "author": "@DataChaz",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSj8bdNa0AAPYPc.jpg",
+        "thumbW": 1054,
+        "thumbH": 1492,
+        "avatar": "https://pbs.twimg.com/profile_images/1967672234056523776/FoFd2843_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2152,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Quotes the vendor's up-to-193× faster claim while framing it as the maker's number. We have not reproduced that measurement, and the row says so rather than repeating it flatly.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Jev might genuinely be an “Internet moment” for AI. TypeSafe reports up to 193x faster and 444x cheaper performance in tests with Claude Fable 5.1 and GPT-6 Astra. @0xCodila just wrote a great 10-page article explaining what Jev is, how to use it, and where its 100x advantage…",
+        "chars": 300,
+        "from": "https://x.com/DataChaz/status/2101206777924858319",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100927101327028484",
+      "source": "x",
+      "url": "https://x.com/ErickSky/status/2100927101327028484",
+      "title": "Este tipo de herramientas empieza a hacer que el contexto de los agentes parezca menos una ve…",
+      "author": "@ErickSky",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSf9F2QW8AACj6_.png",
+        "thumbW": 758,
+        "thumbH": 336,
+        "avatar": "https://pbs.twimg.com/profile_images/2074858199350444032/vKaYkqSV_normal.jpg"
+      },
+      "metrics": {
+        "likes": 54,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Spanish-language reaction noting that the agent's context stops feeling like a black box. Small reach, and the only post here making that particular observation.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "Este tipo de herramientas empieza a hacer que el contexto de los agentes parezca menos una ventana limitada y más una memoria que se administra dinámicamente. [fast-jev-compaction] No resume, hace que Jev analice cada tool call y su resultado para decidir qué sigue siendo…",
+        "chars": 296,
+        "from": "https://x.com/ErickSky/status/2100927101327028484",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100859307671855113",
+      "source": "x",
+      "url": "https://x.com/GoSailGlobal/status/2100859307671855113",
+      "title": "一个只会做选择题的小模型，能长出多少玩法？ TypeSafe 的 Jev 就是这么个东西：给它最多 255 个选项，几百毫秒挑一个，再附一个校准过的置信度，输出 token 免费 结果开…",
+      "author": "@GoSailGlobal",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100859271961583616/img/c3dp_afY11zXvZ69.jpg",
+        "thumbW": 1280,
+        "thumbH": 720,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100859271961583616/vid/avc1/640x360/pYtNR97IuXtcvPMH.mp4?tag=16",
+          "width": 640,
+          "height": 360,
+          "durationS": 48,
+          "bitrate": 832000,
+          "bytes": 1151516,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2002004911635210240/14rERQZ7_normal.jpg"
+      },
+      "metrics": {
+        "likes": 37,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language walkthrough of what a multiple-choice-only model grows into: up to 255 options, a few hundred milliseconds, and a calibrated confidence attached.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "一个只会做选择题的小模型，能长出多少玩法？ TypeSafe 的 Jev 就是这么个东西：给它最多 255 个选项，几百毫秒挑一个，再附一个校准过的置信度，输出 token 免费 结果开发者们已经拿它做出了 19 个开源项目，加起来 6800 多星 挑几个最有意思的 jev-ultrafast，browser-use 出品，2700 星，一句 https://t.co/c81s7xMCsg",
+        "chars": 196,
+        "from": "https://x.com/GoSailGlobal/status/2100859307671855113",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100877682972258619",
+      "source": "x",
+      "url": "https://x.com/GoSailGlobal/status/2100877682972258619",
+      "title": "拿 Jev 做搜索重排，我先泼一盆冷水：单独用，它没打赢向量检索 TypeSafe 的 Jev 这阵子很火，一堆项目拿它做重排。我们在 Agent Skills Hub 的 33,047…",
+      "author": "@GoSailGlobal",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100877620292583424/img/7Ztuku-R01C1GvlU.jpg",
+        "thumbW": 1280,
+        "thumbH": 720,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100877620292583424/vid/avc1/640x360/IFC1sQLGJxMfYUKQ.mp4?tag=16",
+          "width": 640,
+          "height": 360,
+          "durationS": 55,
+          "bitrate": 832000,
+          "bytes": 2051950,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2002004911635210240/14rERQZ7_normal.jpg"
+      },
+      "metrics": {
+        "likes": 71,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A negative result worth keeping: on their reranking test, Jev alone did not beat vector search. The only post in this column reporting that something did not work.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "拿 Jev 做搜索重排，我先泼一盆冷水：单独用，它没打赢向量检索 TypeSafe 的 Jev 这阵子很火，一堆项目拿它做重排。我们在 Agent Skills Hub 的 33,047 条目录上认真测了一次，164 条中英文真实查询，9,831 对分级标注，整套只花了 2.6 美元 三个结论 01｜单独重排，约等于没赢 Jev 重排 bge-m3 https://t.co/mCewc3bjNQ",
+        "chars": 199,
+        "from": "https://x.com/GoSailGlobal/status/2100877682972258619",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100362415187833048",
+      "source": "x",
+      "url": "https://x.com/Kostastsale/status/2100362415187833048",
+      "title": "This made me rethink where AI actually fits into security engineering. For purely engineering…",
+      "author": "@Kostastsale",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1324840358405046272/mAwSPmaX_normal.jpg"
+      },
+      "metrics": {
+        "likes": 206,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A security engineer's account of where a decision model fits in that work — a question the vendor's launch post never answers.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "This made me rethink where AI actually fits into security engineering. For purely engineering work, forget about ChatGPT or Claude. TypeSafe AI just released Jev, and I think it’s going to change how we build AI into security workflows. Instead of asking an LLM to “investigate",
+        "chars": 277,
+        "from": "https://x.com/Kostastsale/status/2100362415187833048",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100036101809619314",
+      "source": "x",
+      "url": "https://x.com/NathanFlurry/status/2100036101809619314",
+      "title": "hype-free explanation of jev: jev does not replace gpt / claude jev is just a *really* smart …",
+      "author": "@NathanFlurry",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1846325112402071557/JpWNvwoO_normal.jpg"
+      },
+      "metrics": {
+        "likes": 7524,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most-liked explanation in this list, and the only one whose opening move is to say what Jev does not replace. Start here if the rest of the column reads as enthusiasm.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "hype-free explanation of jev: jev does not replace gpt / claude jev is just a *really* smart switch statement like if 2016 ml classifiers got 2026 levels of intelligence it's a new* type of tool that will make a lot of workloads insanely fast, cheap, and accurate * = and by",
+        "chars": 274,
+        "from": "https://x.com/NathanFlurry/status/2100036101809619314",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100744709589316009",
+      "source": "x",
+      "url": "https://x.com/OpenRouter/status/2100744709589316009",
+      "title": "Jev by @typesafeai is now on OpenRouter, in beta. Jev is a System One model. Instead of gener…",
+      "author": "@OpenRouter",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100744692048818176/img/lnRQ8fZbTFSI0YuV.jpg",
+        "thumbW": 1440,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100744692048818176/vid/avc1/960x720/f65T1edo1HR3ZoOz.mp4?tag=16",
+          "width": 960,
+          "height": 720,
+          "durationS": 14,
+          "bitrate": 2176000,
+          "bytes": 813875,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2076693957258727424/AyRghTGJ_normal.jpg"
+      },
+      "metrics": {
+        "likes": 3862,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "OpenRouter's own announcement of the beta listing — the post that made the model reachable without a waitlist, and the reason the listing page this site links to exists at all.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Jev by @typesafeai is now on OpenRouter, in beta. Jev is a System One model. Instead of generating text, it takes your app's state plus a typed question and returns a typed decision with a probability attached. There is no JSON prompting, parsing layer, and nothing to validate…",
+        "chars": 301,
+        "from": "https://x.com/OpenRouter/status/2100744709589316009",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100780634734002230",
+      "source": "x",
+      "url": "https://x.com/SUOHA_AI/status/2100780634734002230",
+      "title": "连 JEV 的联合创始人 @CompleteSkeptic 都亲自下场转发点赞：这是 JEV 正确的打开方式！ 大家在 Claude Code 里写长代码，最恶心的就是上下文一满，系统就…",
+      "author": "@SUOHA_AI",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100780075931029504/img/ue1TlYTuwEoykRhs.jpg",
+        "thumbW": 1180,
+        "thumbH": 932,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100780075931029504/vid/avc1/910x720/LbegnRgnuNIn-qPQ.mp4",
+          "width": 910,
+          "height": 719,
+          "durationS": 5,
+          "bitrate": 2176000,
+          "bytes": 277222,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2072451349061533696/vwo_gqSQ_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2846,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language clip about long coding sessions where the context window fills up. The co-founder reposted it, which is how it reached this list.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "连 JEV 的联合创始人 @CompleteSkeptic 都亲自下场转发点赞：这是 JEV 正确的打开方式！ 大家在 Claude Code 里写长代码，最恶心的就是上下文一满，系统就卡住 10 秒去写总结小作文 开发者 @tamarajtran 刚刚开源了这个插件：利用 JEV https://t.co/xUE23BPJ7E",
+        "chars": 165,
+        "from": "https://x.com/SUOHA_AI/status/2100780634734002230",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101037514945597645",
+      "source": "x",
+      "url": "https://x.com/akshay_pachaar/status/2101037514945597645",
+      "title": "Jev Clearly Explained",
+      "author": "@akshay_pachaar",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HShfvSbaMAAZt9E.png",
+        "thumbW": 2000,
+        "thumbH": 800,
+        "source": "X article cover",
+        "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
+      },
+      "metrics": {
+        "likes": 5240,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most-liked thing we have read from the second wave — over five thousand likes — and it is an explainer rather than a benchmark: why using a language model for a bounded decision is a hammer, and what the alternative looks like when you only need a choice.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "X long-form article: title, cover and preview text read from that response (article 2100940576741093376)",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "https://t.co/haL8IGhx3h",
+        "chars": 23,
+        "from": "https://x.com/akshay_pachaar/status/2101037514945597645",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101309986156712025",
+      "source": "x",
+      "url": "https://x.com/akshay_pachaar/status/2101309986156712025",
+      "title": "LLMs vs. Jev, clearly explained! TL;DR The key difference is not that Jev generates faster. J…",
+      "author": "@akshay_pachaar",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101309969044054016/img/33Ud7QFDU8aMgYlW.jpg",
+        "thumbW": 1930,
+        "thumbH": 1428,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101309969044054016/vid/avc1/972x720/_JpmbuDq5I2GPJEA.mp4?tag=16",
+          "width": 972,
+          "height": 719,
+          "durationS": 4,
+          "bitrate": 2176000,
+          "bytes": 144993,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2972,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A widely shared explainer whose first move is to say the key difference is not speed. Short, and the numbers inside it are the vendor's, as they are everywhere else in this column.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "LLMs vs. Jev, clearly explained! TL;DR The key difference is not that Jev generates faster. Jev does not generate text at all. A traditional LLM receives context and produces an answer one token at a time. Even when the output is a small JSON object, every token depends on…",
+        "chars": 297,
+        "from": "https://x.com/akshay_pachaar/status/2101309986156712025",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2102087107410002345",
+      "source": "x",
+      "url": "https://x.com/akshay_pachaar/status/2102087107410002345",
+      "title": "Build a Jev Judge",
+      "author": "@akshay_pachaar",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSsB_z2bMAATp-F.jpg",
+        "thumbW": 1983,
+        "thumbH": 793,
+        "source": "X article cover",
+        "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
+      },
+      "metrics": {
+        "likes": 525,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Takes the same argument to evaluation: if the judgement is a handful of bounded decisions, does it need another round of text generation to make it? The most concrete Jev-as-judge case we have found on X, and the one we would test before relying on it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "X long-form article: title, cover and preview text read from that response (article 2101635712298692608)",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "https://t.co/XbYTbrX3Ug",
+        "chars": 23,
+        "from": "https://x.com/akshay_pachaar/status/2102087107410002345",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101674202361221376",
+      "source": "x",
+      "url": "https://x.com/alexchristou_/status/2101674202361221376",
+      "title": "Years of twitter bookmark hoarding Light work for Jev to run through https://t.co/TA1OG3FSiG",
+      "author": "@alexchristou_",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101673555813453825/img/nfWWuk_nW1mtGBW2.jpg",
+        "thumbW": 2018,
+        "thumbH": 1196,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101673555813453825/vid/avc1/1214x720/28Z7Tpa6BsQ2_KB9.mp4",
+          "width": 1214,
+          "height": 719,
+          "durationS": 7,
+          "bitrate": 2176000,
+          "bytes": 902323,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1812743569746055168/AxCp7bZa_normal.jpg"
+      },
+      "metrics": {
+        "likes": 3140,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The joke that travelled furthest in this batch: years of bookmarked posts as a workload for a fast decision model. The demo is the point.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "Years of twitter bookmark hoarding Light work for Jev to run through https://t.co/TA1OG3FSiG",
+        "chars": 92,
+        "from": "https://x.com/alexchristou_/status/2101674202361221376",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100739055923425589",
+      "source": "x",
+      "url": "https://x.com/altryne/status/2100739055923425589",
+      "title": "This is actually insane. This uses @typesafeai Jev model, as a plugin in Claude to review all…",
+      "author": "@altryne",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSdTBk8bAAAPtk8.png",
+        "thumbW": 816,
+        "thumbH": 400,
+        "avatar": "https://pbs.twimg.com/profile_images/2022567054579228672/Ofvtmqi0_normal.jpg"
+      },
+      "metrics": {
+        "likes": 8406,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most-liked post here: Jev working as a plugin inside Claude, for review work. The interesting part is the shape rather than the excitement — a large model writes, Jev decides.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "This is actually insane. This uses @typesafeai Jev model, as a plugin in Claude to review all the un-nesseasary tool calls, and it takes 1s to run! Like, literally, 1 second to take my Claude session from nearly 1M to ... 86K tokens! 😮 Ask your claude to install it and be…",
+        "chars": 297,
+        "from": "https://x.com/altryne/status/2100739055923425589",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100277062309179521",
+      "source": "x",
+      "url": "https://x.com/cocktailpeanut/status/2100277062309179521",
+      "title": "Jev is cool not because it re-invented classification, but because it makes ARBITRARY classif…",
+      "author": "@cocktailpeanut",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSWuqu7WYAEUwFS.jpg",
+        "thumbW": 2709,
+        "thumbH": 1523,
+        "avatar": "https://pbs.twimg.com/profile_images/1904994154658373632/CKBBVmtg_normal.jpg"
+      },
+      "metrics": {
+        "likes": 795,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most precise framing we found — not a new classifier, but arbitrary classification made cheap enough to put inside a loop. Read this before the vendor's own claims.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Jev is cool not because it re-invented classification, but because it makes ARBITRARY classification into a type-safe programmable primitive. A general purpose zero shot decision model whose native interface is RUNTIME-DEFINED typed decisions, optimized for that exact interface…",
+        "chars": 302,
+        "from": "https://x.com/cocktailpeanut/status/2100277062309179521",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100659471257366766",
+      "source": "x",
+      "url": "https://x.com/da_fant/status/2100659471257366766",
+      "title": "jev will make agents 10x faster and cheaper, here's how: 1/ model routing: pick the right mod…",
+      "author": "@da_fant",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1957502976521826305/41Pxt7lY_normal.jpg"
+      },
+      "metrics": {
+        "likes": 633,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A thread on model routing as the first place a decision model pays for itself. The 10x in the opening line is the author's claim, not a number we checked.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "jev will make agents 10x faster and cheaper, here's how: 1/ model routing: pick the right model for each task, without training a custom router https://t.co/c9tIo6skBf 2/ computer use: faster, cheaper and more reliable for action-heavy tasks https://t.co/9YYBprwJwx 3/ auto",
+        "chars": 273,
+        "from": "https://x.com/da_fant/status/2100659471257366766",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100300097695232164",
+      "source": "x",
+      "url": "https://x.com/fazxes/status/2100300097695232164",
+      "title": "We benchmarked fx auto mode (safety) classifier with @typesafeai's Jev. tl;dr: ~5-18x faster …",
+      "author": "@fazxes",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSW-E8wWgAAyw9O.jpg",
+        "thumbW": 1498,
+        "thumbH": 828,
+        "avatar": "https://pbs.twimg.com/profile_images/2086719570862034944/4TvSh04K_normal.jpg"
+      },
+      "metrics": {
+        "likes": 650,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A benchmark post with a concrete result: roughly 5-18x faster on a safety classifier. Their numbers, their harness; it is listed because they published the setup.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "We benchmarked fx auto mode (safety) classifier with @typesafeai's Jev. tl;dr: ~5-18x faster and more accurate than 𝚐𝚙𝚝-𝟻.𝟼-𝚕𝚞𝚗𝚊, our current top choice https://t.co/3G8tpRz7AG",
+        "chars": 185,
+        "from": "https://x.com/fazxes/status/2100300097695232164",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101018750916948237",
+      "source": "x",
+      "url": "https://x.com/gregisenberg/status/2101018750916948237",
+      "title": "Jev is HERE and this is the CLEAREST explanation of what it is and what NEW businesses it unl…",
+      "author": "@gregisenberg",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101018301409202176/img/HP2Ycx2G3KjqvxJw.jpg",
+        "thumbW": 1280,
+        "thumbH": 720,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101018301409202176/vid/avc1/480x270/qIMvSa18mFJdN66B.mp4",
+          "width": 480,
+          "height": 270,
+          "durationS": 1704,
+          "bitrate": 256000,
+          "bytes": 18749658,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1577116785656139776/5mi0qgTz_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1553,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The clearest of the explainer videos, and the one aimed at people wondering what business it unlocks rather than how the mechanism works.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Jev is HERE and this is the CLEAREST explanation of what it is and what NEW businesses it unlocks. (and at the end I'll tell you how to get Jev even if you're on the waitlist) WHAT IT IS You know how you open your inbox and have to decide what's junk, what needs a reply, and…",
+        "chars": 299,
+        "from": "https://x.com/gregisenberg/status/2101018750916948237",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100411066966749359",
+      "source": "x",
+      "url": "https://x.com/gregpr07/status/2100411066966749359",
+      "title": "Breaking: Browser Use + Jev = Ultrafast ⚡ Findings flights took 7s and cost only $0.0039 🤯 &…",
+      "author": "@gregpr07",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100410607807918080/img/lNfcykqoOvLoZHWa.jpg",
+        "thumbW": 1536,
+        "thumbH": 1000,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100410607807918080/vid/avc1/1104x720/f_PXXWdzPa6jIBUz.mp4",
+          "width": 1104,
+          "height": 719,
+          "durationS": 8,
+          "bitrate": 2176000,
+          "bytes": 260409,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1980037752797175809/cTfw6IDz_normal.jpg"
+      },
+      "metrics": {
+        "likes": 9047,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most-liked post in the whole list, and the one behind the browser-use repository we already cover: a flight search in seven seconds for under half a cent. Author's numbers.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "Breaking: Browser Use + Jev = Ultrafast ⚡ Findings flights took 7s and cost only $0.0039 🤯 > new action space every step > DOM state space > small LLM fallback to type (this video is at 1x speed btw) Built a tiny open source browser agent. try it below ↓…",
+        "chars": 288,
+        "from": "https://x.com/gregpr07/status/2100411066966749359",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100982108873191861",
+      "source": "x",
+      "url": "https://x.com/iannuttall/status/2100982108873191861",
+      "title": "Unsure how to get started with Jev? Install the skill: npx skills add typesafe-ai/skills --sk…",
+      "author": "@iannuttall",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2603,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The shortest useful post here: one command that installs the vendor's own skills. As much a resource as a demo, and how most people in this list started.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "Unsure how to get started with Jev? Install the skill: npx skills add typesafe-ai/skills --skill typesafe-ai Then prompt in your project: use /typesafe-ai to see how Jev can be used to replace slow, expensive LLM usage and find possible new features it would enable for users.",
+        "chars": 276,
+        "from": "https://x.com/iannuttall/status/2100982108873191861",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100623016644223175",
+      "source": "x",
+      "url": "https://x.com/isaac_flath/status/2100623016644223175",
+      "title": "I've been using Jev by @typesafeai Here's the six things i've tried and am confident I'll sti…",
+      "author": "@isaac_flath",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2096294446333841408/jwrDt_K__normal.jpg"
+      },
+      "metrics": {
+        "likes": 259,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Six uses the author kept after trying them, with the ones they dropped left implied. Small reach, and the only entry reporting a durable personal workflow.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "I've been using Jev by @typesafeai Here's the six things i've tried and am confident I'll still use Jev for 60 days from now. There's many more experiments, ideas, and things I think I will use it for. It's a big deal (more on why in next post). But I am only sharing things",
+        "chars": 274,
+        "from": "https://x.com/isaac_flath/status/2100623016644223175",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100713337436930288",
+      "source": "x",
+      "url": "https://x.com/iwashi86/status/2100713337436930288",
+      "title": "Jevの内部アーキテクチャを推測している技術記事(Jev’s Architecture Unmasked)からメモ。 ・本記事はJevのAPIを約1万回の呼び出して、内部構造を推測したも…",
+      "author": "@iwashi86",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1409992269973704705/PIGP4eEZ_normal.jpg"
+      },
+      "metrics": {
+        "likes": 437,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Japanese engineer's notes on an article that reverse-engineered the architecture from about ten thousand API calls. The closest thing here to the architecture conversation.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Jevの内部アーキテクチャを推測している技術記事(Jev’s Architecture Unmasked)からメモ。 ・本記事はJevのAPIを約1万回の呼び出して、内部構造を推測したもの ・従来の言語モデルを用いた分類やルーティングでは、トークンを1文字ずつ逐次生成するために膨大な無駄な計算コストが発生していた。",
+        "chars": 158,
+        "from": "https://x.com/iwashi86/status/2100713337436930288",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100876273061102006",
+      "source": "x",
+      "url": "https://x.com/jiayuan_jy/status/2100876273061102006",
+      "title": "一些关于 Jev (@typesafeai) 的 notes 研究了一天 Jev，带来的新鲜感迅速回落，这好像就是一个更快的通用分类器/决策器，LLM 完全可以做到。 而且因为不了解模型…",
+      "author": "@jiayuan_jy",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1967524274161487872/3ha2ag9N_normal.jpg"
+      },
+      "metrics": {
+        "likes": 341,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A sceptical Chinese-language note: after a day of study the author reads Jev as a faster general classifier that an LLM could equally do. The counterweight this column needs.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "一些关于 Jev (@typesafeai) 的 notes 研究了一天 Jev，带来的新鲜感迅速回落，这好像就是一个更快的通用分类器/决策器，LLM 完全可以做到。 而且因为不了解模型背后的参数规模（应该不会很大），世界知识可能不一定有常规 LLM",
+        "chars": 125,
+        "from": "https://x.com/jiayuan_jy/status/2100876273061102006",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101453330861965672",
+      "source": "x",
+      "url": "https://x.com/jonymusky/status/2101453330861965672",
+      "title": "Hice un video de 4 min (en español) explicando qué es Jev, qué no hace, y por qué cambia dónd…",
+      "author": "@jonymusky",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101453228302835712/img/PUVQoJCUgTZaUByL.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101453228302835712/vid/avc1/640x360/9rd3LAHWiz_cL48h.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 229,
+          "bitrate": 832000,
+          "bytes": 3958888,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1945848027115130880/5V7GQKEB_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1100,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A four-minute Spanish explainer that states what Jev does not do before what it does — the clearest non-English treatment in the list.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Hice un video de 4 min (en español) explicando qué es Jev, qué no hace, y por qué cambia dónde ponés un modelo. https://t.co/KMwEFgVs9D",
+        "chars": 135,
+        "from": "https://x.com/jonymusky/status/2101453330861965672",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100314182201802811",
+      "source": "x",
+      "url": "https://x.com/mdlahfir/status/2100314182201802811",
+      "title": "Jev solved local harness/model routing I use a combination of Claude Code, Codex and Opencode…",
+      "author": "@mdlahfir",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100314084990414848/img/iePXR9Edae7YVCT_.jpg",
+        "thumbW": 2992,
+        "thumbH": 1682,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100314084990414848/vid/avc1/640x360/Smk9VE5xfT7kQyHZ.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 18,
+          "bitrate": 832000,
+          "bytes": 792714,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2067437579251978240/sCczd797_normal.jpg"
+      },
+      "metrics": {
+        "likes": 839,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A developer using a decision model to route between Claude Code, Codex and opencode: the practical version of the routing argument made elsewhere in this column.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "Jev solved local harness/model routing I use a combination of Claude Code, Codex and Opencode as my local agentic stack and routing to other harnesses was always enforced in the system prompt/rules With a deterministic hook that Claude Code can decide before delegation, Jev…",
+        "chars": 298,
+        "from": "https://x.com/mdlahfir/status/2100314182201802811",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100715237267660873",
+      "source": "x",
+      "url": "https://x.com/moritzkremb/status/2100715237267660873",
+      "title": "Full Jev Tutorial What it is, how you can build with it and what new applications it can unlo…",
+      "author": "@moritzkremb",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100714561389129730/img/mHB9NznquD7-VkyS.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100714561389129730/vid/avc1/480x270/hdG_Py45oxo_t2d1.mp4",
+          "width": 480,
+          "height": 270,
+          "durationS": 1361,
+          "bitrate": 256000,
+          "bytes": 13864142,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
+      },
+      "metrics": {
+        "likes": 3099,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The fullest tutorial in this batch — what it is, how to build with it, what it unlocks. Long, and the nearest thing to the official walkthrough that was never published.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Full Jev Tutorial What it is, how you can build with it and what new applications it can unlock → 0:00 Intro → 0:34 Jev explained → 4:06 API setup → 5:59 Demo 1: Voice-controlled browser → 11:33 Demo 2: AI memory → 17:27 Demo 3: YouTube predictor https://t.co/V7iK3jZTLZ",
+        "chars": 270,
+        "from": "https://x.com/moritzkremb/status/2100715237267660873",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100895894287839255",
+      "source": "x",
+      "url": "https://x.com/moritzkremb/status/2100895894287839255",
+      "title": "All of the coolest Jev projects I could find on X today 🧵 https://t.co/2QUxMRM4pm",
+      "author": "@moritzkremb",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSfhrsxbMAEdHxj.png",
+        "thumbW": 800,
+        "thumbH": 420,
+        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
+      },
+      "metrics": {
+        "likes": 4451,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A curated thread of Jev projects from X: the same instinct as this column, by somebody reading the same timeline. Overlaps our builds list and belongs beside it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "All of the coolest Jev projects I could find on X today 🧵 https://t.co/2QUxMRM4pm",
+        "chars": 82,
+        "from": "https://x.com/moritzkremb/status/2100895894287839255",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100761338918363550",
+      "source": "x",
+      "url": "https://x.com/mvanhorn/status/2100761338918363550",
+      "title": "WTF is Jev? A tl;dr ELI5: multiple choice, not essay writing",
+      "author": "@mvanhorn",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1565403341647400960/55RW_HGX_normal.jpg"
+      },
+      "metrics": {
+        "likes": 427,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An explainer aimed at people who have never heard of the model, summed up in the line worth keeping: think multiple choice, not essay writing. Useful as the single link to send somebody who asks what this is — and the 200x speed claim in it is the author's, not a measurement.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "post text read from that response; no article object on this one",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "WTF is Jev by @typesafeai? Here’s the tl;dr ELI5: Think AI multiple choice, not AI essay writing. It doesn’t chat. It makes decisions your software can act on: “Spam or not?” “Which tool should this agent use?” “Does this need a human?” The exciting part: roughly 200x faster",
+        "chars": 275,
+        "from": "https://x.com/mvanhorn/status/2100761338918363550",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100788572316139655",
+      "source": "x",
+      "url": "https://x.com/mvanhorn/status/2100788572316139655",
+      "title": "TL;DR of my new article: WTF is Jev by @typesafeai, and the 9 things people are already build…",
+      "author": "@mvanhorn",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1565403341647400960/55RW_HGX_normal.jpg"
+      },
+      "metrics": {
+        "likes": 418,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The companion post to the article above, listing nine things people were already building. A week-one snapshot, useful even where our builds column disagrees with it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "TL;DR of my new article: WTF is Jev by @typesafeai, and the 9 things people are already building with it. The thesis: 𝗮 𝗰𝗼-𝗰𝗿𝗲𝗮𝘁𝗼𝗿 𝗼𝗳 𝗖𝗵𝗮𝘁𝗚𝗣𝗧 𝘀𝗽𝗲𝗻𝘁 𝘁𝘄𝗼 𝘆𝗲𝗮𝗿𝘀 𝗶𝗻 𝘀𝘁𝗲𝗮𝗹𝘁𝗵 𝗼𝗻 𝗮 𝗺𝗼𝗱𝗲𝗹 𝘁𝗵𝗮𝘁 𝗰𝗮𝗻𝗻𝗼𝘁 𝘄𝗿𝗶𝘁𝗲 𝗮",
+        "chars": 264,
+        "from": "https://x.com/mvanhorn/status/2100788572316139655",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100113737097367896",
+      "source": "x",
+      "url": "https://x.com/paarangatrai/status/2100113737097367896",
+      "title": "this is the easiest way to understand Jev: LLMs generate answers. Jev makes decisions. that s…",
+      "author": "@paarangatrai",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2032204941813796864/ct5nPYgc_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2300,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Two sentences that became the most-quoted explanation: models generate answers, Jev makes decisions. Nothing here to verify and everything to quote.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "this is the easiest way to understand Jev: LLMs generate answers. Jev makes decisions. that sounds like a small difference, but it actually changes the entire use case. say you give a normal LLM this: “here’s a user, their account history, payment behavior, support chats,",
+        "chars": 272,
+        "from": "https://x.com/paarangatrai/status/2100113737097367896",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100686990090047569",
+      "source": "x",
+      "url": "https://x.com/studio_yebisu/status/2100686990090047569",
+      "title": "やぁ！兄弟たち！ Jevに関するGitHubの実用性と発展性がありそうなリポジトリをまとめたよ！ やはり、高速判断を要するComputerUseや完全自動トレードなんかに対しての活用が多…",
+      "author": "@studio_yebisu",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2095218586046652416/pyuFtKH0_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2254,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Japanese post collecting the Jev repositories that look practically useful, especially for computer use and automated trading. A collection, so it belongs in resources too.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents",
+        "trading-and-markets"
+      ],
+      "quote": {
+        "text": "やぁ！兄弟たち！ Jevに関するGitHubの実用性と発展性がありそうなリポジトリをまとめたよ！ やはり、高速判断を要するComputerUseや完全自動トレードなんかに対しての活用が多い印象だね！ Jevは公式のウェイトリストも1日ほどで承認されるけど、待たなくてもVercel AI GatewayからModel:",
+        "chars": 159,
+        "from": "https://x.com/studio_yebisu/status/2100686990090047569",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100421326389354624",
+      "source": "x",
+      "url": "https://x.com/swill1ams/status/2100421326389354624",
+      "title": "Prediction: millionaires will be made using custom Jev style models (parallel constrained dec…",
+      "author": "@swill1ams",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2089145858608566272/rUORWtmK_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1394,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A prediction rather than evidence, kept because it names the mechanism — parallel constrained decisions — and shows what this audience is betting on.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Prediction: millionaires will be made using custom Jev style models (parallel constrained decoding) to make the agent systems companies already run more token efficient. Let me explain with a scenario: Imagine a company already has an agent workflow running where an llm reviews",
+        "chars": 278,
+        "from": "https://x.com/swill1ams/status/2100421326389354624",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100762304862384257",
+      "source": "x",
+      "url": "https://x.com/theo/status/2100762304862384257",
+      "title": "This is a terrible compaction strategy that fundamentally doesn't understand how compaction a…",
+      "author": "@theo",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1909353910130950147/EeSGdgA5_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2583,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A well-known developer arguing the compaction plugin is the wrong approach. The most useful dissenting post in the list, and it is aimed at a build we cover.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "This is a terrible compaction strategy that fundamentally doesn't understand how compaction and context management work. Seems like a lot of people are confused so let's break this down. 1. Compaction isn't a filter The role of compaction is to clean up history to keep the",
+        "chars": 273,
+        "from": "https://x.com/theo/status/2100762304862384257",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100844854490103835",
+      "source": "x",
+      "url": "https://x.com/tonnoz/status/2100844854490103835",
+      "title": "You still don't understand the use cases Jev unlocks. I've been waiting for something like th…",
+      "author": "@tonnoz",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100843717791813632/img/BJXB5D_XC7MmmqdN.jpg",
+        "thumbW": 1176,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100843717791813632/vid/avc1/784x720/HLvXaqK-1BQyTV_y.mp4",
+          "width": 784,
+          "height": 720,
+          "durationS": 6,
+          "bitrate": 2176000,
+          "bytes": 314907,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1972213681560621056/qtLrUur5_normal.jpg"
+      },
+      "metrics": {
+        "likes": 378,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A short clip arguing the use cases are still being missed. Enthusiastic rather than technical; its value is the specific examples it names.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "You still don't understand the use cases Jev unlocks. I've been waiting for something like this since early ChatGPT models. prediction: we will see the fastest-growing SaaS by MRR in history within the next month or two https://t.co/JCBqWLbMuF",
+        "chars": 243,
+        "from": "https://x.com/tonnoz/status/2100844854490103835",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2100923960493818177",
+      "source": "x",
+      "url": "https://x.com/xiaomovps/status/2100923960493818177",
+      "title": "Jev 发布没几天，开源社区已经开始疯狂复刻了🔥 最值得推荐的五个模型： 1、Laya 421M：原生决策模型，支持 Mac 2、Decider-2B：最像 Jev，基于 Qwen3.…",
+      "author": "@xiaomovps",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2006310479975858176/PWGiJqg9_normal.jpg"
+      },
+      "metrics": {
+        "likes": 480,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language roundup of five open replications, with parameter counts and platforms — evidence for the copy-the-pattern claim that the Kev repository makes alone.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Jev 发布没几天，开源社区已经开始疯狂复刻了🔥 最值得推荐的五个模型： 1、Laya 421M：原生决策模型，支持 Mac 2、Decider-2B：最像 Jev，基于 Qwen3.5 3、NanoJev 0.6B：专门的 Decision Head 4、Reflex：Qwen3.5 + Direct Logits 5、System-One 4B：专门做概率校准",
+        "chars": 184,
+        "from": "https://x.com/xiaomovps/status/2100923960493818177",
+        "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101262191399981504",
+      "source": "x",
+      "url": "https://x.com/zodchiii/status/2101262191399981504",
+      "title": "Jev Founder (ex-OpenAI): \"I believe JEV is the biggest breakthrough we've ever worked on This…",
+      "author": "@zodchiii",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101258868248776704/img/z5qLJQ27b0mENN_h.jpg",
+        "thumbW": 1280,
+        "thumbH": 720,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101258868248776704/vid/avc1/640x360/Lg_HYhYPGu_kBXL1.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 290,
+          "bitrate": 832000,
+          "bytes": 7914534,
+          "readOn": "2026-09-23"
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1999509933302124544/ABxY9N7S_normal.jpg"
+      },
+      "metrics": {
+        "likes": 387,
+        "asOf": "2026-09-23"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Another founder clip, this one making the breakthrough claim directly. Grouped with the earlier founder video so both of his framings sit side by side.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-22",
+        "like count read from that response on 2026-09-22",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [],
+      "quote": {
+        "text": "Jev Founder (ex-OpenAI): \"I believe JEV is the biggest breakthrough we've ever worked on This sounds too good to be true but it's beating everything\" In 5 minutes, he breaks down why older LLMs were great at talking and terrible at deciding and building. Watch it and then…",
+        "chars": 296,
+        "from": "https://x.com/zodchiii/status/2101262191399981504",
+        "readOn": "2026-09-23"
+      }
+    }
+  ]
+}

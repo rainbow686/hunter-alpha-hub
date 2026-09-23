@@ -16,5 +16,59 @@
     "promptSha256": "8b1492b35b464e4a",
     "file": "img/jev-inspector.webp",
     "generatedAt": "2026-09-21"
+  },
+  "../docs/style-candidates/a-line.webp": {
+    "preset": "cand-a-line",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260922,
+    "promptSha256": "6e1e423807515f00",
+    "file": "../docs/style-candidates/a-line.webp",
+    "generatedAt": "2026-09-22"
+  },
+  "../docs/style-candidates/b-woodcut.webp": {
+    "preset": "cand-b-woodcut",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260922,
+    "promptSha256": "725bdfdd2cc73c7c",
+    "file": "../docs/style-candidates/b-woodcut.webp",
+    "generatedAt": "2026-09-22"
+  },
+  "../docs/style-candidates/c-technical-plate.webp": {
+    "preset": "cand-c-plate",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260922,
+    "promptSha256": "680782a1f6f8ef47",
+    "file": "../docs/style-candidates/c-technical-plate.webp",
+    "generatedAt": "2026-09-22"
+  },
+  "img/cover-jev-topic.webp": {
+    "preset": "cover-jev-topic",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260922,
+    "promptSha256": "6e1e423807515f00",
+    "file": "img/cover-jev-topic.webp",
+    "generatedAt": "2026-09-22"
+  },
+  "img/cover-jev-guide.webp": {
+    "preset": "cover-jev-guide",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260923,
+    "promptSha256": "06e51f741aa4b2cf",
+    "file": "img/cover-jev-guide.webp",
+    "generatedAt": "2026-09-22"
+  },
+  "img/cover-alpha-line.webp": {
+    "preset": "cover-alpha-line",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20260924,
+    "promptSha256": "28b9a87b8ead6228",
+    "file": "img/cover-alpha-line.webp",
+    "generatedAt": "2026-09-22"
   }
 }

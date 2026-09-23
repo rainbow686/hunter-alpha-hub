@@ -14,6 +14,7 @@
  * exists because the bare word "jev" is not ours to claim.
  */
 import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import FactTable from "../../components/FactTable.astro";
 import ClaimList from "../../components/ClaimList.astro";
@@ -132,6 +133,10 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
 }));
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <Breadcrumbs schema={false} items={[
+    { name: "Jev", url: canonical },
+  ]} />
+
   <JsonLd
     slot="head"
     data={articleSchema({
@@ -162,6 +167,12 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
     with a probability attached — the thing a chat model is worst at and a program needs most. This page
     carries the specs, the price, the three question types, a plain-English start for anyone who has just met the name, and a clear list of what it is not.
   </p>
+
+      {/* The page cover (contract §5): one image, about this page's subject, with the
+          meaning in the alt text and no caption announcing what it is. */}
+      <figure class="figure cover">
+        <img src="/img/cover-jev-topic.webp" alt="An engraving: a sheet of paper passing under a stamping press, surrounded by empty speech bubbles of different sizes." width="1280" height="720" decoding="async" />
+      </figure>
   <div class="byline">
     <span>Reference</span>
     <span>Listed {JEV_LISTED_AT_UTC}</span>
@@ -194,10 +205,6 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       alt="Engraving-style illustration: a dense wall of dark speech bubbles on the left, and on the right a figure seen from behind holding up a single blank sheet of paper."
       style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
     />
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Illustration: a metaphor, not a record of anything that happened — a wall of text on one side,
-      one sheet with one answer on the other. The rest of this page is the part we can point at.
-    </figcaption>
   </figure>
 
   {/*
@@ -222,6 +229,65 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       <li>
         <a href="/jev-guide">How people actually use it</a> — eleven projects read
         first-hand, plus twenty calls we made ourselves.
+      </li>
+      {/*
+        The explainer cluster (roadmap/jev-explainer-cluster.md), listed here as pages are written:
+        one URL per search intent, because one URL can only rank for one. This is the column the
+        2026-09-23 recheck found missing — the reference site splits the same model across fifteen
+        of these and we had one.
+      */}
+      <li>
+        <a href="/jev-pricing">What a decision costs</a> — the published rate per million tokens,
+        what one of our own calls cost, and the arithmetic for a loop that calls it ten times a
+        second.
+      </li>
+      <li>
+        <a href="/jev-vs-llm">Jev vs LLMs</a> — the four structural differences, and the one that
+        bites: an answer shape you chose versus a schema you asked for. Includes our twenty
+        identical calls.
+      </li>
+      <li>
+        <a href="/open-source-jev">Open source, and what it gives up</a> — the substitutes,
+        replicas and adapters we read, including the one that publishes its own losing score.
+      </li>
+      {/*
+        The first second-level column of the topic (roadmap/jev-topic-columns.md).
+        Columns are listed here rather than in the site nav, for the reason ADR-0018
+        gives: adding a column must never require touching the chrome.
+      */}
+      <li>
+        <a href="/typesafe-jev/resources">Docs, collections and repositories</a> — every
+        Jev resource we could verify, with the star counts read on the day we checked.
+      </li>
+      <li>
+        <a href="/typesafe-jev/threads">What Hacker News made of it</a> — the launch thread and the
+        rebuilds it triggered, with the numbers we read on the day.
+      </li>
+      <li>
+        <a href="/typesafe-jev/videos">What people filmed</a> — the walkthroughs and breakdowns,
+        ranked by reach, playable without leaving the page.
+      </li>
+      <li>
+        <a href="/typesafe-jev/use-cases">By use case</a> — browser agents, triage, coding
+        context, trading — one row gathered from wherever it lives.
+      </li>
+      <li>
+        <a href="/typesafe-jev/x-posts">What X is saying</a> — the announcements, the benchmarks and the
+        day-one sceptics, each described in a sentence and linked back to the post.
+      </li>
+      <li>
+        <a href="/typesafe-jev/builds">What people built</a> — projects that put Jev inside
+        something, with the star counts read on the day we checked.
+      </li>
+      {/*
+        The submission door. It is linked from here on purpose: the columns that grow by
+        hand are the ones that need a way in, and a reader who has just been told what the
+        columns contain is the reader most likely to have something to add. See
+        docs/roadmap/jev-topic-columns.md.
+      */}
+      <li>
+        <a href="/submit">Send us something</a> — a project, a screencast or a walkthrough we
+        have not seen. We credit what we publish and we do not republish other people's media.
       </li>
       <li>
         <a href="/field-notes">All field notes</a> — every chapter of this kind,
@@ -566,7 +632,10 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
     For what this looks like in working code rather than in advice, see
     <a href="/jev-guide">the field notes on Jev</a> — eleven projects read first-hand, and the five
     teams in them independently drew the same line between what the model decides and what the
-    program decides.
+    program decides. The wider list, including the collections it would take a day to find
+    yourself, is under <a href="/typesafe-jev/resources">docs, collections and repositories</a>,
+    and the launch thread that most of them were first posted in — with the rebuttals — is in
+    <a href="/typesafe-jev/threads">what Hacker News made of it</a>.
   </p>
   <figure class="figure">
     <svg viewBox="0 0 760 240" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
@@ -632,10 +701,6 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       alt="Engraving-style illustration: an inspector in a work coat beside a conveyor belt of paper forms, each sheet already stamped with a single mark."
       style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
     />
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Illustration: a metaphor, not a record of anything that happened — the inspector from the
-      comparison above, and the sheets get stamped whether or not anybody is watching.
-    </figcaption>
   </figure>
 
   <h2 id="verified-specs">Verified specs</h2>

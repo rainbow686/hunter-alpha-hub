@@ -41,6 +41,10 @@ const require = createRequire(import.meta.url);
 const sharp = require("sharp");
 
 const MODEL_IDS = {
+  // FLUX.1-schnell is no longer served (2026-09-22): the id is absent from
+  // /v1/models and a request for it has the connection dropped rather than
+  // answered. FLUX.2-flex is the current bulk model; pro stays for signature art.
+  flex: "black-forest-labs/FLUX.2-flex",
   schnell: "black-forest-labs/FLUX.1-schnell",
   "flux2-pro": "black-forest-labs/FLUX.2-pro",
   "z-image-turbo": "Tongyi-MAI/Z-Image-Turbo",
@@ -96,7 +100,10 @@ const manifest = existsSync(manifestPath)
 for (const name of wanted) {
   const preset = presets.presets[name];
   if (!preset) throw new Error(`no preset named ${name}`);
-  const prompt = `${preset.scene} ${presets.style}`;
+  // A preset may carry its own style (used for style candidates, where the scene is
+  // held constant and only the manner changes). Otherwise the house style applies.
+  const style = preset.style ?? presets.style;
+  const prompt = `${preset.scene} ${style}`;
   const model = MODEL_IDS[preset.model] ?? preset.model;
   const out = join(ASTRO, preset.out);
   const record = {

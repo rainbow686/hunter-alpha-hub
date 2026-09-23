@@ -1,0 +1,209 @@
+---
+/**
+ * /typesafe-jev/threads — the discussion column of the Jev topic.
+ *
+ * Written to docs/handbook/writing-style.md: the page is about the threads, not about
+ * how they were collected. The numbers live in the row (score, comments, date), the
+ * provenance is one line at the bottom, and nothing here explains its own machinery.
+ *
+ * Every row was published by hand out of the intake queue (lib/data/jev-threads.json):
+ * the ingest found 26 stories, the relevance filter left 11, and eight of those
+ * earned a written note. The three that did not are not on this page — see
+ * scripts/ingest-hn.mjs and scripts/check-intake.mjs for the gate that enforces it.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { JEV_THREADS_READ_ON, JEV_THREADS_STALE, jevThreadCounts, jevThreads } from "@repo/lib/jev-threads";
+import { JEV_FACET_COUNTS } from "@repo/lib/jev-facets";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+
+const title = "Jev in Discussion: Hacker News Threads and dev.to Write-ups (2026)";
+const description = `Hacker News threads and dev.to write-ups about TypeSafe's Jev — the launch threads, the independent benchmarks, and the integration notes — with every score, comment count and link read on ${JEV_THREADS_READ_ON}.`;
+const canonical = `${SITE}/typesafe-jev/threads`;
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+
+  <Breadcrumbs schema={true} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Threads", url: canonical },
+  ]} />
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Jev on Hacker News: the threads worth reading",
+      description,
+      publishedAt: JEV_THREADS_READ_ON,
+      updatedAt: JEV_THREADS_READ_ON,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+
+  <article>
+    <header class="col">
+      <h1>Jev in discussion</h1>
+      <p class="lede">
+        Two places did to Jev what they do to anything that changes how software is put together:
+        argued about it in public, then rebuilt it in public a few times over. Hacker News ran the
+        launch threads; dev.to is where the people who actually integrated it wrote up what
+        happened, including the two independent benchmarks below. Ordered by the platform's own
+        number — points on Hacker News, reactions on dev.to — and labelled so you can tell which.
+      </p>
+      <p class="provenance">
+        <span>
+          Points, reactions and comment counts read {JEV_THREADS_READ_ON}
+          {JEV_THREADS_STALE > 0 && ` · ${JEV_THREADS_STALE} kept an earlier reading`}
+        </span>
+        <span>{jevThreadCounts.published} threads published</span>
+        {jevThreadCounts.waiting > 0 && <span>{jevThreadCounts.waiting} more waiting for a written note</span>}
+      </p>
+    </header>
+
+    <CardFilter
+      {/*
+        Two groups now: which platform, then which kind of work. The source chips come first because
+        that is the question a reader has first on a wall that mixes a forum thread with a
+        write-up — and because the two numbers on the cards are not the same number.
+      */}
+      chips={[
+        ...["hn", "devto"]
+          .map((source) => ({
+            group: "source",
+            value: source,
+            label: source === "devto" ? "dev.to" : "Hacker News",
+            count: jevThreads.filter((t) => t.source === source).length,
+          }))
+          .filter((chip) => chip.count > 0),
+        ...JEV_FACET_COUNTS.map((facet) => ({
+          group: "tag",
+          value: facet.slug,
+          label: facet.label,
+          count: jevThreads.filter((t) => t.tags.includes(facet.slug)).length,
+        })).filter((chip) => chip.count > 0),
+      ]}
+      noun="threads"
+      total={jevThreads.length}
+      groups={[{ key: "source", label: "source" }, { key: "tag", label: "use case" }]}
+    />
+
+    <ul class="card-grid">
+      {jevThreads.map((thread) => (
+        <li class="card" data-sources={thread.source} data-tags={thread.tags.join(" ")}>
+          {/* Not a generated picture: a screenshot of the item page as it looked on the
+              day we read it (scripts/fetch-shots.py), which is the row's own claim in
+              visual form. Where the shot failed, the row falls back to the source glyph
+              rather than to invented art. */}
+          {thread.card ? (
+            <div class="card-media" style="--ratio: 1200 / 630">
+              <span class="card-src">Hacker News</span>
+              <img src={thread.card} width="1200" height="630" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : thread.thumb ? (
+            /* dev.to publishes a cover image. Hotlinked from its CDN, never downloaded. */
+            <div class="card-media" style="--ratio: 2 / 1">
+              <span class="card-src">dev.to</span>
+              <img src={thread.thumb} width="1000" height="420" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : null}
+          <div class="card-body">
+          {/*
+            The source, on the card. Two platforms with two different currencies now share this
+            wall: a Hacker News thread is measured in points, a dev.to write-up in reactions, and
+            neither number means what the other one means. The eyebrow and the metric line say
+            which is which instead of printing both as "score".
+          */}
+          <p class="card-eyebrow">
+            {thread.source === "devto" ? "dev.to" : "Hacker News"}
+            {thread.readingMinutes ? ` · ${thread.readingMinutes} min read` : ""}
+            {thread.aiDisclosure === "some_ai" ? " · AI-assisted" : ""}
+          </p>
+          <h2 class="card-title"><a href={thread.url} rel="noopener">{thread.title}</a></h2>
+          <p class="card-meta">
+            <span>{thread.author}</span>
+            <span>{thread.publishedAt}</span>
+            {/*
+              A zero is a number, but on a wall it is noise: three dev.to posts published within a
+              day of us reading them showed "0 reactions · 0 comments" under every card, which looks
+              like a broken counter rather than a young article. The reading time (in the eyebrow) is
+              the number that means something for a write-up, so the counts appear when there is
+              something to count. Hacker News rows always have them — 1,949 points is the reason the
+              row is at the top.
+            */}
+            {thread.score > 0 && <span>{fmt(thread.score)} {thread.scoreLabel}</span>}
+            {thread.comments > 0 && <span>{fmt(thread.comments)} comments</span>}
+            {thread.score === 0 && thread.comments === 0 && <span>no reactions yet — read on {JEV_THREADS_READ_ON}</span>}
+          </p>
+          <p class="card-note card-our">{thread.ourNote}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      {/*
+        Scope, stated out loud.
+
+        This column was mapped onto the reference site's `/community`, which carries Reddit and
+        Hacker News under one roof. Ours carries Hacker News, and the title says so — because a
+        column that claims to be "the community" while covering one forum is the kind of quiet
+        overstatement this site is not allowed to make. Checked 2026-09-23: reddit.com's public
+        JSON returns 403 without OAuth (the reason the app is still a dead end,
+        `lessons/reddit-app-creation-is-a-dead-end.md`), Bluesky's public API returns 403, Lobsters
+        rejects the query shape — and **dev.to's API answers**, already with Jev posts in it. So
+        this is a column with one source and a second one waiting rather than a design that cannot
+        grow.
+      */}
+      <h2>What this column covers, and what is still missing</h2>
+      <p>
+        Two sources: <strong>Hacker News</strong>, read through the Algolia API, and{" "}
+        <strong>dev.to</strong>, read through its public API. Both were re-checked on{" "}
+        {JEV_THREADS_READ_ON}, because this column started as Hacker News only and the reference
+        implementation we mapped it onto carries two sources:
+      </p>
+      <ul class="checked">
+        <li><strong>Reddit</strong> — the public JSON returns 403 without OAuth, and creating the app is still blocked; that is a dead end we have already written down once.</li>
+        <li><strong>Bluesky</strong> — <code>public.api.bsky.app</code> answers 403 to an unauthenticated search.</li>
+        <li><strong>Lobsters</strong> — 400, "unpermitted query or form parameter".</li>
+        <li><strong>dev.to</strong> — 200, and now in. Its API is open and it already had thirty Jev posts, including two independent benchmarks.</li>
+      </ul>
+      <p>
+        Which is why the page is called "Jev in discussion" and not "Jev on Hacker News": it stopped
+        being one forum today. The URL never said Hacker News, so nothing has to move for a source
+        to be added — that was the point of naming the column after the shape rather than the site.
+        What a reader should watch for is that the two platforms measure different things: Hacker
+        News counts points, dev.to counts reactions, and a wall that printed both as "score" would be
+        quietly lying about one of them. Each card says which number it is showing.
+      </p>
+
+      <p>
+        Videos. They are a separate column, because a thread is something you read and a video is
+        something you watch — an index that mixes them makes you open both to find out which you got.
+        The demonstrations and walkthroughs people recorded are collected under
+        <a href="/typesafe-jev/videos">videos</a>, and the things that came out of these threads with
+        a repository attached are under <a href="/typesafe-jev/builds">what people built</a>.
+      </p>
+      <p>
+        We also do not paste the comments. A thread is a conversation with its own permalinks, and a
+        copy of it here would be both worse to read and out of date within a day — what we keep is the
+        count, the date and our own reading, and the link goes to the thread itself.
+      </p>
+      <p class="provenance">
+        <a href="https://hn.algolia.com">Source: Hacker News via the Algolia API</a>
+        <span>Every item linked, no content copied</span>
+        <span><a href="/typesafe-jev">Jev topic</a></span>
+      </p>
+    </section>
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/threads" />
+  </article>
+</System>
+
+<style>
+</style>

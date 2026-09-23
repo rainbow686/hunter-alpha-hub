@@ -12,9 +12,21 @@
  *
  * Run: node scripts/check-theme-tokens.mjs [path-to-css]   (npm run check:theme)
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+
+
+/** Recursively collect files with one of the given extensions. */
+function globFiles(dir, extensions) {
+  const out = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) out.push(...globFiles(full, extensions));
+    else if (extensions.some((ext) => entry.endsWith(ext))) out.push(full);
+  }
+  return out;
+}
 
 const here = dirname(fileURLToPath(import.meta.url));
 const CSS = readFileSync(process.argv[2] ?? join(here, "../src/styles/system.css"), "utf8");
@@ -114,7 +126,49 @@ function audit(name, t) {
     const r = ratio(a, b);
     rows.push({ fg, bg, r, min, where, ok: min == null || r >= min, info: min == null });
   }
-  console.log(`\n== ${name}`);
+  
+/*
+ * Third job, added 2026-09-23: **a token that is used but never defined**.
+ *
+ * `var(--space-5)` appeared in 21 places and `var(--space-10)` in 8, and neither was declared
+ * anywhere. CSS does not warn: a shorthand like `padding: var(--space-5) var(--space-6)`
+ * becomes invalid at computed-value time and is dropped whole, so the padding silently did
+ * nothing and a right rail ended up flush against the prose. Nobody sees a missing value in a
+ * stylesheet; everybody sees it in a screenshot, months later.
+ *
+ * The check reads every `var(--…)` used under src/ and fails on the ones the token file does
+ * not declare. It is deliberately the dumb version: names only, no cascade reasoning.
+ */
+/*
+ * Declarations come from three places, because this site declares tokens in all three:
+ * the token file, the stylesheets that add their own (`system.css` holds the palette the
+ * frozen v*.css files do not), and inline `style=` attributes on components (e.g. `--ratio`
+ * on a card's media frame). A checker that only read tokens.css reported eight false
+ * positives on the first run — the fix was to widen it, not to add exclusions.
+ */
+const declared = new Set();
+const sourceFiles = globFiles(join(here, "../src"), [".css", ".astro", ".ts"]);
+for (const file of sourceFiles) {
+  for (const m of readFileSync(file, "utf8").matchAll(/(--[a-z0-9-]+)\s*:/g)) declared.add(m[1]);
+}
+const usedTokens = new Map();
+for (const file of sourceFiles) {
+  const text = readFileSync(file, "utf8");
+  for (const m of text.matchAll(/var\((--[a-z0-9-]+)/g)) {
+    if (!usedTokens.has(m[1])) usedTokens.set(m[1], new Set());
+    usedTokens.get(m[1]).add(file.replace(join(here, ".."), ""));
+  }
+}
+const undeclared = [...usedTokens.entries()].filter(([token]) => !declared.has(token));
+if (undeclared.length) {
+  console.error("These custom properties are used but never declared:");
+  for (const [token, files] of undeclared) {
+    console.error(`  ${token} — ${files.size} file(s), e.g. ${[...files][0]}`);
+  }
+  process.exit(1);
+}
+
+console.log(`\n== ${name}`);
   for (const row of rows) {
     const flag = row.info ? "info" : row.ok ? "ok" : "FAIL";
     console.log(

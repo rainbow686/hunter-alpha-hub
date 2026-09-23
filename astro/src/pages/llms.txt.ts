@@ -19,6 +19,10 @@ import { DATA_AS_OF, openrouterModels } from "@repo/lib/openrouter-models";
 import { ALPHA_LINE_CITATION, ALPHA_LINE_LICENSE, alphaLineEntries, alphaLineStats } from "@repo/lib/alpha-line";
 import { JEV_OURS_MEASURED_ON, JEV_OURS_SAMPLES, oursAmbiguity, oursLatency, oursSchemaProbe } from "@repo/lib/jev-our-measurements";
 import { JEV_INPUT_PRICE_PER_MILLION } from "@repo/lib/jev";
+import { JEV_RESOURCES_READ_ON, jevResourceCounts } from "@repo/lib/jev-resources";
+import { JEV_THREADS_READ_ON, jevThreadCounts } from "@repo/lib/jev-threads";
+import { JEV_VIDEOS_READ_ON, jevVideoCounts } from "@repo/lib/jev-videos";
+import { JEV_BUILDS_READ_ON, jevBuildCounts } from "@repo/lib/jev-builds";
 
 export const prerender = true;
 
@@ -54,6 +58,13 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [Stealth models register](${BASE}/stealth-models): one row per codename, with the fields you can re-check in the catalogue.
 - [Alpha models explained](${BASE}/alpha-models): why these releases are staged this way, and how to evaluate the next one.
 - [Jev on OpenRouter](${BASE}/typesafe-jev): specs, price, question types, and the measurements above with their method.
+- [Jev resources](${BASE}/typesafe-jev/resources): the vendor docs and listings, ${jevResourceCounts.collection} community collections and ${jevResourceCounts.tool} repositories — every link checked and every star count read on ${JEV_RESOURCES_READ_ON}.
+- [Jev discussion](${BASE}/typesafe-jev/threads): ${jevThreadCounts.published} Hacker News threads, with score and comment count read on ${JEV_THREADS_READ_ON}.
+- [Jev by use case](${BASE}/typesafe-jev/use-cases): the decisions people hand to Jev — sorting, triage, routing, context, judging, verification — with the projects and posts that show each one.
+- [Jev on X](${BASE}/typesafe-jev/x-posts): what the field is saying — vendor announcements, benchmarks, sceptics — each with a sentence of ours and a link.
+- [The Jev catalogue report](${BASE}/typesafe-jev/statistics): what we counted and what we measured, with our own probe results (CC BY 4.0, JSON at /typesafe-jev/statistics.json).
+- [Jev builds](${BASE}/typesafe-jev/builds): ${jevBuildCounts.published} projects built on Jev, stars and last push read on ${JEV_BUILDS_READ_ON}.
+- [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
 - [Jev field notes](${BASE}/jev-guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
 - [Compare models](${BASE}/comparison): every curated model side by side on price, window and modality.
 - [Free models](${BASE}/openrouter-free-models): the free routes on the catalogue, re-checked against the API.

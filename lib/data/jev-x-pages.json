@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "what": "One canonical page per X post: the slug and the headline. Hand-written, because a slug cut out of a tweet is `jev-will-make-agents-10-x-faster-and-cheaper-her` and a headline cut out of one is a truncation.",
+    "why": "The reference site links every card to an internal record. Ours linked out to X, which made the hub a doorway: a reader who left rarely came back, and nothing on the site accumulated the link.",
+    "rule": "The slug describes the subject of the post, not the author or the date. The headline is a sentence we can stand behind: where the post makes an unverified claim, the headline says it is a claim (the '10x' routing claim, the 'up to 193x' figure), not a fact.",
+    "written": "2026-09-23"
+  },
+  "pages": {
+    "x:2100411066966749359": {
+      "slug": "browser-use-jev-ultrafast-flight-search",
+      "headline": "Browser Use + Jev searched a flight in seven seconds"
+    },
+    "x:2100739055923425589": {
+      "slug": "jev-claude-plugin-tool-call-trimmer",
+      "headline": "A Claude plugin that trims tool results with Jev"
+    },
+    "x:2100036101809619314": {
+      "slug": "jev-does-not-replace-gpt-or-claude",
+      "headline": "Jev does not replace GPT or Claude"
+    },
+    "x:2101037514945597645": {
+      "slug": "jev-clearly-explained",
+      "headline": "Jev clearly explained: what it is and what it is not"
+    },
+    "x:2100895894287839255": {
+      "slug": "jev-projects-roundup-on-x",
+      "headline": "The coolest Jev projects on X, in one thread"
+    },
+    "x:2100744709589316009": {
+      "slug": "jev-on-openrouter-beta",
+      "headline": "Jev is on OpenRouter, in beta"
+    },
+    "x:2101674202361221376": {
+      "slug": "jev-sorting-years-of-bookmarks",
+      "headline": "Years of bookmarks, run through Jev"
+    },
+    "x:2100715237267660873": {
+      "slug": "jev-tutorial-what-it-is-and-how-to-build",
+      "headline": "A full Jev tutorial: what it is and what to build"
+    },
+    "x:2100984487802708306": {
+      "slug": "jev-internet-moment-for-ai",
+      "headline": "Jev as an “Internet moment” for the AI industry"
+    },
+    "x:2101309986156712025": {
+      "slug": "jev-vs-llms-the-key-difference",
+      "headline": "LLMs vs Jev: the difference is not what you think"
+    },
+    "x:2100780634734002230": {
+      "slug": "jev-long-files-in-claude-code",
+      "headline": "The co-founder's own nod to the Claude Code workflow"
+    },
+    "x:2100982108873191861": {
+      "slug": "jev-claude-skill-install",
+      "headline": "Starting with Jev: install the skill"
+    },
+    "x:2100762304862384257": {
+      "slug": "jev-compaction-critique",
+      "headline": "The argument against Jev-shaped compaction"
+    },
+    "x:2100113737097367896": {
+      "slug": "jev-generates-decisions-not-answers",
+      "headline": "The easiest way to understand Jev"
+    },
+    "x:2100686990090047569": {
+      "slug": "jev-github-repositories-roundup-jp",
+      "headline": "A Japanese roundup of Jev repositories"
+    },
+    "x:2101294219633529030": {
+      "slug": "diogo-almeida-next-era-interview",
+      "headline": "The founder on why the next era is not the coding-agent era"
+    },
+    "x:2101206777924858319": {
+      "slug": "jev-up-to-193x-claim",
+      "headline": "The “up to 193x” figure, as the vendor states it"
+    },
+    "x:2100478725393686556": {
+      "slug": "awesome-jev-list",
+      "headline": "An Awesome Jev list for people with a key and no plan"
+    },
+    "x:2101705843200721203": {
+      "slug": "jev-engineering-control-system",
+      "headline": "Jev Engineering turns an agent stack into a control system"
+    },
+    "x:2101018750916948237": {
+      "slug": "jev-clearest-explanation-greg-isenberg",
+      "headline": "What Jev is, and what it lets you build"
+    },
+    "x:2100421326389354624": {
+      "slug": "custom-jev-style-models-prediction",
+      "headline": "The prediction: custom Jev-style models"
+    },
+    "x:2101453330861965672": {
+      "slug": "jev-explicado-en-espanol",
+      "headline": "A four-minute explanation in Spanish"
+    },
+    "x:2100688880798159254": {
+      "slug": "jev-on-cloudflare-ai-gateway",
+      "headline": "Jev is live on Cloudflare AI Gateway"
+    },
+    "x:2100314182201802811": {
+      "slug": "jev-local-harness-model-routing",
+      "headline": "Using Jev for local harness and model routing"
+    },
+    "x:2100277062309179521": {
+      "slug": "jev-and-the-classification-argument",
+      "headline": "Jev did not reinvent classification"
+    },
+    "x:2101007482919227841": {
+      "slug": "jev-engineering-in-ten-steps",
+      "headline": "Jev Engineering in ten steps"
+    },
+    "x:2100300097695232164": {
+      "slug": "jev-safety-classifier-benchmark",
+      "headline": "Benchmarking a safety classifier against Jev"
+    },
+    "x:2100659471257366766": {
+      "slug": "jev-model-routing-10x-claim",
+      "headline": "The “10x faster and cheaper” routing claim"
+    },
+    "x:2102087107410002345": {
+      "slug": "build-a-jev-judge",
+      "headline": "Build a Jev judge: evaluation as a bounded decision"
+    },
+    "x:2100923960493818177": {
+      "slug": "open-jev-replications-roundup",
+      "headline": "Five open replications, five days after launch"
+    },
+    "x:2100713337436930288": {
+      "slug": "jev-architecture-unmasked-notes",
+      "headline": "Notes on reverse-engineering Jev from ten thousand calls"
+    },
+    "x:2100761338918363550": {
+      "slug": "wtf-is-jev-eli5",
+      "headline": "Multiple choice, not essay writing: Jev as an ELI5"
+    },
+    "x:2100788572316139655": {
+      "slug": "what-people-are-building-with-jev-tldr",
+      "headline": "Nine things people are building, summarised"
+    },
+    "x:2101262191399981504": {
+      "slug": "diogo-almeida-biggest-breakthrough-quote",
+      "headline": "The founder's “biggest breakthrough” framing"
+    },
+    "x:2100844854490103835": {
+      "slug": "jev-use-cases-you-missed",
+      "headline": "The use cases people keep missing"
+    },
+    "x:2100876273061102006": {
+      "slug": "jev-notes-a-faster-classifier",
+      "headline": "A day with Jev, and a deflating conclusion"
+    },
+    "x:2101292455391809670": {
+      "slug": "jev-as-the-control-layer",
+      "headline": "Jev as the control layer agents are missing"
+    },
+    "x:2100623016644223175": {
+      "slug": "six-things-i-tried-with-jev",
+      "headline": "Six things I tried with Jev"
+    },
+    "x:2100362415187833048": {
+      "slug": "jev-in-security-engineering",
+      "headline": "Where Jev fits in security engineering"
+    },
+    "x:2100877682972258619": {
+      "slug": "jev-search-reranking-cold-water",
+      "headline": "Cold water on Jev for search reranking"
+    },
+    "x:2100927101327028484": {
+      "slug": "jev-context-compression-in-spanish",
+      "headline": "On agents that no longer carry the whole context"
+    },
+    "x:2100859307671855113": {
+      "slug": "jev-255-options-in-milliseconds",
+      "headline": "255 options, a few hundred milliseconds, one calibrated answer"
+    }
+  }
+}

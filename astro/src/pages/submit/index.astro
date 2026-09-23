@@ -1,0 +1,44 @@
+---
+/**
+ * /submit — how to get something listed.
+ *
+ * No form endpoint yet, deliberately: the roadmap's own order is A (send it to a
+ * human) then B (let the model triage it). A form that silently posts into a queue
+ * nobody reads would be worse than asking for an email.
+ */
+import System from "../../layouts/System.astro";
+import { SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Submit Something Built With Jev";
+const description = "Send us a project, a demo or a thread built with TypeSafe's Jev, and what to include so we can check it before it goes on the site.";
+const canonical = `${SITE}/submit`;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <article class="col">
+    <p class="eyebrow">Contribute</p>
+    <h1>Built something with Jev?</h1>
+    <p class="lede">
+      Send it over. We read everything that arrives, and we write the entry ourselves — a link plus a
+      sentence saying what it does, checked against the source before it appears on the site.
+    </p>
+    <h2>What to include</h2>
+    <ul>
+      <li><strong>The link</strong> — the repository, the post, or the recording.</li>
+      <li><strong>What it does</strong> — one or two sentences, in your words.</li>
+      <li><strong>Any numbers you want quoted</strong> — cost, latency, a benchmark. We will attribute them to you, because they are yours, not ours.</li>
+      <li><strong>Whether it uses the API or an open model</strong>, if you know — the two answer different questions.</li>
+    </ul>
+    <h2>What happens next</h2>
+    <p>
+      We open the link, check that it exists and says what you said it says, and write the entry. If we
+      cannot verify a number, we either drop it or say in the entry that it is the author's — the same
+      rule that applies to everything else on this site. Nothing publishes automatically.
+    </p>
+    <p><a href="/contact">Send it through the contact page</a></p>
+    <p class="provenance">
+      <span><a href="/typesafe-jev/builds">Built with Jev</a></span>
+      <span><a href="/typesafe-jev/x-posts">Seen on X</a></span>
+    </p>
+  </article>
+</System>

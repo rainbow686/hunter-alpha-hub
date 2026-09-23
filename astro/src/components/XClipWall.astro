@@ -1,0 +1,236 @@
+---
+/**
+ * The clip player for the Jev card walls — one implementation, three pages.
+ *
+ * Renders nothing. It is a `<script>` plus the styles the facades need, and it exists as a
+ * component because the same forty lines had been pasted into `/x-posts`, `/use-cases` and
+ * `/use-cases/<tag>`, which is how a player ends up behaving differently on two of them.
+ *
+ * ## Why the videos play by themselves now
+ *
+ * A reader watched the reference site and described the effect exactly right: nothing is
+ * muted in a way you notice, every clip that scrolls past is already moving, and the wall
+ * reads as "the world is running" rather than as a shelf of posters. Ours waited for a click.
+ * Measured theirs (2026-09-23) instead of guessing: `<video muted loop playsinline
+ * preload="none" poster>` with **no** `autoplay` attribute — one clip playing and three video
+ * requests after load, four playing and fifteen requests after one scroll. So it is
+ * play-when-visible, not a page of autoplaying videos, and that is a thing worth copying.
+ *
+ * ## What we do differently, and why it costs less than theirs
+ *
+ *   1. **Nothing is fetched until the clip is nearly on screen.** Their markup ships every
+ *      `<video>` element (138 of them on one page) and relies on `preload="none"`; we do not
+ *      create the element at all until an IntersectionObserver says the card is 200px away.
+ *      A reader who never scrolls the wall loads no video and builds no elements.
+ *   2. **Playing is bounded by the viewport.** Play on intersect, pause on exit, and pause
+ *      all of them when the tab is hidden — a background tab is not a reason to stream video.
+ *   3. **`prefers-reduced-motion` turns the whole thing off.** The wall falls back to posters
+ *      and the click, which is the version this page shipped yesterday and still works.
+ *   4. **Sound is opt-in and single.** The wall is silent; clicking a clip unmutes *that* one,
+ *      gives it controls, and mutes any other clip the reader had opened. No two clips ever
+ *      play out loud at once, which is the failure mode of a wall with a volume button.
+ *
+ * The mp4 is hotlinked from X's CDN and never downloaded (writing contract §3); the CSP
+ * allows exactly `video.twimg.com`. The document carries `<meta name="referrer"
+ * content="no-referrer">` on these pages, without which the CDN answers 403 — see the
+ * `noReferrer` prop in System.astro.
+ */
+---
+
+<script>
+  const facades = [...document.querySelectorAll<HTMLElement>("[data-xvideo]")];
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /** The one clip allowed to make noise. */
+  let withSound: HTMLVideoElement | null = null;
+  /** Every player we have made, so the tab-visibility handler can reach them. */
+  const players = new Set<HTMLVideoElement>();
+
+  /*
+   * The observer watches the *frame*, not the button.
+   *
+   * First draft observed `[data-xvideo]` and then replaced that very element with the player —
+   * which detaches the observed target and leaves the observer with nothing to report on, so a
+   * clip that scrolled out never paused. `.card-media` is the element that stays.
+   */
+  const frameOf = (button: HTMLElement) => button.closest<HTMLElement>(".card-media") ?? button.parentElement;
+
+  const makePlayer = (frame: HTMLElement, button: HTMLElement) => {
+    const src = button.getAttribute("data-xvideo");
+    if (!src) return null;
+    const video = document.createElement("video");
+    video.className = "xvideo-player";
+    /*
+     * `referrerPolicy` is not politeness, it is the difference between a clip and a black
+     * rectangle: x's CDN answers 403 to any request carrying a third-party Referer. The
+     * property is not implemented on HTMLVideoElement, so the document's meta tag is what
+     * actually does the work here — this line is belt and braces for browsers that add it.
+     */
+    video.referrerPolicy = "no-referrer";
+    const poster = button.getAttribute("data-poster");
+    if (poster) video.poster = poster;
+    video.src = src;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = "none";
+    video.title = "Click for sound";
+    /*
+     * The facade was a `<button>` with an aria-label, and replacing it would take the clip out
+     * of the tab order — a reader who navigates by keyboard could not reach the one thing on the
+     * card that responds. A `<video>` is not focusable by default, so it is made so.
+     */
+    video.tabIndex = 0;
+    video.setAttribute(
+      "aria-label",
+      `${(button.getAttribute("aria-label") ?? "A clip from this post").replace(/^Play( the clip in this post)?: /, "")} — press to hear it`,
+    );
+    frame.replaceChild(video, button);
+    players.add(video);
+    return video;
+  };
+
+  const play = (video: HTMLVideoElement) => {
+    /* A rejected play() is not an error worth a console entry: the usual cause is the browser
+       deciding the gesture was not ours to take, and the poster stays until the reader clicks. */
+    void video.play().catch(() => {});
+  };
+
+  /*
+   * Sound on click. The clip is already playing (silently); the click upgrades it: unmute,
+   * controls, no loop — it is now a thing the reader is watching, not wallpaper — and every
+   * other clip goes back to silent.
+   */
+  const openWithSound = (video: HTMLVideoElement) => {
+    if (withSound && withSound !== video) {
+      withSound.muted = true;
+      withSound.loop = true;
+      withSound.controls = false;
+    }
+    withSound = video;
+    video.muted = false;
+    video.loop = false;
+    video.controls = true;
+    play(video);
+  };
+
+  const observed = new WeakMap<Element, HTMLVideoElement>();
+
+  if (reduced || !("IntersectionObserver" in window)) {
+    /*
+     * Reduced motion, or no observer: posters and a click, exactly as before. This is also the
+     * path with JavaScript disabled, since nothing below runs without it.
+     */
+    for (const button of facades) {
+      button.addEventListener("click", () => {
+        const src = button.getAttribute("data-xvideo");
+        if (!src) return;
+        const video = document.createElement("video");
+        video.className = "xvideo-player";
+        video.src = src;
+        const poster = button.getAttribute("data-poster");
+        if (poster) video.poster = poster;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.preload = "auto";
+        button.replaceWith(video);
+        withSound = video;
+        play(video);
+      });
+    }
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const frame = entry.target as HTMLElement;
+          let video = observed.get(frame);
+          if (entry.isIntersecting) {
+            if (!video) {
+              const button = frame.querySelector<HTMLElement>("[data-xvideo]");
+              if (!button) continue;
+              /* Data saver and slow connections keep the poster: nothing is downloaded until a
+                 play() happens, so declining here costs no bytes at all. */
+              const saveData = (navigator as { connection?: { saveData?: boolean } }).connection?.saveData;
+              if (saveData) continue;
+              const made = makePlayer(frame, button);
+              if (!made) continue;
+              video = made;
+              observed.set(frame, video);
+              video.addEventListener("click", () => openWithSound(video!));
+              video.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openWithSound(video!);
+                }
+              });
+            }
+            play(video);
+          } else if (video) {
+            video.pause();
+          }
+        }
+      },
+      /* 200px of lead time so the clip is already moving when it arrives, rather than
+         starting to load in the reader's face. */
+      { rootMargin: "200px 0px" },
+    );
+    for (const button of facades) {
+      const frame = frameOf(button);
+      if (frame) io.observe(frame);
+    }
+
+    /*
+     * A hidden tab is not a reason to keep streaming. On return, resume only the clips whose
+     * frames are actually on screen — the reader may have scrolled the wall while it was away.
+     */
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        for (const v of players) v.pause();
+        return;
+      }
+      for (const v of players) {
+        const box = v.getBoundingClientRect();
+        if (box.bottom > -200 && box.top < window.innerHeight + 200) play(v);
+      }
+    });
+  }
+</script>
+
+<style is:global>
+  .xvideo-facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: var(--bg-sunken);
+    cursor: pointer;
+    aspect-ratio: var(--ratio, 16 / 9);
+  }
+  .xvideo-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .xvideo-play {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 62%);
+    color: #fff;
+    font-size: 16px;
+    padding-left: 3px;
+  }
+  .xvideo-facade:hover .xvideo-play { background: rgb(0 0 0 / 78%); }
+  /*
+   * The player fills the frame the facade defined, so the card does not change height when the
+   * clip arrives — the wall keeps its shape while it is moving. `.xvideo-facade`'s
+   * `aspect-ratio` was on the button; a `<video>` element has its own intrinsic ratio, so it
+   * gets the ratio from `--ratio` too.
+   */
+  .xvideo-player { display: block; width: 100%; height: auto; aspect-ratio: var(--ratio, 16 / 9); object-fit: cover; background: #000; }
+  /* A clip with sound and controls is being watched, not glanced at: it can be taller than the
+     frame it grew out of, because the reader has stopped scrolling for it. */
+  .xvideo-player[controls] { aspect-ratio: auto; max-height: 70vh; }
+</style>

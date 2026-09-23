@@ -8,6 +8,8 @@
  * hand-rolled renderer this page used while the words still lived in TS.
  */
 import { getCollection, render } from "astro:content";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { SITE } from "../../lib/schema";
 import Article from "../../layouts/Article.astro";
 import { getRelatedPosts } from "@repo/lib/blog";
 
@@ -47,5 +49,10 @@ const related = getRelatedPosts(post.id, 3).map((entry) => ({
   tags={post.data.tags}
   related={related}
 >
+  <Breadcrumbs schema={true} items={[
+    { name: "Blog", url: `${SITE}/blog` },
+    { name: "Article", url: `${SITE}/blog/${Astro.params.slug}` },
+  ]} />
+
   <Content />
 </Article>

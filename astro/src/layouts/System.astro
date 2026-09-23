@@ -3,6 +3,7 @@ import "../styles/system.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Analytics from "../components/Analytics.astro";
+import SearchDialog from "../components/SearchDialog.astro";
 import { SITE, SITE_NAME } from "../lib/schema";
 
 interface Props {
@@ -27,6 +28,18 @@ interface Props {
   /** Override the derived per-page card (the 404 page points at the site card). */
   ogImage?: string;
   /**
+   * Emit `<meta name="referrer" content="no-referrer">`, for pages that play media hotlinked
+   * from X.
+   *
+   * Not a privacy flourish: video.twimg.com answers **403 to any request carrying a
+   * third-party Referer** (checked 2026-09-23 — no referer 200, `https://madewithjev.com/…`
+   * 403, `https://www.hunteralphahub.com/…` 403, an x.com referer 200). A media element cannot
+   * opt out on its own, because `referrerPolicy` is not implemented on HTMLVideoElement
+   * (`'referrerPolicy' in document.createElement('video')` is false); the document has to. The
+   * reference site ships exactly this meta tag, which is why its clips play and ours did not.
+   */
+  noReferrer?: boolean;
+  /**
    * Section fronts — the pages whose job is to help you pick what to open next:
    * the home page, the model and article directories, the stealth line, the
    * comparison table. They take the full frame and fill it with grids, the way a
@@ -44,6 +57,7 @@ const {
   lang = "en",
   ogType = "website",
   ogImage: ogImageProp,
+  noReferrer = false,
   alternates = [],
   wide = false,
 } = Astro.props;
@@ -81,6 +95,7 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
         behaviour change (index, follow is the default) but it is a difference for
         no reason, and `check:page-parity` now compares head tags too. */}
     <meta name="robots" content="index, follow" />
+    {noReferrer && <meta name="referrer" content="no-referrer" />}
     {canonical && <link rel="canonical" href={canonical} />}
     {alternates.map((alternate) => (
       <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />
@@ -142,10 +157,22 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     {/* Two tiers, decided 2026-09-20. A section front fills the frame; a single
         subject is one centred column. Both are in the industry's habits — see the
         note on `wide` above and docs/research/2026-09-20-content-column-widths.md. */}
-    <main class={wide ? "wrap" : "wrap column"} style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
+    {/*
+      `data-pagefind-body` is what the ⌘K index reads (scripts/build-search-index.mjs).
+      The masthead, the nav and the footer sit on all 113 pages, so indexing them
+      would put "Hunter Alpha Hub · OpenRouter model reference" in front of every
+      query; the marker keeps a page's own words as its content. A page without it
+      fails the build rather than disappearing from search silently.
+    */}
+    <main
+      class={wide ? "wrap" : "wrap column"}
+      data-pagefind-body
+      style="padding-top: var(--space-8); padding-bottom: var(--space-12);"
+    >
       <slot />
     </main>
     <SiteFooter />
+    <SearchDialog />
     <script is:inline>
       const header = document.querySelector("header.site");
       const CONDENSE_AT = 120;

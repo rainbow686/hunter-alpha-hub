@@ -29,6 +29,22 @@ export const CONTENT_REVISED: Record<string, string> = {
   "/stealth-models": "2026-09-22",
   // New page, written and dated 2026-09-22.
   "/alpha-line-report": "2026-09-22",
+  "/typesafe-jev/threads": "2026-09-22",
+  "/typesafe-jev/videos": "2026-09-22",
+  "/typesafe-jev/demos": "2026-09-22",
+  "/typesafe-jev/x-posts": "2026-09-22",
+  "/typesafe-jev/use-cases": "2026-09-22",
+  "/typesafe-jev/use-cases/browser-agents": "2026-09-22",
+  "/typesafe-jev/use-cases/triage-and-routing": "2026-09-22",
+  "/typesafe-jev/use-cases/coding-and-context": "2026-09-22",
+  "/typesafe-jev/use-cases/research-and-data": "2026-09-22",
+  "/typesafe-jev/use-cases/media-and-content": "2026-09-22",
+  "/typesafe-jev/use-cases/trading-and-markets": "2026-09-22",
+  "/typesafe-jev/use-cases/getting-started": "2026-09-22",
+  "/typesafe-jev/builds": "2026-09-22",
+  "/submit": "2026-09-22",
+  // First column of the Jev topic: links checked and star counts read this day.
+  "/typesafe-jev/resources": "2026-09-22",
   // The Union Alpha reveal (2026-09-18) touched all of these.
   "/faq": "2026-09-18",
   "/alpha-models": "2026-09-18",

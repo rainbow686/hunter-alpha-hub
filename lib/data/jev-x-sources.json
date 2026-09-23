@@ -1,0 +1,131 @@
+{
+  "note": "Seeds read from the reference site's /x-posts list on 2026-09-22, then resolved one by one through the public syndication endpoint. Kept only as leads: an entry reaches a page only after we write our own sentence about it.",
+  "sources": [
+    {
+      "url": "https://x.com/0xCodez/status/2101294219633529030"
+    },
+    {
+      "url": "https://x.com/0xCodila/status/2100984487802708306"
+    },
+    {
+      "url": "https://x.com/0xLogicrw/status/2100478725393686556"
+    },
+    {
+      "url": "https://x.com/0xMovez/status/2101007482919227841"
+    },
+    {
+      "url": "https://x.com/0xRicker/status/2101292455391809670"
+    },
+    {
+      "url": "https://x.com/0xRicker/status/2101705843200721203"
+    },
+    {
+      "url": "https://x.com/CloudflareDev/status/2100688880798159254"
+    },
+    {
+      "url": "https://x.com/DataChaz/status/2101206777924858319"
+    },
+    {
+      "url": "https://x.com/ErickSky/status/2100927101327028484"
+    },
+    {
+      "url": "https://x.com/GoSailGlobal/status/2100859307671855113"
+    },
+    {
+      "url": "https://x.com/GoSailGlobal/status/2100877682972258619"
+    },
+    {
+      "url": "https://x.com/Kostastsale/status/2100362415187833048"
+    },
+    {
+      "url": "https://x.com/NathanFlurry/status/2100036101809619314"
+    },
+    {
+      "url": "https://x.com/OpenRouter/status/2100744709589316009"
+    },
+    {
+      "url": "https://x.com/SUOHA_AI/status/2100780634734002230"
+    },
+    {
+      "url": "https://x.com/akshay_pachaar/status/2101037514945597645"
+    },
+    {
+      "url": "https://x.com/akshay_pachaar/status/2101309986156712025"
+    },
+    {
+      "url": "https://x.com/akshay_pachaar/status/2102087107410002345"
+    },
+    {
+      "url": "https://x.com/alexchristou_/status/2101674202361221376"
+    },
+    {
+      "url": "https://x.com/altryne/status/2100739055923425589"
+    },
+    {
+      "url": "https://x.com/cocktailpeanut/status/2100277062309179521"
+    },
+    {
+      "url": "https://x.com/da_fant/status/2100659471257366766"
+    },
+    {
+      "url": "https://x.com/fazxes/status/2100300097695232164"
+    },
+    {
+      "url": "https://x.com/gregisenberg/status/2101018750916948237"
+    },
+    {
+      "url": "https://x.com/gregpr07/status/2100411066966749359"
+    },
+    {
+      "url": "https://x.com/iannuttall/status/2100982108873191861"
+    },
+    {
+      "url": "https://x.com/isaac_flath/status/2100623016644223175"
+    },
+    {
+      "url": "https://x.com/iwashi86/status/2100713337436930288"
+    },
+    {
+      "url": "https://x.com/jiayuan_jy/status/2100876273061102006"
+    },
+    {
+      "url": "https://x.com/jonymusky/status/2101453330861965672"
+    },
+    {
+      "url": "https://x.com/mdlahfir/status/2100314182201802811"
+    },
+    {
+      "url": "https://x.com/moritzkremb/status/2100715237267660873"
+    },
+    {
+      "url": "https://x.com/moritzkremb/status/2100895894287839255"
+    },
+    {
+      "url": "https://x.com/mvanhorn/status/2100761338918363550"
+    },
+    {
+      "url": "https://x.com/mvanhorn/status/2100788572316139655"
+    },
+    {
+      "url": "https://x.com/paarangatrai/status/2100113737097367896"
+    },
+    {
+      "url": "https://x.com/studio_yebisu/status/2100686990090047569"
+    },
+    {
+      "url": "https://x.com/swill1ams/status/2100421326389354624"
+    },
+    {
+      "url": "https://x.com/theo/status/2100762304862384257"
+    },
+    {
+      "url": "https://x.com/tonnoz/status/2100844854490103835"
+    },
+    {
+      "url": "https://x.com/xiaomovps/status/2100923960493818177"
+    },
+    {
+      "url": "https://x.com/zodchiii/status/2101262191399981504"
+    }
+  ]
+}

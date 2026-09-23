@@ -21,9 +21,136 @@
  * Third layout regression this week that every guard passed and only a screenshot
  * caught; see docs/lessons/hand-drawn-svg-must-be-photographed.md.
  */
-.foot-grid {
-  grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
-  gap: var(--space-6);
+/*
+ * The five-column footer is a desktop layout, and it has to say so: v6.css sets
+ * `1fr 1fr` inside a max-width media query, and this file's rule comes later in
+ * source order, so an unscoped override wins at every width. Measured at 390px:
+ * the footer laid itself out in five columns, the page ran 22px wider than the
+ * viewport, and three unrelated pages showed the same 22px — the tell that it was
+ * the chrome and not the column being worked on
+ * (docs/lessons/site-chrome-overflows-mobile-by-22px.md).
+ */
+@media (min-width: 761px) {
+  .foot-grid {
+    grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+/*
+ * Same measurement, same page width: the masthead's status slot is the other
+ * element past the viewport edge (right edge 459 on a 390px screen). It carries
+ * the live-codename status, which is worth the space on a desktop and not worth
+ * a horizontal scrollbar on a phone.
+ */
+@media (max-width: 560px) {
+  .masthead .live-slot { display: none; }
+}
+
+/*
+ * The search button (2026-09-22). It is the only control in the nav row that
+ * introduces a new surface, so it is worth saying why it looks like this: the nav
+ * row is a strip of small caps, and a button that matched them would read as another
+ * link. It carries a hairline instead — the same treatment the price tables use for
+ * a value the reader can act on — plus the shortcut, which is the one piece of
+ * information a reader needs to stop using the mouse.
+ *
+ * `.nav-tools` also re-homes the `margin-left: auto` that used to sit on `.meta` in
+ * v7.css, so the count and the button travel together at every width (the count is
+ * hidden below 760px and would otherwise leave the button with nothing to push it).
+ */
+.navrow .nav-tools {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.navrow .nav-tools .meta { margin-left: 0; }
+.navrow .search-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.navrow .search-trigger:hover { color: var(--text); border-color: var(--text-faint); }
+.navrow .search-trigger kbd {
+  font: inherit;
+  letter-spacing: 0.04em;
+  padding: 1px 4px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--bg-sunken);
+  color: var(--text-faint);
+}
+/*
+ * How the button gives up its space, in the order the pieces are worth keeping.
+ * Measured, not guessed: the nav row is 1080 of a 1440 viewport, the nav itself
+ * needs 535 on one line, the brand that returns on scroll needs 137, and the gaps
+ * take 48 — so everything to the right of the nav has 360px, and the button plus
+ * the model count wanted 390. The count goes first because a number about the
+ * catalogue is decoration and a search box is a control; the ⌘K hint goes next,
+ * because it is a hint and not the button; the word goes last, leaving the
+ * magnifier, which is the one shape that needs no label.
+ */
+@media (max-width: 1280px) {
+  .navrow .search-trigger kbd { display: none; }
+}
+@media (max-width: 1080px) {
+  .navrow .search-trigger span { display: none; }
+  .navrow .search-trigger { padding: 5px var(--space-2); }
+}
+@media (max-width: 1000px) {
+  .navrow .meta { display: none; }
+}
+/*
+ * Six small-caps items need 535px and a phone has 334, so the nav wrapped — two
+ * lines without the search button and three with it. The row keeps its designed
+ * height and the nav scrolls sideways instead, which is also the fix for a bug that
+ * predates the button: measured at 390px, the wrapped nav was 73px tall inside a
+ * 56px row and painted over the top of the page.
+ */
+@media (max-width: 760px) {
+  /* `header.site .navrow nav`, not `.navrow nav`: tokens.css sets
+     `header.site nav { flex-wrap: wrap }`, which is one class plus two elements and
+     so outranks the shorter selector however late this file loads. Measured after
+     the first attempt: `overflow-x` applied and `flex-wrap` did not. */
+  header.site .navrow nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* The half-word at the right edge is deliberate but reads as a layout fault;
+       a fade says "there is more this way" the way a carousel does. */
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  }
+  header.site .navrow nav::-webkit-scrollbar { display: none; }
+  header.site .navrow nav a { flex: 0 0 auto; }
+}
+/*
+ * …and on scroll the count leaves entirely, which is the same trade the masthead
+ * makes one row above: what disappears is the meta, and what appears is the brand.
+ * It fades rather than vanishes so the row does not reflow under the reader's eye.
+ */
+.nav-tools .meta {
+  transition: opacity 160ms ease, max-width 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+header.site.is-condensed .nav-tools .meta {
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-tools .meta { transition: none; }
 }
 
 :root {
@@ -269,6 +396,18 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 .prose p { margin: 0 0 var(--space-4); }
 .prose > :first-child { margin-top: 0; }
+/*
+ * Lists get their indent from one rule, not from each box's own padding.
+ *
+ * On 2026-09-23 the reader saw bullet markers sitting *outside* the border of the "In short"
+ * box and the "What we checked" list. The cause was `padding-left: var(--space-5)` on those
+ * boxes: the token did not exist, so the declaration was dropped and `padding-left` fell back
+ * to its initial value of 0 — a marker is drawn outside the padding box, so with no padding
+ * there is nowhere for it to sit. Defining the token fixed that instance; this rule fixes the
+ * class, because a list now keeps its indent whatever a box around it happens to declare.
+ */
+ul, ol { padding-left: var(--space-6); }
+
 .prose ul, .prose ol { margin: 0 0 var(--space-4); padding-left: var(--space-6); }
 .prose li { margin-bottom: var(--space-2); }
 .prose blockquote {
@@ -317,3 +456,115 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
    2. Every data surface is followed by `.provenance` (source + verified date).
    3. Unverified statements use `.tag.claimed`, never plain body text.
    4. The brand lockup is `Hunter` + italic `Alpha` + `Hub`, Title Case, no frames. */
+
+/* ------------------------------------------------------------------ covers
+ * A page cover (contract §5–§6): one engraving at the top of a long-form page.
+ * Two things this rule is doing:
+ *   - the frame is 16:9 and the image is cropped into it with `object-fit`, because
+ *     FLUX.2-flex returns 1024×1024 whatever size we ask for (measured: requested
+ *     1280×720, naturalWidth came back 1024). Letterboxing a square would show the
+ *     crop; `cover` hides it and keeps the declared width/height honest, so no CLS.
+ *   - `width: 100%` only, never a fixed 1280: an unconstrained 1280px image inside a
+ *     760px column pushed the page 205px past the viewport on three pages.
+ */
+.figure.cover { margin: 0 0 var(--space-8); max-width: 100%; }
+.figure.cover img {
+  width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+  display: block; border: 1px solid var(--border); border-radius: var(--radius);
+}
+
+/* ------------------------------------------------------------------ cards
+ * The one card grammar for every directory page (builds / videos / threads /
+ * demos, and later the article and data lists). One skeleton everywhere: a visual
+ * slot, an eyebrow, a clamped title, a clamped description, a tabular meta line
+ * pinned to the bottom so cards in a row end level.
+ *
+ * The visual slot is filled only by something real — a source's own preview (the
+ * GitHub card, the YouTube thumbnail), the page's own cover thumbnail, a favicon,
+ * or a source glyph. A generated illustration never goes in a card: on a directory
+ * page that would be a picture of nothing in particular (contract §5).
+ *
+ * Ratios differ by source (GitHub draws 2:1, YouTube is 16:9, a glyph is square),
+ * so the frame takes `--ratio` and the cards are aligned by their text instead.
+ */
+/*
+ * Masonry, the cheap way: CSS columns plus `break-inside: avoid`. Copied from
+ * madewithjev's measured behaviour — columns of fixed width (368px there, 320 here) and
+ * **heights that follow the content** (172 to 566px in one column), which is what makes
+ * a card wall read as a wall instead of a spreadsheet. Our grid version clamped the text
+ * and pinned the meta line, so every card came out the same height; a reader noticed
+ * before I did.
+ */
+.card-grid { list-style: none; margin: var(--space-8) 0; padding: 0; columns: 3 320px; column-gap: var(--space-6); }
+@media (max-width: 760px) { .card-grid { columns: 1; } }
+/*
+ * `hidden` has to win over our own display declarations.
+ *
+ * The filter bar set `card.hidden = true` and the cards stayed on screen, because
+ * `.card { display: flex }` is an author rule and beats the user-agent's
+ * `[hidden] { display: none }`. The verification said it worked: it counted `.hidden`
+ * properties instead of looking at the layout, which is the same mistake in the test as in
+ * the code. It was caught by clicking a chip in a browser and seeing nothing move.
+ */
+[hidden] { display: none !important; }
+
+.card { break-inside: avoid; margin-bottom: var(--space-6); display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.card:hover { border-color: var(--border-strong); }
+/* The source badge. madewithjev labels every card's origin; measured, it is a small chip
+   over the media, not part of the picture — so it stays text the machine can read. */
+.card-media { position: relative; display: block; aspect-ratio: var(--ratio, 2 / 1); background: var(--bg-sunken); }
+.card-src { position: absolute; left: var(--space-2); bottom: var(--space-2); padding: 2px var(--space-2); border-radius: var(--radius-sm); background: rgb(0 0 0 / 62%); color: #fff; font-size: var(--text-xs); letter-spacing: 0.04em; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/*
+ * `.card-chip` was the no-media fallback: a sunken panel with the source's initials
+ * centred in it. Removed 2026-09-22 — seventeen of the forty-two X posts have no
+ * media, and forty-two cards where a third of them are identical empty rectangles
+ * reads as a machine's grid rather than a wall. Cards without a picture now start at
+ * their eyebrow line; the source is in the eyebrow, so nothing is lost.
+ */
+.card-body { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-5) var(--space-5); flex: 1; }
+.card-eyebrow { margin: 0; font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); }
+/*
+ * The person, at the head of the card.
+ *
+ * Borrowed from the reference site, which puts an avatar and a name on every card; this wall had
+ * only a handle at the foot, which is why a reader called it "machine-made". Hotlinked from
+ * pbs.twimg.com, never downloaded (writing contract §3).
+ */
+.card-byline { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); }
+.card-avatar { width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--border); object-fit: cover; flex: none; }
+.card-title { margin: 0; font-family: var(--serif); font-size: var(--text-lg); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card-title a { color: var(--text); text-decoration: none; }
+.card-title a:hover { text-decoration: underline; }
+.card-note { margin: 0; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.card-meta { margin: auto 0 0; padding-top: var(--space-2); display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+/*
+ * Author-reported figures on a card.
+ *
+ * The reference site prints one bare `~300 ms` per card and puts the label in a tooltip.
+ * We show the label, because a bare number next to a Jev card reads as our measurement of
+ * Jev and is not: it is the author's figure, about the author's thing. The quote and the
+ * date ride in the `title` here and are written out on the item page.
+ *
+ * Kept to one line each and pushed to the bottom of the body: a card with a number should
+ * not grow taller than its neighbour without one, or the wall stops reading as a wall.
+ */
+.card-claims { margin: 0; padding-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); }
+/* The names carry the `chip` suffix on purpose: a bare `.claim` is already taken by the
+   frozen legacy sheets (v2/v3/v5 — the left-bar "claim" block on the model pages), and a
+   collision there is invisible in the source and obvious only on the rendered card. */
+.claimchip { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); font-size: var(--text-xs); line-height: 1.4; }
+.claimchip-value { font-family: var(--mono); font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--text); }
+.claimchip-label { color: var(--text-muted); }
+.claimchip-src { color: var(--text-faint); text-decoration: underline dotted; text-underline-offset: 2px; }
+
+/* ------------------------------------------------------------------ crumbs
+ * The trail sits above a page's own header, so it must not compete with it: small,
+ * muted, and separated by less space than the header block uses internally.
+ * The pages also dropped their "Jev · discussion" eyebrows once this landed — the
+ * trail already says Jev, and two labels stacked above one title read as noise
+ * (the h1 was the third thing in a row saying what the page was).
+ */
+.crumbs ol { margin: 0 0 var(--space-6); }
+article > header.col > .crumbs ol, header.col > .crumbs ol { margin-bottom: var(--space-4); }
+h1 + .lede { margin-top: 0; }
