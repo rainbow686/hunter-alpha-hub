@@ -1001,7 +1001,13 @@ header.site .topicrow .wrap { position: relative; }
 .tt-more a:hover { background: var(--bg-sunken); }
 .tt-more-label { flex: 1; }
 @media (max-width: 560px) {
-  /* A phone has no room to the right of the capsule: the panel hangs from its own left edge and
-     fills the row, so it cannot run off the screen. */
-  .tt-more ul { right: auto; left: 0; min-width: min(320px, calc(100vw - 32px)); }
+  /*
+   * A phone has no room to the right of the capsule: the panel is anchored to the **row** instead
+   * of to the button. First attempt kept `position: relative` on the button and set `left: 0` on
+   * the panel, which started the panel at the button's left edge — x=270 in a 390px viewport, so
+   * the labels were there and the counts were off-screen. With the button static, the row is the
+   * containing block and `left/right: 0` spans it.
+   */
+  .tt-more { position: static; }
+  .tt-more ul { left: 0; right: 0; min-width: 0; }
 }
