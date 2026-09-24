@@ -144,17 +144,24 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
  * the order a magazine uses, and the order the reference site uses ("what people
  * are building", then the explainers).
  *
- * The wall is a **sample**: sixteen from each column, interleaved, every one of them
- * in the column's own index with the full list. Sixty-four cards is the size the
- * reader asked for (they favour abundance, and a wall is a visual argument), and it
- * costs nothing at load: every image is lazy and hotlinked, so the first paint
- * fetches only the two or three posters on screen. What a bigger wall does cost is
- * *attention* — past a few screens a reader stops reading and starts scrolling — so
- * the guard against this page becoming the index is that the cards link to the
- * columns' own lists, not that the page is short.
+ * The wall is a **sample**: up to twenty-four from each column, interleaved, every one of
+ * them in the column's own index with the full list. The reader asked for a fuller wall on
+ * 2026-09-24 and twenty-four per column is what they approved.
+ *
+ * **Twenty-four per column is not ninety-six cards**, which is what I first told them:
+ * twenty-four times four only reaches ninety-six if every column holds twenty-four, and
+ * three of the four do not (builds 18, videos 12, threads 14 — read from the same files the
+ * column pages render). The wall is therefore **68 cards** today, and it grows on its own as
+ * the small columns grow. That is the honest version of "make it fuller", and it is why the
+ * number is not written down anywhere on the page: the strip above asks the data.
+ *
+ * A bigger wall costs nothing at load — every image is lazy and hotlinked, so first paint
+ * fetches only the posters on screen — but it does cost *attention*: past a few screens a
+ * reader stops reading and starts scrolling. The guard against this page becoming the index
+ * is that every card links into its column, not that the page is short.
  */
 const fmt = (n: number) => n.toLocaleString("en-US");
-const WALL_PER_COLUMN = 16;
+const WALL_PER_COLUMN = 24;
 
 const wallX: WallItem[] = jevXPosts.slice(0, WALL_PER_COLUMN).map((post) => ({
   kind: "X post",
@@ -237,12 +244,19 @@ const heroStats = [
   { value: "783 ms", label: "median from our own run", note: `${JEV_OURS_SAMPLES} calls, from this machine, 2026-09-20` },
 ];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer wide>
   {/*
     `noReferrer` is required the moment the wall carries a clip: video.twimg.com answers 403 to
     any request with a third-party Referer, and a media element cannot opt out on its own (see
     System.astro). The column pages have carried it since the clips went in; the front page
     picked up the same clips on 2026-09-24.
+
+    `wide` since the same day, and it was an outright bug rather than a preference: ADR-0019
+    splits the tiers on "is this page one subject or a row of many things", this page became
+    the second kind when the wall went in, and it kept the first kind's width — so the wall
+    laid out at 760 and rendered **two** columns of 368, not three. The reader saw it before
+    we did. Prose inside a wide page is fine: the tier decides the frame, not the paragraph
+    measure, and the reference material below the wall is unchanged.
   */}
   <Breadcrumbs schema={false} items={[
     { name: "Jev", url: canonical },
@@ -313,18 +327,15 @@ const heroStats = [
       ))}
     </ul>
     {/*
-      The chips are the topic's own columns — not a global taxonomy, and not a
-      matrix: Laya's equivalent row is different, because a model that ships weights
-      raises questions a hosted API does not. Each chip is a link to the full list,
-      which is where the index lives; this page only samples it.
+      The chips are the topic's own **reading**, not its shelves: guide, price, comparison,
+      open source, statistics. The shelves (Built with Jev / X posts / Videos / Threads /
+      Resources / Use cases) used to be here with their counts, and they moved into the
+      sticky switcher directly under the header on 2026-09-24 — the same links, with the
+      same counts, on every page of the topic, which is what the reader asked for. Two
+      copies of one row about 400px apart is not "more navigation", it is the page arguing
+      with itself about which one is the entrance.
     */}
-    <nav class="topic-chips" aria-label="Jev columns">
-      {columns.map((column) => (
-        <a href={column.href}>
-          {column.label}
-          <span class="chip-count">{column.count}</span>
-        </a>
-      ))}
+    <nav class="topic-chips" aria-label="Jev explainers">
       <a href="/typesafe-jev/guide">How people use Jev</a>
       <a href="/typesafe-jev/pricing">What a decision costs</a>
       <a href="/typesafe-jev/vs-llm">Jev vs an LLM</a>

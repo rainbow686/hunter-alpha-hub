@@ -1,5 +1,7 @@
 ---
 import Logo from "./Logo.astro";
+import TopicTabs from "./TopicTabs.astro";
+import { pagePath } from "../lib/page-path";
 import { DATA_AS_OF, openrouterModels } from "@repo/lib/openrouter-models";
 import { stealthLine } from "@repo/lib/stealth-models";
 import { topics } from "@repo/lib/spotlight";
@@ -8,7 +10,14 @@ import { topics } from "@repo/lib/spotlight";
  * Masthead header that folds into a single row on scroll.
  * Scroll logic lives in the layout (inline script) so this component stays static.
  */
-const path = Astro.url.pathname;
+/*
+ * Normalised, not raw. `Astro.url.pathname` carries the build's file-format suffix
+ * (`/comparison.html`), so the exact-match below has been comparing `/comparison.html` to
+ * `/comparison` on every page since the Astro migration — the nav was marking nothing as
+ * current, and only the topic switcher (fixed the same day) made it visible. See
+ * lib/page-path.ts.
+ */
+const path = pagePath(Astro.url);
 /*
  * The live slot and the verified stamp read from the tracker data, not from this
  * file. They were hardcoded here (`Union Alpha live`, `Verified 2026-09-17`) while
@@ -175,4 +184,12 @@ const sections = [
       </div>
     </div>
   </div>
+  {/*
+    The topic switcher, on every page of a model topic and nowhere else. It lives inside
+    the header because the header is the sticky element: a bar in the page body would have
+    to be pinned *below* a container whose height changes as it folds (102px at the top,
+    54px condensed), and at one of those two numbers it would sit under the chrome. See
+    the component for the rest of the reasoning, and lib/topic-tabs.ts for the tabs.
+  */}
+  <TopicTabs />
 </header>

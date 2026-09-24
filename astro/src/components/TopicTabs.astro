@@ -1,0 +1,50 @@
+---
+/**
+ * The topic switcher. Renders nothing at all outside a topic.
+ *
+ * It is mounted **inside `<header class="site">`** (see SiteHeader.astro) rather than at
+ * the top of each page, and that is the whole trick: the header is already
+ * `position: sticky` for every page, so a row inside it sticks without a second sticky
+ * context, without measuring the header's height, and without fighting the masthead's
+ * collapse-on-scroll (measured 2026-09-24: 102px at the top, 54px condensed — a bar in
+ * the page body pinned at either number would sit *under* the header at the other one).
+ *
+ * It also comes out the same width everywhere: `.wrap` is 1080 on every page, while the
+ * page's own content column is 792 or 1048 depending on the tier (ADR-0019). A switcher
+ * that changed width when you switched views would be worse than no switcher.
+ *
+ * The counts come from lib/topic-tabs.ts, which reads them from the same data the pages
+ * render — never typed here.
+ */
+import { tabForPath, topicNavFor } from "@repo/lib/topic-tabs";
+import { pagePath } from "../lib/page-path";
+
+/* Without `pagePath` this component is invisible on `/typesafe-jev` and visible on
+   `/typesafe-jev/x-posts` — see the helper. */
+const path = pagePath(Astro.url);
+const topic = topicNavFor(path);
+const current = topic ? tabForPath(topic, path) : undefined;
+---
+
+{topic && (
+  <div class="topicrow">
+    <div class="wrap">
+      {/*
+        `aria-label` names the thing, and the nav is a nav: a screen reader user should be
+        able to jump straight to "Jev topic" the same way they jump to the site nav.
+      */}
+      <nav class="topic-tabs" aria-label={`${topic.label} topic`}>
+        {topic.tabs.map((tab) => (
+          <a
+            href={tab.href}
+            title={tab.note}
+            aria-current={current?.href === tab.href ? "page" : undefined}
+          >
+            <span>{tab.label}</span>
+            {typeof tab.count === "number" && <span class="tt-count">{tab.count}</span>}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+)}

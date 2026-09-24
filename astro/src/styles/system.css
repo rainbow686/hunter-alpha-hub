@@ -737,3 +737,80 @@ ul, ol { padding-left: var(--space-6); }
 .crumbs ol { margin: 0 0 var(--space-6); }
 article > header.col > .crumbs ol, header.col > .crumbs ol { margin-bottom: var(--space-4); }
 h1 + .lede { margin-top: 0; }
+
+/* ------------------------------------------------------------- topic switcher
+ * The row under the nav that carries a model topic's catalogue views (2026-09-24).
+ *
+ * It sits inside the sticky header on purpose — see TopicTabs.astro. Two consequences
+ * worth writing down, because both were the reason for the placement:
+ *
+ *   1. it is 1080 wide on every page of the topic (`.wrap`), even though the page's own
+ *      column is 792 or 1048 depending on the tier. A switcher that changed width when
+ *      you switched views would read as a different control on every page;
+ *   2. the condensed header keeps it, so the bar never disappears — that persistence is
+ *      the whole point (it is what makes the reference site's links feel like tabs
+ *      instead of a maze).
+ *
+ * The chrome budget it costs is ~40px, and it only exists inside a topic: measure it on
+ * `/typesafe-jev` and on `/comparison` before changing anything here.
+ */
+.topicrow {
+  border-top: 1px solid var(--border);
+  background: var(--bg-sunken);
+}
+/*
+ * Height is set explicitly because `header.site .wrap` (tokens.css) pins **every** wrap in
+ * the header to 56px — its specificity beats a plain `.topicrow .wrap`, and the first build
+ * of this bar came out 57px tall (measured), which is 19px of chrome for nothing. 38px fits
+ * the pills with 6px above and below them.
+ */
+header.site .topicrow .wrap { height: 38px; padding-top: 0; padding-bottom: 0; }
+/*
+ * `header.site nav` (tokens.css) is a flex box with `flex-wrap: wrap`, and it beats a bare
+ * `.topic-tabs` on specificity — so the first mobile build wrapped the bar into three rows
+ * of chrome, 106px tall, with "USE CASES" alone on the third (measured at 390px). The
+ * element selector is here to win that one declaration back, not for style.
+ */
+header.site nav.topic-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  /* One line, always. On a phone the row scrolls sideways rather than wrapping to three
+     rows of chrome — a wrapped switcher pushes the page down and stops reading as a bar. */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.topic-tabs::-webkit-scrollbar { display: none; }
+.topic-tabs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 3px var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.topic-tabs a:hover { color: var(--text); border-color: var(--text-faint); }
+/* Where you are. Filled rather than outlined, so the bar answers "which view am I on"
+   before the h1 does — the same reason the nav row underlines the current section. */
+.topic-tabs a[aria-current="page"] {
+  color: var(--text);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.topic-tabs .tt-count {
+  font-size: 10px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.topic-tabs a[aria-current="page"] .tt-count { color: var(--text-muted); }
