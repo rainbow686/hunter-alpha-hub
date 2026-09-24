@@ -29,6 +29,7 @@ import { jevVideoCounts } from "./jev-videos";
 import { jevXPostCounts } from "./jev-x-posts";
 import { jevThreadCounts } from "./jev-threads";
 import { jevResourceCounts } from "./jev-resources";
+import { JEV_FACET_COUNTS } from "./jev-facets";
 
 
 export interface TopicTab {
@@ -45,6 +46,19 @@ export interface TopicNav {
   /** Used in the bar's `aria-label`: "Jev topic". */
   label: string;
   tabs: TopicTab[];
+  /**
+   * The second axis, folded into one segment of the bar (2026-09-24).
+   *
+   * The reference site keeps its use cases in a permanent left rail; we do not have the width for
+   * one (see docs/research/2026-09-24-use-case-axis.md) and the reader did not want a rail-sized
+   * change. So the second axis is a panel that opens from the bar — six links, with the counts
+   * read from the same file the facet pages render.
+   *
+   * Note what it is: **links to pages**, not a filter. The in-place filtering happens on the wall
+   * itself (the front page's chips), because a filter belongs where the cards are; a page belongs
+   * where a URL is.
+   */
+  more?: { label: string; items: TopicTab[] };
 }
 
 export const topicNavs: TopicNav[] = [
@@ -67,6 +81,15 @@ export const topicNavs: TopicNav[] = [
        */
       { href: "/typesafe-jev/use-cases", label: "Use cases" },
     ],
+    more: {
+      label: "Use cases",
+      items: JEV_FACET_COUNTS.map((facet) => ({
+        href: `/typesafe-jev/use-cases/${facet.slug}`,
+        label: facet.label,
+        count: facet.count,
+        note: facet.blurb,
+      })),
+    },
   },
   {
     prefix: "/laya",

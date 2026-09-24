@@ -45,6 +45,47 @@ const current = topic ? tabForPath(topic, path) : undefined;
           </a>
         ))}
       </nav>
+      {/*
+        The second axis, in one segment next to the capsule (2026-09-24).
+
+        It lives **outside** the `<nav>` on purpose: that element scrolls sideways on a phone, and a
+        dropdown inside a horizontal scroll container gets clipped to the bar. Outside, the panel
+        drops freely at any width.
+
+        It is `<details>`, so it opens without JavaScript and closes on a second click; the script
+        below only adds the two behaviours people expect and `<details>` does not have — close on
+        Escape, and close when you click somewhere else.
+      */}
+      {topic.more && (
+        <details class="tt-more">
+          <summary>
+            {topic.more.label}
+            <span class="tt-caret" aria-hidden="true">▾</span>
+          </summary>
+          <ul>
+            {topic.more.items.map((item) => (
+              <li>
+                <a href={item.href} title={item.note}>
+                  <span class="tt-more-label">{item.label}</span>
+                  {typeof item.count === "number" && <span class="tt-count">{item.count}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
     </div>
   </div>
 )}
+
+<script is:inline>
+  for (const details of document.querySelectorAll(".tt-more")) {
+    document.addEventListener("click", (event) => {
+      if (!details.open) return;
+      if (!details.contains(event.target)) details.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && details.open) details.open = false;
+    });
+  }
+</script>

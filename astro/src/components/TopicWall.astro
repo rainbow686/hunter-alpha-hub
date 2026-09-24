@@ -44,6 +44,15 @@ export interface WallItem {
    * that is a sample of the columns should behave like them.
    */
   video?: string;
+  /**
+   * The facets this row belongs to, so a wall can be filtered where it stands.
+   *
+   * They are passed in rather than looked up here because the wall is used by more than one topic
+   * and each topic has its own vocabulary (ADR-0018): Jev's six use cases are not Laya's.
+   * `check:intake` already refuses a tag that is not in the vocabulary, so this attribute can only
+   * ever carry slugs a facet page exists for.
+   */
+  tags: string[];
 }
 
 interface Props {
@@ -63,7 +72,7 @@ const ratio = (w?: number, h?: number) => {
 
 <ul class="card-grid wall">
   {items.map((item) => (
-    <li class="card">
+    <li class="card" data-tags={item.tags.join(" ")}>
       {item.thumb && (
         <div class="card-media" style={`--ratio: ${ratio(item.thumbW, item.thumbH)}`}>
           <span class="card-src">{item.kind}</span>

@@ -936,3 +936,72 @@ header.site .topicrow .wrap::after {
   /* Where the viewport, not the column, is the limit: fill the row and scroll inside the capsule. */
   header.site nav.topic-tabs { max-width: 100%; }
 }
+
+/* ---------------------------------------------------- the second axis ("Use cases")
+ * One segment beside the capsule that opens the topic's other axis as links (2026-09-24).
+ *
+ * Why a panel and not a rail: the topic's use cases are six items, and a permanent rail costs
+ * 270px of the page's width — measured, that drops the wall from three columns to two on our
+ * frame. Everything the rail was for (sources, use cases, the long-form pages) is now reachable
+ * from the bar; see docs/research/2026-09-24-use-case-axis.md.
+ *
+ * It is `<details>`, so with JavaScript blocked it still opens — the site's other controls
+ * (search, submit) degrade to nothing, and this one should not.
+ */
+header.site .topicrow .wrap { position: relative; }
+.tt-more { position: relative; flex: 0 0 auto; margin-left: 6px; }
+.tt-more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+/* Safari draws its own marker; `list-style: none` is not enough on older versions. */
+.tt-more summary::-webkit-details-marker { display: none; }
+.tt-more summary:hover { color: var(--text); border-color: var(--text-faint); }
+.tt-more[open] summary { color: var(--text); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 38%, transparent); }
+.tt-more .tt-caret { font-size: 9px; transition: transform 140ms ease; }
+.tt-more[open] .tt-caret { transform: rotate(180deg); }
+.tt-more ul {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 268px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 12%);
+}
+.tt-more li + li { border-top: 1px solid var(--border); }
+.tt-more a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: 7px var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+.tt-more a:hover { background: var(--bg-sunken); }
+.tt-more-label { flex: 1; }
+@media (max-width: 560px) {
+  /* A phone has no room to the right of the capsule: the panel hangs from its own left edge and
+     fills the row, so it cannot run off the screen. */
+  .tt-more ul { right: auto; left: 0; min-width: min(320px, calc(100vw - 32px)); }
+}
