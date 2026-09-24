@@ -318,7 +318,11 @@ const heroVideo = layaVideos[0] ?? null;
     ))}
   </div>
 
-  <section class="topic-wall">
+  {/*
+    `data-generated`: the wall is a sample of the four columns, same as the Jev front page — the
+    cards change when the columns grow, which the parity guard must not read as dropped links.
+  */}
+  <section class="topic-wall" data-generated="topic-wall">
     <h2>What people are building</h2>
     {/*
       The kinds axis over the wall, the same way Jev's uses cases work: it filters what is already on

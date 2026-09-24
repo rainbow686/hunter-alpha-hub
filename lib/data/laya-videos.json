@@ -8,9 +8,9 @@
     ],
     "quotaPerRun": 301,
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-    "generatedAt": "2026-09-24T09:52:24.382Z",
-    "candidates": 14,
-    "published": 9
+    "generatedAt": "2026-09-24T19:52:57.458Z",
+    "candidates": 18,
+    "published": 11
   },
   "entries": [
     {
@@ -408,6 +408,118 @@
       "ourNote": "Six minutes, and the fastest of these videos to get to the point: the package, the weights, the three question types, done. Useful precisely because it does not try to argue the case for the model, which the longer videos above spend most of their time on.",
       "checked": [
         "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "yt:SLB8g_vVAQA",
+      "videoId": "SLB8g_vVAQA",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=SLB8g_vVAQA",
+      "title": "🔥 ¿Un IF con Inteligencia Artificial? Conoce Jev",
+      "author": "hdeleon.net",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/SLB8g_vVAQA/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 620
+      },
+      "metrics": {
+        "views": 52935,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a Spanish-language explainer about Jev; Laya is not in the title or the description",
+      "tags": []
+    },
+    {
+      "id": "yt:0zFfcEr1e9U",
+      "videoId": "0zFfcEr1e9U",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=0zFfcEr1e9U",
+      "title": "Jev by TypeSafe AI | What is a System-1 Decision Model | CampusX",
+      "author": "CampusX",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/0zFfcEr1e9U/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 5398
+      },
+      "metrics": {
+        "views": 49199,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a lecture on Jev from CampusX; Laya appears only in passing in the description, and the card would be titled with the wrong model",
+      "tags": []
+    },
+    {
+      "id": "yt:ty622HPl600",
+      "videoId": "ty622HPl600",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=ty622HPl600",
+      "title": "What is Jev? (and is laya better?)",
+      "author": "GitButler",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/ty622HPl600/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 787
+      },
+      "metrics": {
+        "views": 14755,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Two models, one question in the title, and a host who runs both rather than reading their cards: what Jev is, then whether the open one is better. The answer is more conditional than the thumbnail suggests, which is why it is on this wall.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-25",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "yt:AX9tB8SsPdU",
+      "videoId": "AX9tB8SsPdU",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=AX9tB8SsPdU",
+      "title": "I Tested Laya: An Open-Source JEV Alternative",
+      "author": "Singularity Feed | AI Models , Agents & Robotics",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/AX9tB8SsPdU/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 199
+      },
+      "metrics": {
+        "views": 13178,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Somebody actually installing the open model and testing it rather than summarising the repository: the download, the first call, and what the models do when asked to decide. The channel has no stake in either project, which is the useful part.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-25",
         "view count, duration and channel read from the YouTube Data API the same day"
       ],
       "tags": [

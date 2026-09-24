@@ -74,8 +74,20 @@ for (const tag of TAGS) {
         : typeof a.tags === "string"
           ? a.tags
           : "";
-      const text = `${a.title} ${a.description ?? ""} ${tagText}`;
+      /*
+       * Relevance is judged on the row's **own words**, never on the tag we searched by.
+       *
+       * The first run folded `tagText` into this string and the Jev queue filled with 2023–2025
+       * TypeScript posts about "type-safe" APIs: dev.to's `typesafe` tag is a general tag about type
+       * safety, and a row that carried it matched `\btypesafe\b` through the tag itself. A tag is how
+       * we *found* the row; it cannot also be the evidence that the row is about this model.
+       *
+       * The date floor is the second half of the same fix: the model is from September 2026, so a
+       * 2024 article cannot be about it whatever its tags say.
+       */
+      const text = `${a.title} ${a.description ?? ""}`;
       if (!RELEVANT.test(text)) continue;
+      if (CFG.minDate && (a.published_at ?? "").slice(0, 10) < CFG.minDate) continue;
       seen.add(id);
       fresh.push({
         id,

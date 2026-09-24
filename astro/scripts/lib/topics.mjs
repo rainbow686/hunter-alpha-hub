@@ -62,6 +62,8 @@ export const TOPICS = {
       out: "lib/data/jev-threads.json",
       tags: ["jev", "typesafe"],
       relevance: /(\bjev\b|\btypesafe\b|system one)/i,
+      /* Earlier than this is not about this model, whatever tag it carries. */
+      minDate: "2026-06-01",
       perPage: 30,
     },
     x: {

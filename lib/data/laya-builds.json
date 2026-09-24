@@ -11,9 +11,10 @@
       "minStars": 10
     },
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-    "generatedAt": "2026-09-24T09:53:46.580Z",
-    "candidates": 24,
-    "published": 18
+    "generatedAt": "2026-09-24T19:38:24.352Z",
+    "candidates": 25,
+    "published": 19,
+    "refreshedAt": "2026-09-24T19:47:50.304Z"
   },
   "entries": [
     {
@@ -31,9 +32,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 21758,
+        "stars": 22757,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-24"
+        "pushedAt": "2026-09-24",
+        "forks": 1955,
+        "language": "Python"
       },
       "what": "Non-autoregressive System 1 decision engine. Typed choice, score and yes/no decisions over any text in a single forward pass, in 100+ languages, with a router that picks the right checkpoint per request.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -77,9 +80,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 6109,
+        "stars": 6194,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-22"
+        "pushedAt": "2026-09-22",
+        "forks": 475,
+        "language": "Python"
       },
       "what": "Native MLX runtime for Laya typed decision models — 7–14 ms short decisions on M3 Max. No text generation, PyTorch, or cloud API.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -125,9 +130,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 1404,
+        "stars": 1424,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-22"
+        "pushedAt": "2026-09-22",
+        "forks": 121,
+        "language": "Python"
       },
       "what": "Local Laya typed decisions on Apple Core ML and Neural Engine. Validated ports, ~5 ms short decisions on M3 Max, reproducible speed and energy benchmarks.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -172,9 +179,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 378,
+        "stars": 408,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-21"
+        "pushedAt": "2026-09-21",
+        "forks": 36,
+        "language": "TypeScript"
       },
       "what": "Run Laya, the open-source Jev-compatible System-1 decision model, from Node.js / TypeScript via ONNX Runtime",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -247,9 +256,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 283,
+        "stars": 284,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-20"
+        "pushedAt": "2026-09-20",
+        "forks": 43,
+        "language": "Python"
       },
       "what": "Calibrated 151M Non-Autoregressive Decision Engine beating TypeSafe Jev & Laya on LocalLLaMA/typed-decisions (77.10% acc, 0.0636 Brier, 0.0144 ECE)",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -296,9 +307,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 152,
+        "stars": 153,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-20"
+        "pushedAt": "2026-09-20",
+        "forks": 33,
+        "language": "JavaScript"
       },
       "what": "A website, two games, a benchmark and an agent skill for Laya, the open-source decision model. Runs on your machine.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -371,9 +384,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 149,
+        "stars": 167,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-22"
+        "pushedAt": "2026-09-22",
+        "forks": 25,
+        "language": "Python"
       },
       "what": "Same as jev-ultrafast but using Laya",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -418,9 +433,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 94,
+        "stars": 97,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-21"
+        "pushedAt": "2026-09-21",
+        "forks": 10,
+        "language": "Python"
       },
       "what": "Laya vs Jev: local MLX and hosted AI decisions playing T-Rex side by side, with live metrics and replay recording",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -466,9 +483,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 85,
+        "stars": 87,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-23"
+        "pushedAt": "2026-09-23",
+        "forks": 8,
+        "language": "C++"
       },
       "what": "C++ inference for Laya typed decisions - supports CUDA, Vulkan, Core ML, CPU",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -514,9 +533,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 82,
+        "stars": 83,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-23"
+        "pushedAt": "2026-09-24",
+        "forks": 4,
+        "language": "Python"
       },
       "what": "Agent evals and guardrails as Jev decisions: one request per trace, a fraction of a cent, fast enough for the agent loop. Runs locally with Kev or Laya.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -562,9 +583,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 53,
+        "stars": 58,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-23"
+        "pushedAt": "2026-09-24",
+        "forks": 10,
+        "language": "Python"
       },
       "what": "System 1 decision models (Jev, Laya, Cua-S1) as brain for agents: Browser use, computer use, games and robotics",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -610,9 +633,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 53,
+        "stars": 64,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-24"
+        "pushedAt": "2026-09-24",
+        "forks": 8,
+        "language": "Python"
       },
       "what": "Intent compiler for AI agents — converges vague requests into typed IntentSpec contracts (probe, ask, or halt before routing), the input layer for routers and typed-decision models like Jev & Laya",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -684,9 +709,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 41,
+        "stars": 45,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-24"
+        "pushedAt": "2026-09-24",
+        "forks": 45,
+        "language": "TypeScript"
       },
       "what": "A self-hosted API and web interface for Laya’s structured decision models, compatible with the TypeSafe Jev API format.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -731,9 +758,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 31,
+        "stars": 38,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-23"
+        "pushedAt": "2026-09-24",
+        "forks": 2,
+        "language": "Rust"
       },
       "what": "System One compatible API for open decision models, e.g. Laya, written in Rust.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -781,7 +810,9 @@
       "metrics": {
         "stars": 29,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-22"
+        "pushedAt": "2026-09-22",
+        "forks": 10,
+        "language": "JavaScript"
       },
       "what": "Laya (open source, local) vs TypeSafe Jev (API): two AI models race in Snake and fight in a Mortal-Kombat-style arena. Every move is a real model decision.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -853,9 +884,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 23,
+        "stars": 24,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-20"
+        "pushedAt": "2026-09-24",
+        "forks": 3,
+        "language": "HTML"
       },
       "what": "Serve typed-decision (System 1) models — Laya or your own — on NVIDIA GPUs or Apple Silicon, with a Jev-compatible API and coding-agent integrations",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -954,9 +987,11 @@
         "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 21,
+        "stars": 25,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-24"
+        "pushedAt": "2026-09-24",
+        "forks": 1,
+        "language": "Python"
       },
       "what": "Local proxy that learns your app's typed LLM decisions and answers them with a Laya head. Jev and OpenAI compatible.",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -1004,7 +1039,9 @@
       "metrics": {
         "stars": 19,
         "asOf": "2026-09-24",
-        "pushedAt": "2026-09-21"
+        "pushedAt": "2026-09-21",
+        "forks": 3,
+        "language": "Python"
       },
       "what": "Run Jev-style typed decisions locally on your Mac with low RAM usage and fast responses",
       "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
@@ -1033,6 +1070,50 @@
         ],
         "whatWeDidNotCheck": "The 32 ms median and the memory figures. Both are the author's, measured on an M5 Pro; our own run of the same weights is a CPU measurement and is not comparable.",
         "bestFor": "Macs where memory matters more than milliseconds"
+      }
+    },
+    {
+      "id": "gh:codejunkie99/keel",
+      "source": "github",
+      "url": "https://github.com/codejunkie99/keel",
+      "title": "codejunkie99/keel",
+      "author": "codejunkie99",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 17,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "Local-first macOS coding workspace with local Laya and optional Jev decision selection",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "A macOS coding workspace where the model only chooses from options the host prepared, and the host checks the choice before acting on it. It is the strictest version of the split this topic keeps describing: the model selects, the application decides.",
+      "checked": [
+        "the README, architecture document and guide it links, read 2026-09-25",
+        "the licence file",
+        "the star count and last push, read from the GitHub search API the same day"
+      ],
+      "tags": [
+        "agents-and-tools",
+        "serving-and-api"
+      ],
+      "dossier": {
+        "slug": "keel",
+        "readOn": "2026-09-25",
+        "license": "MIT",
+        "stack": "Rust · GPUI · local Laya or hosted Jev",
+        "whatItDoes": "A local-first coding workspace that connects several agents through one protocol, routes a fresh task to one of the backends the user has allowed, and keeps a record of every decision. Laya runs locally as the selector; Jev is an optional hosted alternative.",
+        "howItWorks": "Eligible routes are prepared by the application, the selector picks one from that set, and permission checks owned by the host run before anything is applied — so a wrong choice is a rejected route rather than an executed one.",
+        "whatWeChecked": [
+          "the README, architecture document and guide it links, read 2026-09-25",
+          "the licence file",
+          "the star count and last push, read from the GitHub search API the same day"
+        ],
+        "whatWeDidNotCheck": "Whether the selector is better than the deterministic rules it replaces. The repository describes the architecture and the safety checks; it publishes no comparison of routing quality.",
+        "bestFor": "running a local selector inside an application that will not hand it the keys"
       }
     }
   ]

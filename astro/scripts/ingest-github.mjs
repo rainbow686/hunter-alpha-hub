@@ -56,38 +56,74 @@ const GH_HEADERS = { "user-agent": UA, accept: "application/vnd.github+json", ..
 if (process.argv.includes("--refresh")) {
   const queue = JSON.parse(readFileSync(OUT, "utf8"));
   const published = queue.entries.filter((e) => e.status === "published");
+
+  /**
+   * Read one repository's own numbers, with the search endpoint as the fallback.
+   *
+   * Why the fallback exists (2026-09-24, the day this ran on two topics and failed 36 times):
+   * `/repos/<slug>` is the **core** API — 60 requests an hour unauthenticated, which two topics'
+   * worth of refreshes blows through instantly, and the failure is 403 on every row with nothing
+   * written. `/search/repositories?q=repo:<slug>` returns the same four fields we store
+   * (`stargazers_count`, `forks_count`, `language`, `pushed_at`) and it has its **own** quota of
+   * 10/minute unauthenticated. So the cheap exact call still goes first, and a rate-limited core API
+   * no longer means "the numbers cannot be refreshed today" — it means one search per repository,
+   * paced at 6.5 seconds so 10/minute is never exceeded.
+   */
+  const readRepo = async (slug) => {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${slug}`, { headers: GH_HEADERS });
+      if (res.ok) return { repo: await res.json(), via: "repos" };
+    } catch { /* fall through to the search endpoint */ }
+    await new Promise((r) => setTimeout(r, 200));
+    const url = new URL("https://api.github.com/search/repositories");
+    url.searchParams.set("q", `repo:${slug}`);
+    url.searchParams.set("per_page", "1");
+    const res = await fetch(url, { headers: GH_HEADERS });
+    if (!res.ok) throw new Error(`HTTP ${res.status} (and the search fallback too)`);
+    const json = await res.json();
+    const repo = (json.items ?? [])[0];
+    if (!repo) throw new Error("search returned nothing for this repository");
+    return { repo, via: "search" };
+  };
+
   let changed = 0, moved = 0, failed = 0;
+  let viaSearch = 0;
   for (const e of published) {
     const slug = e.id.replace("gh:", "");
-    let repo = null;
-    for (let attempt = 0; attempt < 2 && !repo; attempt++) {
+    let read = null;
+    for (let attempt = 0; attempt < 2 && !read; attempt++) {
       try {
-        const res = await fetch(`https://api.github.com/repos/${slug}`, { headers: GH_HEADERS });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        repo = await res.json();
+        read = await readRepo(slug);
       } catch (err) {
         if (attempt === 1) {
           failed += 1;
           console.error(`  ${slug}: ${err.message.split("\n")[0]} — left at ${e.metrics.stars} (${e.metrics.asOf})`);
         }
-        else await new Promise((r) => setTimeout(r, 1500)); // unauthenticated reads are rate-limited
+        else await new Promise((r) => setTimeout(r, 6500)); // the search endpoint allows 10 a minute
       }
     }
-    if (!repo) continue;
+    if (!read) continue;
+    const repo = read.repo;
+    if (read.via === "search") viaSearch += 1;
     const before = e.metrics.stars;
     const stars = repo.stargazers_count ?? before;
     if (stars !== before) moved += 1;
     console.log(`  ${String(stars - before).padStart(6)} ★  ${String(before).padStart(6)} → ${String(stars).padStart(6)}  ${slug}`);
     e.metrics = { ...e.metrics, stars, forks: repo.forks_count ?? null, language: repo.language ?? null, asOf, pushedAt: (repo.pushed_at ?? "").slice(0, 10) };
     changed += 1;
-    await new Promise((r) => setTimeout(r, 900));
+    /*
+     * 6.5s between rows, not 900ms: a row that fell back to search has to stay inside the search
+     * endpoint's 10-per-minute budget, and pacing every row the same way means a partially
+     * rate-limited run does not become an all-403 run halfway through.
+     */
+    await new Promise((r) => setTimeout(r, read.via === "search" ? 6500 : 900));
   }
   queue.meta = { ...queue.meta, refreshedAt: new Date().toISOString() };
   if (!process.argv.includes("--dry")) writeFileSync(OUT, `${JSON.stringify(queue, null, 2)}\n`);
-  const hint = failed > 0 && !process.env.GITHUB_TOKEN && !process.env.GH_TOKEN
-    ? " — 60 req/hour unauthenticated; set GITHUB_TOKEN in ~/.config/shared-apis/env to raise it to 5,000"
+  const hint = viaSearch > 0 && !process.env.GITHUB_TOKEN && !process.env.GH_TOKEN
+    ? " — the core API was rate-limited, so those rows were read through the search endpoint instead; a token in ~/.config/shared-apis/env makes the fast path work again"
     : "";
-  console.log(`builds refresh: ${changed} read (${moved} moved), ${failed} failed${process.argv.includes("--dry") ? " — dry run" : ""}${hint}`);
+  console.log(`builds refresh: ${changed} read (${moved} moved), ${failed} failed${viaSearch ? `, ${viaSearch} via the search endpoint` : ""}${process.argv.includes("--dry") ? " — dry run" : ""}${hint}`);
   process.exit(failed > 0 ? 1 : 0);
 }
 

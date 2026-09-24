@@ -491,7 +491,13 @@ const heroStats = [
     which put eight questions between the numbers and the thing the page is for. The FAQ now follows
     the wall, where it reads as the closing of the page rather than a detour in the middle of it.
   */}
-  <section class="topic-wall">
+  {/*
+    `data-generated`: the wall is a **sample** — up to twenty-four rows per column, by likes, views
+    and points — so adding an X post or a video displaces a card that used to be on it. That is the
+    sample working, not a link being dropped; every displaced row keeps its place in its column and
+    in the sitemap.
+  */}
+  <section class="topic-wall" data-generated="topic-wall">
     <h2>What people are building</h2>
     {/*
       The use-case axis over the wall. Measured against the reference site (2026-09-24): its left

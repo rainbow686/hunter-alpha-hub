@@ -1,5 +1,5 @@
 {
-  "note": "Laya X seeds, found 2026-09-24 by searching for the model on the open web (DDG via a real browser) and resolving each candidate through the public syndication endpoint. A seed is a lead, not a record: ingest-x writes every one of them as a candidate, and a row reaches the page only after somebody reads it and writes the note.",
+  "note": "Laya X seeds, found 2026-09-24 by searching for the model on the open web (DDG via a real browser) and resolving each candidate through the public syndication endpoint. A seed is a lead, not a record: ingest-x writes every one of them as a candidate, and a row reaches the page only after somebody reads it and writes the note. Batch added 2026-09-25: the whole list is re-read by ingest-x.mjs, which resolves each link through the public syndication endpoint and writes a candidate; a seed is a lead, not a record.",
   "sources": [
     {
       "url": "https://x.com/0x0SojalSec/status/2101467715798290466"
@@ -102,6 +102,48 @@
     },
     {
       "url": "https://x.com/yibie/status/2101695257477886060"
+    },
+    {
+      "url": "https://x.com/DataLanding/status/2101654114086121858"
+    },
+    {
+      "url": "https://x.com/MadhavSz/status/2102081414292533726"
+    },
+    {
+      "url": "https://x.com/NirantK/status/2101919265481957817"
+    },
+    {
+      "url": "https://x.com/OrcaRouter/status/2102317280897995237"
+    },
+    {
+      "url": "https://x.com/RonfortMartin/status/2102271300890747293"
+    },
+    {
+      "url": "https://x.com/ZachSents/status/2102234988041416866"
+    },
+    {
+      "url": "https://x.com/airesearch12/status/2101311992984199580"
+    },
+    {
+      "url": "https://x.com/grok/status/2102189071032312146"
+    },
+    {
+      "url": "https://x.com/grok/status/2102300645529100524"
+    },
+    {
+      "url": "https://x.com/m_newhaus/status/2101734191289471321"
+    },
+    {
+      "url": "https://x.com/melophile0646/status/2102063736630706454"
+    },
+    {
+      "url": "https://x.com/mernit/status/2101451056727077358"
+    },
+    {
+      "url": "https://x.com/neko23423/status/2102208074299941116"
+    },
+    {
+      "url": "https://x.com/ric_guia/status/2102188962072658192"
     }
   ]
 }

@@ -206,8 +206,13 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
     </aside>
   </article>
 
+  {/*
+    `data-generated`: the three nearest rows that share a kind. It is a recommendation rather than
+    authored navigation — adding a build to the column can displace one of the three, and the parity
+    guard has to read that as the block doing its job (2026-09-25, when four new rows reshuffled it).
+  */}
   {related.length > 0 && (
-    <section class="related">
+    <section class="related" data-generated="related-builds">
       <h2>More like this</h2>
       <ul class="card-grid">
         {related.map((other) => (

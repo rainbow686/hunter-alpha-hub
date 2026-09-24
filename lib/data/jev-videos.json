@@ -1,14 +1,14 @@
 {
   "meta": {
-    "generatedAt": "2026-09-22T07:49:04.785Z",
+    "generatedAt": "2026-09-24T19:52:55.128Z",
     "source": "youtube-data-api-v3",
     "queries": [
       "jev decision model typesafe",
       "system one jev tutorial"
     ],
     "quotaPerRun": 201,
-    "candidates": 12,
-    "published": 12,
+    "candidates": 15,
+    "published": 15,
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 0
   },
@@ -373,6 +373,96 @@
         "defaultAudioLanguage it; description read in Italian"
       ],
       "tags": []
+    },
+    {
+      "id": "yt:dUXnH23djRU",
+      "videoId": "dUXnH23djRU",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=dUXnH23djRU",
+      "title": "Jev: System One Model",
+      "author": "ZAUEY (Claire Zau)",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/dUXnH23djRU/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 170
+      },
+      "metrics": {
+        "views": 258386,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "An explainer for the question everybody asks first — why is this model interesting when it cannot write — and it answers it with the mechanism rather than the marketing. Two hundred and fifty thousand views, which makes it the video most readers will meet this model through.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-25",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "yt:cFx9Z3ZXca0",
+      "videoId": "cFx9Z3ZXca0",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=cFx9Z3ZXca0",
+      "title": "Why I couldn't build Jev at OpenAI — Diogo Almeida, TypeSafe Co-founder & CEO",
+      "author": "Latent Space",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/cFx9Z3ZXca0/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 8542
+      },
+      "metrics": {
+        "views": 203701,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "The founder's own account of why the model could not have been built at OpenAI: years spent on instruction following, and the conclusion that a bounded decision is a different problem from a generated answer. Long, first-person, and the only row in this column that is the company talking about itself at length.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-25",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "yt:VE5dsWll06M",
+      "videoId": "VE5dsWll06M",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=VE5dsWll06M",
+      "title": "Building a Harness with Jev",
+      "author": "LangChain",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/VE5dsWll06M/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 555
+      },
+      "metrics": {
+        "views": 202062,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "A harness build rather than a model review: how to put the decision call inside an agent loop, what to send it, and what to do with an answer that arrives as a probability. Two hundred thousand views, and the most practical of the three.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-25",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     }
   ]
 }
