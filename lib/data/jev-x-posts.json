@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generatedAt": "2026-09-24T02:43:29.382Z",
+    "generatedAt": "2026-09-24T03:53:07.425Z",
     "source": "x-syndication",
     "queries": [
-      "82 curated links"
+      "83 curated links"
     ],
     "intake": "X has no read API we can afford (ADR-0023), so posts are entered by hand from a curated list and resolved through the public syndication endpoint. A post is published only after somebody reads it and writes the note.",
-    "candidates": 82,
-    "published": 62,
+    "candidates": 83,
+    "published": 82,
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 0,
     "refreshedAt": "2026-09-23T03:26:17.878Z"
@@ -3393,6 +3393,51 @@
         "text": "昨天出的 https://t.co/6eiMFaJTrj Jev 模型 适合高频决策，那岂不又是适合打游戏？ 之前用 GPT-6 Astra 代打杀戮尖塔2 能力强但速度慢。 我刚实测用 Jev 打，行动思考只需 0.7秒， 画面我都没看清它就操作完了。 这超人类游戏速度， 着实又让我震惊瘫坐了😅 语言很难描述这感觉，看视频⬇️ https://t.co/y9Nu78Hnv4",
         "chars": 190,
         "from": "https://x.com/coolish/status/2100570517954838897",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2099925682726002904",
+      "source": "x",
+      "url": "https://x.com/CompleteSkeptic/status/2099925682726002904",
+      "title": "After co-inventing ChatGPT, I kept asking myself: why have superhuman chat models not led to …",
+      "author": "@CompleteSkeptic",
+      "publishedAt": "2026-09-15",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2099925575637057536/img/l4J_ZhkaxAe8FJXv.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1650708125685800960/7k6r0UZg_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2099925575637057536/vid/avc1/640x360/uvGD_dS_Y0awQHqj.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 176,
+          "bitrate": 832000,
+          "bytes": 6194727,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 75869,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The launch post itself: the founder on why superhuman chat models did not lead to AGI, and what he built instead — 20–200× faster, 40–400× cheaper, and it cannot write a sentence. Every number in it is the vendor's, dated 15 September 2026, and the clip is the announcement read out loud.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "After co-inventing ChatGPT, I kept asking myself: why have superhuman chat models not led to AGI? I’ve spent the last 2 years in stealth building a new way to train models (RLCD), and a new type of frontier AI model that we are releasing today: Jev • 20-200x faster • 40-400x…",
+        "chars": 299,
+        "from": "https://x.com/CompleteSkeptic/status/2099925682726002904",
         "readOn": "2026-09-24"
       }
     }

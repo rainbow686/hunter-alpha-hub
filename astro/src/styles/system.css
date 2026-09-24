@@ -741,57 +741,93 @@ h1 + .lede { margin-top: 0; }
 /* ------------------------------------------------------------- topic switcher
  * The row under the nav that carries a model topic's catalogue views (2026-09-24).
  *
- * It sits inside the sticky header on purpose — see TopicTabs.astro. Two consequences
- * worth writing down, because both were the reason for the placement:
+ * It sits inside the sticky header on purpose — see TopicTabs.astro — and that is also why it
+ * is the one piece of chrome allowed to be translucent: the header is a solid publication
+ * masthead, and this is the tab strip that rides under it while the page scrolls beneath. The
+ * band is frosted (the page shows through, blurred) and the tabs live inside **one capsule**,
+ * which was the reader's second note on the day it shipped: separate pills floating on a band
+ * read as five buttons that happen to be near each other; one capsule reads as a control with
+ * positions in it, which is what it is.
  *
- *   1. it is 1080 wide on every page of the topic (`.wrap`), even though the page's own
- *      column is 792 or 1048 depending on the tier. A switcher that changed width when
- *      you switched views would read as a different control on every page;
- *   2. the condensed header keeps it, so the bar never disappears — that persistence is
- *      the whole point (it is what makes the reference site's links feel like tabs
- *      instead of a maze).
+ * Two consequences of living in the header, both worth knowing before changing this:
  *
- * The chrome budget it costs is ~40px, and it only exists inside a topic: measure it on
- * `/typesafe-jev` and on `/comparison` before changing anything here.
+ *   1. it is 1080 wide on every page of the topic (`.wrap`), even where the page's own column
+ *      is 792 or 1048. A switcher that changed width when you switched views would read as a
+ *      different control on every page;
+ *   2. the condensed header keeps it, so the bar never disappears — that persistence is the
+ *      whole point (it is what makes the reference site's links feel like tabs and not a maze).
+ *
+ * The chrome it costs is ~46px, and it only exists inside a topic: measure it on `/typesafe-jev`
+ * and on `/comparison` before changing anything here.
  */
 .topicrow {
   border-top: 1px solid var(--border);
-  background: var(--bg-sunken);
+  border-bottom: 1px solid var(--border);
+  /* Frosted: 62% paper over whatever scrolls under it. `-webkit-` first for older Safari,
+     which is the browser most likely to be on a phone here. */
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  -webkit-backdrop-filter: saturate(170%) blur(12px);
+  backdrop-filter: saturate(170%) blur(12px);
 }
 /*
- * Height is set explicitly because `header.site .wrap` (tokens.css) pins **every** wrap in
- * the header to 56px — its specificity beats a plain `.topicrow .wrap`, and the first build
- * of this bar came out 57px tall (measured), which is 19px of chrome for nothing. 38px fits
- * the pills with 6px above and below them.
+ * Height is set explicitly because `header.site .wrap` (tokens.css) pins **every** wrap in the
+ * header to 56px — its specificity beats a plain `.topicrow .wrap`, and the first build of this
+ * bar came out 57px tall (measured), which is 19px of chrome for nothing.
  */
-header.site .topicrow .wrap { height: 38px; padding-top: 0; padding-bottom: 0; }
+header.site .topicrow .wrap { height: 46px; padding-top: 0; padding-bottom: 0; }
 /*
  * `header.site nav` (tokens.css) is a flex box with `flex-wrap: wrap`, and it beats a bare
- * `.topic-tabs` on specificity — so the first mobile build wrapped the bar into three rows
- * of chrome, 106px tall, with "USE CASES" alone on the third (measured at 390px). The
- * element selector is here to win that one declaration back, not for style.
+ * `.topic-tabs` on specificity — so the first mobile build wrapped the bar into three rows of
+ * chrome, 106px tall, with "USE CASES" alone on the third (measured at 390px). The element
+ * selector is here to win that one declaration back, not for style.
  */
 header.site nav.topic-tabs {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  /* One line, always. On a phone the row scrolls sideways rather than wrapping to three
-     rows of chrome — a wrapped switcher pushes the page down and stops reading as a bar. */
+  gap: 2px;
+  /* One capsule, one line. On a phone it scrolls inside itself rather than growing the header. */
   flex-wrap: nowrap;
+  max-width: 100%;
+  padding: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  /* Paper, not glass, for the capsule itself: the band is the frosted thing, and a frosted
+     control on a frosted band loses its edge. The interior highlight is the sheet's own. */
+  background: var(--surface);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 45%), 0 1px 1px rgb(0 0 0 / 4%);
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-.topic-tabs::-webkit-scrollbar { display: none; }
+header.site nav.topic-tabs::-webkit-scrollbar { display: none; }
+/*
+ * The fade at the right edge of the capsule, when the row is wider than the screen (a phone, and
+ * the seven-tab Jev bar at 390px). Without it the last pill is cut mid-word by the viewport and
+ * reads as a broken element rather than as "there is more to the right". Painted in the band's
+ * own colour so it works over the frosted background; pointer-events off so it never eats a tap.
+ */
+header.site .topicrow .wrap { position: relative; }
+header.site .topicrow .wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: var(--space-4);
+  bottom: 0;
+  width: 34px;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--bg) 92%, transparent));
+  pointer-events: none;
+}
+@media (min-width: 1100px) {
+  header.site .topicrow .wrap::after { content: none; }
+}
 .topic-tabs a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   flex: 0 0 auto;
-  padding: 3px var(--space-3);
-  border: 1px solid var(--border-strong);
+  padding: 4px var(--space-3);
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: var(--surface);
   color: var(--text-muted);
   font-family: var(--mono);
   font-size: 10.5px;
@@ -800,13 +836,13 @@ header.site nav.topic-tabs {
   text-decoration: none;
   white-space: nowrap;
 }
-.topic-tabs a:hover { color: var(--text); border-color: var(--text-faint); }
-/* Where you are. Filled rather than outlined, so the bar answers "which view am I on"
-   before the h1 does — the same reason the nav row underlines the current section. */
+.topic-tabs a:hover { color: var(--text); background: var(--bg-sunken); }
+/* Where you are, as a filled segment inside the capsule — the bar answers "which view am I on"
+   before the h1 does, the same way the nav row underlines the current section. */
 .topic-tabs a[aria-current="page"] {
   color: var(--text);
   background: var(--accent-soft);
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
 }
 .topic-tabs .tt-count {
   font-size: 10px;
@@ -814,3 +850,48 @@ header.site nav.topic-tabs {
   font-variant-numeric: tabular-nums;
 }
 .topic-tabs a[aria-current="page"] .tt-count { color: var(--text-muted); }
+
+/* --------------------------------------------------------- article heads (one form)
+ * One head for every article, decided 2026-09-24 after the reader compared two pages and found
+ * two shapes: `eyebrow · title · lede · dated line` on some, `kicker + ruled byline box` on
+ * others ("用线框把标题和摘要介绍框起来，下面还写了时间，这是标准发 blog 的形式"). They were right
+ * that it was inconsistent, and the ruled byline is the imported-blog form, not ours.
+ *
+ * The standard, now enforced visually rather than by rewriting thirty files:
+ *
+ *   [breadcrumbs] → EYEBROW (mono, small, faint) → H1 → lede → PROVENANCE LINE (dated)
+ *
+ * Two rules do it. The markup keeps both vocabularies for now, so this is one change that can be
+ * read in one place; a later pass can rename `kicker`/`byline` to `card-eyebrow`/`provenance`
+ * across the pages, and this block can then be deleted.
+ *
+ *   - `.kicker` loses its hairline and matches `.card-eyebrow`;
+ *   - `.byline` loses its top-and-bottom rules and its all-caps, and matches `.provenance`.
+ *
+ * The date never moves out of the head: it is the one thing this site says it is for ("facts from
+ * the public catalogue, dated and labelled"), and a form that hides it would be the wrong
+ * unification.
+ */
+.kicker {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 var(--space-3);
+}
+.kicker::after { content: none; }
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  align-items: baseline;
+  font-size: var(--text-xs);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-faint);
+  border: 0;
+  padding: 0;
+  margin: var(--space-4) 0 var(--space-6);
+}

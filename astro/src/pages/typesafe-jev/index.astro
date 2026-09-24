@@ -23,7 +23,7 @@ import Faq from "../../components/Faq.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
 import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
 import XClipWall from "../../components/XClipWall.astro";
-import { jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
+import { jevLaunchPost, jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
 import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
 import { jevVideos } from "@repo/lib/jev-videos";
 import { jevThreads } from "@repo/lib/jev-threads";
@@ -108,6 +108,16 @@ const vias = [
 
 const relatedPages = [
   {
+    href: "/typesafe-jev/reference",
+    title: "Jev, specified",
+    /*
+     * The long version moved here on 2026-09-24: specs, price, question types, the four other
+     * things called Jev, and the probe we ran. The front page keeps the wall and the answer in
+     * one screen; the appendix reads at the 760 column it was written for.
+     */
+    body: "The long version — verified specs, what the API actually returns, how to call it, and the 13 adversarial cases we ran ourselves.",
+  },
+  {
     href: "/comparison",
     title: "Compare the models that do write text",
     body: "15 LLMs side by side on price, context and fit — the tools Jev is meant to be called instead of, not alongside.",
@@ -161,6 +171,17 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
  * is that every card links into its column, not that the page is short.
  */
 const fmt = (n: number) => n.toLocaleString("en-US");
+
+/*
+ * The hero's two media pieces, picked by name and by rank rather than by hand in the markup.
+ *
+ * `heroLaunch` is the model's own launch post (see lib/jev-x-posts.ts for why it is looked up
+ * by id); `heroVideo` is whatever the videos column currently holds at the top, which is the
+ * most-watched explainer — a count, not an editorial pick, so it stays true as the column grows.
+ */
+const heroLaunch = jevLaunchPost;
+const heroLaunchRatio = heroLaunch ? `${heroLaunch.thumbW} / ${heroLaunch.thumbH}` : "16 / 9";
+const heroVideo = jevVideos[0] ?? null;
 const WALL_PER_COLUMN = 24;
 
 const wallX: WallItem[] = jevXPosts.slice(0, WALL_PER_COLUMN).map((post) => ({
@@ -284,197 +305,118 @@ const heroStats = [
     ])}
   />
 
-  <p class="kicker">Model reference · verified</p>
-  <h1 class="display">{h1}</h1>
-  <p class="lede">
-    Jev is TypeSafe's first model, announced on 15 September 2026 and listed on OpenRouter three days
-    later. It does not write. You hand it program state and a typed question, and it hands back a decision
-    with a probability attached — the thing a chat model is worst at and a program needs most. This page
-    carries the specs, the price, the three question types, a plain-English start for anyone who has just met the name, and a clear list of what it is not.
-  </p>
-
-      {/* The page cover (contract §5): one image, about this page's subject, with the
-          meaning in the alt text and no caption announcing what it is. The alt text was
-          rewritten with the picture on 2026-09-24 (direction C): it now describes a
-          brass mailbox with a page going in and a punched card coming out, which is what
-          the file actually shows. */}
-      <figure class="figure cover">
-        <img src="/img/cover-jev-topic.webp" alt="An engraving: a brass mailbox on a bench, a handwritten page going into its slot at the top and a punched brass card falling into the tray below." width="1024" height="576" decoding="async" />
-      </figure>
-  <div class="byline">
-    <span>Reference</span>
-    <span>Listed {JEV_LISTED_AT_UTC}</span>
-    <span>Verified {JEV_DATA_AS_OF}</span>
-    <span>
-      <a href={JEV_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter listing →</a>
-    </span>
-  </div>
 
   {/*
-    The front-page strip (2026-09-24). Three counts and one figure of our own: what
-    the topic holds, and that at least one number on it came out of this machine
-    rather than out of a vendor's deck. Each tile says where its number came from,
-    because a number with no source is the thing this site exists to avoid.
+    The hero is two columns — the words on the left, something real on the right — and that is
+    a change the reader asked for on 2026-09-24: "一般网站左侧是文字介绍，右侧是图，只有长文才上下
+    排". They were right, and the second half of the note was the useful half: the picture should
+    not be another generated engraving. The model's own launch post is the image that stands for
+    it (Diogo Almeida, 15 September 2026, 75,869 likes, the clip that announced Jev), so the
+    right column is that, playable, followed by the most-watched explainer we track.
   */}
   <section class="topic-hero">
-    <ul class="stat-row">
-      {heroStats.map((stat) => (
-        <li>
-          <span class="stat-value">{stat.value}</span>
-          <span class="stat-label">{stat.label}</span>
-          <span class="stat-note">{stat.note}</span>
-        </li>
-      ))}
-    </ul>
-    {/*
-      The chips are the topic's own **reading**, not its shelves: guide, price, comparison,
-      open source, statistics. The shelves (Built with Jev / X posts / Videos / Threads /
-      Resources / Use cases) used to be here with their counts, and they moved into the
-      sticky switcher directly under the header on 2026-09-24 — the same links, with the
-      same counts, on every page of the topic, which is what the reader asked for. Two
-      copies of one row about 400px apart is not "more navigation", it is the page arguing
-      with itself about which one is the entrance.
-    */}
-    <nav class="topic-chips" aria-label="Jev explainers">
-      <a href="/typesafe-jev/guide">How people use Jev</a>
-      <a href="/typesafe-jev/pricing">What a decision costs</a>
-      <a href="/typesafe-jev/vs-llm">Jev vs an LLM</a>
-      <a href="/typesafe-jev/open-source">Open source, and what it gives up</a>
-      <a href="/typesafe-jev/statistics">Statistics</a>
-    </nav>
-  </section>
+    <div class="hero-copy">
+      <p class="kicker">Model reference · verified {JEV_DATA_AS_OF}</p>
+      <h1 class="display">{h1}</h1>
+      <p class="lede">
+        Jev is TypeSafe's first model, announced on 15 September 2026 and listed on OpenRouter three days
+        later. It does not write. You hand it program state and a typed question, and it hands back a decision
+        with a probability attached — the thing a chat model is worst at and a program needs most.
+      </p>
+      <div class="byline">
+        {/*
+          The listed time is a full ISO stamp in the data (`2026-09-18T00:01:24Z`) and it was
+          printed raw here — a timestamp in the middle of a sentence for a reader who wants
+          "when". Cut to its date, which is the resolution at which the claim is useful.
+        */}
+        <span>Listed {JEV_LISTED_AT_UTC.slice(0, 10)}</span>
+        <span>
+          <a href={JEV_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter listing →</a>
+        </span>
+      </div>
 
-  {/*
-    The wall. Below it the page continues as it did — the facts, the three question
-    types, our own run, the FAQ — because a reader who wants the reference should
-    not have to scroll past 48 cards to find it, and a reader who wanted to know
-    whether anything is happening here has already been answered.
-  */}
-  <section class="topic-wall">
-    <h2>What people are building</h2>
-    <TopicWall items={wall} columns={columns} />
-  </section>
+      {/*
+        Three counts and one figure of our own: what the topic holds, and that at least one
+        number on it came out of this machine rather than out of a vendor's deck. Each tile says
+        where its number came from, because a number with no source is the thing this site
+        exists to avoid.
+      */}
+      <ul class="stat-row">
+        {heroStats.map((stat) => (
+          <li>
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+            <span class="stat-note">{stat.note}</span>
+          </li>
+        ))}
+      </ul>
 
-  {/*
-    There was a second generated image here (jev-hero: a wall of talk on one side,
-    a single sheet on the other). It is gone on purpose. The page cover above is
-    already the same picture — empty speech bubbles and one sheet of paper — and
-    two near-identical metaphors about 100px apart put two figures inside one
-    screen, which the writing-style contract rules out (§5, "一屏之内不叠两张").
-    The asset and its preset stay in scripts/illustrations.json; the page keeps one.
-  */}
-
-  {/*
-    The container. `/typesafe-jev` is the cover of the Jev topic, not a leaf: the
-    field notes are a chapter of it, and a reader who lands here should be able to
-    see that without scrolling to the bottom. Entries in a topic are linked from the
-    topic — never from the nav, which is why adding a chapter never touches the
-    site chrome. See ADR-0018.
-  */}
-  <nav
-    aria-label="In this topic"
-    style="margin: var(--space-6) 0 var(--space-8); padding: var(--space-4) var(--space-6); border: 1px solid var(--field-border); border-left: 2px solid var(--accent); border-radius: var(--radius); background: var(--bg-sunken);"
-  >
-    <div style="font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint); letter-spacing: 0.06em;">
-      IN THIS TOPIC
+      {/*
+        The chips are the topic's own **reading**, not its shelves: guide, price, comparison,
+        open source, statistics. The shelves (Built with Jev / X posts / Videos / Threads /
+        Resources / Use cases) live in the sticky switcher under the header, on every page of
+        the topic — two copies of one row 400px apart is the page arguing with itself about
+        which one is the entrance.
+      */}
+      <nav class="topic-chips" aria-label="Jev explainers">
+        <a href="/typesafe-jev/guide">How people use Jev</a>
+        <a href="/typesafe-jev/pricing">What a decision costs</a>
+        <a href="/typesafe-jev/vs-llm">Jev vs an LLM</a>
+        <a href="/typesafe-jev/open-source">Open source, and what it gives up</a>
+        <a href="/typesafe-jev/reference">Specs, and what we measured</a>
+      </nav>
     </div>
-    <ul style="margin: var(--space-3) 0 0; padding-left: var(--space-6); max-width: var(--measure);">
-      <li>
-        <strong>Jev, the reference</strong> — this page: what it is, what it costs,
-        the three question types, and our own raw response.
-      </li>
-      <li>
-        <a href="/typesafe-jev/guide">How people actually use it</a> — eleven projects read
-        first-hand, plus twenty calls we made ourselves.
-      </li>
-      {/*
-        The explainer cluster (roadmap/jev-explainer-cluster.md), listed here as pages are written:
-        one URL per search intent, because one URL can only rank for one. This is the column the
-        2026-09-23 recheck found missing — the reference site splits the same model across fifteen
-        of these and we had one.
-      */}
-      <li>
-        <a href="/typesafe-jev/pricing">What a decision costs</a> — the published rate per million tokens,
-        what one of our own calls cost, and the arithmetic for a loop that calls it ten times a
-        second.
-      </li>
-      <li>
-        <a href="/typesafe-jev/vs-llm">Jev vs LLMs</a> — the four structural differences, and the one that
-        bites: an answer shape you chose versus a schema you asked for. Includes our twenty
-        identical calls.
-      </li>
-      <li>
-        <a href="/typesafe-jev/open-source">Open source, and what it gives up</a> — the substitutes,
-        replicas and adapters we read, including the one that publishes its own losing score.
-      </li>
-      {/*
-        The first second-level column of the topic (roadmap/jev-topic-columns.md).
-        Columns are listed here rather than in the site nav, for the reason ADR-0018
-        gives: adding a column must never require touching the chrome.
-      */}
-      <li>
-        <a href="/typesafe-jev/resources">Docs, collections and repositories</a> — every
-        Jev resource we could verify, with the star counts read on the day we checked.
-      </li>
-      <li>
-        <a href="/typesafe-jev/threads">What Hacker News made of it</a> — the launch thread and the
-        rebuilds it triggered, with the numbers we read on the day.
-      </li>
-      <li>
-        <a href="/typesafe-jev/videos">What people filmed</a> — the walkthroughs and breakdowns,
-        ranked by reach, playable without leaving the page.
-      </li>
-      <li>
-        <a href="/typesafe-jev/use-cases">By use case</a> — browser agents, triage, coding
-        context, trading — one row gathered from wherever it lives.
-      </li>
-      <li>
-        <a href="/typesafe-jev/x-posts">What X is saying</a> — the announcements, the benchmarks and the
-        day-one sceptics, each described in a sentence and linked back to the post.
-      </li>
-      <li>
-        <a href="/typesafe-jev/builds">What people built</a> — projects that put Jev inside
-        something, with the star counts read on the day we checked.
-      </li>
-      {/*
-        The submission door. It is linked from here on purpose: the columns that grow by
-        hand are the ones that need a way in, and a reader who has just been told what the
-        columns contain is the reader most likely to have something to add. See
-        docs/roadmap/jev-topic-columns.md.
-      */}
-      <li>
-        <a href="/submit?topic=jev">Send us something</a> — a project, a screencast or a walkthrough we
-        have not seen. We credit what we publish and we do not republish other people's media.
-      </li>
-      <li>
-        <a href="/field-notes">All field notes</a> — every chapter of this kind,
-        across every model we have looked at this closely.
-      </li>
-    </ul>
 
-    {/*
-      A jump list, not navigation: this page is long on purpose (a plain-language
-      half and a reference half), and the reader who only wants the price should not
-      have to scroll through the argument to reach it.
-    */}
-    <div
-      style="font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint); letter-spacing: 0.06em; margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--field-border);"
-    >
-      ON THIS PAGE
+    <div class="hero-media">
+      {heroLaunch && (
+        <figure class="hero-card">
+          <div class="card-media" style={`--ratio: ${heroLaunchRatio}`}>
+            <span class="card-src">X post · the launch</span>
+            {heroLaunch.video ? (
+              <button
+                class="xvideo-facade"
+                type="button"
+                data-xvideo={heroLaunch.video.url}
+                data-poster={heroLaunch.thumb}
+                aria-label={`Play the launch clip: ${heroLaunch.page?.headline ?? heroLaunch.title}`}
+              >
+                <img src={heroLaunch.thumb} alt="" width={heroLaunch.thumbW} height={heroLaunch.thumbH} decoding="async" referrerpolicy="no-referrer" />
+                <span class="xvideo-play" aria-hidden="true">▶</span>
+              </button>
+            ) : (
+              <img src={heroLaunch.thumb} alt="" width={heroLaunch.thumbW} height={heroLaunch.thumbH} decoding="async" referrerpolicy="no-referrer" />
+            )}
+          </div>
+          <figcaption class="hero-cap">
+            <span class="hero-cap-title">The launch post, read out loud</span>
+            <span class="hero-cap-meta">
+              Diogo Almeida (@CompleteSkeptic) · {heroLaunch.publishedAt} · {fmt(heroLaunch.likes)} likes
+            </span>
+            {heroLaunch.page && (
+              <a class="hero-cap-link" href={`/typesafe-jev/x-posts/${heroLaunch.page.slug}`}>
+                What it claims, and what we make of it →
+              </a>
+            )}
+          </figcaption>
+        </figure>
+      )}
+
+      {heroVideo && (
+        <figure class="hero-card hero-card-small">
+          <a class="hero-video" href={heroVideo.url} rel="noopener noreferrer">
+            <span class="hero-video-frame">
+              <img src={heroVideo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </span>
+            <span class="hero-video-body">
+              <span class="card-eyebrow">Video · {Math.max(1, Math.round(heroVideo.durationS / 60))} min</span>
+              <span class="hero-video-title">{heroVideo.title}</span>
+              <span class="hero-cap-meta">{heroVideo.channel} · {fmt(heroVideo.views)} views</span>
+            </span>
+          </a>
+        </figure>
+      )}
     </div>
-    <ul
-      style="margin: var(--space-2) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); font-size: var(--text-sm);"
-    >
-      <li><a href="#start-here">The idea in plain words</a></li>
-      <li><a href="#why-not-chat">Why not a chatbot</a></li>
-      <li><a href="#the-answer-set">The answer set</a></li>
-      <li><a href="#confidence">Confidence</a></li>
-      <li><a href="#decompose">Using it</a></li>
-      <li><a href="#where-it-fits">Where it fits</a></li>
-      <li><a href="#verified-specs">Specs and price</a></li>
-      <li><a href="#our-run">Our own measurements</a></li>
-    </ul>
-  </nav>
+  </section>
 
   <h2 id="tldr">The short version</h2>
   <div class="stats">
@@ -487,931 +429,22 @@ const heroStats = [
     ))}
   </div>
 
-  {/*
-    The primer. This page is the cover of the Jev topic (ADR-0018) and it had a hole:
-    it explained Jev to someone who already knew why they cared — specs, price, the
-    three question types, our raw response — but not to someone who met the word this
-    morning and wants to know why a model that refuses to speak is interesting.
-
-    The reading we did first: the explainers already published in English and Chinese
-    are, almost without exception, the same shape, and the shape is good — contrarian
-    opening, one analogy, the failure of the old tool, the mechanism, the question
-    shapes, how to design with it, where it fits. This follows it. The difference is
-    the numbers: every one below is either labelled as the vendor's or is ours, and
-    where it is ours the link goes to the raw output further down this page.
-  */}
-  <h2 id="start-here">Start here: the idea, in plain words</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    If you have only met the name, the useful thing to know first is what Jev will not do.
-  </p>
-
-  <h3 id="it-cannot-talk">It cannot talk, and that is the feature</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Ask Jev a question and there is no reply to read — no sentence, no reasoning, no apology for
-    being unsure. You hand it two things: the state of something (a support ticket, a bug report, a
-    row of order data, a whole conversation) and a set of named questions about it. What comes back
-    is one answer per question, in a shape that was fixed before the call: one of the options you
-    listed, a number on the scale you wrote, or a probability.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    The comparison we keep coming back to: a chat model is a consultant you ask, and Jev is the
-    inspector at the end of the line. You do not chat with an inspector. You put the paperwork in
-    front of them and they stamp it, or send it back. Both are useful. They are not substitutes, and
-    the mistake is handing the stamping to the consultant.
-  </p>
-
-  <h3 id="why-not-chat">Why a chat model is the wrong tool for this job</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Take a task that looks trivial: a few hundred support messages a day, each one to be filed under
-    billing, shipping, returns or technical. With a chat model, that task has four steps.
-  </p>
-  <ol style="color: var(--text-muted); max-width: var(--measure);">
-    <li>You write a paragraph of instructions asking it to reply with the department name and nothing else.</li>
-    <li>Usually it does. Sometimes it answers with a helpful paragraph instead, because it was trained to be helpful.</li>
-    <li>Your code now has to find <em>Billing</em> inside whatever arrived — a parser you maintain forever.</li>
-    <li>And occasionally it returns a department you never defined, in a shape that looks exactly like a correct answer.</li>
-  </ol>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    None of that is a defect in the model. Text is free, and that freedom is what makes conversation
-    work — the same freedom means you cannot promise an unattended system that the next answer will
-    be shaped like the last one. A 99.9% success rate is an excellent chat experience and an
-    unusable automation, because the failure arrives in a form your code cannot detect.
-  </p>
-  <figure class="figure">
-    <svg viewBox="0 0 760 256" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>The four steps of classifying with a chat model, and what arrives at each one: prose instead of a label, a different shape each time, a parser to maintain, and a category that does not exist.</title>
-      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">WHAT YOU ASK FOR</text>
-      <text x="754" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">WHAT ACTUALLY COMES BACK</text>
-      <line x1="504" y1="24" x2="504" y2="216" stroke="var(--field-border)" stroke-width="1" />
-
-      <circle cx="13" cy="44" r="12" fill="none" stroke="var(--field-border)" stroke-width="1.5" />
-      <text x="13" y="49" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="middle">1</text>
-      <text x="38" y="49" font-family="var(--sans)" font-size="14" fill="var(--text)">Instructions: name the department only</text>
-      <rect x="516" y="28" width="238" height="38" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="528" y="52" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">a paragraph, not a label</text>
-
-      <circle cx="13" cy="92" r="12" fill="none" stroke="var(--field-border)" stroke-width="1.5" />
-      <text x="13" y="97" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="middle">2</text>
-      <text x="38" y="97" font-family="var(--sans)" font-size="14" fill="var(--text)">Usually it obeys</text>
-      <rect x="516" y="76" width="238" height="38" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="528" y="100" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">a different shape, same call</text>
-
-      <circle cx="13" cy="140" r="12" fill="none" stroke="var(--field-border)" stroke-width="1.5" />
-      <text x="13" y="145" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="middle">3</text>
-      <text x="38" y="145" font-family="var(--sans)" font-size="14" fill="var(--text)">Your code parses the reply</text>
-      <rect x="516" y="124" width="238" height="38" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="528" y="148" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">a parser you maintain forever</text>
-
-      <circle cx="13" cy="188" r="12" fill="none" stroke="var(--field-border)" stroke-width="1.5" />
-      <text x="13" y="193" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="middle">4</text>
-      <text x="38" y="193" font-family="var(--sans)" font-size="14" fill="var(--text)">Occasionally it improvises</text>
-      <rect x="516" y="172" width="238" height="38" rx="6" fill="var(--bg-sunken)" stroke="var(--danger)" />
-      <text x="528" y="190" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">a department that does not</text>
-      <text x="528" y="204" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">exist — formatted perfectly</text>
-
-      <text x="0" y="240" font-family="var(--mono)" font-size="11.5" fill="var(--text-faint)">NONE OF THIS IS A DEFECT IN THE MODEL. TEXT HAS NO SHAPE, AND CODE NEEDS ONE.</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 1 — the four steps, and the four things that arrive. Step 4 is the one that rules the
-      approach out of unattended work: the answer looks exactly like a correct one.
-    </figcaption>
-  </figure>
-
-  <h3 id="the-answer-set">What comes back was chosen from a list you wrote</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Jev removes the parsing problem by removing the freedom. You define the answer set — four
-    department names, a three-point severity scale, a yes/no — and the model may only return one of
-    them. The vendor's claim is a guarantee rather than a tendency: an answer outside your list is
-    not something it can produce. There is nothing to parse, because nothing arrived but the
-    decision.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    That changes the failure mode rather than deleting it. Jev can still be wrong about which
-    department a ticket belongs to; what it cannot do is hand you a fifth department, or a paragraph
-    your code has to guess at. Wrong-and-detectable is a working system. Wrong-and-undetectable is
-    not, and that is the whole argument for using this instead of a chat call.
-  </p>
-  <figure class="figure">
-    <svg viewBox="0 0 760 210" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>The four answer options the caller defines, an arrow to a fifth option that was never defined and is struck out, and the note that an undefined answer cannot be returned.</title>
-      <defs>
-        <marker id="jev-menu-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-faint)" />
-        </marker>
-      </defs>
-      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">THE OPTIONS YOU DEFINED</text>
-      <rect x="0" y="26" width="460" height="132" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
-      <rect x="16" y="44" width="204" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="30" y="66" font-family="var(--sans)" font-size="13" fill="var(--text)">Billing question</text>
-      <rect x="240" y="44" width="204" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="254" y="66" font-family="var(--sans)" font-size="13" fill="var(--text)">Shipping question</text>
-      <rect x="16" y="106" width="204" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="30" y="128" font-family="var(--sans)" font-size="13" fill="var(--text)">Return request</text>
-      <rect x="240" y="106" width="204" height="34" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="254" y="128" font-family="var(--sans)" font-size="13" fill="var(--text)">Something technical</text>
-
-      <path d="M 464 92 L 496 92" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-menu-arrow)" />
-
-      <rect x="500" y="56" width="254" height="80" rx="8" fill="none" stroke="var(--danger)" stroke-dasharray="4 3" />
-      <rect x="512" y="68" width="230" height="32" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="526" y="89" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">Cancellation policy</text>
-      <line x1="512" y1="84" x2="742" y2="84" stroke="var(--danger)" stroke-width="2" />
-      <text x="512" y="120" font-family="var(--mono)" font-size="10.5" fill="var(--text-faint)">NOT ON THE LIST — CANNOT BE RETURNED</text>
-
-      <text x="0" y="192" font-family="var(--mono)" font-size="11.5" fill="var(--text-faint)">"I AM NOT SURE" ARRIVES AS A LOW CONFIDENCE VALUE, NOT AS A SENTENCE TO CATCH.</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 2 — the answer set is the contract. Uncertainty is expressed inside it, as a low
-      confidence, instead of as text that your code has to recognise.
-    </figcaption>
-  </figure>
-
-  <h3 id="confidence">Confidence is the part that makes it automatable</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Every answer comes with how sure the model is. That one number is what turns a classifier into
-    something you can run unattended: you decide in advance what to do with each band. High
-    confidence, act. Middling, ask a person, or gather more state and ask again. Low, hand it to
-    somebody who can think — a person, or a slower and more expensive reasoning model. A system that
-    knows when it does not know is worth more than one that is right a little more often and never
-    says so.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Where the cut points go is a measurement, not a taste. In our own twenty identical calls the
-    choice confidence moved between 0.38 and 0.58 — the label never changed, the number did
-    (<a href="#our-run">raw output further down this page</a>). A 0.9 threshold on that endpoint
-    would have sent every one of our calls to a person, which is a fine outcome only if you know
-    that is what you are buying.
-  </p>
-  <figure class="figure">
-    <svg viewBox="0 0 760 228" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>A confidence axis from 0 to 1 split into three bands — escalate, confirm, run automatically — with our own measured range of 0.38 to 0.58 marked above it.</title>
-      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">ONE ANSWER, THREE WAYS TO TREAT IT</text>
-      <text x="754" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">THE CUT POINTS ARE YOURS TO SET</text>
-
-      <line x1="287" y1="72" x2="437" y2="72" stroke="var(--accent)" stroke-width="2" />
-      <line x1="287" y1="66" x2="287" y2="78" stroke="var(--accent)" stroke-width="2" />
-      <line x1="437" y1="66" x2="437" y2="78" stroke="var(--accent)" stroke-width="2" />
-      <text x="362" y="58" font-family="var(--mono)" font-size="11" fill="var(--accent)" text-anchor="middle">OUR TWENTY IDENTICAL CALLS LANDED IN HERE</text>
-
-      <rect x="0" y="94" width="264" height="34" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <rect x="268" y="94" width="369" height="34" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <rect x="641" y="94" width="113" height="34" fill="var(--accent)" stroke="var(--accent)" />
-      <text x="132" y="116" font-family="var(--mono)" font-size="11" fill="var(--text-muted)" text-anchor="middle">ESCALATE</text>
-      <text x="452" y="116" font-family="var(--mono)" font-size="11" fill="var(--text-muted)" text-anchor="middle">CONFIRM</text>
-      <text x="697" y="116" font-family="var(--mono)" font-size="11" fill="var(--on-accent)" text-anchor="middle">RUN</text>
-
-      <line x1="0" y1="128" x2="754" y2="128" stroke="var(--field-border)" stroke-width="1.5" />
-      <line x1="188" y1="128" x2="188" y2="136" stroke="var(--field-border)" />
-      <line x1="377" y1="128" x2="377" y2="136" stroke="var(--field-border)" />
-      <line x1="565" y1="128" x2="565" y2="136" stroke="var(--field-border)" />
-      <text x="0" y="150" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">0</text>
-      <text x="188" y="150" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.25</text>
-      <text x="377" y="150" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.5</text>
-      <text x="565" y="150" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.75</text>
-      <text x="754" y="150" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="end">1</text>
-
-      <text x="0" y="176" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">A person, or a slower model</text>
-      <text x="0" y="194" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">that can actually think.</text>
-      <text x="268" y="176" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">Nobody has to confirm this one:</text>
-      <text x="268" y="194" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">gather more state, then re-ask.</text>
-      <text x="596" y="176" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">Let it run.</text>
-      <text x="596" y="194" font-family="var(--sans)" font-size="13" fill="var(--text-muted)">This is the automation.</text>
-
-      <text x="0" y="222" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">A 0.9 CUT WOULD HAVE ROUTED ALL TWENTY TO A PERSON — AND TOLD YOU NOTHING ABOUT WHY.</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 3 — the bands, and where our own calls fell. The cut points are a policy decision; the
-      mark above the axis is a measurement, quoted from the run further down this page.
-    </figcaption>
-  </figure>
-
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Twenty identical calls tell you the number wobbles. They do not tell you whether it means
-    anything, so we ran {oursAmbiguity.clear.n} tickets a team lead would call obvious and
-    {oursAmbiguity.ambiguous.n} we wrote on purpose so that two or three teams were all defensible,
-    all against the same four options. The obvious ones came back at a mean confidence of
-    {oursAmbiguity.clear.meanConfidence}, the arguable ones at {oursAmbiguity.ambiguous.meanConfidence}.
-    The number is not decoration: it moves with how arguable the input is.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    It is also not a probability you can read off, and we would rather say that than imply more than
-    we measured. All {oursAmbiguity.clear.n + oursAmbiguity.ambiguous.n} answers were defensible, so
-    there were no mistakes to calibrate against; whether a 0.7 means seventy per cent is still open.
-    What the run does establish is the thing a caller needs: low confidence means "this item is
-    genuinely arguable", which is exactly when a person should be looking.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    We ran the same {oursAmbiguity.clear.n + oursAmbiguity.ambiguous.n} calls a second time, because a
-    number measured once is a rumour. The means held: {oursAmbiguity.repeat.clearMeanConfidence} for
-    the clear set again, {oursAmbiguity.repeat.ambiguousMeanConfidence} for the arguable one against
-    {oursAmbiguity.ambiguous.meanConfidence}. The extremes did not — the widest answer in the arguable
-    set read {oursAmbiguity.ambiguousSpread.max} in the first run and
-    {oursAmbiguity.repeat.ambiguousSpread.max} in the second. So the direction is reliable and the
-    value is not: gate on the band, not on the third decimal place, and expect the same ticket to
-    land on a different side of a fine cut when you run it again.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    One caveat that came out of the adversarial run and belongs here rather than in the fine print.
-    The vendor's guarantee is about the shape of the answer, not about knowing when it has nothing to
-    go on: sent an <em>empty</em> state, the model still answered, and answered at a confidence of
-    {oursSchemaProbe.emptyState.confidence} ({oursSchemaProbe.emptyState.returned}). A confidence band
-    is a policy for the answers you get, not a promise that the input was worth answering.
-  </p>
-  <figure class="figure">
-    <svg viewBox="0 0 760 196" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>Confidence by how arguable the input is: thirty unambiguous tickets clustered at a mean of 0.97, ten deliberately arguable ones spread from 0.40 to 0.93 with a mean of 0.71.</title>
-      <text x="0" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">CONFIDENCE BY HOW ARGUABLE THE INPUT IS</text>
-      <text x="754" y="12" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">OUR RUN · {oursAmbiguity.clear.n + oursAmbiguity.ambiguous.n} CALLS · {oursAmbiguity.measuredOn}</text>
-
-      <text x="0" y="56" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">UNAMBIGUOUS · {oursAmbiguity.clear.n} TICKETS</text>
-      <line x1="716" y1="70" x2="754" y2="70" stroke="var(--accent)" stroke-width="2" />
-      <line x1="716" y1="63" x2="716" y2="77" stroke="var(--accent)" stroke-width="2" />
-      <line x1="754" y1="63" x2="754" y2="77" stroke="var(--accent)" stroke-width="2" />
-      <circle cx="731" cy="70" r="5" fill="var(--accent)" />
-      <text x="754" y="52" font-family="var(--mono)" font-size="11" fill="var(--accent)" text-anchor="end">MEAN {oursAmbiguity.clear.meanConfidence}</text>
-
-      <text x="0" y="112" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">DELIBERATELY ARGUABLE · {oursAmbiguity.ambiguous.n} TICKETS</text>
-      <line x1={302} y1="126" x2={701} y2="126" stroke="var(--accent)" stroke-width="2" />
-      <line x1={302} y1="119" x2={302} y2="133" stroke="var(--accent)" stroke-width="2" />
-      <line x1={701} y1="119" x2={701} y2="133" stroke="var(--accent)" stroke-width="2" />
-      <circle cx={535} cy="126" r="5" fill="var(--accent)" />
-      <text x="754" y="108" font-family="var(--mono)" font-size="11" fill="var(--accent)" text-anchor="end">MEAN {oursAmbiguity.ambiguous.meanConfidence}</text>
-      <text x={302} y="147" font-family="var(--mono)" font-size="10" fill="var(--text-faint)" text-anchor="middle">{oursAmbiguity.ambiguousSpread.min}</text>
-      <text x={701} y="147" font-family="var(--mono)" font-size="10" fill="var(--text-faint)" text-anchor="middle">{oursAmbiguity.ambiguousSpread.max}</text>
-
-      <line x1="0" y1="166" x2="754" y2="166" stroke="var(--field-border)" stroke-width="1.5" />
-      <line x1="188" y1="166" x2="188" y2="172" stroke="var(--field-border)" />
-      <line x1="377" y1="166" x2="377" y2="172" stroke="var(--field-border)" />
-      <line x1="565" y1="166" x2="565" y2="172" stroke="var(--field-border)" />
-      <text x="0" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">0</text>
-      <text x="188" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.25</text>
-      <text x="377" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.5</text>
-      <text x="565" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">0.75</text>
-      <text x="754" y="186" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="end">1</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 4 — range and mean per group, not a distribution: the unambiguous set sits in a band a
-      hundredth wide, the arguable one spreads across half the axis. The band is one run; a repeat
-      pushed its widest answer to the top of the scale. {oursAmbiguity.limitation}.
-    </figcaption>
-  </figure>
-
-  <h3 id="decompose">How to use it: split the vague question</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    The most common mistake is asking the model the same vague question a person would ask. "Is this
-    email spam?" hides several judgements, and what comes back is a single number you can neither
-    examine nor adjust. Ask five small questions instead — does it ask for a login credential; does
-    it claim a prize nobody entered; does it manufacture urgency; does the sender domain match the
-    brand it names; does the link text match where the link goes — then combine the five answers in
-    your own code. Now the scoring rule is yours, and when it is wrong you can see which part was
-    wrong.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    The same discipline applies to any scale you define. Describe each level by the situation it
-    describes, not by how strong it is: "broken, but there is a workaround" is answerable; "medium
-    severity" is not, because medium has nothing to refer to. And write the levels out — the model
-    does not read your 0, 1, 2 as an ordering.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    That is the advice everywhere, so we tested it instead of repeating it. The same
-    {oursPhrasing.items} reports were scored twice — once with the levels described by situation,
-    once with the levels described only by how strong they are — and the two runs of numbers do not
-    agree. Scores moved by a mean of {oursPhrasing.meanAbsDelta} of a level, and the ranking of the
-    twelve changed for {oursPhrasing.orderAgreement.pairs - oursPhrasing.orderAgreement.agreed} of
-    {oursPhrasing.orderAgreement.pairs} pairs, about one pair in seven. The widest single move was
-    <em>{oursPhrasing.largestMove.item}</em>, which we would call a minor annoyance and which scored
-    {oursPhrasing.largestMove.situational} against {oursPhrasing.largestMove.degree} — and
-    {oursPhrasing.largestMoveRepeat.situational} against {oursPhrasing.largestMoveRepeat.degree} on a
-    repeat, so even the size of the move is approximate. The report never changed; only the words
-    under the numbers did.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    For what this looks like in working code rather than in advice, see
-    <a href="/typesafe-jev/guide">the field notes on Jev</a> — eleven projects read first-hand, and the five
-    teams in them independently drew the same line between what the model decides and what the
-    program decides. The wider list, including the collections it would take a day to find
-    yourself, is under <a href="/typesafe-jev/resources">docs, collections and repositories</a>,
-    and the launch thread that most of them were first posted in — with the rebuttals — is in
-    <a href="/typesafe-jev/threads">what Hacker News made of it</a>.
-  </p>
-  <figure class="figure">
-    <svg viewBox="0 0 760 240" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>One vague question on the left, five concrete questions in the middle, and a weighted score computed in your own code on the right.</title>
-      <defs>
-        <marker id="jev-split-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-faint)" />
-        </marker>
-      </defs>
-      <rect x="0" y="72" width="176" height="92" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
-      <text x="14" y="96" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">ONE QUESTION</text>
-      <text x="14" y="122" font-family="var(--sans)" font-size="14" fill="var(--text)">Is this email</text>
-      <text x="14" y="142" font-family="var(--sans)" font-size="14" fill="var(--text)">spam?</text>
-
-      <path d="M 180 118 L 206 118" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-split-arrow)" />
-
-      <text x="212" y="26" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">FIVE QUESTIONS IT CAN ANSWER, EACH WITH A CONFIDENCE</text>
-      <rect x="212" y="36" width="306" height="28" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="226" y="55" font-family="var(--sans)" font-size="12.5" fill="var(--text-muted)">Does it ask for a login credential?</text>
-      <rect x="212" y="70" width="306" height="28" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="226" y="89" font-family="var(--sans)" font-size="12.5" fill="var(--text-muted)">Does it claim a prize nobody entered?</text>
-      <rect x="212" y="104" width="306" height="28" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="226" y="123" font-family="var(--sans)" font-size="12.5" fill="var(--text-muted)">Does it manufacture urgency?</text>
-      <rect x="212" y="138" width="306" height="28" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="226" y="157" font-family="var(--sans)" font-size="12.5" fill="var(--text-muted)">Does the sender domain match the claim?</text>
-      <rect x="212" y="172" width="306" height="28" rx="6" fill="var(--bg-sunken)" stroke="var(--field-border)" />
-      <text x="226" y="191" font-family="var(--sans)" font-size="12.5" fill="var(--text-muted)">Does the link text match its destination?</text>
-
-      <path d="M 522 118 L 548 118" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-split-arrow)" />
-
-      <rect x="552" y="72" width="202" height="92" rx="8" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5" />
-      <text x="566" y="96" font-family="var(--mono)" font-size="11" fill="var(--text-faint)">YOUR CODE</text>
-      <text x="566" y="122" font-family="var(--sans)" font-size="13" fill="var(--text)">Weight the five answers</text>
-      <text x="566" y="142" font-family="var(--sans)" font-size="13" fill="var(--text)">into one risk score.</text>
-
-      <text x="0" y="228" font-family="var(--mono)" font-size="11.5" fill="var(--text-faint)">THE MODEL IS NEVER ASKED THE WORD SPAM. THE RULE THAT DECIDES STAYS IN CODE YOU CAN CHANGE.</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 5 — decomposition. Small answerable questions in, one rule you own out. Nothing here is
-      specific to email, which is the point.
-    </figcaption>
-  </figure>
-
-  <h3 id="where-it-fits">Where it fits</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    What this replaces is the work nobody wanted: reading, judging and filing, at a volume that only
-    makes sense because the cost per item is now close to nothing.
-  </p>
-  <ul style="color: var(--text-muted); max-width: var(--measure);">
-    <li><strong style="color: var(--text);">Support.</strong> Route the ticket, spot the refund request, find the customer who is about to leave, pull the follow-ups out of a call transcript.</li>
-    <li><strong style="color: var(--text);">Moderation.</strong> Flag spam, abuse, scams and leaked personal data, and grade how serious each one is, instead of showing every report to a person.</li>
-    <li><strong style="color: var(--text);">Hiring and sales.</strong> Score a CV against criteria you wrote, or decide whether a lead is worth a call.</li>
-    <li><strong style="color: var(--text);">Checking other models.</strong> Ask whether another model's answer drifted off-schema, whether a prompt injection got through, whether a citation was invented, whether a tool call was well formed — cheap enough to run on every output rather than on a sample.</li>
-    <li><strong style="color: var(--text);">Bulk labelling.</strong> Tag a corpus you could never afford to send to a chat model, one row at a time.</li>
-  </ul>
-  <figure class="figure">
-    <img
-      src="/img/jev-inspector.webp"
-      width="1024"
-      height="768"
-      loading="lazy"
-      decoding="async"
-      alt="Engraving-style illustration: an inspector in a work coat beside a conveyor belt of paper forms, each sheet already stamped with a single mark."
-      style="display: block; width: 100%; height: auto; border-radius: var(--radius);"
-    />
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      One sheet per item, and a person reading each one, is the work this replaces — the volume is
-      the point, not the difficulty of any single sheet.
-    </figcaption>
-  </figure>
-
-  <h2 id="verified-specs">Verified specs</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure); margin-bottom: var(--space-4);">
-    Read on {JEV_DATA_AS_OF} from the OpenRouter endpoint, the Cloudflare Workers AI model card and
-    TypeSafe's own announcement. Every row can be re-checked at the links below; the vendor's claims are
-    labelled as the vendor's claims, including the ones we would like to be true.
-  </p>
-  <FactTable rows={verifiedSpecs} />
-  <div class="provenance">
-    <span>Source <code>openrouter.ai/api/v1/models/typesafe/jev-1.13/endpoints</code></span>
-    <span>Verified <code>{JEV_DATA_AS_OF}</code></span>
-    <span>Announcement <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">typesafe.ai</a></span>
-  </div>
-
-  <h2>What it actually returns</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Every call is a state plus a set of named questions. There are three question types, and the shape of
-    each answer is fixed in advance — which is what makes the output safe to hand straight to code
-    instead of parsing it and hoping.
-  </p>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th>Type</th><th>Comes back as</th><th>Use it for</th></tr>
-      </thead>
-      <tbody>
-        {questionTypes.map((row) => (
-          <tr>
-            <td><strong>{row.name}</strong></td>
-            <td>{row.shape}</td>
-            <td style="color: var(--text-muted);">{row.detail}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  <div class="provenance">
-    <span>Source <code>developers.cloudflare.com/ai/models/typesafe/jev</code></span>
-    <span>Vendor framing <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">the launch post</a></span>
-  </div>
-
-  {/*
-    Figure 6 — the shape of a call. Drawn rather than described because the whole
-    product is the difference between these two arrows: what goes in is state,
-    what comes back is a typed value you can branch on without parsing it.
-    Colours come from the theme tokens so the light/dark palettes both hold.
-  */}
-  <figure class="figure">
-    <svg viewBox="0 0 760 210" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>One Jev call: program state and typed questions go in, typed decisions with probabilities come out.</title>
-      <defs>
-        <marker id="jev-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-faint)" />
-        </marker>
-      </defs>
-
-      <rect x="6" y="46" width="196" height="60" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
-      <text x="20" y="72" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">IN</text>
-      <text x="20" y="93" font-family="var(--sans)" font-size="15" fill="var(--text)">Program state</text>
-
-      <rect x="6" y="120" width="196" height="72" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
-      <text x="20" y="146" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">IN</text>
-      <text x="20" y="167" font-family="var(--sans)" font-size="15" fill="var(--text)">Typed questions</text>
-      <text x="20" y="184" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">Noul · Choice · Score</text>
-
-      <path d="M 206 76 L 268 76" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
-      <path d="M 206 156 L 268 156" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
-      <path d="M 268 76 L 268 156" stroke="var(--text-faint)" stroke-width="1.5" />
-      <path d="M 268 116 L 300 116" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
-
-      <rect x="304" y="76" width="150" height="80" rx="8" fill="var(--accent)" />
-      <text x="379" y="110" font-family="var(--sans)" font-size="18" font-weight="600" fill="var(--on-accent)" text-anchor="middle">Jev</text>
-      <text x="379" y="132" font-family="var(--mono)" font-size="12" fill="var(--on-accent)" text-anchor="middle">70–500 ms</text>
-
-      <path d="M 458 116 L 494 116" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#jev-arrow)" />
-
-      <rect x="498" y="86" width="256" height="60" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
-      <text x="512" y="112" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">OUT</text>
-      <text x="512" y="133" font-family="var(--sans)" font-size="15" fill="var(--text)">A typed value — never malformed</text>
-
-      <rect x="498" y="152" width="256" height="56" rx="8" fill="var(--surface)" stroke="var(--field-border)" />
-      <text x="512" y="176" font-family="var(--mono)" font-size="13" fill="var(--text-faint)">OUT</text>
-      <text x="512" y="196" font-family="var(--sans)" font-size="15" fill="var(--text)">Confidence + probability</text>
-
-      <text x="6" y="26" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">ONE CALL, NO PARSING STEP</text>
-      <text x="754" y="26" font-family="var(--mono)" font-size="12" fill="var(--text-faint)" text-anchor="end">NO STRING GENERATION</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 6 — why this is not a chat call. A chat model returns text that code has to parse and validate; Jev returns the decision, already typed, with the uncertainty attached. Diagram ours; the latency band is the vendor's claim.
-    </figcaption>
-  </figure>
-
-  {/*
-    These two figures used to sit back to back with only a comment between them,
-    which put figure 6 and figure 7 inside one screen — the writing-style contract
-    rules that out (§5). A heading and a paragraph also fix the section logic:
-    latency is not something the model "returns".
-  */}
-  <h3 id="latency">How fast, and whose number it is</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Both ranges come from the launch post, and both are drawn on a log axis — 0.07 s and 329 s end
-    to end is one visible bar and one dot on a linear scale, which would read as a much simpler
-    story than the numbers do.
-  </p>
-
-  {/*
-    Figure 7 — the vendor's two headline ranges on a logarithmic axis, because
-    0.07 s and 329 s on a linear axis is one visible bar and one invisible dot.
-    Log scale is stated on the figure so nobody reads the bar lengths as ratios.
-  */}
-  <figure class="figure">
-    <svg viewBox="0 0 760 175" width="100%" role="img" style="display: block; max-width: 100%; height: auto;">
-      <title>End-to-end latency on a logarithmic scale: Jev 70 to 500 milliseconds, frontier LLMs 3 to 329 seconds.</title>
-      <text x="0" y="14" font-family="var(--mono)" font-size="12" fill="var(--text-faint)">END-TO-END LATENCY · LOG SCALE · VENDOR'S FIGURES</text>
-
-      {/*
-        Row labels sit above their bars, not beside them: "Frontier LLM"
-        anchored to the left edge of the plot ran off the viewBox and rendered
-        as "ntier LLM" in production. The label has to live inside the width the
-        axis already reserves.
-      */}
-      <line x1="60" y1="134" x2="700" y2="134" stroke="var(--field-border)" />
-      {[
-        [129, "0.1 s"],
-        [267, "1 s"],
-        [405, "10 s"],
-        [543, "100 s"],
-      ].map(([x, label]) => (
-        <g>
-          <line x1={x} y1="130" x2={x} y2="138" stroke="var(--field-border)" />
-          <text x={x} y="154" font-family="var(--mono)" font-size="11" fill="var(--text-faint)" text-anchor="middle">{label}</text>
-        </g>
-      ))}
-
-      <text x="60" y="38" font-family="var(--sans)" font-size="14" fill="var(--text)">Jev</text>
-      <rect x="108" y="46" width="118" height="18" rx="9" fill="var(--success)" />
-      <text x="236" y="60" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">70–500 ms</text>
-
-      <text x="60" y="94" font-family="var(--sans)" font-size="14" fill="var(--text)">Frontier LLM</text>
-      <rect x="333" y="102" width="282" height="18" rx="9" fill="var(--text-faint)" opacity="0.45" />
-      <text x="625" y="116" font-family="var(--mono)" font-size="12" fill="var(--text-muted)">3–329 s</text>
-    </svg>
-    <figcaption style="margin-top: var(--space-4); font-size: var(--text-xs); color: var(--text-faint); max-width: var(--measure);">
-      Figure 7 — the gap is real, and it is also the maker's own measurement, run from their machines on System One shaped queries. We have not reproduced it. Note the axis: at this scale the difference looks like roughly a decade, which is the same thing the vendor calls 40×–200×.
-    </figcaption>
-  </figure>
-
-  <h2>Why this model is being searched for</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    The bare word “jev” sat flat for three months and then moved within a day of the announcement. The
-    interesting part is not the size of the spike — it is which words come with it.
-  </p>
-  <TimelineList entries={timeline} />
-  <div class="provenance">
-    <span>Source <code>Google Trends, worldwide, trailing 3 months</code></span>
-    <span>Read <code>{JEV_DATA_AS_OF}</code></span>
-    <span>Index is relative to the term's own peak, not a search volume</span>
-  </div>
-
-  <h2>What the community claims</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure); margin-bottom: var(--space-6);">
-    None of this comes from TypeSafe, OpenRouter or Cloudflare. It is here because it is what people are
-    actually saying, with the evidence attached so you can weigh it — and because the loudest claim of the
-    week is the one nobody can check.
-  </p>
-  <ClaimList claims={claims} />
-
-  <h2>How to call it</h2>
-  <ol style="max-width: var(--measure); color: var(--text-muted); padding-left: var(--space-6);">
-    <li>
-      <strong style="color: var(--text);">Get access.</strong> Jev ships in early access, and TypeSafe's
-      site runs a waitlist. OpenRouter and Cloudflare both list it already, so an account on either side is
-      the shorter path.
-    </li>
-    <li>
-      <strong style="color: var(--text);">Pick a front door.</strong> Same model id on both; Cloudflare is
-      the shorter hop if your code is already a Worker.
-    </li>
-    <li>
-      <strong style="color: var(--text);">Send state, not a prompt.</strong> The input is program state —
-      the thing your code already has — plus questions with the criteria named in them.
-    </li>
-    <li>
-      <strong style="color: var(--text);">Read the probability, not just the label.</strong> Every answer
-      carries a confidence. Threshold it in your own code; that is the whole point of the design.
-    </li>
-  </ol>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th>Where</th><th>Model id</th><th>Note</th></tr>
-      </thead>
-      <tbody>
-        {vias.map((via) => (
-          <tr>
-            <td><a href={via.href} rel="noopener noreferrer">{via.name}</a></td>
-            <td><code>{via.id}</code></td>
-            <td style="color: var(--text-muted);">{via.note}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-
-  <h2>How it differs from the models in our directory</h2>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th></th><th>Chat LLM</th><th>Jev</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="color: var(--text-muted);">Sends back</td>
-          <td>Text you parse and validate</td>
-          <td><strong>A typed value, already valid</strong></td>
-        </tr>
-        <tr>
-          <td style="color: var(--text-muted);">Says when it is unsure</td>
-          <td>Only if prompted, and inconsistently</td>
-          <td><strong>Every answer carries a probability</strong></td>
-        </tr>
-        <tr>
-          <td style="color: var(--text-muted);">Output cost</td>
-          <td>Roughly 5× the input price</td>
-          <td><strong>Free</strong></td>
-        </tr>
-        <tr>
-          <td style="color: var(--text-muted);">Latency</td>
-          <td>Seconds — 3 to 329 s per the vendor</td>
-          <td><strong>70–500 ms, vendor-claimed</strong></td>
-        </tr>
-        <tr>
-          <td style="color: var(--text-muted);">Can it explain itself?</td>
-          <td>Yes</td>
-          <td>No — and that is the trade</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="provenance">
-    <span>Comparison built from <a href={JEV_TYPESAFE_BLOG_URL} rel="noopener noreferrer">TypeSafe's own table</a></span>
-    <span>Vendor claims are marked as such</span>
-  </div>
-
-  <h2>Four other things called Jev</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Three letters, four unrelated meanings, and all of them outrank this model on search volume. If you
-    searched “jev” and wanted one of these, the table is the fastest way out — and if you wanted the model,
-    it is the reason to add a qualifier.
-  </p>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th>Also “jev”</th><th>What it is</th></tr>
-      </thead>
-      <tbody>
-        {alsoCalledJev.map((row) => (
-          <tr>
-            <td style="white-space: nowrap;"><strong>{row.name}</strong></td>
-            <td style="color: var(--text-muted);">{row.what}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-
-  {/*
-    The receipts section. Every other page on the web that covers Jev is
-    summarising the same two sources; this table says which requests we actually
-    made, when, and what came back — including the row where the answer was
-    "we could not check this". That last row is the point: a verification log
-    with no gaps in it is an advertisement, not a log.
-  */}
-  <h2>What we checked ourselves</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    This page is not a summarised press release. Below is every read we made on
-    {JEV_DATA_AS_OF}, what we asked, and what came back — including the one thing we
-    could not check.
-  </p>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th>Question</th><th>How we asked</th><th>What came back</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Is Jev really on OpenRouter?</td>
-          <td><code>GET /api/v1/models/typesafe/jev-1.13/endpoints</code></td>
-          <td>200. Provider <strong>TypeSafe</strong>, modality <code>text-&gt;decisions</code>.</td>
-        </tr>
-        <tr>
-          <td>When was it listed, and where does that timestamp come from?</td>
-          <td>the <code>created</code> field of the same response</td>
-          <td><code>1789689684</code> — {JEV_LISTED_AT_UTC}. Read from the catalogue, not from the announcement.</td>
-        </tr>
-        <tr>
-          <td>What does it actually cost?</td>
-          <td>the <code>pricing</code> block of the same response</td>
-          <td><code>prompt 0.000000042</code> per token (= ${JEV_INPUT_PRICE_PER_MILLION} per million), <code>completion 0</code>.</td>
-        </tr>
-        <tr>
-          <td>Do the two catalogues agree on context?</td>
-          <td>OpenRouter endpoint vs the Cloudflare model card</td>
-          <td>Both say <strong>32,000</strong>. When two independent listings agree, we print the number without a hedge.</td>
-        </tr>
-        <tr>
-          <td>Why is this page hand-written?</td>
-          <td>grep the whole <code>/api/v1/models</code> list (445 entries) for <code>jev</code> and <code>typesafe</code></td>
-          <td><strong>No match.</strong> It is served, and absent from the list our sync reads. That is the finding this page exists to record.</td>
-        </tr>
-        <tr>
-          <td>What are the question types, exactly?</td>
-          <td>the code sample on the Cloudflare Workers AI model card</td>
-          <td><code>noul</code> with named true/false criteria, <code>choice</code> with named options, <code>score</code> with an ordered list.</td>
-        </tr>
-        <tr>
-          <td>Is the speed and price claim real?</td>
-          <td>the vendor's launch post, 2026-09-15</td>
-          <td>They publish 70–500 ms, $0.042 per million in, output free. <strong>We have not reproduced any of it</strong> — so it is labelled as theirs everywhere on this page.</td>
-        </tr>
-        <tr>
-          <td>Is anyone actually searching for it?</td>
-          <td>Google Trends, worldwide, three months, daily</td>
-          <td>Index 1 for 92 of 93 days, then 4 → 26 → 61 → 100. Related queries are AI-side, not the rapper.</td>
-        </tr>
-        <tr style="background: var(--bg-sunken);">
-          <td><strong>Does it work?</strong></td>
-          <td>20 live calls, byte-identical, {JEV_OURS_MEASURED_ON}</td>
-          <td>
-            <strong>Yes</strong> — HTTP 200 on every call, model <code>jev-1.13.0</code>.
-            The raw response and what 20 repeats did to it are in
-            <a href="#our-run">Our own run</a> below.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="provenance">
-    <span>Read <code>{JEV_DATA_AS_OF}</code></span>
-    <span>Requests <code>openrouter.ai/api/v1</code></span>
-    <span>These are our reads, not the vendor's claims</span>
-  </div>
-
-  {/*
-    The first first-hand data on this site. Everything above is a read of
-    somebody else's listing; this section came out of our own terminal, and the
-    method is stated so it can be argued with. It also replaces the honest gap
-    that used to sit in the verification log.
-  */}
-  <h2 id="our-run">Our own run</h2>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    We got early access on {JEV_OURS_MEASURED_ON} and ran it. One state — a support
-    ticket about a Stripe connection that has been failing for three days — and three
-    questions at once: one Noul, one Choice, one Score. Then the same byte-identical
-    request {JEV_OURS_SAMPLES} more times, to see what holds still.
-  </p>
-
-  <h3>What comes back</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    This is the response, trimmed to the three answers and the usage block and
-    otherwise reproduced exactly. It is worth reading closely, because three details
-    in it are in no summary I could find:
-  </p>
-  <pre style="max-width: var(--measure); overflow-x: auto; padding: var(--space-4); background: var(--bg-sunken); border: 1px solid var(--field-border); border-radius: var(--radius); font-size: var(--text-sm);"><code>{JSON.stringify(
-    oursSampleResponse,
-    null,
-    2,
-  )}</code></pre>
-  <ul style="max-width: var(--measure); color: var(--text-muted); padding-left: var(--space-6);">
-    <li>
-      <strong style="color: var(--text);">The Noul has no confidence field.</strong>
-      Just <code>noul: 0.98</code>. That is documented, and now it is also observed.
-    </li>
-    <li>
-      <strong style="color: var(--text);">The Score is fractional.</strong> We asked for
-      three levels and got back <code>1.04</code> — a position in the level space, not an
-      index into it, with a <code>legend</code> mapping supplied alongside.
-    </li>
-    <li>
-      <strong style="color: var(--text);">A Choice's confidence can sit far below its top
-      probability.</strong> The answer is <code>technical</code> at 0.59, but the
-      confidence is <strong>0.38</strong> — because <code>billing</code> is at 0.41 and
-      the distribution is nearly flat. Under the vendor's own three-band guidance, 0.38
-      is the band where you <em>do not act automatically</em>. A naive integration reads
-      <code>choice</code>, ignores <code>confidence</code>, and routes the ticket anyway.
-    </li>
-  </ul>
-
-  <h3>What {JEV_OURS_SAMPLES} identical calls did to those numbers</h3>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr>
-          <th>Signal</th>
-          <th class="num">Min</th>
-          <th class="num">Max</th>
-          <th class="num">Spread</th>
-          <th class="num">Std dev</th>
-        </tr>
-      </thead>
-      <tbody>
-        {oursSpread.map((row) => (
-          <tr>
-            <td>{row.signal}</td>
-            <td class="num">{row.min.toFixed(row.digits)}</td>
-            <td class="num">{row.max.toFixed(row.digits)}</td>
-            <td class="num"><strong>{(row.max - row.min).toFixed(row.digits)}</strong></td>
-            <td class="num" style="color: var(--text-muted);">{row.sd.toFixed(row.digits)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    The chosen label was <strong>{oursLabelStability.label}</strong> in
-    {oursLabelStability.runs} of {oursLabelStability.of} runs — it never flipped. The
-    confidence did: it ranged from {oursSpread[3].min} to {oursSpread[3].max}, which is
-    the span between "route to a human" and "proceed with caution" under the vendor's own
-    guidance. Nobody changed the input. So a pipeline that gates on confidence, as
-    TypeSafe's documentation tells you to, will route the same ticket differently
-    depending on which run it got — and the label it prints will look identical every
-    time, which is exactly what makes it hard to notice.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Two honest limits on that. The vendor has already published a self-consistency study
-    of their own — a 14-question rubric over 15 repeats, mean per-question standard
-    deviation <strong>0.0102</strong> — and their numbers come from a different rubric, a
-    different input and a different machine, so ours do not refute theirs. And our
-    spreads are single-question; a rubric of fourteen may well behave better, which is
-    what their study suggests.
-  </p>
-
-  <h3>What we checked ourselves: can an answer leave your list?</h3>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Everything above about the answer set is either the vendor's claim or somebody else's summary.
-    The claim itself is absolute — an answer outside the options you defined is impossible — and it is
-    the sentence the whole product rests on, which is a reason to attack it rather than repeat it. So
-    we did, in {oursSchemaProbe.calls} ways, each one a way a caller really gets attacked: instructions
-    inside the state, a state that implies an option nobody offered, options that nearly mean the same
-    thing, one option, ten, a criteria map crossed over on purpose, an empty state.
-  </p>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr>
-          <th>Attempt</th>
-          <th>What we sent</th>
-          <th>What came back</th>
-        </tr>
-      </thead>
-      <tbody>
-        {probeAttempts.map((row) => (
-          <tr>
-            <td style="color: var(--text); font-weight: 600;">{row.attempt}</td>
-            <td style="color: var(--text-muted);">{row.sent}</td>
-            <td style="font-family: var(--mono); font-size: var(--text-sm);">{row.outcome}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Not one answer left the set: {oursSchemaProbe.calls} calls,
-    {oursSchemaProbe.offMenuAnswers} off-menu, and the same {oursSchemaProbe.calls} labels on every
-    repeat of the whole suite. Both attempts that asked for a different answer set outright got
-    ordinary answers, and the customer demanding that their account be deleted was filed under
-    <code>billing</code> — the nearest option that existed. Ten thousand characters of log lines were
-    read and answered in under a second. That is the guarantee, and it held in every
-    direction we pushed.
-  </p>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    Two rows are worth more than the other eleven, and neither one is a violation. The crossed criteria
-    map — the words under <code>billing</code> describing crashes, the words under
-    <code>technical</code> describing money — was followed literally. The model treats your criteria as
-    the definition of the option, not as a hint about it, so criteria that are crossed are obeyed as
-    written and you get a confident wrong routing with your own words on it. And numeric keys come back
-    as numeric-looking strings: <code>"1"</code>, not <code>1</code>, which is the kind of detail that
-    breaks a lookup table in a language that distinguishes them.
-  </p>
-  <div class="provenance">
-    <span>Probe <code>astro/scripts/jev-probe.mjs</code>, cases in <code>jev-probe-cases.json</code></span>
-    <span>Run <code>{oursSchemaProbe.measuredOn}</code>, {oursSchemaProbe.runs} times, {oursSchemaProbe.calls} calls each</span>
-    <span>Cost <code>about $0.0002 a run</code></span>
-  </div>
-  {/*
-    The numbers on this page are the one thing here nobody else publishes, and
-    until 2026-09-22 they were only quotable by scraping a paragraph. This block
-    is the licence and the machine-readable pointer, not a second summary.
-  */}
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    These measurements are ours, and they are free to quote under CC BY 4.0 with a
-    link to this page. The machine-readable version of everything measurable on
-    this site — including the probe results above and the model snapshot — is{" "}
-    <a href="/facts.json">/facts.json</a>, and the Alpha line's numbers are on{" "}
-    <a href="/alpha-line-report">The Alpha Line Report</a>.
-  </p>
-
-  <h3>Latency and what it cost us</h3>
-  <div class="table-scroll">
-    <table class="data">
-      <thead>
-        <tr><th>Measurement</th><th class="num">Value</th><th>Note</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Wall time per call</td>
-          <td class="num">median {oursLatency.median} ms</td>
-          <td style="color: var(--text-muted);">{oursLatency.note} — min {oursLatency.min} ms, max {oursLatency.max} ms</td>
-        </tr>
-        <tr>
-          <td>Tokens per call</td>
-          <td class="num">{oursUsage.inputTokens} in / {oursUsage.outputTokens} out</td>
-          <td style="color: var(--text-muted);">the same on every one of the {JEV_OURS_SAMPLES} calls</td>
-        </tr>
-        <tr>
-          <td>Cost of one call</td>
-          <td class="num">${oursUsage.costPerCallUsd.toFixed(8)}</td>
-          <td style="color: var(--text-muted);">{oursUsage.inputTokens} input tokens at $0.042 per million; output is free</td>
-        </tr>
-        <tr>
-          <td>Cost of this whole experiment</td>
-          <td class="num">${oursUsage.costForExperimentUsd.toFixed(6)}</td>
-          <td style="color: var(--text-muted);">{JEV_OURS_SAMPLES} calls, about a third of a cent</td>
-        </tr>
-        <tr>
-          <td>Vendor's own latency claim</td>
-          <td class="num">70–500 ms</td>
-          <td style="color: var(--text-muted);">not comparable to the row above — theirs excludes network, ours is wall time from Asia</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="provenance">
-    <span>Measured <code>{JEV_OURS_MEASURED_ON}</code></span>
-    <span>Model <code>jev-1.13.0</code> via api.typesafe.ai</span>
-    <span>Request body, method and the one field the API rejected are in the page notes</span>
-  </div>
-  <p style="color: var(--text-muted); max-width: var(--measure);">
-    One more thing we tried, since it is worth knowing before you copy their cookbook:
-    TypeSafe's own self-consistency guides send a fresh <code>uid</code> on every call.
-    That field is rejected at the top level by the current API — HTTP 400,
-    <code>"Invalid request"</code>. We only tested that placement, so we cannot say the
-    cookbook is wrong; we can say the request it shows did not run here. Repetition alone
-    turned out not to need a cache-buster anyway: eight byte-identical requests came back
-    as eight distinct answer objects, so nothing is being served from a cache.
-  </p>
 
   <h2>FAQ</h2>
   <Faq items={jevFaqs} />
+
+  {/*
+    The wall. Below it the page continues as it did — the facts, the three question
+    types, our own run, the FAQ — because a reader who wants the reference should
+    not have to scroll past 48 cards to find it, and a reader who wanted to know
+    whether anything is happening here has already been answered.
+  */}
+  <section class="topic-wall">
+    <h2>What people are building</h2>
+    <TopicWall items={wall} columns={columns} />
+  </section>
+
+
   {/* The player for any clip the wall above rendered (see TopicWall.astro). */}
   <XClipWall />
 
@@ -1445,14 +478,55 @@ const heroStats = [
 
 <style>
   /*
-   * The front-page strip: four tiles of numbers, then the topic's own columns as
-   * chips. Both are scoped to this page — the numbers are this model's, and a
-   * shared component would tempt the next topic to fill it with different claims.
+   * The hero: words left, media right — the ordinary shape of a front page, and the one the
+   * reader asked for on 2026-09-24. Scoped to this page because both halves are this model's:
+   * the numbers are counts of *this* topic, and the right column is this model's launch post.
+   *
+   * It collapses to one column at 1000px. The media column keeps its natural order, so on a
+   * phone the reader gets the headline and the lede first and the clip after them, which is
+   * the order the single-column version had.
    */
-  .topic-hero { margin: var(--space-6) 0 var(--space-8); }
+  .topic-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+    gap: var(--space-10);
+    align-items: start;
+    margin: var(--space-5) 0 var(--space-8);
+  }
+  @media (max-width: 1000px) {
+    .topic-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+  }
+  /*
+   * The measure. A wide frame is right for a grid and wrong for a paragraph: at 1048 this
+   * lede ran ~110 characters a line. `--measure` is `none` site-wide (ADR-0019), so the
+   * hero sets its own — the one place on this page with continuous prose.
+   */
+  .hero-copy { max-width: 62ch; }
+  .hero-media { display: grid; gap: var(--space-5); }
+  .hero-card {
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .hero-cap { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5) var(--space-5); }
+  .hero-cap-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-lg); }
+  .hero-cap-meta { font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  .hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
+  /* The second card is a doorway to somebody else's video, so it is shaped like a row, not a
+     poster: a thumbnail beside its title reads as "watch this" rather than as a second hero. */
+  .hero-card-small .hero-video { display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: var(--space-4); align-items: center; text-decoration: none; color: inherit; }
+  .hero-video-frame { display: block; aspect-ratio: 16 / 9; background: var(--bg-sunken); overflow: hidden; }
+  .hero-video-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-video-body { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3) var(--space-4) var(--space-3) 0; }
+  .hero-video-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-sm); line-height: 1.3; }
+  @media (max-width: 520px) {
+    .hero-card-small .hero-video { grid-template-columns: 104px minmax(0, 1fr); }
+  }
   .stat-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
     list-style: none;
     margin: 0 0 var(--space-5);

@@ -3,5 +3,10 @@
     "page": "/typesafe-jev/x-posts/*",
     "links": ["/typesafe-jev/x-posts/*"],
     "reason": "On a record page, the \"More like this\" block is computed (three nearest posts sharing a use case), so adding a record to the column can displace one of the three. That is a recommendation changing, not a navigation link being dropped: the displaced page is still linked from the column hub, from the sitemap, and from its own related blocks. 2026-09-24, when batch 1 added twenty records and the guard read it as seventeen dropped links. The block itself is now marked `data-generated`, which makes this exemption redundant on the live site once this build has shipped — kept because the guard compares against production, and production will keep changing under us."
+  },
+  {
+    "page": "/typesafe-jev",
+    "links": ["/alpha-line-report"],
+    "reason": "The front page was split on 2026-09-24: the long reference moved to /typesafe-jev/reference, and the sentence that carried this link (the CC BY 4.0 licence paragraph, which points at the Alpha Line Report as the other machine-readable report) moved with it. The link is not dropped from the site — it is on the new page, which production has never had, so the guard cannot see it and reads the move as a deletion. Restoring the sentence here would mean keeping an appendix paragraph on a cover page to satisfy a link checker."
   }
 ]

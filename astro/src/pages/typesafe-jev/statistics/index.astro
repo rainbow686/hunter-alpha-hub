@@ -50,7 +50,13 @@ const faqs = [
 ];
 ---
 
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+{/*
+  Narrow since 2026-09-24, and it was the odd one out: the report is prose and tables, like its
+  siblings `/pricing`, `/vs-llm` and `/open-source`, and those are 760 (ADR-0019). It had been
+  built wide, which made it the only report in the topic that read at ~110 characters a line —
+  and, next to the other two, the visible difference the reader asked about.
+*/}
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
   <JsonLd slot="head" data={articleSchema({ title: "The Jev catalogue report", description, publishedAt: JEV_STATISTICS_READ_ON, updatedAt: JEV_STATISTICS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
   <Breadcrumbs schema={true} items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Statistics", url: canonical }]} />
 
@@ -177,6 +183,12 @@ const faqs = [
 <style>
   /* Reuses the site's .stats/.stat tiles and .data table; the only new piece is the bar
      row, which is a table of one number each and reads faster as bars than as digits. */
+  /*
+   * Four tiles inside the site's default `minmax(150px, 1fr)` is four columns of ~190 at the 760
+   * column, and the labels wrapped to three lines ("WITH A PAGE OF THEIR OWN"). Two columns of
+   * ~370 is what the same four tiles look like at this width.
+   */
+  .stats { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
   .bars { margin-top: var(--space-5); display: grid; gap: var(--space-2); }
   .bar-row { display: grid; grid-template-columns: minmax(140px, 200px) 1fr auto; align-items: center; gap: var(--space-3); }
   .bar-label { font-size: var(--text-sm); }

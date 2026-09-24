@@ -122,6 +122,12 @@ const STATIC_ENTRIES: Entry[] = [
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
   { path: "/typesafe-jev", changeFrequency: "weekly", priority: "0.8" },
+  /*
+   * The topic's long-form page (2026-09-24): specs, price, question types and our own probe,
+   * split off the front page when it grew a wall. It is the page a reader lands on from a search
+   * for "jev specs" or "jev pricing", so it sits with the explainers rather than at 0.6.
+   */
+  { path: "/typesafe-jev/reference", changeFrequency: "monthly", priority: "0.8" },
   // Field notes: hand-written, and the only page here that reads other people's
   // repositories rather than the catalogue.
   // The section index for that series — entries are declared here too, because

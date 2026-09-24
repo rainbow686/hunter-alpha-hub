@@ -53,6 +53,7 @@ export const topicNavs: TopicNav[] = [
     label: "Jev",
     tabs: [
       { href: "/typesafe-jev", label: "Overview", note: "What Jev is, what it costs, and what we measured ourselves" },
+      { href: "/typesafe-jev/reference", label: "Reference", note: "The long version: specs, price, question types, and our own probe" },
       { href: "/typesafe-jev/builds", label: "Built with Jev", count: jevBuildCounts.published },
       { href: "/typesafe-jev/x-posts", label: "X posts", count: jevXPostCounts.described },
       { href: "/typesafe-jev/videos", label: "Videos", count: jevVideoCounts.published },

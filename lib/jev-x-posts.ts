@@ -116,6 +116,17 @@ export const jevXPosts: JevXPost[] = RAW.entries
 /** The canonical pages, for `getStaticPaths` and for the hub's "read the record" links. */
 export const jevXPostsWithPages: JevXPost[] = jevXPosts.filter((p) => p.page);
 
+/**
+ * The launch post, by id rather than by rank.
+ *
+ * It happens to be the most-liked row in the column (75,869), so `jevXPosts[0]` would work
+ * today and break silently the day something outranks it — and this row is the one image that
+ * stands for the model, used as the topic's hero. A hero that changes identity when a
+ * like count moves is not a hero, so it is named here and the page asks for it by name.
+ */
+export const jevLaunchPost: JevXPost | null =
+  jevXPosts.find((post) => post.id === "x:2099925682726002904") ?? null;
+
 export const jevXPostBySlug = new Map(jevXPostsWithPages.map((p) => [p.page!.slug, p]));
 
 export const jevXPostCounts = {
