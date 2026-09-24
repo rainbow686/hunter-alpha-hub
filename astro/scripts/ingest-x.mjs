@@ -42,11 +42,15 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { requireSource, resolveTopic } from "./lib/topics.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "../..");
-const SEEDS = resolve(ROOT, "lib/data/jev-x-sources.json");
-const QUEUE = resolve(ROOT, "lib/data/jev-x-posts.json");
+/** Default topic `jev`; `--topic laya` reads lib/data/laya-x-sources.json and writes its own queue. */
+const TOPIC = resolveTopic();
+const CFG = requireSource(TOPIC, "x");
+const SEEDS = resolve(ROOT, CFG.seeds);
+const QUEUE = resolve(ROOT, CFG.out);
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
 const LIMIT = Number(process.env.X_LIMIT ?? 20); // politeness: one pass, bounded
 const asOf = new Date().toISOString().slice(0, 10);
@@ -193,5 +197,5 @@ queue.meta = {
   note: "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
 };
 writeFileSync(QUEUE, `${JSON.stringify(queue, null, 2)}\n`);
-console.log(`X: ${added} resolved, ${skipped} already known, ${failed} failed → lib/data/jev-x-posts.json (${queue.entries.length} total)`);
+console.log(`X: ${added} resolved, ${skipped} already known, ${failed} failed → ${CFG.out} (${queue.entries.length} total)`);
 for (const e of queue.entries.slice(-6)) console.log(`  ${String(e.metrics.likes).padStart(5)} ♥  ${e.publishedAt}  ${e.media.kind.padEnd(5)}  ${e.author.padEnd(18)} ${e.title.slice(0, 46)}`);

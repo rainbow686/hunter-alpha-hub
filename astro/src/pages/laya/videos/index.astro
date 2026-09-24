@@ -1,0 +1,134 @@
+---
+/**
+ * /laya/videos — the video column of the Laya topic.
+ *
+ * Two rules the ingest and this page agree on. First, the model has to be named in the title or the
+ * description: five of the fourteen candidates were Jev explainers that the search returned because
+ * both models live in the same sentence everywhere, and a card titled "JEV Breakdown" in Laya's
+ * column is a card a reader cannot trust. Second, nothing loads from YouTube until the reader asks:
+ * the poster is ours to show, the player is theirs to fetch (ADR-0022).
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_VIDEOS_READ_ON, layaVideoCounts, layaVideos } from "@repo/lib/laya-videos";
+import { LAYA_KIND_COUNTS } from "@repo/lib/laya-kinds";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Laya Videos: Open-Weight Decisions, Explained and Demonstrated (2026)";
+const description = `${layaVideoCounts.published} videos about Laya — the local installs, the demos, the head-to-head games and the arguments — each described in a sentence of ours. Views read ${LAYA_VIDEOS_READ_ON}.`;
+const canonical = `${SITE}/laya/videos`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+const dur = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+
+const chips = LAYA_KIND_COUNTS.map((kind) => ({
+  group: "tag",
+  value: kind.slug,
+  label: kind.label,
+  count: layaVideos.filter((v) => v.tags.includes(kind.slug)).length,
+})).filter((chip) => chip.count > 0);
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "Laya videos", description, publishedAt: LAYA_VIDEOS_READ_ON, updatedAt: LAYA_VIDEOS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Videos", url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">Videos · Laya</p>
+      <h1>What people filmed about Laya</h1>
+      <p class="lede">
+        Within four days of the repository going up there were fourteen videos about it, and nine of
+        them were worth a card. Most are installs and demos, several are games, and two are about the
+        argument the model started rather than about the model. Longest reach first.
+      </p>
+      <p class="provenance">
+        <span>Views and duration read {LAYA_VIDEOS_READ_ON}</span>
+        <span>{layaVideoCounts.published} videos published</span>
+        {layaVideoCounts.waiting > 0 && <span>{layaVideoCounts.waiting} not published</span>}
+      </p>
+    </header>
+
+    <CardFilter chips={chips} noun="videos" total={layaVideos.length} groups={[{ key: "tag", label: "kind of work" }]} />
+
+    <ul class="card-grid">
+      {layaVideos.map((video) => (
+        <li class="card" data-sources="youtube" data-tags={video.tags.join(" ")}>
+          <div class="card-media" style="--ratio: 16 / 9">
+            <span class="card-src">YouTube</span>
+            <button class="facade" data-video={video.videoId} aria-label={`Play: ${video.title}`} type="button">
+              <img src={video.thumb} width={video.thumbW} height={video.thumbH} alt="" loading="lazy" decoding="async" />
+              <span class="play" aria-hidden="true">▶</span>
+              <span class="length" aria-hidden="true">{dur(video.durationS)}</span>
+            </button>
+          </div>
+          <h2 class="card-title"><a href={video.url} rel="noopener">{video.title}</a></h2>
+          <p class="card-meta">
+            <span>{video.channel}</span>
+            <span>{video.publishedAt}</span>
+            <span>{fmt(video.views)} views</span>
+          </p>
+          <p class="card-note card-our">{video.ourNote}</p>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        Anything we have not watched past the part that matters, and any video whose description does
+        not name Laya. A video index built from titles is a list of other people's headlines, so the
+        rows above are the ones we could describe in our own words; the rest of what the search
+        turned up sits in the queue until somebody writes that sentence, which for a five-day-old
+        model is most of it.
+      </p>
+      <p class="provenance">
+        <a href="https://developers.google.com/youtube/v3">Source: YouTube Data API v3</a>
+        <span>Player loads only on click</span>
+        <span><a href="/laya">Laya topic</a></span>
+      </p>
+    </section>
+    <TopicIndex entries={layaTopicEntries} current="/laya/videos" />
+  </article>
+
+  <script>
+    // Click-to-load (ADR-0022): the player document is about 1MB of third-party JavaScript and is
+    // created only when a reader asks for it, which also means no request to Google before then.
+    document.querySelectorAll<HTMLButtonElement>(".facade").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.video;
+        if (!id) return;
+        const frame = document.createElement("iframe");
+        frame.className = "player";
+        frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+        frame.title = button.getAttribute("aria-label") ?? "YouTube video";
+        frame.loading = "lazy";
+        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        frame.allowFullscreen = true;
+        button.replaceWith(frame);
+      }, { once: true });
+    });
+  </script>
+</System>
+
+<style>
+  .facade { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
+  .facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .facade .play {
+    position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+    width: 54px; height: 54px; border-radius: 50%; background: rgb(0 0 0 / 62%); color: #fff;
+    display: grid; place-items: center; font-size: 18px; padding-left: 3px;
+  }
+  .facade .length {
+    position: absolute; right: var(--space-2); bottom: var(--space-2);
+    background: rgb(0 0 0 / 72%); color: #fff; font-size: var(--text-xs);
+    padding: 2px var(--space-2); border-radius: var(--radius-sm); font-variant-numeric: tabular-nums;
+  }
+  .player { width: 100%; height: 100%; border: 0; display: block; }
+</style>

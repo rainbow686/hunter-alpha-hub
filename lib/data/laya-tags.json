@@ -1,0 +1,35 @@
+{
+  "note": "Controlled vocabulary for the Laya topic's second axis. It is deliberately not Jev's six — ADR-0018 says a topic's columns follow its own corpus, and Laya's corpus is runtimes, servers, agent plumbing and benchmark arguments rather than trading and browser agents. A tag outside this list fails npm run checks (scripts/check-intake.mjs), so a typo cannot produce a silently empty page. Rows that fit none of these stay untagged, which is why the kinds do not add up to the record count and the pages say so.",
+  "tags": [
+    {
+      "slug": "runtime-and-ports",
+      "label": "Runtime ports",
+      "blurb": "Getting the weights onto someone else's hardware: MLX on a Mac, Core ML on the Neural Engine, ggml in C++, candle in Rust, ONNX in Node."
+    },
+    {
+      "slug": "serving-and-api",
+      "label": "Serving and API",
+      "blurb": "Standing the model up as something else can call, usually behind Jev's own wire format."
+    },
+    {
+      "slug": "agents-and-tools",
+      "label": "Agents and tools",
+      "blurb": "Typed decisions inside an agent loop: routing, evals, guardrails, memory, and the plumbing around them."
+    },
+    {
+      "slug": "browser-and-computer-use",
+      "label": "Browser and computer use",
+      "blurb": "Deciding the next click, key or field on a real screen."
+    },
+    {
+      "slug": "games-and-demos",
+      "label": "Games and demos",
+      "blurb": "The model playing something you can watch. Most of this model's traffic arrived through one of these."
+    },
+    {
+      "slug": "benchmarks-and-evaluation",
+      "label": "Benchmarks and evaluation",
+      "blurb": "Numbers somebody actually ran — including the ones that say Laya lost."
+    }
+  ]
+}

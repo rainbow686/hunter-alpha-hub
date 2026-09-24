@@ -1,0 +1,973 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-24T09:53:24.323Z",
+    "source": "x-syndication",
+    "queries": [
+      "34 curated links"
+    ],
+    "candidates": 34,
+    "published": 22,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs"
+  },
+  "entries": [
+    {
+      "id": "x:2101467715798290466",
+      "source": "x",
+      "url": "https://x.com/0x0SojalSec/status/2101467715798290466",
+      "title": "Laya is the open-source Jev that already beats close Jev on latency and calibration. - 10x fa…",
+      "author": "@0x0SojalSec",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSnogjIaYAAMRFW.jpg",
+        "thumbW": 1516,
+        "thumbH": 2245
+      },
+      "metrics": {
+        "likes": 440,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The claim-heavy version: ten times faster on published numbers, multilingual, no per-token bill, and a latency comparison of 38 ms local against 400 ms remote. Every figure comes from a benchmark somebody else ran, and the post does not say which.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2102100643469226147",
+      "source": "x",
+      "url": "https://x.com/0x0SojalSec/status/2102100643469226147",
+      "title": "Open sourced \"Jev \" that runs 50x faster own Jarvis running locally now on mac 1GB RAM. 7ms p…",
+      "author": "@0x0SojalSec",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSwojnKaoAAiba0.jpg",
+        "thumbW": 1723,
+        "thumbH": 1607
+      },
+      "metrics": {
+        "likes": 149,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The second post from the same account, and the more specific one: 7 to 14 ms per decision, under a gigabyte of memory, and a claim that a local assistant setup finished in a single pass. The memory ceiling is the number that decides whether this runs on the laptop you already own.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2101419750597566684",
+      "source": "x",
+      "url": "https://x.com/BenjDicken/status/2101419750597566684",
+      "title": "Jev is cool. So is it's OSS companion, Laya. The Latest Cool Thing In AI™ tends to get a lot …",
+      "author": "@BenjDicken",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101413115795800064/img/7zVAVQPLlQf1Pk1V.jpg",
+        "thumbW": 2270,
+        "thumbH": 1702
+      },
+      "metrics": {
+        "likes": 764,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A patient explainer for readers who have heard the name and cannot say what it does: how a decision model differs from a chat model, why the output has no prose to parse, and what that changes about cost. Posted by someone with no stake in either project, which is why it is near the top of this wall.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2101744457557418221",
+      "source": "x",
+      "url": "https://x.com/CodeWithKolin/status/2101744457557418221",
+      "title": "7. Laya. open multilingual System-1 decision engine (Jev alt) https://t.co/UFGwEx3VuX",
+      "author": "@CodeWithKolin",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a numbered list item with one line and no content; the roundup it comes from is already on the wall",
+      "tags": []
+    },
+    {
+      "id": "x:2101464865093144638",
+      "source": "x",
+      "url": "https://x.com/GenAISpotlight/status/2101464865093144638",
+      "title": "⚡️ 𝗟𝗮𝘆𝗮 𝗢𝗽𝗲𝗻 𝗦𝗼𝘂𝗿𝗰𝗲 𝗗𝗲𝗰𝗶𝘀𝗶𝗼𝗻 𝗠𝗼𝗱𝗲𝗹 𝗖𝘂𝘁𝘀 𝗜𝗻𝗳𝗲𝗿𝗲𝗻𝗰𝗲 𝗟…",
+      "author": "@GenAISpotlight",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSnnKGmWQAAMggl.jpg",
+        "thumbW": 2560,
+        "thumbH": 1440
+      },
+      "metrics": {
+        "likes": 3,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The 33 ms number with the mechanism attached: bidirectional encoders, a calibrated probability instead of tokens, three primitives. A promotional account's summary, but it states the architecture correctly, which is more than most of the summaries here manage.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2101403384079372683",
+      "source": "x",
+      "url": "https://x.com/GohansVN/status/2101403384079372683",
+      "title": "@aisearchio 1. Laya 421M: Native decision model, supports Mac 2. Decider-2B: Most similar to …",
+      "author": "@GohansVN",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 15,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a reply listing five model names, duplicating the roundup already on the wall with less information",
+      "tags": []
+    },
+    {
+      "id": "x:2101802206756323723",
+      "source": "x",
+      "url": "https://x.com/JoshuaSWarren/status/2101802206756323723",
+      "title": "You may have heard of Jev, an interesting new AI. There's an open source version, Laya. I'm b…",
+      "author": "@JoshuaSWarren",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 120,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A distribution argument rather than a benchmark: the open weights going into a Linux distribution's hardware integration so that a decision model is always present, offline and unbilled. If the pattern holds, this is the shape it takes when it stops being news.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2101533907191472326",
+      "source": "x",
+      "url": "https://x.com/LomashKumar52/status/2101533907191472326",
+      "title": "The open source model quietly destroying Jev? Laya just went head to head with a $40M funded …",
+      "author": "@LomashKumar52",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101531521459101697/img/hc75co4fKfI6XU7x.jpg",
+        "thumbW": 3836,
+        "thumbH": 2160
+      },
+      "metrics": {
+        "likes": 11,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The hype cut of the comparison, with the funding figure and the launch story attached: a $40M round, a former OpenAI researcher, and an open model going head to head with it days later. Its numbers come from the publisher's own benchmark table, which is worth holding in mind while watching.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2102232405524295737",
+      "source": "x",
+      "url": "https://x.com/Ossaislt/status/2102232405524295737",
+      "title": "Ossa by Laya is live. CA: 0x2e0e4c0fbdb0ef011790a605cbe339edbecc284c Building the whole thing…",
+      "author": "@Ossaislt",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 4,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a token launch using the model's name, complete with a contract address; it is about the token, not the model",
+      "tags": []
+    },
+    {
+      "id": "x:2102410015667614114",
+      "source": "x",
+      "url": "https://x.com/Programando_la/status/2102410015667614114",
+      "title": "@atomic_chat_hq @grok @grok que requisitos se necesitan para correr Laya en local?",
+      "author": "@Programando_la",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a question asking how to run it, with no answer in the post",
+      "tags": []
+    },
+    {
+      "id": "x:2101553190701519126",
+      "source": "x",
+      "url": "https://x.com/QingQ77/status/2101553190701519126",
+      "title": "Laya 是 Convai Innovations 开源的编码器式决策引擎，用 choice、score、noul 三种提问原语对文本、邮件、工单或 JSON 提问，一次前向传播出结果，…",
+      "author": "@QingQ77",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSny7dUbcAAYcly.jpg",
+        "thumbW": 2916,
+        "thumbH": 2490
+      },
+      "metrics": {
+        "likes": 6,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language description of the three question types that treats them as an API rather than as a novelty, which is the right level for this model. Short, technical, and it links the model card instead of a video.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2102271292405854258",
+      "source": "x",
+      "url": "https://x.com/Rivonn/status/2102271292405854258",
+      "title": "Jev just got an open-source rival and it's fast as f**k Convai Innovations dropped Laya - an …",
+      "author": "@Rivonn",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102271268875878401/img/prwHfYV01apJM47m.jpg",
+        "thumbW": 1280,
+        "thumbH": 720,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102271268875878401/vid/avc1/640x360/wuc1teOBUk1bD0HD.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 15,
+          "bitrate": 832000,
+          "bytes": 390017,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 18,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The licence, the parameter count, the backbone and the per-query latency, in one screen — a rare post in this corpus that puts the Apache-2.0 line and the speed claim in the same paragraph, which is what a reader deciding whether to adopt it actually needs.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2102213718960673261",
+      "source": "x",
+      "url": "https://x.com/andrew4ranting/status/2102213718960673261",
+      "title": "China be like: “You make it good, i make it better and cheaper”",
+      "author": "@andrew4ranting",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 35,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a one-line joke quoting a meme format; there is nothing here to check or to tell a reader",
+      "tags": []
+    },
+    {
+      "id": "x:2102279914401812787",
+      "source": "x",
+      "url": "https://x.com/aniketsauravv/status/2102279914401812787",
+      "title": "If you don't know, JAV is not a new thing. This guy made a System1 model 1 year ago, but it n…",
+      "author": "@aniketsauravv",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "names the models wrongly (JAV, Lyla) and restates numbers from the publisher without saying so",
+      "tags": []
+    },
+    {
+      "id": "x:2102160983409955244",
+      "source": "x",
+      "url": "https://x.com/atomic_chat_hq/status/2102160983409955244",
+      "title": "Local Laya moggs Jev at @grok 4.7-built Tetris 🧩 An open-weights System One model called Lay…",
+      "author": "@atomic_chat_hq",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102158998103363584/img/AStT6MxzhJzruHIE.jpg",
+        "thumbW": 1080,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102158998103363584/vid/avc1/720x720/C5FS5KDfP2_qwDdp.mp4",
+          "width": 720,
+          "height": 720,
+          "durationS": 22,
+          "bitrate": 1280000,
+          "bytes": 1166342,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 6166,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Tetris build against a cloud model, local Laya winning by making decisions eleven times faster on a 16 GB MacBook Air. It is a game, so the result is about the loop rather than the model, and the post does not pretend otherwise.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "games-and-demos"
+      ]
+    },
+    {
+      "id": "x:2101975879299526928",
+      "source": "x",
+      "url": "https://x.com/fabioroma/status/2101975879299526928",
+      "title": "They Open sourced a Jev Alternative 6 to 8 times faster than Jev, Laya is a completely open, …",
+      "author": "@fabioroma",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSu36xbXgAAjsK3.jpg",
+        "thumbW": 1200,
+        "thumbH": 711
+      },
+      "metrics": {
+        "likes": 16,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An offer to host the open model for free, with the three question types spelled out and a thread promising the rest. Worth a card because self-hosting is the part most readers will not do, and somebody offering to do it for them is a real answer to that.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "serving-and-api"
+      ]
+    },
+    {
+      "id": "x:2102276866610794687",
+      "source": "x",
+      "url": "https://x.com/geneLab_999/status/2102276866610794687",
+      "title": "sokudan-ja-310m: open Japanese \"System One\" decision model (Jev-style, no text generation). B…",
+      "author": "@geneLab_999",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 1,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A third-party Japanese model that claims to beat Laya's multilingual checkpoint on a 300-item benchmark built on an unseen schema — and adds an observation worth checking: that the checkpoint never chooses the first-listed score option, in either language.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2101302994654425462",
+      "source": "x",
+      "url": "https://x.com/grok/status/2101302994654425462",
+      "title": "@agent_republic @0xCVYH Laya is a non-autoregressive decision model. pip install laya, then a…",
+      "author": "@grok",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 1,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "written by the platform's own model rather than by a person; the same facts are in the model card",
+      "tags": []
+    },
+    {
+      "id": "x:2102237844349583396",
+      "source": "x",
+      "url": "https://x.com/grok/status/2102237844349583396",
+      "title": "@Threeaio @atomic_chat_hq Laya mirrors Jev's typed-decision design (choice/score/noul with pr…",
+      "author": "@grok",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 1,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "also a model-written reply; its context-window caveat is real and is stated on our own vs Jev page",
+      "tags": []
+    },
+    {
+      "id": "x:2102741642050666755",
+      "source": "x",
+      "url": "https://x.com/hrswatigupta/status/2102741642050666755",
+      "title": "https://t.co/17sIMolXFE",
+      "author": "@hrswatigupta",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 4,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a bare shortened link with no text of its own",
+      "tags": []
+    },
+    {
+      "id": "x:2102745441091920210",
+      "source": "x",
+      "url": "https://x.com/hrswatigupta/status/2102745441091920210",
+      "title": "🚨 THIS IS WHAT A “SECOND BRAIN” FOR AI AGENTS LOOKS LIKE. 𝗡𝗮𝗻𝗱𝗵𝗮 𝗞𝗶𝘀𝗵𝗼𝗿 built La…",
+      "author": "@hrswatigupta",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102745415636717568/img/3wOZkeZVaiAd5cfN.jpg",
+        "thumbW": 1080,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102745415636717568/vid/avc1/720x720/3TppfuIzdOKiREOb.mp4?tag=16",
+          "width": 720,
+          "height": 720,
+          "durationS": 23,
+          "bitrate": 1280000,
+          "bytes": 770064,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 37,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A 'second brain for agents' explainer with the architecture animated, aimed at people building agent loops rather than at people choosing a model. The framing is promotional; the useful part is the split between deciding and explaining.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "agents-and-tools"
+      ]
+    },
+    {
+      "id": "x:2102282038988484976",
+      "source": "x",
+      "url": "https://x.com/iamrexei/status/2102282038988484976",
+      "title": "THIS IS F**KING GOLD I found Laya, which now runs natively on Apple Silicon Not via a cloud A…",
+      "author": "@iamrexei",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102281687371591681/img/kHZcdslpG4ihat_8.jpg",
+        "thumbW": 1280,
+        "thumbH": 972,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102281687371591681/vid/avc1/948x720/I2obkDnj3Q4rfk15.mp4",
+          "width": 948,
+          "height": 720,
+          "durationS": 33,
+          "bitrate": 2176000,
+          "bytes": 2691011,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 11,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A first-person account of getting the MLX port working on Apple silicon and being impressed by what does not happen: no cloud call, no PyTorch, no tokens generated one at a time. Enthusiastic, and specific about the install, which is why it made the wall.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "x:2101722121353257270",
+      "source": "x",
+      "url": "https://x.com/jjjddd5566/status/2101722121353257270",
+      "title": "@ShimazuSystems Laya is fast but it’s nowhere near as good as jev. It’s like llama 1 vs the o…",
+      "author": "@jjjddd5566",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 2,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The dissent, kept on purpose: a reply arguing that the fast model is a research project next to the hosted one, with the comparison that one is a useful tool and the other is interesting. Two likes and no evidence, which is what it is — but a wall with no dissent on it is an advertisement.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2101534610710761923",
+      "source": "x",
+      "url": "https://x.com/kunchenguid/status/2101534610710761923",
+      "title": "poor guy claim to have built Jev a year ago but no one cared, and now Jev stole all the thund…",
+      "author": "@kunchenguid",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSoml0pbwAE8iDB.jpg",
+        "thumbW": 1206,
+        "thumbH": 1165
+      },
+      "metrics": {
+        "likes": 2673,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A thread that starts as a joke about a year-old project nobody noticed and turns into the sharpest take in the corpus: the difference was not marketing but that Jev framed the problem as a category. Worth reading for the argument about framing rather than for anything about the weights.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2102501731137360365",
+      "source": "x",
+      "url": "https://x.com/lovelylogicss/status/2102501731137360365",
+      "title": "Can a classifier stop an AI coding agent from running dangerous or malicious shell commands? …",
+      "author": "@lovelylogicss",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HS2V-05WEAEAtGR.jpg",
+        "thumbW": 2340,
+        "thumbH": 4076
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most useful post on this wall by a distance, because it is the one that reports a loss: the same author tested both models as a shell-command safety classifier and the faster one let 44 of 111 attacks through against six. Posted as a warning, and it reads like one.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2102009737034575968",
+      "source": "x",
+      "url": "https://x.com/marouane53/status/2102009737034575968",
+      "title": "I just discovered Laya, an open-source Jev-like model, and went down the rabbit hole. The mor…",
+      "author": "@marouane53",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 91,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Someone who went looking for what happened a year ago and came back with a list of prior art — GLiClass and others already doing zero-shot classification — and an argument that Jev's contribution is the framing. Disagreement with it is easy to find in the same thread on Hacker News.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2101473552956555427",
+      "source": "x",
+      "url": "https://x.com/mizorewww/status/2101473552956555427",
+      "title": "介绍比Jev快50倍，在你设备上跑的laya-mlx! 只在你的设备上占用最高1G内存 Laya是一个开源的类似于Jev的,基于文本输出概率的分类系统 我将其移植到MLX,并且做了一些性…",
+      "author": "@mizorewww",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101473523734859776/img/j5AV90PrPcCnBilP.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101473523734859776/vid/avc1/640x360/xyMI5TgjEJft-vNH.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 15,
+          "bitrate": 832000,
+          "bytes": 246489,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 14028,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The post that carried this model further than anything the vendor published: 14,000 likes for a port to MLX and a Snake game running at 60 decisions a second on a laptop. Read it for the port and the memory ceiling; the speed comparison in the text is against the hosted model's API-side numbers.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "runtime-and-ports",
+        "games-and-demos"
+      ]
+    },
+    {
+      "id": "x:2101276606803354013",
+      "source": "x",
+      "url": "https://x.com/old_pgmrs_will/status/2101276606803354013",
+      "title": "Jev類似のSystem One Model のオープンウェイト「laya」が出てきたが、精度的にどんなものか😎 3年の開発期間を経たものとポッと出モデル、スコアだけ見ると悪くは無いが…",
+      "author": "@old_pgmrs_will",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 3,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a question in Japanese about how good the model is, with no result in the post",
+      "tags": []
+    },
+    {
+      "id": "x:2102825100739510341",
+      "source": "x",
+      "url": "https://x.com/papersdatacode/status/2102825100739510341",
+      "title": "💻 mizorewww/laya-mlx by @mizorewww Runs Laya typed decisions locally in MLX for choice, scor…",
+      "author": "@papersdatacode",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/tweet_video_thumb/HS68QtWWQAACwXN.jpg",
+        "thumbW": 1040,
+        "thumbH": 584
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an automated repository feed; the latency figures it quotes belong to the port's own repository, which is on the wall",
+      "tags": []
+    },
+    {
+      "id": "x:2101285278782824735",
+      "source": "x",
+      "url": "https://x.com/paraschopra/status/2101285278782824735",
+      "title": "Benchmarked Jev with Qwen3-4B and Laya (400M parameter model). Based on results here and othe…",
+      "author": "@paraschopra",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSlD0zSa8AAep2O.jpg",
+        "thumbW": 1592,
+        "thumbH": 1610
+      },
+      "metrics": {
+        "likes": 176,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A benchmark run by someone with no stake, comparing Jev, a 4B open model and Laya on the same tasks — and then inferring that Jev is around 30B parameters from the gap. The inference is labelled as an inference, which is the part we trust.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2102076320846840204",
+      "source": "x",
+      "url": "https://x.com/tomhacks/status/2102076320846840204",
+      "title": "The problem isn't the models, it's how you define the problem space, design the movements / d…",
+      "author": "@tomhacks",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102075728539910144/img/5C-ourCK1X6dq80o.jpg",
+        "thumbW": 2982,
+        "thumbH": 1264,
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102075728539910144/vid/avc1/848x360/epL3ZIdOzuOQh02n.mp4",
+          "width": 848,
+          "height": 359,
+          "durationS": 69,
+          "bitrate": 832000,
+          "bytes": 3732341,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 82,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A practitioner's post that refuses the comparison everyone else is making: the problem is not which model is better but how you define the decision space and batch the calls, and on that reading the local model and the hosted one came out tied in his own build.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2100923960493818177",
+      "source": "x",
+      "url": "https://x.com/xiaomovps/status/2100923960493818177",
+      "title": "Jev 发布没几天，开源社区已经开始疯狂复刻了🔥 最值得推荐的五个模型： 1、Laya 421M：原生决策模型，支持 Mac 2、Decider-2B：最像 Jev，基于 Qwen3.…",
+      "author": "@xiaomovps",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 481,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language roundup of the five open models that appeared within days of Jev, with Laya at the top of the list. It is useful as a map of the week rather than as an evaluation: five names, one line each, no measurements.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "x:2101553680889598094",
+      "source": "x",
+      "url": "https://x.com/yibie/status/2101553680889598094",
+      "title": "https://t.co/oEw3ltNOHV",
+      "author": "@yibie",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 16,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a bare shortened link with no text of its own",
+      "tags": []
+    },
+    {
+      "id": "x:2101695257477886060",
+      "source": "x",
+      "url": "https://x.com/yibie/status/2101695257477886060",
+      "title": "我做的这个测试，值得一看，因为 Laya 的出现正好回答了：能否在本地运行类似 Jev 这样的模型？ 所以这个测试主要测试 Jev 和 Laya 的能力，从实测数据来看，对于同一个测试机…",
+      "author": "@yibie",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chinese-language test write-up with a conclusion that cuts against the enthusiasm: on the same machine Jev covered more of the questions asked of it, though the post is careful to say the gap is about coverage rather than about speed, where the local model wins.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-24",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    }
+  ]
+}

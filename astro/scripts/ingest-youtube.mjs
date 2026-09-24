@@ -13,22 +13,26 @@
  * than June 2026 can be about it.
  */
 import { mergeQueue } from "./lib/merge-queue.mjs";
+import { matches, requireSource, resolveTopic } from "./lib/topics.mjs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OUT = resolve(HERE, "../../lib/data/jev-videos.json");
+const ROOT = resolve(HERE, "../..");
+/** Default topic `jev`; `--topic laya` uses Laya's queries and writes lib/data/laya-videos.json. */
+const TOPIC = resolveTopic();
+const CFG = requireSource(TOPIC, "youtube");
+const OUT = resolve(ROOT, CFG.out);
 const KEY = process.env.YOUTUBE_API_KEY;
 if (!KEY) { console.error("YOUTUBE_API_KEY is not set (see docs/decisions/ADR-0023)"); process.exit(2); }
 
 const API = "https://www.googleapis.com/youtube/v3";
-const QUERIES = ["jev decision model typesafe", "system one jev tutorial"];
-const MIN_DATE = "2026-06-01";
+const QUERIES = CFG.queries;
+const MIN_DATE = CFG.minDate;
 // "System One" alone is a category and pulls in unrelated products, so the
 // test is the name (jev/kev) or the vendor (typesafe) — not the family word.
-const RELEVANT = /(\bjev\b(?!ons)|\bkev\b|typesafe)/i;
-const MIN_VIEWS = 200;
-const MAX_RESULTS = 12;
+const MIN_VIEWS = CFG.minViews;
+const MAX_RESULTS = CFG.maxResults;
 
 async function api(path, params) {
   const url = new URL(`${API}/${path}`);
@@ -58,8 +62,8 @@ for (const q of QUERIES) {
     const published = iso(item.snippet.publishedAt);
     if (seen.has(id)) continue;
     if (published < MIN_DATE) continue;
-    if (!RELEVANT.test(title)) continue;
-    if (!RELEVANT.test(title)) continue;
+    if (!matches(CFG, title)) continue;
+    if (!matches(CFG, title)) continue;
     seen.add(id); ids.push({ id, title, published, channel: item.snippet.channelTitle }); kept++;
   }
   console.log(`${q.padEnd(34)} ${(found.items ?? []).length} returned, ${kept} kept`);

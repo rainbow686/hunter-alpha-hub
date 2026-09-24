@@ -30,6 +30,12 @@ import { jevXPostCounts } from "./jev-x-posts";
 import { jevThreadCounts } from "./jev-threads";
 import { jevResourceCounts } from "./jev-resources";
 import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL } from "./jev-facets";
+import { layaBuildCounts } from "./laya-builds";
+import { layaVideoCounts } from "./laya-videos";
+import { layaXPostCounts } from "./laya-x-posts";
+import { layaThreadCounts } from "./laya-threads";
+import { layaResourceCounts } from "./laya-resources";
+import { LAYA_ITEMS_TOTAL, LAYA_KIND_COUNTS, LAYA_TAGGED_TOTAL } from "./laya-kinds";
 
 
 export interface TopicTab {
@@ -111,11 +117,38 @@ export const topicNavs: TopicNav[] = [
     prefix: "/laya",
     label: "Laya",
     tabs: [
+      /*
+       * Laya's bar was four chapters (overview, vs Jev, self-hosting, open weights) until the topic
+       * grew its own columns on 2026-09-24. The chapters are still there — two of them moved under
+       * Reference and two stayed — but the bar now carries the catalogue views, because that is what
+       * a switcher is for: seeing what the topic holds.
+       */
       { href: "/laya", label: "Overview", note: "What Laya is, and what our own run of the weights showed" },
-      { href: "/laya/vs-jev", label: "vs Jev" },
-      { href: "/laya/self-hosting", label: "Self-hosting" },
-      { href: "/laya/open-weights", label: "Open weights" },
+      { href: "/laya/reference", label: "Reference", note: "The long version: checkpoints, limits, and the probe we ran" },
+      { href: "/laya/builds", label: "Built with Laya", count: layaBuildCounts.published },
+      { href: "/laya/x-posts", label: "X posts", count: layaXPostCounts.described },
+      { href: "/laya/videos", label: "Videos", count: layaVideoCounts.published },
+      { href: "/laya/threads", label: "Threads", count: layaThreadCounts.published },
+      { href: "/laya/resources", label: "Resources", count: layaResourceCounts.total },
     ],
+    /*
+     * The second axis, and it is deliberately not Jev's. Jev's panel is use cases because its corpus
+     * is applications; Laya's first week produced runtimes, servers, agents, games and benchmark
+     * arguments, so its panel is kinds of work (ADR-0018). One name, one place: there is no "Kinds"
+     * tab as well as a "By kind" panel, for the same reason Jev has no "Use cases" tab.
+     */
+    more: {
+      label: "By kind",
+      heading: "Kinds of work",
+      note: `Six pages, one per kind of thing built on Laya — ${LAYA_TAGGED_TOTAL} of the ${LAYA_ITEMS_TOTAL} records we hold carry one of them.`,
+      items: LAYA_KIND_COUNTS.map((kind) => ({
+        href: `/laya/kinds/${kind.slug}`,
+        label: kind.label,
+        count: kind.count,
+        note: kind.blurb,
+      })),
+      more: { href: "/laya/kinds", label: "All kinds" },
+    },
   },
 ];
 

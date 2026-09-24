@@ -1,0 +1,94 @@
+---
+/**
+ * /laya/resources — where to read it for yourself.
+ *
+ * The cheapest column in the topic and the one a reader uses first: the repository, the weights,
+ * the package, two demos that run in a browser, and the third-party writing that was worth reading
+ * twice. Nothing here is ours; the note says what the thing is, and where we have an opinion the
+ * note says that too. Every link answered 200 on the stated date, and both hosted demos were opened
+ * rather than assumed.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_RESOURCES_READ_ON, layaResourceCounts, layaResources } from "@repo/lib/laya-resources";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Laya Resources: The Model Card, the Weights and the Reading (2026)";
+const description = `${layaResourceCounts.total} links worth having for Laya — the repository, three sets of Apache-2.0 weights, two hosted demos, and the third-party writing that is worth the time. Every link checked ${LAYA_RESOURCES_READ_ON}.`;
+const canonical = `${SITE}/laya/resources`;
+
+const groups = [
+  { kind: "official", label: "Official" },
+  { kind: "weights", label: "Weights" },
+  { kind: "demo", label: "Try it without installing anything" },
+  { kind: "reading", label: "Worth reading" },
+] as const;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "Laya resources", description, publishedAt: LAYA_RESOURCES_READ_ON, updatedAt: LAYA_RESOURCES_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Resources", url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">Resources · Laya</p>
+      <h1>Laya resources</h1>
+      <p class="lede">
+        Everything a reader needs to check this topic themselves: the repository and the three sets
+        of weights, the package we installed to run our own probe, two demos that answer without an
+        install, and the handful of write-ups we went back to. Grouped by what they are for, with a
+        line on each.
+      </p>
+      <p class="provenance">
+        <span>Every link opened {LAYA_RESOURCES_READ_ON}</span>
+        <span>{layaResourceCounts.total} resources</span>
+        <span><a href="/laya/reference">What we measured with two of them</a></span>
+      </p>
+    </header>
+
+    {groups.map((group) => (
+      <section class="resource-group">
+        <h2>{group.label}</h2>
+        <ul class="resource-list">
+          {layaResources.filter((r) => r.kind === group.kind).map((r) => (
+            <li>
+              <h3><a href={r.url} rel="noopener noreferrer">{r.name}</a></h3>
+              <p class="by">{r.by}</p>
+              <p class="what">{r.what}</p>
+              {r.ourNote && <p class="ours"><strong>Our note.</strong> {r.ourNote}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <section class="col">
+      <h2>What this page does not do</h2>
+      <p>
+        Recommend a model, or rank these. A resource index that sorts by quality is an opinion column
+        wearing a list's clothes; what we can vouch for is that each link answered when we opened it,
+        and what the thing on the other end is. Two of the rows carry a note because we actually used
+        them while writing this topic, and the rest say what they are and stop.
+      </p>
+    </section>
+
+    <TopicIndex entries={layaTopicEntries} current="/laya/resources" />
+  </article>
+</System>
+
+<style>
+  .resource-group { margin-top: var(--space-10); }
+  .resource-group h2 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+  .resource-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .resource-list li { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: var(--space-4) var(--space-5); }
+  .resource-list h3 { margin: 0 0 var(--space-1); font-size: var(--text-lg); }
+  .resource-list .by { margin: 0; font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint); }
+  .resource-list .what { margin: var(--space-2) 0 0; font-size: var(--text-sm); color: var(--text-muted); }
+  .resource-list .ours { margin: var(--space-3) 0 0; font-size: var(--text-sm); color: var(--text-muted); border-left: 2px solid var(--border-strong); padding-left: var(--space-3); }
+</style>

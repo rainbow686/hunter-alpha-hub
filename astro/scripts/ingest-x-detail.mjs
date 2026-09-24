@@ -23,9 +23,12 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { requireSource, resolveTopic } from "./lib/topics.mjs";
 
 const ROOT = resolve(import.meta.dirname, "../..");
-const QUEUE = resolve(ROOT, "lib/data/jev-x-posts.json");
+/** Default topic `jev`; `--topic laya` adds quotes and avatars to Laya's X queue. */
+const TOPIC = resolveTopic();
+const QUEUE = resolve(ROOT, requireSource(TOPIC, "x").out);
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
 /** Long enough for the sentence a page is built on, short enough to stay a quotation. */
 const MAX_QUOTE = 280;

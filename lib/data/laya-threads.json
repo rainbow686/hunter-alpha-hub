@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "source": "hn-algolia",
+    "queries": [
+      "laya jev",
+      "laya decision model",
+      "non-autoregressive decision",
+      "laya coreml",
+      "open weight decision model"
+    ],
+    "thresholds": {
+      "minPoints": 3,
+      "minComments": 2,
+      "minDate": "2026-09-01",
+      "relevance": "/(\\blaya\\b|\\bconvai|non-?autoregressive decision)/i",
+      "exclude": "/(layabox|layair|layar\\b)/i"
+    },
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "generatedAt": "2026-09-24T09:52:26.370Z",
+    "candidates": 6,
+    "published": 6
+  },
+  "entries": [
+    {
+      "id": "hn:49765348",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49765348",
+      "title": "I built non-autoregressive decision models with RL a year ago",
+      "author": "nandakishor_ml",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 1349,
+        "comments": 316,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"laya decision model\" (what it is)",
+      "status": "published",
+      "ourNote": "The thread that started the argument: the author posting a year-old, non-autoregressive decision model the week Jev became famous. 1,349 points and 316 comments, most of them about who gets credit rather than about the model — read it for the priority claim and the pushback together.",
+      "checked": [
+        "the thread on Hacker News, read 2026-09-24",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://laya.convaiinnovations.com/",
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "hn:49777106",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49777106",
+      "title": "Laya on Mac M4 CoreML Offline",
+      "author": "putna",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 174,
+        "comments": 34,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"laya coreml\" (the local-runtime work)",
+      "status": "published",
+      "ourNote": "174 points on running Laya's smallest checkpoint on a Mac through Core ML, including the memory figure people keep quoting. The comments are more useful than the headline: several of them are people working out how far the 0.74 GB claim travels.",
+      "checked": [
+        "the thread on Hacker News, read 2026-09-24",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://gist.github.com/fordnox/e592d0f68b543fd044be8e6d040863a0",
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "hn:49806080",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49806080",
+      "title": "Does an open-weight decision model beat a hosted one? Jev vs. Laya",
+      "author": "Jmeg8r",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 15,
+        "comments": 5,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"laya jev\" (the comparison people keep making)",
+      "status": "published",
+      "ourNote": "A first-person write-up of moving typed decisions onto a Mac Studio for privacy rather than for speed, with the gateway design and the fail-closed rules spelled out. Rare in this genre: the author says plainly that he did not test whether Laya beats Jev overall, which is why we quote his deployment rather than his opinion.",
+      "checked": [
+        "the thread on Hacker News, read 2026-09-24",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://astgl.com/p/local-laya-vs-hosted-jev-typed-decisions",
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "hn:49767430",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49767430",
+      "title": "Show HN: VisionLaya: Jev with Vision capabilities",
+      "author": "someguy101010",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 4,
+        "comments": 2,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"laya jev\" (the comparison people keep making)",
+      "status": "published",
+      "ourNote": "A Show HN for a vision variant: images in, typed decisions out, no generated text. It is one of the first extensions of the idea past text, and the thread is short, so the card is a pointer rather than a debate.",
+      "checked": [
+        "the thread on Hacker News, read 2026-09-24",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://huggingface.co/thaitea/laya-vision-smolvlm-256m",
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "hn:49787265",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49787265",
+      "title": "Show HN: Run Jev-style models locally on Mac with 0.74 GB RAM",
+      "author": "afshinmeh",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 3,
+        "comments": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"laya jev\" (the comparison people keep making)",
+      "status": "published",
+      "ourNote": "The Show HN behind the smallest-memory claim in this column, and the reason the MPS row above exists. Three points and no comments, which is worth stating: a thread's score tells you how many people noticed, not whether the thing works.",
+      "checked": [
+        "the thread on Hacker News, read 2026-09-24",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://github.com/afshinm/laya-mps",
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "hn:49801486",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49801486",
+      "title": "Laya, an open decision model that plays Tetris by itself",
+      "author": "iamsyr",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 3,
+        "comments": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"laya decision model\" (what it is)",
+      "status": "published",
+      "ourNote": "Laya playing Tetris by itself, posted as a Show HN. Three points, no comments, and it is still on this wall because the game loop is the clearest demonstration of what a 30 ms decision actually buys you — and because the same demo is what most of the model's traffic arrived through.",
+      "checked": [
+        "the thread on Hacker News, read 2026-09-24",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://brainfunctioncollapse.com/laya",
+      "tags": [
+        "games-and-demos"
+      ]
+    }
+  ]
+}

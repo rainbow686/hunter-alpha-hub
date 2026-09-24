@@ -28,17 +28,21 @@
  * model should say which of them were written by one.
  */
 import { mergeQueue } from "./lib/merge-queue.mjs";
+import { matches, requireSource, resolveTopic } from "./lib/topics.mjs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "../..");
-const QUEUE = resolve(ROOT, "lib/data/jev-threads.json");
+/** Default topic `jev`; `--topic laya` uses Laya's tags and appends to the same threads file. */
+const TOPIC = resolveTopic();
+const CFG = requireSource(TOPIC, "devto");
+const QUEUE = resolve(ROOT, CFG.out);
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
-const TAGS = ["jev", "typesafe"];
+const TAGS = CFG.tags;
 /** The 30 most recent under `tag=jev` at the time of writing; dev.to pages at 30 by default. */
-const PER_PAGE = 30;
+const PER_PAGE = CFG.perPage ?? 30;
 const asOf = new Date().toISOString().slice(0, 10);
 /** Relevance is the author's tag plus the words actually in the row. */
-const RELEVANT = /(\bjev\b|\btypesafe\b|system one)/i;
+const RELEVANT = CFG.relevance;
 
 const seen = new Set();
 const fresh = [];

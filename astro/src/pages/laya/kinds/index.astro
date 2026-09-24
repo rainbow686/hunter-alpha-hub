@@ -1,0 +1,77 @@
+---
+/**
+ * /laya/kinds — the second axis over this topic, as a shelf.
+ *
+ * Jev calls its second axis use cases; Laya's first week produced no applications worth the name
+ * and a great many runtimes, servers, demos and benchmark arguments, so its axis is kinds of work
+ * (ADR-0018 is the decision that lets the two topics differ). Each kind gathers records from every
+ * column — a GitHub port, an X post about it and a video of it running all land on the same page.
+ *
+ * Untagged rows stay untagged: announcements and explainers belong to no kind, which is why these
+ * counts do not add up to the record total and the pages say so.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_ITEMS_TOTAL, LAYA_KIND_COUNTS, LAYA_TAGGED_TOTAL, itemsByKind } from "@repo/lib/laya-kinds";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Every Laya Record, by Kind of Work (2026)";
+const description = `Ports, servers, agent tooling, browser decisions, games and benchmarks — the same ${LAYA_ITEMS_TOTAL} records cut a second way, with ${LAYA_TAGGED_TOTAL} of them carrying one of ${LAYA_KIND_COUNTS.length} kinds.`;
+const canonical = `${SITE}/laya/kinds`;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "Laya by kind of work", description, publishedAt: "2026-09-24", updatedAt: "2026-09-24", image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Kinds of work", url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <h1>Every record, by kind of work</h1>
+      <p class="lede">
+        The columns on this topic answer "what is it". These pages answer "what kind of thing is it" —
+        the same rows, cut the other way, so that a reader who wants to run the model on their own
+        hardware gets the ports, the servers and the videos about them on one page instead of four.
+      </p>
+      <p class="provenance">
+        <span>{LAYA_KIND_COUNTS.length} kinds</span>
+        <span>{LAYA_TAGGED_TOTAL} of {LAYA_ITEMS_TOTAL} records carry one</span>
+        <span>Filtering on the front page changes no URL; these pages are the URLs</span>
+      </p>
+    </header>
+
+    <ul class="kind-grid">
+      {LAYA_KIND_COUNTS.map((kind) => (
+        <li class="card">
+          <div class="card-body">
+            <p class="card-eyebrow">{itemsByKind(kind.slug).length} records</p>
+            <h2 class="card-title"><a href={`/laya/kinds/${kind.slug}`}>{kind.label}</a></h2>
+            <p class="card-note">{kind.blurb}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>Why some records are in none of these</h2>
+      <p>
+        {LAYA_ITEMS_TOTAL - LAYA_TAGGED_TOTAL} of the {LAYA_ITEMS_TOTAL} records carry no kind, because
+        they are announcements, explainers or the model's own repository — they are about Laya rather
+        than something built on it. Jev's topic can partition its whole corpus into six use cases
+        because everything in it is an application; this one cannot, and a page that pretended
+        otherwise would be filing the model itself under "runtime ports".
+      </p>
+    </section>
+
+    <TopicIndex entries={layaTopicEntries} current="/laya/kinds" />
+  </article>
+</System>
+
+<style>
+  .kind-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+</style>

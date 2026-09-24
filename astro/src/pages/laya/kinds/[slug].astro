@@ -1,0 +1,93 @@
+---
+/**
+ * /laya/kinds/<slug> — one kind of work, across every column.
+ *
+ * This is the page a facet exists for: the same rows the front page filters in place, gathered from
+ * GitHub, X, YouTube and Hacker News into one list with the counts printed, so a reader who wants the
+ * ports and nothing else has a URL rather than a filter state. The wall behaves like the topic's
+ * other walls: cards link to our record when there is one (every build here has a page) and out to
+ * the source when there is not, and X clips play in the card.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import TopicWall, { type WallItem } from "../../../components/TopicWall.astro";
+import XClipWall from "../../../components/XClipWall.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_ITEMS_TOTAL, LAYA_KIND_COUNTS, LAYA_TAGGED_TOTAL, itemsByKind } from "@repo/lib/laya-kinds";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+export function getStaticPaths() {
+  return LAYA_KIND_COUNTS.map((kind) => ({ params: { slug: kind.slug }, props: { kind } }));
+}
+
+const { kind } = Astro.props;
+const items = itemsByKind(kind.slug);
+const canonical = `${SITE}/laya/kinds/${kind.slug}`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const wall: WallItem[] = items.map((item) => ({
+  kind: item.source,
+  headline: item.title,
+  href: item.pageSlug ? `/laya/builds/${item.pageSlug}` : item.url,
+  external: !item.pageSlug,
+  note: item.note,
+  meta: item.meta,
+  thumb: item.thumb || undefined,
+  thumbW: item.thumbW,
+  thumbH: item.thumbH,
+  tags: item.tags,
+  video: item.video?.url,
+}));
+
+/** Where else this kind shows up, so a reader on one facet can reach the rest. */
+const siblings = LAYA_KIND_COUNTS.filter((k) => k.slug !== kind.slug);
+
+const title = `${kind.label}: Everything We Hold About Laya (2026)`;
+const description = `${kind.count} records about Laya under ${kind.label.toLowerCase()} — ${kind.blurb} Gathered from GitHub, X, YouTube and Hacker News.`;
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article" noReferrer>
+  <JsonLd slot="head" data={articleSchema({ title: kind.label, description, publishedAt: "2026-09-24", updatedAt: "2026-09-24", image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Kinds of work", url: `${SITE}/laya/kinds` },
+    { name: kind.label, url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">Laya · kind of work</p>
+      <h1>{kind.label}</h1>
+      <p class="lede">{kind.blurb}</p>
+      <p class="provenance">
+        <span>{fmt(kind.count)} records</span>
+        <span>Across the {new Set(items.map((i) => i.source)).size} sources that have any</span>
+        <span>{LAYA_TAGGED_TOTAL} of {LAYA_ITEMS_TOTAL} Laya records carry a kind</span>
+      </p>
+    </header>
+
+    <TopicWall items={wall} columns={[{ label: "All Laya records", href: "/laya", count: LAYA_ITEMS_TOTAL }]} />
+
+    <section class="col">
+      <h2>The other kinds</h2>
+      <p>
+        {siblings.map((s, i) => (
+          <>
+            {i > 0 && " · "}
+            <a href={`/laya/kinds/${s.slug}`}>{s.label} ({s.count})</a>
+          </>
+        ))}
+      </p>
+      <p class="provenance">
+        <span>A record can carry more than one kind, so the pages overlap on purpose</span>
+        <span><a href="/laya/kinds">All kinds</a></span>
+      </p>
+    </section>
+
+    <TopicIndex entries={layaTopicEntries} current="/laya/kinds" />
+  </article>
+
+  <XClipWall />
+</System>

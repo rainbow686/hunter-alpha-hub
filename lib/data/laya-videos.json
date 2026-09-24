@@ -1,0 +1,418 @@
+{
+  "meta": {
+    "source": "youtube-data-api-v3",
+    "queries": [
+      "laya jev decision model",
+      "laya open source system one",
+      "laya mlx local"
+    ],
+    "quotaPerRun": 301,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "generatedAt": "2026-09-24T09:52:24.382Z",
+    "candidates": 14,
+    "published": 9
+  },
+  "entries": [
+    {
+      "id": "yt:X117w2Rark8",
+      "videoId": "X117w2Rark8",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=X117w2Rark8",
+      "title": "Jev - The Ultimate Classification Model?",
+      "author": "Sam Witteveen",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/X117w2Rark8/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 979
+      },
+      "metrics": {
+        "views": 407443,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "about Jev alone; the description never names Laya, and it is already published in the Jev topic",
+      "tags": []
+    },
+    {
+      "id": "yt:2Bs0Ink_-Uo",
+      "videoId": "2Bs0Ink_-Uo",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=2Bs0Ink_-Uo",
+      "title": "JEV Breakdown: The First AI Model Built For Code",
+      "author": "Rob Shocks",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/2Bs0Ink_-Uo/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 636
+      },
+      "metrics": {
+        "views": 389454,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "surveys seven open Jev-style models rather than Laya, and it is already published in the Jev topic",
+      "tags": []
+    },
+    {
+      "id": "yt:ZgXej_9isxY",
+      "videoId": "ZgXej_9isxY",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=ZgXej_9isxY",
+      "title": "What is Jev and How to Use it?",
+      "author": "Codevolution",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/ZgXej_9isxY/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1332
+      },
+      "metrics": {
+        "views": 201805,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a Jev explainer; the description does not mention Laya",
+      "tags": []
+    },
+    {
+      "id": "yt:53wDOI_7x8I",
+      "videoId": "53wDOI_7x8I",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=53wDOI_7x8I",
+      "title": "Open Jev Models Are Here!!",
+      "author": "Sam Witteveen",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/53wDOI_7x8I/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1292
+      },
+      "metrics": {
+        "views": 169831,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a Jev explainer; the description does not mention Laya",
+      "tags": []
+    },
+    {
+      "id": "yt:kWToHpdxScE",
+      "videoId": "kWToHpdxScE",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=kWToHpdxScE",
+      "title": "Open Source, Faster Jev is HERE",
+      "author": "CoderOne",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/kWToHpdxScE/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 783
+      },
+      "metrics": {
+        "views": 112877,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "The most-watched explainer that names Laya in its own description rather than in a thumbnail: thirteen minutes of framing the System One idea before anything is run. Treat it as orientation — the channel compares open clones against each other, not against a fixed benchmark.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "yt:x1GFo1eG8d0",
+      "videoId": "x1GFo1eG8d0",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=x1GFo1eG8d0",
+      "title": "Laya (Free) vs Jev (Paid): Same Game, 4× Faster Winner",
+      "author": "Prompt Engineer 48",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/x1GFo1eG8d0/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 616
+      },
+      "metrics": {
+        "views": 46962,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "The video the snake-and-fighting arena came from, and it links the repository on the first line of its description, which is rare enough to be worth the card. The comparison is a game, so what it measures is the whole loop: model, prompt and safety checks together.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "games-and-demos"
+      ]
+    },
+    {
+      "id": "yt:7O3TaHf9cmg",
+      "videoId": "7O3TaHf9cmg",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=7O3TaHf9cmg",
+      "title": "Laya Is INSANE… Open-Source AI Just Challenged Jev!",
+      "author": "AI WITH Rithesh",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/7O3TaHf9cmg/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 549
+      },
+      "metrics": {
+        "views": 38738,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "A nine-minute walkthrough aimed at people who have heard the name and not the mechanism: one forward pass, three question types, no generated text, Apache-2.0 weights. The channel's framing is enthusiastic; the parts worth keeping are the three primitives and the licence.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "yt:J-Cn9UUJtdA",
+      "videoId": "J-Cn9UUJtdA",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=J-Cn9UUJtdA",
+      "title": "Open-Source Jev? Install Laya Locally + 3 Useful Demos",
+      "author": "RUNTIME. ",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/J-Cn9UUJtdA/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 467
+      },
+      "metrics": {
+        "views": 32463,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Local install plus three demos, which is the shape a reader actually needs: get the package, download the weights, then watch something work. The description points at the module names rather than at a benchmark, so it is a tutorial and we are calling it one.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "yt:4mCyUXqkTpI",
+      "videoId": "4mCyUXqkTpI",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=4mCyUXqkTpI",
+      "title": "Run a Jev-Style Model on Your Own GPU",
+      "author": "Cloud Codes",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/4mCyUXqkTpI/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 824
+      },
+      "metrics": {
+        "views": 31469,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Starts from a homely, real problem — a support-ticket classifier that costs money on every request — and runs the model on a local GPU instead. The audience is people deciding whether to keep paying an API bill, which is most of the audience for this model.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "runtime-and-ports",
+        "serving-and-api"
+      ]
+    },
+    {
+      "id": "yt:KySbNMsBU70",
+      "videoId": "KySbNMsBU70",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=KySbNMsBU70",
+      "title": "The Open Source Model That's Quietly Destroying Jev",
+      "author": "Panda Making Money",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/KySbNMsBU70/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 1570
+      },
+      "metrics": {
+        "views": 29246,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Twenty-six minutes on the open model and what it does to a funded competitor's pricing story. Its title promises a verdict the video cannot fully deliver — the comparison numbers are the ones the model's own publisher published — so the card belongs in the argument about the model, not in the evidence for it.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "yt:OLgiHBlDhWU",
+      "videoId": "OLgiHBlDhWU",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=OLgiHBlDhWU",
+      "title": "TypeSafe AI Jev vs. Laya (what they are and the controversy so far)",
+      "author": "Adam Gardner",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/OLgiHBlDhWU/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 417
+      },
+      "metrics": {
+        "views": 23519,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "The one video here that deals with the dispute rather than the benchmark: who built what first, what the open model owes its predecessors, and why the argument got loud. The channel states its position openly, which makes it usable as a summary of the disagreement rather than as a ruling on it.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ]
+    },
+    {
+      "id": "yt:3bKB80kf5Hw",
+      "videoId": "3bKB80kf5Hw",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=3bKB80kf5Hw",
+      "title": "Laya: FREE Alternative to Jev AI",
+      "author": "Julian Goldie SEO",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/3bKB80kf5Hw/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 562
+      },
+      "metrics": {
+        "views": 17155,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "A free-alternative video with a paid community behind it, and we would rather say so on the card than let a reader find out halfway through. The technical content is a competent tour of the install; the discount framing in the description is the author's business model, not a fact about the model.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    },
+    {
+      "id": "yt:7FTD-daRZuE",
+      "videoId": "7FTD-daRZuE",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=7FTD-daRZuE",
+      "title": "JEV AI is the NEW BEAST Model with Speed and Cost",
+      "author": "AI with Surya",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/7FTD-daRZuE/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 491
+      },
+      "metrics": {
+        "views": 16813,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a Jev explainer with no mention of Laya in the title or description",
+      "tags": []
+    },
+    {
+      "id": "yt:dZnKGHsImxo",
+      "videoId": "dZnKGHsImxo",
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=dZnKGHsImxo",
+      "title": "Laya : Bye TypeSafe Jev AI ",
+      "author": "Data Science in your pocket",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://i.ytimg.com/vi/dZnKGHsImxo/mqdefault.jpg",
+        "thumbW": 320,
+        "thumbH": 180,
+        "durationS": 368
+      },
+      "metrics": {
+        "views": 14822,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched a qualified search for this Jev",
+      "status": "published",
+      "ourNote": "Six minutes, and the fastest of these videos to get to the point: the package, the weights, the three question types, done. Useful precisely because it does not try to argue the case for the model, which the longer videos above spend most of their time on.",
+      "checked": [
+        "the video's YouTube page and description, read 2026-09-24",
+        "view count, duration and channel read from the YouTube Data API the same day"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ]
+    }
+  ]
+}

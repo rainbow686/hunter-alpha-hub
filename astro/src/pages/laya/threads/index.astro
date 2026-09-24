@@ -1,0 +1,97 @@
+---
+/**
+ * /laya/threads — what Hacker News made of it.
+ *
+ * One source, not two: dev.to has no `laya` tag yet (checked 2026-09-24), and reading the Jev tag
+ * instead put sixty posts about a different model into this file. So this column is Hacker News,
+ * and the page says so rather than implying a coverage it does not have.
+ *
+ * The scores are printed per card because they mean different things here: the top thread is the
+ * author's own 1,349-point submission about work he published a year earlier, and the bottom one is
+ * a three-point Show HN whose demo is the reason a quarter of this topic exists. A column that
+ * sorted and did not label would make those look like the same claim.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_THREADS_READ_ON, layaThreadCounts, layaThreads } from "@repo/lib/laya-threads";
+import { LAYA_KIND_COUNTS, layaTagsById } from "@repo/lib/laya-kinds";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Laya on Hacker News: The Threads Behind the Model (2026)";
+const description = `The ${layaThreadCounts.published} Hacker News threads about Laya — the author's own 1,349-point submission, the Core ML port, the head-to-head comparison and the two Show HNs — each described in a sentence of ours. Scores read ${LAYA_THREADS_READ_ON}.`;
+const canonical = `${SITE}/laya/threads`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const chips = LAYA_KIND_COUNTS.map((kind) => ({
+  group: "tag",
+  value: kind.slug,
+  label: kind.label,
+  count: layaThreads.filter((t) => (layaTagsById[t.id] ?? []).includes(kind.slug)).length,
+})).filter((chip) => chip.count > 0);
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "Laya on Hacker News", description, publishedAt: LAYA_THREADS_READ_ON, updatedAt: LAYA_THREADS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Threads", url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">Hacker News · Laya</p>
+      <h1>What Hacker News made of Laya</h1>
+      <p class="lede">
+        Six threads, and between them the whole story: the author submitting a year-old project the
+        week it became relevant, the port that made it run on a Mac, the comparison against the
+        hosted model, and two Show HNs from people extending it. The comments are worth more than the
+        submissions, which is usually true and here is unusually true.
+      </p>
+      <p class="provenance">
+        <span>Scores and comments read {LAYA_THREADS_READ_ON}</span>
+        <span>{layaThreadCounts.published} threads published</span>
+        {layaThreadCounts.waiting > 0 && <span>{layaThreadCounts.waiting} waiting for a note</span>}
+      </p>
+    </header>
+
+    <CardFilter chips={chips} noun="threads" total={layaThreads.length} groups={[{ key: "tag", label: "kind of work" }]} />
+
+    <ul class="card-grid">
+      {layaThreads.map((thread) => (
+        <li class="card" data-sources={thread.source} data-tags={(layaTagsById[thread.id] ?? []).join(" ")}>
+          <div class="card-body">
+            <p class="card-eyebrow">{thread.source === "hn" ? "Hacker News" : "dev.to"}</p>
+            <h2 class="card-title"><a href={thread.url} rel="noopener noreferrer">{thread.title}</a></h2>
+            <p class="card-note card-our">{thread.ourNote}</p>
+            <p class="card-meta">
+              <span>{fmt(thread.score)} {thread.scoreLabel}</span>
+              <span>{fmt(thread.comments)} comments</span>
+              <span>{thread.publishedAt}</span>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        Reddit, and a second source to balance Hacker News. Reddit's public JSON answers 403 without
+        OAuth and the application flow is still closed to us (a lesson written up on the Jev side of
+        this site); dev.to answers but has not tagged a single Laya post yet. Two sources were
+        available to the Jev column and one is available here — which is the kind of difference a
+        reader should be told about rather than left to infer from a thinner wall.
+      </p>
+      <p class="provenance">
+        <a href="https://hn.algolia.com/api">Source: the Hacker News search API</a>
+        <span>Scores are a snapshot</span>
+        <span><a href="/laya">Laya topic</a></span>
+      </p>
+    </section>
+    <TopicIndex entries={layaTopicEntries} current="/laya/threads" />
+  </article>
+</System>

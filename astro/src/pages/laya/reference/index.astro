@@ -1,0 +1,273 @@
+---
+/**
+ * /laya — the topic cover for the open-weight decision model.
+ *
+ * This is the second model topic on a site that was built around one, so it is
+ * also the test of whether the shape generalises: a cover page that says what the
+ * thing is, and columns underneath it that answer one question each. Laya's
+ * columns are not Jev's — its questions are different (can I run it, can I ship
+ * it, what do the weights license) — which is what the topic-as-namespace
+ * decision was for.
+ *
+ * Facts live in lib/laya.ts, our own numbers in lib/laya-our-measurements.ts. The
+ * split is deliberate: a reader can tell which sentences are the publisher's,
+ * which are ours, and which are Jev's.
+ */
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Callout from "../../../components/Callout.astro";
+import FactTable from "../../../components/FactTable.astro";
+import Provenance from "../../../components/Provenance.astro";
+import SubscribeForm from "../../../components/SubscribeForm.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { checkpoints, ecosystem, LAYA_GITHUB_URL, LAYA_HF_URL, LAYA_LICENSE, LAYA_PACKAGE_VERSION, LAYA_PYPI_URL, LAYA_READ_ON, trainingConfig } from "@repo/lib/laya";
+import { LAYA_OURS_MEASURED_ON, environment, latencyCpu, schemaProbe } from "@repo/lib/laya-our-measurements";
+
+const title = "Laya, Specified: Checkpoints, Limits and What We Measured (2026)";
+const h1 = "Laya, specified";
+const description =
+  "Laya is a 421M open-weight decision model: a state and typed questions in, one forward pass out, Apache-2.0, and a server that answers TypeSafe's `/v1/systemone`. What it is, what we measured on a CPU, and where the model card says it fails.";
+const canonical = `${SITE}/laya/reference`;
+
+const specs = [
+  { label: "Maker", value: "Convai Innovations", note: "Author: Nandhakishor, publishing as Convai Innovations." },
+  { label: "Licence", value: LAYA_LICENSE, note: "Read from the model card's frontmatter; the card also tags it `commercial-use`." },
+  { label: "Class", value: "System One decision model", note: "Returns typed answers with probabilities; it does not generate text." },
+  { label: "Question types", value: "choice · score · noul", note: "The same three TypeSafe uses, which is what makes the protocol claim possible." },
+  { label: "English checkpoint", value: "ModernBERT-large, 421M parameters", note: "512-token window, of which roughly 320 is left for the state." },
+  { label: "Package", value: `laya ${LAYA_PACKAGE_VERSION}`, note: `On ${LAYA_READ_ON} that was the current release.` },
+  { label: "Hosted price", value: "None — you run it", note: "The cost is your machine, your electricity and your weekend." },
+  { label: "Weights", value: "2.3 GB for all three checkpoints", note: "843 MB for the English one alone — the encoder weights are inside that file, not a separate download." },
+];
+
+const columns = [
+  { href: "/laya/vs-jev", label: "Laya vs Jev", blurb: "The same thirteen adversarial cases through both models, and the published benchmarks with whose ruler each number came from." },
+  { href: "/laya/self-hosting", label: "Self-hosting", blurb: "What it takes to run it: CPU latency we measured, the token budgets, the router, and the two things that break." },
+  { href: "/laya/open-weights", label: "Open weights", blurb: "What Apache-2.0 covers here, what the three checkpoints are, and what the licence does not reach." },
+];
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: LAYA_READ_ON, updatedAt: LAYA_OURS_MEASURED_ON, url: canonical })} />
+
+  <Breadcrumbs schema={true} items={[{ name: "Laya", url: `${SITE}/laya` },
+    { name: "Reference", url: canonical }]} />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Model reference · verified</p>
+      <h1>{h1}</h1>
+      <p class="lede">
+        Laya is an open-weight decision model from Convai Innovations: give it a state — a ticket,
+        an email, a JSON blob — and a set of typed questions, and one forward pass returns typed
+        answers with probabilities. It never writes text, and the three question types it accepts
+        are the ones TypeSafe's Jev accepts, which is why its server can stand in front of a client
+        written for Jev.
+      </p>
+
+      {/* The topic cover, in the same slot the Jev topic uses (contract §5): one image
+          about this page's subject, meaning in the alt text, no caption announcing it. */}
+      <figure class="figure cover">
+        <img src="/img/cover-laya-topic.webp" alt="An engraving: a small brass instrument with three dials on a single base, a blank paper tag tied to it." width="1024" height="576" decoding="async" />
+      </figure>
+    </header>
+
+    <Callout eyebrow="In short">
+      <li><strong>421M parameters, Apache-2.0, no key.</strong> The English checkpoint is a ModernBERT-large with a two-layer head; the card also ships a 322M multilingual one and a 421M checkpoint tuned for four decision workflows.</li>
+      <li><strong>It runs on a laptop.</strong> A single question cost 0.30 s on a 2018 CPU; ten took 2.09 s and fifty took 10.4 s, about 0.21 s each.</li>
+      <li><strong>It claims to be drop-in for Jev, and the claim mostly holds.</strong> Our Jev client, pointed at its server, returned a valid answer for all thirteen of our adversarial cases.</li>
+      <li><strong>On the same thirteen cases it agreed with Jev eleven times</strong> — two different models, two different training stories, the same labels on most of the set.</li>
+      <li><strong>The card is unusually straight about the failures</strong>: near-chance zero-shot on its own hard benchmark, a per-option token budget that breaks large option sets, and an ordinal `score` primitive it calls the weakest of the three.</li>
+    </Callout>
+
+    <section>
+      <h2>The facts</h2>
+      <FactTable rows={specs} />
+      <Provenance
+        source="huggingface.co/convaiinnovations/laya"
+        verified={`model card and shipped files, ${LAYA_READ_ON}`}
+        extra={[
+          `GitHub repository created ${ecosystem.created}; ${ecosystem.commits} commits from ${ecosystem.contributors} contributors, read 2026-09-23.`,
+          "We downloaded the English checkpoint and its encoder and ran everything on this page ourselves; the runner is in tools/laya-lab/.",
+        ]}
+      />
+    </section>
+
+    <section>
+      <h2>Three checkpoints, one interface</h2>
+      <p>
+        The family is small and the differences are the kind that change an integration: the
+        window, the language coverage, and how much of that window is left for the state once the
+        options have taken their share.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Checkpoint</th>
+              <th>Backbone</th>
+              <th class="num">Params</th>
+              <th class="num">Context</th>
+              <th class="num">Left for the state</th>
+              <th>Best at</th>
+            </tr>
+          </thead>
+          <tbody>
+            {checkpoints.map((row) => (
+              <tr>
+                <td><code>{row.name}</code></td>
+                <td>{row.backbone}</td>
+                <td class="num">{row.params}</td>
+                <td class="num">{row.context}</td>
+                <td class="num">{row.stateBudget}</td>
+                <td>{row.bestAt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        That fourth column is the one people miss. A 512-token window sounds like twice a 256-token
+        one; in practice the options are rendered into the same window, so the English checkpoint
+        leaves about 320 tokens for the ticket itself and the rest is option text. A long support
+        thread is truncated sooner than the number suggests — and the model will still answer.
+      </p>
+    </section>
+
+    <section>
+      <h2>What we ran it on, and what came back</h2>
+      <p>
+        Everything here ran on the machine this site is written on — an i7-8550U with no
+        accelerator — after a download of {environment.weights}. The four numbers that matter to
+        somebody deciding whether to try it:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>What we did</th><th class="num">Result</th><th>How it compares</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>20 identical calls, three questions each</td>
+              <td class="num">range 0.0000</td>
+              <td>Every signal identical to four decimals. Jev's label was equally stable but its confidence moved 0.38–0.58.</td>
+            </tr>
+            <tr>
+              <td>13 adversarial cases × 4 runs</td>
+              <td class="num">0 off-menu</td>
+              <td>No answer ever left the option set the caller defined — the same result we got from Jev.</td>
+            </tr>
+            <tr>
+              <td>Our Jev client, pointed at its server</td>
+              <td class="num">13 / 13 parsed</td>
+              <td>{schemaProbe.dropIn.parseable}</td>
+            </tr>
+            <tr>
+              <td>50 questions in one call</td>
+              <td class="num">10.4 s</td>
+              <td>0.21 s per question, flat from ten questions up.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <Provenance
+        source="tools/laya-lab/laya-probe.py"
+        verified={LAYA_OURS_MEASURED_ON}
+        extra={[`Runs on ${environment.machine}, ${environment.memory} of RAM, no GPU.`]}
+      />
+      <p>
+        The measurement that made us write this section rather than quote the card: on the
+        adversarial set, Laya and Jev returned the <strong>same label on eleven of thirteen</strong>
+        cases. Two models that share no weights and no training data agreeing that often on
+        deliberately strange inputs is the most interesting thing in this comparison, and it is on{" "}
+        <a href="/laya/vs-jev">the head-to-head page</a> case by case.
+      </p>
+    </section>
+
+    <section>
+      <h2>The column of things it cannot do</h2>
+      <p>
+        Most of this comes from the model card's own "Honest Limits" section, which is longer and
+        blunter than most vendors write. One entry is ours, and it is the reason the{" "}
+        <a href="/laya/self-hosting">self-hosting page</a> exists.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Limit</th><th>Whose number</th><th>What it costs you</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Zero-shot, the base checkpoints are near chance on typed-decisions (0.362 against a 0.461 majority baseline)</td>
+              <td>the card's</td>
+              <td>Treat it as a fast thing to fine-tune, not a decision engine you point at your data on day one.</td>
+            </tr>
+            <tr>
+              <td>Options share a fixed token budget, so 77 options get three or four tokens each — 0.425 on Banking77, where Jev scores 0.870</td>
+              <td>the card's</td>
+              <td>Under 20 options is the comfortable zone. Beyond that you are tuning `head_max_len` or splitting the choice in two.</td>
+            </tr>
+            <tr>
+              <td>An ordinal <code>score</code> question is the weakest primitive (0.372 on SST-5)</td>
+              <td>the card's</td>
+              <td>Severity scales drift with the wording — we measured 0.47 of a level between two phrasings of the same scale.</td>
+            </tr>
+            <tr>
+              <td><code>noul</code> can follow its two level labels instead of the state</td>
+              <td>the card's, reproduced by us</td>
+              <td>On our sentiment question the English checkpoint returned 0.000 at confidence 1.0 for five out of five reviews, three of them glowing.</td>
+            </tr>
+            <tr>
+              <td>The shipped <code>choice:11+</code> temperature is outside the range its own library accepts</td>
+              <td>ours</td>
+              <td>Every choice question with eleven or more options gets a confidence the library itself calls uncalibrated.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Where to go next</h2>
+      <div class="cards three">
+        {columns.map((column) => (
+          <a class="card" href={column.href}>
+            <span class="card-title">{column.label}</span>
+            <span class="card-blurb">{column.blurb}</span>
+          </a>
+        ))}
+      </div>
+      <p class="form-note">
+        Source material: <a href={LAYA_GITHUB_URL}>the repository</a> ·{" "}
+        <a href={LAYA_HF_URL}>the model card</a> · <a href={LAYA_PYPI_URL}>the package</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot tell you whether Laya is good at your task. Our tests are thirteen adversarial
+        cases, forty ticket-labelling calls and a handful of option-set experiments — enough to say
+        where the sharp edges are, not enough to rank two models. It cannot tell you what it costs
+        at scale, because the honest answer depends on the machine you were going to buy anyway. And
+        it cannot verify the publisher's benchmark table: those runs happened on their hardware
+        against their test sets, and the Jev column in it was never measured by them at all.
+      </p>
+      <p class="quoted">
+        The one number we could have argued about is the star count — {ecosystem.stars.toLocaleString("en-US")} on {LAYA_READ_ON}, up from 19,196 the day before —
+        and we could not corroborate it: GitHub's star-history endpoint answers 404 for this
+        repository, so it is printed as the API reported it and no more.
+      </p>
+    </section>
+
+    <SubscribeForm />
+  </article>
+</System>
+
+<style>
+  .cards.three { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); margin: var(--space-4) 0; }
+  .card { display: block; text-decoration: none; }
+  .card-title { display: block; font-family: var(--sans); font-weight: 600; color: var(--text); margin-bottom: var(--space-2); }
+  .card-blurb { display: block; font-size: var(--text-sm); color: var(--text-muted); }
+</style>

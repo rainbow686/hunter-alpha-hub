@@ -8,16 +8,23 @@
  * the sentence saying what the thing does.
  */
 import { mergeQueue } from "./lib/merge-queue.mjs";
+import { matches, requireSource, resolveTopic } from "./lib/topics.mjs";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OUT = resolve(HERE, "../../lib/data/jev-builds.json");
+const ROOT = resolve(HERE, "../..");
+/*
+ * Which topic this run collects for. Default `jev`, so the historical command is unchanged;
+ * `--topic laya` writes lib/data/laya-builds.json with Laya's queries. See scripts/lib/topics.mjs.
+ */
+const TOPIC = resolveTopic();
+const CFG = requireSource(TOPIC, "github");
+const OUT = resolve(ROOT, CFG.out);
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
-const QUERIES = ["jev in:name,description created:>2026-06-01", "jev typesafe in:readme"];
-const MIN_STARS = 25;
-const RELEVANT = /(\bjev\b(?!ons)|\bkev\b|typesafe)/i;
+const QUERIES = CFG.queries;
+const MIN_STARS = CFG.minStars;
 
 const asOf = new Date().toISOString().slice(0, 10);
 const seen = new Map();
@@ -98,7 +105,7 @@ for (const q of QUERIES) {
     if (seen.has(r.full_name)) continue;
     if ((r.stargazers_count ?? 0) < MIN_STARS) continue;
     const text = `${r.name} ${r.description ?? ""} ${r.topics?.join(" ") ?? ""}`;
-    if (!RELEVANT.test(text)) continue;
+    if (!matches(CFG, text)) continue;
     seen.set(r.full_name, {
       id: `gh:${r.full_name}`,
       source: "github",
