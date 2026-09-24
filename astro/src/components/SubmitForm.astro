@@ -27,15 +27,45 @@ interface Props {
 }
 const { id, variant = "page" } = Astro.props;
 
-const TOPICS = [
-  { value: "jev-project", family: "jev", label: "A project or repository built with Jev" },
-  { value: "jev-demo", family: "jev", label: "A demo or screencast built with Jev" },
-  { value: "jev-thread", family: "jev", label: "A thread, post or article about Jev" },
-  { value: "jev-video", family: "jev", label: "A video about Jev" },
-  { value: "catalogue", family: "catalogue", label: "A correction to a model page" },
-  { value: "stealth", family: "stealth", label: "A tip about an anonymous release" },
-  { value: "site", family: "site", label: "A problem with the site" },
+/**
+ * The topics, grouped the way the site is: two model topics with the same shape,
+ * then everything that is not a model.
+ *
+ * Laya's rows were added on 2026-09-24, the day the topic went up. It gets the
+ * same three kinds of entry as Jev gets because the two are the same kind of
+ * thing — a model with a topic of its own — and a sender who has a Laya build to
+ * hand should not have to file it under "a correction to a model page".
+ */
+const TOPIC_GROUPS = [
+  {
+    group: "Jev",
+    topics: [
+      { value: "jev-project", family: "jev", label: "A project or repository built with Jev" },
+      { value: "jev-demo", family: "jev", label: "A demo or screencast built with Jev" },
+      { value: "jev-thread", family: "jev", label: "A thread, post or article about Jev" },
+      { value: "jev-video", family: "jev", label: "A video about Jev" },
+    ],
+  },
+  {
+    group: "Laya",
+    topics: [
+      { value: "laya-project", family: "laya", label: "A project or repository built with Laya" },
+      { value: "laya-measurement", family: "laya", label: "A measurement, benchmark or fine-tune of Laya" },
+      { value: "laya-thread", family: "laya", label: "A thread, post or article about Laya" },
+      { value: "laya-video", family: "laya", label: "A video about Laya" },
+    ],
+  },
+  {
+    group: "Everything else",
+    topics: [
+      { value: "catalogue", family: "catalogue", label: "A correction to a model page" },
+      { value: "stealth", family: "stealth", label: "A tip about an anonymous release" },
+      { value: "site", family: "site", label: "A problem with the site" },
+    ],
+  },
 ] as const;
+
+const TOPICS = TOPIC_GROUPS.flatMap((g) => g.topics);
 
 const HINTS = {
   jev: {
@@ -57,6 +87,11 @@ const HINTS = {
     summary: "What you saw, and the page it happened on.",
     numbers: "",
     note: "The device or browser, if it looks specific to one.",
+  },
+  laya: {
+    summary: "One or two sentences about what it does, and whether it uses the hosted model or the open weights.",
+    numbers: "Cost, latency, accuracy — and which checkpoint you ran, since the three answer differently.",
+    note: "Where it runs and what it needs. If it is a fine-tune, the base checkpoint and the data you used.",
   },
   correction: {
     summary: "What is wrong, and what it should say instead.",
@@ -95,7 +130,11 @@ const HINTS = {
     <div class="field">
       <label for={`${id}-topic`}>What are you sending <span class="opt">optional</span></label>
       <select id={`${id}-topic`} name="topic" data-topic>
-        {TOPICS.map((topic) => <option value={topic.value}>{topic.label}</option>)}
+        {TOPIC_GROUPS.map((g) => (
+          <optgroup label={g.group}>
+            {g.topics.map((topic) => <option value={topic.value}>{topic.label}</option>)}
+          </optgroup>
+        ))}
       </select>
     </div>
 
@@ -173,7 +212,9 @@ const HINTS = {
         status.className = `form-status ${kind ?? ""}`.trim();
       };
       const value = (name) => form.elements.namedItem(name)?.value?.trim() ?? "";
-      const familyOf = (v) => (v.startsWith("jev-") ? "jev" : v);
+      /* "jev-project" -> "jev", "laya-video" -> "laya", "catalogue" -> "catalogue".
+         Topic ids are family-prefixed so the hint text can follow without a map. */
+      const familyOf = (v) => (v.includes("-") ? v.split("-")[0] : v);
 
       /*
        * The topic select only exists inside the optional block, and it is hidden

@@ -60,7 +60,17 @@ const DIGEST_WINDOW_MINUTES = 15;
 const DIGEST_SAMPLE = 20;
 const MAX_LINKS_PER_REQUEST = 500;
 
-const TOPICS = ["jev-project", "jev-demo", "jev-thread", "jev-video", "catalogue", "stealth", "site"];
+/**
+ * Every topic the form can send, grouped the way the site is. The list is the
+ * endpoint's allowlist, so a topic that the form can render but this does not
+ * know is a 400 the sender did not earn — the two live in one file's worth of
+ * distance for that reason. Laya's four landed with its topic on 2026-09-24.
+ */
+const TOPICS = [
+  "jev-project", "jev-demo", "jev-thread", "jev-video",
+  "laya-project", "laya-measurement", "laya-thread", "laya-video",
+  "catalogue", "stealth", "site",
+];
 const MAX = { email: 254, name: 120, url: 500, summary: 2000, numbers: 500, note: 1000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /** Anything that looks like a URL on its own line. Bare hosts get https:// in front. */

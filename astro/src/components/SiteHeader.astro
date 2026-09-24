@@ -30,9 +30,28 @@ const path = Astro.url.pathname;
 const statusSlot = stealthLine.liveCodename
   ? { live: true, label: `${stealthLine.liveCodename} live`, href: "/stealth-models" }
   : { live: false, label: spotlight.label, href: spotlight.href };
+/*
+ * A section is its own prefix, not just its own path: /laya/vs-jev is inside Laya
+ * and /typesafe-jev/pricing inside Jev. Exact-match only meant a reader four pages
+ * deep in a topic saw no current section — which is how "there is no Jev in the
+ * nav" went unnoticed for a week. Computed here rather than in the attribute: a
+ * nested template literal inside an Astro expression in an attribute is a parse
+ * error, not a nicety.
+ */
+const isCurrent = (href: string) => path === href || (href !== "/" && path.startsWith(`${href}/`));
+
 const sections = [
   { href: "/comparison", label: "Comparison" },
   { href: "/openrouter-models", label: "Models" },
+  /*
+   * The two model topics, added 2026-09-24. They are the site's own work rather
+   * than catalogue views, and until today the only way to reach either of them was
+   * the footer or a typed URL — the two things this site is actually building were
+   * invisible in its own navigation. They sit next to Models because that is the
+   * axis they belong to.
+   */
+  { href: "/typesafe-jev", label: "Jev" },
+  { href: "/laya", label: "Laya" },
   { href: "/openrouter-pricing-calculator", label: "Pricing" },
   { href: "/stealth-models", label: "Stealth line" },
   { href: "/openrouter-free-models", label: "Free models" },
@@ -72,7 +91,7 @@ const sections = [
       </a>
       <nav>
         {sections.map((s) => (
-          <a href={s.href} aria-current={path === s.href ? "page" : undefined}>{s.label}</a>
+          <a href={s.href} aria-current={isCurrent(s.href) ? "page" : undefined}>{s.label}</a>
         ))}
       </nav>
       {/*
