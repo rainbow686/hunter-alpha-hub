@@ -106,7 +106,15 @@ const relatedPages = [
 
 const WALL_PER_COLUMN = 24;
 
-const wallX: WallItem[] = layaXPosts.slice(0, WALL_PER_COLUMN).map((post) => ({
+/*
+ * The hero's post is left out of the wall (2026-09-24): it is also the top row of the X column, so
+ * rendering both put the same card on the page twice and built two `<video>` elements for one file.
+ * `layaTopPost` is what the hero below uses, so the filter and the hero cannot drift apart.
+ */
+const wallX: WallItem[] = layaXPosts
+  .filter((post) => post.id !== layaTopPost?.id)
+  .slice(0, WALL_PER_COLUMN)
+  .map((post) => ({
   kind: "X post",
   headline: post.title,
   href: post.url,
@@ -118,8 +126,8 @@ const wallX: WallItem[] = layaXPosts.slice(0, WALL_PER_COLUMN).map((post) => ({
   thumbH: post.thumbH,
   avatar: post.avatar || undefined,
   tags: layaTagsById[post.id] ?? [],
-  video: post.video?.url,
-}));
+    video: post.video?.url,
+  }));
 
 const wallBuilds: WallItem[] = layaBuilds.slice(0, WALL_PER_COLUMN).map((build) => ({
   kind: "Repository",

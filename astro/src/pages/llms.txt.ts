@@ -20,6 +20,10 @@ import { ALPHA_LINE_CITATION, ALPHA_LINE_LICENSE, alphaLineEntries, alphaLineSta
 import { JEV_OURS_MEASURED_ON, JEV_OURS_SAMPLES, oursAmbiguity, oursLatency, oursSchemaProbe } from "@repo/lib/jev-our-measurements";
 import { JEV_INPUT_PRICE_PER_MILLION } from "@repo/lib/jev";
 import { JEV_RESOURCES_READ_ON, jevResourceCounts } from "@repo/lib/jev-resources";
+import { LAYA_OURS_MEASURED_ON, determinism, latencyCpu, noul, schemaProbe, temperatureClamp } from "@repo/lib/laya-our-measurements";
+import { LAYA_LICENSE } from "@repo/lib/laya";
+import { layaBuildCounts } from "@repo/lib/laya-builds";
+import { layaXPostCounts } from "@repo/lib/laya-x-posts";
 import { JEV_THREADS_READ_ON, jevThreadCounts } from "@repo/lib/jev-threads";
 import { JEV_VIDEOS_READ_ON, jevVideoCounts } from "@repo/lib/jev-videos";
 import { JEV_BUILDS_READ_ON, jevBuildCounts } from "@repo/lib/jev-builds";
@@ -39,7 +43,7 @@ export const GET: APIRoute = () => {
 
   const body = `# OpenRouter Model Hub
 
-> A dated directory of ${openrouterModels.length} models served by OpenRouter, a register of the anonymous stealth releases on that catalogue, and our own first-hand measurements of TypeSafe's Jev. Prices, context windows and modalities are read from the public catalogue and re-checked by a drift check that fails on any mismatch. Last verified ${DATA_AS_OF}.
+> A dated directory of ${openrouterModels.length} models served by OpenRouter, a register of the anonymous stealth releases on that catalogue, and our own first-hand measurements of TypeSafe's Jev and of Laya, the open-weight System One model that answers Jev's protocol. Prices, context windows and modalities are read from the public catalogue and re-checked by a drift check that fails on any mismatch. Last verified ${DATA_AS_OF}.
 
 Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE} with a link to ${BASE}. The same numbers, as data: ${BASE}/facts.json
 
@@ -51,6 +55,8 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - **Curated model snapshot (${DATA_AS_OF}):** ${openrouterModels.length} models, cheapest input $${cheapest.inputPricePerMillion} per million (${cheapest.name}), largest window ${largest.contextWindow.toLocaleString("en-US")} tokens (${largest.name}). Source: ${BASE}/comparison.
 - **Jev, measured by us on ${JEV_OURS_MEASURED_ON}:** ${JEV_OURS_SAMPLES} byte-identical calls, the chosen label never changed (${oursLatency.median} ms median wall time). In ${oursSchemaProbe.calls} adversarial calls run ${oursSchemaProbe.runs} times, ${oursSchemaProbe.offMenuAnswers} answers left the option set the caller defined — but an empty state still answered, at ${oursSchemaProbe.emptyState.confidence}. Confidence tracked how arguable the input was: mean ${oursAmbiguity.clear.meanConfidence} on ${oursAmbiguity.clear.n} unambiguous tickets against ${oursAmbiguity.ambiguous.meanConfidence} on ${oursAmbiguity.ambiguous.n} deliberately arguable ones. Source: ${BASE}/typesafe-jev#our-run.
 - **Jev price:** $${JEV_INPUT_PRICE_PER_MILLION} per million input tokens, output free, no free tier. Source: ${BASE}/typesafe-jev.
+- **Laya, measured by us on ${LAYA_OURS_MEASURED_ON}:** we downloaded the ${LAYA_LICENSE} weights and ran them on our own CPU. ${determinism.calls} identical calls returned the same label and the same probabilities, identical to four decimals — the range across every signal was ${determinism.signals[0].range.toFixed(4)}. In ${schemaProbe.cases} adversarial cases run ${schemaProbe.runs} times, ${schemaProbe.offMenuAnswers} answers left the option set the caller defined, and the Jev client we already had parsed ${schemaProbe.dropIn.http200} of ${schemaProbe.dropIn.calls} answers from its local server without a change. One question cost ${latencyCpu[0].p50} s; fifty in one call cost ${latencyCpu[2].perQuestion} s each. Source: ${BASE}/laya.
+- **Laya, where it fails (we reproduced both):** the \`noul\` primitive followed its own two labels instead of the state — five reviews, three of them glowing, every one answered "no" (${noul.english.value}) at confidence ${noul.english.confidence} — and the shipped \`${temperatureClamp.bucket}\` temperature is ${temperatureClamp.shipped}, outside the range its own library accepts, so it is clamped to ${temperatureClamp.applied} and the confidence from those calls is not calibrated. Source: ${BASE}/laya/reference.
 
 ## Pages
 
@@ -66,6 +72,11 @@ Every fact below is dated, sourced and free to quote under ${ALPHA_LINE_LICENSE}
 - [Jev builds](${BASE}/typesafe-jev/builds): ${jevBuildCounts.published} projects built on Jev, stars and last push read on ${JEV_BUILDS_READ_ON}.
 - [Jev videos](${BASE}/typesafe-jev/videos): ${jevVideoCounts.published} walkthroughs and breakdowns, views read on ${JEV_VIDEOS_READ_ON}.
 - [Jev field notes](${BASE}/typesafe-jev/guide): eleven projects built on Jev, read first-hand, and the line all five independent implementations drew between what the model decides and what the code decides.
+- [Laya](${BASE}/laya): the open-weight System One model — what it is, where it runs, and the measurements above.
+- [Laya, specified](${BASE}/laya/reference): the three checkpoints, the limits the model card admits to, and our full probe of the weights.
+- [Built with Laya](${BASE}/laya/builds): ${layaBuildCounts.published} projects from the model's first week — MLX and Core ML ports, Jev-compatible servers, agents and games.
+- [Laya on X](${BASE}/laya/x-posts): ${layaXPostCounts.described} posts, each read in full — including the test that found the faster model letting attacks through that the slower one caught.
+- [Laya resources](${BASE}/laya/resources): the repository, all three sets of weights, the package, and two demos you can open without installing anything.
 - [Compare models](${BASE}/comparison): every curated model side by side on price, window and modality.
 - [Free models](${BASE}/openrouter-free-models): the free routes on the catalogue, re-checked against the API.
 - [Cost calculator](${BASE}/openrouter-pricing-calculator): monthly spend by token volume and input/output mix.

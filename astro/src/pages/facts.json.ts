@@ -27,6 +27,16 @@ import {
   oursSchemaProbe,
 } from "@repo/lib/jev-our-measurements";
 import { JEV_INPUT_PRICE_PER_MILLION, JEV_MODEL_ID } from "@repo/lib/jev";
+import {
+  LAYA_OURS_MEASURED_ON,
+  ambiguity as layaAmbiguity,
+  determinism as layaDeterminism,
+  latencyCpu as layaLatency,
+  noul as layaNoul,
+  schemaProbe as layaSchemaProbe,
+  temperatureClamp as layaTemperature,
+} from "@repo/lib/laya-our-measurements";
+import { LAYA_LICENSE, LAYA_PACKAGE_VERSION } from "@repo/lib/laya";
 
 export const prerender = true;
 
@@ -151,6 +161,72 @@ export const GET: APIRoute = () => {
           page: `${site}/typesafe-jev`,
           method: `${site}/typesafe-jev#our-run`,
           probe_source: "astro/scripts/jev-probe.mjs (cases in jev-probe-cases.json)",
+        },
+        /*
+         * Laya (2026-09-24). The second set of numbers on this site that nobody else publishes, and
+         * the reason it is here rather than only on the page: the licence above offers these facts
+         * for reuse, and a citable layer that carries one model's measurements and not the other's
+         * is an incomplete offer.
+         *
+         * Both halves travel together — the wins and the two failures we reproduced — because a
+         * dataset of only the good numbers is the thing this site exists not to be.
+         */
+        laya: {
+          what: "Convai Innovations' open-weight System One model: text state in, typed decisions out, Apache-2.0 weights you run yourself. We downloaded the weights and ran the probe below on our own CPU.",
+          model_id: "convaiinnovations/laya",
+          package_version: LAYA_PACKAGE_VERSION,
+          licence: LAYA_LICENSE,
+          measured_on: LAYA_OURS_MEASURED_ON,
+          host_price_per_million: 0,
+          identical_calls: {
+            calls: layaDeterminism.calls,
+            label_chosen: layaDeterminism.labels,
+            range_across_signals: layaDeterminism.signals[0].range,
+            note: "every signal identical to four decimals — flatter than Jev, whose confidence moved while its label did not",
+          },
+          latency_cpu_seconds: layaLatency.map((row) => ({
+            questions_in_one_call: row.questions,
+            p50: row.p50,
+            per_question: row.perQuestion,
+          })),
+          schema_probe: {
+            measured_on: LAYA_OURS_MEASURED_ON,
+            cases: layaSchemaProbe.cases,
+            runs: layaSchemaProbe.runs,
+            calls: layaSchemaProbe.calls,
+            answers_outside_the_option_set: layaSchemaProbe.offMenuAnswers,
+            unstable_labels: layaSchemaProbe.unstableLabels,
+            drop_in_client: {
+              what: "the same TypeSafe-shaped client we point at Jev, pointed at Laya's local server",
+              http_200: layaSchemaProbe.dropIn.http200,
+              calls: layaSchemaProbe.dropIn.calls,
+              latency_ms: layaSchemaProbe.dropIn.latencyMs,
+            },
+          },
+          confidence_vs_ambiguity: {
+            measured_on: LAYA_OURS_MEASURED_ON,
+            unambiguous_mean_confidence: layaAmbiguity.clear.meanConfidence,
+            deliberately_arguable_mean_confidence: layaAmbiguity.arguable.meanConfidence,
+            note: "weaker separation than Jev's, and the absolute numbers are lower; one run, so read it as a direction",
+          },
+          where_it_fails: {
+            noul_follows_its_own_labels: {
+              question: layaNoul.question,
+              calls: layaNoul.english.calls,
+              returned: layaNoul.english.value,
+              confidence: layaNoul.english.confidence,
+              workaround: "the same question as a two-option choice answered correctly on all five",
+            },
+            uncalibrated_temperature: {
+              bucket: layaTemperature.bucket,
+              shipped: layaTemperature.shipped,
+              applied: layaTemperature.applied,
+              vendor_warning: layaTemperature.warning,
+            },
+          },
+          page: `${site}/laya`,
+          method: `${site}/laya/reference`,
+          probe_source: "tools/laya-lab/laya-probe.py",
         },
       },
       null,

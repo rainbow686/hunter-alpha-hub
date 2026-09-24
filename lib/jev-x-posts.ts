@@ -31,6 +31,13 @@ export interface JevXPost {
   publishedAt: string;
   ourNote: string;
   likes: number;
+  /**
+   * The day the like count above was read (ADR-0024). It is also the day the record page changed:
+   * the page prints the number and its date, so a re-read is an edit. The sitemap uses this per row
+   * rather than the column's newest date, because 42 of these were read on the 23rd and 41 on the
+   * 24th and a single date would be wrong for whichever half did not match it.
+   */
+  likesAsOf: string;
   /** "video" | "image" | "none" — the media inside the post, which is what the card's
    *  eyebrow reports. It says what the post *is*, and never which column it belongs to. */
   kind: string;
@@ -103,7 +110,7 @@ export const jevXPosts: JevXPost[] = RAW.entries
   .filter((e) => e.status === "published" && e.ourNote.trim().split(/\s+/).length >= 20)
   .map((e) => ({
     id: e.id, url: e.url, title: e.title, author: e.author, publishedAt: e.publishedAt,
-    ourNote: e.ourNote, likes: e.metrics.likes, kind: e.media?.kind ?? "none",
+    ourNote: e.ourNote, likes: e.metrics.likes, likesAsOf: e.metrics.asOf, kind: e.media?.kind ?? "none",
     thumb: e.media?.thumb ?? "", thumbW: e.media?.thumbW ?? 0, thumbH: e.media?.thumbH ?? 0,
     video: e.media?.video ?? null,
     avatar: e.media?.avatar ?? "",
