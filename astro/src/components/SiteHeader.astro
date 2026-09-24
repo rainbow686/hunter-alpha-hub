@@ -47,14 +47,15 @@ const sections = [
   { href: "/comparison", label: "Comparison" },
   { href: "/openrouter-models", label: "Models" },
   /*
-   * The two model topics, added 2026-09-24. They are the site's own work rather
-   * than catalogue views, and until today the only way to reach either of them was
-   * the footer or a typed URL — the two things this site is actually building were
-   * invisible in its own navigation. They sit next to Models because that is the
-   * axis they belong to.
+   * No Jev or Laya here. They were added on 2026-09-24 and removed the same day,
+   * for a reason worth keeping: the reader asked for the two topics "above", and
+   * what they meant was the status badge, not the nav. Adding them to both made the
+   * nav eight items long, and the row has a measured budget — at 1440 the nav,
+   * the brand that returns on scroll and the tools fit in one line at six items and
+   * wrap to two at eight. Two places to reach the same page, one of them breaking
+   * the header, is not a feature. The topics live in the masthead (both of them,
+   * always visible) and in the footer.
    */
-  { href: "/typesafe-jev", label: "Jev" },
-  { href: "/laya", label: "Laya" },
   { href: "/openrouter-pricing-calculator", label: "Pricing" },
   { href: "/stealth-models", label: "Stealth line" },
   { href: "/openrouter-free-models", label: "Free models" },
