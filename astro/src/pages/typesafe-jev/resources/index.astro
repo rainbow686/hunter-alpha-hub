@@ -89,7 +89,7 @@ const sections = [
   },
 ];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide>
 
   <Breadcrumbs schema={false} items={[
     { name: "Jev", url: `${SITE}/typesafe-jev` },
@@ -115,12 +115,12 @@ const sections = [
     ])}
   />
 
-  <p class="kicker">Jev topic · resources</p>
+  <p class="card-eyebrow">Jev topic · resources</p>
   <h1 class="display">Jev docs, collections and repositories</h1>
-  <div class="byline">
+  <p class="provenance">
     <span>{jevResourceCounts.total} resources</span>
     <span>Last checked {JEV_RESOURCES_READ_ON}</span>
-  </div>
+  </p>
   {/*
     Counts are read from the same file the tables are built from. They used to be typed into this
     sentence ("six … eight … fourteen") and went wrong the moment a row was added — the same class

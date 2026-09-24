@@ -316,14 +316,14 @@ const heroStats = [
   */}
   <section class="topic-hero">
     <div class="hero-copy">
-      <p class="kicker">Model reference · verified {JEV_DATA_AS_OF}</p>
+      <p class="card-eyebrow">Model reference · verified {JEV_DATA_AS_OF}</p>
       <h1 class="display">{h1}</h1>
       <p class="lede">
         Jev is TypeSafe's first model, announced on 15 September 2026 and listed on OpenRouter three days
         later. It does not write. You hand it program state and a typed question, and it hands back a decision
         with a probability attached — the thing a chat model is worst at and a program needs most.
       </p>
-      <div class="byline">
+      <p class="provenance">
         {/*
           The listed time is a full ISO stamp in the data (`2026-09-18T00:01:24Z`) and it was
           printed raw here — a timestamp in the middle of a sentence for a reader who wants
@@ -333,7 +333,7 @@ const heroStats = [
         <span>
           <a href={JEV_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter listing →</a>
         </span>
-      </div>
+      </p>
 
       {/*
         Three counts and one figure of our own: what the topic holds, and that at least one
@@ -502,6 +502,9 @@ const heroStats = [
    * hero sets its own — the one place on this page with continuous prose.
    */
   .hero-copy { max-width: 62ch; }
+  /* The hero's dated line uses the same `.provenance` as every other page head; only the margin
+     is tightened here, because it sits between the lede and the numbers rather than under a title. */
+  .hero-copy .provenance { margin: var(--space-4) 0 var(--space-5); }
   .hero-media { display: grid; gap: var(--space-5); }
   .hero-card {
     margin: 0;

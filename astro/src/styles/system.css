@@ -774,7 +774,23 @@ h1 + .lede { margin-top: 0; }
  * header to 56px — its specificity beats a plain `.topicrow .wrap`, and the first build of this
  * bar came out 57px tall (measured), which is 19px of chrome for nothing.
  */
-header.site .topicrow .wrap { height: 46px; padding-top: 0; padding-bottom: 0; }
+header.site .topicrow .wrap {
+  height: 46px;
+  padding-top: 0;
+  padding-bottom: 0;
+  /*
+   * The row is the frame; the capsule centres inside it.
+   *
+   * Measured at 1440 before this (2026-09-24): the wrap runs x=196..1244 and the capsule was
+   * pinned to its left edge — 823px of tabs in a 1048px row, so 225px of empty space on the right
+   * and the whole thing reading as "偏左". Centring also settles the question for the narrow
+   * pages: at 340..1100 their column is 760 wide and the capsule is 823, so aligning to the column
+   * would overflow it by 31px a side and aligning to the wrap would sit 144px left of the article.
+   * Centred in the wrap, the capsule lands at the same place on **every** page of the topic — which
+   * is the behaviour you want from chrome you switch views with: the control does not move.
+   */
+  justify-content: center;
+}
 /*
  * `header.site nav` (tokens.css) is a flex box with `flex-wrap: wrap`, and it beats a bare
  * `.topic-tabs` on specificity — so the first mobile build wrapped the bar into three rows of
@@ -784,10 +800,24 @@ header.site .topicrow .wrap { height: 46px; padding-top: 0; padding-bottom: 0; }
 header.site nav.topic-tabs {
   display: inline-flex;
   align-items: center;
+  /*
+   * Items start at the capsule's left edge — **not** `justify-content: center`, which produced the
+   * classic centred-flex overflow: on a phone the capsule is capped at 100% and its first tab was
+   * laid out at x=-212, outside the scrollable area and unreachable in either direction. The
+   * capsule itself is centred by the row above; inside it, content starts at the start.
+   */
+  justify-content: flex-start;
   gap: 2px;
+  /*
+   * Centred on the page's own column, and allowed to be slightly wider than it: seven tabs come to
+   * 823px, which is 31px of overhang each side inside the 760 column and 113px of clear space
+   * inside a wide page. `max-width: 100%` returns at 900px, where the constraint is the viewport
+   * and the row has to scroll inside itself.
+   */
+  margin: 0 auto;
+  max-width: none;
   /* One capsule, one line. On a phone it scrolls inside itself rather than growing the header. */
   flex-wrap: nowrap;
-  max-width: 100%;
   padding: 3px;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
@@ -817,7 +847,13 @@ header.site .topicrow .wrap::after {
   background: linear-gradient(to right, transparent, color-mix(in srgb, var(--bg) 92%, transparent));
   pointer-events: none;
 }
-@media (min-width: 1100px) {
+/*
+ * The fade only where the row really scrolls: a phone. Above that the capsule is allowed to be a
+ * little wider than the column it centres on (823px of tabs inside a 760 column is 31px of
+ * overhang each side), which is invisible and much better than a one-item horizontal scroll on a
+ * desktop) — so the cap comes back at 900px, where the viewport itself is the constraint.
+ */
+@media (min-width: 901px) {
   header.site .topicrow .wrap::after { content: none; }
 }
 .topic-tabs a {
@@ -894,4 +930,9 @@ header.site .topicrow .wrap::after {
   border: 0;
   padding: 0;
   margin: var(--space-4) 0 var(--space-6);
+}
+
+@media (max-width: 900px) {
+  /* Where the viewport, not the column, is the limit: fill the row and scroll inside the capsule. */
+  header.site nav.topic-tabs { max-width: 100%; }
 }
