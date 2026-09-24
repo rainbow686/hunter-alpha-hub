@@ -29,6 +29,14 @@ export interface SpotlightTopic {
 }
 
 export const topics: SpotlightTopic[] = [
-  { label: "Jev", href: "/typesafe-jev", note: "TypeSafe's decision model: state in, typed decision out" },
-  { label: "Laya", href: "/laya", note: "The open-weight decision model you can run yourself" },
+  {
+    label: "Jev",
+    href: "/typesafe-jev",
+    note: "We are following Jev — TypeSafe's decision model: state in, typed decision out",
+  },
+  {
+    label: "Laya",
+    href: "/laya",
+    note: "We are following Laya — the open-weight decision model you can run yourself",
+  },
 ];

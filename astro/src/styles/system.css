@@ -126,12 +126,37 @@
   border-color: var(--accent);
 }
 /*
- * The two model topics in the masthead (2026-09-24). Same shape as the live badge
- * next to them, but deliberately quieter: a live codename is news and gets the
- * green treatment, a topic is a door. They are links, so they get the link
- * affordance — an underline on hover — rather than the badge's flat state look.
- * Mono and small so two of them cost less width than the sentence they replaced.
+ * The two model topics in the masthead (2026-09-24, restyled the same day).
+ *
+ * First pass drew them as quiet outlined chips. The reader's verdict — "太平淡了，
+ * 还不如不写" — is the right one, and worth writing down because it is a rule about
+ * this slot rather than about these two badges: the slot carries *what this site is
+ * paying attention to right now*, and a badge nobody notices answers nothing. So the
+ * topics get the live treatment — green, and a dot that pings — while still being
+ * links, and still not saying "live". Green here means "we are following this", the
+ * tooltip carries the sentence, and the destination is one click away.
+ *
+ * The ping lives on `.dot` for both states (a real live codename gets it too). It is
+ * a pseudo-element that scales and fades, not a blink: a blink is an alarm, a ping is
+ * a heartbeat, and this slot is on every page of the site. `prefers-reduced-motion`
+ * turns it off entirely — the colour still says what it says.
  */
+.masthead .live-slot .badge .dot { position: relative; }
+.masthead .live-slot .badge .dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: currentColor;
+  animation: live-ping 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+@keyframes live-ping {
+  0% { transform: scale(1); opacity: 0.5; }
+  70%, 100% { transform: scale(3.4); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .masthead .live-slot .badge .dot::after { animation: none; opacity: 0; }
+}
 .masthead .live-slot .badge.topic {
   font-family: var(--mono);
   font-size: 10.5px;
@@ -139,11 +164,15 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--text-muted);
-  border-color: var(--border-strong);
-  background: var(--surface);
+  color: var(--success);
+  background: var(--success-soft);
+  border-color: color-mix(in srgb, var(--success) 30%, transparent);
 }
-.masthead .live-slot .badge.topic:hover { color: var(--text); border-color: var(--text-faint); }
+.masthead .live-slot .badge.topic:hover {
+  color: var(--on-accent);
+  background: var(--success);
+  border-color: var(--success);
+}
 @media (max-width: 760px) {
   /* A phone has 334px for the brand, a scrolling nav and these tools: the arrow
      carries it, and the label goes with the ⌘K hint. */

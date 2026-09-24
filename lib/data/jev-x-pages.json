@@ -4,7 +4,7 @@
     "why": "The reference site links every card to an internal record. Ours linked out to X, which made the hub a doorway: a reader who left rarely came back, and nothing on the site accumulated the link.",
     "rule": "The slug describes the subject of the post, not the author or the date. The headline is a sentence we can stand behind: where the post makes an unverified claim, the headline says it is a claim (the '10x' routing claim, the 'up to 193x' figure), not a fact.",
     "written": "2026-09-24",
-    "note": " Twenty records added 2026-09-24 in content batch 1 (leads from the madewithjev directory crawl)."
+    "note": " Twenty records added 2026-09-24 in content batch 1 (leads from the madewithjev directory crawl), forty in batch 2 the same day. Both batches were read one row at a time against the post text."
   },
   "pages": {
     "x:2100411066966749359": {
@@ -254,6 +254,86 @@
     "x:2101014004927729737": {
       "slug": "cua-s1-system-one-models",
       "headline": "A third party's own System One family (not Jev)"
+    },
+    "x:2102025642862600634": {
+      "slug": "jev-webmcp-side-panel-extension",
+      "headline": "A Chrome side panel that drives a page's own WebMCP tools"
+    },
+    "x:2101157548346794059": {
+      "slug": "ai-slop-detector",
+      "headline": "One URL in, a slop score out: 35 tells in 243 ms"
+    },
+    "x:2100937437325205568": {
+      "slug": "jev-webmcp-benchmark-112x",
+      "headline": "Jev and a small LLM won a WebMCP benchmark at 112× lower model cost"
+    },
+    "x:2102332567588577720": {
+      "slug": "second-jev-repository-list",
+      "headline": "A second list of Jev repositories, posted while the topic climbed"
+    },
+    "x:2100891604735099103": {
+      "slug": "jev-lead-outreach-scoring",
+      "headline": "Seven hundred outreach messages scored in forty seconds"
+    },
+    "x:2100426999546184123": {
+      "slug": "jev-classifying-1018-papers",
+      "headline": "1,018 research papers labelled for eight cents"
+    },
+    "x:2100470174130250127": {
+      "slug": "x-algorithm-simulator-jev",
+      "headline": "X's published weights, a global feed, and Jev calling how a post travels"
+    },
+    "x:2100793777103466615": {
+      "slug": "youtube-sponsor-skipper",
+      "headline": "An extension that spots the sponsor read and skips it, live"
+    },
+    "x:2100888635943883244": {
+      "slug": "reply-guy-filter",
+      "headline": "Filtering the reply spam X's own moderation misses"
+    },
+    "x:2100425868053008758": {
+      "slug": "live-viral-post-analyzer",
+      "headline": "A draft scored for viral potential half a second after you stop typing"
+    },
+    "x:2099925687465570372": {
+      "slug": "jev-plays-doom-cost-per-hour",
+      "headline": "Doom at ten decisions a second, about seven dollars an hour"
+    },
+    "x:2100622054945095934": {
+      "slug": "jev-stagehand-browser-use",
+      "headline": "Browser use at a tenth of a cent a task, with Stagehand"
+    },
+    "x:2100356151468585346": {
+      "slug": "jev-trading-bot-monad-kuru",
+      "headline": "A bot that decides every 300 ms block and trades on an on-chain book"
+    },
+    "x:2100042788851101842": {
+      "slug": "inbox-triage-1500-emails",
+      "headline": "1,500 of one person's own emails, classified"
+    },
+    "x:2099947471518474522": {
+      "slug": "every-editorial-judgments",
+      "headline": "A week of testing at Every: probabilities instead of words"
+    },
+    "x:2100694549362553153": {
+      "slug": "instant-compaction-with-jev",
+      "headline": "Instant compaction: score the tool calls, drop what does not matter"
+    },
+    "x:2100614659690713543": {
+      "slug": "fraud-detection-jev-kimi-k3",
+      "headline": "Fraud triage in two stages: Jev sorts, a large model reads the rest"
+    },
+    "x:2100679300756435135": {
+      "slug": "postgres-jev-extension",
+      "headline": "A Postgres function that judges rows in plain English"
+    },
+    "x:2100631847155994852": {
+      "slug": "computer-use-without-screenshots",
+      "headline": "Computer use where no pixel leaves the machine"
+    },
+    "x:2100570517954838897": {
+      "slug": "slay-the-spire-2-jev",
+      "headline": "Slay the Spire 2 at seven tenths of a second a turn"
     }
   }
 }

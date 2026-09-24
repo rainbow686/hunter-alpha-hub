@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-09-24T02:03:21.798Z",
+    "generatedAt": "2026-09-24T02:43:29.382Z",
     "source": "x-syndication",
     "queries": [
-      "62 curated links"
+      "82 curated links"
     ],
     "intake": "X has no read API we can afford (ADR-0023), so posts are entered by hand from a curated list and resolved through the public syndication endpoint. A post is published only after somebody reads it and writes the note.",
-    "candidates": 62,
+    "candidates": 82,
     "published": 62,
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 0,
@@ -1649,7 +1649,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101339712464326656/img/A8yq5IoXQuhJAi32.jpg",
         "thumbW": 1920,
         "thumbH": 1226,
-        "avatar": "https://pbs.twimg.com/profile_images/2080756230893838336/q4VqZuw2_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2080756230893838336/q4VqZuw2_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101339712464326656/vid/avc1/1126x720/Fyvpi3NZU-N6Lv7e.mp4",
+          "width": 1126,
+          "height": 719,
+          "durationS": 23,
+          "bitrate": 2176000,
+          "bytes": 1381660,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 954,
@@ -1685,7 +1694,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100519256425140224/img/-A44e4qCo8mVP8ws.jpg",
         "thumbW": 1502,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/1572564016916008961/n7drNq_E_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1572564016916008961/n7drNq_E_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100519256425140224/vid/avc1/1000x720/kwAuLtiq5o59jNmo.mp4",
+          "width": 1000,
+          "height": 719,
+          "durationS": 45,
+          "bitrate": 2176000,
+          "bytes": 4741294,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 1108,
@@ -1722,7 +1740,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100403183533125632/img/54ZFO-CHvDeC-rw-.jpg",
         "thumbW": 3840,
         "thumbH": 2160,
-        "avatar": "https://pbs.twimg.com/profile_images/1898571530956873728/JALEVTSb_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1898571530956873728/JALEVTSb_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100403183533125632/vid/avc1/640x360/aTclBKUXimBRmTEU.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 32,
+          "bitrate": 832000,
+          "bytes": 1005621,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 3877,
@@ -1758,7 +1785,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101384523124740096/img/1Q6moTMdLcZ-mJ3r.jpg",
         "thumbW": 1688,
         "thumbH": 950,
-        "avatar": "https://pbs.twimg.com/profile_images/2097395700476837888/CZ-1KUKG_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2097395700476837888/CZ-1KUKG_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101384523124740096/vid/avc1/1278x720/6u9oqUGUZP5-mfY_.mp4",
+          "width": 1278,
+          "height": 719,
+          "durationS": 31,
+          "bitrate": 2176000,
+          "bytes": 1634213,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 4323,
@@ -1794,7 +1830,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101542497042481152/img/edco8P9wl-DUp5z8.jpg",
         "thumbW": 1280,
         "thumbH": 720,
-        "avatar": "https://pbs.twimg.com/profile_images/2059694069811679232/SP4mePp1_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2059694069811679232/SP4mePp1_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101542497042481152/vid/avc1/640x360/sz9T_4k_KoASqN5g.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 39,
+          "bitrate": 832000,
+          "bytes": 2031942,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 7946,
@@ -1830,7 +1875,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101951967774040064/img/CacawHR0bMzhWRSM.jpg",
         "thumbW": 3840,
         "thumbH": 2160,
-        "avatar": "https://pbs.twimg.com/profile_images/1655547980819349504/K3Sb1z9t_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1655547980819349504/K3Sb1z9t_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101951967774040064/vid/avc1/640x360/cbHvy1JL9dxK_K7O.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 46,
+          "bitrate": 832000,
+          "bytes": 2063336,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 459,
@@ -1866,7 +1920,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102479606909636608/img/ir4DEV6u1VcpfLuN.jpg",
         "thumbW": 1920,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/1283610285031460864/1Q4zYhtb_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1283610285031460864/1Q4zYhtb_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102479606909636608/vid/avc1/640x360/ePnNp5VHnJqzgCED.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 31,
+          "bitrate": 832000,
+          "bytes": 768334,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 917,
@@ -1902,7 +1965,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102443035904835584/img/MsmzEUxAZPnSePjp.jpg",
         "thumbW": 1540,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102443035904835584/vid/avc1/1026x720/Xxu4GgXms1JAzU5C.mp4",
+          "width": 1026,
+          "height": 720,
+          "durationS": 28,
+          "bitrate": 2176000,
+          "bytes": 2643426,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 259,
@@ -1938,7 +2010,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102420889702653952/img/vm_IacVN4Ais6TYq.jpg",
         "thumbW": 3644,
         "thumbH": 2160,
-        "avatar": "https://pbs.twimg.com/profile_images/2093763744052445184/opIqrYrc_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2093763744052445184/opIqrYrc_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102420889702653952/vid/avc1/1214x720/X_QJewkizph-ErOp.mp4",
+          "width": 1214,
+          "height": 720,
+          "durationS": 52,
+          "bitrate": 2176000,
+          "bytes": 2334864,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 157,
@@ -1975,7 +2056,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102271838332104704/img/h2xORjnyRJYrQkaV.jpg",
         "thumbW": 1920,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/1982516814308347904/u4_eSkSS_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1982516814308347904/u4_eSkSS_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102271838332104704/vid/avc1/640x360/soednMgTS7v1xET_.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 26,
+          "bitrate": 832000,
+          "bytes": 2468828,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 109,
@@ -2011,7 +2101,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102724758336892928/img/GELJRrpoW-BBddXt.jpg",
         "thumbW": 2740,
         "thumbH": 2160,
-        "avatar": "https://pbs.twimg.com/profile_images/1897964636441358336/Pc6OPmvP_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1897964636441358336/Pc6OPmvP_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102724758336892928/vid/avc1/912x720/kTAh8XxhI-T8dtVo.mp4",
+          "width": 912,
+          "height": 719,
+          "durationS": 6,
+          "bitrate": 2176000,
+          "bytes": 265863,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 209,
@@ -2047,7 +2146,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102536672248209408/img/pOWU3Z_0iNKn5Vyn.jpg",
         "thumbW": 1920,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102536672248209408/vid/avc1/640x360/ODu2AvwFWX4hRw31.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 81,
+          "bitrate": 832000,
+          "bytes": 2532927,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 192,
@@ -2083,7 +2191,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100347372844756992/img/CaExDBw3MTf0ia58.jpg",
         "thumbW": 1892,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/1532735511953035270/1AwnrbP7_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1532735511953035270/1AwnrbP7_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100347372844756992/vid/avc1/1260x720/P4yOkxVVzPVQWlFj.mp4",
+          "width": 1260,
+          "height": 719,
+          "durationS": 119,
+          "bitrate": 2176000,
+          "bytes": 17553136,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 4834,
@@ -2119,7 +2236,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100654321792684032/img/cXvU50KmCe6QFu86.jpg",
         "thumbW": 1920,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/1986926744515805184/h-houqBr_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1986926744515805184/h-houqBr_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100654321792684032/vid/avc1/640x360/KUagVXwb-SSHp1TY.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 48,
+          "bitrate": 832000,
+          "bytes": 2081529,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 6776,
@@ -2155,7 +2281,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100085174826647552/img/6YMRQKKZYBPsW2oo.jpg",
         "thumbW": 1920,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/2100057635378827264/o0PTIOiI_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/2100057635378827264/o0PTIOiI_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100085174826647552/vid/avc1/640x360/lrPaXa-jly9ZrKaE.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 32,
+          "bitrate": 832000,
+          "bytes": 1188866,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 2910,
@@ -2191,7 +2326,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101367981486051328/img/POjBvV3P9O7LKDGZ.jpg",
         "thumbW": 3620,
         "thumbH": 2160,
-        "avatar": "https://pbs.twimg.com/profile_images/1383480755011997707/Ls7nIecd_normal.jpg"
+        "avatar": "https://pbs.twimg.com/profile_images/1383480755011997707/Ls7nIecd_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101367981486051328/vid/avc1/1206x720/SWa5XWsBrHbY5T1a.mp4",
+          "width": 1206,
+          "height": 720,
+          "durationS": 33,
+          "bitrate": 2176000,
+          "bytes": 1437411,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 10195,
@@ -2227,7 +2371,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100722766362406912/img/pH0lahpfd-qTj_nE.jpg",
         "thumbW": 3840,
         "thumbH": 2160,
-        "avatar": "https://pbs.twimg.com/profile_images/1763174758416588801/DMB7OfRz_normal.png"
+        "avatar": "https://pbs.twimg.com/profile_images/1763174758416588801/DMB7OfRz_normal.png",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100722766362406912/vid/avc1/640x360/NF0j7Q6ndq_sO4L0.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 45,
+          "bitrate": 832000,
+          "bytes": 1672235,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 1380,
@@ -2299,7 +2452,16 @@
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101047373363589121/img/NUS69liWQqy1JFn2.jpg",
         "thumbW": 1620,
         "thumbH": 1080,
-        "avatar": "https://pbs.twimg.com/profile_images/2100371495658946560/pKjt1-8w_normal.png"
+        "avatar": "https://pbs.twimg.com/profile_images/2100371495658946560/pKjt1-8w_normal.png",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101047373363589121/vid/avc1/1080x720/BaXF91IrRtP2LuXk.mp4",
+          "width": 1080,
+          "height": 720,
+          "durationS": 17,
+          "bitrate": 2176000,
+          "bytes": 1124678,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 690,
@@ -2357,6 +2519,880 @@
         "text": "1/ Introducing CUA-S1: a family of System One Models, small, specialized, and built for computer use. Today we're open-sourcing CUA-S1-FORMS, the first in the family: https://t.co/J1frbEbZTQ https://t.co/8wMJBLndG8",
         "chars": 214,
         "from": "https://x.com/trycua/status/2101014004927729737",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102025642862600634",
+      "source": "x",
+      "url": "https://x.com/sarah_edo/status/2102025642862600634",
+      "title": "🎇 I made a small Chrome extension: a side panel that drives any site's WebMCP tools with Jev…",
+      "author": "@sarah_edo",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/ext_tw_video_thumb/2102025557969862656/pu/img/TDga5vamGpk6CRqZ.jpg",
+        "thumbW": 1920,
+        "thumbH": 1284,
+        "avatar": "https://pbs.twimg.com/profile_images/1281071936605323266/wc1KRZLK_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/ext_tw_video/2102025557969862656/pu/vid/avc1/1076x720/vGLByC2g-M1dK5Qf.mp4?tag=12",
+          "width": 1076,
+          "height": 720,
+          "durationS": 46,
+          "bitrate": 2176000,
+          "bytes": 4131649,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 1095,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Chrome side panel that reads the page's own WebMCP tools and, on every keystroke, picks the one that fits, fills in its arguments and says how sure it is. The confidence number reaching the interface is the interesting half. We have not installed the extension.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "🎇 I made a small Chrome extension: a side panel that drives any site's WebMCP tools with Jev! When you type, on every keystroke it picks the relevant page's tool, fills in the arguments, and tells you how sure it is. Here it is grocery shopping: https://t.co/J6PKk81Lt8",
+        "chars": 270,
+        "from": "https://x.com/sarah_edo/status/2102025642862600634",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101157548346794059",
+      "source": "x",
+      "url": "https://x.com/kraayenJon/status/2101157548346794059",
+      "title": "jev is INSANE. in 243 ms it checked a website for 35 tells of ai slop. purple gradients. emoj…",
+      "author": "@kraayenJon",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101157511579508736/img/Ssx23uOBOnKsJyaJ.jpg",
+        "thumbW": 2834,
+        "thumbH": 1496,
+        "avatar": "https://pbs.twimg.com/profile_images/1996912063403139072/-8qmmOXU_normal.png",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101157511579508736/vid/avc1/680x360/g7Wbr5p1VgW6Z7Aj.mp4?tag=14",
+          "width": 680,
+          "height": 359,
+          "durationS": 9,
+          "bitrate": 832000,
+          "bytes": 187230,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 2,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "One URL in, a slop score out: thirty-five tells checked in 243 milliseconds for about $0.00015 of tokens. The tells are the author's own list of design clichés, so the score measures his taste as much as the page — and it had two likes when we read it.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "jev is INSANE. in 243 ms it checked a website for 35 tells of ai slop. purple gradients. emoji headers. \"seamlessly\". fake testimonials. bento grids. the works. used $0.00015 of tokens. paste any url, get a slop score. free: https://t.co/MIwsuz6K0a https://t.co/Wi7z6ckYN9",
+        "chars": 272,
+        "from": "https://x.com/kraayenJon/status/2101157548346794059",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100937437325205568",
+      "source": "x",
+      "url": "https://x.com/0xidanlevin/status/2100937437325205568",
+      "title": "We just ran Jev on our WebMCP benchmark. The result: basically broke the benchmark. Jev + Mer…",
+      "author": "@0xidanlevin",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSf2OSVWQAAYUAE.jpg",
+        "thumbW": 1199,
+        "thumbH": 813,
+        "avatar": "https://pbs.twimg.com/profile_images/2061800276835606528/mIa47fN9_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2065,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A WebMCP benchmark where Jev paired with a fast small language model solved every task at roughly 112× lower model cost than a frontier model driving a browser with code execution. The benchmark belongs to the company selling the tooling, so the multiple is their number, not a neutral one.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents",
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "We just ran Jev on our WebMCP benchmark. The result: basically broke the benchmark. Jev + Mercury 2.5 (a fast, low-cost LLM) using WebMCP solved 100% of the tasks at roughly 112× lower model cost than GPT-6 Astra using computer use with code execution. Compared to Astra using…",
+        "chars": 300,
+        "from": "https://x.com/0xidanlevin/status/2100937437325205568",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102332567588577720",
+      "source": "x",
+      "url": "https://x.com/kraayenJon/status/2102332567588577720",
+      "title": "Jev repos blowing up right now. I made a list of the repos people are using to build with jev…",
+      "author": "@kraayenJon",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSz7YAoWUAAKdIF.jpg",
+        "thumbW": 1200,
+        "thumbH": 1200,
+        "avatar": "https://pbs.twimg.com/profile_images/1996912063403139072/-8qmmOXU_normal.png"
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Another list of the repositories people were building with, posted while the topic was still climbing and carrying almost no engagement. Nothing in it is new to our resources column; what the row shows is that a second-hand list market appeared within a week.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Jev repos blowing up right now. I made a list of the repos people are using to build with jev. 👇 https://t.co/MyBvHX4tAr",
+        "chars": 121,
+        "from": "https://x.com/kraayenJon/status/2102332567588577720",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100891604735099103",
+      "source": "x",
+      "url": "https://x.com/romanbuildsaas/status/2100891604735099103",
+      "title": "JEV is INSANE. We gave it 700 high-intent leads and personalised outreach messages. In 40 sec…",
+      "author": "@romanbuildsaas",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100891566340501504/img/agvkcRfNWmnGbRI5.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2048277063099199488/N-ZjfQfJ_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100891566340501504/vid/avc1/640x360/49MTyZIvwe3t4oSM.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 9,
+          "bitrate": 832000,
+          "bytes": 410814,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 3382,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Seven hundred leads and the outreach message written for each one, scored in forty seconds for nine cents, with mismatches between message and lead flagged. Judging a written sentence against an intent is the errand; the accuracy claim is the author's and there is no holdout in the post.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "JEV is INSANE. We gave it 700 high-intent leads and personalised outreach messages. In 40 seconds, it predicted how each message would perform, assigned a confidence score and detected lead-message mismatches. All for just $0.09. JEV can also score leads, analyse buying…",
+        "chars": 294,
+        "from": "https://x.com/romanbuildsaas/status/2100891604735099103",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100426999546184123",
+      "source": "x",
+      "url": "https://x.com/nutlope/status/2100426999546184123",
+      "title": "I used Jev to classify 1,018 AI research papers. The result: $0.08 total cost and 256ms media…",
+      "author": "@nutlope",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100425141947604992/img/AITyHwcOWq1jw-3Z.jpg",
+        "thumbW": 2924,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1727415759859552256/9rqaxXUR_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100425141947604992/vid/avc1/974x720/PZ68RMrC1_2XTyJS.mp4",
+          "width": 974,
+          "height": 720,
+          "durationS": 10,
+          "bitrate": 2176000,
+          "bytes": 978762,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 1983,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "1,018 research papers sorted into twenty-four topics for eight cents, 256 milliseconds median per paper, with a fast language model writing the summary that Jev then labels. The two-model pipeline is the reusable shape, and the per-item cost is the number worth keeping.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "I used Jev to classify 1,018 AI research papers. The result: $0.08 total cost and 256ms median end-to-end latency per paper. The pipeline was: 1. Summarize each paper with DeepSeek V4 Flash 2. Send the title + summary + 24 possible topics to Jev 3. Use Jev to classify each…",
+        "chars": 297,
+        "from": "https://x.com/nutlope/status/2100426999546184123",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100470174130250127",
+      "source": "x",
+      "url": "https://x.com/leojrr/status/2100470174130250127",
+      "title": "rebuilt the X algorithm with Jev - uses real weights - simulates virality of your post - has …",
+      "author": "@leojrr",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100467692117295104/img/01ZWSKAA75eSiFlc.jpg",
+        "thumbW": 1080,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1853329830500335616/twg9QLo0_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100467692117295104/vid/avc1/720x720/fJl0M0zxlS_IynYP.mp4",
+          "width": 720,
+          "height": 720,
+          "durationS": 43,
+          "bitrate": 1280000,
+          "bytes": 1900243,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 1182,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The X feed rebuilt on the weights X published, with Jev deciding how far a post will travel. “Insanely accurate” is a claim and not a measurement — the part we can check is that the simulation needs a global feed of everybody's posts to be interesting at all.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "rebuilt the X algorithm with Jev - uses real weights - simulates virality of your post - has a global feed (you see everyone) it's insanely accurate https://t.co/a7hHlj6cYK",
+        "chars": 172,
+        "from": "https://x.com/leojrr/status/2100470174130250127",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100793777103466615",
+      "source": "x",
+      "url": "https://x.com/tdinh_me/status/2100793777103466615",
+      "title": "Just trying out Jev, I made a Chrome extension that: - Listens to your YouTube audio (optiona…",
+      "author": "@tdinh_me",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100792834526007296/img/8AFbjqEeZrJUEHid.jpg",
+        "thumbW": 2440,
+        "thumbH": 1538,
+        "avatar": "https://pbs.twimg.com/profile_images/1995658612677771266/TPla_3lg_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100792834526007296/vid/avc1/1142x720/3eQ0XlTrdnvJBDWa.mp4",
+          "width": 1142,
+          "height": 720,
+          "durationS": 21,
+          "bitrate": 2176000,
+          "bytes": 1756566,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 1094,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An open-source extension that listens to a YouTube video, spots the sponsor segment and skips it, for roughly half a cent of model spend per video. Deciding against live audio rather than a transcript is the hard part, and the author published the code and its bring-your-own-key setup.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "Just trying out Jev, I made a Chrome extension that: - Listens to your YouTube audio (optional) - Detects if it gets to a sponsor segment - Skips it ➡️➡️➡️ - All in real-time while costing ~$0.005 per video Prototype project, BYOK, open-source: https://t.co/g4sPXR5kML…",
+        "chars": 292,
+        "from": "https://x.com/tdinh_me/status/2100793777103466615",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100888635943883244",
+      "source": "x",
+      "url": "https://x.com/iannuttall/status/2100888635943883244",
+      "title": "Pro tip: You can use Jev to remove annoying reply guy comments that X seems to always miss. T…",
+      "author": "@iannuttall",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100888448118759424/img/MafhEAfm3BlPst1X.jpg",
+        "thumbW": 1288,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100888448118759424/vid/avc1/858x720/ciMPu2e-kXVYaK2R.mp4",
+          "width": 858,
+          "height": 719,
+          "durationS": 15,
+          "bitrate": 2176000,
+          "bytes": 670991,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 256,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A tip rather than a project: a filter for the reply-guy comments X's own moderation misses, assembled inside a coding agent in about five minutes. The five minutes is setup time, not a measurement of anything else, and the filter itself is a few lines of prompt work.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "Pro tip: You can use Jev to remove annoying reply guy comments that X seems to always miss. Takes 5 minutes in Astra with the docs and an API key. https://t.co/JCNawq6VHC",
+        "chars": 170,
+        "from": "https://x.com/iannuttall/status/2100888635943883244",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100425868053008758",
+      "source": "x",
+      "url": "https://x.com/rileybrown/status/2100425868053008758",
+      "title": "Just created this with Jev by @typesafeai. A live viral post analyzer. As soon as you stop ty…",
+      "author": "@rileybrown",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100424897491070976/img/kKnsb68jNUZZzSBi.jpg",
+        "thumbW": 3480,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1898571530956873728/JALEVTSb_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100424897491070976/vid/avc1/1160x720/Yw7JE8sGkol38a6P.mp4",
+          "width": 1160,
+          "height": 720,
+          "durationS": 45,
+          "bitrate": 2176000,
+          "bytes": 2792148,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 924,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A writing surface that scores a draft's viral potential half a second after the typing stops, and labels what kind of post it is at the same time. The author says making it good would need a lot of scraped X data — the honest half of the post, and the reason it is still a demo.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "Just created this with Jev by @typesafeai. A live viral post analyzer. As soon as you stop typing for .5 seconds it analyzes the viral potential. Going to try and actually make this good, will need to scrape a lot of twitter data... Notice how it also categorizes the tweet…",
+        "chars": 297,
+        "from": "https://x.com/rileybrown/status/2100425868053008758",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2099925687465570372",
+      "source": "x",
+      "url": "https://x.com/CompleteSkeptic/status/2099925687465570372",
+      "title": "We love how this doomo doomonstrates real-time intelligence and what can be doone with code +…",
+      "author": "@CompleteSkeptic",
+      "publishedAt": "2026-09-15",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2099924592534183936/img/hBGk8j8MRxBgPyg9.jpg",
+        "thumbW": 1760,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1650708125685800960/7k6r0UZg_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2099924592534183936/vid/avc1/1172x720/F-W_eN-M0CVLcXRs.mp4",
+          "width": 1172,
+          "height": 719,
+          "durationS": 163,
+          "bitrate": 2176000,
+          "bytes": 14661819,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 5032,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Doom played at roughly ten decisions a second, which the vendor works out to about seven dollars an hour of model calls. The cost of a continuous loop is the number this column keeps needing, and here the company that sells it put the arithmetic in public.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "We love how this doomo doomonstrates real-time intelligence and what can be doone with code + AI! ~10 calls/sec = ~$7/hour https://t.co/nlffKxGzCB",
+        "chars": 146,
+        "from": "https://x.com/CompleteSkeptic/status/2099925687465570372",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100622054945095934",
+      "source": "x",
+      "url": "https://x.com/kylejeong/status/2100622054945095934",
+      "title": "we built blazing fast computer/browser use with Jev + @Stagehanddev. this task cost $0.001 an…",
+      "author": "@kylejeong",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100495119065722880/img/7A1mijkU3Z_Zj7PM.jpg",
+        "thumbW": 3012,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/2059342964816809984/YvJ9VY7X_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100495119065722880/vid/avc1/1004x720/O6l3yAHZYLc14_oh.mp4",
+          "width": 1004,
+          "height": 720,
+          "durationS": 14,
+          "bitrate": 2176000,
+          "bytes": 1253841,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 772,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Browser use priced at a tenth of a cent a task in a remote browser: the accessibility tree goes in as state, candidate actions go in as questions, and the chosen action comes back. It is the same loop every computer-use demo here uses, minus the screenshots.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "we built blazing fast computer/browser use with Jev + @Stagehanddev. this task cost $0.001 and executed at near instant speed (in a remote browser btw) the loop: observe the page, send a11y tree as state + actions as questions, Jev decides the next action, then Stagehand…",
+        "chars": 295,
+        "from": "https://x.com/kylejeong/status/2100622054945095934",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100356151468585346",
+      "source": "x",
+      "url": "https://x.com/jarrodwatts/status/2100356151468585346",
+      "title": "I built a trading bot with Jev! Jev decides if it should \"buy\" or \"sell\", given the price fee…",
+      "author": "@jarrodwatts",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100355999064379392/img/BiAbeDjN57avf2VK.jpg",
+        "thumbW": 1812,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2046035436435648512/OLuqKfK9_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100355999064379392/vid/avc1/1208x720/6QfTHFjtCcMqqBeI.mp4",
+          "width": 1208,
+          "height": 720,
+          "durationS": 10,
+          "bitrate": 2176000,
+          "bytes": 645899,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 5120,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A bot that asks Jev whether to buy or sell from a price feed and places the order on an on-chain order book every three-hundred-millisecond block. Real money on a real venue is the claim, and it is one we have not checked against the chain.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "trading-and-markets"
+      ],
+      "quote": {
+        "text": "I built a trading bot with Jev! Jev decides if it should \"buy\" or \"sell\", given the price feed of an asset pair, and executes real trades. It uses Monad to place the orders on Kuru's on-chain order book in every 300ms block. Demo link → https://t.co/vwl2SUu4jm…",
+        "chars": 284,
+        "from": "https://x.com/jarrodwatts/status/2100356151468585346",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100042788851101842",
+      "source": "x",
+      "url": "https://x.com/ryanvogel/status/2100042788851101842",
+      "title": "this model is actually insane at email classification i tested it on 1500 of my own emails to…",
+      "author": "@ryanvogel",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100042377339588608/img/2O56_xRC0r54ugfr.jpg",
+        "thumbW": 2560,
+        "thumbH": 1440,
+        "avatar": "https://pbs.twimg.com/profile_images/2096969684159770624/pZG4RQhy_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100042377339588608/vid/avc1/640x360/Kzw5zItXF5nhSW_0.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 117,
+          "bitrate": 832000,
+          "bytes": 2787158,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 3552,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "One person running fifteen hundred of his own emails through the model and reporting that it works well. A personal inbox is a fair place to start and also the reason the post carries no accuracy figure: the only labels in it are his own.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "this model is actually insane at email classification i tested it on 1500 of my own emails to see how well it works and I am blown away https://t.co/pzTqhZ1Luh",
+        "chars": 159,
+        "from": "https://x.com/ryanvogel/status/2100042788851101842",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2099947471518474522",
+      "source": "x",
+      "url": "https://x.com/danshipper/status/2099947471518474522",
+      "title": "we almost never test new foundation models but we've been testing this for ~a week @every and…",
+      "author": "@danshipper",
+      "publishedAt": "2026-09-15",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSSDGGRW0AAe6Cz.jpg",
+        "thumbW": 1394,
+        "thumbH": 1676,
+        "avatar": "https://pbs.twimg.com/profile_images/1946219091305340928/_Ef-eDlc_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1818,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An editor at a media company on a week of testing the model, making the point the whole column keeps returning to — that the output is a probability rather than a word, which is what lets a decision sit inside a loop. One operator's judgement, no benchmark.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "we almost never test new foundation models but we've been testing this for ~a week @every and it's pretty wild. the kind of things that will be obviously indispensible in 6-12 months it doesn't produce words as output, it produces probabilities. so it can efficiently act as a…",
+        "chars": 300,
+        "from": "https://x.com/danshipper/status/2099947471518474522",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100694549362553153",
+      "source": "x",
+      "url": "https://x.com/tamarajtran/status/2100694549362553153",
+      "title": "found the perfect use case for @typesafeai Jev: instant compaction in 2026, why is compaction…",
+      "author": "@tamarajtran",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100694537672998912/img/OF8vottg6-45ZgNl.jpg",
+        "thumbW": 1180,
+        "thumbH": 932,
+        "avatar": "https://pbs.twimg.com/profile_images/2093115511974600704/cnlso-WF_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100694537672998912/vid/avc1/910x720/6whFPca4NAkZza-f.mp4",
+          "width": 910,
+          "height": 719,
+          "durationS": 5,
+          "bitrate": 2176000,
+          "bytes": 276601,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 10814,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Compaction turned into a scoring problem: grade every tool call, drop the ones the model judges irrelevant, and skip the summarisation pass entirely. The most-liked post we have catalogued, and the idea that two later posts in this same column argue with.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "found the perfect use case for @typesafeai Jev: instant compaction in 2026, why is compaction still a summarization prompt? Jev can make it instant by scoring every tool call and dropping what’s irrelevant https://t.co/h6NzKzNpCg",
+        "chars": 229,
+        "from": "https://x.com/tamarajtran/status/2100694549362553153",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100614659690713543",
+      "source": "x",
+      "url": "https://x.com/nutlope/status/2100614659690713543",
+      "title": "Jev + Kimi K3 for fraud detection! TLDR: Jev classified 100 emails in 1.42 seconds, then I ro…",
+      "author": "@nutlope",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100608348219478016/img/23vFEVMegwLrMa8g.jpg",
+        "thumbW": 2920,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1727415759859552256/9rqaxXUR_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100608348219478016/vid/avc1/972x720/qQ-9uvoxOTRzqB67.mp4",
+          "width": 972,
+          "height": 719,
+          "durationS": 13,
+          "bitrate": 2176000,
+          "bytes": 1419918,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 870,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Fraud triage in two stages: Jev labels a hundred emails in 1.42 seconds, then the uncertain ones go to a large model — ninety-six of a hundred right for about seven cents. The accuracy is self-reported; the routing pattern is the part worth copying, and it is what the whole site argues for.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Jev + Kimi K3 for fraud detection! TLDR: Jev classified 100 emails in 1.42 seconds, then I routed the uncertain cases to Kimi K3. The full pipeline got 96/100 correct for only ~$0.07. Video is not sped up, check out the live run! Here was my process: I gave Jev 100 emails to…",
+        "chars": 299,
+        "from": "https://x.com/nutlope/status/2100614659690713543",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100679300756435135",
+      "source": "x",
+      "url": "https://x.com/iam_zachi/status/2100679300756435135",
+      "title": "I think I just cooked something 🔥 jev(): a PostgreSQL extension that searches your whole dat…",
+      "author": "@iam_zachi",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100674729216524288/img/ZqaCccSfzuzlrdro.jpg",
+        "thumbW": 1662,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2002332181004247040/uudxkCe__normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100674729216524288/vid/avc1/1108x720/sZ_qv_ZekMhCVCyr.mp4",
+          "width": 1108,
+          "height": 720,
+          "durationS": 45,
+          "bitrate": 2176000,
+          "bytes": 4304797,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 2834,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Postgres extension that judges rows in natural language with no index and no embeddings: one function inside a WHERE clause, a hundred and twenty-nine rows in about a second. The demo is small and the shape is not — a filter that can read what a column means.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "I think I just cooked something 🔥 jev(): a PostgreSQL extension that searches your whole database in natural language. No index, no embeddings, just one function. WHERE jev(people, 'could work from home') or WHERE jev(people, 'name sounds european') 129 rows judged in ~1s…",
+        "chars": 297,
+        "from": "https://x.com/iam_zachi/status/2100679300756435135",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100631847155994852",
+      "source": "x",
+      "url": "https://x.com/milindlabs/status/2100631847155994852",
+      "title": "Okay so Jev can actually do computer use really well Without any screenshots, or LLMs and no …",
+      "author": "@milindlabs",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100629037790183424/img/NR6wQpZiC-xjCEsC.jpg",
+        "thumbW": 3324,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/2041000459142627328/BPq9HFJ-_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100629037790183424/vid/avc1/1108x720/ngtq64W9ntxJ-b0s.mp4",
+          "width": 1108,
+          "height": 720,
+          "durationS": 134,
+          "bitrate": 2176000,
+          "bytes": 14456338,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 2044,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Computer use with no screenshots and no DOM: a local model segments every button on screen, on-device OCR reads the labels, and only that text reaches Jev. Keeping the pixels on the machine is a design decision rather than a trick, and it changes what the model has to be good at.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "Okay so Jev can actually do computer use really well Without any screenshots, or LLMs and no Pixels leave my mac I dont even read the Dom elements A local CoreML model segments every button and UI element on screen. On-device OCR reads the labels. That text is all Jev gets.…",
+        "chars": 298,
+        "from": "https://x.com/milindlabs/status/2100631847155994852",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100570517954838897",
+      "source": "x",
+      "url": "https://x.com/coolish/status/2100570517954838897",
+      "title": "昨天出的 https://t.co/6eiMFaJTrj Jev 模型 适合高频决策，那岂不又是适合打游戏？ 之前用 GPT-6 Astra 代打杀戮尖塔2 能力强但速度慢。 我刚实测用…",
+      "author": "@coolish",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100569632482746369/img/TPuOBiHYCWUWxNOc.jpg",
+        "thumbW": 2160,
+        "thumbH": 3840,
+        "avatar": "https://pbs.twimg.com/profile_images/1548729057994452992/Kcs8r3YR_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100569632482746369/vid/avc1/720x1280/u5C_X6VgImYPVWn0.mp4",
+          "width": 720,
+          "height": 1280,
+          "durationS": 33,
+          "bitrate": 2176000,
+          "bytes": 3983660,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 1175,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Slay the Spire 2 played at seven tenths of a second a turn, visibly faster than the frontier model the author had used for the same game. A Chinese-language post and a feel claim rather than a win rate; the clip is the evidence anyone can check.",
+      "checked": [
+        "post read through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "昨天出的 https://t.co/6eiMFaJTrj Jev 模型 适合高频决策，那岂不又是适合打游戏？ 之前用 GPT-6 Astra 代打杀戮尖塔2 能力强但速度慢。 我刚实测用 Jev 打，行动思考只需 0.7秒， 画面我都没看清它就操作完了。 这超人类游戏速度， 着实又让我震惊瘫坐了😅 语言很难描述这感觉，看视频⬇️ https://t.co/y9Nu78Hnv4",
+        "chars": 190,
+        "from": "https://x.com/coolish/status/2100570517954838897",
         "readOn": "2026-09-24"
       }
     }

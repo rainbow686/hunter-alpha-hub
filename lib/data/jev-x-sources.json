@@ -1,5 +1,5 @@
 {
-  "note": "Seeds read from the reference site's /x-posts list on 2026-09-22, then resolved one by one through the public syndication endpoint. Kept only as leads: an entry reaches a page only after we write our own sentence about it.",
+  "note": "Seeds read from the reference site's /x-posts list on 2026-09-22, then resolved one by one through the public syndication endpoint. Kept only as leads: an entry reaches a page only after we write our own sentence about it. Batch 2 seeds added 2026-09-24 from the madewithjev directory crawl (60 pages read, 1 req/s).",
   "sources": [
     {
       "url": "https://x.com/0xCodez/status/2101294219633529030"
@@ -186,6 +186,66 @@
     },
     {
       "url": "https://x.com/trycua/status/2101014004927729737"
+    },
+    {
+      "url": "https://x.com/sarah_edo/status/2102025642862600634"
+    },
+    {
+      "url": "https://x.com/kraayenJon/status/2101157548346794059"
+    },
+    {
+      "url": "https://x.com/0xidanlevin/status/2100937437325205568"
+    },
+    {
+      "url": "https://x.com/kraayenJon/status/2102332567588577720"
+    },
+    {
+      "url": "https://x.com/romanbuildsaas/status/2100891604735099103"
+    },
+    {
+      "url": "https://x.com/nutlope/status/2100426999546184123"
+    },
+    {
+      "url": "https://x.com/leojrr/status/2100470174130250127"
+    },
+    {
+      "url": "https://x.com/tdinh_me/status/2100793777103466615"
+    },
+    {
+      "url": "https://x.com/iannuttall/status/2100888635943883244"
+    },
+    {
+      "url": "https://x.com/rileybrown/status/2100425868053008758"
+    },
+    {
+      "url": "https://x.com/CompleteSkeptic/status/2099925687465570372"
+    },
+    {
+      "url": "https://x.com/kylejeong/status/2100622054945095934"
+    },
+    {
+      "url": "https://x.com/jarrodwatts/status/2100356151468585346"
+    },
+    {
+      "url": "https://x.com/ryanvogel/status/2100042788851101842"
+    },
+    {
+      "url": "https://x.com/danshipper/status/2099947471518474522"
+    },
+    {
+      "url": "https://x.com/tamarajtran/status/2100694549362553153"
+    },
+    {
+      "url": "https://x.com/nutlope/status/2100614659690713543"
+    },
+    {
+      "url": "https://x.com/iam_zachi/status/2100679300756435135"
+    },
+    {
+      "url": "https://x.com/milindlabs/status/2100631847155994852"
+    },
+    {
+      "url": "https://x.com/coolish/status/2100570517954838897"
     }
   ]
 }

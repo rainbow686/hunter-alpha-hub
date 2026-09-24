@@ -21,7 +21,14 @@
  * ## Two modes
  *
  *   node scripts/ingest-x.mjs              add candidates from the seed list (default)
+ *   node scripts/ingest-x.mjs --read       print the full text of every candidate
  *   node scripts/ingest-x.mjs --refresh    re-read the like count of every published row
+ *
+ * `--read` exists because the queue only keeps a 96-character title (the card truncates
+ * anyway) and a note cannot be written from a truncation. Batch 2 was written off a
+ * throwaway script that refetched all twenty posts; a step that lives in `/tmp` is a step
+ * the next person skips and then guesses at, which is the failure this column exists to
+ * avoid. It is read-only: it prints, it never writes.
  *
  * `--refresh` exists because the like counts are a **snapshot**, not a feed: the page says
  * "Likes read <date>" and orders the wall by that number, and without a way to bump it the date
@@ -44,10 +51,44 @@ const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact
 const LIMIT = Number(process.env.X_LIMIT ?? 20); // politeness: one pass, bounded
 const asOf = new Date().toISOString().slice(0, 10);
 const REFRESH = process.argv.includes("--refresh");
+const READ = process.argv.includes("--read");
 const DRY = process.argv.includes("--dry");
 
 const { sources } = JSON.parse(readFileSync(SEEDS, "utf8"));
 const queue = existsSync(QUEUE) ? JSON.parse(readFileSync(QUEUE, "utf8")) : { meta: {}, entries: [] };
+
+/*
+ * `--read`: the full text of every row still waiting for a note.
+ *
+ * One request per candidate, 900 ms apart, no writes. The output is meant to be read by a
+ * person (or by an agent writing the batch), which is why it prints the whole post rather
+ * than a field dump.
+ */
+if (READ) {
+  const waiting = queue.entries.filter((e) => e.status === "candidate").slice(0, LIMIT);
+  let failed = 0;
+  for (const e of waiting) {
+    const id = e.id.replace("x:", "");
+    let t = null;
+    for (let attempt = 0; attempt < 3 && t === null; attempt++) {
+      try {
+        const res = await fetch(`https://cdn.syndication.twimg.com/tweet-result?id=${id}&token=x`, { headers: { "user-agent": UA } });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        t = await res.json();
+      } catch (err) {
+        if (attempt === 2) { failed += 1; console.error(`  ${id}: ${err.message}`); }
+        else await new Promise((r) => setTimeout(r, 1200));
+      }
+    }
+    if (t === null) continue;
+    const text = (t.text ?? "").replace(/\s+/g, " ").trim();
+    console.log(`\n=== ${e.id}  ${e.author}  ${e.publishedAt}  ${e.metrics?.likes ?? "?"} likes  ${e.media?.kind ?? "none"}  ${e.url}`);
+    console.log(text || "(no text)");
+    await new Promise((r) => setTimeout(r, 900));
+  }
+  console.log(`\nX read: ${waiting.length - failed}/${waiting.length} candidates printed, ${failed} failed — nothing written`);
+  process.exit(failed > 0 ? 1 : 0);
+}
 
 /*
  * `--refresh`: the like counts on the published rows, re-read.
