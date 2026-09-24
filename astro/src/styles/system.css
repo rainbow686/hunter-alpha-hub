@@ -275,7 +275,9 @@ table.data tbody tr:nth-child(even) { background: var(--row-alt); }
  * would be invisible at 1.3:1, which is exactly the "looks fine, cannot be
  * seen" failure the contrast guard exists to prevent. */
 input[type="email"],
-input[type="text"] {
+input[type="text"],
+select,
+textarea {
   width: 100%;
   padding: 11px var(--space-4);
   font: inherit;
@@ -285,8 +287,32 @@ input[type="text"] {
   border: 1px solid var(--field-border);
   border-radius: var(--radius-sm);
 }
+/*
+ * select and textarea joined the rule when /submit landed
+ * (2026-09-23). The site had one control before — the mailing-list email field —
+ * and an intake form needs a select and two textareas; giving them a different
+ * boundary would have made the same form look like two forms. Same 1px
+ * `--field-border` (3:1 against the page and against --field-bg, WCAG 1.4.11),
+ * same focus ring.
+ */
+textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+select { appearance: none; padding-right: var(--space-8); background-image: none; }
+
+/* Field stack for the intake form: a label, then its control, then an optional
+   helper line. Labels are real <label for>, so the whole thing works by tab and
+   by screen reader without extra ARIA. */
+.field { margin: 0 0 var(--space-5); }
+.field label { display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); }
+.field .req, .field .opt { font-weight: 400; font-size: var(--text-xs); color: var(--text-faint); }
+.field-pair { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.field-pair .field { flex: 1 1 240px; }
+/* The honeypot: out of the visual flow and out of the accessibility tree, but
+   still submitted. Display:none would stop some bots filling it; using the
+   off-screen trick keeps the ones worth catching. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 input::placeholder { color: var(--text-faint); }
 input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 .form-row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
 .form-row input { flex: 1 1 240px; }
