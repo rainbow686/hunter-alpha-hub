@@ -467,16 +467,11 @@ const heroStats = [
       </div>
     ))}
   </div>
-
-
-  <h2>FAQ</h2>
-  <Faq items={jevFaqs} />
-
   {/*
-    The wall. Below it the page continues as it did — the facts, the three question
-    types, our own run, the FAQ — because a reader who wants the reference should
-    not have to scroll past 48 cards to find it, and a reader who wanted to know
-    whether anything is happening here has already been answered.
+    The wall, and it comes directly after the short version on the reader's instruction (2026-09-24)
+    — "把 FAQ 段移到 What people are building 段下面，让卡片墙上移一些". It was below the FAQ,
+    which put eight questions between the numbers and the thing the page is for. The FAQ now follows
+    the wall, where it reads as the closing of the page rather than a detour in the middle of it.
   */}
   <section class="topic-wall">
     <h2>What people are building</h2>
@@ -511,6 +506,14 @@ const heroStats = [
       <a href="/typesafe-jev/use-cases">Use cases</a>.
     </p>
   </section>
+
+  {/*
+    The FAQ closes the page. It sat between the numbers and the wall until 2026-09-24, when the
+    reader asked for the wall to move up; nothing was removed, and the FAQPage JSON-LD in the head
+    is unaffected by where the questions are rendered.
+  */}
+  <h2>FAQ</h2>
+  <Faq items={jevFaqs} />
 
 
   {/* The player for any clip the wall above rendered (see TopicWall.astro). */}
@@ -618,6 +621,14 @@ const heroStats = [
   }
   .topic-chips a:hover { color: var(--text); border-color: var(--text-faint); }
   .chip-count { color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  /*
+   * The short version is eight tiles, and the site's default `repeat(auto-fit, minmax(150px, 1fr))`
+   * laid them out as six plus two at this width — the last row left four cells of the shared
+   * background showing, which reads as a loading state rather than a table. Four across is two
+   * tidy rows of four; two across below 760 keeps the labels from wrapping.
+   */
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .topic-wall { margin-top: var(--space-10); }
   .wall-note { margin-top: var(--space-5); font-size: var(--text-sm); color: var(--text-muted); max-width: var(--measure); }
   .topic-wall h2 { margin-bottom: var(--space-5); }
