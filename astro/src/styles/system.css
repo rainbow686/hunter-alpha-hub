@@ -989,13 +989,17 @@ header.site nav.topic-tabs.has-more { border-top-right-radius: 0; border-bottom-
   top: calc(100% + 10px);
   right: 0;
   z-index: 40;
-  width: 340px;
+  width: 420px;
   padding: var(--space-3);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--surface);
   box-shadow: 0 12px 34px rgb(0 0 0 / 13%);
   text-align: left;
+  /* Never taller than the space below the header: the first version was 573px and hung off the
+     bottom of a 700px viewport, so its last row was unreachable. */
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
 .tt-panel-head { margin: 0 0 var(--space-3); padding: 0 var(--space-2); }
 .tt-panel-title {
@@ -1007,13 +1011,29 @@ header.site nav.topic-tabs.has-more { border-top-right-radius: 0; border-bottom-
   color: var(--text);
 }
 .tt-panel-note { display: block; margin-top: 4px; font-size: var(--text-xs); color: var(--text-faint); }
-.tt-panel ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
-.tt-panel li { border-bottom: 1px solid var(--border); }
-.tt-panel li a { display: block; padding: var(--space-2) var(--space-2); border-radius: var(--radius-sm); text-decoration: none; }
+/* Two columns, three rows: six one-line entries, which is 8 menu items' worth of height in half
+   the panel. Three columns would fit too and reads as a grid rather than a list of pages. */
+.tt-panel ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-2);
+}
+.tt-panel li a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
 .tt-panel li a:hover { background: var(--bg-sunken); }
-.tt-more-row { display: flex; align-items: baseline; gap: var(--space-3); }
-.tt-more-label { flex: 1; color: var(--text); font-size: var(--text-sm); font-weight: 600; }
-.tt-more-note { display: block; margin-top: 2px; font-size: var(--text-xs); color: var(--text-muted); line-height: 1.35; }
+.tt-more-label { color: var(--text); font-size: var(--text-sm); font-weight: 600; }
 .tt-panel-more {
   display: block;
   margin-top: var(--space-3);
@@ -1036,4 +1056,5 @@ header.site nav.topic-tabs.has-more { border-top-right-radius: 0; border-bottom-
    */
   .tt-more { position: static; }
   .tt-panel { left: 0; right: 0; width: auto; }
+  .tt-panel ul { grid-template-columns: minmax(0, 1fr); }
 }

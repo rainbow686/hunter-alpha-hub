@@ -66,7 +66,7 @@ const faqs = [
 const fmt = (n: number) => n.toLocaleString("en-US");
 ---
 
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer>
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer wide>
   <JsonLd slot="head" data={articleSchema({ title: "Jev use cases", description, publishedAt: "2026-09-23", updatedAt: "2026-09-23", image: `${SITE}/og-image.png`, url: canonical })} />
   <Breadcrumbs schema={true} items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Use cases", url: `${SITE}/typesafe-jev/use-cases` },
     { name: "The nine jobs", url: canonical }]} />
@@ -193,6 +193,20 @@ const fmt = (n: number) => n.toLocaleString("en-US");
 </System>
 
 <style>
+  /*
+   * Bigger type on a wide page, and that is not decoration — it is the only way this page can be
+   * both 1048 wide and readable. Measured 2026-09-24 before this: the 16px body ran **131
+   * characters a line** at the full frame. ADR-0019's own sample has exactly one site that puts
+   * prose at full width (The Verge, 1100px), and it does it at 22px; this page settles at 19px,
+   * the same size as its lede, which brings the line to ~110 characters — still long, and the
+   * honest trade for the three-column cards the reader asked for on a page whose job is to show
+   * them. The alternative was prose capped at 760 inside a 1048 page, which is the ragged right
+   * edge this site already rejected once.
+   */
+  section.job > p,
+  section.col > p:not(.provenance):not(.card-note) { font-size: 19px; line-height: 1.6; }
+  section.job .card-note { font-size: var(--text-sm); }
+
   /* "In short": the reference's bordered takeaway block, in our paper. It is a summary
      with numbers, so it gets the sunken fill the site uses for data, not a quote style. */
   .short {

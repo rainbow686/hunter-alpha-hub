@@ -73,15 +73,17 @@ const current = topic ? tabForPath(topic, path) : undefined;
               <span class="tt-panel-title">{topic.more.heading}</span>
               {topic.more.note && <span class="tt-panel-note">{topic.more.note}</span>}
             </p>
+            {/*
+              Label and count only. The blurbs were here for one build and made the panel 573px
+              tall — past the bottom of a short laptop viewport, which is the reader's "最后一个会被
+              下面遮住". They are still on the hover title, and on the section page itself.
+            */}
             <ul>
               {topic.more.items.map((item) => (
                 <li>
-                  <a href={item.href}>
-                    <span class="tt-more-row">
-                      <span class="tt-more-label">{item.label}</span>
-                      {typeof item.count === "number" && <span class="tt-count">{item.count}</span>}
-                    </span>
-                    {item.note && <span class="tt-more-note">{item.note}</span>}
+                  <a href={item.href} title={item.note}>
+                    <span class="tt-more-label">{item.label}</span>
+                    {typeof item.count === "number" && <span class="tt-count">{item.count}</span>}
                   </a>
                 </li>
               ))}

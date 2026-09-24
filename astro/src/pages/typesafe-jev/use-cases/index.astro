@@ -1,55 +1,54 @@
 ---
 /**
- * /typesafe-jev/use-cases — the use-case **section front**.
+ * /typesafe-jev/use-cases — every row that carries a use case, on one page, filterable.
  *
- * This page was the explainer ("the nine jobs people hand to a decision model") until 2026-09-24,
- * and the reader asked the question that made the split obvious: the six facet pages under it are
- * wide three-column lists, and the page they hang off was a narrow column of prose with two-column
- * cards. Which of those is the section?
+ * This page has now been three things in one day, and the reader's last note is the one that
+ * settled it: "把 use case 这一页不要按类别分了，就多余了。直接把所有的 use case 都展示在这一页上面，
+ * 然后横向加一个可以在本页过滤的分类功能."
  *
- * Both, and they are different jobs:
+ * They were right about the duplication. The version before this one was an index of six cards,
+ * one per facet page — but a card that only says "Browser agents · 18" is not content, it is a
+ * second menu for pages the capsule panel already links, and the six facet pages underneath are
+ * themselves filters of this one list. So the index is gone and this is **the list**:
  *
- *   - **this page** = the index: six cards, one per facet page, so the section has a front door that
- *     looks like what is behind it — the same shape as `/builds`, `/x-posts` and the facet pages;
- *   - **`/typesafe-jev/use-cases/jobs`** = the explainer: nine jobs in prose, with examples, at the
- *     760 column it was written for. It did not change except for its URL and its breadcrumb.
- *
- * Keeping both on one URL would have meant either prose at 1048 (~110 characters a line, which no
- * site we measured does) or a page whose cards and text disagree about how wide the page is.
+ *   - every tagged row we hold, in the three-column wall the rest of the topic uses;
+ *   - one chip row that filters it in place, with no URL of its own — the six facet pages remain
+ *     the addressable versions, each with its own h1 and its own search intent ("jev for trading");
+ *   - the prose ("the nine jobs") lives at /typesafe-jev/use-cases/jobs, which is the explainer and
+ *     not a second copy of this page.
  */
 import System from "../../../layouts/System.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import JsonLd from "../../../components/JsonLd.astro";
+import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
+import XClipWall from "../../../components/XClipWall.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
-import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, itemsByFacet, thumbRatio } from "@repo/lib/jev-facets";
+import { JEV_FACETS, JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, itemsByFacet, thumbRatio } from "@repo/lib/jev-facets";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
 
-const title = "Jev use cases: the six kinds of decision people hand to it (2026)";
-const description = `Every Jev use case we have catalogued, in six pages — browser agents, triage, coding, research, media, trading — each one a cross-cut of the projects, posts and recordings we track. ${JEV_TAGGED_TOTAL} of ${JEV_ITEMS_TOTAL} records carry one.`;
+const title = "Jev use cases: every project, post and video by what it decides (2026)";
+const description = `All ${JEV_TAGGED_TOTAL} Jev use-case records in one list — browser agents, triage, coding, research, media, trading — filterable here, with a page per use case behind it.`;
 const canonical = `${SITE}/typesafe-jev/use-cases`;
 
 /**
- * Three examples per card, taken from the same rows the facet page renders — so a card here and
- * the list behind it cannot disagree. The counts are the facet counts, not this page's.
+ * The union of the six facets, deduplicated: a row that carries two use cases appears once here
+ * (and in two facet pages, which is what a facet is). Same rows, same notes, same numbers as the
+ * facet pages, because those pages read them from this same file.
  */
-const facets = JEV_FACET_COUNTS.map((facet) => {
-  const items = itemsByFacet(facet.slug);
-  /*
-   * What the card shows instead of sample titles. First draft listed three titles, and that read
-   * badly for the same reason the X column's cards were once criticised as machine-made: a tweet's
-   * first 90 characters is prose, not a title, so two thirds of the cards began mid-sentence and in
-   * lower case. The breakdown says something a reader can act on — "this page is nine repositories
-   * and six posts" — and it is exactly the point of a cross-cut.
-   */
-  const bySource = [...new Set(items.map((item) => item.source))]
-    .map((source) => ({ source, count: items.filter((item) => item.source === source).length }))
-    .sort((a, b) => b.count - a.count);
-  return { ...facet, bySource };
-});
+const items = [
+  ...new Map(JEV_FACET_COUNTS.flatMap((facet) => itemsByFacet(facet.slug)).map((item) => [item.id, item])).values(),
+].sort((a, b) => a.title.localeCompare(b.title));
+
+const chips = JEV_FACET_COUNTS.map((facet) => ({
+  group: "tag",
+  value: facet.slug,
+  label: facet.label,
+  count: facet.count,
+}));
 ---
 
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article" noReferrer>
   <JsonLd
     slot="head"
     data={articleSchema({
@@ -70,71 +69,57 @@ const facets = JEV_FACET_COUNTS.map((facet) => {
     <p class="card-eyebrow">Use cases · Jev</p>
     <h1>Jev use cases</h1>
     <p class="lede">
-      Six kinds of decision people hand to the model, each one its own page. A page here is a
-      cross-cut of everything we track — the repository, the post, the recording — rather than one
-      column: the question "what would I use this for" does not respect the question "where did I
-      find it".
+      Every row we have catalogued that carries a kind of decision — {items.length} of the
+      {JEV_ITEMS_TOTAL} records in the topic, from every source we track. Filter it here, or open the
+      use case you care about, which has its own page and its own lists.
     </p>
     <p class="provenance">
-      <span>{facets.length} use cases</span>
-      <span>{JEV_TAGGED_TOTAL} of {JEV_ITEMS_TOTAL} records tagged</span>
+      <span>{JEV_FACET_COUNTS.length} use cases</span>
+      <span>{JEV_TAGGED_TOTAL} records tagged out of {JEV_ITEMS_TOTAL}</span>
       <span><a href="/typesafe-jev/use-cases/jobs">The nine jobs, explained in prose</a></span>
     </p>
   </header>
 
   {/*
-    Three columns of cards, like every other list in the topic. The card carries the blurb and three
-    real titles from behind it — a card with a number and nothing else is a menu entry, and the
-    reader has already said what they think of those.
+    A filter, not a menu: the six chips narrow this page in place and mint no URL. The pages behind
+    them are the ones a search engine should find, and each is linked from every card that carries
+    that use case.
   */}
+  <CardFilter chips={chips} noun="records" total={items.length} />
+
   <ul class="card-grid">
-    {facets.map((facet) => (
-      <li class="card">
+    {items.map((item) => (
+      <li class="card" data-tags={item.tags.join(" ")}>
+        {item.thumb && item.video ? (
+          <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+            <span class="card-src">{item.source}</span>
+            <button class="xvideo-facade" type="button" data-xvideo={item.video.url} data-poster={item.thumb} aria-label={`Play the clip in this post: ${item.title}`}>
+              <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              <span class="xvideo-play" aria-hidden="true">▶</span>
+            </button>
+          </div>
+        ) : item.thumb ? (
+          <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+            <span class="card-src">{item.source}</span>
+            <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+          </div>
+        ) : null}
         <div class="card-body">
-          <p class="card-eyebrow">{facet.count} records</p>
-          <h2 class="card-title"><a href={`/typesafe-jev/use-cases/${facet.slug}`}>{facet.label}</a></h2>
-          <p class="card-note">{facet.blurb}</p>
-          <ul class="facet-sources">
-            {facet.bySource.map((row) => (
-              <li><span>{row.source}</span><span class="n">{row.count}</span></li>
-            ))}
-          </ul>
+          <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
+          <h2 class="card-title"><a href={item.pageSlug ? `/typesafe-jev/x-posts/${item.pageSlug}` : item.url} rel="noopener">{item.title}</a></h2>
+          <p class="card-note card-our">{item.note}</p>
+          <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
           <p class="card-meta">
-            <a href={`/typesafe-jev/use-cases/${facet.slug}`}>All {facet.count} →</a>
+            {item.tags.map((tag) => (
+              <a href={`/typesafe-jev/use-cases/${tag}`}>{JEV_FACETS.find((f) => f.slug === tag)?.label ?? tag}</a>
+            ))}
           </p>
         </div>
       </li>
     ))}
   </ul>
 
-  <section class="col">
-    <h2>Which of these is my job?</h2>
-    <p>
-      The test is the same for all six: if the answer is one of a fixed set, and you can recover from
-      a wrong one, this is cheaper and faster than asking a chat model. If the answer has to be
-      prose, it is the wrong tool.
-      <a href="/typesafe-jev/use-cases/jobs">The nine jobs, explained</a> takes that apart case by
-      case, and <a href="/typesafe-jev/reference">the reference page</a> has the specs and the price.
-    </p>
-  </section>
-
-  <TopicIndex entries={jevTopicEntries} current={canonical} />
+  <TopicIndex entries={jevTopicEntries} current={canonical.replace(SITE, "")} />
 </System>
 
-<style>
-  /* Where the rows behind this page come from — the thing that makes it a cross-cut rather than a
-     column. Not links: the card has exactly one destination, and a card with seven links in it asks
-     the reader to choose before they know what the page is. */
-  .facet-sources { margin: var(--space-3) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
-  .facet-sources li {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding: var(--space-2) 0;
-    border-bottom: 1px solid var(--border);
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-  }
-  .facet-sources li:last-child { border-bottom: 0; }
-  .facet-sources .n { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--text-faint); }
-</style>
+<XClipWall />
