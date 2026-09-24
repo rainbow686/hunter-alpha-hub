@@ -26,6 +26,7 @@ import SubscribeForm from "../../components/SubscribeForm.astro";
 import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
 import CardFilter from "../../components/CardFilter.astro";
 import XClipWall from "../../components/XClipWall.astro";
+import YouTubeFacade from "../../components/YouTubeFacade.astro";
 import { layaBuilds, layaBuildsWithPages } from "@repo/lib/laya-builds";
 import { layaVideos } from "@repo/lib/laya-videos";
 import { layaThreads } from "@repo/lib/laya-threads";
@@ -277,13 +278,15 @@ const heroVideo = layaVideos[0] ?? null;
       */}
       {heroVideo && (
         <figure class="hero-card">
-          <a class="hero-card-link" href={heroVideo.url} rel="noopener noreferrer" aria-label={`Watch on YouTube: ${heroVideo.title}`}>
-            <div class="card-media" style="--ratio: 16 / 9">
-              <span class="card-src">Video · YouTube</span>
-              <img src={heroVideo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-              <span class="xvideo-play" aria-hidden="true">▶</span>
-            </div>
-          </a>
+          {/* Plays here rather than sending the reader to YouTube — see YouTubeFacade.astro. */}
+          <YouTubeFacade
+            videoId={heroVideo.videoId}
+            thumb={heroVideo.thumb}
+            title={heroVideo.title}
+            thumbW={heroVideo.thumbW}
+            thumbH={heroVideo.thumbH}
+            source="Video · YouTube"
+          />
           <figcaption class="hero-cap">
             <span class="hero-cap-title">{heroVideo.title}</span>
             <span class="hero-cap-meta">
@@ -391,7 +394,6 @@ const heroVideo = layaVideos[0] ?? null;
   .hero-cap-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-lg); }
   .hero-cap-meta { font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
   .hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
-  .hero-card-link { display: block; text-decoration: none; color: inherit; }
   .stat-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

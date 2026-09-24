@@ -13,6 +13,7 @@ import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import CardFilter from "../../../components/CardFilter.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
+import YouTubeFacade from "../../../components/YouTubeFacade.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
 import { LAYA_VIDEOS_READ_ON, layaVideoCounts, layaVideos } from "@repo/lib/laya-videos";
 import { LAYA_KIND_COUNTS } from "@repo/lib/laya-kinds";
@@ -60,14 +61,15 @@ const chips = LAYA_KIND_COUNTS.map((kind) => ({
     <ul class="card-grid">
       {layaVideos.map((video) => (
         <li class="card" data-sources="youtube" data-tags={video.tags.join(" ")}>
-          <div class="card-media" style="--ratio: 16 / 9">
-            <span class="card-src">YouTube</span>
-            <button class="facade" data-video={video.videoId} aria-label={`Play: ${video.title}`} type="button">
-              <img src={video.thumb} width={video.thumbW} height={video.thumbH} alt="" loading="lazy" decoding="async" />
-              <span class="play" aria-hidden="true">▶</span>
-              <span class="length" aria-hidden="true">{dur(video.durationS)}</span>
-            </button>
-          </div>
+          {/* The poster and the player in one component — see YouTubeFacade.astro. */}
+          <YouTubeFacade
+            videoId={video.videoId}
+            thumb={video.thumb}
+            title={video.title}
+            thumbW={video.thumbW}
+            thumbH={video.thumbH}
+            length={dur(video.durationS)}
+          />
           <h2 class="card-title"><a href={video.url} rel="noopener">{video.title}</a></h2>
           <p class="card-meta">
             <span>{video.channel}</span>
@@ -97,38 +99,5 @@ const chips = LAYA_KIND_COUNTS.map((kind) => ({
     <TopicIndex entries={layaTopicEntries} current="/laya/videos" />
   </article>
 
-  <script>
-    // Click-to-load (ADR-0022): the player document is about 1MB of third-party JavaScript and is
-    // created only when a reader asks for it, which also means no request to Google before then.
-    document.querySelectorAll<HTMLButtonElement>(".facade").forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.dataset.video;
-        if (!id) return;
-        const frame = document.createElement("iframe");
-        frame.className = "player";
-        frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
-        frame.title = button.getAttribute("aria-label") ?? "YouTube video";
-        frame.loading = "lazy";
-        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-        frame.allowFullscreen = true;
-        button.replaceWith(frame);
-      }, { once: true });
-    });
-  </script>
 </System>
 
-<style>
-  .facade { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
-  .facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .facade .play {
-    position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
-    width: 54px; height: 54px; border-radius: 50%; background: rgb(0 0 0 / 62%); color: #fff;
-    display: grid; place-items: center; font-size: 18px; padding-left: 3px;
-  }
-  .facade .length {
-    position: absolute; right: var(--space-2); bottom: var(--space-2);
-    background: rgb(0 0 0 / 72%); color: #fff; font-size: var(--text-xs);
-    padding: 2px var(--space-2); border-radius: var(--radius-sm); font-variant-numeric: tabular-nums;
-  }
-  .player { width: 100%; height: 100%; border: 0; display: block; }
-</style>

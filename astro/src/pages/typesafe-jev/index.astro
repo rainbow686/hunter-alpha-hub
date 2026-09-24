@@ -24,6 +24,7 @@ import SubscribeForm from "../../components/SubscribeForm.astro";
 import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
 import CardFilter from "../../components/CardFilter.astro";
 import XClipWall from "../../components/XClipWall.astro";
+import YouTubeFacade from "../../components/YouTubeFacade.astro";
 import { jevLaunchPost, jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
 import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, jevTagsById } from "@repo/lib/jev-facets";
 import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
@@ -438,13 +439,20 @@ const heroStats = [
       */}
       {heroVideo && (
         <figure class="hero-card">
-          <a class="hero-card-link" href={heroVideo.url} rel="noopener noreferrer" aria-label={`Watch on YouTube: ${heroVideo.title}`}>
-            <div class="card-media" style="--ratio: 16 / 9">
-              <span class="card-src">Video · YouTube</span>
-              <img src={heroVideo.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-              <span class="xvideo-play" aria-hidden="true">▶</span>
-            </div>
-          </a>
+          {/*
+            It plays here (2026-09-24, the reader's question). It used to be a link out — the same
+            video that plays in the videos column, behaving differently two pages apart, for no
+            reason other than where it happened to be written. `YouTubeFacade` is that column's
+            player, so the hero is now the same component with "Video · YouTube" as its label.
+          */}
+          <YouTubeFacade
+            videoId={heroVideo.videoId}
+            thumb={heroVideo.thumb}
+            title={heroVideo.title}
+            thumbW={heroVideo.thumbW}
+            thumbH={heroVideo.thumbH}
+            source="Video · YouTube"
+          />
           <figcaption class="hero-cap">
             <span class="hero-cap-title">{heroVideo.title}</span>
             <span class="hero-cap-meta">
@@ -590,7 +598,6 @@ const heroStats = [
   .hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
   /* Both hero cards are the same figure: poster, then caption. The widths match because the
      column gives them one column, and the heights match because the posters share a 16:9 frame. */
-  .hero-card-link { display: block; text-decoration: none; color: inherit; }
   .stat-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
