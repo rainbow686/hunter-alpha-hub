@@ -29,7 +29,7 @@ import { jevVideoCounts } from "./jev-videos";
 import { jevXPostCounts } from "./jev-x-posts";
 import { jevThreadCounts } from "./jev-threads";
 import { jevResourceCounts } from "./jev-resources";
-import { JEV_FACET_COUNTS } from "./jev-facets";
+import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL } from "./jev-facets";
 
 
 export interface TopicTab {
@@ -58,7 +58,17 @@ export interface TopicNav {
    * itself (the front page's chips), because a filter belongs where the cards are; a page belongs
    * where a URL is.
    */
-  more?: { label: string; items: TopicTab[] };
+  more?: {
+    /** The trigger in the bar: "By use case". */
+    label: string;
+    /** The panel's own title. */
+    heading: string;
+    /** One line under it, in the panel. */
+    note?: string;
+    items: TopicTab[];
+    /** The footer link — the section's index, when it has one. */
+    more?: { href: string; label: string };
+  };
 }
 
 export const topicNavs: TopicNav[] = [
@@ -74,21 +84,27 @@ export const topicNavs: TopicNav[] = [
       { href: "/typesafe-jev/threads", label: "Threads", count: jevThreadCounts.published },
       { href: "/typesafe-jev/resources", label: "Resources", count: jevResourceCounts.total },
       /*
-       * No count on this one, on purpose. The page it opens is the article ("the nine jobs
-       * people hand to a decision model"); the number of *facet pages* behind it is six, and
-       * a "6" next to a page that says nine is the kind of disagreement this site is not
-       * allowed to print. A tab with no number promises nothing.
+       * No "Use cases" tab any more (2026-09-24, second pass). The panel beside the capsule is that
+       * section's front door now, and having both put the same two words in the bar twice — a tab
+       * that opened an article called *use cases*, and a panel labelled *use cases* that opened the
+       * six facet pages. One name, one place.
        */
-      { href: "/typesafe-jev/use-cases", label: "Use cases" },
     ],
     more: {
-      label: "Use cases",
+      label: "By use case",
+      heading: "Use cases",
+      /*
+       * The line under the heading, and the reason this is a panel and not a menu: the six pages
+       * below are the section, each with its own URL and its own search intent ("jev for trading").
+       */
+      note: `Six pages, one per kind of decision — ${JEV_TAGGED_TOTAL} of the ${JEV_ITEMS_TOTAL} records we hold carry one of them.`,
       items: JEV_FACET_COUNTS.map((facet) => ({
         href: `/typesafe-jev/use-cases/${facet.slug}`,
         label: facet.label,
         count: facet.count,
         note: facet.blurb,
       })),
+      more: { href: "/typesafe-jev/use-cases", label: "All use cases" },
     },
   },
   {

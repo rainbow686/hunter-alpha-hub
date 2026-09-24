@@ -1,222 +1,140 @@
 ---
 /**
- * /typesafe-jev/use-cases — the article, not an index of facets.
+ * /typesafe-jev/use-cases — the use-case **section front**.
  *
- * Shape copied from the reference site's `/jev-use-cases` (read 2026-09-23): an "In short"
- * box of real numbers, a one-row-per-job table, then one section per job with real cards in
- * the prose, then "by the work you do" pointing at the facet pages. Its version ends by
- * telling the reader how to work out whether their job is one of these; so does ours.
+ * This page was the explainer ("the nine jobs people hand to a decision model") until 2026-09-24,
+ * and the reader asked the question that made the split obvious: the six facet pages under it are
+ * wide three-column lists, and the page they hang off was a narrow column of prose with two-column
+ * cards. Which of those is the section?
  *
- * Why an article instead of another card wall: this is the page that answers "what would I
- * even use this for", which is a different question from "show me everything tagged
- * trading". The facet pages answer the second one, and they are linked from here.
+ * Both, and they are different jobs:
  *
- * The examples are queue ids resolved through `jevItemById`, so a card that appears here is
- * the same row that appears in its column — same note, same numbers, same date.
+ *   - **this page** = the index: six cards, one per facet page, so the section has a front door that
+ *     looks like what is behind it — the same shape as `/builds`, `/x-posts` and the facet pages;
+ *   - **`/typesafe-jev/use-cases/jobs`** = the explainer: nine jobs in prose, with examples, at the
+ *     760 column it was written for. It did not change except for its URL and its breadcrumb.
+ *
+ * Keeping both on one URL would have meant either prose at 1048 (~110 characters a line, which no
+ * site we measured does) or a page whose cards and text disagree about how wide the page is.
  */
 import System from "../../../layouts/System.astro";
-import JsonLd from "../../../components/JsonLd.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
 import TopicIndex from "../../../components/TopicIndex.astro";
-import XClipWall from "../../../components/XClipWall.astro";
-import Faq from "../../../components/Faq.astro";
 import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
-import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, jevItemById, thumbRatio } from "@repo/lib/jev-facets";
-import { jevBuildCounts } from "@repo/lib/jev-builds";
-import { jevJobs } from "@repo/lib/jev-jobs";
+import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, itemsByFacet, thumbRatio } from "@repo/lib/jev-facets";
 import { jevTopicEntries } from "@repo/lib/jev-topic";
-import { oursLatency, oursSchemaProbe, oursUsage } from "@repo/lib/jev-our-measurements";
 
-const title = "Jev use cases: the nine jobs people hand to a decision model (2026)";
-const description = `${JEV_ITEMS_TOTAL} catalogued items, grouped by the decision they make — sorting, triage, routing, context, judging, verification — with the projects and posts that show each one.`;
+const title = "Jev use cases: the six kinds of decision people hand to it (2026)";
+const description = `Every Jev use case we have catalogued, in six pages — browser agents, triage, coding, research, media, trading — each one a cross-cut of the projects, posts and recordings we track. ${JEV_TAGGED_TOTAL} of ${JEV_ITEMS_TOTAL} records carry one.`;
 const canonical = `${SITE}/typesafe-jev/use-cases`;
 
-/** Resolve the ids once: a missing id is a build failure here, not a dead link in prose. */
-const jobs = jevJobs.map((job) => ({
-  ...job,
-  items: job.examples.map((id) => {
-    const item = jevItemById.get(id);
-    if (!item) throw new Error(`jev-jobs: ${job.slug} cites "${id}", which is not a published item`);
-    return item;
-  }),
-}));
-
-/** One real number per job for the table — pulled from the row, never typed. */
-const headline = (id: string) => {
-  const item = jevItemById.get(id);
-  if (!item) throw new Error(`jev-jobs headline: ${id} is not a published item`);
-  return `${item.title} — ${item.meta.join(" · ")}`;
-};
-
-const faqs = [
-  {
-    q: "Which of these should I start with?",
-    a: `The one where you are already paying a language model to answer the same small question over and over. That is the whole test: if the answer is one of a fixed set, and you can recover from a wrong one, Jev is cheaper and faster than a chat model. If the answer needs to be prose, it is the wrong tool.`,
-  },
-  {
-    q: "How are these grouped?",
-    a: `By the decision, not by the industry. A trading bot and a browser agent are both picking one option from a candidate set under a clock; a moderation queue and an invoice pile are both sorting at a volume nobody can read. The ${JEV_FACET_COUNTS.length} facet pages group the same rows the other way, by the work you do.`,
-  },
-  {
-    q: "What is not in this list?",
-    a: `Anything we could not point at. Each job below names the rows that show it, and every one of those rows carries a note saying what we read and what we did not check. Two of the nine have a single example each — that is the honest count, not a rounding error.`,
-  },
-];
-
-const fmt = (n: number) => n.toLocaleString("en-US");
+/**
+ * Three examples per card, taken from the same rows the facet page renders — so a card here and
+ * the list behind it cannot disagree. The counts are the facet counts, not this page's.
+ */
+const facets = JEV_FACET_COUNTS.map((facet) => {
+  const items = itemsByFacet(facet.slug);
+  /*
+   * What the card shows instead of sample titles. First draft listed three titles, and that read
+   * badly for the same reason the X column's cards were once criticised as machine-made: a tweet's
+   * first 90 characters is prose, not a title, so two thirds of the cards began mid-sentence and in
+   * lower case. The breakdown says something a reader can act on — "this page is nine repositories
+   * and six posts" — and it is exactly the point of a cross-cut.
+   */
+  const bySource = [...new Set(items.map((item) => item.source))]
+    .map((source) => ({ source, count: items.filter((item) => item.source === source).length }))
+    .sort((a, b) => b.count - a.count);
+  return { ...facet, bySource };
+});
 ---
 
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer>
-  <JsonLd slot="head" data={articleSchema({ title: "Jev use cases", description, publishedAt: "2026-09-23", updatedAt: "2026-09-23", image: `${SITE}/og-image.png`, url: canonical })} />
-  <Breadcrumbs schema={true} items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Use cases", url: canonical }]} />
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Jev use cases",
+      description,
+      publishedAt: "2026-09-24",
+      updatedAt: "2026-09-24",
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <Breadcrumbs schema={true} items={[
+    { name: "Jev", url: `${SITE}/typesafe-jev` },
+    { name: "Use cases", url: canonical },
+  ]} />
 
-  <article>
-    <header class="col">
-      <h1>Jev use cases</h1>
-      <p class="lede">
-        People hand Jev the decisions a system makes over and over: sort this pile, route this ticket,
-        score this draft, pick the next click, allow or block. This page groups the {JEV_ITEMS_TOTAL}
-        items we have catalogued by which of those decisions they show.
-      </p>
-    </header>
+  <header class="col">
+    <p class="card-eyebrow">Use cases · Jev</p>
+    <h1>Jev use cases</h1>
+    <p class="lede">
+      Six kinds of decision people hand to the model, each one its own page. A page here is a
+      cross-cut of everything we track — the repository, the post, the recording — rather than one
+      column: the question "what would I use this for" does not respect the question "where did I
+      find it".
+    </p>
+    <p class="provenance">
+      <span>{facets.length} use cases</span>
+      <span>{JEV_TAGGED_TOTAL} of {JEV_ITEMS_TOTAL} records tagged</span>
+      <span><a href="/typesafe-jev/use-cases/jobs">The nine jobs, explained in prose</a></span>
+    </p>
+  </header>
 
-    {/*
-      "In short" is borrowed from the reference's explainer pages, where it is four lines of
-      real numbers before the argument. Ours are our own numbers where a number exists —
-      the two latency figures are ours, the counts are the catalogue's.
-    */}
-    <section class="short col">
-      <p class="short-label">In short</p>
-      <ul>
-        <li>{JEV_ITEMS_TOTAL} items catalogued, {JEV_TAGGED_TOTAL} of them tagged with at least one job; the rest are explainers and announcements, which is why there is no "getting started" facet.</li>
-        <li>{jevBuildCounts.withPages} of the {jevBuildCounts.published} projects have a page of their own on this site — what it does, how it works, what we read in it, and what we did not check.</li>
-        <li>Nine jobs, and the two that repeat most are sorting a corpus nobody will read and picking the next action in an agent loop.</li>
-        <li>Our own measurements, not a vendor's: median wall time {fmt(oursLatency.median)} ms per call ({oursLatency.min}–{oursLatency.max}), {oursUsage.inputTokens} input tokens, ${oursUsage.costPerCallUsd.toFixed(7)} a call.</li>
-        <li>{oursSchemaProbe.calls} adversarial calls × {oursSchemaProbe.runs} runs: {oursSchemaProbe.offMenuAnswers} answers outside the option set. <a href="/typesafe-jev/statistics">The full numbers are here.</a></li>
-      </ul>
-    </section>
-
-    <section class="col">
-      <h2>The nine jobs, at a glance</h2>
-      <p>
-        Each row links to the section below it, and names one item from our catalogue that shows the
-        job with its own numbers attached.
-      </p>
-      <div class="table-scroll">
-        <table class="data">
-          <thead>
-            <tr><th>The job</th><th>One item that shows it</th></tr>
-          </thead>
-          <tbody>
-            {jobs.map((job) => (
-              <tr>
-                <td><a href={`#${job.slug}`}>{job.title}</a></td>
-                <td style="color: var(--text-muted);">{headline(job.examples[0])}</td>
-              </tr>
+  {/*
+    Three columns of cards, like every other list in the topic. The card carries the blurb and three
+    real titles from behind it — a card with a number and nothing else is a menu entry, and the
+    reader has already said what they think of those.
+  */}
+  <ul class="card-grid">
+    {facets.map((facet) => (
+      <li class="card">
+        <div class="card-body">
+          <p class="card-eyebrow">{facet.count} records</p>
+          <h2 class="card-title"><a href={`/typesafe-jev/use-cases/${facet.slug}`}>{facet.label}</a></h2>
+          <p class="card-note">{facet.blurb}</p>
+          <ul class="facet-sources">
+            {facet.bySource.map((row) => (
+              <li><span>{row.source}</span><span class="n">{row.count}</span></li>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    {jobs.map((job) => (
-      <section class="col job" id={job.slug}>
-        <h2>{job.title}</h2>
-        <p class="job-lede">{job.lede}</p>
-        <p>{job.body}</p>
-        <ul class="card-grid job-cards">
-          {job.items.map((item) => (
-            <li class="card" data-sources={item.source.toLowerCase().replace(/[^a-z]+/g, "-")} data-tags={item.tags.join(" ")}>
-              {item.thumb && item.video ? (
-                <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
-                  <span class="card-src">{item.source}</span>
-                  <button class="xvideo-facade" type="button" data-xvideo={item.video.url} data-poster={item.thumb} aria-label={`Play the clip in this post: ${item.title}`}>
-                    <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    <span class="xvideo-play" aria-hidden="true">▶</span>
-                  </button>
-                </div>
-              ) : item.thumb ? (
-                <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
-                  <span class="card-src">{item.source}</span>
-                  <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                </div>
-              ) : null}
-              <div class="card-body">
-                <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
-                <h3 class="card-title"><a href={item.pageSlug ? `/typesafe-jev/x-posts/${item.pageSlug}` : item.url} rel="noopener">{item.title}</a></h3>
-                <p class="card-note card-our">{item.note}</p>
-                <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+          </ul>
+          <p class="card-meta">
+            <a href={`/typesafe-jev/use-cases/${facet.slug}`}>All {facet.count} →</a>
+          </p>
+        </div>
+      </li>
     ))}
+  </ul>
 
-    <section class="col">
-      <h2>By the work you do, rather than the decision</h2>
-      <p>
-        The same rows, grouped by the kind of work instead of the kind of decision — the way somebody
-        looking for "trading" rather than "classification" would search for them.
-      </p>
-      <ul class="card-grid">
-        {JEV_FACET_COUNTS.map((facet) => (
-          <li class="card">
-            <div class="card-body">
-              <p class="card-eyebrow">{facet.count} {facet.count === 1 ? "item" : "items"}</p>
-              <h3 class="card-title"><a href={`/typesafe-jev/use-cases/${facet.slug}`}>{facet.label}</a></h3>
-              <p class="card-note">{facet.blurb}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
+  <section class="col">
+    <h2>Which of these is my job?</h2>
+    <p>
+      The test is the same for all six: if the answer is one of a fixed set, and you can recover from
+      a wrong one, this is cheaper and faster than asking a chat model. If the answer has to be
+      prose, it is the wrong tool.
+      <a href="/typesafe-jev/use-cases/jobs">The nine jobs, explained</a> takes that apart case by
+      case, and <a href="/typesafe-jev/reference">the reference page</a> has the specs and the price.
+    </p>
+  </section>
 
-    <section class="col">
-      <h2>How to tell whether your job is one of these</h2>
-      <p>
-        Three questions, in order. Is the answer one of a fixed set of options you could write down in
-        advance? Can you recover if it is wrong — retry, escalate, or let a human see it? And is the
-        question asked over and over, so that a slow or expensive answer costs you every time? Three
-        yeses and the decision belongs in this list. A no on the first one means you want an LLM, and a
-        no on the second means you want a person.
-      </p>
-    </section>
-
-    <Faq items={faqs} />
-
-    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/use-cases" />
-  </article>
-
-
+  <TopicIndex entries={jevTopicEntries} current={canonical} />
 </System>
 
 <style>
-  /* "In short": the reference's bordered takeaway block, in our paper. It is a summary
-     with numbers, so it gets the sunken fill the site uses for data, not a quote style. */
-  .short {
-    margin-top: var(--space-6);
-    padding: var(--space-5) var(--space-6);
-    border: 1px solid var(--field-border);
-    border-left: 2px solid var(--accent);
-    border-radius: var(--radius);
-    background: var(--bg-sunken);
+  /* Where the rows behind this page come from — the thing that makes it a cross-cut rather than a
+     column. Not links: the card has exactly one destination, and a card with seven links in it asks
+     the reader to choose before they know what the page is. */
+  .facet-sources { margin: var(--space-3) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+  .facet-sources li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
   }
-  .short-label {
-    margin: 0 0 var(--space-3);
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-  }
-  .short ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
-  .short li { margin-bottom: var(--space-2); }
-  .job { margin-top: var(--space-10); }
-  .job-lede { font-family: var(--serif); font-size: var(--text-lg); color: var(--text); margin-bottom: var(--space-3); }
-  /* The cards inside prose sit in the full frame, so a job section is the one place in the
-     topic where a three-column grid is narrower than its neighbours — deliberate. */
-  .job-cards { margin-top: var(--space-5); }
+  .facet-sources li:last-child { border-bottom: 0; }
+  .facet-sources .n { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--text-faint); }
 </style>
-
-<XClipWall />

@@ -33,7 +33,7 @@ const current = topic ? tabForPath(topic, path) : undefined;
         `aria-label` names the thing, and the nav is a nav: a screen reader user should be
         able to jump straight to "Jev topic" the same way they jump to the site nav.
       */}
-      <nav class="topic-tabs" aria-label={`${topic.label} topic`}>
+      <nav class:list={["topic-tabs", { "has-more": Boolean(topic.more) }]} aria-label={`${topic.label} topic`}>
         {topic.tabs.map((tab) => (
           <a
             href={tab.href}
@@ -62,16 +62,36 @@ const current = topic ? tabForPath(topic, path) : undefined;
             {topic.more.label}
             <span class="tt-caret" aria-hidden="true">▾</span>
           </summary>
-          <ul>
-            {topic.more.items.map((item) => (
-              <li>
-                <a href={item.href} title={item.note}>
-                  <span class="tt-more-label">{item.label}</span>
-                  {typeof item.count === "number" && <span class="tt-count">{item.count}</span>}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {/*
+            The panel is built like a section front rather than a dropdown menu: a heading, one line
+            saying what the section is, one row per page with its blurb, and a link to the index.
+            The first version was six bare labels — a menu, which is what made it read as a patch
+            stuck to the bar instead of a way into a part of the site.
+          */}
+          <div class="tt-panel">
+            <p class="tt-panel-head">
+              <span class="tt-panel-title">{topic.more.heading}</span>
+              {topic.more.note && <span class="tt-panel-note">{topic.more.note}</span>}
+            </p>
+            <ul>
+              {topic.more.items.map((item) => (
+                <li>
+                  <a href={item.href}>
+                    <span class="tt-more-row">
+                      <span class="tt-more-label">{item.label}</span>
+                      {typeof item.count === "number" && <span class="tt-count">{item.count}</span>}
+                    </span>
+                    {item.note && <span class="tt-more-note">{item.note}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {topic.more.more && (
+              <a class="tt-panel-more" href={topic.more.more.href}>
+                {topic.more.more.label} <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
         </details>
       )}
     </div>

@@ -89,6 +89,9 @@ const STATIC_ENTRIES: Entry[] = [
    * vocabulary file so a new tag cannot be added to the pages and forgotten here.
    */
   { path: "/typesafe-jev/use-cases", changeFrequency: "weekly", priority: "0.8" },
+  /* The explainer, split off the index on 2026-09-24 so the section could have a wide front door
+     without putting prose at 1048. */
+  { path: "/typesafe-jev/use-cases/jobs", changeFrequency: "monthly", priority: "0.6" },
   { path: "/typesafe-jev/statistics", changeFrequency: "monthly", priority: "0.7" },
   ...JEV_FACETS.map((f) => ({ path: `/typesafe-jev/use-cases/${f.slug}`, changeFrequency: "weekly", priority: "0.6" })),
   { path: "/typesafe-jev/builds", changeFrequency: "weekly", priority: "0.8" },

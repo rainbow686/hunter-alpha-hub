@@ -778,6 +778,10 @@ header.site .topicrow .wrap {
   height: 46px;
   padding-top: 0;
   padding-bottom: 0;
+  /* `header.site .wrap` carries a 24px gap for the masthead's brand/live-slot/tools; here it would
+     hold the use-case trigger 24px off the capsule's right end, which is the "patch stuck to the
+     bar" look the reader objected to. The trigger joins with -1px and squares its left corners. */
+  gap: 0;
   /*
    * The row is the frame; the capsule centres inside it.
    *
@@ -809,12 +813,11 @@ header.site nav.topic-tabs {
   justify-content: flex-start;
   gap: 2px;
   /*
-   * Centred on the page's own column, and allowed to be slightly wider than it: seven tabs come to
-   * 823px, which is 31px of overhang each side inside the 760 column and 113px of clear space
-   * inside a wide page. `max-width: 100%` returns at 900px, where the constraint is the viewport
-   * and the row has to scroll inside itself.
+   * Centred on the page's own column, and allowed to be slightly wider than it. The centring is the
+   * row's `justify-content`, not `margin: 0 auto` on this element — with both, the auto margin went
+   * looking for free space and pushed the capsule 100px off the use-case trigger beside it.
    */
-  margin: 0 auto;
+  margin: 0;
   max-width: none;
   /* One capsule, one line. On a phone it scrolls inside itself rather than growing the header. */
   flex-wrap: nowrap;
@@ -937,26 +940,32 @@ header.site .topicrow .wrap::after {
   header.site nav.topic-tabs { max-width: 100%; }
 }
 
-/* ---------------------------------------------------- the second axis ("Use cases")
- * One segment beside the capsule that opens the topic's other axis as links (2026-09-24).
+/* ---------------------------------------------------- the second axis ("By use case")
+ * A trigger joined to the capsule, opening the topic's other axis as a small section front
+ * (2026-09-24, second pass — the first version floated as a separate pill and the reader said what
+ * was wrong with it: it read like a patch stuck to the bar rather than a way into a part of the
+ * site. Two changes answered that:
  *
- * Why a panel and not a rail: the topic's use cases are six items, and a permanent rail costs
- * 270px of the page's width — measured, that drops the wall from three columns to two on our
- * frame. Everything the rail was for (sources, use cases, the long-form pages) is now reachable
- * from the bar; see docs/research/2026-09-24-use-case-axis.md.
+ *   1. **joined, not adjacent** — 1px of negative margin and squared adjoining corners, so the bar
+ *      is one capsule with two zones: the shelves on the left, the cross-cut on the right;
+ *   2. **the panel is a section front** — heading, one line saying what the section is, one row per
+ *      page with its blurb and count, and a link to the index. A menu is six bare labels.
  *
- * It is `<details>`, so with JavaScript blocked it still opens — the site's other controls
- * (search, submit) degrade to nothing, and this one should not.
+ * Why a panel and not a rail: the use cases are six items and a permanent rail costs 270px of the
+ * page, which measured drops the wall from three columns to two. See
+ * docs/research/2026-09-24-use-case-axis.md.
  */
-header.site .topicrow .wrap { position: relative; }
-.tt-more { position: relative; flex: 0 0 auto; margin-left: 6px; }
+.tt-more { position: relative; display: flex; align-items: stretch; flex: 0 0 auto; margin-left: -1px; }
 .tt-more summary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px var(--space-3);
+  /* Padding matches the capsule's own (3px of container + the tabs' 4px), so the two zones are
+     the same height — 8px of padding against a 19px line is the 35px the capsule measures. */
+  padding: 8px var(--space-3);
   border: 1px solid var(--border-strong);
-  border-radius: 999px;
+  /* Squared on the side that touches the capsule, round on the outside: one control, two zones. */
+  border-radius: 0 999px 999px 0;
   background: var(--surface);
   color: var(--text-muted);
   font-family: var(--mono);
@@ -969,37 +978,54 @@ header.site .topicrow .wrap { position: relative; }
 }
 /* Safari draws its own marker; `list-style: none` is not enough on older versions. */
 .tt-more summary::-webkit-details-marker { display: none; }
-.tt-more summary:hover { color: var(--text); border-color: var(--text-faint); }
-.tt-more[open] summary { color: var(--text); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 38%, transparent); }
+.tt-more summary:hover { color: var(--text); background: var(--bg-sunken); }
+.tt-more[open] summary { color: var(--text); background: var(--accent-soft); }
 .tt-more .tt-caret { font-size: 9px; transition: transform 140ms ease; }
 .tt-more[open] .tt-caret { transform: rotate(180deg); }
-.tt-more ul {
+/* The capsule's own right end squares off when the trigger is joined to it. */
+header.site nav.topic-tabs.has-more { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.tt-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   right: 0;
   z-index: 40;
-  min-width: 268px;
-  margin: 0;
-  padding: 6px;
-  list-style: none;
+  width: 340px;
+  padding: var(--space-3);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--surface);
-  box-shadow: 0 10px 30px rgb(0 0 0 / 12%);
+  box-shadow: 0 12px 34px rgb(0 0 0 / 13%);
+  text-align: left;
 }
-.tt-more li + li { border-top: 1px solid var(--border); }
-.tt-more a {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
-  padding: 7px var(--space-3);
-  border-radius: var(--radius-sm);
+.tt-panel-head { margin: 0 0 var(--space-3); padding: 0 var(--space-2); }
+.tt-panel-title {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--text);
-  font-size: var(--text-sm);
+}
+.tt-panel-note { display: block; margin-top: 4px; font-size: var(--text-xs); color: var(--text-faint); }
+.tt-panel ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+.tt-panel li { border-bottom: 1px solid var(--border); }
+.tt-panel li a { display: block; padding: var(--space-2) var(--space-2); border-radius: var(--radius-sm); text-decoration: none; }
+.tt-panel li a:hover { background: var(--bg-sunken); }
+.tt-more-row { display: flex; align-items: baseline; gap: var(--space-3); }
+.tt-more-label { flex: 1; color: var(--text); font-size: var(--text-sm); font-weight: 600; }
+.tt-more-note { display: block; margin-top: 2px; font-size: var(--text-xs); color: var(--text-muted); line-height: 1.35; }
+.tt-panel-more {
+  display: block;
+  margin-top: var(--space-3);
+  padding: 0 var(--space-2);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
   text-decoration: none;
 }
-.tt-more a:hover { background: var(--bg-sunken); }
-.tt-more-label { flex: 1; }
+.tt-panel-more:hover { text-decoration: underline; }
 @media (max-width: 560px) {
   /*
    * A phone has no room to the right of the capsule: the panel is anchored to the **row** instead
@@ -1009,5 +1035,5 @@ header.site .topicrow .wrap { position: relative; }
    * containing block and `left/right: 0` spans it.
    */
   .tt-more { position: static; }
-  .tt-more ul { left: 0; right: 0; min-width: 0; }
+  .tt-panel { left: 0; right: 0; width: auto; }
 }
