@@ -152,5 +152,27 @@
     "width": 1024,
     "height": 576,
     "generatedAt": "2026-09-23"
+  },
+  "img-review/cand-laya-concrete-vs-jev.webp": {
+    "preset": "cand-laya-concrete-vs-jev",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261020,
+    "promptSha256": "0c4735fc3dae8da6",
+    "file": "img-review/cand-laya-concrete-vs-jev.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
+  },
+  "img-review/cand-laya-concrete-self-host.webp": {
+    "preset": "cand-laya-concrete-self-host",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261021,
+    "promptSha256": "59ccb4719008cc66",
+    "file": "img-review/cand-laya-concrete-self-host.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
   }
 }

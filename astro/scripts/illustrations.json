@@ -15,6 +15,24 @@
   ],
   "style": "A fine-line engraving illustration, in the manner of a 19th-century technical plate. Single subject, generous empty space, warm paper background (#f4efe6), one accent colour only. Cross-hatching for shading. No gradients. Aspect ratio 16:9.",
   "presets": {
+    "cand-laya-concrete-vs-jev": {
+      "out": "public/img-review/cand-laya-concrete-vs-jev.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261020,
+      "scene": "A wooden bench in a workshop: on the left an open desktop computer with its side panel removed and a bare green circuit board standing against it, lit by a small desk lamp; on the right, behind a glass-fronted cabinet door with a padlock, a rack of identical flat metal server boxes with a cable running out of the cabinet.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cand-laya-concrete-self-host": {
+      "out": "public/img-review/cand-laya-concrete-self-host.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261021,
+      "scene": "A small brass engine on a workbench with a punched paper tape feeding into its rollers, wired by two thick cables to a household electricity meter mounted beside it on the same bench, with a tool roll and an oil can on the bench.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
     "cover-laya-topic": {
       "out": "public/img/cover-laya-topic.webp",
       "model": "flex",
