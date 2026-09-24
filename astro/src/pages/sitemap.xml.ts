@@ -2,6 +2,13 @@ import type { APIRoute } from "astro";
 import { JEV_FACETS } from "@repo/lib/jev-facets";
 import { jevBuildsWithPages } from "@repo/lib/jev-builds";
 import { jevXPostsWithPages } from "@repo/lib/jev-x-posts";
+import { LAYA_BUILDS_READ_ON, layaBuildsWithPages } from "@repo/lib/laya-builds";
+import { LAYA_KINDS } from "@repo/lib/laya-kinds";
+import { LAYA_THREADS_READ_ON } from "@repo/lib/laya-threads";
+import { LAYA_VIDEOS_READ_ON } from "@repo/lib/laya-videos";
+import { LAYA_X_READ_ON } from "@repo/lib/laya-x-posts";
+import { LAYA_RESOURCES_READ_ON } from "@repo/lib/laya-resources";
+import { LAYA_READ_ON } from "@repo/lib/laya";
 import { getCollection } from "astro:content";
 import { openrouterModels } from "@repo/lib/openrouter-models";
 import { comparisonPairs } from "@repo/lib/openrouter-comparisons";
@@ -89,6 +96,9 @@ const STATIC_ENTRIES: Entry[] = [
    * vocabulary file so a new tag cannot be added to the pages and forgotten here.
    */
   { path: "/typesafe-jev/use-cases", changeFrequency: "weekly", priority: "0.8" },
+  /* The explainer, split off the index on 2026-09-24 so the section could have a wide front door
+     without putting prose at 1048. */
+  { path: "/typesafe-jev/use-cases/jobs", changeFrequency: "monthly", priority: "0.6" },
   { path: "/typesafe-jev/statistics", changeFrequency: "monthly", priority: "0.7" },
   ...JEV_FACETS.map((f) => ({ path: `/typesafe-jev/use-cases/${f.slug}`, changeFrequency: "weekly", priority: "0.6" })),
   { path: "/typesafe-jev/builds", changeFrequency: "weekly", priority: "0.8" },
@@ -101,6 +111,9 @@ const STATIC_ENTRIES: Entry[] = [
     path: `/typesafe-jev/builds/${build.dossier!.slug}`,
     changeFrequency: "monthly" as const,
     priority: "0.6",
+    /* The day we read inside the repository. Before 2026-09-24 these 18 pages carried no lastmod at
+       all, which is the one signal that tells a crawler they are worth revisiting. */
+    lastmod: build.dossier!.readOn,
   })),
   /*
    * One entry per X post record, generated from the same pages file the routes are built from.
@@ -117,11 +130,47 @@ const STATIC_ENTRIES: Entry[] = [
     path: `/typesafe-jev/x-posts/${post.page!.slug}`,
     changeFrequency: "weekly" as const,
     priority: "0.5",
+    /* Per row: 42 of these were read on the 23rd and 41 on the 24th, and ADR-0024's rule is that the
+       date travels with the number — a single column-wide date would be false for half of them. */
+    lastmod: post.likesAsOf,
   })),
   { path: "/submit", changeFrequency: "monthly", priority: "0.5" },
   // Hand-maintained: `typesafe/jev-1.13` is served by OpenRouter but missing
   // from the /api/v1/models list the rest of this sitemap is derived from.
   { path: "/typesafe-jev", changeFrequency: "weekly", priority: "0.8" },
+  /*
+   * The topic's long-form page (2026-09-24): specs, price, question types and our own probe,
+   * split off the front page when it grew a wall. It is the page a reader lands on from a search
+   * for "jev specs" or "jev pricing", so it sits with the explainers rather than at 0.6.
+   */
+  { path: "/typesafe-jev/reference", changeFrequency: "monthly", priority: "0.8" },
+
+  /*
+   * Laya (2026-09-24). The second model topic, declared here the day it was built — the lesson from
+   * the 42 X-post pages that were live and undeclared for a day is that a new section's pages are
+   * exactly the ones a hand-maintained list forgets, so every one below is generated from the same
+   * file its route is generated from.
+   */
+  { path: "/laya", changeFrequency: "weekly", priority: "0.8", lastmod: LAYA_READ_ON },
+  /* The three explainers predate the columns and were re-read the day the topic was rebuilt. */
+  { path: "/laya/reference", changeFrequency: "monthly", priority: "0.8", lastmod: LAYA_READ_ON },
+  { path: "/laya/vs-jev", changeFrequency: "monthly", priority: "0.7", lastmod: LAYA_READ_ON },
+  { path: "/laya/self-hosting", changeFrequency: "monthly", priority: "0.7", lastmod: LAYA_READ_ON },
+  { path: "/laya/open-weights", changeFrequency: "monthly", priority: "0.6", lastmod: LAYA_READ_ON },
+  /* Each column carries the day its own numbers were read — the same dates the columns print. */
+  { path: "/laya/builds", changeFrequency: "weekly", priority: "0.8", lastmod: LAYA_BUILDS_READ_ON },
+  ...layaBuildsWithPages.map((build) => ({
+    path: `/laya/builds/${build.dossier!.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: "0.6",
+    lastmod: build.dossier!.readOn,
+  })),
+  { path: "/laya/x-posts", changeFrequency: "weekly", priority: "0.7", lastmod: LAYA_X_READ_ON },
+  { path: "/laya/videos", changeFrequency: "weekly", priority: "0.7", lastmod: LAYA_VIDEOS_READ_ON },
+  { path: "/laya/threads", changeFrequency: "weekly", priority: "0.7", lastmod: LAYA_THREADS_READ_ON },
+  { path: "/laya/resources", changeFrequency: "monthly", priority: "0.6", lastmod: LAYA_RESOURCES_READ_ON },
+  { path: "/laya/kinds", changeFrequency: "weekly", priority: "0.6", lastmod: LAYA_READ_ON },
+  ...LAYA_KINDS.map((kind) => ({ path: `/laya/kinds/${kind.slug}`, changeFrequency: "weekly", priority: "0.6", lastmod: LAYA_READ_ON })),
   // Field notes: hand-written, and the only page here that reads other people's
   // repositories rather than the catalogue.
   // The section index for that series — entries are declared here too, because
@@ -136,6 +185,11 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/typesafe-jev/pricing", changeFrequency: "monthly", priority: "0.8" },
   { path: "/typesafe-jev/vs-llm", changeFrequency: "monthly", priority: "0.8" },
   { path: "/typesafe-jev/open-source", changeFrequency: "weekly", priority: "0.7" },
+  /*
+   * The Laya topic's four original pages were declared here when the topic was four chapters. They
+   * moved into the generated block above on 2026-09-24, when the topic grew columns: one list, one
+   * place, because two lists of the same URLs produced a duplicate-URL failure on the first build.
+   */
   { path: "/hunter-alpha-benchmarks", changeFrequency: "monthly", priority: "0.7" },
 ];
 

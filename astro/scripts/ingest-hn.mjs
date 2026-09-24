@@ -11,27 +11,25 @@
  * No key, no quota: Algolia's HN API is free. Politeness: one pass, serial, 6 queries.
  */
 import { mergeQueue } from "./lib/merge-queue.mjs";
+import { matches, requireSource, resolveTopic } from "./lib/topics.mjs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OUT = resolve(HERE, "../../lib/data/jev-threads.json");
+const ROOT = resolve(HERE, "../..");
+/** Default topic `jev`; `--topic laya` uses Laya's queries and writes lib/data/laya-threads.json. */
+const TOPIC = resolveTopic();
+const CFG = requireSource(TOPIC, "hn");
+const OUT = resolve(ROOT, CFG.out);
 
-const QUERIES = [
-  { q: "jev", why: "the model itself" },
-  { q: "system one typesafe", why: "the launch, by its other name" },
-  { q: "jev decision model", why: "what it is" },
-  { q: "kev jev", why: "the derivative family (Kev)" },
-  { q: "jev leftpad", why: "the joke build that trended" },
-  { q: "madewithjev", why: "the directory built on the flood" },
-];
+const QUERIES = CFG.queries;
 
-const MIN_POINTS = 20;
-const MIN_DATE = "2026-06-01"; // the model is new; older hits are about Jevons paradox, other Jevs
-// A bare "jev" search returns Jevons paradox, a Chinese math prodigy and a 2022 economics story.
-// Relevance is therefore a filter, not a hope: the title must name this Jev (not "Jevons").
-const RELEVANT = /(\bjev\b(?!ons)|\bkev\b|typesafe|system one)/i;
-const MIN_COMMENTS = 10;
+const MIN_POINTS = CFG.minPoints;
+const MIN_DATE = CFG.minDate; // the model is new; older hits are about Jevons paradox, other Jevs
+// A bare "jev" search returns Jevons paradox, a Chinese math prodigy and a 2022 economics story;
+// a bare "laya" returns a game engine and a Dutch company. Relevance is a filter, not a hope: the
+// title has to name the model, and the exclusion list in the topic config kills the homonyms.
+const MIN_COMMENTS = CFG.minComments;
 const UA = "hunter-alpha-hub-intake/0.1 (+https://www.hunteralphahub.com/contact)";
 
 const asOf = new Date().toISOString().slice(0, 10);
@@ -70,7 +68,7 @@ for (const spec of QUERIES) {
     if (seen.has(e.id)) continue;
     if (e.metrics.score < MIN_POINTS && e.metrics.comments < MIN_COMMENTS) continue;
     if (e.publishedAt < MIN_DATE) continue;
-    if (!RELEVANT.test(`${e.title} ${e._externalUrl ?? ""}`)) continue;
+    if (!matches(CFG, `${e.title} ${e._externalUrl ?? ""}`)) continue;
     seen.add(e.id);
     entries.push(e);
   }
@@ -87,7 +85,7 @@ const dry = process.argv.includes("--dry");
 const { added, kept, total, published } = mergeQueue(OUT, entries, {
   source: "hn-algolia",
   queries: QUERIES.map((q) => q.q),
-  thresholds: { minPoints: MIN_POINTS, minComments: MIN_COMMENTS, minDate: MIN_DATE, relevance: String(RELEVANT) },
+  thresholds: { minPoints: MIN_POINTS, minComments: MIN_COMMENTS, minDate: MIN_DATE, relevance: String(CFG.relevance), exclude: String(CFG.exclude ?? "") },
   // The gate in one line: nothing here may reach a page until ourNote is written.
   note: "candidate-only queue — a page renders entries with status=published and a non-empty ourNote",
 }, { dry });

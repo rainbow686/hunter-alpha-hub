@@ -77,6 +77,28 @@ const fileFor = (path) => join(DIST, path === "/" ? "index.html" : `${path}.html
  * missing. A link that vanished with no redirect behind it still fails, which is the behaviour
  * that matters.
  */
+/*
+ * Explained drops. Each rule is a page pattern, a link pattern and a reason; a pair
+ * matching a rule is reported as exempt rather than as a failure. Read the file for
+ * what is in it and why — the short version is that a *computed* block ("three
+ * nearest posts sharing a use case") legitimately changes its links whenever the
+ * column grows, and the guard's question is "did we lose a navigation link?".
+ */
+const EXEMPTIONS = existsSync(new URL("./parity-exemptions.json", import.meta.url))
+  ? JSON.parse(readFileSync(new URL("./parity-exemptions.json", import.meta.url), "utf8"))
+  : [];
+
+const matches = (pattern, value) =>
+  pattern.endsWith("*") ? value.startsWith(pattern.slice(0, -1)) : pattern === value;
+
+/** The reason a dropped link is explained, or null. */
+function exemptionFor(page, href) {
+  const rule = EXEMPTIONS.find(
+    (r) => matches(r.page, page) && r.links.some((pattern) => matches(pattern, href)),
+  );
+  return rule ? rule.reason : null;
+}
+
 const MIGRATIONS = new Map();
 {
   const rules = readFileSync(join(here, "../public/_redirects"), "utf8");
@@ -88,10 +110,33 @@ const MIGRATIONS = new Map();
   }
 }
 
+/**
+ * Blocks marked `data-generated` are computed lists — "three nearest posts that
+ * share a use case" and anything like it — so their links change when the data
+ * behind them grows. The parity check compares a page's links against the live
+ * site to catch a migration that *dropped* one; without this, adding a record to
+ * a column reports as seventeen dropped links, which is the opposite of what
+ * happened. Authored navigation is never marked, and the marker has to be on the
+ * element itself for this to see it.
+ */
+function stripGeneratedBlocks(html) {
+  const open = /<([a-z][a-z0-9-]*)\b[^>]*\bdata-generated\b[^>]*>/i;
+  let out = html;
+  for (let guard = 0; guard < 200; guard += 1) {
+    const match = open.exec(out);
+    if (!match) break;
+    const close = new RegExp(`</${match[1]}>`, "i").exec(out.slice(match.index + match[0].length));
+    if (!close) break;
+    const end = match.index + match[0].length + close.index + close[0].length;
+    out = out.slice(0, match.index) + out.slice(end);
+  }
+  return out;
+}
+
 /** Internal navigation links only: same site, no build assets, no file downloads. */
 function internalLinks(html, base) {
   const found = new Set();
-  for (const match of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
+  for (const match of stripGeneratedBlocks(html).matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
     let url;
     try {
       url = new URL(match[1], base);
@@ -221,6 +266,8 @@ const retriedClean = [];
 const newPages = [];
 /** Live links whose target moved, per the redirect table — reported, not failed. */
 const migrated = [];
+/** Dropped links an exemption explains — reported, not failed. */
+const exempted = [];
 
 /** Re-check a single page; returns the failures (empty array = fine). */
 async function checkPage(path) {
@@ -254,7 +301,16 @@ async function checkPage(path) {
     migrated.push(`${href} → ${to}`);
     return !built.has(to);
   });
-  if (missing.length) issues.push(`${path}: ${missing.length} link(s) missing → ${missing.join(", ")}`);
+  /*
+   * Exemptions: a dropped link can be explained rather than restored. The list is
+   * checked in, one rule per shape, each with its reason — see
+   * scripts/parity-exemptions.json. Counting them keeps them visible: a rule that
+   * grows from 20 to 200 hits is a rule that has stopped being true.
+   */
+  const exempt = missing.filter((href) => exemptionFor(path, href));
+  const unexplained = missing.filter((href) => !exemptionFor(path, href));
+  if (exempt.length) exempted.push(...exempt.map((href) => `${path} → ${href}`));
+  if (unexplained.length) issues.push(`${path}: ${unexplained.length} link(s) missing → ${unexplained.join(", ")}`);
 
   const liveHead = headFeatures(live.html);
   const builtHtml = readFileSync(file, "utf8");

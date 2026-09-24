@@ -1,44 +1,167 @@
 ---
 /**
- * /submit — how to get something listed.
+ * /submit — the page, and why it is no longer the whole intake.
  *
- * No form endpoint yet, deliberately: the roadmap's own order is A (send it to a
- * human) then B (let the model triage it). A form that silently posts into a queue
- * nobody reads would be worse than asking for an email.
+ * The dialog in the header is the primary way in (2026-09-24): a sender is
+ * usually mid-read with a link on the clipboard, and a navigation plus a page of
+ * six fields and three explanatory sections is a much worse offer than a small
+ * box. This page still has a job — the two things a dialog cannot do are explain
+ * what happens afterwards and be a stable destination for `?topic=` links from
+ * the columns — but it opens with the form, not with an essay about the form.
+ *
+ * The form is the same component the dialog uses (`SubmitForm.astro`), with a
+ * second id prefix so two copies can live on one page.
  */
 import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import SubmitForm from "../../components/SubmitForm.astro";
+import Provenance from "../../components/Provenance.astro";
 import { SITE, SITE_NAME } from "../../lib/schema";
+import { allSources } from "@repo/lib/submission-sources";
 
-const title = "Submit Something Built With Jev";
-const description = "Send us a project, a demo or a thread built with TypeSafe's Jev, and what to include so we can check it before it goes on the site.";
+const title = "Submit Something";
+const description =
+  "Send a project built with Jev, a correction to a model page, or a problem with the site. Two fields are required, everything else is optional, and here is what happens to it.";
 const canonical = `${SITE}/submit`;
+
+/**
+ * Where a platform's rows land, keyed by the `column` in
+ * `lib/data/submission-sources.json` — or, when the platform has no column of
+ * ours, by the topic it usually means. Adding a platform to that file and a
+ * destination here is the whole job: nothing else on this page enumerates them.
+ */
+const DESTINATION: Record<string, { label: string; href: string | null }> = {
+  "jev-builds.json": { label: "Built with Jev", href: "/typesafe-jev/builds" },
+  "jev-x-posts.json": { label: "Seen on X", href: "/typesafe-jev/x-posts" },
+  "jev-videos.json": { label: "Videos", href: "/typesafe-jev/videos" },
+  "jev-threads.json": { label: "Threads and write-ups", href: "/typesafe-jev/threads" },
+  "jev-thread": { label: "Threads and write-ups, or wherever it fits", href: "/typesafe-jev/threads" },
+  "jev-project": { label: "Built with Jev", href: "/typesafe-jev/builds" },
+  "jev-video": { label: "Videos", href: "/typesafe-jev/videos" },
+  /*
+   * Laya has no columns of its own yet, so its four kinds of entry point at the
+   * topic cover — that is where the reader should land, and it is a real page
+   * rather than a placeholder. When /laya/builds exists, these three lines change
+   * and nothing else does.
+   */
+  "laya-project": { label: "Laya", href: "/laya" },
+  "laya-measurement": { label: "Laya", href: "/laya" },
+  "laya-thread": { label: "Laya", href: "/laya" },
+  "laya-video": { label: "Laya", href: "/laya" },
+  catalogue: { label: "A correction on a model page", href: "/openrouter-models" },
+  stealth: { label: "A lead for the stealth register", href: "/stealth-models" },
+  site: { label: "A fix for the page you were on", href: null },
+};
+/** By name, with the catch-all last — it is not a platform, it is the absence of one. */
+const CATCH_ALL = "web";
+const PLATFORMS = [...allSources()]
+  .sort((a, b) =>
+    a.source === CATCH_ALL ? 1 : b.source === CATCH_ALL ? -1 : a.label.localeCompare(b.label),
+  )
+  .map((entry) => ({
+    label: entry.label,
+    enrich: entry.enrich,
+    destination: DESTINATION[entry.column ?? entry.topic] ?? { label: "Wherever it fits", href: null },
+  }));
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <Breadcrumbs schema={true} items={[{ name: "Submit", url: canonical }]} />
+
   <article class="col">
-    <p class="eyebrow">Contribute</p>
-    <h1>Built something with Jev?</h1>
-    <p class="lede">
-      Send it over. We read everything that arrives, and we write the entry ourselves — a link plus a
-      sentence saying what it does, checked against the source before it appears on the site.
-    </p>
-    <h2>What to include</h2>
-    <ul>
-      <li><strong>The link</strong> — the repository, the post, or the recording.</li>
-      <li><strong>What it does</strong> — one or two sentences, in your words.</li>
-      <li><strong>Any numbers you want quoted</strong> — cost, latency, a benchmark. We will attribute them to you, because they are yours, not ours.</li>
-      <li><strong>Whether it uses the API or an open model</strong>, if you know — the two answer different questions.</li>
-    </ul>
-    <h2>What happens next</h2>
-    <p>
-      We open the link, check that it exists and says what you said it says, and write the entry. If we
-      cannot verify a number, we either drop it or say in the entry that it is the author's — the same
-      rule that applies to everything else on this site. Nothing publishes automatically.
-    </p>
-    <p><a href="/contact">Send it through the contact page</a></p>
+    <header class="page-head">
+      <p class="card-eyebrow">Contribute</p>
+      <h1>Send us a link</h1>
+      <p class="lede">
+        A project built with Jev, a post, a video, a correction, a tip about an anonymised release, a
+        broken page. Two fields, and the rest is there if you have more to say.
+      </p>
+    </header>
+
+    <SubmitForm id="page" />
+
+    <section>
+      <h2>What happens next</h2>
+      <p>
+        We open the link, check that it exists and says what you said it says, and write the entry —
+        or fix the page. If we cannot verify a number we either drop it or say in the entry that it
+        is yours. Nothing publishes automatically, and a submission that does not make it in usually
+        means we could not open the link.
+      </p>
+      <ul>
+        <li><strong>Built with Jev</strong> — <a href="/typesafe-jev/builds">repositories</a> and <a href="/typesafe-jev/x-posts">posts</a>, checked before they appear.</li>
+        <li><strong>Model pages</strong> — corrections go into the snapshot in <code>lib/openrouter-models.ts</code> with the date moved, so the page says when it was last read.</li>
+        <li><strong>Anonymous releases</strong> — <a href="/stealth-models">the register</a> records public listings only.</li>
+      </ul>
+      <p class="form-note">
+        The catalogue itself is synced from OpenRouter's own API rather than submitted by hand, so a
+        model that is missing from it is a correction like any other, not a new page.
+      </p>
+    </section>
+
+    {/*
+      The platform table is reference material, not part of the ask, so it is folded
+      away: a sender does not need to know where GitHub lands before pasting a link,
+      and eleven rows of routing table in front of the form is what made the first
+      version of this page feel long.
+    */}
+    <details class="more">
+      <summary>Which platforms work, and where each one lands</summary>
+      <p>
+        All of them. The platform is read off the link rather than asked of you — so a paste can mix
+        them, and you never have to work out where a thing "belongs". What differs is only what
+        happens next:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Where it lands</th>
+              <th>What we fill in</th>
+            </tr>
+          </thead>
+          <tbody>
+            {PLATFORMS.map((platform) => (
+              <tr>
+                <td>{platform.label}</td>
+                <td>
+                  {platform.destination.href
+                    ? <a href={platform.destination.href}>{platform.destination.label}</a>
+                    : platform.destination.label}
+                </td>
+                <td>{platform.enrich}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <Provenance
+      source="lib/data/submission-sources.json"
+      verified="2026-09-24"
+      extra={["Stored in D1; the notification is a summary email, at most one every fifteen minutes."]}
+    />
+
     <p class="provenance">
       <span><a href="/typesafe-jev/builds">Built with Jev</a></span>
       <span><a href="/typesafe-jev/x-posts">Seen on X</a></span>
+      <span><a href="/contact">Contact</a></span>
+      <span><a href="/privacy">What we store</a></span>
     </p>
   </article>
 </System>
+
+<style>
+  .more { margin: var(--space-8) 0; border-top: 1px solid var(--border); padding-top: var(--space-4); }
+  .more summary {
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .more[open] summary { margin-bottom: var(--space-4); }
+</style>

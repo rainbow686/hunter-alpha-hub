@@ -1,0 +1,237 @@
+---
+/**
+ * /typesafe-jev/use-cases — the article, not an index of facets.
+ *
+ * Shape copied from the reference site's `/jev-use-cases` (read 2026-09-23): an "In short"
+ * box of real numbers, a one-row-per-job table, then one section per job with real cards in
+ * the prose, then "by the work you do" pointing at the facet pages. Its version ends by
+ * telling the reader how to work out whether their job is one of these; so does ours.
+ *
+ * Why an article instead of another card wall: this is the page that answers "what would I
+ * even use this for", which is a different question from "show me everything tagged
+ * trading". The facet pages answer the second one, and they are linked from here.
+ *
+ * The examples are queue ids resolved through `jevItemById`, so a card that appears here is
+ * the same row that appears in its column — same note, same numbers, same date.
+ */
+import System from "../../../../layouts/System.astro";
+import JsonLd from "../../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../../components/Breadcrumbs.astro";
+import TopicIndex from "../../../../components/TopicIndex.astro";
+import XClipWall from "../../../../components/XClipWall.astro";
+import Faq from "../../../../components/Faq.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../../lib/schema";
+import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, jevItemById, thumbRatio } from "@repo/lib/jev-facets";
+import { jevBuildCounts } from "@repo/lib/jev-builds";
+import { jevJobs } from "@repo/lib/jev-jobs";
+import { jevTopicEntries } from "@repo/lib/jev-topic";
+import { oursLatency, oursSchemaProbe, oursUsage } from "@repo/lib/jev-our-measurements";
+
+const title = "The nine jobs people hand to a decision model: Jev use cases, explained (2026)";
+const description = `${JEV_ITEMS_TOTAL} catalogued items, grouped by the decision they make — sorting, triage, routing, context, judging, verification — with the projects and posts that show each one.`;
+const canonical = `${SITE}/typesafe-jev/use-cases/jobs`;
+
+/** Resolve the ids once: a missing id is a build failure here, not a dead link in prose. */
+const jobs = jevJobs.map((job) => ({
+  ...job,
+  items: job.examples.map((id) => {
+    const item = jevItemById.get(id);
+    if (!item) throw new Error(`jev-jobs: ${job.slug} cites "${id}", which is not a published item`);
+    return item;
+  }),
+}));
+
+/** One real number per job for the table — pulled from the row, never typed. */
+const headline = (id: string) => {
+  const item = jevItemById.get(id);
+  if (!item) throw new Error(`jev-jobs headline: ${id} is not a published item`);
+  return `${item.title} — ${item.meta.join(" · ")}`;
+};
+
+const faqs = [
+  {
+    q: "Which of these should I start with?",
+    a: `The one where you are already paying a language model to answer the same small question over and over. That is the whole test: if the answer is one of a fixed set, and you can recover from a wrong one, Jev is cheaper and faster than a chat model. If the answer needs to be prose, it is the wrong tool.`,
+  },
+  {
+    q: "How are these grouped?",
+    a: `By the decision, not by the industry. A trading bot and a browser agent are both picking one option from a candidate set under a clock; a moderation queue and an invoice pile are both sorting at a volume nobody can read. The ${JEV_FACET_COUNTS.length} facet pages group the same rows the other way, by the work you do.`,
+  },
+  {
+    q: "What is not in this list?",
+    a: `Anything we could not point at. Each job below names the rows that show it, and every one of those rows carries a note saying what we read and what we did not check. Two of the nine have a single example each — that is the honest count, not a rounding error.`,
+  },
+];
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer wide>
+  <JsonLd slot="head" data={articleSchema({ title: "Jev use cases", description, publishedAt: "2026-09-23", updatedAt: "2026-09-23", image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[{ name: "Jev", url: `${SITE}/typesafe-jev` }, { name: "Use cases", url: `${SITE}/typesafe-jev/use-cases` },
+    { name: "The nine jobs", url: canonical }]} />
+
+  <article>
+    <header class="col">
+      <h1>Jev use cases</h1>
+      <p class="lede">
+        People hand Jev the decisions a system makes over and over: sort this pile, route this ticket,
+        score this draft, pick the next click, allow or block. This page groups the {JEV_ITEMS_TOTAL}
+        items we have catalogued by which of those decisions they show.
+      </p>
+    </header>
+
+    {/*
+      "In short" is borrowed from the reference's explainer pages, where it is four lines of
+      real numbers before the argument. Ours are our own numbers where a number exists —
+      the two latency figures are ours, the counts are the catalogue's.
+    */}
+    <section class="short col">
+      <p class="short-label">In short</p>
+      <ul>
+        <li>{JEV_ITEMS_TOTAL} items catalogued, {JEV_TAGGED_TOTAL} of them tagged with at least one job; the rest are explainers and announcements, which is why there is no "getting started" facet.</li>
+        <li>{jevBuildCounts.withPages} of the {jevBuildCounts.published} projects have a page of their own on this site — what it does, how it works, what we read in it, and what we did not check.</li>
+        <li>Nine jobs, and the two that repeat most are sorting a corpus nobody will read and picking the next action in an agent loop.</li>
+        <li>Our own measurements, not a vendor's: median wall time {fmt(oursLatency.median)} ms per call ({oursLatency.min}–{oursLatency.max}), {oursUsage.inputTokens} input tokens, ${oursUsage.costPerCallUsd.toFixed(7)} a call.</li>
+        <li>{oursSchemaProbe.calls} adversarial calls × {oursSchemaProbe.runs} runs: {oursSchemaProbe.offMenuAnswers} answers outside the option set. <a href="/typesafe-jev/statistics">The full numbers are here.</a></li>
+      </ul>
+    </section>
+
+    <section class="col">
+      <h2>The nine jobs, at a glance</h2>
+      <p>
+        Each row links to the section below it, and names one item from our catalogue that shows the
+        job with its own numbers attached.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>The job</th><th>One item that shows it</th></tr>
+          </thead>
+          <tbody>
+            {jobs.map((job) => (
+              <tr>
+                <td><a href={`#${job.slug}`}>{job.title}</a></td>
+                <td style="color: var(--text-muted);">{headline(job.examples[0])}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {jobs.map((job) => (
+      <section class="col job" id={job.slug}>
+        <h2>{job.title}</h2>
+        <p class="job-lede">{job.lede}</p>
+        <p>{job.body}</p>
+        <ul class="card-grid job-cards">
+          {job.items.map((item) => (
+            <li class="card" data-sources={item.source.toLowerCase().replace(/[^a-z]+/g, "-")} data-tags={item.tags.join(" ")}>
+              {item.thumb && item.video ? (
+                <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+                  <span class="card-src">{item.source}</span>
+                  <button class="xvideo-facade" type="button" data-xvideo={item.video.url} data-poster={item.thumb} aria-label={`Play the clip in this post: ${item.title}`}>
+                    <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                    <span class="xvideo-play" aria-hidden="true">▶</span>
+                  </button>
+                </div>
+              ) : item.thumb ? (
+                <div class="card-media" style={`--ratio: ${thumbRatio(item.thumbW, item.thumbH)}`}>
+                  <span class="card-src">{item.source}</span>
+                  <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                </div>
+              ) : null}
+              <div class="card-body">
+                <p class="card-eyebrow">{item.source} · {item.sourceKind}</p>
+                <h3 class="card-title"><a href={item.pageSlug ? `/typesafe-jev/x-posts/${item.pageSlug}` : item.url} rel="noopener">{item.title}</a></h3>
+                <p class="card-note card-our">{item.note}</p>
+                <p class="card-meta">{item.meta.map((m) => <span>{m}</span>)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <section class="col">
+      <h2>By the work you do, rather than the decision</h2>
+      <p>
+        The same rows, grouped by the kind of work instead of the kind of decision — the way somebody
+        looking for "trading" rather than "classification" would search for them.
+      </p>
+      <ul class="card-grid">
+        {JEV_FACET_COUNTS.map((facet) => (
+          <li class="card">
+            <div class="card-body">
+              <p class="card-eyebrow">{facet.count} {facet.count === 1 ? "item" : "items"}</p>
+              <h3 class="card-title"><a href={`/typesafe-jev/use-cases/${facet.slug}`}>{facet.label}</a></h3>
+              <p class="card-note">{facet.blurb}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="col">
+      <h2>How to tell whether your job is one of these</h2>
+      <p>
+        Three questions, in order. Is the answer one of a fixed set of options you could write down in
+        advance? Can you recover if it is wrong — retry, escalate, or let a human see it? And is the
+        question asked over and over, so that a slow or expensive answer costs you every time? Three
+        yeses and the decision belongs in this list. A no on the first one means you want an LLM, and a
+        no on the second means you want a person.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+
+    <TopicIndex entries={jevTopicEntries} current="/typesafe-jev/use-cases" />
+  </article>
+
+
+</System>
+
+<style>
+  /*
+   * Bigger type on a wide page, and that is not decoration — it is the only way this page can be
+   * both 1048 wide and readable. Measured 2026-09-24 before this: the 16px body ran **131
+   * characters a line** at the full frame. ADR-0019's own sample has exactly one site that puts
+   * prose at full width (The Verge, 1100px), and it does it at 22px; this page settles at 19px,
+   * the same size as its lede, which brings the line to ~110 characters — still long, and the
+   * honest trade for the three-column cards the reader asked for on a page whose job is to show
+   * them. The alternative was prose capped at 760 inside a 1048 page, which is the ragged right
+   * edge this site already rejected once.
+   */
+  section.job > p,
+  section.col > p:not(.provenance):not(.card-note) { font-size: 19px; line-height: 1.6; }
+  section.job .card-note { font-size: var(--text-sm); }
+
+  /* "In short": the reference's bordered takeaway block, in our paper. It is a summary
+     with numbers, so it gets the sunken fill the site uses for data, not a quote style. */
+  .short {
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    border: 1px solid var(--field-border);
+    border-left: 2px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--bg-sunken);
+  }
+  .short-label {
+    margin: 0 0 var(--space-3);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .short ul { margin: 0; padding-left: var(--space-5); color: var(--text-muted); }
+  .short li { margin-bottom: var(--space-2); }
+  .job { margin-top: var(--space-10); }
+  .job-lede { font-family: var(--serif); font-size: var(--text-lg); color: var(--text); margin-bottom: var(--space-3); }
+  /* The cards inside prose sit in the full frame, so a job section is the one place in the
+     topic where a three-column grid is narrower than its neighbours — deliberate. */
+  .job-cards { margin-top: var(--space-5); }
+</style>
+
+<XClipWall />

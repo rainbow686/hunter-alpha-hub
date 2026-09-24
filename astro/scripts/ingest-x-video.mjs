@@ -31,9 +31,12 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { requireSource, resolveTopic } from "./lib/topics.mjs";
 
 const ROOT = resolve(import.meta.dirname, "../..");
-const QUEUE = resolve(ROOT, "lib/data/jev-x-posts.json");
+/** Default topic `jev`; `--topic laya` attaches playable clips to Laya's X queue. */
+const TOPIC = resolveTopic();
+const QUEUE = resolve(ROOT, requireSource(TOPIC, "x").out);
 const MAX_BYTES = 25 * 1024 * 1024;
 const MIN_WIDTH = 480;
 const PREFERRED_WIDTH = 640;

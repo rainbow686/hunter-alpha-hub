@@ -1,0 +1,95 @@
+---
+/**
+ * YouTubeFacade — the poster you click, and the player that only then exists.
+ *
+ * ADR-0022 in one component: nothing is requested from Google until a reader asks for the video.
+ * The alternative — an eager `<iframe>` — costs about a megabyte of third-party JavaScript on every
+ * page load, which is a poor trade on a page whose subject is a model that answers in 30 ms.
+ *
+ * Why it is a component now (2026-09-24, and the reason is the reader's question): the hero cards on
+ * the two topic fronts were **links out** to YouTube, while the videos columns played in place. The
+ * reader asked why the same video behaves differently two pages apart, and the honest answer is that
+ * there was nothing keeping them the same. There is now: one component, four call sites (two heroes,
+ * two columns), one script.
+ *
+ * The card keeps a real link to YouTube in its caption where it has one — a reader who wants the
+ * comments or the channel should not have to play a video first to get there. This component is the
+ * poster itself, and the poster plays.
+ */
+interface Props {
+  videoId: string;
+  thumb: string;
+  /** Used for the button's accessible name; the visible caption is the caller's business. */
+  title: string;
+  thumbW?: number;
+  thumbH?: number;
+  /** The small label in the corner: "YouTube" on a column, "Video · YouTube" in a hero. */
+  source?: string;
+  /** The duration badge. Omitted where the caption already prints the length. */
+  length?: string;
+  /** The frame's aspect ratio; both callers are 16:9 and it stays a prop for the next one. */
+  ratio?: string;
+}
+const { videoId, thumb, title, thumbW, thumbH, source = "YouTube", length, ratio = "16 / 9" } = Astro.props;
+---
+<div class="card-media" style={`--ratio: ${ratio}`}>
+  <span class="card-src">{source}</span>
+  <button class="facade" data-video={videoId} aria-label={`Play here: ${title}`} type="button">
+    <img src={thumb} width={thumbW} height={thumbH} alt="" loading="lazy" decoding="async" />
+    <span class="play" aria-hidden="true">▶</span>
+    {length && <span class="length" aria-hidden="true">{length}</span>}
+  </button>
+</div>
+
+<script>
+  /*
+   * One listener per poster, and `{ once: true }` so a second click on a swapped-in player cannot
+   * fire the handler again. Astro bundles this module once per page however many posters the page
+   * renders, which is what makes a component the right place for it.
+   */
+  document.querySelectorAll<HTMLButtonElement>(".facade").forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.video;
+      if (!id) return;
+      const frame = document.createElement("iframe");
+      frame.className = "player";
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      frame.title = button.getAttribute("aria-label") ?? "YouTube video";
+      frame.loading = "lazy";
+      /*
+       * The sizes are set here, not in the `<style>` block above, and that is not a preference.
+       * Astro's scoped styles work by putting a `data-astro-cid-*` attribute on every element in the
+       * template; a node created by this script never gets that attribute, so `.player { width… }` in
+       * the scoped block matched nothing and the iframe fell back to the browser's default 300×150.
+       *
+       * Measured 2026-09-24, after a reader asked for the hero video to play in place: on the videos
+       * column the default happened to be within 20px of the card, so the overflow was invisible
+       * under `overflow: hidden`; in the 472px hero it was 168px short and left a stripe of empty
+       * card beside the player. Inline styles cannot be scoped away, which is the point.
+       */
+      frame.style.width = "100%";
+      frame.style.height = "100%";
+      frame.style.border = "0";
+      frame.style.display = "block";
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      frame.allowFullscreen = true;
+      button.replaceWith(frame);
+    }, { once: true });
+  });
+</script>
+
+<style>
+  .facade { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
+  .facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .facade .play {
+    position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+    width: 54px; height: 54px; border-radius: 50%; background: rgb(0 0 0 / 62%); color: #fff;
+    display: grid; place-items: center; font-size: 18px; padding-left: 3px;
+  }
+  .facade .length {
+    position: absolute; right: var(--space-2); bottom: var(--space-2);
+    background: rgb(0 0 0 / 72%); color: #fff; font-size: var(--text-xs);
+    padding: 2px var(--space-2); border-radius: var(--radius-sm); font-variant-numeric: tabular-nums;
+  }
+  /* No `.player` rule here on purpose — see the comment in the script above. */
+</style>

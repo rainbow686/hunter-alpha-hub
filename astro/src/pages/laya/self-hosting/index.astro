@@ -1,0 +1,324 @@
+---
+/**
+ * /laya/self-hosting — what it actually takes to run the thing.
+ *
+ * Written from a run rather than from a README: the install, the machine, the
+ * latency, and the two things that bit us. The second of those — the shipped
+ * temperature that its own library refuses to apply — is the reason this page
+ * exists at all, because it is invisible from outside and changes how much you
+ * should trust a confidence from a large option set.
+ */
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Callout from "../../../components/Callout.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_READ_ON, checkpoints, shippedWith } from "@repo/lib/laya";
+import { LAYA_OURS_MEASURED_ON, environment, latencyCpu, optionSetSize, temperatureClamp, routing, padding } from "@repo/lib/laya-our-measurements";
+
+const title = "Self-Hosting Laya: CPU Speed, Token Budgets and Two Sharp Edges (2026)";
+const description =
+  "What running Laya yourself takes: 843 MB of weights, 0.30 s per question on a 2018 laptop CPU, a state budget smaller than the context window suggests, and a shipped temperature its own library refuses to use.";
+const canonical = `${SITE}/laya/self-hosting`;
+
+const faqs = [
+  {
+    question: "Do I need a GPU to run Laya?",
+    answer:
+      "No. The English checkpoint is 421M parameters and runs on a CPU: we measured 0.30 s for one question and 0.21 s per question once batched, on a 2018 four-core laptop part with no accelerator. The weights are about 843 MB for that checkpoint, or 2.3 GB if you keep all three.",
+  },
+  {
+    question: "How much of my state actually reaches the model?",
+    answer:
+      "Less than the context window suggests. The options are rendered into the same window as the state, so the English checkpoint's 512 tokens split into a 192-token option budget and roughly 320 tokens for the ticket. The multilingual and typed-decisions checkpoints give the state about 768 of their 1,024.",
+  },
+  {
+    question: "Can I trust the confidence number from the local model?",
+    answer:
+      "For choice questions with eleven or more options, the library says no. The checkpoint ships a temperature of 0.1006 for that bucket, which is outside the range the library accepts; it clamps to 0.5 and warns on load that confidence from those answers is uncalibrated. In our 30-option test the published confidence was 0.96 where the model's own untempered distribution gave 0.89.",
+  },
+  {
+    question: "Does the local server behave like the library?",
+    answer:
+      "Not always. `laya-serve` routes by script, so a Chinese state is answered by the multilingual checkpoint rather than the English one you may have loaded and tested; the router's own reason string is 'the English checkpoint cannot read it'. If you benchmark by loading a checkpoint directly, you are measuring something the server will not do.",
+  },
+];
+
+const budgetRows = checkpoints.map((row) => ({
+  name: row.name,
+  context: row.context,
+  state: row.stateBudget,
+  options: row.name === "laya" ? "192" : "256",
+}));
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: LAYA_READ_ON, updatedAt: LAYA_OURS_MEASURED_ON, url: canonical })} />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Laya", url: `${SITE}/laya` },
+      { name: "Self-hosting", url: canonical },
+    ]}
+  />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Laya · self-hosting</p>
+      <h1>Running Laya yourself</h1>
+      <p class="lede">
+        The pitch for self-hosting a decision model is short: the data never leaves the machine, the
+        bill never arrives, and there is no rate limit between you and the answer. What follows is
+        the other half of that — what it costs in milliseconds, what the token budget really is, and
+        the two places where the local copy behaves differently from what you would assume from the
+        card.
+      </p>
+
+      <figure class="figure cover">
+        <img src="/img/cover-laya-self-hosting.webp" alt="An engraving: a small brass engine mounted on a workbench under a single lamp, driven by a narrow strip of paper feeding into it." width="1024" height="576" decoding="async" />
+      </figure>
+    </header>
+
+    <Callout eyebrow="In short">
+      <li><strong>Install is two commands</strong> — but install the CPU build of torch first, or pip pulls 2.7 GB of CUDA wheels for a model that never touches a GPU.</li>
+      <li><strong>A question costs about a fifth of a second</strong> batched, on a 2018 laptop CPU. One unbatched question costs a third of a second.</li>
+      <li><strong>The state budget is smaller than the context window.</strong> 512 tokens means ~320 for your ticket once the options have taken their share.</li>
+      <li><strong>One shipped temperature is refused by its own library</strong>, which means every choice question with 11+ options publishes a confidence that the library calls uncalibrated.</li>
+      <li><strong>The server routes; the library does not.</strong> A non-Latin state gets answered by a different checkpoint than the one you loaded.</li>
+    </Callout>
+
+    <section>
+      <h2>What it takes</h2>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Item</th><th>Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Machine we ran on</td><td>{environment.machine} · {environment.memory} RAM · {environment.accelerator}</td></tr>
+            <tr><td>Software</td><td>Python {environment.python} · laya {environment.laya} · torch {environment.torch} · transformers {environment.transformers}</td></tr>
+            <tr><td>Install</td><td>{environment.install}</td></tr>
+            <tr><td>Weights</td><td>{environment.weights}</td></tr>
+            <tr><td>First call</td><td>About 2 s to import, 4–6 s to build the checkpoint, then 0.3 s per call</td></tr>
+            <tr><td>Key</td><td>None. The weights are public and the package takes no credentials.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The install detail is not pedantry. `laya` depends on torch, and a plain `pip install` pulls
+        the CUDA build — 2.7 GB of wheels, on a machine that will run this on its CPU. Installing
+        torch from the CPU wheel index first takes the download to a fifth of that and the model
+        does not notice the difference.
+      </p>
+      <p class="quoted">
+        The loading time we quote is the current one: the card says the checkpoint build dropped
+        from about 22 s to about 2 s because it no longer initialises throwaway random weights. The
+        4–6 s we measured is the wall clock including a cold file cache on a laptop; the builds
+        after the first were faster.
+      </p>
+    </section>
+
+    <section>
+      <h2>What a question costs on a CPU</h2>
+      <p>
+        Three shapes of call, five repeats each, on the same ticket-like state. Batched questions
+        are the reason this is usable at all: the per-question cost falls by a third at ten
+        questions and then stays flat, so the thing to optimise is how many questions you ask per
+        forward pass, not how many calls you make.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th class="num">Questions in the call</th><th class="num">Median wall clock</th><th class="num">Per question</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            {latencyCpu.map((row) => (
+              <tr>
+                <td class="num">{row.questions}</td>
+                <td class="num">{row.p50} s</td>
+                <td class="num">{(row.perQuestion * 1000).toFixed(0)} ms</td>
+                <td>{row.note || "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Provenance source="tools/laya-lab/laya-probe.py, suite F" verified={LAYA_OURS_MEASURED_ON} extra={["Wall clock around a single `system_one` call: no HTTP, no queueing, weights resident."]} />
+      <p>
+        For scale: the hosted model we have measured from this machine took 783 ms median for the
+        same shape of call, over the network. That is not a speed comparison — one number has a
+        round trip inside it and the other does not — but it is the honest frame for "is local fast
+        enough": a third of a second locally against about four fifths of a second remotely, before
+        you count the GPU you would need to reach the publisher's 32.8 ms.
+      </p>
+    </section>
+
+    <section>
+      <h2>The budget nobody reads until it truncates</h2>
+      <p>
+        Options and state share one window. The model card puts it plainly, and it is the single
+        most useful line on it for anyone integrating this:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Checkpoint</th><th class="num">Context</th><th class="num">Option budget</th><th class="num">Left for the state</th></tr>
+          </thead>
+          <tbody>
+            {budgetRows.map((row) => (
+              <tr>
+                <td><code>{row.name}</code></td>
+                <td class="num">{row.context}</td>
+                <td class="num">{row.options}</td>
+                <td class="num">{row.state}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A long ticket therefore gets truncated before the number you configured suggests, and the
+        model does not refuse — it answers from whatever survived. Our ten-thousand-character case
+        came back with a label at 0.0199 confidence, which is the shape of the right behaviour: cut
+        off, but not certain about it.
+      </p>
+    </section>
+
+    <section>
+      <h2>Sharp edge one: the temperature the library will not use</h2>
+      <p>
+        Laya's calibration story is a fitted temperature per question type and option count —
+        without it the mean ECE is 0.466, with it 0.081. Those numbers ship in the checkpoint's own
+        config, and one of them is outside the range the library accepts:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Bucket</th><th class="num">Shipped value</th><th class="num">Applied</th><th>Effect</th></tr>
+          </thead>
+          <tbody>
+            <tr style="font-weight: 600;">
+              <td><code>{temperatureClamp.bucket}</code></td>
+              <td class="num">{temperatureClamp.shipped}</td>
+              <td class="num">{temperatureClamp.applied}</td>
+              <td>Clamped, with a warning on load</td>
+            </tr>
+            {temperatureClamp.otherBuckets.map((row) => (
+              <tr>
+                <td><code>{row.bucket}</code></td>
+                <td class="num">{row.shipped}</td>
+                <td class="num">{row.applied}</td>
+                <td>Used as shipped</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The warning is verbatim from the library: <em>{temperatureClamp.warning}</em>
+      </p>
+      <p>
+        A temperature below 1 multiplies the logits, so 0.1006 would sharpen a distribution roughly
+        tenfold and 0.5 still doubles it. That is measurable. On thirty candidate intents — six
+        unmistakable tickets, five option-set sizes — the published confidence was 0.96 on average
+        where the model's own untempered distribution gives 0.89:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th class="num">Options</th><th class="num">Correct</th><th class="num">Published confidence</th><th class="num">Before the fitted temperature</th><th class="num">Temperature</th></tr>
+          </thead>
+          <tbody>
+            {optionSetSize.map((row) => (
+              <tr>
+                <td class="num">{row.options}</td>
+                <td class="num">{row.correct} / {row.of}</td>
+                <td class="num">{row.published}</td>
+                <td class="num">{row.untempered}</td>
+                <td class="num">{row.temperature}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Provenance source="tools/laya-lab/laya-probe.py, suites E and E2" verified={LAYA_OURS_MEASURED_ON} extra={["The last column takes the published probabilities and divides the fitted temperature back out, using the library's own confidence function."]} />
+      <p>
+        Notice the direction at four options: there the temperature is 1.76, it <em>softens</em> the
+        distribution, and published confidence is lower than the raw one (0.69 against 0.86). At
+        eleven and above the fitted value sharpens instead. Calibration should be allowed to do
+        both; the problem is narrower and more specific than "the numbers are wrong" — the value for
+        the largest bucket is not the fitted one, and the library says so out loud.
+      </p>
+      <p>
+        What to do about it: fit your own temperature on your own data, which the card recommends
+        anyway, and set `agent.temperature_by_options` yourself. Do not assume the calibration in
+        the artifact is the one running in your process.
+      </p>
+    </section>
+
+    <section>
+      <h2>Sharp edge two: the server routes, the library does not</h2>
+      <p>
+        If you load a checkpoint directly you get that checkpoint. If you run `laya-serve`, you get
+        whatever the router picks after looking at the script of the state — and for a non-Latin
+        state it will not be the English one. The router says why in the response:
+      </p>
+      <p class="quoted">
+        “{routing.served.reason}”
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Caller</th><th>Answer for the Chinese ticket</th><th class="num">Confidence</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>English checkpoint, loaded by hand</td><td><code>{routing.englishCheckpointOnChineseState.label}</code></td><td class="num">{routing.englishCheckpointOnChineseState.confidence}</td></tr>
+            <tr><td><code>laya-serve</code>, which routes</td><td><code>{routing.served.label}</code> from <code>{routing.served.checkpoint}</code></td><td class="num">{routing.served.confidence}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        This is a feature — the card's own numbers show the English checkpoint collapses on
+        non-Latin script, and the router is the fix. It is also a trap for anyone who benchmarks the
+        checkpoint and deploys the server, or the other way round. Two deployments of "Laya" can be
+        two different models.
+      </p>
+    </section>
+
+    <section>
+      <h2>What did not reproduce</h2>
+      <p>
+        The card attributes the high-cardinality weakness to the fixed per-option token budget, so
+        we tested that directly: twenty options, the same discriminative words in every label, and a
+        neutral sentence appended to all of them. If the budget is the binding constraint, accuracy
+        should have fallen. It moved one item out of six — {padding.shortLabels.correct} of{" "}
+        {padding.shortLabels.of} with short labels against {padding.paddedLabels.correct} of{" "}
+        {padding.paddedLabels.of} with 27-word labels.
+      </p>
+      <p>
+        One item on six tickets is noise. Reproducing the collapse properly needs the card's own
+        benchmark at 77 labels rather than a stranger's thirty, and we are saying that rather than
+        reporting the coin flip as a result. What we can say is the narrower thing: at 30 labels our
+        six tickets did not collapse, they answered 5 of 6 — and the confidence climbed with the
+        option count, which is the number to watch rather than the accuracy.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot tell you how Laya behaves on a GPU, on Apple silicon, or under load — one laptop
+        with nothing else running is the whole of our evidence. It cannot tell you whether 0.21 s
+        per question is fast enough for your loop, because that depends on the loop. And it cannot
+        tell you the memory footprint of a long-running service: we measured a process that ran for
+        minutes, not days, and the router keeps two checkpoints resident by default.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+  </article>
+</System>

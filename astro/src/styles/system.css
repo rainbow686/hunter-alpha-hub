@@ -30,9 +30,23 @@
  * the chrome and not the column being worked on
  * (docs/lessons/site-chrome-overflows-mobile-by-22px.md).
  */
-@media (min-width: 761px) {
+/*
+ * The footer is one row per section, and it grew a sixth column on 2026-09-24
+ * when /laya became the second model topic. Five columns at 761px is 100px of
+ * text per column, so the count has to be width-dependent rather than fixed:
+ * six across once there is room for them, three in the middle band (six items
+ * land as two tidy rows instead of a full row and an orphan), and the two-column
+ * stacking below that is unchanged.
+ */
+@media (min-width: 1100px) {
   .foot-grid {
-    grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+    grid-template-columns: 1.4fr repeat(5, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+@media (min-width: 761px) and (max-width: 1099px) {
+  .foot-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-6);
   }
 }
@@ -82,6 +96,89 @@
   cursor: pointer;
 }
 .navrow .search-trigger:hover { color: var(--text); border-color: var(--text-faint); }
+/*
+ * The intake button. Same shape as the search button and the same progressive
+ * surrender of its label, but outlined in the accent rather than the hairline:
+ * search finds something you already have, submit is the one thing this site
+ * asks a reader to do, and on a page of small caps that difference should be
+ * visible without being loud. It keeps its label down to 760px — the model count
+ * is what gives up its room first, at 1000px — because an arrow alone is not a
+ * word anybody reads as "send us a link".
+ */
+.navrow .submit-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.navrow .submit-trigger:hover {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+/*
+ * The two model topics in the masthead (2026-09-24, restyled the same day).
+ *
+ * First pass drew them as quiet outlined chips. The reader's verdict — "太平淡了，
+ * 还不如不写" — is the right one, and worth writing down because it is a rule about
+ * this slot rather than about these two badges: the slot carries *what this site is
+ * paying attention to right now*, and a badge nobody notices answers nothing. So the
+ * topics get the live treatment — green, and a dot that pings — while still being
+ * links, and still not saying "live". Green here means "we are following this", the
+ * tooltip carries the sentence, and the destination is one click away.
+ *
+ * The ping lives on `.dot` for both states (a real live codename gets it too). It is
+ * a pseudo-element that scales and fades, not a blink: a blink is an alarm, a ping is
+ * a heartbeat, and this slot is on every page of the site. `prefers-reduced-motion`
+ * turns it off entirely — the colour still says what it says.
+ */
+.masthead .live-slot .badge .dot { position: relative; }
+.masthead .live-slot .badge .dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: currentColor;
+  animation: live-ping 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+@keyframes live-ping {
+  0% { transform: scale(1); opacity: 0.5; }
+  70%, 100% { transform: scale(3.4); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .masthead .live-slot .badge .dot::after { animation: none; opacity: 0; }
+}
+.masthead .live-slot .badge.topic {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--success);
+  background: var(--success-soft);
+  border-color: color-mix(in srgb, var(--success) 30%, transparent);
+}
+.masthead .live-slot .badge.topic:hover {
+  color: var(--on-accent);
+  background: var(--success);
+  border-color: var(--success);
+}
+@media (max-width: 760px) {
+  /* A phone has 334px for the brand, a scrolling nav and these tools: the arrow
+     carries it, and the label goes with the ⌘K hint. */
+  .navrow .submit-trigger span { display: none; }
+  .navrow .submit-trigger { padding: 5px var(--space-2); }
+}
 .navrow .search-trigger kbd {
   font: inherit;
   letter-spacing: 0.04em;
@@ -275,7 +372,9 @@ table.data tbody tr:nth-child(even) { background: var(--row-alt); }
  * would be invisible at 1.3:1, which is exactly the "looks fine, cannot be
  * seen" failure the contrast guard exists to prevent. */
 input[type="email"],
-input[type="text"] {
+input[type="text"],
+select,
+textarea {
   width: 100%;
   padding: 11px var(--space-4);
   font: inherit;
@@ -285,8 +384,59 @@ input[type="text"] {
   border: 1px solid var(--field-border);
   border-radius: var(--radius-sm);
 }
+/*
+ * select and textarea joined the rule when /submit landed
+ * (2026-09-23). The site had one control before — the mailing-list email field —
+ * and an intake form needs a select and two textareas; giving them a different
+ * boundary would have made the same form look like two forms. Same 1px
+ * `--field-border` (3:1 against the page and against --field-bg, WCAG 1.4.11),
+ * same focus ring.
+ */
+textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+select { appearance: none; padding-right: var(--space-8); background-image: none; }
+
+/* Field stack for the intake form: a label, then its control, then an optional
+   helper line. Labels are real <label for>, so the whole thing works by tab and
+   by screen reader without extra ARIA. */
+.field { margin: 0 0 var(--space-5); }
+.field label { display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); }
+/*
+ * Required vs optional as tags, not as a whisper. Both used to be the same faint
+ * grey at 12px — the same colour as the helper notes under the fields — so the
+ * only way to know which two fields actually stop the form was to read every
+ * label. A form that reads as six required fields is one people close.
+ */
+.field label .req, .field label .opt, .form-legend .req, .form-legend .opt {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+.field label .req, .form-legend .req { color: var(--on-accent); background: var(--accent); border: 1px solid var(--accent); }
+.field label .opt, .form-legend .opt { color: var(--text-faint); background: transparent; border: 1px solid var(--border-strong); }
+/* The sentence above the first field: two required, the rest optional. */
+.form-legend { font-size: var(--text-sm); color: var(--text-muted); margin: 0 0 var(--space-5); }
+/* Everything that is not the link or the email, folded away by default. */
+.form-more { margin: var(--space-6) 0 var(--space-5); border-top: 1px solid var(--border); padding-top: var(--space-4); }
+.form-more summary { cursor: pointer; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.form-more[open] summary { margin-bottom: var(--space-5); }
+form[data-submission][data-variant="dialog"] .field { margin-bottom: var(--space-4); }
+.field-pair { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.field-pair .field { flex: 1 1 240px; }
+/* The honeypot: out of the visual flow and out of the accessibility tree, but
+   still submitted. Display:none would stop some bots filling it; using the
+   off-screen trick keeps the ones worth catching. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 input::placeholder { color: var(--text-faint); }
 input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 .form-row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
 .form-row input { flex: 1 1 240px; }
@@ -587,3 +737,324 @@ ul, ol { padding-left: var(--space-6); }
 .crumbs ol { margin: 0 0 var(--space-6); }
 article > header.col > .crumbs ol, header.col > .crumbs ol { margin-bottom: var(--space-4); }
 h1 + .lede { margin-top: 0; }
+
+/* ------------------------------------------------------------- topic switcher
+ * The row under the nav that carries a model topic's catalogue views (2026-09-24).
+ *
+ * It sits inside the sticky header on purpose — see TopicTabs.astro — and that is also why it
+ * is the one piece of chrome allowed to be translucent: the header is a solid publication
+ * masthead, and this is the tab strip that rides under it while the page scrolls beneath. The
+ * band is frosted (the page shows through, blurred) and the tabs live inside **one capsule**,
+ * which was the reader's second note on the day it shipped: separate pills floating on a band
+ * read as five buttons that happen to be near each other; one capsule reads as a control with
+ * positions in it, which is what it is.
+ *
+ * Two consequences of living in the header, both worth knowing before changing this:
+ *
+ *   1. it is 1080 wide on every page of the topic (`.wrap`), even where the page's own column
+ *      is 792 or 1048. A switcher that changed width when you switched views would read as a
+ *      different control on every page;
+ *   2. the condensed header keeps it, so the bar never disappears — that persistence is the
+ *      whole point (it is what makes the reference site's links feel like tabs and not a maze).
+ *
+ * The chrome it costs is ~46px, and it only exists inside a topic: measure it on `/typesafe-jev`
+ * and on `/comparison` before changing anything here.
+ */
+.topicrow {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  /* Frosted: 62% paper over whatever scrolls under it. `-webkit-` first for older Safari,
+     which is the browser most likely to be on a phone here. */
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  -webkit-backdrop-filter: saturate(170%) blur(12px);
+  backdrop-filter: saturate(170%) blur(12px);
+}
+/*
+ * Height is set explicitly because `header.site .wrap` (tokens.css) pins **every** wrap in the
+ * header to 56px — its specificity beats a plain `.topicrow .wrap`, and the first build of this
+ * bar came out 57px tall (measured), which is 19px of chrome for nothing.
+ */
+header.site .topicrow .wrap {
+  height: 46px;
+  padding-top: 0;
+  padding-bottom: 0;
+  /* `header.site .wrap` carries a 24px gap for the masthead's brand/live-slot/tools; here it would
+     hold the use-case trigger 24px off the capsule's right end, which is the "patch stuck to the
+     bar" look the reader objected to. The trigger joins with -1px and squares its left corners. */
+  gap: 0;
+  /*
+   * The row is the frame; the capsule centres inside it.
+   *
+   * Measured at 1440 before this (2026-09-24): the wrap runs x=196..1244 and the capsule was
+   * pinned to its left edge — 823px of tabs in a 1048px row, so 225px of empty space on the right
+   * and the whole thing reading as "偏左". Centring also settles the question for the narrow
+   * pages: at 340..1100 their column is 760 wide and the capsule is 823, so aligning to the column
+   * would overflow it by 31px a side and aligning to the wrap would sit 144px left of the article.
+   * Centred in the wrap, the capsule lands at the same place on **every** page of the topic — which
+   * is the behaviour you want from chrome you switch views with: the control does not move.
+   */
+  justify-content: center;
+}
+/*
+ * `header.site nav` (tokens.css) is a flex box with `flex-wrap: wrap`, and it beats a bare
+ * `.topic-tabs` on specificity — so the first mobile build wrapped the bar into three rows of
+ * chrome, 106px tall, with "USE CASES" alone on the third (measured at 390px). The element
+ * selector is here to win that one declaration back, not for style.
+ */
+header.site nav.topic-tabs {
+  display: inline-flex;
+  align-items: center;
+  /*
+   * Items start at the capsule's left edge — **not** `justify-content: center`, which produced the
+   * classic centred-flex overflow: on a phone the capsule is capped at 100% and its first tab was
+   * laid out at x=-212, outside the scrollable area and unreachable in either direction. The
+   * capsule itself is centred by the row above; inside it, content starts at the start.
+   */
+  justify-content: flex-start;
+  gap: 2px;
+  /*
+   * Centred on the page's own column, and allowed to be slightly wider than it. The centring is the
+   * row's `justify-content`, not `margin: 0 auto` on this element — with both, the auto margin went
+   * looking for free space and pushed the capsule 100px off the use-case trigger beside it.
+   */
+  margin: 0;
+  max-width: none;
+  /* One capsule, one line. On a phone it scrolls inside itself rather than growing the header. */
+  flex-wrap: nowrap;
+  padding: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  /* Paper, not glass, for the capsule itself: the band is the frosted thing, and a frosted
+     control on a frosted band loses its edge. The interior highlight is the sheet's own. */
+  background: var(--surface);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 45%), 0 1px 1px rgb(0 0 0 / 4%);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+header.site nav.topic-tabs::-webkit-scrollbar { display: none; }
+/*
+ * The fade at the right edge of the capsule, when the row is wider than the screen (a phone, and
+ * the seven-tab Jev bar at 390px). Without it the last pill is cut mid-word by the viewport and
+ * reads as a broken element rather than as "there is more to the right". Painted in the band's
+ * own colour so it works over the frosted background; pointer-events off so it never eats a tap.
+ */
+header.site .topicrow .wrap { position: relative; }
+header.site .topicrow .wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: var(--space-4);
+  bottom: 0;
+  width: 34px;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--bg) 92%, transparent));
+  pointer-events: none;
+}
+/*
+ * The fade only where the row really scrolls: a phone. Above that the capsule is allowed to be a
+ * little wider than the column it centres on (823px of tabs inside a 760 column is 31px of
+ * overhang each side), which is invisible and much better than a one-item horizontal scroll on a
+ * desktop) — so the cap comes back at 900px, where the viewport itself is the constraint.
+ */
+@media (min-width: 901px) {
+  header.site .topicrow .wrap::after { content: none; }
+}
+.topic-tabs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 4px var(--space-3);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.topic-tabs a:hover { color: var(--text); background: var(--bg-sunken); }
+/* Where you are, as a filled segment inside the capsule — the bar answers "which view am I on"
+   before the h1 does, the same way the nav row underlines the current section. */
+.topic-tabs a[aria-current="page"] {
+  color: var(--text);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+}
+.topic-tabs .tt-count {
+  font-size: 10px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.topic-tabs a[aria-current="page"] .tt-count { color: var(--text-muted); }
+
+/* --------------------------------------------------------- article heads (one form)
+ * One head for every article, decided 2026-09-24 after the reader compared two pages and found
+ * two shapes: `eyebrow · title · lede · dated line` on some, `kicker + ruled byline box` on
+ * others ("用线框把标题和摘要介绍框起来，下面还写了时间，这是标准发 blog 的形式"). They were right
+ * that it was inconsistent, and the ruled byline is the imported-blog form, not ours.
+ *
+ * The standard, now enforced visually rather than by rewriting thirty files:
+ *
+ *   [breadcrumbs] → EYEBROW (mono, small, faint) → H1 → lede → PROVENANCE LINE (dated)
+ *
+ * Two rules do it. The markup keeps both vocabularies for now, so this is one change that can be
+ * read in one place; a later pass can rename `kicker`/`byline` to `card-eyebrow`/`provenance`
+ * across the pages, and this block can then be deleted.
+ *
+ *   - `.kicker` loses its hairline and matches `.card-eyebrow`;
+ *   - `.byline` loses its top-and-bottom rules and its all-caps, and matches `.provenance`.
+ *
+ * The date never moves out of the head: it is the one thing this site says it is for ("facts from
+ * the public catalogue, dated and labelled"), and a form that hides it would be the wrong
+ * unification.
+ */
+.kicker {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 var(--space-3);
+}
+.kicker::after { content: none; }
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  align-items: baseline;
+  font-size: var(--text-xs);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-faint);
+  border: 0;
+  padding: 0;
+  margin: var(--space-4) 0 var(--space-6);
+}
+
+@media (max-width: 900px) {
+  /* Where the viewport, not the column, is the limit: fill the row and scroll inside the capsule. */
+  header.site nav.topic-tabs { max-width: 100%; }
+}
+
+/* ---------------------------------------------------- the second axis ("By use case")
+ * A trigger joined to the capsule, opening the topic's other axis as a small section front
+ * (2026-09-24, second pass — the first version floated as a separate pill and the reader said what
+ * was wrong with it: it read like a patch stuck to the bar rather than a way into a part of the
+ * site. Two changes answered that:
+ *
+ *   1. **joined, not adjacent** — 1px of negative margin and squared adjoining corners, so the bar
+ *      is one capsule with two zones: the shelves on the left, the cross-cut on the right;
+ *   2. **the panel is a section front** — heading, one line saying what the section is, one row per
+ *      page with its blurb and count, and a link to the index. A menu is six bare labels.
+ *
+ * Why a panel and not a rail: the use cases are six items and a permanent rail costs 270px of the
+ * page, which measured drops the wall from three columns to two. See
+ * docs/research/2026-09-24-use-case-axis.md.
+ */
+.tt-more { position: relative; display: flex; align-items: stretch; flex: 0 0 auto; margin-left: -1px; }
+.tt-more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* Padding matches the capsule's own (3px of container + the tabs' 4px), so the two zones are
+     the same height — 8px of padding against a 19px line is the 35px the capsule measures. */
+  padding: 8px var(--space-3);
+  border: 1px solid var(--border-strong);
+  /* Squared on the side that touches the capsule, round on the outside: one control, two zones. */
+  border-radius: 0 999px 999px 0;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+}
+/* Safari draws its own marker; `list-style: none` is not enough on older versions. */
+.tt-more summary::-webkit-details-marker { display: none; }
+.tt-more summary:hover { color: var(--text); background: var(--bg-sunken); }
+.tt-more[open] summary { color: var(--text); background: var(--accent-soft); }
+.tt-more .tt-caret { font-size: 9px; transition: transform 140ms ease; }
+.tt-more[open] .tt-caret { transform: rotate(180deg); }
+/* The capsule's own right end squares off when the trigger is joined to it. */
+header.site nav.topic-tabs.has-more { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.tt-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 40;
+  width: 420px;
+  padding: var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 12px 34px rgb(0 0 0 / 13%);
+  text-align: left;
+  /* Never taller than the space below the header: the first version was 573px and hung off the
+     bottom of a 700px viewport, so its last row was unreachable. */
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+.tt-panel-head { margin: 0 0 var(--space-3); padding: 0 var(--space-2); }
+.tt-panel-title {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.tt-panel-note { display: block; margin-top: 4px; font-size: var(--text-xs); color: var(--text-faint); }
+/* Two columns, three rows: six one-line entries, which is 8 menu items' worth of height in half
+   the panel. Three columns would fit too and reads as a grid rather than a list of pages. */
+.tt-panel ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-2);
+}
+.tt-panel li a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+.tt-panel li a:hover { background: var(--bg-sunken); }
+.tt-more-label { color: var(--text); font-size: var(--text-sm); font-weight: 600; }
+.tt-panel-more {
+  display: block;
+  margin-top: var(--space-3);
+  padding: 0 var(--space-2);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+}
+.tt-panel-more:hover { text-decoration: underline; }
+@media (max-width: 560px) {
+  /*
+   * A phone has no room to the right of the capsule: the panel is anchored to the **row** instead
+   * of to the button. First attempt kept `position: relative` on the button and set `left: 0` on
+   * the panel, which started the panel at the button's left edge — x=270 in a 390px viewport, so
+   * the labels were there and the counts were off-screen. With the button static, the row is the
+   * containing block and `left/right: 0` spans it.
+   */
+  .tt-more { position: static; }
+  .tt-panel { left: 0; right: 0; width: auto; }
+  .tt-panel ul { grid-template-columns: minmax(0, 1fr); }
+}

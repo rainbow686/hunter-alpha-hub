@@ -1,0 +1,442 @@
+---
+/**
+ * /laya — the topic's front page.
+ *
+ * The shape is Jev's, on the reader's instruction of 2026-09-24 ("照着 Jev 的整体模式来做一遍"):
+ * a hero with words on the left and something real on the right, the numbers that say how big the
+ * topic is, a short table, then the wall of everything we hold — interleaved across the four
+ * columns — filtered in place by kind of work, and the FAQ closing it. The long reference material
+ * that used to live here is one click away at /laya/reference, exactly as Jev's is, because a page
+ * cannot be a shelf of many things and a single-subject article at the same time (ADR-0019).
+ *
+ * What is Jev's and should not be copied: the hero. Jev opens with its own launch post because
+ * there is one. Laya has no launch post — the model appeared as a repository and a paper — so the
+ * hero's right column carries the two things that stand for it here: the post that carried it
+ * furthest (14,028 likes, a clip of the MLX port playing Snake) and the most-watched video about
+ * it. Both are other people's work, both are credited on the card, and neither is ours.
+ *
+ * The numbers strip is read from the same files the columns render, never typed: this site has
+ * already printed "15 models tracked" for a week after the catalogue grew.
+ */
+import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Faq from "../../components/Faq.astro";
+import SubscribeForm from "../../components/SubscribeForm.astro";
+import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
+import CardFilter from "../../components/CardFilter.astro";
+import XClipWall from "../../components/XClipWall.astro";
+import YouTubeFacade from "../../components/YouTubeFacade.astro";
+import { layaBuilds, layaBuildsWithPages } from "@repo/lib/laya-builds";
+import { layaVideos } from "@repo/lib/laya-videos";
+import { layaThreads } from "@repo/lib/laya-threads";
+import { layaTopPost, layaXPosts, LAYA_X_READ_ON } from "@repo/lib/laya-x-posts";
+import { LAYA_KIND_COUNTS, LAYA_ITEMS_TOTAL, LAYA_TAGGED_TOTAL, layaTagsById } from "@repo/lib/laya-kinds";
+import {
+  checkpoints,
+  layaFaqs,
+  LAYA_GITHUB_URL,
+  LAYA_HF_URL,
+  LAYA_LICENSE,
+  LAYA_READ_ON,
+} from "@repo/lib/laya";
+import { determinism, latencyCpu } from "@repo/lib/laya-our-measurements";
+import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
+
+const title = "Laya: the Open-Weight System One Model, and Where It Runs (2026)";
+const h1 = "What is Laya? The open-weights decision model, in one page";
+const description =
+  "Laya is a 421M open-weight System One model from Convai Innovations: typed questions in, calibrated probabilities out, Apache-2.0 weights, and a server that answers TypeSafe's own /v1/systemone. What people built with it in its first week, and what we measured ourselves.";
+const canonical = `${SITE}/laya`;
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+/** The short version, in the shape the Jev front page uses: eight cells, four across. */
+const tldr = [
+  ["Maker", "Convai Innovations", "Nandakishor M"],
+  ["Class", "System One", "Decisions, not text"],
+  ["Weights", LAYA_LICENSE, "On Hugging Face"],
+  ["Checkpoints", "3", "English · multilingual · typed"],
+  ["Context", "512–1,024", "tokens, options included"],
+  ["Speed", "32.8 ms", "publisher's T4 figure"],
+  ["Ours", `${latencyCpu[0].p50} s`, "one question, our CPU, no GPU"],
+  ["Writes text?", "No", "gives up string generation"],
+];
+
+const columns = [
+  { label: "Built with Laya", href: "/laya/builds", count: layaBuilds.length },
+  { label: "Seen on X", href: "/laya/x-posts", count: layaXPosts.length },
+  { label: "Videos", href: "/laya/videos", count: layaVideos.length },
+  { label: "Threads", href: "/laya/threads", count: layaThreads.length },
+];
+
+const recordCount = layaBuilds.length + layaXPosts.length + layaVideos.length + layaThreads.length;
+const withPages = layaBuildsWithPages.length;
+const topLikes = layaXPosts[0]?.likes ?? 0;
+
+const heroStats = [
+  { value: fmt(recordCount), label: "records in the four columns", note: `${withPages} of them have a page of ours` },
+  { value: fmt(layaXPosts.length), label: "posts by other people", note: `the largest is ${fmt(topLikes)} likes` },
+  { value: fmt(layaBuilds.length), label: "repositories tracked", note: "half of them runtime ports" },
+  { value: `${latencyCpu[0].p50} s`, label: "per question, in our own run", note: `${determinism.calls} calls, on a 2018 CPU with no GPU` },
+];
+
+const relatedPages = [
+  {
+    href: "/laya/reference",
+    title: "Laya, specified",
+    body: "The long version: the three checkpoints and what each one is for, the limits the model card admits to, and the four measurements we ran ourselves.",
+  },
+  {
+    href: "/laya/vs-jev",
+    title: "Laya and Jev, on the same questions",
+    body: "Thirteen adversarial cases through both models, the eleven they agreed on, and whose ruler each published benchmark number came from.",
+  },
+  {
+    href: "/laya/self-hosting",
+    title: "What self-hosting costs",
+    body: "Hardware, the token budget the options eat into, and the failure modes of running a decision model on your own machine.",
+  },
+  {
+    href: "/laya/open-weights",
+    title: "What the licence allows",
+    body: "Apache-2.0 over three checkpoints, what the card says about commercial use, and what the licence does not reach.",
+  },
+];
+
+const WALL_PER_COLUMN = 24;
+
+/*
+ * The hero's post is left out of the wall (2026-09-24): it is also the top row of the X column, so
+ * rendering both put the same card on the page twice and built two `<video>` elements for one file.
+ * `layaTopPost` is what the hero below uses, so the filter and the hero cannot drift apart.
+ */
+const wallX: WallItem[] = layaXPosts
+  .filter((post) => post.id !== layaTopPost?.id)
+  .slice(0, WALL_PER_COLUMN)
+  .map((post) => ({
+  kind: "X post",
+  headline: post.title,
+  href: post.url,
+  external: true,
+  note: post.ourNote,
+  meta: [`${fmt(post.likes)} likes`, post.publishedAt],
+  thumb: post.thumb || undefined,
+  thumbW: post.thumbW,
+  thumbH: post.thumbH,
+  avatar: post.avatar || undefined,
+  tags: layaTagsById[post.id] ?? [],
+    video: post.video?.url,
+  }));
+
+const wallBuilds: WallItem[] = layaBuilds.slice(0, WALL_PER_COLUMN).map((build) => ({
+  kind: "Repository",
+  headline: build.title,
+  href: build.dossier ? `/laya/builds/${build.dossier.slug}` : build.url,
+  external: !build.dossier,
+  note: build.ourNote,
+  meta: [`${fmt(build.stars)} stars`, build.language ?? "—"],
+  thumb: build.card ?? undefined,
+  tags: layaTagsById[build.id] ?? [],
+}));
+
+const wallVideos: WallItem[] = layaVideos.slice(0, WALL_PER_COLUMN).map((video) => ({
+  kind: "Video",
+  headline: video.title,
+  href: video.url,
+  external: true,
+  note: video.ourNote,
+  meta: [`${fmt(video.views)} views`, video.channel],
+  thumb: video.thumb || undefined,
+  thumbW: video.thumbW,
+  thumbH: video.thumbH,
+  tags: layaTagsById[video.id] ?? [],
+}));
+
+const wallThreads: WallItem[] = layaThreads.slice(0, WALL_PER_COLUMN).map((thread) => ({
+  kind: thread.source === "hn" ? "Hacker News" : "dev.to",
+  headline: thread.title,
+  href: thread.url,
+  external: true,
+  note: thread.ourNote,
+  meta: [`${fmt(thread.score)} ${thread.scoreLabel}`, thread.publishedAt],
+  tags: layaTagsById[thread.id] ?? [],
+}));
+
+/** Interleaved, so the first screen shows a post, a repository, a video and a thread. */
+const wall: WallItem[] = [];
+for (let i = 0; i < WALL_PER_COLUMN; i += 1) {
+  for (const column of [wallX, wallBuilds, wallVideos, wallThreads]) {
+    if (column[i]) wall.push(column[i]);
+  }
+}
+
+const wallChips = LAYA_KIND_COUNTS.map((kind) => ({
+  group: "tag",
+  value: kind.slug,
+  label: kind.label,
+  count: kind.count,
+})).filter((chip) => chip.count > 0);
+
+const heroPost = layaTopPost;
+const heroPostRatio = heroPost && heroPost.thumbW ? `${heroPost.thumbW} / ${heroPost.thumbH}` : "16 / 9";
+const heroVideo = layaVideos[0] ?? null;
+---
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer wide>
+  <Breadcrumbs schema={false} items={[{ name: "Laya", url: canonical }]} />
+
+  <JsonLd
+    slot="head"
+    data={articleSchema({
+      title: "Laya: the open-weight System One decision model",
+      description,
+      publishedAt: LAYA_READ_ON,
+      updatedAt: LAYA_READ_ON,
+      image: `${SITE}/og-image.png`,
+      url: canonical,
+    })}
+  />
+  <JsonLd slot="head" data={faqSchema(layaFaqs)} />
+  <JsonLd
+    slot="head"
+    data={breadcrumbSchema([
+      { name: "Home", url: SITE },
+      { name: "OpenRouter models", url: `${SITE}/openrouter-models` },
+      { name: "Laya", url: canonical },
+    ])}
+  />
+
+  {/*
+    `noReferrer` is on because the X cards below can play their clips: video.twimg.com answers 403
+    to a request carrying a third-party Referer, and a media element cannot opt out on its own.
+  */}
+  <section class="topic-hero">
+    <div class="hero-copy">
+      <p class="card-eyebrow">Model reference · verified {LAYA_READ_ON}</p>
+      <h1 class="display">{h1}</h1>
+      <p class="lede">
+        Laya is an open-weight decision model published by Convai Innovations on 18 September 2026, three
+        days after TypeSafe's Jev. You hand it a piece of text and a set of typed questions, and one forward
+        pass returns the answers with probabilities — no tokens, no prose to parse, no API bill. It is the
+        first serious open implementation of the idea Jev is sold on.
+      </p>
+      <p class="provenance">
+        <span>Weights {LAYA_LICENSE}, on Hugging Face</span>
+        <span><a href={LAYA_GITHUB_URL} rel="noopener noreferrer">The repository →</a></span>
+      </p>
+
+      <ul class="stat-row">
+        {heroStats.map((stat) => (
+          <li>
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+            <span class="stat-note">{stat.note}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/*
+        The explainers, not the shelves. The shelves live in the sticky switcher under the header on
+        every page of this topic; two copies of one row 400px apart is a page arguing with itself.
+      */}
+      <nav class="topic-chips" aria-label="Laya explainers">
+        <a href="/laya/reference">Specs, and what we measured</a>
+        <a href="/laya/vs-jev">Laya vs Jev</a>
+        <a href="/laya/self-hosting">Running it yourself</a>
+        <a href="/laya/open-weights">What the licence allows</a>
+        <a href="/laya/kinds">Every record, by kind</a>
+      </nav>
+    </div>
+
+    <div class="hero-media">
+      {heroPost && (
+        <figure class="hero-card">
+          <div class="card-media" style={`--ratio: ${heroPostRatio}`}>
+            <span class="card-src">X post · the one that travelled</span>
+            {heroPost.video ? (
+              <button
+                class="xvideo-facade"
+                type="button"
+                data-xvideo={heroPost.video.url}
+                data-poster={heroPost.thumb}
+                aria-label={`Play the clip from this post: ${heroPost.title}`}
+              >
+                <img src={heroPost.thumb} alt="" width={heroPost.thumbW} height={heroPost.thumbH} decoding="async" referrerpolicy="no-referrer" />
+                <span class="xvideo-play" aria-hidden="true">▶</span>
+              </button>
+            ) : (
+              <img src={heroPost.thumb} alt="" width={heroPost.thumbW} height={heroPost.thumbH} decoding="async" referrerpolicy="no-referrer" />
+            )}
+          </div>
+          <figcaption class="hero-cap">
+            <span class="hero-cap-title">The port to MLX, and a Snake game running on it</span>
+            <span class="hero-cap-meta">
+              {heroPost.author} · {heroPost.publishedAt} · {fmt(heroPost.likes)} likes
+            </span>
+            <a class="hero-cap-link" href={heroPost.url} rel="noopener noreferrer">Read the post on X →</a>
+          </figcaption>
+        </figure>
+      )}
+
+      {/*
+        The two cards are the same figure — poster, then caption — and the same size, which is the
+        lesson from Jev's front page: a row-shaped second card leaves the media column hundreds of
+        pixels shorter than the text beside it. The video is a link rather than a player because it
+        is YouTube, which stays click-to-load (ADR-0022); the X post above it plays in place.
+      */}
+      {heroVideo && (
+        <figure class="hero-card">
+          {/* Plays here rather than sending the reader to YouTube — see YouTubeFacade.astro. */}
+          <YouTubeFacade
+            videoId={heroVideo.videoId}
+            thumb={heroVideo.thumb}
+            title={heroVideo.title}
+            thumbW={heroVideo.thumbW}
+            thumbH={heroVideo.thumbH}
+            source="Video · YouTube"
+          />
+          <figcaption class="hero-cap">
+            <span class="hero-cap-title">{heroVideo.title}</span>
+            <span class="hero-cap-meta">
+              {heroVideo.channel} · {fmt(heroVideo.views)} views · {Math.max(1, Math.round(heroVideo.durationS / 60))} min
+            </span>
+            <a class="hero-cap-link" href={heroVideo.url} rel="noopener noreferrer">Watch on YouTube →</a>
+          </figcaption>
+        </figure>
+      )}
+    </div>
+  </section>
+
+  <h2 id="tldr">The short version</h2>
+  <div class="stats">
+    {tldr.map(([label, value, sub]) => (
+      <div class="stat">
+        <div class="label">{label}</div>
+        <div class="value" style="font-size: var(--text-xl);">{value}</div>
+        <div class="sub">{sub}</div>
+      </div>
+    ))}
+  </div>
+
+  <section class="topic-wall">
+    <h2>What people are building</h2>
+    {/*
+      The kinds axis over the wall, the same way Jev's uses cases work: it filters what is already on
+      the page, changes no URL, and stays hidden without JavaScript. The full list behind each kind
+      is its own page under /laya/kinds.
+    */}
+    <CardFilter chips={wallChips} noun="records" total={wall.length} />
+    <TopicWall items={wall} columns={columns} />
+    <p class="wall-note">
+      The {LAYA_KIND_COUNTS.length} kinds cover {LAYA_TAGGED_TOTAL} of the {LAYA_ITEMS_TOTAL} records in this topic;
+      the rest are announcements and explainers, which belong to no kind and to no chip. A chip's number counts
+      every record in the topic — <strong>the wall on this page is a sample of it</strong>, so switching a chip on
+      shows the matching cards from these {wall.length}, and the complete list behind each kind is its own page,
+      linked from <a href="/laya/kinds">Kinds of work</a>.
+    </p>
+  </section>
+
+  <h2>FAQ</h2>
+  <Faq items={layaFaqs} />
+
+  {/* The player for any clip the wall above rendered (see TopicWall.astro). */}
+  <XClipWall />
+
+  <section class="card" style="margin-top: var(--space-12);">
+    <h2 style="margin-top: 0;">When the next open model lands, you will hear about it</h2>
+    <p style="color: var(--text-muted); max-width: var(--measure);">
+      Laya arrived as a repository rather than an announcement, which is how the open ones usually
+      arrive. We track both kinds. Leave an email and we will send one note when the next model appears,
+      with the specs read from the catalogue.
+    </p>
+    <SubscribeForm note="One email per model. No newsletter, no forwarding, unsubscribe in one click." />
+  </section>
+
+  <h2>Where to go next</h2>
+  <div class="grid-cards">
+    {relatedPages.map((page) => (
+      <article class="card">
+        <h3 class="card-title"><a href={page.href}>{page.title}</a></h3>
+        <p class="card-body">{page.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="hero-actions">
+    <a class="btn primary" href={LAYA_GITHUB_URL} rel="noopener noreferrer">Open the repository →</a>
+    <a class="btn ghost" href={LAYA_HF_URL} rel="noopener noreferrer">The weights on Hugging Face</a>
+    <a class="btn ghost" href="/laya/reference">The specs and our measurements</a>
+    <a class="btn ghost" href="/laya/kinds">Every record we hold</a>
+  </p>
+</System>
+
+<style>
+  /*
+   * The hero, the chips, the stat row and the four-across short table are the same shapes the Jev
+   * front page uses, and they are duplicated here rather than extracted into a component because
+   * this site has exactly two topic covers and a component with two callers is a third thing to
+   * keep working. The one difference is `.hero-copy { max-width: 62ch }`: a wide frame is right for
+   * a grid and wrong for a paragraph.
+   */
+  .topic-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+    gap: var(--space-10);
+    align-items: start;
+    margin: var(--space-5) 0 var(--space-8);
+  }
+  @media (max-width: 1000px) {
+    .topic-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+  }
+  .hero-copy { max-width: 62ch; }
+  .hero-copy .provenance { margin: var(--space-4) 0 var(--space-5); }
+  .hero-media { display: grid; gap: var(--space-5); }
+  .hero-card {
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .hero-cap { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5) var(--space-5); }
+  .hero-cap-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-lg); }
+  .hero-cap-meta { font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  .hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+  }
+  .stat-row li { border-top: 2px solid var(--border-strong); padding-top: var(--space-3); }
+  .stat-value { display: block; font-family: var(--sans); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat-label { display: block; font-size: var(--text-sm); color: var(--text-muted); margin-top: 2px; }
+  .stat-note { display: block; font-size: var(--text-xs); color: var(--text-faint); margin-top: var(--space-2); }
+
+  .topic-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .topic-chips a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    color: var(--text-muted);
+    background: var(--surface);
+  }
+  .topic-chips a:hover { color: var(--text); border-color: var(--text-faint); }
+
+  /* Eight tiles, four across: the site default laid them out six-plus-two and the last row read as
+     a loading state. Two across below 760 keeps the labels from wrapping. */
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .topic-wall { margin-top: var(--space-10); }
+  .wall-note { margin-top: var(--space-5); font-size: var(--text-sm); color: var(--text-muted); max-width: var(--measure); }
+  .topic-wall h2 { margin-bottom: var(--space-5); }
+</style>

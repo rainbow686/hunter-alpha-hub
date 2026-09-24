@@ -1,0 +1,103 @@
+---
+/**
+ * /laya/videos — the video column of the Laya topic.
+ *
+ * Two rules the ingest and this page agree on. First, the model has to be named in the title or the
+ * description: five of the fourteen candidates were Jev explainers that the search returned because
+ * both models live in the same sentence everywhere, and a card titled "JEV Breakdown" in Laya's
+ * column is a card a reader cannot trust. Second, nothing loads from YouTube until the reader asks:
+ * the poster is ours to show, the player is theirs to fetch (ADR-0022).
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import YouTubeFacade from "../../../components/YouTubeFacade.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_VIDEOS_READ_ON, layaVideoCounts, layaVideos } from "@repo/lib/laya-videos";
+import { LAYA_KIND_COUNTS } from "@repo/lib/laya-kinds";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Laya Videos: Open-Weight Decisions, Explained and Demonstrated (2026)";
+const description = `${layaVideoCounts.published} videos about Laya — the local installs, the demos, the head-to-head games and the arguments — each described in a sentence of ours. Views read ${LAYA_VIDEOS_READ_ON}.`;
+const canonical = `${SITE}/laya/videos`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+const dur = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+
+const chips = LAYA_KIND_COUNTS.map((kind) => ({
+  group: "tag",
+  value: kind.slug,
+  label: kind.label,
+  count: layaVideos.filter((v) => v.tags.includes(kind.slug)).length,
+})).filter((chip) => chip.count > 0);
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title: "Laya videos", description, publishedAt: LAYA_VIDEOS_READ_ON, updatedAt: LAYA_VIDEOS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Videos", url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">Videos · Laya</p>
+      <h1>What people filmed about Laya</h1>
+      <p class="lede">
+        Within four days of the repository going up there were fourteen videos about it, and nine of
+        them were worth a card. Most are installs and demos, several are games, and two are about the
+        argument the model started rather than about the model. Longest reach first.
+      </p>
+      <p class="provenance">
+        <span>Views and duration read {LAYA_VIDEOS_READ_ON}</span>
+        <span>{layaVideoCounts.published} videos published</span>
+        {layaVideoCounts.waiting > 0 && <span>{layaVideoCounts.waiting} not published</span>}
+      </p>
+    </header>
+
+    <CardFilter chips={chips} noun="videos" total={layaVideos.length} groups={[{ key: "tag", label: "kind of work" }]} />
+
+    <ul class="card-grid">
+      {layaVideos.map((video) => (
+        <li class="card" data-sources="youtube" data-tags={video.tags.join(" ")}>
+          {/* The poster and the player in one component — see YouTubeFacade.astro. */}
+          <YouTubeFacade
+            videoId={video.videoId}
+            thumb={video.thumb}
+            title={video.title}
+            thumbW={video.thumbW}
+            thumbH={video.thumbH}
+            length={dur(video.durationS)}
+          />
+          <h2 class="card-title"><a href={video.url} rel="noopener">{video.title}</a></h2>
+          <p class="card-meta">
+            <span>{video.channel}</span>
+            <span>{video.publishedAt}</span>
+            <span>{fmt(video.views)} views</span>
+          </p>
+          <p class="card-note card-our">{video.ourNote}</p>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        Anything we have not watched past the part that matters, and any video whose description does
+        not name Laya. A video index built from titles is a list of other people's headlines, so the
+        rows above are the ones we could describe in our own words; the rest of what the search
+        turned up sits in the queue until somebody writes that sentence, which for a five-day-old
+        model is most of it.
+      </p>
+      <p class="provenance">
+        <a href="https://developers.google.com/youtube/v3">Source: YouTube Data API v3</a>
+        <span>Player loads only on click</span>
+        <span><a href="/laya">Laya topic</a></span>
+      </p>
+    </section>
+    <TopicIndex entries={layaTopicEntries} current="/laya/videos" />
+  </article>
+
+</System>
+

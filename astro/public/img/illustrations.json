@@ -48,39 +48,45 @@
     "preset": "cover-jev-topic",
     "model": "black-forest-labs/FLUX.2-flex",
     "size": "1280x720",
-    "seed": 20260922,
-    "promptSha256": "6e1e423807515f00",
+    "seed": 20261031,
+    "promptSha256": "b6b44bb14eb92a4c",
     "file": "img/cover-jev-topic.webp",
-    "generatedAt": "2026-09-22"
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
   },
   "img/cover-jev-guide.webp": {
     "preset": "cover-jev-guide",
     "model": "black-forest-labs/FLUX.2-flex",
     "size": "1280x720",
-    "seed": 20261002,
-    "promptSha256": "5b14b4cb9edfd063",
+    "seed": 20261032,
+    "promptSha256": "a272d851bdc80000",
     "file": "img/cover-jev-guide.webp",
     "width": 1024,
     "height": 576,
-    "generatedAt": "2026-09-23"
+    "generatedAt": "2026-09-24"
   },
   "img/cover-alpha-line.webp": {
     "preset": "cover-alpha-line",
     "model": "black-forest-labs/FLUX.2-flex",
     "size": "1280x720",
-    "seed": 20260924,
-    "promptSha256": "28b9a87b8ead6228",
+    "seed": 20261037,
+    "promptSha256": "6106cd5bc71a36f9",
     "file": "img/cover-alpha-line.webp",
-    "generatedAt": "2026-09-22"
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
   },
   "img/cover-jev-pricing.webp": {
     "preset": "cover-jev-pricing",
     "model": "black-forest-labs/FLUX.2-flex",
     "size": "1280x720",
-    "seed": 20260925,
-    "promptSha256": "e0c7e70e7a82271c",
+    "seed": 20261033,
+    "promptSha256": "5c77b73990418d03",
     "file": "img/cover-jev-pricing.webp",
-    "generatedAt": "2026-09-23"
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
   },
   "img/cover-jev-vs-llm.webp": {
     "preset": "cover-jev-vs-llm",
@@ -95,10 +101,12 @@
     "preset": "cover-jev-open-source",
     "model": "black-forest-labs/FLUX.2-flex",
     "size": "1280x720",
-    "seed": 20260927,
-    "promptSha256": "1058f700ea43d395",
+    "seed": 20261034,
+    "promptSha256": "a0ea6646e2d9ef62",
     "file": "img/cover-jev-open-source.webp",
-    "generatedAt": "2026-09-23"
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
   },
   "/tmp/probe169.webp": {
     "preset": "_probe-169",
@@ -108,5 +116,71 @@
     "promptSha256": "1bf51e4170a60e69",
     "file": "/tmp/probe169.webp",
     "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-topic.webp": {
+    "preset": "cover-laya-topic",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261035,
+    "promptSha256": "a75da8391670bc93",
+    "file": "img/cover-laya-topic.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
+  },
+  "img/cover-laya-vs-jev.webp": {
+    "preset": "cover-laya-vs-jev",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261011,
+    "promptSha256": "eb8ad6a6376c1aec",
+    "file": "img/cover-laya-vs-jev.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-self-hosting.webp": {
+    "preset": "cover-laya-self-hosting",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261002,
+    "promptSha256": "ffbea7f7025a96fa",
+    "file": "img/cover-laya-self-hosting.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-23"
+  },
+  "img/cover-laya-open-weights.webp": {
+    "preset": "cover-laya-open-weights",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261036,
+    "promptSha256": "bc42bec4386f8599",
+    "file": "img/cover-laya-open-weights.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
+  },
+  "img-review/cand-laya-concrete-vs-jev.webp": {
+    "preset": "cand-laya-concrete-vs-jev",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261020,
+    "promptSha256": "0c4735fc3dae8da6",
+    "file": "img-review/cand-laya-concrete-vs-jev.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
+  },
+  "img-review/cand-laya-concrete-self-host.webp": {
+    "preset": "cand-laya-concrete-self-host",
+    "model": "black-forest-labs/FLUX.2-flex",
+    "size": "1280x720",
+    "seed": 20261021,
+    "promptSha256": "59ccb4719008cc66",
+    "file": "img-review/cand-laya-concrete-self-host.webp",
+    "width": 1024,
+    "height": 576,
+    "generatedAt": "2026-09-24"
   }
 }

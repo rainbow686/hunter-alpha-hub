@@ -1,0 +1,309 @@
+---
+/**
+ * /laya/vs-jev — the head-to-head.
+ *
+ * The whole design of this page is one rule: every number carries whose ruler
+ * produced it. There are three kinds here — the publisher's benchmarks, our own
+ * matched-case run, and Jev's figures which are third-party in one table and ours
+ * in another — and mixing them is how a comparison page turns into marketing for
+ * whoever published last.
+ *
+ * The page is also a deliberate experiment in not picking the best model. Both
+ * models answered the same thirteen adversarial cases; they agreed eleven times.
+ * That is the finding, and a page that buried it under a verdict would be lying
+ * about how thin the evidence is.
+ */
+import System from "../../../layouts/System.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Callout from "../../../components/Callout.astro";
+import Faq from "../../../components/Faq.astro";
+import Provenance from "../../../components/Provenance.astro";
+import { articleSchema, faqSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { publishedComparison, LAYA_READ_ON } from "@repo/lib/laya";
+import { LAYA_OURS_MEASURED_ON, determinism, latencyCpu, schemaProbe, noul } from "@repo/lib/laya-our-measurements";
+
+const title = "Laya vs Jev: Two Decision Models on the Same Thirteen Cases (2026)";
+const description =
+  "We sent the same thirteen adversarial cases to Jev and to Laya, ran each twenty times for determinism, and separated the published benchmarks from our own. They agreed on eleven of thirteen labels — and the latency comparison everybody quotes is two different measurements.";
+const canonical = `${SITE}/laya/vs-jev`;
+
+const faqs = [
+  {
+    question: "Is Laya better than Jev?",
+    answer:
+      "Nothing we ran supports a verdict either way. On the publisher's benchmark table Laya wins the accuracy rows it printed and loses the high-cardinality one; on our thirteen adversarial cases the two models agreed eleven times and neither ever left the option set. Different tasks, different rulers, no winner.",
+  },
+  {
+    question: "Is Laya really faster than Jev?",
+    answer:
+      "The numbers people quote are not the same measurement. 32.8 ms is the publisher's figure on a Tesla T4 with the model already loaded; 236–276 ms is a third-party figure for Jev's hosted API that the publisher has never reproduced. We measured 0.30 s for a single question on a CPU with no accelerator, and 783 ms for Jev including a network round trip.",
+  },
+  {
+    question: "Can I swap Jev for Laya by changing the URL?",
+    answer:
+      "Mostly. Our Jev client, pointed at `laya-serve` instead of TypeSafe, got a parseable answer for all thirteen cases with no code change beyond the endpoint. The response carries extra fields (a `routing` block, an `action` on every answer) that a schema-validating client would reject, and a client that names a checkpoint gets a different one for non-Latin states.",
+  },
+  {
+    question: "Do both models really keep answers inside the option set?",
+    answer:
+      "On the thirteen cases we wrote, in four runs each, yes — neither model returned a label that was not offered, including the two cases that try to widen the option set with instructions inside the state. That is 52 calls per model, which is evidence that the property holds on adversarial input, not proof that it always holds.",
+  },
+];
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={articleSchema({ title, description, publishedAt: LAYA_READ_ON, updatedAt: LAYA_OURS_MEASURED_ON, url: canonical })} />
+  <JsonLd slot="head" data={faqSchema(faqs)} />
+
+  <Breadcrumbs
+    schema={true}
+    items={[
+      { name: "Laya", url: `${SITE}/laya` },
+      { name: "Laya vs Jev", url: canonical },
+    ]}
+  />
+
+  <article class="col">
+    <header class="page-head">
+      <p class="card-eyebrow">Laya · comparison</p>
+      <h1>Laya vs Jev</h1>
+      <p class="lede">
+        Two models that do the same job in the same shape: a state in, a typed answer out, one
+        forward pass. They are not the same object — one is a hosted API with a closed model and the
+        other is 843 MB of weights you download — but they answer the same question, and most of
+        what is written about the pair compares numbers produced on different hardware, different
+        test sets and, in one direction, by somebody who never ran the other model.
+      </p>
+
+      {/* Cover (contract §5): about this page's subject, dimensions are the file's own. */}
+      <figure class="figure cover">
+        <img src="/img/cover-laya-vs-jev.webp" alt="An engraving: a cabinet with two drawers pulled open, the left one sealed behind a brass lock plate, the right one open and holding a single small brass instrument." width="1024" height="576" decoding="async" />
+      </figure>
+    </header>
+
+    <Callout eyebrow="In short">
+      <li><strong>Same thirteen cases, both models:</strong> identical labels on <strong>11 of 13</strong>, and <strong>zero</strong> answers outside the option set, over 52 calls each.</li>
+      <li><strong>The two disagreements are the two hardest cases</strong> — a state whose request has no matching option, and an empty state. Laya's confidence there was 0.083 and 0.035, the lowest in the run.</li>
+      <li><strong>Determinism is where they differ sharply:</strong> twenty identical calls moved Laya by 0.0000 on every signal; Jev's label held but its confidence ranged 0.38–0.58.</li>
+      <li><strong>The famous latency gap is not one measurement:</strong> 32.8 ms is a T4 with the model resident, 236–276 ms is Jev's hosted API, our CPU run is 0.30 s, and our Jev number includes a round trip to Asia.</li>
+      <li><strong>On the publisher's own table, Laya loses the one row that matters for large option sets:</strong> 0.425 against Jev's 0.870 on Banking77.</li>
+    </Callout>
+
+    <section>
+      <h2>First, the table with two parents</h2>
+      <p>
+        The comparison most people have seen is Laya's, and it is worth reading carefully because
+        its two columns have different owners. Every Laya figure is the publisher's measurement.
+        Every Jev figure is quoted from third parties — the card says in the line above the table
+        that it never had TypeSafe API access, which is unusually honest and also means the table is
+        two tables stapled together.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Benchmark</th><th class="num">Jev 1.13.0</th><th class="num">Laya</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            {publishedComparison.map((row) => (
+              <tr>
+                <td>{row.metric}</td>
+                <td class="num" style={row.jevLeads ? "font-weight: 600;" : undefined}>{row.jev}</td>
+                <td class="num" style={row.jevLeads ? undefined : "font-weight: 600;"}>{row.laya}</td>
+                <td>{row.note ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Provenance
+        source="convaiinnovations/laya model card"
+        verified={LAYA_READ_ON}
+        extra={[
+          "Laya's figures are the publisher's. Jev's figures in that table are third-party and were never measured by the publisher.",
+          "Bold marks the leading side on each row, including the two rows where Jev leads.",
+        ]}
+      />
+      <p>
+        Two rows deserve to be read together. Laya's 0.081 ECE against Jev's 0.246 is the calibration
+        claim, and the card is explicit that it comes from fitting a temperature per question type
+        and option count — from 0.466 before fitting. And the row where Jev wins by 24 points is the
+        one the card explains with a mechanism rather than a shrug: options share a fixed token
+        budget, so 77 labels get three or four tokens each.
+      </p>
+    </section>
+
+    <section>
+      <h2>The same thirteen cases, sent to both</h2>
+      <p>
+        We already had an adversarial suite written for Jev — an option that was never offered,
+        instructions hidden inside the state, a forged system line, near-synonym options, a single
+        option, an empty state, ten thousand characters of logs, numeric keys, punctuation in the
+        question name. It is a file in the repository, and the client that sends it is the one we
+        send to TypeSafe. For Laya we pointed that client at the local server instead, and the table
+        below is what came back on both sides, in the same order.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Attempt</th>
+              <th>Laya</th>
+              <th class="num">Laya confidence</th>
+              <th>Jev</th>
+              <th>Same label?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {schemaProbe.attempts.map((row) => (
+              <tr>
+                <td>{row.attempt}</td>
+                <td><code>{row.laya}</code></td>
+                <td class="num">{row.confidence.toFixed(4)}</td>
+                <td><code>{row.jev}</code></td>
+                <td>{row.same ? "yes" : "no"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Provenance
+        source="astro/scripts/jev-probe-cases.json"
+        verified={LAYA_OURS_MEASURED_ON}
+        extra={[
+          "Laya: 4 runs per case, 52 calls, 0 answers outside the option set, 0 unstable labels.",
+          `Jev: the same 13 cases, 4 runs, published at /typesafe-jev. Off-menu answers: 0.`,
+        ]}
+      />
+      <p>
+        Eleven agreements out of thirteen is the result we did not expect. These are not variations
+        of one model: Jev is a hosted service from a funded lab and Laya is 421M parameters trained
+        by a community project, and on deliberately strange input they land on the same option. The
+        two cases where they part are the two where the state does not really fit any option — a
+        request to cancel an account against a four-team taxonomy that cannot cancel anything, and
+        an empty string. Jev picked a plausible team and, in the empty case, was confident about it
+        (0.99). Laya picked `returns` both times at 0.083 and 0.035 — the two lowest confidences in
+        the run.
+      </p>
+      <p>
+        Which of those behaviours is better depends on what you do with the number. A system that
+        routes on the label alone prefers Jev's willingness to answer. A system that escalates below
+        a confidence floor gets a cleaner signal from Laya, which effectively says "I have nothing"
+        where Jev says "technical, 0.99".
+      </p>
+    </section>
+
+    <section>
+      <h2>Twenty identical calls</h2>
+      <p>
+        This is the test that separates the two models most cleanly, and it is the cheapest one to
+        run: send the same request twenty times and watch what moves. It is also the test that
+        matters most in production, because a router tuned on one sample assumes the sample was the
+        answer.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Signal</th><th class="num">Laya</th><th class="num">Range over 20</th><th class="num">Jev</th><th class="num">Range over 20</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Label</td><td>technical, 20/20</td><td class="num">0</td><td>technical, 20/20</td><td class="num">0</td></tr>
+            <tr><td>Choice probability</td><td class="num">{(determinism.signals[2].value).toFixed(4)}</td><td class="num">0.0000</td><td class="num">0.59–0.73</td><td class="num">0.140</td></tr>
+            <tr><td>Choice confidence</td><td class="num">{(determinism.signals[3].value).toFixed(4)}</td><td class="num">0.0000</td><td class="num">0.38–0.58</td><td class="num">0.200</td></tr>
+            <tr><td>Ordinal score</td><td class="num">{(determinism.signals[1].value).toFixed(2)}</td><td class="num">0.0000</td><td class="num">1.03–1.04</td><td class="num">0.010</td></tr>
+            <tr><td>Noul probability</td><td class="num">{(determinism.signals[0].value).toFixed(3)}</td><td class="num">0.0000</td><td class="num">0.98</td><td class="num">0.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <Provenance
+        source="our runs: Laya local, Jev over HTTPS"
+        verified={LAYA_OURS_MEASURED_ON}
+        extra={["Jev's column is from 2026-09-20, the run published on /typesafe-jev; the two runs used the same shape of request, not the same state."]}
+      />
+      <p>
+        A model that returns the same four decimals twenty times is arithmetically deterministic —
+        same weights, same input, same float ops. Jev's spread is not sloppiness either; it is a
+        hosted service in front of a model that was never going to be bit-exact. But the consequence
+        is asymmetric. With Jev you cannot read one confidence and decide it is "the" number: 0.38
+        and 0.58 sit on opposite sides of most escalation thresholds, and the request that produced
+        one produced the other eleven seconds later.
+      </p>
+      <p class="quoted">
+        The caveat belongs next to the claim: our Jev run was in September 2026 against the hosted
+        endpoint and we have only one state for it. Twenty calls on one ticket is evidence that
+        variance exists there, not a measurement of how much.
+      </p>
+    </section>
+
+    <section>
+      <h2>The latency numbers are not one measurement</h2>
+      <p>
+        The most repeated sentence in this comparison is "Laya is 7.8× faster". It is worth taking
+        apart, because one side of it is a GPU with the weights already in memory and the other side
+        is somebody else's API across the public internet.
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr><th>Figure</th><th class="num">Value</th><th>What it actually measures</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Laya, publisher</td><td class="num">32.8 ms</td><td>A Tesla T4, model loaded, one question, no network.</td></tr>
+            <tr><td>Jev, third party</td><td class="num">236–276 ms</td><td>A hosted API from somewhere the publisher does not name — and the publisher states it has never run Jev.</td></tr>
+            <tr><td>Laya, ours</td><td class="num">{latencyCpu[0].p50} s</td><td>A 2018 laptop CPU, one question, weights resident, no accelerator.</td></tr>
+            <tr><td>Laya, ours, 50 questions</td><td class="num">{latencyCpu[2].p50} s</td><td>Same machine, batched: {(latencyCpu[2].perQuestion * 1000).toFixed(0)} ms per question.</td></tr>
+            <tr><td>Jev, ours</td><td class="num">0.783 s</td><td>Median wall clock including DNS, TLS and a round trip to a server in Asia.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Read down the middle column and the comparison dissolves: 32.8 ms and 0.783 s are not two
+        points on one axis, they are three different things — silicon, a network and a batch. What a
+        reader can actually plan with is the shape: on a CPU with no GPU, a question costs about a
+        fifth of a second once you batch, and a single unbatched call costs a third of a second. If
+        that is fast enough for your loop, you do not care what a T4 does; if it is not, you need a
+        GPU and the publisher's 32.8 ms becomes the number you are buying.
+      </p>
+    </section>
+
+    <section>
+      <h2>The one place they behave differently in kind</h2>
+      <p>
+        Laya's `noul` — the yes/no primitive — has a documented failure mode that we reproduced on
+        the first try. Asked "Is this review positive?" about five reviews, three of them glowing,
+        the English checkpoint returned <strong>0.000 at confidence 1.0 every time</strong>. Not
+        uncertain: certain, and wrong, five for five.
+      </p>
+      <p>
+        The model card names this (#156), scopes it to the English checkpoint, and prescribes the
+        workaround: ask the same thing as a two-option `choice` with neutral keys. We ran that too,
+        and it works — all five came back on the right side, with P(yes) between 0.66 and 0.78 for
+        the positive three and 0.004 and 0.0005 for the negative two. The multilingual checkpoint,
+        which the router selects for non-Latin scripts, got two of three right on the same question
+        and made its one mistake at 0.915 confidence.
+      </p>
+      <p>
+        Jev's equivalent does not have this failure in our runs: its `noul` returned 0.98 on the
+        urgency question and was the most stable signal in the twenty-call test. What Jev has
+        instead is the confidence spread above. Two different ways of being hard to trust, and the
+        right response to both is the same: gate on your own data, not on a blog post.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this page cannot tell you</h2>
+      <p>
+        It cannot declare a winner, and it will not: thirteen cases and forty ticket labels are
+        enough to find edges and not enough to rank. It cannot compare accuracy on a task you care
+        about, because neither model was trained on your task and both are meant to be fine-tuned
+        before that comparison means anything. It cannot verify the publisher's benchmark rows for
+        Jev, because those were never measured by the party publishing them. And it cannot tell you
+        which is cheaper — one is free at the point of use and costs electricity, the other is
+        $0.042 per million input tokens and costs nothing when idle, and which is cheaper depends on
+        a utilisation curve neither of us can guess from here.
+      </p>
+    </section>
+
+    <Faq items={faqs} />
+  </article>
+</System>

@@ -17,15 +17,24 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dirname, "../..");
+/*
+ * Every queue that feeds a published page, with the vocabulary its tags are checked against.
+ *
+ * A topic brings its own vocabulary (2026-09-24, when Laya's columns were built): Jev's six use
+ * cases are not Laya's six kinds of work, and a shared file would have forced one topic's rows to
+ * carry another topic's labels. The check below is per queue for the same reason the file is.
+ */
 const QUEUES = [
-  resolve(ROOT, "lib/data/jev-threads.json"),
-  resolve(ROOT, "lib/data/jev-videos.json"),
-  resolve(ROOT, "lib/data/jev-x-posts.json"),
-  resolve(ROOT, "lib/data/jev-builds.json"),
+  { file: resolve(ROOT, "lib/data/jev-threads.json"), vocab: "lib/data/jev-tags.json" },
+  { file: resolve(ROOT, "lib/data/jev-videos.json"), vocab: "lib/data/jev-tags.json" },
+  { file: resolve(ROOT, "lib/data/jev-x-posts.json"), vocab: "lib/data/jev-tags.json" },
+  { file: resolve(ROOT, "lib/data/jev-builds.json"), vocab: "lib/data/jev-tags.json" },
+  { file: resolve(ROOT, "lib/data/laya-threads.json"), vocab: "lib/data/laya-tags.json" },
+  { file: resolve(ROOT, "lib/data/laya-videos.json"), vocab: "lib/data/laya-tags.json" },
+  { file: resolve(ROOT, "lib/data/laya-x-posts.json"), vocab: "lib/data/laya-tags.json" },
+  { file: resolve(ROOT, "lib/data/laya-builds.json"), vocab: "lib/data/laya-tags.json" },
 ];
 const MAX_CANDIDATES = 200;
-// The facet vocabulary is a single file so the guard and the pages cannot disagree.
-const VOCAB = new Set(JSON.parse(readFileSync(resolve(ROOT, "lib/data/jev-tags.json"), "utf8")).tags.map((t) => t.slug));
 const MIN_NOTE_WORDS = 20;
 const HOST_WHITELIST = [
   "news.ycombinator.com", "www.reddit.com", "reddit.com", "www.youtube.com", "youtube.com",
@@ -42,8 +51,10 @@ const dossieSlugs = new Map();
 const publishedIds = new Set();
 let queued = 0, publishedTotal = 0, queryTotal = 0, waiting = 0, rejectedTotal = 0;
 for (const QUEUE of QUEUES) {
-  if (!existsSync(QUEUE)) { fail.push(`${QUEUE} missing — run its ingest script`); continue; }
-  const q = JSON.parse(readFileSync(QUEUE, "utf8"));
+  if (!existsSync(QUEUE.file)) { fail.push(`${QUEUE.file} missing — run its ingest script`); continue; }
+  const q = JSON.parse(readFileSync(QUEUE.file, "utf8"));
+  /* The facet vocabulary is per topic, so the guard and that topic's pages cannot disagree. */
+  const VOCAB = new Set(JSON.parse(readFileSync(resolve(ROOT, QUEUE.vocab), "utf8")).tags.map((t) => t.slug));
   queryTotal += q.meta?.queries?.length ?? 0;
   const entries = q.entries ?? [];
   if (entries.length > MAX_CANDIDATES) fail.push(`candidate queue holds ${entries.length} entries (ceiling ${MAX_CANDIDATES}) — write notes or tighten the queries`);
@@ -114,7 +125,7 @@ for (const QUEUE of QUEUES) {
       // typo produces a silently empty facet page — which is how x-posts once rendered zero
       // cards (docs/lessons/).
       const tags = e.tags ?? [];
-      for (const tag of tags) if (!VOCAB.has(tag)) fail.push(`${where}: tag "${tag}" is not in lib/data/jev-tags.json`);
+      for (const tag of tags) if (!VOCAB.has(tag)) fail.push(`${where}: tag "${tag}" is not in ${QUEUE.vocab}`);
 
       // The excerpt tier (docs/handbook/writing-style.md): a clip is allowed only up to
       // five seconds, silent, and only when the row states where it came from and how

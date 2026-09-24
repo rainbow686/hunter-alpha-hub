@@ -20,9 +20,17 @@
  *   node scripts/jev-probe.mjs --suite a --env-file ~/.config/hunter-alpha-hub/env
  *   node scripts/jev-probe.mjs --suite all --env-file ...
  *   node scripts/jev-probe.mjs --suite a --dry-run
+ *   node scripts/jev-probe.mjs --suite a --endpoint http://127.0.0.1:8781/v1/systemone
  *
  * The key is never in this repo: pass --env-file or set TYPESAFE_API_KEY.
  * Cost of a full run: 77 calls (13 + 40 + 24), about $0.002 at the catalogue price.
+ *
+ * `--endpoint` exists for one experiment: pointing this client at a *different*
+ * server that claims to speak TypeSafe's wire protocol. Laya ships one
+ * (`laya-serve`, `POST /v1/systemone`) and its README says an existing Jev client
+ * can be repointed at it and keep working — which is the kind of claim only
+ * somebody holding both can check, and the check is just this client, aimed
+ * somewhere else. Auth is still sent; a server that does not want it ignores it.
  */
 import { readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -31,11 +39,13 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const cases = JSON.parse(await readFile(join(here, "jev-probe-cases.json"), "utf8"));
-const ENDPOINT = "https://api.typesafe.ai/v1/systemone";
 const MODEL = "jev-latest";
 
 const args = process.argv.slice(2);
 const value = (name) => { const i = args.indexOf(`--${name}`); return i === -1 ? null : args[i + 1] ?? true; };
+const ENDPOINT = value("endpoint") || "https://api.typesafe.ai/v1/systemone";
+/** Nothing to send when the endpoint is a local server that asks for no key. */
+const NEEDS_KEY = ENDPOINT.includes("typesafe.ai");
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log("suites: a (schema integrity), b (confidence vs ambiguity), c (scale wording), all");
@@ -55,7 +65,7 @@ if (envFile) {
   key = process.env.TYPESAFE_API_KEY;
 }
 const dryRun = args.includes("--dry-run");
-if (!dryRun && !key) throw new Error("no TYPESAFE_API_KEY (pass --env-file or set the variable)");
+if (!dryRun && NEEDS_KEY && !key) throw new Error("no TYPESAFE_API_KEY (pass --env-file or set the variable)");
 
 async function ask(body) {
   const started = Date.now();

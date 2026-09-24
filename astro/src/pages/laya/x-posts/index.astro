@@ -1,0 +1,144 @@
+---
+/**
+ * /laya/x-posts — what people are saying about Laya on X.
+ *
+ * The cards carry the post's own words as well as ours, which is the difference between this column
+ * and Jev's: Jev's posts each have a page of ours to land on, and these do not. The reader's rule
+ * from 2026-09-24 applies — if there is no item page, the card has to be worth reading on its own —
+ * so each one shows the avatar, the handle, the like count with its read date, the post's opening
+ * words and our note, and the clip plays in the card when X's CDN has one that fits the size cap.
+ *
+ * Nothing is downloaded or rehosted: posters, avatars and mp4s are hotlinked from X's own CDN, and
+ * the page carries `noReferrer` because video.twimg.com refuses a request with a third-party
+ * Referer.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import XClipWall from "../../../components/XClipWall.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_X_READ_ON, layaXPostCounts, layaXPosts } from "@repo/lib/laya-x-posts";
+import { LAYA_KIND_COUNTS, layaTagsById } from "@repo/lib/laya-kinds";
+import { thumbRatio } from "@repo/lib/jev-facets";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Laya on X: What People Are Saying (2026)";
+const description = `${layaXPostCounts.described} X posts about Laya, each read in full and described in a sentence of ours — the MLX port that travelled, the benchmarks people ran, and the test that found it letting attacks through. Likes read ${LAYA_X_READ_ON}.`;
+const canonical = `${SITE}/laya/x-posts`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const kindChips = LAYA_KIND_COUNTS.map((kind) => ({
+  group: "tag",
+  value: kind.slug,
+  label: kind.label,
+  count: layaXPosts.filter((p) => (layaTagsById[p.id] ?? []).includes(kind.slug)).length,
+})).filter((chip) => chip.count > 0);
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article" noReferrer>
+  <JsonLd slot="head" data={articleSchema({ title: "Laya on X", description, publishedAt: LAYA_X_READ_ON, updatedAt: LAYA_X_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "X posts", url: canonical },
+  ]} />
+
+  <article>
+    <header class="col">
+      <p class="card-eyebrow">X · Laya</p>
+      <h1>Laya on X</h1>
+      <p class="lede">
+        The model itself shipped as a repository and a paper, so the explaining happened in public —
+        and the arguing did too. These are the posts worth a reader's time: the port that carried the
+        model further than anything the publisher wrote, benchmarks run by people with no stake, the
+        sceptics, and the one test that came back with a loss.
+      </p>
+      <p class="provenance">
+        <span>{layaXPostCounts.described} posts described</span>
+        <span>Likes read {LAYA_X_READ_ON}</span>
+        {layaXPostCounts.waiting > 0 && <span>{layaXPostCounts.waiting} candidates not published</span>}
+        <span><a href="/laya/builds">The projects behind them: builds</a></span>
+      </p>
+    </header>
+
+    <CardFilter chips={kindChips} noun="posts" total={layaXPosts.length} groups={[{ key: "tag", label: "kind of work" }]} />
+
+    <ul class="card-grid">
+      {layaXPosts.map((post) => (
+        <li class="card" data-sources="x" data-media={post.kind} data-tags={(layaTagsById[post.id] ?? []).join(" ")}>
+          {post.thumb && post.video ? (
+            <div class="card-media" style={post.thumbW ? `--ratio: ${thumbRatio(post.thumbW, post.thumbH)}` : "--ratio: 16 / 9"}>
+              <span class="card-src">X</span>
+              <button
+                class="xvideo-facade"
+                type="button"
+                data-xvideo={post.video.url}
+                data-poster={post.thumb}
+                aria-label={`Play the clip in this post: ${post.title}`}
+              >
+                <img src={post.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                <span class="xvideo-play" aria-hidden="true">▶</span>
+              </button>
+            </div>
+          ) : post.thumb ? (
+            <div class="card-media" style={post.thumbW ? `--ratio: ${thumbRatio(post.thumbW, post.thumbH)}` : "--ratio: 16 / 9"}>
+              <span class="card-src">X</span>
+              <img src={post.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : null}
+          <div class="card-body">
+            <div class="card-byline">
+              {post.avatar && <img class="card-avatar" src={post.avatar} alt="" width="32" height="32" loading="lazy" decoding="async" referrerpolicy="no-referrer" />}
+              <span class="card-who">{post.author}</span>
+            </div>
+            {post.quote && <p class="card-quote">{post.quote.text}</p>}
+            <p class="card-note card-our">{post.ourNote}</p>
+            <p class="card-meta">
+              <span>{fmt(post.likes)} likes</span>
+              <span>{post.publishedAt}</span>
+              <span><a href={post.url} rel="noopener noreferrer">open on X ↗</a></span>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>How these were chosen</h2>
+      <p>
+        Thirty-four posts were read in full; twenty-two are published and twelve were rejected, each
+        with the reason written down in the queue — a bare shortened link, a joke with no information
+        in it, an automated feed account, a token launch using the model's name, and two replies that
+        were written by a platform's own model rather than by a person. The dissenting posts are
+        here too, including the one whose author found the faster model failing a safety test that
+        the slower one passed.
+      </p>
+      <p class="provenance">
+        <a href="https://cdn.syndication.twimg.com">Source: X's public syndication endpoint</a>
+        <span>No API key, no OAuth, nothing rehosted</span>
+        <span><a href="/laya">The Laya topic</a></span>
+      </p>
+    </section>
+
+    <TopicIndex entries={layaTopicEntries} current="/laya/x-posts" />
+  </article>
+
+  {/* The player for any clip above. */}
+  <XClipWall />
+</System>
+
+<style>
+  /* The byline, the quotation and the clip frame are the shapes the Jev X column uses; the avatar
+     is what stops a wall of text-only cards reading as machine-made. */
+  .card-byline { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); }
+  .card-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+  .card-who { font-family: var(--mono); font-size: var(--text-xs); color: var(--text-faint); }
+  .card-quote {
+    margin: 0 0 var(--space-3);
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--border-strong);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+</style>

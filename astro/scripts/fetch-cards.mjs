@@ -19,10 +19,13 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { requireSource, resolveTopic } from "./lib/topics.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "../..");
-const QUEUE = resolve(ROOT, "lib/data/jev-builds.json");
+/** Default topic `jev`; `--topic laya` snapshots GitHub's cards for Laya's rows instead. */
+const TOPIC = resolveTopic();
+const QUEUE = resolve(ROOT, requireSource(TOPIC, "github").out);
 const OUTDIR = resolve(ROOT, "astro/public/img/cards");
 const asOf = new Date().toISOString().slice(0, 10);
 

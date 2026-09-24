@@ -53,6 +53,18 @@ const fieldNotes = [
   ["/typesafe-jev/open-source", "Open source, and what it gives up"],
 ];
 
+/**
+ * The second model topic. A topic owns its own column list, because its questions
+ * are not the first topic's: nobody asks whether Laya is a drop-in for a hosted
+ * API's *pricing*, and nobody asks Jev whether they can ship the weights.
+ */
+const laya = [
+  ["/laya", "Laya (open weights)"],
+  ["/laya/vs-jev", "Laya vs Jev"],
+  ["/laya/self-hosting", "Running it yourself"],
+  ["/laya/open-weights", "What the licence covers"],
+];
+
 const stealth = [
   ["/stealth-models", "All stealth releases"],
   ["/union-alpha", "Union Alpha · Unbiased Pareto"],
@@ -68,6 +80,12 @@ const site = [
   // Trust pages: an AdSense reviewer looks for these, and so does a reader who
   // wants to know who is publishing the numbers (see docs/audits/).
   ["/about", "About"],
+  // The one intake, at the root: a submission is a site-level function (writing
+  // contract §5, D 类) and not a chapter of one model's topic, so it belongs
+  // beside Contact rather than under /typesafe-jev/. The link is here as well as
+  // on the columns that want submissions, because a page nobody links to is a
+  // page nobody finds.
+  ["/submit", "Submit something"],
   ["/contact", "Contact"],
   ["/terms", "Terms of service"],
   ["/privacy", "Privacy policy"],
@@ -99,6 +117,10 @@ const site = [
       <div class="foot-col">
         <h3>Field notes</h3>
         <ul>{fieldNotes.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
+      </div>
+      <div class="foot-col">
+        <h3>Laya</h3>
+        <ul>{laya.map(([href, label]) => (<li><a href={href}>{label}</a></li>))}</ul>
       </div>
       <div class="foot-col">
         <h3>Site</h3>

@@ -1,0 +1,113 @@
+---
+/**
+ * The topic switcher. Renders nothing at all outside a topic.
+ *
+ * It is mounted **inside `<header class="site">`** (see SiteHeader.astro) rather than at
+ * the top of each page, and that is the whole trick: the header is already
+ * `position: sticky` for every page, so a row inside it sticks without a second sticky
+ * context, without measuring the header's height, and without fighting the masthead's
+ * collapse-on-scroll (measured 2026-09-24: 102px at the top, 54px condensed — a bar in
+ * the page body pinned at either number would sit *under* the header at the other one).
+ *
+ * It also comes out the same width everywhere: `.wrap` is 1080 on every page, while the
+ * page's own content column is 792 or 1048 depending on the tier (ADR-0019). A switcher
+ * that changed width when you switched views would be worse than no switcher.
+ *
+ * The counts come from lib/topic-tabs.ts, which reads them from the same data the pages
+ * render — never typed here.
+ */
+import { tabForPath, topicNavFor } from "@repo/lib/topic-tabs";
+import { pagePath } from "../lib/page-path";
+
+/* Without `pagePath` this component is invisible on `/typesafe-jev` and visible on
+   `/typesafe-jev/x-posts` — see the helper. */
+const path = pagePath(Astro.url);
+const topic = topicNavFor(path);
+const current = topic ? tabForPath(topic, path) : undefined;
+---
+
+{topic && (
+  <div class="topicrow">
+    <div class="wrap">
+      {/*
+        `aria-label` names the thing, and the nav is a nav: a screen reader user should be
+        able to jump straight to "Jev topic" the same way they jump to the site nav.
+      */}
+      <nav class:list={["topic-tabs", { "has-more": Boolean(topic.more) }]} aria-label={`${topic.label} topic`}>
+        {topic.tabs.map((tab) => (
+          <a
+            href={tab.href}
+            title={tab.note}
+            aria-current={current?.href === tab.href ? "page" : undefined}
+          >
+            <span>{tab.label}</span>
+            {typeof tab.count === "number" && <span class="tt-count">{tab.count}</span>}
+          </a>
+        ))}
+      </nav>
+      {/*
+        The second axis, in one segment next to the capsule (2026-09-24).
+
+        It lives **outside** the `<nav>` on purpose: that element scrolls sideways on a phone, and a
+        dropdown inside a horizontal scroll container gets clipped to the bar. Outside, the panel
+        drops freely at any width.
+
+        It is `<details>`, so it opens without JavaScript and closes on a second click; the script
+        below only adds the two behaviours people expect and `<details>` does not have — close on
+        Escape, and close when you click somewhere else.
+      */}
+      {topic.more && (
+        <details class="tt-more">
+          <summary>
+            {topic.more.label}
+            <span class="tt-caret" aria-hidden="true">▾</span>
+          </summary>
+          {/*
+            The panel is built like a section front rather than a dropdown menu: a heading, one line
+            saying what the section is, one row per page with its blurb, and a link to the index.
+            The first version was six bare labels — a menu, which is what made it read as a patch
+            stuck to the bar instead of a way into a part of the site.
+          */}
+          <div class="tt-panel">
+            <p class="tt-panel-head">
+              <span class="tt-panel-title">{topic.more.heading}</span>
+              {topic.more.note && <span class="tt-panel-note">{topic.more.note}</span>}
+            </p>
+            {/*
+              Label and count only. The blurbs were here for one build and made the panel 573px
+              tall — past the bottom of a short laptop viewport, which is the reader's "最后一个会被
+              下面遮住". They are still on the hover title, and on the section page itself.
+            */}
+            <ul>
+              {topic.more.items.map((item) => (
+                <li>
+                  <a href={item.href} title={item.note}>
+                    <span class="tt-more-label">{item.label}</span>
+                    {typeof item.count === "number" && <span class="tt-count">{item.count}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {topic.more.more && (
+              <a class="tt-panel-more" href={topic.more.more.href}>
+                {topic.more.more.label} <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
+        </details>
+      )}
+    </div>
+  </div>
+)}
+
+<script is:inline>
+  for (const details of document.querySelectorAll(".tt-more")) {
+    document.addEventListener("click", (event) => {
+      if (!details.open) return;
+      if (!details.contains(event.target)) details.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && details.open) details.open = false;
+    });
+  }
+</script>

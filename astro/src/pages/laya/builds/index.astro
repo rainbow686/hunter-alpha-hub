@@ -1,0 +1,114 @@
+---
+/**
+ * /laya/builds — projects with Laya inside them.
+ *
+ * The same column shape as Jev's, with one difference that the data forced: Laya's corpus is
+ * runtimes. Eighteen published rows, and the ones a reader is most likely to want (the MLX port,
+ * the ONNX path, the C++ binary) are not the ones with the most stars — so the sort is by stars,
+ * because it is the only ordering signal that is not ours, and the notes say what each thing is.
+ *
+ * A published row here always has a dossier: what it does, how it works, what we read, and what we
+ * did not check. `scripts/check-intake.mjs` refuses a GitHub row without one, which is why every
+ * card below carries a page of its own.
+ */
+import System from "../../../layouts/System.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import CardFilter from "../../../components/CardFilter.astro";
+import TopicIndex from "../../../components/TopicIndex.astro";
+import { articleSchema, SITE, SITE_NAME } from "../../../lib/schema";
+import { LAYA_BUILDS_READ_ON, layaBuildCounts, layaBuilds } from "@repo/lib/laya-builds";
+import { LAYA_KIND_COUNTS } from "@repo/lib/laya-kinds";
+import { layaTopicEntries } from "@repo/lib/laya-topic";
+
+const title = "Built With Laya: Ports, Servers, Agents and Games (2026)";
+const description = `${layaBuildCounts.published} projects built on Laya in its first week — MLX and Core ML ports, Jev-compatible servers, agent tooling — with stars read on ${LAYA_BUILDS_READ_ON} and a note saying what we checked.`;
+const canonical = `${SITE}/laya/builds`;
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const buildChips = LAYA_KIND_COUNTS.map((kind) => ({
+  group: "tag",
+  value: kind.slug,
+  label: kind.label,
+  count: layaBuilds.filter((b) => b.tags.includes(kind.slug)).length,
+})).filter((chip) => chip.count > 0);
+---
+
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} wide ogType="article">
+  <Breadcrumbs schema={true} items={[
+    { name: "Laya", url: `${SITE}/laya` },
+    { name: "Builds", url: canonical },
+  ]} />
+  <JsonLd slot="head" data={articleSchema({ title: "Built with Laya", description, publishedAt: LAYA_BUILDS_READ_ON, updatedAt: LAYA_BUILDS_READ_ON, image: `${SITE}/og-image.png`, url: canonical })} />
+
+  <article>
+    <header class="col">
+      <h1>Built with Laya</h1>
+      <p class="lede">
+        Laya is five days old, so nothing here is a product yet. What there is instead is the
+        infrastructure a new model attracts when it is small enough to run on the machine already on
+        your desk: six different runtimes, four servers that speak TypeSafe's protocol, the tooling
+        around them — and a lot of Tetris.
+      </p>
+      <p class="provenance">
+        <span>Stars and last push read {LAYA_BUILDS_READ_ON}</span>
+        <span>{layaBuildCounts.published} described, all with a page of their own</span>
+        {layaBuildCounts.waiting > 0 && <span>{layaBuildCounts.waiting} waiting for a note</span>}
+      </p>
+    </header>
+
+    <CardFilter chips={buildChips} noun="projects" total={layaBuilds.length} groups={[{ key: "tag", label: "kind of work" }]} />
+
+    <ul class="card-grid">
+      {layaBuilds.map((build) => (
+        <li class="card" data-sources="github" data-tags={build.tags.join(" ")}>
+          {build.card ? (
+            <div class="card-media" style="--ratio: 2 / 1">
+              <span class="card-src">GitHub</span>
+              <img src={build.card} width="1280" height="640" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+            </div>
+          ) : null}
+          <div class="card-body">
+            <p class="card-eyebrow">GitHub{build.dossier ? " · page" : ""}</p>
+            <h2 class="card-title">
+              <a href={build.dossier ? `/laya/builds/${build.dossier.slug}` : build.url} rel="noopener">
+                {build.title}
+              </a>
+            </h2>
+            <p class="card-note">{build.what}</p>
+            <p class="card-note card-our">{build.ourNote}</p>
+            <p class="card-meta">
+              <span>{fmt(build.stars)} ★</span>
+              <span>last push {build.pushedAt}</span>
+              <span><a href={build.url} rel="noopener noreferrer">repository ↗</a></span>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <section class="col">
+      <h2>What this column does not have</h2>
+      <p>
+        A verdict on which of these is good, and a star count that means what you think it means.
+        Stars order the list and nothing else — a row with eleven stars here is the only browser
+        build of the model in any language, and a row with six thousand is a port by somebody who
+        got there first. Where we read the code the note says so; where we did not, it says that.
+      </p>
+      <p class="provenance">
+        <a href="https://docs.github.com/rest">Source: GitHub search API</a>
+        <span>Numbers are the authors'; the sentence is ours</span>
+        {/*
+          Plain /submit, not `?topic=...`: the submission table's topic values are still Jev's
+          (`jev-project`, `jev-video`, `jev-thread`) and its routing target is the Jev queue, so a
+          Laya-shaped value here would file a Laya project into the wrong topic's file. The form
+          accepts a bare link; per-topic routing is written down as the next thing to build rather
+          than half-done here.
+        */}
+        <span><a href="/submit">Built something with Laya? Send it over</a></span>
+      </p>
+    </section>
+
+    <TopicIndex entries={layaTopicEntries} current="/laya/builds" />
+  </article>
+</System>

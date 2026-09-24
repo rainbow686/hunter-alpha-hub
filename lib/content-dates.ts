@@ -32,8 +32,6 @@ export const CONTENT_REVISED: Record<string, string> = {
   "/typesafe-jev/threads": "2026-09-22",
   "/typesafe-jev/videos": "2026-09-22",
   "/typesafe-jev/demos": "2026-09-22",
-  "/typesafe-jev/x-posts": "2026-09-22",
-  "/typesafe-jev/use-cases": "2026-09-22",
   "/typesafe-jev/use-cases/browser-agents": "2026-09-22",
   "/typesafe-jev/use-cases/triage-and-routing": "2026-09-22",
   "/typesafe-jev/use-cases/coding-and-context": "2026-09-22",
@@ -42,7 +40,6 @@ export const CONTENT_REVISED: Record<string, string> = {
   "/typesafe-jev/use-cases/trading-and-markets": "2026-09-22",
   "/typesafe-jev/use-cases/getting-started": "2026-09-22",
   "/typesafe-jev/builds": "2026-09-22",
-  "/submit": "2026-09-22",
   // First column of the Jev topic: links checked and star counts read this day.
   "/typesafe-jev/resources": "2026-09-22",
   // The Union Alpha reveal (2026-09-18) touched all of these.
@@ -60,8 +57,26 @@ export const CONTENT_REVISED: Record<string, string> = {
   "/contact": "2026-09-18",
   "/terms": "2026-09-17",
   // Hand-written, and the date it was written. Facts are dated in the page body;
-  // this entry moves only when someone re-reads the sources.
-  "/typesafe-jev": "2026-09-18",
+  // this entry moves only when someone re-reads the sources. (Superseded for this path by the
+  // 2026-09-24 entry below, which is the day the page was rewritten.)
+  /*
+   * The 2026-09-24 pass over the Jev topic — the one that turned it into a front page with a wall.
+   * Every line below is a page whose content changed that day, and only those: the FAQs moved under
+   * the wall on the front page, the reference was split off it, the use-case section was rebuilt
+   * twice, statistics changed tier, and open-source was corrected because Laya had made it stale.
+   */
+  "/typesafe-jev": "2026-09-24",
+  "/typesafe-jev/reference": "2026-09-24",
+  "/typesafe-jev/use-cases": "2026-09-24",
+  "/typesafe-jev/use-cases/jobs": "2026-09-24",
+  "/typesafe-jev/statistics": "2026-09-24",
+  "/typesafe-jev/open-source": "2026-09-24",
+  "/typesafe-jev/x-posts": "2026-09-24",
+  "/submit": "2026-09-24",
+  // Last edited 2026-09-23 (one definition of the "In short" block, commit 3d3fe46) and untouched
+  // since — dated rather than left blank, because the edit is one `git log` away.
+  "/typesafe-jev/pricing": "2026-09-23",
+  "/typesafe-jev/vs-llm": "2026-09-23",
   // Field notes over eleven repositories, all read on this date.
   "/typesafe-jev/guide": "2026-09-20",
   // The section index for that series.

@@ -1,0 +1,110 @@
+---
+/**
+ * The intake dialog — the header button, and the reason /submit is optional.
+ *
+ * Submitting something is a two-second act by somebody who is mid-read: they have
+ * a link on the clipboard and they want to hand it over without losing the page
+ * they were on. Sending them to a full page with six fields and three explanatory
+ * sections loses most of them, and it is a worse experience for the one thing the
+ * site asks readers to do. So the primary surface is this dialog, reachable from
+ * every page; /submit stays as the page for people who want to know what happens
+ * next, and for links into a specific topic.
+ *
+ * The form itself is `SubmitForm.astro`, rendered here with `variant="dialog"` and
+ * a second id prefix — one component, two surfaces, so the two cannot drift.
+ *
+ * A `<dialog>` for the same reasons the search dialog is one: the top layer, focus
+ * containment, Esc and the backdrop are the parts a hand-rolled overlay gets wrong
+ * on a phone.
+ */
+import SubmitForm from "./SubmitForm.astro";
+---
+
+<dialog id="site-submit" class="submit-dialog" aria-labelledby="site-submit-title">
+  <div class="submit-head">
+    <h2 id="site-submit-title">Send us a link</h2>
+    <button type="button" class="submit-close" data-submit-close aria-label="Close">
+      <kbd>esc</kbd>
+    </button>
+  </div>
+  <p class="submit-lede">
+    A project built with Jev, a post, a video, a correction, a tip. We open the link, check it
+    says what you said it says, and write the entry ourselves.
+  </p>
+
+  <SubmitForm id="dlg" variant="dialog" />
+
+  <p class="submit-foot">
+    <a href="/submit">What happens to what you send →</a>
+  </p>
+</dialog>
+
+<script>
+  /*
+   * Open from any `[data-submit-open]` on the page — currently the header button,
+   * which is rendered on every page. `#submit` in the URL opens it too, so a link
+   * to the dialog can be posted somewhere a reader will click it.
+   */
+  const dialog = document.getElementById("site-submit");
+  if (dialog) {
+    const open = () => {
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
+    };
+    for (const trigger of document.querySelectorAll("[data-submit-open]")) {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        open();
+      });
+    }
+    dialog.querySelector("[data-submit-close]")?.addEventListener("click", () => dialog.close());
+    /* Clicking the backdrop closes: the dialog box is the only child, so a click
+       that lands on the dialog element itself came from outside it. */
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    if (location.hash === "#submit") open();
+
+    /*
+     * Success closes itself after the confirmation has been readable for a
+     * moment. The point of the dialog is that sending something does not
+     * interrupt reading, so it should not leave a modal behind either.
+     */
+    document.addEventListener("submission:sent", () => {
+      setTimeout(() => dialog.open && dialog.close(), 2400);
+    });
+  }
+</script>
+
+<style is:global>
+  /*
+   * Namespaced under `.submit-` so nothing leaks. Sized to the form rather than to
+   * the viewport: it is a short form, and a dialog that fills the screen reads as
+   * a page and defeats the point of being a dialog.
+   */
+  .submit-dialog {
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100vh - 64px);
+    overflow: auto;
+    padding: var(--space-6);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+  }
+  .submit-dialog::backdrop { background: color-mix(in srgb, #14110d 55%, transparent); }
+  .submit-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); }
+  .submit-head h2 { margin: 0; font-size: var(--text-lg); }
+  .submit-close {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-sunken);
+    color: var(--text-faint);
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+  .submit-close kbd { font: inherit; font-size: 10.5px; letter-spacing: 0.04em; }
+  .submit-lede { font-size: var(--text-sm); color: var(--text-muted); margin: var(--space-3) 0 var(--space-5); }
+  .submit-foot { margin: var(--space-5) 0 0; font-size: var(--text-xs); }
+  .submit-dialog .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+</style>

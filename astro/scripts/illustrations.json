@@ -5,16 +5,70 @@
     "The three prompt blocks ([STYLE]/[SUBJECT]/[NOT]) are composed by",
     "scripts/gen-illustration.mjs; `scene` below is the [SUBJECT] line, `style` is",
     "the [STYLE] line (overridable per preset for the style candidates), and [NOT]",
-    "is fixed there because it is load-bearing — see that file's header.",
+    "is fixed there because it is load-bearing \u2014 see that file's header.",
     "'size' is what we send as image_size, but the provider ignores it and always",
     "returns a square (checked 2026-09-23). 'frame' is what actually decides the",
     "shape: the generator crops the square to that ratio and writes 'outSize'.",
     "A page may only declare the dimensions the file really has.",
-    "No text in the prompt on purpose — image models draw garbage lettering, and",
+    "No text in the prompt on purpose \u2014 image models draw garbage lettering, and",
     "every label that matters is set as live HTML next to the figure."
   ],
   "style": "A fine-line engraving illustration, in the manner of a 19th-century technical plate. Single subject, generous empty space, warm paper background (#f4efe6), one accent colour only. Cross-hatching for shading. No gradients. Aspect ratio 16:9.",
   "presets": {
+    "cand-laya-concrete-vs-jev": {
+      "out": "public/img-review/cand-laya-concrete-vs-jev.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261020,
+      "scene": "A wooden bench in a workshop: on the left an open desktop computer with its side panel removed and a bare green circuit board standing against it, lit by a small desk lamp; on the right, behind a glass-fronted cabinet door with a padlock, a rack of identical flat metal server boxes with a cable running out of the cabinet.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cand-laya-concrete-self-host": {
+      "out": "public/img-review/cand-laya-concrete-self-host.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261021,
+      "scene": "A small brass engine on a workbench with a punched paper tape feeding into its rollers, wired by two thick cables to a household electricity meter mounted beside it on the same bench, with a tool roll and an oil can on the bench.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-topic": {
+      "out": "public/img/cover-laya-topic.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261035,
+      "scene": "A small brass instrument with three round dials standing on a workbench beside an open laptop, the two joined by a short cable; a narrow punched paper tape trails from the instrument across the bench.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-vs-jev": {
+      "out": "public/img/cover-laya-vs-jev.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261011,
+      "scene": "Two identical wooden chests standing side by side on a plain bench: the left one is closed and a brass padlock hangs from its hasp, the right one is open with its lid tilted back and holds a single small brass instrument.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-self-hosting": {
+      "out": "public/img/cover-laya-self-hosting.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261002,
+      "scene": "A small brass engine bolted to a single wooden workbench under one hanging lamp, driven by a narrow strip of paper feeding into its rollers, a folded cloth and an oil can beside it.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
+    "cover-laya-open-weights": {
+      "out": "public/img/cover-laya-open-weights.webp",
+      "model": "flex",
+      "size": "1280x720",
+      "seed": 20261036,
+      "scene": "An open wooden crate of identical brass gears standing on a bench, one gear lifted out with tongs and held up to the light, a folded sheet of engineering drawings lying beside the crate.",
+      "frame": "16:9",
+      "outSize": "1024x576"
+    },
     "jev-hero": {
       "out": "public/img/jev-hero.webp",
       "model": "flex",
@@ -61,8 +115,8 @@
       "model": "flex",
       "size": "1280x720",
       "out": "public/img/cover-jev-topic.webp",
-      "seed": 20260922,
-      "scene": "A single sheet of paper passing under a stamping press; around it a crowd of blank speech bubbles of different sizes, every one of them empty.",
+      "seed": 20261031,
+      "scene": "A tall brass mailbox bolted to a wooden bench: a page of handwriting is being fed into its slot at the top, and a small punched brass card is falling into the tray at the bottom, with three more punched cards stacked beside the tray.",
       "frame": "16:9",
       "outSize": "1024x576",
       "frameBias": "top"
@@ -71,8 +125,8 @@
       "model": "flex",
       "size": "1280x720",
       "out": "public/img/cover-jev-guide.webp",
-      "seed": 20261002,
-      "scene": "Seen from above, one closed loop of plain flat stepping stones across still water, every stone smooth and unmarked, the loop returning to the stone it started from, and nothing else on the water.",
+      "seed": 20261032,
+      "scene": "A wooden table seen slightly from above with six small objects laid out in a row, each on its own square of paper: a chess knight, a stopwatch, a joystick, a pair of dice, a paint tin and a metronome.",
       "frame": "16:9",
       "outSize": "1024x576"
     },
@@ -80,8 +134,8 @@
       "model": "flex",
       "size": "1280x720",
       "out": "public/img/cover-alpha-line.webp",
-      "seed": 20260924,
-      "scene": "A conveyor belt carrying unmarked crates of identical shape; one crate has been opened and a small blank card is being lifted out of it by a gloved hand.",
+      "seed": 20261037,
+      "scene": "A wooden shelf holding a row of identical plain boxes, each with a blank paper tag tied to its handle; the leftmost box stands open with a brass instrument visible inside, and the box at the far end is empty with its lid ajar.",
       "frame": "16:9",
       "outSize": "1024x576"
     },
@@ -89,8 +143,8 @@
       "out": "public/img/cover-jev-pricing.webp",
       "model": "flex",
       "size": "1280x720",
-      "seed": 20260925,
-      "scene": "A brass weighing scale on a warm ivory desk, one pan holding a single folded sheet of paper and the other a thick ledger, the beam level; below the desk, a small pile of identical blank tokens falls through a slot into a tray.",
+      "seed": 20261033,
+      "scene": "A small brass adding machine on a workbench with a narrow paper tape curling out of its side, a short stack of coins beside it and a pair of tweezers holding one coin above the stack.",
       "frame": "16:9",
       "outSize": "1024x576"
     },
@@ -107,8 +161,8 @@
       "out": "public/img/cover-jev-open-source.webp",
       "model": "flex",
       "size": "1280x720",
-      "seed": 20260927,
-      "scene": "A workshop bench seen from above: a sealed wooden box on a small pedestal in the centre, surrounded by four or five hand-built copies of it in different sizes, each opened and showing that one internal part is missing.",
+      "seed": 20261034,
+      "scene": "A workshop bench: four hand-built copies of the same brass instrument, in different sizes and finishes, each standing on its own square of cloth; behind them on a shelf, one polished original under a glass dome.",
       "frame": "16:9",
       "outSize": "1024x576"
     }

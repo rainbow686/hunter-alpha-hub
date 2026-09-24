@@ -1,0 +1,1039 @@
+{
+  "meta": {
+    "source": "github-search",
+    "queries": [
+      "laya created:>2026-09-01 in:name,description",
+      "laya jev in:name,description,readme created:>2026-09-01",
+      "laya decision in:name,description,readme created:>2026-09-01",
+      "laya in:name created:>2026-09-10"
+    ],
+    "thresholds": {
+      "minStars": 10
+    },
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "generatedAt": "2026-09-24T09:53:46.580Z",
+    "candidates": 24,
+    "published": 18
+  },
+  "entries": [
+    {
+      "id": "gh:NandhaKishorM/laya",
+      "source": "github",
+      "url": "https://github.com/NandhaKishorM/laya",
+      "title": "NandhaKishorM/laya",
+      "author": "NandhaKishorM",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/NandhaKishorM-laya.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 21758,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Non-autoregressive System 1 decision engine. Typed choice, score and yes/no decisions over any text in a single forward pass, in 100+ languages, with a router that picks the right checkpoint per request.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "The upstream model, and the row the rest of this column is built around: three checkpoints, a router that picks between them per request, and a server that answers TypeSafe's own POST /v1/systemone shape. Its benchmark table puts the publisher's own measurements next to Jev numbers it has never reproduced, and says so in the line above the table.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [],
+      "dossier": {
+        "slug": "laya",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · PyTorch · ModernBERT-large",
+        "whatItDoes": "Answers typed questions about a piece of text in one forward pass: which option, what level on your rubric, how likely a yes/no statement is. Three checkpoints cover English, 100+ languages and the typed-decision workflows the project benchmarks, and a router picks one of them for each request.",
+        "howItWorks": "The state and the questions are rendered into a single token sequence, a bidirectional encoder reads the whole thing, and small heads score the marked positions. Training ran reinforcement learning against strictly proper scoring rules, so the reward is best served by reporting an honest probability rather than a confident one.",
+        "whatWeChecked": [
+          "the repository and README, read 2026-09-24",
+          "the three checkpoint names, context windows and parameter counts on the model card",
+          "the benchmark table and the line above it saying which numbers are the publisher's and which came from Jev",
+          "our own run of the weights, written up on this page's topic: 13 adversarial questions, 20 repeats each"
+        ],
+        "whatWeDidNotCheck": "Whether the star count reflects real use. GitHub's stargazer timeline endpoint answers 404 for this repository, authenticated or not, so the growth is unverified and we do not quote it as evidence of anything.",
+        "bestFor": "the reference implementation, and the only one with a router and a Jev-compatible server in the box"
+      }
+    },
+    {
+      "id": "gh:mizorewww/laya-mlx",
+      "source": "github",
+      "url": "https://github.com/mizorewww/laya-mlx",
+      "title": "mizorewww/laya-mlx",
+      "author": "mizorewww",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/mizorewww-laya-mlx.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 6109,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Native MLX runtime for Laya typed decision models — 7–14 ms short decisions on M3 Max. No text generation, PyTorch, or cloud API.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "The port that made the numbers small: 13.4 ms median for a short English decision, 7.4 ms with the multilingual checkpoint, no PyTorch in the runtime. The README is unusually careful — it says in the caption that the latency figure is a one-question benchmark and not the frame time of the Snake loop in the GIF above it.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "runtime-and-ports",
+        "games-and-demos"
+      ],
+      "dossier": {
+        "slug": "laya-mlx",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · MLX · Apple Silicon",
+        "whatItDoes": "Runs Laya's weights natively on Apple Silicon through MLX with the same three question types, the same formatting and the same calibration as upstream, and ships its own converted weights. A Snake demo calls the model for every move so the speed claim has something to watch.",
+        "howItWorks": "The encoder and the decision heads load through MLX and stay on the Metal GPU; the package exposes one predict call that takes the state and the questions together. The demo puts a visible safety layer between the model's proposal and the move, so the game measures the loop rather than the model alone.",
+        "whatWeChecked": [
+          "the README and its benchmark table, read 2026-09-24",
+          "the caption separating the one-question latency number from the Snake frame time",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The 7.4 ms and 13.4 ms medians. They are the author's, measured on an M3 Max, and no row in this column can be compared to another row's latency because nobody measured on the same machine.",
+        "bestFor": "the fastest local run on an Apple laptop, benchmark caveats included"
+      }
+    },
+    {
+      "id": "gh:mizorewww/laya-coreml",
+      "source": "github",
+      "url": "https://github.com/mizorewww/laya-coreml",
+      "title": "mizorewww/laya-coreml",
+      "author": "mizorewww",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/mizorewww-laya-coreml.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 1404,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Local Laya typed decisions on Apple Core ML and Neural Engine. Validated ports, ~5 ms short decisions on M3 Max, reproducible speed and energy benchmarks.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "The same author's Core ML port, and the rare demo that reports energy instead of speed: 2.78× better whole-system energy per decision than compiled MLX at 4.98 ms p50. The benchmark document also says which measurements exclude terminal rendering and which do not, which is the detail that decides whether a number means anything.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "runtime-and-ports"
+      ],
+      "dossier": {
+        "slug": "laya-coreml",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · Core ML · Neural Engine",
+        "whatItDoes": "Converts Laya's multilingual checkpoint to Core ML so the Neural Engine runs it, and measures both latency and energy per decision. The packaged Snake demo replays a recorded run at one times speed with the model's own probabilities on screen.",
+        "howItWorks": "A converted model runs on the Neural Engine in FP16 with a quantised variant alongside it, and the demo drives a three-question game loop through real decisions while a visible safety layer can break a cycle the model proposes.",
+        "whatWeChecked": [
+          "the README and both benchmark documents, read 2026-09-24",
+          "the sentence saying which timings include rendering and which exclude terminal painting",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The energy comparison. It was measured by the author on one M3 Max against one alternative; we have neither the instrument nor the machine to repeat it.",
+        "bestFor": "the energy-per-decision comparison, if you are choosing between Apple's two runtimes"
+      }
+    },
+    {
+      "id": "gh:receptron/laya",
+      "source": "github",
+      "url": "https://github.com/receptron/laya",
+      "title": "receptron/laya",
+      "author": "receptron",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/receptron-laya.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 378,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Run Laya, the open-source Jev-compatible System-1 decision model, from Node.js / TypeScript via ONNX Runtime",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "The Node path: ONNX Runtime, no Python at runtime, and about 1.7 GB of fp32 weights cached on first call. The README claims the output matches the Python reference to four decimal places — which is exactly the kind of claim a reader should re-run on their own inputs before trusting it.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "runtime-and-ports",
+        "serving-and-api"
+      ],
+      "dossier": {
+        "slug": "laya-node-onnx",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "TypeScript · Node 20+ · ONNX Runtime",
+        "whatItDoes": "Runs Laya from Node or TypeScript through ONNX Runtime, keeping the request and response shape of the Python reference and of TypeSafe's system_one call, for services whose decision-making process is already JavaScript.",
+        "howItWorks": "An ONNX session loads from a local cache that fills from Hugging Face on first use, and each call renders the state and its questions into one batch, returning a probability distribution per question.",
+        "whatWeChecked": [
+          "the README and package page, read 2026-09-24",
+          "the stated memory budget and the fp32 weight size",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The four-decimal agreement with the Python implementation. We did not install the package or diff the two outputs.",
+        "bestFor": "JavaScript services that want the decision in-process, with no Python sidecar"
+      }
+    },
+    {
+      "id": "gh:itsmostafa/typesafe-mcp",
+      "source": "github",
+      "url": "https://github.com/itsmostafa/typesafe-mcp",
+      "title": "itsmostafa/typesafe-mcp",
+      "author": "itsmostafa",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/itsmostafa-typesafe-mcp.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 291,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "An mcp connector to evaluate anything fast and cheap. Give your AI agent direct access to typesafe ai's jev model and open weight models like laya ",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "built on Jev alone, with no Laya path; it belongs in the Jev topic rather than this one",
+      "tags": []
+    },
+    {
+      "id": "gh:Heman10x-NGU/openJev-verdict-2.0",
+      "source": "github",
+      "url": "https://github.com/Heman10x-NGU/openJev-verdict-2.0",
+      "title": "Heman10x-NGU/openJev-verdict-2.0",
+      "author": "Heman10x-NGU",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/Heman10x-NGU-openJev-verdict-2.0.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 283,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "Calibrated 151M Non-Autoregressive Decision Engine beating TypeSafe Jev & Laya on LocalLLaMA/typed-decisions (77.10% acc, 0.0636 Brier, 0.0144 ECE)",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "A 151M decision engine that claims to beat both Jev and Laya, with an in-browser WebGPU path so it can run without a server at all. It is the loudest set of numbers in this column and it comes with the least context, so the row is here as a claim to check rather than a result to quote.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation",
+        "runtime-and-ports"
+      ],
+      "dossier": {
+        "slug": "openjev-verdict",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · ModernBERT-base · GLiClass head",
+        "whatItDoes": "Trains a general-purpose decision model on a small encoder with a classification head, publishes the checkpoint on Hugging Face, and ships an in-browser engine so it can answer without a server.",
+        "howItWorks": "The public checkpoint is a trained head over ModernBERT-base, and its comparison table is measured on a benchmark the repository names — JevBench — which is not the benchmark any other row in this column reports.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the accuracy and calibration badges on the repository page",
+          "the note that two different models live in the repository",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "Everything in its comparison table. We have not run the model, we had not seen JevBench before this repository, and a number on an unfamiliar benchmark is a claim rather than a fact.",
+        "bestFor": "a second opinion on small decision models, with the caveats attached"
+      }
+    },
+    {
+      "id": "gh:wdobry/laya-playground",
+      "source": "github",
+      "url": "https://github.com/wdobry/laya-playground",
+      "title": "wdobry/laya-playground",
+      "author": "wdobry",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/wdobry-laya-playground.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 152,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "A website, two games, a benchmark and an agent skill for Laya, the open-source decision model. Runs on your machine.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "A website, three games, a benchmark and an agent skill in one repository. The public site has no model behind it and replays recorded runs, which is a more honest arrangement than a demo that quietly falls back to an API — and the same pages drive the real model once you clone it.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "games-and-demos",
+        "agents-and-tools"
+      ],
+      "dossier": {
+        "slug": "laya-playground",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Python · standard-library server · local model",
+        "whatItDoes": "A local playground for Laya: a landing page where the model plays Flappy, a lane runner and Tetris at roughly 30 decisions a second, an editor where you write your own typed questions, and a benchmark that compares all three checkpoints.",
+        "howItWorks": "A standard-library Python server serves the pages and holds the model in process, so every move in the games is a real forward pass and every answer in the editor is a live probability rather than a recording.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the 2.3 GB download and roughly 90-second load time it warns about",
+          "the note that the public site replays recordings instead of running the model"
+        ],
+        "whatWeDidNotCheck": "How well any of the games are played. No row of this repository claims a score or a win rate, which is why the note above quotes the decision rate and not a result.",
+        "bestFor": "seeing the model work before committing to a 2.3 GB download"
+      }
+    },
+    {
+      "id": "gh:FluidInference/FluidUse",
+      "source": "github",
+      "url": "https://github.com/FluidInference/FluidUse",
+      "title": "FluidInference/FluidUse",
+      "author": "FluidInference",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/FluidInference-FluidUse.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 152,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Local computer use on Apple silicon: on-device typed decisions with laya and form filling with CUA-S1-FORMS, driven through the macOS Accessibility API",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "the model it ships is Cua's form specialist, not Laya; Laya appears in its runtime matrix only",
+      "tags": []
+    },
+    {
+      "id": "gh:ipenywis/laya-ultrafast",
+      "source": "github",
+      "url": "https://github.com/ipenywis/laya-ultrafast",
+      "title": "ipenywis/laya-ultrafast",
+      "author": "ipenywis",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/ipenywis-laya-ultrafast.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 149,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Same as jev-ultrafast but using Laya",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "Browser Use's ultrafast agent with the decision call swapped for local Laya, and the README is scrupulous about the split: the agent, the DOM snapshot, the executor, the safety checks and the design are theirs, only the decisions changed hands. Median about 33 ms on an M1 Max, and no per-step API cost.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "browser-and-computer-use"
+      ],
+      "dossier": {
+        "slug": "laya-ultrafast",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Python · Apple Silicon · MLX",
+        "whatItDoes": "Drives a browser where every action is chosen by a local Laya model instead of a hosted API call, keeping Browser Use's agent loop, DOM snapshot and safety checks intact.",
+        "howItWorks": "The page state is reduced to text, the model picks among the actions the harness offers, and one text-model call per step covers what the typed decisions cannot express.",
+        "whatWeChecked": [
+          "the README, including the paragraph crediting the original project, read 2026-09-24",
+          "the Apple-silicon-only requirement and the median latency claim",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The 33 ms median and the agent's success rate on real sites. No row in this column reports a success rate, and this one is no exception.",
+        "bestFor": "browser automation on an Apple laptop with no per-step cost"
+      }
+    },
+    {
+      "id": "gh:virajbhartiya/laya-vs-jev",
+      "source": "github",
+      "url": "https://github.com/virajbhartiya/laya-vs-jev",
+      "title": "virajbhartiya/laya-vs-jev",
+      "author": "virajbhartiya",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/virajbhartiya-laya-vs-jev.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 94,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Laya vs Jev: local MLX and hosted AI decisions playing T-Rex side by side, with live metrics and replay recording",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "Two models, one Chrome dinosaur, and a replay of every crash. A deterministic planner labels the moves and the models choose between them, so the README says outright that an assisted score measures the whole system — the sentence most comparison demos leave out.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "games-and-demos",
+        "benchmarks-and-evaluation"
+      ],
+      "dossier": {
+        "slug": "laya-vs-jev",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · MLX · TypeSafe API",
+        "whatItDoes": "Runs Laya locally through MLX and Jev over TypeSafe's API on the same endless obstacle course, recording response times and crash replays so the two can be compared turn by turn.",
+        "howItWorks": "A physics planner generates the legal moves, each model picks one per step, and safety checks can override a stale or unsafe choice — which is exactly why the repository calls the scores assisted.",
+        "whatWeChecked": [
+          "the README and its setup requirements, read 2026-09-24",
+          "the sentence about assisted scores measuring the combined system",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "Any win rate or latency summary. The repository publishes the arena and the replays, not a results table, so there is no number here for us to quote even if we wanted one.",
+        "bestFor": "watching both models make the same decision in the same second"
+      }
+    },
+    {
+      "id": "gh:lkarlslund/laya.cpp",
+      "source": "github",
+      "url": "https://github.com/lkarlslund/laya.cpp",
+      "title": "lkarlslund/laya.cpp",
+      "author": "lkarlslund",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/lkarlslund-laya.cpp.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 85,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "C++ inference for Laya typed decisions - supports CUDA, Vulkan, Core ML, CPU",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "ggml underneath, with CUDA, Vulkan and Core ML backends, a Jev-compatible HTTP server and request batching. It is the first port here that treats Windows as a first-class target — signed binaries rather than a build script and a paragraph of apologies, which for a C++ inference engine is the hard part.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "runtime-and-ports",
+        "serving-and-api"
+      ],
+      "dossier": {
+        "slug": "laya-cpp",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "C++ · ggml · CUDA / Vulkan / Core ML",
+        "whatItDoes": "Native C++ inference for all three checkpoints, including tokenisation and JSON output without Python, plus a Jev-compatible server with automatic batching. Prebuilt CUDA and Vulkan executables ship for Windows and Linux, with a Core ML build for Apple silicon.",
+        "howItWorks": "The weights are converted to ggml and dispatched to whichever backend the machine has; the server groups concurrent requests so a busy agent loop pays for the forward pass once instead of once per question.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the paired comparison table and what it says it compared (250 fixed questions, three models, batch sizes 1 to 8)",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The performance ratios in that table. They are the author's, measured against his own Python baseline, and we ran neither side.",
+        "bestFor": "deployments that need a native binary — Windows, a GPU, or a machine without Python"
+      }
+    },
+    {
+      "id": "gh:openlayer-ai/jevals",
+      "source": "github",
+      "url": "https://github.com/openlayer-ai/jevals",
+      "title": "openlayer-ai/jevals",
+      "author": "openlayer-ai",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/openlayer-ai-jevals.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 82,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "Agent evals and guardrails as Jev decisions: one request per trace, a fraction of a cent, fast enough for the agent loop. Runs locally with Kev or Laya.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "Evals and guardrails where the judge is a decision model instead of an LLM, published by a company that already sells evals. The argument is arithmetic rather than vibes: all the evals for one trace go out as one request, for a few thousandths of a cent, which is what makes running them on every trace affordable.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "agents-and-tools",
+        "benchmarks-and-evaluation"
+      ],
+      "dossier": {
+        "slug": "jevals",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Python · TypeSafe / Vercel / local backends",
+        "whatItDoes": "Runs agent evaluations — tool choice, groundedness, staying in scope — as typed decisions, one request per trace, with the model swappable between Jev, Kev, a local Laya or a plain chat model.",
+        "howItWorks": "Each eval is written as a question with an answer shape the model can produce directly, all of a trace's questions are sent together, and the answers come back as probabilities the calling code thresholds.",
+        "whatWeChecked": [
+          "the README and the package page, read 2026-09-24",
+          "the list of supported backends and the keys each one needs",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The cost per trace and the claim that the chat-model fallback is slower and dearer. Both need a run with an API key and a real trace.",
+        "bestFor": "running evals on every trace instead of on a sample of them"
+      }
+    },
+    {
+      "id": "gh:ThinkFlowLab/system1-agents",
+      "source": "github",
+      "url": "https://github.com/ThinkFlowLab/system1-agents",
+      "title": "ThinkFlowLab/system1-agents",
+      "author": "ThinkFlowLab",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/ThinkFlowLab-system1-agents.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 53,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "System 1 decision models (Jev, Laya, Cua-S1) as brain for agents: Browser use, computer use, games and robotics",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "Prebuilt agents — browser, computer, robotics, games — with a decision model as the brain and a choice of Jev, Laya or Cua-S1 underneath. There is a video at the top of the README, which is the fastest way to see what the pattern is for if the prose has not landed yet.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "agents-and-tools",
+        "browser-and-computer-use"
+      ],
+      "dossier": {
+        "slug": "system1-agents",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · Jev / Laya / Cua-S1",
+        "whatItDoes": "Gives an agent a System One decision model as its brain and ships working examples: browser use, computer use, robotics and games, each of which can be pointed at Jev, a local Laya, or Cua's small model.",
+        "howItWorks": "The loop is split so the model only answers bounded questions about what to do next while the harness holds the tools, the state and the safety checks — the same separation the README credits for its speed claims.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the three supported backends and the four shipped agent types",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The up-to-6×-faster and 25×-cheaper headline. It compares against a chat model on a task mix the repository does not name, and we did not reproduce it.",
+        "bestFor": "starting from a working agent rather than from an empty loop"
+      }
+    },
+    {
+      "id": "gh:angel291592/Intent-Router",
+      "source": "github",
+      "url": "https://github.com/angel291592/Intent-Router",
+      "title": "angel291592/Intent-Router",
+      "author": "angel291592",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/angel291592-Intent-Router.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 53,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Intent compiler for AI agents — converges vague requests into typed IntentSpec contracts (probe, ask, or halt before routing), the input layer for routers and typed-decision models like Jev & Laya",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "It starts a step earlier than the decision: turning \"add caching to the user API\" into a typed IntentSpec, probing for what it can look up and asking for what it cannot, then refusing to emit while the request is still underspecified. The halt is the part most routers leave out and the part that makes the output trustworthy.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "agents-and-tools"
+      ],
+      "dossier": {
+        "slug": "intent-router",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Python · agent skill",
+        "whatItDoes": "Compiles a vague request into the typed contract that a decision model or a router downstream expects, looking up what it can, asking only what it cannot, and stopping rather than emitting a half-specified intent.",
+        "howItWorks": "The skill fills a fixed IntentSpec schema in stages, uses the decision model for the bounded judgements and halts at a defined point when the fields it needs are still missing.",
+        "whatWeChecked": [
+          "the README in both languages, read 2026-09-24",
+          "the three stated outcomes — probe, ask, halt — and where the README says it stops",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "How often it actually asks or halts in practice. Those behaviours are described, not measured, and there is no evaluation in the repository.",
+        "bestFor": "the step before the model, where vague requests usually go wrong"
+      }
+    },
+    {
+      "id": "gh:r33drichards/laya-vision",
+      "source": "github",
+      "url": "https://github.com/r33drichards/laya-vision",
+      "title": "r33drichards/laya-vision",
+      "author": "r33drichards",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/r33drichards-laya-vision.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 45,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Image inputs for Laya: calibrated, non-generative typed decisions over images + text (SmolVLM-256M backbone)",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a vision model of its own (a SmolVLM backbone with custom heads) using Laya's package name, not Laya",
+      "tags": []
+    },
+    {
+      "id": "gh:1Panel-dev/laya-server",
+      "source": "github",
+      "url": "https://github.com/1Panel-dev/laya-server",
+      "title": "1Panel-dev/laya-server",
+      "author": "1Panel-dev",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/1Panel-dev-laya-server.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 41,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "A self-hosted API and web interface for Laya’s structured decision models, compatible with the TypeSafe Jev API format.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "Docker-first, with a web interface, from a team that already ships server tooling. The part worth noticing is not the UI: it is that a project with release tags and a Chinese-language README has picked Laya up and packaged it as a service you start with one command.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "serving-and-api"
+      ],
+      "dossier": {
+        "slug": "laya-server",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Docker · Python · web UI",
+        "whatItDoes": "Packages Laya's structured decisions as a self-hosted API and a web interface, answering TypeSafe's Jev format, with a mounted volume for model data and environment variables for the model and the port.",
+        "howItWorks": "A container runs the upstream inference code behind a small web application; the weights download into the mounted volume on first start, so restarting or upgrading the container does not re-download them.",
+        "whatWeChecked": [
+          "the README in both languages, read 2026-09-24",
+          "the docker run line and each of its flags",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The container itself. We did not pull the image, so the install path here is the author's description rather than something we ran.",
+        "bestFor": "reaching a working endpoint this afternoon, web interface included"
+      }
+    },
+    {
+      "id": "gh:alvarobartt/sys1",
+      "source": "github",
+      "url": "https://github.com/alvarobartt/sys1",
+      "title": "alvarobartt/sys1",
+      "author": "alvarobartt",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/alvarobartt-sys1.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 31,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "System One compatible API for open decision models, e.g. Laya, written in Rust.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "A Rust server for the System One protocol: candle underneath, dynamic batching by token count, CPU, CUDA and Metal backends. The headline number comes with its hardware attached — about 14 ms per query on an RTX Pro 6000 — which is more than most rows in this column manage.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "serving-and-api",
+        "runtime-and-ports"
+      ],
+      "dossier": {
+        "slug": "sys1-rust",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Rust · candle · axum",
+        "whatItDoes": "Serves open decision models behind the System One API spec, starting with Laya's ModernBERT weights and its custom decision heads, so a client written for that protocol can talk to a local model.",
+        "howItWorks": "axum handles the HTTP surface, candle runs the model on CPU, CUDA or Metal, and requests are batched by token count rather than arrival order so that a long prompt does not stall a short one behind it.",
+        "whatWeChecked": [
+          "the README and its feature list, read 2026-09-24",
+          "the stated per-query figure and the GPU it was measured on",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "Whether the wire format matches TypeSafe's clients field for field. Settling that takes both ends running, and we did not stand the server up.",
+        "bestFor": "a Rust service that wants token-based batching without writing the HTTP layer"
+      }
+    },
+    {
+      "id": "gh:PromptEngineer48/laya-vs-jev-arena",
+      "source": "github",
+      "url": "https://github.com/PromptEngineer48/laya-vs-jev-arena",
+      "title": "PromptEngineer48/laya-vs-jev-arena",
+      "author": "PromptEngineer48",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/PromptEngineer48-laya-vs-jev-arena.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 29,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Laya (open source, local) vs TypeSafe Jev (API): two AI models race in Snake and fight in a Mortal-Kombat-style arena. Every move is a real model decision.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "The arena from the Prompt Engineer 48 video: a snake race and a fighting game, every move a real decision, and a docker one-liner that lets a person take the place of one side. A fighting game is a more searching test than it looks — it needs a decision under time pressure where the opponent has already moved.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "games-and-demos"
+      ],
+      "dossier": {
+        "slug": "laya-vs-jev-arena",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Docker · Python games",
+        "whatItDoes": "Runs Laya and Jev head to head in two games where each move comes from the model, and lets a person take one of the two places from a container.",
+        "howItWorks": "Both sides answer identical typed questions about the game state, so the model is the only difference between them, and the game itself renders the outcome instead of a scoring script.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the docker command and the two game modes",
+          "the note that nothing in either game is scripted"
+        ],
+        "whatWeDidNotCheck": "Who wins, or how often. The repository is the arena, not a report of its results, and we have not run the container.",
+        "bestFor": "a two-game head-to-head you can play a side of yourself"
+      }
+    },
+    {
+      "id": "gh:PsiACE/dohnuts",
+      "source": "github",
+      "url": "https://github.com/PsiACE/dohnuts",
+      "title": "PsiACE/dohnuts",
+      "author": "PsiACE",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/PsiACE-dohnuts.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 25,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Dohnuts builds small multimodal models for direct decisions. -> System One model",
+      "candidateReason": "matched \"laya jev in:name,description,readme created:>2026-09-01\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a separate model family — its own 0.8B multimodal model — that borrows the calling convention rather than a project built on Laya",
+      "tags": []
+    },
+    {
+      "id": "gh:0xBakeer/arbiter",
+      "source": "github",
+      "url": "https://github.com/0xBakeer/arbiter",
+      "title": "0xBakeer/arbiter",
+      "author": "0xBakeer",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/0xBakeer-arbiter.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 23,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-20"
+      },
+      "what": "Serve typed-decision (System 1) models — Laya or your own — on NVIDIA GPUs or Apple Silicon, with a Jev-compatible API and coding-agent integrations",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "Serve Laya or a head you trained yourself, on a GPU or a Mac, behind a Jev-compatible API. It arrives with a build log rather than a pitch — a Sunday-morning post about a cat and a local Jev — and the diagram spends its space on where the model sits next to an LLM instead of on benchmark bars.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "serving-and-api"
+      ],
+      "dossier": {
+        "slug": "arbiter",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Python · GPU / Apple Silicon",
+        "whatItDoes": "Stands up typed-decision models as a service, including Laya and heads you trained on your own data, and answers the Jev API shape so an existing client can be pointed at it unchanged.",
+        "howItWorks": "The model runs in a local process, a request carries the state and the questions together, and the response returns an answer and a probability distribution per question from a single forward pass.",
+        "whatWeChecked": [
+          "the README and the build write-up it links, read 2026-09-24",
+          "the compatibility claim and the API section that backs it",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "Behaviour under concurrent load. The repository documents a working single-machine setup, not a throughput measurement, and we did not load it.",
+        "bestFor": "serving your own trained head behind the API a Jev client already speaks"
+      }
+    },
+    {
+      "id": "gh:bodepudimuneendra-netizen/laya-jev-GraphRAG",
+      "source": "github",
+      "url": "https://github.com/bodepudimuneendra-netizen/laya-jev-GraphRAG",
+      "title": "bodepudimuneendra-netizen/laya-jev-GraphRAG",
+      "author": "bodepudimuneendra-netizen",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/bodepudimuneendra-netizen-laya-jev-GraphRAG.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 22,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Agentic GraphRAG engine using swappable System One decision models (local Laya / cloud Jev). Features a complete 4-phase pipeline (Ingestion, Pre-Retrieval, Traversal, Post-Retrieval) and evaluation across Neo4j, Memgraph, Apache AGE, and Kùzu driven by a custom A* traversal algorithm.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "claims a production-ready engine over four graph databases with no evaluation, no tests and no release; nothing here is checkable",
+      "tags": []
+    },
+    {
+      "id": "gh:keeltrace/hermes-nerve",
+      "source": "github",
+      "url": "https://github.com/keeltrace/hermes-nerve",
+      "title": "keeltrace/hermes-nerve",
+      "author": "keeltrace",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/keeltrace-hermes-nerve.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 21,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-22"
+      },
+      "what": "Nerve is a supervisory nervous system for Hermes agents, adding typed System One decisions, ranking, verification, token-aware oversight, and an opt-in tool gate powered by TypeSafe Jev or Open Source Laya",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "its README documents an internal version history (dev16, dev17) for one author's agent; there is no way for a reader to verify any of it",
+      "tags": []
+    },
+    {
+      "id": "gh:bladedevoff/stuntd",
+      "source": "github",
+      "url": "https://github.com/bladedevoff/stuntd",
+      "title": "bladedevoff/stuntd",
+      "author": "bladedevoff",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/bladedevoff-stuntd.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 21,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Local proxy that learns your app's typed LLM decisions and answers them with a Laya head. Jev and OpenAI compatible.",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "A local proxy that records the typed decisions your application already sends to an LLM, learns them, and answers later ones with a Laya head — so most calls never leave the machine. The interesting half is not the 90% claim, it is that the training data is your own traffic rather than a benchmark.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "serving-and-api",
+        "agents-and-tools"
+      ],
+      "dossier": {
+        "slug": "stuntd",
+        "readOn": "2026-09-24",
+        "license": "Apache-2.0",
+        "stack": "Python · Laya head · local proxy",
+        "whatItDoes": "Sits in front of an LLM API, records the typed decisions that pass through it, trains a small head on those records, and answers subsequent calls locally when the head is confident enough.",
+        "howItWorks": "Recorded decisions become training data for a Laya-compatible head, and the proxy decides per request whether to answer locally or fall through to the model behind it — which is what makes the accuracy question a question about your traffic rather than about the model.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the fall-through behaviour and the licence",
+          "the stated per-decision latency and the percentage it is claimed to answer"
+        ],
+        "whatWeDidNotCheck": "The 90% figure. It depends on the traffic you feed it, the repository says as much, and we have not run it against ours.",
+        "bestFor": "cutting an existing LLM bill without changing the application"
+      }
+    },
+    {
+      "id": "gh:afshinm/laya-mps",
+      "source": "github",
+      "url": "https://github.com/afshinm/laya-mps",
+      "title": "afshinm/laya-mps",
+      "author": "afshinm",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/afshinm-laya-mps.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 19,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-21"
+      },
+      "what": "Run Jev-style typed decisions locally on your Mac with low RAM usage and fast responses",
+      "candidateReason": "matched \"laya created:>2026-09-01 in:name,description\"",
+      "status": "published",
+      "ourNote": "PyTorch's Metal backend instead of MLX or Core ML, and the row that treats memory as the constraint rather than latency: about 2.1 GiB in the fast mode, and a slower 0.74 GiB mode for machines that cannot spare it. The Pong demo renders the response time on the frame, so the number in the README is visible while it runs.",
+      "checked": [
+        "the repository page and README, read 2026-09-24",
+        "star count and last push read from the GitHub search API the same day",
+        "the licence file in the repository"
+      ],
+      "tags": [
+        "runtime-and-ports",
+        "games-and-demos"
+      ],
+      "dossier": {
+        "slug": "laya-mps",
+        "readOn": "2026-09-24",
+        "license": "MIT",
+        "stack": "Python · PyTorch MPS · Apple Silicon",
+        "whatItDoes": "Runs Laya's typed-decisions checkpoint on an Apple GPU through PyTorch's Metal backend, with a local server and a demo that plays Pong and plots response latency for a minute on request.",
+        "howItWorks": "PyTorch dispatches the model to Metal Performance Shaders, the server binds to the loopback interface and works offline after the first download, and a lower-memory mode trades latency for roughly a third of the resident footprint.",
+        "whatWeChecked": [
+          "the README, read 2026-09-24",
+          "the two memory modes and the disk budget it asks for",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "The 32 ms median and the memory figures. Both are the author's, measured on an M5 Pro; our own run of the same weights is a CPU measurement and is not comparable.",
+        "bestFor": "Macs where memory matters more than milliseconds"
+      }
+    }
+  ]
+}

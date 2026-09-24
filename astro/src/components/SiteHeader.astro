@@ -1,13 +1,23 @@
 ---
 import Logo from "./Logo.astro";
+import TopicTabs from "./TopicTabs.astro";
+import { pagePath } from "../lib/page-path";
 import { DATA_AS_OF, openrouterModels } from "@repo/lib/openrouter-models";
 import { stealthLine } from "@repo/lib/stealth-models";
+import { topics } from "@repo/lib/spotlight";
 
 /**
  * Masthead header that folds into a single row on scroll.
  * Scroll logic lives in the layout (inline script) so this component stays static.
  */
-const path = Astro.url.pathname;
+/*
+ * Normalised, not raw. `Astro.url.pathname` carries the build's file-format suffix
+ * (`/comparison.html`), so the exact-match below has been comparing `/comparison.html` to
+ * `/comparison` on every page since the Astro migration — the nav was marking nothing as
+ * current, and only the topic switcher (fixed the same day) made it visible. See
+ * lib/page-path.ts.
+ */
+const path = pagePath(Astro.url);
 /*
  * The live slot and the verified stamp read from the tracker data, not from this
  * file. They were hardcoded here (`Union Alpha live`, `Verified 2026-09-17`) while
@@ -16,13 +26,45 @@ const path = Astro.url.pathname;
  * A codename's status is a claim about the world, so it lives in one field a human
  * updates with evidence (lib/stealth-models.ts), and the date comes from the same
  * catalogue snapshot the model pages use.
+ *
+ * Two states, decided 2026-09-24. The slot exists for one moment — a new stealth
+ * codename going live, which is the only time this site has news — and it used to
+ * fill the rest of the time by printing "Union Alpha revealed" next to "no live
+ * codename": a permanent badge for an event that was over, plus a sentence that
+ * tells a reader nothing is happening. A reader does not need to be told that.
+ * When nothing is live the slot carries the two model topics instead, from
+ * lib/spotlight.ts. The reader asked for both on 2026-09-24, and they are right
+ * that it is the useful pair: Jev and Laya answer the same question from opposite
+ * ends (hosted API, open weights), so showing them together is a comparison
+ * somebody can act on rather than a status line they cannot.
  */
-const liveSlots = stealthLine.liveCodename
-  ? [`${stealthLine.liveCodename} live`]
-  : [`${stealthLine.lastRevealed.codename} revealed`, "no live codename"];
+const liveSlot = stealthLine.liveCodename
+  ? { label: `${stealthLine.liveCodename} live`, href: "/stealth-models" }
+  : null;
+
+/*
+ * A section is its own prefix, not just its own path: /laya/vs-jev is inside Laya
+ * and /typesafe-jev/pricing inside Jev. Exact-match only meant a reader four pages
+ * deep in a topic saw no current section — which is how "there is no Jev in the
+ * nav" went unnoticed for a week. Computed here rather than in the attribute: a
+ * nested template literal inside an Astro expression in an attribute is a parse
+ * error, not a nicety.
+ */
+const isCurrent = (href: string) => path === href || (href !== "/" && path.startsWith(`${href}/`));
+
 const sections = [
   { href: "/comparison", label: "Comparison" },
   { href: "/openrouter-models", label: "Models" },
+  /*
+   * No Jev or Laya here. They were added on 2026-09-24 and removed the same day,
+   * for a reason worth keeping: the reader asked for the two topics "above", and
+   * what they meant was the status badge, not the nav. Adding them to both made the
+   * nav eight items long, and the row has a measured budget — at 1440 the nav,
+   * the brand that returns on scroll and the tools fit in one line at six items and
+   * wrap to two at eight. Two places to reach the same page, one of them breaking
+   * the header, is not a feature. The topics live in the masthead (both of them,
+   * always visible) and in the footer.
+   */
   { href: "/openrouter-pricing-calculator", label: "Pricing" },
   { href: "/stealth-models", label: "Stealth line" },
   { href: "/openrouter-free-models", label: "Free models" },
@@ -41,10 +83,29 @@ const sections = [
         <span class="line2">Facts from the public catalogue, dated and labelled</span>
       </div>
       <div class="live-slot">
-        {liveSlots.map((slot, index) => (
-          <span class={index === 0 ? "badge live" : "badge"}>
-            <span class="dot"></span> {slot}
-          </span>
+        {/*
+          A live codename keeps the green dot and the loud treatment; it is the one
+          thing here that is happening right now.
+        */}
+        {liveSlot && (
+          <a class="badge live" href={liveSlot.href}><span class="dot"></span>{liveSlot.label}</a>
+        )}
+        {/*
+          The two topics carry the same treatment as of 2026-09-24, on the reader's
+          instruction, and they earned a second look before I did it. The first pass
+          drew them as quiet outlined chips, and the reader's judgement was that a
+          badge nobody notices is worse than no badge: the slot exists to say *which
+          two things this site is working on now*, and that is a claim about
+          attention, not a decoration. What it must not become is a lie about state —
+          so the green means "we are following this", it never says "live", and the
+          title spells the sentence out for anyone who hovers. Each one is a link,
+          because the point of saying "we are watching this" is that there is
+          somewhere to go and look.
+        */}
+        {topics.map((topic) => (
+          <a class="badge topic" href={topic.href} title={topic.note}>
+            <span class="dot"></span>{topic.label}
+          </a>
         ))}
         <span class="stamp">Verified<br />{DATA_AS_OF}</span>
       </div>
@@ -58,7 +119,7 @@ const sections = [
       </a>
       <nav>
         {sections.map((s) => (
-          <a href={s.href} aria-current={path === s.href ? "page" : undefined}>{s.label}</a>
+          <a href={s.href} aria-current={isCurrent(s.href) ? "page" : undefined}>{s.label}</a>
         ))}
       </nav>
       {/*
@@ -88,7 +149,30 @@ const sections = [
         it right — it sat against the nav on every phone.
       */}
       <div class="nav-tools">
-        <span class="meta">{openrouterModels.length} models · drift-checked 06:00 CST</span>
+        {/*
+          "18 models" and nothing else, as of 2026-09-24. The full string
+          ("18 models · drift-checked 06:00 CST") needs ~200px, and the intake
+          button above needs ~100 of the 360px this row has beside the nav: with
+          both, "Articles" wrapped onto a second line at 1440 — the same
+          regression the comment below records from adding "tracked" back in
+          September. The drift-check time is not lost: the footer carries
+          "Drift check daily 06:00 CST" on every page, and the masthead stamp
+          carries the date. The count stays because it is the one number that
+          says how big the catalogue is.
+        */}
+        <span class="meta">{openrouterModels.length} models</span>
+        {/*
+          The intake, on every page. It is the one thing this site asks a reader to
+          do, and it used to cost them a navigation to a page with six fields on it.
+          The dialog is the primary surface now; /submit is where the explanation
+          and the topic links live.
+        */}
+        <button type="button" class="submit-trigger" data-submit-open aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+            <path d="M4 12h12M12 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Submit</span>
+        </button>
         <button type="button" class="search-trigger" data-search-open aria-haspopup="dialog">
           <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
             <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2" />
@@ -100,4 +184,12 @@ const sections = [
       </div>
     </div>
   </div>
+  {/*
+    The topic switcher, on every page of a model topic and nowhere else. It lives inside
+    the header because the header is the sticky element: a bar in the page body would have
+    to be pinned *below* a container whose height changes as it folds (102px at the top,
+    54px condensed), and at one of those two numbers it would sit under the chrome. See
+    the component for the rest of the reasoning, and lib/topic-tabs.ts for the tabs.
+  */}
+  <TopicTabs />
 </header>

@@ -4,7 +4,9 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Analytics from "../components/Analytics.astro";
 import SearchDialog from "../components/SearchDialog.astro";
+import SubmitDialog from "../components/SubmitDialog.astro";
 import { SITE, SITE_NAME } from "../lib/schema";
+import { pagePath } from "../lib/page-path";
 
 interface Props {
   title: string;
@@ -75,13 +77,14 @@ const adsenseId = import.meta.env.PUBLIC_ADSENSE_ID as string | undefined;
  * card for free — and `npm run check:files` fails if a declared card is missing,
  * so the URL can never quietly point at nothing.
  */
-// The canonical is the served URL. `Astro.url.pathname` carries the build's
-// file-format suffix (`/access.html`), which produced og:image URLs ending in
-// `.html.png` — caught by `npm run check:files`, not by eye.
-const pagePath = (canonical ? new URL(canonical).pathname : Astro.url.pathname)
-  .replace(/\.html$/, "")
-  .replace(/\/$/, "");
-const ogImage = ogImageProp ?? `${SITE}${pagePath === "" ? "/og/home.png" : `/og${pagePath}.png`}`;
+/*
+ * The canonical is the served URL. The raw pathname carries the build's file-format suffix
+ * (`/access.html`), which produced og:image URLs ending in `.html.png` — caught by
+ * `npm run check:files`, not by eye. The same suffix kept the header from marking the
+ * current section; both are now `pagePath` (lib/page-path.ts).
+ */
+const ogPath = canonical ? pagePath(new URL(canonical)) : pagePath(Astro.url);
+const ogImage = ogImageProp ?? `${SITE}${ogPath === "/" ? "/og/home.png" : `/og${ogPath}.png`}`;
 const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
 ---
 <!doctype html>
@@ -173,6 +176,9 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     </main>
     <SiteFooter />
     <SearchDialog />
+    {/* The intake, reachable from every page: the one thing the site asks a reader to do,
+        and it should not cost a navigation to do it. */}
+    <SubmitDialog />
     <script is:inline>
       const header = document.querySelector("header.site");
       const CONDENSE_AT = 120;
