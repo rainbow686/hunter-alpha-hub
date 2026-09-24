@@ -160,8 +160,17 @@ const description = `${post.author} on ${post.publishedAt} — ${post.ourNote.sp
     </p>
   </article>
 
+  {/*
+    `data-generated` marks this block as computed rather than authored: it is the
+    three nearest posts that share a use case, so it changes every time a record is
+    added to the column. `check:page-parity` compares each page's internal links
+    against the live site to catch a migration that dropped one, and it skips
+    anything inside a block carrying this marker — otherwise growing the column
+    would read as "the build dropped 17 links", which is the opposite of what
+    happened. Author-ordered navigation is not marked, and never will be.
+  */}
   {related.length > 0 && (
-    <section class="related">
+    <section class="related" data-generated="related-posts">
       <h2>More like this</h2>
       <ul class="card-grid">
         {related.map((other) => (

@@ -3,7 +3,8 @@
     "what": "One canonical page per X post: the slug and the headline. Hand-written, because a slug cut out of a tweet is `jev-will-make-agents-10-x-faster-and-cheaper-her` and a headline cut out of one is a truncation.",
     "why": "The reference site links every card to an internal record. Ours linked out to X, which made the hub a doorway: a reader who left rarely came back, and nothing on the site accumulated the link.",
     "rule": "The slug describes the subject of the post, not the author or the date. The headline is a sentence we can stand behind: where the post makes an unverified claim, the headline says it is a claim (the '10x' routing claim, the 'up to 193x' figure), not a fact.",
-    "written": "2026-09-23"
+    "written": "2026-09-24",
+    "note": " Twenty records added 2026-09-24 in content batch 1 (leads from the madewithjev directory crawl)."
   },
   "pages": {
     "x:2100411066966749359": {
@@ -173,6 +174,86 @@
     "x:2100859307671855113": {
       "slug": "jev-255-options-in-milliseconds",
       "headline": "255 options, a few hundred milliseconds, one calibrated answer"
+    },
+    "x:2101341075684434245": {
+      "slug": "zillow-listing-search-in-plain-words",
+      "headline": "Natural-language search over thousands of Zillow listings"
+    },
+    "x:2100520134481735729": {
+      "slug": "x-post-firewall-browser-extension",
+      "headline": "A browser extension that hides timeline posts on your rules"
+    },
+    "x:2100404532119269426": {
+      "slug": "five-hundred-emails-three-cents",
+      "headline": "500 emails classified in seconds for a few cents"
+    },
+    "x:2101388186916454439": {
+      "slug": "drape-realtime-virtual-try-on",
+      "headline": "Real-time virtual try-on for a fashion haul"
+    },
+    "x:2101544156757950697": {
+      "slug": "minecraft-ender-dragon-in-eight-minutes",
+      "headline": "An agent beat the Ender Dragon in 8 minutes 43 seconds"
+    },
+    "x:2101952056768770247": {
+      "slug": "jev-makes-x-cute",
+      "headline": "A visual restyling of the timeline, one decision per post"
+    },
+    "x:2102479924032577686": {
+      "slug": "docjev-document-packets",
+      "headline": "DocJev splits and classifies complex document packets"
+    },
+    "x:2102443273339994558": {
+      "slug": "internal-link-tool",
+      "headline": "A free internal-linking tool that picks the links worth adding"
+    },
+    "x:2102423007494889785": {
+      "slug": "on-device-audio-pipeline",
+      "headline": "An on-device audio pipeline with no language model in the loop"
+    },
+    "x:2102272479674642554": {
+      "slug": "ghostfeed-reaction-library",
+      "headline": "Ten thousand imported videos given a reaction each"
+    },
+    "x:2102726891153338374": {
+      "slug": "jev-auto-tagging-design-tool",
+      "headline": "Auto-tagging inside a design tool, while the UI is being used"
+    },
+    "x:2102537239662096658": {
+      "slug": "sales-copilot-live-call",
+      "headline": "A sales copilot that decides what to say next, live"
+    },
+    "x:2100347770867458384": {
+      "slug": "jevpilot-rebuilt-tesla-fsd",
+      "headline": "Tesla's driving agent rebuilt in an afternoon"
+    },
+    "x:2100654891756589230": {
+      "slug": "competitor-ad-teardown-724-ads",
+      "headline": "724 competitor ads broken down in forty seconds"
+    },
+    "x:2100086301894881578": {
+      "slug": "jev-plays-super-mario-bros",
+      "headline": "Super Mario Bros played by the decision model"
+    },
+    "x:2101369117496521042": {
+      "slug": "designer-jev-most-liked-demo",
+      "headline": "The designer's demo that reached the design crowd"
+    },
+    "x:2100722975645598191": {
+      "slug": "superx-sixty-one-questions-per-post",
+      "headline": "Sixty-one questions per post in about a second"
+    },
+    "x:2101412965765529853": {
+      "slug": "openrouter-jep-evaluation",
+      "headline": "The router's own evaluation of Jev"
+    },
+    "x:2101056078872256935": {
+      "slug": "cline-plugin-gives-jev-a-browser",
+      "headline": "A coding assistant hands the model a browser"
+    },
+    "x:2101014004927729737": {
+      "slug": "cua-s1-system-one-models",
+      "headline": "A third party's own System One family (not Jev)"
     }
   }
 }

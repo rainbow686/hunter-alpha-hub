@@ -125,6 +125,25 @@
   background: var(--accent);
   border-color: var(--accent);
 }
+/*
+ * The two model topics in the masthead (2026-09-24). Same shape as the live badge
+ * next to them, but deliberately quieter: a live codename is news and gets the
+ * green treatment, a topic is a door. They are links, so they get the link
+ * affordance — an underline on hover — rather than the badge's flat state look.
+ * Mono and small so two of them cost less width than the sentence they replaced.
+ */
+.masthead .live-slot .badge.topic {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+.masthead .live-slot .badge.topic:hover { color: var(--text); border-color: var(--text-faint); }
 @media (max-width: 760px) {
   /* A phone has 334px for the brand, a scrolling nav and these tools: the arrow
      carries it, and the label goes with the ⌘K hint. */

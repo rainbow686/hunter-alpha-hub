@@ -21,6 +21,11 @@ import ClaimList from "../../components/ClaimList.astro";
 import TimelineList from "../../components/TimelineList.astro";
 import Faq from "../../components/Faq.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
+import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
+import { jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
+import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
+import { jevVideos } from "@repo/lib/jev-videos";
+import { jevThreads } from "@repo/lib/jev-threads";
 import { articleSchema, breadcrumbSchema, faqSchema, SITE, SITE_NAME } from "../../lib/schema";
 import {
   JEV_CLOUDFLARE_URL,
@@ -131,6 +136,100 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
   sent: row.sent,
   outcome: row.confidence ? `${row.returned} — ${row.confidence}` : row.returned,
 }));
+
+/**
+ * The front page (2026-09-24). This page is the model's *home*, so it opens with
+ * what the topic contains and how big it is, then the reference material below —
+ * the order a magazine uses, and the order the reference site uses ("what people
+ * are building", then the explainers).
+ *
+ * The wall is a **sample**: sixteen from each column, interleaved, every one of them
+ * in the column's own index with the full list. Sixty-four cards is the size the
+ * reader asked for (they favour abundance, and a wall is a visual argument), and it
+ * costs nothing at load: every image is lazy and hotlinked, so the first paint
+ * fetches only the two or three posters on screen. What a bigger wall does cost is
+ * *attention* — past a few screens a reader stops reading and starts scrolling — so
+ * the guard against this page becoming the index is that the cards link to the
+ * columns' own lists, not that the page is short.
+ */
+const fmt = (n: number) => n.toLocaleString("en-US");
+const WALL_PER_COLUMN = 16;
+
+const wallX: WallItem[] = jevXPosts.slice(0, WALL_PER_COLUMN).map((post) => ({
+  kind: "X post",
+  headline: post.page?.headline ?? post.title,
+  href: post.page ? `/typesafe-jev/x-posts/${post.page.slug}` : post.url,
+  external: !post.page,
+  note: post.ourNote,
+  meta: [`${fmt(post.likes)} likes`, post.publishedAt],
+  thumb: post.thumb || undefined,
+  thumbW: post.thumbW,
+  thumbH: post.thumbH,
+  avatar: post.avatar || undefined,
+}));
+
+const wallBuilds: WallItem[] = jevBuilds.slice(0, WALL_PER_COLUMN).map((build) => ({
+  kind: "Repository",
+  headline: build.title,
+  href: build.dossier ? `/typesafe-jev/builds/${build.dossier.slug}` : build.url,
+  external: !build.dossier,
+  note: build.ourNote,
+  meta: [`${fmt(build.stars)} stars`, build.language ?? "—"],
+  thumb: build.card ?? undefined,
+}));
+
+const wallVideos: WallItem[] = jevVideos.slice(0, WALL_PER_COLUMN).map((video) => ({
+  kind: "Video",
+  headline: video.title,
+  href: video.url,
+  external: true,
+  note: video.ourNote,
+  meta: [`${fmt(video.views)} views`, video.channel],
+  thumb: video.thumb || undefined,
+  thumbW: video.thumbW,
+  thumbH: video.thumbH,
+}));
+
+const wallThreads: WallItem[] = jevThreads.slice(0, WALL_PER_COLUMN).map((thread) => ({
+  kind: thread.source === "hn" ? "Hacker News" : "dev.to",
+  headline: thread.title,
+  href: thread.url,
+  external: true,
+  note: thread.ourNote,
+  meta: [`${fmt(thread.score)} ${thread.scoreLabel}`, thread.publishedAt],
+}));
+
+/*
+ * Interleaved rather than concatenated: one card from each column, four times
+ * over, so the first screen alone shows an X post, a repository, a video and a
+ * discussion. Sorting all 48 by one number would put four X posts at the top and
+ * make the page look like one column.
+ */
+const wall: WallItem[] = [];
+for (let i = 0; i < WALL_PER_COLUMN; i += 1) {
+  for (const column of [wallX, wallBuilds, wallVideos, wallThreads]) {
+    if (column[i]) wall.push(column[i]);
+  }
+}
+
+/** The four columns, in the order a reader meets them, with their real counts. */
+const columns = [
+  { label: "Built with Jev", href: "/typesafe-jev/builds", count: jevBuilds.length },
+  { label: "Seen on X", href: "/typesafe-jev/x-posts", count: jevXPosts.length },
+  { label: "Videos", href: "/typesafe-jev/videos", count: jevVideos.length },
+  { label: "Threads and write-ups", href: "/typesafe-jev/threads", count: jevThreads.length },
+];
+
+const recordCount = jevBuilds.length + jevXPosts.length + jevVideos.length + jevThreads.length;
+const withPages = jevBuildsWithPages.length + jevXPostsWithPages.length;
+
+/** The numbers strip: what this topic holds, and one number of our own. */
+const heroStats = [
+  { value: fmt(recordCount), label: "records in the four columns", note: `${withPages} of them have a page of ours` },
+  { value: fmt(jevXPosts.length), label: "posts by other people", note: `the largest is ${fmt(Math.max(...jevXPosts.map((p) => p.likes)))} likes` },
+  { value: fmt(jevBuilds.length), label: "repositories tracked", note: "stars re-read by the GitHub ingest" },
+  { value: "783 ms", label: "median from our own run", note: `${JEV_OURS_SAMPLES} calls, from this machine, 2026-09-20` },
+];
 ---
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
   <Breadcrumbs schema={false} items={[
@@ -169,9 +268,12 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
   </p>
 
       {/* The page cover (contract §5): one image, about this page's subject, with the
-          meaning in the alt text and no caption announcing what it is. */}
+          meaning in the alt text and no caption announcing what it is. The alt text was
+          rewritten with the picture on 2026-09-24 (direction C): it now describes a
+          brass mailbox with a page going in and a punched card coming out, which is what
+          the file actually shows. */}
       <figure class="figure cover">
-        <img src="/img/cover-jev-topic.webp" alt="An engraving: a sheet of paper passing under a stamping press, surrounded by empty speech bubbles of different sizes." width="1024" height="576" decoding="async" />
+        <img src="/img/cover-jev-topic.webp" alt="An engraving: a brass mailbox on a bench, a handwritten page going into its slot at the top and a punched brass card falling into the tray below." width="1024" height="576" decoding="async" />
       </figure>
   <div class="byline">
     <span>Reference</span>
@@ -181,6 +283,54 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
       <a href={JEV_OPENROUTER_URL} rel="noopener noreferrer">OpenRouter listing →</a>
     </span>
   </div>
+
+  {/*
+    The front-page strip (2026-09-24). Three counts and one figure of our own: what
+    the topic holds, and that at least one number on it came out of this machine
+    rather than out of a vendor's deck. Each tile says where its number came from,
+    because a number with no source is the thing this site exists to avoid.
+  */}
+  <section class="topic-hero">
+    <ul class="stat-row">
+      {heroStats.map((stat) => (
+        <li>
+          <span class="stat-value">{stat.value}</span>
+          <span class="stat-label">{stat.label}</span>
+          <span class="stat-note">{stat.note}</span>
+        </li>
+      ))}
+    </ul>
+    {/*
+      The chips are the topic's own columns — not a global taxonomy, and not a
+      matrix: Laya's equivalent row is different, because a model that ships weights
+      raises questions a hosted API does not. Each chip is a link to the full list,
+      which is where the index lives; this page only samples it.
+    */}
+    <nav class="topic-chips" aria-label="Jev columns">
+      {columns.map((column) => (
+        <a href={column.href}>
+          {column.label}
+          <span class="chip-count">{column.count}</span>
+        </a>
+      ))}
+      <a href="/typesafe-jev/guide">How people use Jev</a>
+      <a href="/typesafe-jev/pricing">What a decision costs</a>
+      <a href="/typesafe-jev/vs-llm">Jev vs an LLM</a>
+      <a href="/typesafe-jev/open-source">Open source, and what it gives up</a>
+      <a href="/typesafe-jev/statistics">Statistics</a>
+    </nav>
+  </section>
+
+  {/*
+    The wall. Below it the page continues as it did — the facts, the three question
+    types, our own run, the FAQ — because a reader who wants the reference should
+    not have to scroll past 48 cards to find it, and a reader who wanted to know
+    whether anything is happening here has already been answered.
+  */}
+  <section class="topic-wall">
+    <h2>What people are building</h2>
+    <TopicWall items={wall} columns={columns} />
+  </section>
 
   {/*
     There was a second generated image here (jev-hero: a wall of talk on one side,
@@ -1267,3 +1417,44 @@ const probeAttempts = oursSchemaProbe.attempts.map((row) => ({
     <a class="btn ghost" href="/openrouter-models">Full model directory</a>
   </p>
 </System>
+
+<style>
+  /*
+   * The front-page strip: four tiles of numbers, then the topic's own columns as
+   * chips. Both are scoped to this page — the numbers are this model's, and a
+   * shared component would tempt the next topic to fill it with different claims.
+   */
+  .topic-hero { margin: var(--space-6) 0 var(--space-8); }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0 0 var(--space-5);
+    padding: 0;
+  }
+  .stat-row li { border-top: 2px solid var(--border-strong); padding-top: var(--space-3); }
+  .stat-value { display: block; font-family: var(--sans); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat-label { display: block; font-size: var(--text-sm); color: var(--text-muted); margin-top: 2px; }
+  .stat-note { display: block; font-size: var(--text-xs); color: var(--text-faint); margin-top: var(--space-2); }
+
+  .topic-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .topic-chips a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    color: var(--text-muted);
+    background: var(--surface);
+  }
+  .topic-chips a:hover { color: var(--text); border-color: var(--text-faint); }
+  .chip-count { color: var(--text-faint); font-variant-numeric: tabular-nums; }
+  .topic-wall { margin-top: var(--space-10); }
+  .topic-wall h2 { margin-bottom: var(--space-5); }
+</style>

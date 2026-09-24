@@ -1,26 +1,34 @@
 /**
- * What the masthead shows when no stealth codename is live.
+ * What the masthead's status slot carries.
  *
- * The status slot was built for one moment: a new codename appearing, which is the
- * only time this site has news. The rest of the time it printed the last reveal
- * next to "no live codename" — a badge for an event that was over, plus a sentence
- * telling the reader that nothing is happening. It took up the most valuable strip
- * on the site to say nothing twice.
+ * The slot was built for one moment: a new stealth codename going live, which is the
+ * only time this site has news. The rest of the time it used to print "Union Alpha
+ * revealed" next to "no live codename" — a badge for an event that was over, plus a
+ * sentence telling the reader that nothing is happening.
  *
- * So the slot has two states. If a codename is live, the live badge wins (that is
- * its own field in lib/stealth-models.ts and it is not duplicated here). If not,
- * the newest thing on the site goes there instead — one hand-maintained pointer,
- * rendered as a link, so the space is always a place to go rather than a status
- * nobody can act on.
+ * Two states now, decided 2026-09-24:
  *
- * Change this when something newer lands. It is one field on purpose: the previous
- * version of this slot said "Union Alpha revealed" for a week after the reveal,
- * because the value was derived from a fact rather than chosen by a person.
+ *   - **A codename is live** → the live badge takes the slot (its own field in
+ *     lib/stealth-models.ts; not duplicated here).
+ *   - **Otherwise** → the two model topics, as links.
+ *
+ * The topics live here rather than being derived from the file tree because the
+ * header is the one piece of chrome on every page, and "which two things is this
+ * site building" is an editorial answer, not a directory listing. They are also the
+ * two things a reader could not reach from the chrome at all until 2026-09-24: both
+ * were footer-only, which is how a whole topic stayed invisible on its own site.
+ *
+ * `note` is the tooltip, and the reason this is a list of objects rather than of
+ * strings: "Jev" means nothing to somebody who has not met the name, and the header
+ * is where they meet it first.
  */
-export const spotlight = {
-  /** Short enough for the masthead: it shares a row with the verified stamp. */
-  label: "Laya: open weights, on your CPU",
-  href: "/laya",
-  /** The date the thing this points at went live, for anyone reading this file. */
-  since: "2026-09-24",
-} as const;
+export interface SpotlightTopic {
+  label: string;
+  href: string;
+  note: string;
+}
+
+export const topics: SpotlightTopic[] = [
+  { label: "Jev", href: "/typesafe-jev", note: "TypeSafe's decision model: state in, typed decision out" },
+  { label: "Laya", href: "/laya", note: "The open-weight decision model you can run yourself" },
+];

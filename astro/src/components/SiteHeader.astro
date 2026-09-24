@@ -2,7 +2,7 @@
 import Logo from "./Logo.astro";
 import { DATA_AS_OF, openrouterModels } from "@repo/lib/openrouter-models";
 import { stealthLine } from "@repo/lib/stealth-models";
-import { spotlight } from "@repo/lib/spotlight";
+import { topics } from "@repo/lib/spotlight";
 
 /**
  * Masthead header that folds into a single row on scroll.
@@ -23,13 +23,16 @@ const path = Astro.url.pathname;
  * fill the rest of the time by printing "Union Alpha revealed" next to "no live
  * codename": a permanent badge for an event that was over, plus a sentence that
  * tells a reader nothing is happening. A reader does not need to be told that.
- * When nothing is live the slot carries the newest thing on the site instead, from
- * one hand-maintained field (lib/spotlight.ts), so the space is a link rather than
- * a tombstone.
+ * When nothing is live the slot carries the two model topics instead, from
+ * lib/spotlight.ts. The reader asked for both on 2026-09-24, and they are right
+ * that it is the useful pair: Jev and Laya answer the same question from opposite
+ * ends (hosted API, open weights), so showing them together is a comparison
+ * somebody can act on rather than a status line they cannot.
  */
-const statusSlot = stealthLine.liveCodename
-  ? { live: true, label: `${stealthLine.liveCodename} live`, href: "/stealth-models" }
-  : { live: false, label: spotlight.label, href: spotlight.href };
+const liveSlot = stealthLine.liveCodename
+  ? { label: `${stealthLine.liveCodename} live`, href: "/stealth-models" }
+  : null;
+
 /*
  * A section is its own prefix, not just its own path: /laya/vs-jev is inside Laya
  * and /typesafe-jev/pricing inside Jev. Exact-match only meant a reader four pages
@@ -71,14 +74,17 @@ const sections = [
       </div>
       <div class="live-slot">
         {/*
-          One badge, two meanings: a live codename (green dot, the moment the slot
-          was built for) or the newest thing on the site (no dot — it is not live,
-          it is new). Both are links, because both are places to go.
+          A live codename keeps the green dot and the loud treatment; it is the one
+          thing here that is happening right now. The two topics are quieter, and
+          they are links rather than badges — a badge says "state", a link says
+          "go here", and the reader can act on the second one.
         */}
-        <a class={statusSlot.live ? "badge live" : "badge"} href={statusSlot.href}>
-          {statusSlot.live && <span class="dot"></span>}
-          {statusSlot.label}
-        </a>
+        {liveSlot && (
+          <a class="badge live" href={liveSlot.href}><span class="dot"></span>{liveSlot.label}</a>
+        )}
+        {topics.map((topic) => (
+          <a class="badge topic" href={topic.href} title={topic.note}>{topic.label}</a>
+        ))}
         <span class="stamp">Verified<br />{DATA_AS_OF}</span>
       </div>
     </div>

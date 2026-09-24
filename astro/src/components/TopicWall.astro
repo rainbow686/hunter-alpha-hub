@@ -1,0 +1,102 @@
+---
+/**
+ * The mixed wall on a model topic's front page.
+ *
+ * Its job is to answer "is there anything here?" in one screen. The reference site
+ * does that by putting its whole directory on the home page; we do it with a
+ * *sample* from every column, interleaved so the variety is visible — a wall of
+ * forty X cards tells a reader less than twelve from each of four places.
+ *
+ * Two rules keep it from becoming what the column pages already are:
+ *
+ *   1. **It is a preview, not an index.** The page passes a capped list, and the
+ *      footer of the wall links each column's own index. A hub that renders the
+ *      same 400 rows as four other pages is duplicate content with a nicer grid,
+ *      and we have already been refused an ad account for thin pages.
+ *   2. **Cards that do not link anywhere of ours link out honestly.** A record page
+ *      links to our record; a row we only track links to the source, marked as such.
+ *
+ * Every image is hotlinked from the platform that published it (never rehosted,
+ * contract §3) and every one is lazy: the wall is tall, and only the first screens
+ * are ever fetched by most readers.
+ */
+export interface WallItem {
+  /** What this is, in the reader's words: "X post", "Repository", "Video", "Thread". */
+  kind: string;
+  headline: string;
+  /** Our page for the record when we have one, otherwise the source itself. */
+  href: string;
+  external: boolean;
+  note: string;
+  /** Two short facts for the footer line: a count and a date. */
+  meta: string[];
+  thumb?: string;
+  thumbW?: number;
+  thumbH?: number;
+  avatar?: string;
+}
+
+interface Props {
+  items: WallItem[];
+  /** One line under the wall: "see all 62 →" per column. */
+  columns: { label: string; href: string; count: number }[];
+}
+const { items, columns } = Astro.props;
+
+/** The card's media frame takes the poster's own shape, within limits. */
+const ratio = (w?: number, h?: number) => {
+  if (!w || !h) return "16 / 9";
+  const value = w / h;
+  return String(Math.min(3, Math.max(0.6, value)));
+};
+---
+
+<ul class="card-grid wall">
+  {items.map((item) => (
+    <li class="card">
+      {item.thumb && (
+        <div class="card-media" style={`--ratio: ${ratio(item.thumbW, item.thumbH)}`}>
+          <span class="card-src">{item.kind}</span>
+          <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        </div>
+      )}
+      <div class="card-body">
+        <div class="card-byline">
+          {item.avatar && (
+            <img class="card-avatar" src={item.avatar} width="32" height="32" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+          )}
+          <span class="card-eyebrow">
+            {item.kind}
+            {item.external && <> · <span class="wall-out">source</span></>}
+          </span>
+        </div>
+        <h3 class="card-title">
+          <a href={item.href} rel={item.external ? "noopener" : undefined}>{item.headline}</a>
+        </h3>
+        <p class="card-note card-our">{item.note}</p>
+        <p class="card-meta">
+          {item.meta.map((fact) => <span>{fact}</span>)}
+        </p>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<p class="wall-foot">
+  Every entry on this page is in one of the columns, with the full list and its filters:
+  {columns.map((column, index) => (
+    <>
+      {index > 0 && " · "}
+      <a href={column.href}>{column.label} ({column.count})</a>
+    </>
+  ))}
+</p>
+
+<style>
+  .wall-foot {
+    margin-top: var(--space-5);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .wall-out { text-transform: none; letter-spacing: 0; }
+</style>

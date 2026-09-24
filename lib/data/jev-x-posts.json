@@ -1,14 +1,14 @@
 {
   "meta": {
-    "generatedAt": "2026-09-22T12:55:13.444Z",
+    "generatedAt": "2026-09-24T02:03:21.798Z",
     "source": "x-syndication",
     "queries": [
-      "42 curated links"
+      "62 curated links"
     ],
     "intake": "X has no read API we can afford (ADR-0023), so posts are entered by hand from a curated list and resolved through the public syndication endpoint. A post is published only after somebody reads it and writes the note.",
-    "candidates": 42,
-    "published": 42,
-    "note": "one queue, one column: a post is a post — the media inside it is reported on the card, never promoted into a category (the separate /demos column was deleted 2026-09-23)",
+    "candidates": 62,
+    "published": 62,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 0,
     "refreshedAt": "2026-09-23T03:26:17.878Z"
   },
@@ -1635,6 +1635,729 @@
         "chars": 296,
         "from": "https://x.com/zodchiii/status/2101262191399981504",
         "readOn": "2026-09-23"
+      }
+    },
+    {
+      "id": "x:2101341075684434245",
+      "source": "x",
+      "url": "https://x.com/venturetwins/status/2101341075684434245",
+      "title": "Jev can serve as better natural language search on websites. It can scan thousands of Zillow …",
+      "author": "@venturetwins",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101339712464326656/img/A8yq5IoXQuhJAi32.jpg",
+        "thumbW": 1920,
+        "thumbH": 1226,
+        "avatar": "https://pbs.twimg.com/profile_images/2080756230893838336/q4VqZuw2_normal.jpg"
+      },
+      "metrics": {
+        "likes": 954,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Natural-language search over a listing site, with Jev as the filter between a shopper's sentence and thousands of property records. It is the same job the triage pages describe done on a different corpus: a large candidate set narrowed to a handful by one pass.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Jev can serve as better natural language search on websites. It can scan thousands of Zillow listings and classify properties by things you can't normally filter for - e.g. architecture, renovation status, proximity to freeways. This was done in <20 sec and costs $0.18 👇…",
+        "chars": 296,
+        "from": "https://x.com/venturetwins/status/2101341075684434245",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100520134481735729",
+      "source": "x",
+      "url": "https://x.com/marcelpociot/status/2100520134481735729",
+      "title": "I built a browser extension with Jev @typesafeai that can hide/collapse posts on X based on n…",
+      "author": "@marcelpociot",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100519256425140224/img/-A44e4qCo8mVP8ws.jpg",
+        "thumbW": 1502,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1572564016916008961/n7drNq_E_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1108,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A browser extension that hides or collapses posts in the timeline on the reader's own rules — Jev making one decision per post, in the feed, at scroll speed. Worth keeping as an example of the decision living inside somebody else's page rather than a pipeline of ours.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents",
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "I built a browser extension with Jev @typesafeai that can hide/collapse posts on X based on natural language. It's so fast that it's not noticeable and insanely cheap...this must be the future of \"ad blockers\" and content firewalls. https://t.co/EPIJ4rzeIp",
+        "chars": 256,
+        "from": "https://x.com/marcelpociot/status/2100520134481735729",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100404532119269426",
+      "source": "x",
+      "url": "https://x.com/rileybrown/status/2100404532119269426",
+      "title": "Yeah Jev by @typesafeai is very cool. It classified 500 emails in seconds. And it costed 3.5 …",
+      "author": "@rileybrown",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100403183533125632/img/54ZFO-CHvDeC-rw-.jpg",
+        "thumbW": 3840,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1898571530956873728/JALEVTSb_normal.jpg"
+      },
+      "metrics": {
+        "likes": 3877,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Five hundred emails classified in seconds for a few cents, which is the claim; the number is the author's and we have not run it. The interesting part is the shape — bulk triage where per-item cost decides whether it is viable at all.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Yeah Jev by @typesafeai is very cool. It classified 500 emails in seconds. And it costed 3.5 cents. https://t.co/4UoATmN050",
+        "chars": 123,
+        "from": "https://x.com/rileybrown/status/2100404532119269426",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101388186916454439",
+      "source": "x",
+      "url": "https://x.com/nailthy62/status/2101388186916454439",
+      "title": "jev is insane 🫣 it makes realtime virtual try-on hauls possible. built this experiment for D…",
+      "author": "@nailthy62",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101384523124740096/img/1Q6moTMdLcZ-mJ3r.jpg",
+        "thumbW": 1688,
+        "thumbH": 950,
+        "avatar": "https://pbs.twimg.com/profile_images/2097395700476837888/CZ-1KUKG_normal.jpg"
+      },
+      "metrics": {
+        "likes": 4323,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Real-time virtual try-on for a fashion haul: a decision per frame rather than per document, which is the latency end of what these models are for. The demo is a studio experiment, not a product, and the author says so.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "jev is insane 🫣 it makes realtime virtual try-on hauls possible. built this experiment for Drape with @typesafeai > i talk > jev reads transcript + what i'm wearing > picks from my closet > changes my outfit in realtime cost: $0.0011 per decision time: ~620ms per decision…",
+        "chars": 297,
+        "from": "https://x.com/nailthy62/status/2101388186916454439",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101544156757950697",
+      "source": "x",
+      "url": "https://x.com/rronak_/status/2101544156757950697",
+      "title": "Jev + Astra beats the Ender Dragon in Minecraft in 8 minutes 43 seconds! ⏱️ Cost less than $1…",
+      "author": "@rronak_",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101542497042481152/img/edco8P9wl-DUp5z8.jpg",
+        "thumbW": 1280,
+        "thumbH": 720,
+        "avatar": "https://pbs.twimg.com/profile_images/2059694069811679232/SP4mePp1_normal.jpg"
+      },
+      "metrics": {
+        "likes": 7946,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An agent loop playing Minecraft end to end, with the decision model choosing each move and a language model out of the loop. A game is the cheapest place to watch that loop fail: every wrong call is visible within a second.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "Jev + Astra beats the Ender Dragon in Minecraft in 8 minutes 43 seconds! ⏱️ Cost less than $1 ($0.01 Jev, $0.96 Astra) I open sourced the code and explain the harness setup below. This type of movement is only possible with Jev's near instant decisionmaking, and some…",
+        "chars": 291,
+        "from": "https://x.com/rronak_/status/2101544156757950697",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101952056768770247",
+      "source": "x",
+      "url": "https://x.com/hedachi/status/2101952056768770247",
+      "title": "Jevで𝕏をかわいくしてみた https://t.co/QLc6i4XQow",
+      "author": "@hedachi",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101951967774040064/img/CacawHR0bMzhWRSM.jpg",
+        "thumbW": 3840,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1655547980819349504/K3Sb1z9t_normal.jpg"
+      },
+      "metrics": {
+        "likes": 459,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A visual restyling of a timeline, driven by per-post classification. Japanese-language post, and the demo is the point rather than a benchmark — it shows the decision feeding a rendering layer.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "Jevで𝕏をかわいくしてみた https://t.co/QLc6i4XQow",
+        "chars": 39,
+        "from": "https://x.com/hedachi/status/2101952056768770247",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102479924032577686",
+      "source": "x",
+      "url": "https://x.com/jerryjliu0/status/2102479924032577686",
+      "title": "DocJev is the fastest way to classify and split complex document packets ⚡️. (and the default…",
+      "author": "@jerryjliu0",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102479606909636608/img/ir4DEV6u1VcpfLuN.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1283610285031460864/1Q4zYhtb_normal.jpg"
+      },
+      "metrics": {
+        "likes": 917,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Document packets classified and split by a tool its author built on Jev, with the default configuration tuned for exactly that shape of input. The claim is speed on complex packets; the evaluation behind it is the author's.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "DocJev is the fastest way to classify and split complex document packets ⚡️. (and the default is fully free and OSS!) I made a sick teaser video below. TY Opus 5.5 🙏 check it out: https://t.co/fgSUUCWcwI https://t.co/7VbUMgCtyH",
+        "chars": 228,
+        "from": "https://x.com/jerryjliu0/status/2102479924032577686",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102443273339994558",
+      "source": "x",
+      "url": "https://x.com/iannuttall/status/2102443273339994558",
+      "title": "I built a free internal linking tool using @typesafeai Jev for classifying and selecting the …",
+      "author": "@iannuttall",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102443035904835584/img/MsmzEUxAZPnSePjp.jpg",
+        "thumbW": 1540,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg"
+      },
+      "metrics": {
+        "likes": 259,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A free internal-linking tool that classifies a page and picks the links worth adding — an SEO chore turned into one decision per candidate link. The author published it for anyone to use, which is why it is worth having in the column.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "I built a free internal linking tool using @typesafeai Jev for classifying and selecting the links. BYOK or pay $1 to use mine. It works for up to 500 pages and gives you a CSV or JSON to pass to an LLM to implement. https://t.co/i01qMCEXa6 https://t.co/7uhzyaiGQj",
+        "chars": 264,
+        "from": "https://x.com/iannuttall/status/2102443273339994558",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102423007494889785",
+      "source": "x",
+      "url": "https://x.com/desertantlabs/status/2102423007494889785",
+      "title": "Jev + on-device models = results in seconds with no LLM in the loop. Quick demo app to show t…",
+      "author": "@desertantlabs",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102420889702653952/img/vm_IacVN4Ais6TYq.jpg",
+        "thumbW": 3644,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/2093763744052445184/opIqrYrc_normal.jpg"
+      },
+      "metrics": {
+        "likes": 157,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An on-device audio pipeline where the decisions happen locally and no language model is in the loop at all. It is the strongest version of the self-hosting argument on this column: the pieces that need a GPU are not in it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content",
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "Jev + on-device models = results in seconds with no LLM in the loop. Quick demo app to show the possibilities. Drop in an audio file: Ear detects the language, Voz transcribes it and Redact removes PII. Then @typesafeai's Jev makes about 20 decisions in one call in…",
+        "chars": 289,
+        "from": "https://x.com/desertantlabs/status/2102423007494889785",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102272479674642554",
+      "source": "x",
+      "url": "https://x.com/meetshukla_/status/2102272479674642554",
+      "title": "i’m probably going to regret this. 10,000+ videos were imported by our users into Ghostfeed i…",
+      "author": "@meetshukla_",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102271838332104704/img/h2xORjnyRJYrQkaV.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1982516814308347904/u4_eSkSS_normal.jpg"
+      },
+      "metrics": {
+        "likes": 109,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Ten thousand imported videos getting a reaction classification each, at a scale where the per-item price is the whole feasibility question. The author is candid that the import was theirs to regret.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "i’m probably going to regret this. 10,000+ videos were imported by our users into Ghostfeed in last 6 months. this weekend, we picked 1,066 reaction videos and analysed all of them with JEV + GEMINI. now you can search by structure, reaction, and who’s on camera. opening the…",
+        "chars": 299,
+        "from": "https://x.com/meetshukla_/status/2102272479674642554",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102726891153338374",
+      "source": "x",
+      "url": "https://x.com/designgurra/status/2102726891153338374",
+      "title": "more magical UI with JEV: auto-tagging https://t.co/FuAUszXM76",
+      "author": "@designgurra",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102724758336892928/img/GELJRrpoW-BBddXt.jpg",
+        "thumbW": 2740,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1897964636441358336/Pc6OPmvP_normal.jpg"
+      },
+      "metrics": {
+        "likes": 209,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Auto-tagging in a design tool: one decision per element, shown while the interface is being used. A short demo, but it is the clearest picture of the decision as a UI primitive rather than a backend job.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "more magical UI with JEV: auto-tagging https://t.co/FuAUszXM76",
+        "chars": 62,
+        "from": "https://x.com/designgurra/status/2102726891153338374",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102537239662096658",
+      "source": "x",
+      "url": "https://x.com/moritzkremb/status/2102537239662096658",
+      "title": "I built a Sales Copilot using Jev → Listens to sales call live → Tells you what to say next →…",
+      "author": "@moritzkremb",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102536672248209408/img/pOWU3Z_0iNKn5Vyn.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
+      },
+      "metrics": {
+        "likes": 192,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A live sales copilot that listens to a call and decides what to say next — a real-time loop where a wrong answer is expensive and a slow one is useless. The proof is a demo video; there is no evaluation in the post.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "I built a Sales Copilot using Jev → Listens to sales call live → Tells you what to say next → Helps you follow the script and handle objections → Shows you what stage of the call you're in → Gives you live signals and probability of closing Demo below on a recorded sales…",
+        "chars": 295,
+        "from": "https://x.com/moritzkremb/status/2102537239662096658",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100347770867458384",
+      "source": "x",
+      "url": "https://x.com/jpschroeder/status/2100347770867458384",
+      "title": "I rebuilt Tesla Full Self Driving with Jev in less than an hour. This model is a total unlock…",
+      "author": "@jpschroeder",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100347372844756992/img/CaExDBw3MTf0ia58.jpg",
+        "thumbW": 1892,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1532735511953035270/1AwnrbP7_normal.jpg"
+      },
+      "metrics": {
+        "likes": 4834,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A driving-simulation agent rebuilt in an afternoon, with the decision model steering. 'Under an hour' is a claim about the integration rather than the task, and the author is explicit that it took one sitting.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "I rebuilt Tesla Full Self Driving with Jev in less than an hour. This model is a total unlock. https://t.co/mUrvaFrlQ7",
+        "chars": 118,
+        "from": "https://x.com/jpschroeder/status/2100347770867458384",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100654891756589230",
+      "source": "x",
+      "url": "https://x.com/TheMattBerman/status/2100654891756589230",
+      "title": "jev is INSANE. in 40 seconds it broke down 724 live ads from 37 brands. every hook. every for…",
+      "author": "@TheMattBerman",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100654321792684032/img/cXvU50KmCe6QFu86.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1986926744515805184/h-houqBr_normal.jpg"
+      },
+      "metrics": {
+        "likes": 6776,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Seven hundred competitor ads broken down in forty seconds — every hook and format classified, one decision per ad. This is the largest corpus in the column so far and the clearest case for the model as a labelling engine.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "jev is INSANE. in 40 seconds it broke down 724 live ads from 37 brands. every hook. every format. offer. cta. awareness stage. landing page mismatch. used 9 cents of tokens. (will be avail in @stealads + mcp) https://t.co/II1T9hy5tg",
+        "chars": 232,
+        "from": "https://x.com/TheMattBerman/status/2100654891756589230",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100086301894881578",
+      "source": "x",
+      "url": "https://x.com/faadilhshaik/status/2100086301894881578",
+      "title": "got @typesafeai’s new model Jev to play Super Mario Bros. fast inference + structured outputs…",
+      "author": "@faadilhshaik",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100085174826647552/img/6YMRQKKZYBPsW2oo.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2100057635378827264/o0PTIOiI_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2910,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Super Mario Bros played by the model, which is the earliest demo in this batch and the one that convinced a lot of people the latency claim was real. A game loop is the honest test of whether the round trip fits.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "got @typesafeai’s new model Jev to play Super Mario Bros. fast inference + structured outputs makes it surprisingly good for real time use cases. I'm excited to see what can be done with these new models! https://t.co/wXXW2SsSXG",
+        "chars": 228,
+        "from": "https://x.com/faadilhshaik/status/2100086301894881578",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101369117496521042",
+      "source": "x",
+      "url": "https://x.com/heystefan_/status/2101369117496521042",
+      "title": "when a designer gets access to Jev https://t.co/FlJMeMNTJd",
+      "author": "@heystefan_",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101367981486051328/img/POjBvV3P9O7LKDGZ.jpg",
+        "thumbW": 3620,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1383480755011997707/Ls7nIecd_normal.jpg"
+      },
+      "metrics": {
+        "likes": 10195,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A designer's demo, and the most-liked post in this batch: the audience is design people, not AI people, which is worth noticing about who the model reached. The clip is the content; there is no benchmark in it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "when a designer gets access to Jev https://t.co/FlJMeMNTJd",
+        "chars": 58,
+        "from": "https://x.com/heystefan_/status/2101369117496521042",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100722975645598191",
+      "source": "x",
+      "url": "https://x.com/robj3d3/status/2100722975645598191",
+      "title": "Jev + SuperX = virality solved ✅ Every post gets 61 questions in ~1s for $0.0004 🤯 &gt; fitt…",
+      "author": "@robj3d3",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100722766362406912/img/pH0lahpfd-qTj_nE.jpg",
+        "thumbW": 3840,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1763174758416588801/DMB7OfRz_normal.png"
+      },
+      "metrics": {
+        "likes": 1380,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Sixty-one questions scored on every post in about a second for a fraction of a cent — the strongest per-item economics claimed in this batch, and like the rest, a claim by the author. The questions themselves are the interesting part: many decisions, one state.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "quote": {
+        "text": "Jev + SuperX = virality solved ✅ Every post gets 61 questions in ~1s for $0.0004 🤯 > fitted on 9,481 real posts from 207 creators > picks the viral post 2 in 3 times > never rewards reply bait So: write, score, rewrite, stop when it peaks. Free, no signup. try it below ↓…",
+        "chars": 296,
+        "from": "https://x.com/robj3d3/status/2100722975645598191",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101412965765529853",
+      "source": "x",
+      "url": "https://x.com/OpenRouter/status/2101412965765529853",
+      "title": "1/ Jev, a decision model by @typesafeai, sparked a burst of projects and discussion. We teste…",
+      "author": "@OpenRouter",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSm39ISbsAAEPfg.png",
+        "thumbW": 2160,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/2076693957258727424/AyRghTGJ_normal.jpg"
+      },
+      "metrics": {
+        "likes": 970,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The router's own evaluation of Jev, published by the company that serves it. We treat it as a vendor-adjacent source rather than an independent one, but it is the closest thing to a neutral party that has measured the model in public.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "1/ Jev, a decision model by @typesafeai, sparked a burst of projects and discussion. We tested it using Ori Eval against popular LLMs on OpenRouter at judging. Jev was >5x faster than the next fastest model, and even its slowest requests beat every other model's median.…",
+        "chars": 294,
+        "from": "https://x.com/OpenRouter/status/2101412965765529853",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101056078872256935",
+      "source": "x",
+      "url": "https://x.com/cline/status/2101056078872256935",
+      "title": "We built a plugin that gives Jev a browser in Cline, and have been blown away by the results.…",
+      "author": "@cline",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101047373363589121/img/NUS69liWQqy1JFn2.jpg",
+        "thumbW": 1620,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2100371495658946560/pKjt1-8w_normal.png"
+      },
+      "metrics": {
+        "likes": 690,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A coding assistant plugin that hands the model a browser, so a decision can be made after looking rather than from memory. The integration is the contribution; the post is a demo and we have not run it.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "browser-agents",
+        "coding-and-context"
+      ],
+      "quote": {
+        "text": "We built a plugin that gives Jev a browser in Cline, and have been blown away by the results. 1. Install it in our new desktop app: Customize > Marketplace > Plugins > search 'jev-browser' 2. Create a Vercel AI Gateway API key, then save it to https://t.co/CRp9l7k3tj",
+        "chars": 267,
+        "from": "https://x.com/cline/status/2101056078872256935",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101014004927729737",
+      "source": "x",
+      "url": "https://x.com/trycua/status/2101014004927729737",
+      "title": "1/ Introducing CUA-S1: a family of System One Models, small, specialized, and built for compu…",
+      "author": "@trycua",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HShL4ytW0AAXEBz.jpg",
+        "thumbW": 2400,
+        "thumbH": 1350,
+        "avatar": "https://pbs.twimg.com/profile_images/2002463997820342272/0F6s0iDn_normal.jpg"
+      },
+      "metrics": {
+        "likes": 5500,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Not built with Jev: this is a third party announcing its own family of System One models, which is the clearest sign that the category now exists outside the company that named it. Kept in the column because the comparison is the news.",
+      "checked": [
+        "post resolved through the public syndication endpoint on 2026-09-24",
+        "text, author, date and like count read from that response on 2026-09-24",
+        "poster image stays on X's CDN; nothing downloaded or rehosted"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "1/ Introducing CUA-S1: a family of System One Models, small, specialized, and built for computer use. Today we're open-sourcing CUA-S1-FORMS, the first in the family: https://t.co/J1frbEbZTQ https://t.co/8wMJBLndG8",
+        "chars": 214,
+        "from": "https://x.com/trycua/status/2101014004927729737",
+        "readOn": "2026-09-24"
       }
     }
   ]
