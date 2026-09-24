@@ -1,0 +1,302 @@
+---
+/**
+ * The intake form — one component, two places.
+ *
+ * It is rendered twice on purpose: inline on /submit, and inside the dialog the
+ * header opens from anywhere on the site. Two copies of the markup would drift
+ * within a month (the second one always loses), and the endpoint does not care
+ * which surface posted, so there is one form and the `variant` prop decides how
+ * much of it is folded away.
+ *
+ * What a first-time sender sees matters more than what we can accept: the form
+ * opens with two required fields (a link, an email) and everything else behind a
+ * `<details>`. The old version showed six fields and a paragraph of routing rules
+ * before the first input, which reads as a job rather than a favour.
+ *
+ * The field set itself does not change with the topic, only the hint text under
+ * it — "what it does" means something different for a repository than for a wrong
+ * context length, but a schema per topic would be a form per topic.
+ */
+import { inferSource } from "@repo/lib/submission-sources";
+
+interface Props {
+  /** Unique prefix for the input ids — two instances of this component per page. */
+  id: string;
+  /** `page` shows the hints inline; `dialog` is the same form with less air. */
+  variant?: "page" | "dialog";
+}
+const { id, variant = "page" } = Astro.props;
+
+const TOPICS = [
+  { value: "jev-project", family: "jev", label: "A project or repository built with Jev" },
+  { value: "jev-demo", family: "jev", label: "A demo or screencast built with Jev" },
+  { value: "jev-thread", family: "jev", label: "A thread, post or article about Jev" },
+  { value: "jev-video", family: "jev", label: "A video about Jev" },
+  { value: "catalogue", family: "catalogue", label: "A correction to a model page" },
+  { value: "stealth", family: "stealth", label: "A tip about an anonymous release" },
+  { value: "site", family: "site", label: "A problem with the site" },
+] as const;
+
+const HINTS = {
+  jev: {
+    summary: "One or two sentences about what it does, in your words. We write the entry ourselves.",
+    numbers: "Cost, latency, a benchmark — anything you measured. We attribute these to you.",
+    note: "Where it runs, what it needs, what it gives up, and whether it uses the hosted API or an open model.",
+  },
+  catalogue: {
+    summary: "Which model, which field, and what it should say instead.",
+    numbers: "The correct value, as it appears in the source you are reading it from.",
+    note: "A link to that source, and when you read it. A dated link is worth more than a confident sentence.",
+  },
+  stealth: {
+    summary: "What you saw, and where you saw it.",
+    numbers: "Anything with a timestamp — an endpoint, a listing date, a price.",
+    note: "Public links only. We do not publish anything we cannot point at.",
+  },
+  site: {
+    summary: "What you saw, and the page it happened on.",
+    numbers: "",
+    note: "The device or browser, if it looks specific to one.",
+  },
+  correction: {
+    summary: "What is wrong, and what it should say instead.",
+    numbers: "The correct value, as it appears in the source you are reading it from.",
+    note: "A link to that source, and when you read it.",
+  },
+} as const;
+
+---
+
+<form data-submission data-variant={variant} novalidate>
+  {/*
+    The legend is the whole point of the redesign: a sender should be able to see,
+    without reading, that this costs them two fields. The tags on each label carry
+    the same information again where the eye already is.
+  */}
+  <p class="form-legend">
+    <span class="req">Required</span> a link, and an email to reply to. <span class="opt">Optional</span> everything else.
+  </p>
+
+  <div class="field">
+    <label for={`${id}-url`}>The link or links <span class="req">required</span></label>
+    <textarea id={`${id}-url`} name="url" rows="3" required
+      placeholder={"One per line — https://github.com/… or https://x.com/…/status/…"}></textarea>
+    <p class="form-note" data-detected aria-live="polite"></p>
+  </div>
+
+  <div class="field">
+    <label for={`${id}-email`}>Where a reply goes <span class="req">required</span></label>
+    <input type="email" id={`${id}-email`} name="email" required autocomplete="email" placeholder="you@example.com" />
+  </div>
+
+  <details class="form-more">
+    <summary>Add context — all optional</summary>
+
+    <div class="field">
+      <label for={`${id}-topic`}>What are you sending <span class="opt">optional</span></label>
+      <select id={`${id}-topic`} name="topic" data-topic>
+        {TOPICS.map((topic) => <option value={topic.value}>{topic.label}</option>)}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for={`${id}-summary`}>What it is <span class="opt">optional</span></label>
+      <textarea id={`${id}-summary`} name="summary" rows="3"></textarea>
+      <p class="form-note" data-hint="summary">{HINTS.jev.summary}</p>
+    </div>
+
+    <div class="field">
+      <label for={`${id}-numbers`}>The numbers <span class="opt">optional</span></label>
+      <input type="text" id={`${id}-numbers`} name="numbers" />
+      <p class="form-note" data-hint="numbers">{HINTS.jev.numbers}</p>
+    </div>
+
+    <div class="field-pair">
+      <div class="field">
+        <label for={`${id}-name`}>Your name <span class="opt">optional</span></label>
+        <input type="text" id={`${id}-name`} name="name" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for={`${id}-note`}>Anything else <span class="opt">optional</span></label>
+        <input type="text" id={`${id}-note`} name="note" />
+      </div>
+    </div>
+  </details>
+
+  {/* Honeypot: hidden from people and from the accessibility tree; a value in it
+      means a script filled it, and the endpoint answers 201 storing nothing. */}
+  <div class="hp" aria-hidden="true">
+    <label for={`${id}-company`}>Company</label>
+    <input type="text" id={`${id}-company`} name="company" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="form-row">
+    <button class="btn primary" type="submit" data-submission-button>Send it over</button>
+    <span class="form-status" data-submission-status role="status" aria-live="polite"></span>
+  </div>
+  <p class="form-note">
+    We store what you type and email it to ourselves. No IP address, no user agent, no
+    referrer — the same rule as the mailing list.
+  </p>
+
+  {/*
+    The hint text for every topic family, so the client can swap it as the sender
+    changes their mind about what they are sending. A `type="application/json"`
+    element rather than `define:vars`: `define:vars` forces the script to be
+    inline, and this script needs the bundled `inferSource` — the one table the
+    endpoint, the page and the operator CLI already share.
+  */}
+  <script type="application/json" data-submission-hints set:html={JSON.stringify(HINTS)} />
+</form>
+
+<script>
+    import { gtagEvent } from "../lib/analytics";
+    import { inferSource } from "@repo/lib/submission-sources";
+
+    const configEl = document.querySelector("script[data-submission-hints]");
+    const HINTS = configEl ? JSON.parse(configEl.textContent ?? "{}") : {};
+
+    for (const form of document.querySelectorAll("form[data-submission]")) {
+      if (form.dataset.submissionWired === "1") continue;
+      form.dataset.submissionWired = "1";
+
+      const button = form.querySelector("[data-submission-button]");
+      const status = form.querySelector("[data-submission-status]");
+      const topicSelect = form.querySelector("[data-topic]");
+      const urlBox = form.elements.namedItem("url");
+      const detected = form.querySelector("[data-detected]");
+      let touched = false;
+
+      const set = (text, kind) => {
+        if (!status) return;
+        status.textContent = text;
+        status.className = `form-status ${kind ?? ""}`.trim();
+      };
+      const value = (name) => form.elements.namedItem(name)?.value?.trim() ?? "";
+      const familyOf = (v) => (v.startsWith("jev-") ? "jev" : v);
+
+      /*
+       * The topic select only exists inside the optional block, and it is hidden
+       * until that block is opened — so the reader who pastes one link and hits
+       * send never sees it. The first platform in the box still sets it, and a
+       * link that arrives with `?topic=` from a column still wins.
+       */
+      const syncHints = () => {
+        const hints = HINTS[familyOf(topicSelect?.value ?? "jev-project")] ?? HINTS.jev;
+        for (const el of form.querySelectorAll("[data-hint]")) {
+          const text = hints[el.dataset.hint ?? ""] ?? "";
+          el.textContent = text;
+          el.style.display = text ? "" : "none";
+        }
+      };
+      topicSelect?.addEventListener("change", () => { touched = true; syncHints(); });
+
+      /* Grow the link box with its contents: pasting forty links should not mean
+         scrolling inside a three-row window. */
+      const grow = () => {
+        if (!urlBox) return;
+        urlBox.style.height = "auto";
+        urlBox.style.height = `${Math.min(urlBox.scrollHeight, 320)}px`;
+      };
+      urlBox?.addEventListener("input", grow);
+
+      const counts = (raw) => {
+        const out = new Map();
+        for (const token of raw.split(/[\s,]+/)) {
+          if (!token || !/\S+\.\S{2,}/.test(token)) continue;
+          const src = inferSource(/^https?:\/\//i.test(token) ? token : `https://${token}`);
+          const row = out.get(src.source) ?? { label: src.label, topic: src.topic, n: 0 };
+          row.n += 1;
+          out.set(src.source, row);
+        }
+        return out;
+      };
+      const detect = () => {
+        const found = counts(urlBox?.value ?? "");
+        if (!detected) return;
+        if (!found.size) { detected.textContent = ""; return; }
+        const total = [...found.values()].reduce((sum, r) => sum + r.n, 0);
+        detected.textContent =
+          `${total} link${total === 1 ? "" : "s"} read: ` +
+          [...found.values()].map((r) => `${r.n} × ${r.label}`).join(", ");
+        if (!touched && found.size === 1 && topicSelect) {
+          const wanted = [...found.values()][0].topic;
+          const option = Array.from(topicSelect.options).find((o) => o.value === wanted);
+          if (option) { topicSelect.value = option.value; syncHints(); }
+        }
+      };
+      urlBox?.addEventListener("input", detect);
+
+      /* A link from a column arrives as ?topic=jev (a family) or ?topic=jev-demo
+         (an exact option), so the page can stay addressable from anywhere. */
+      const wanted = new URLSearchParams(location.search).get("topic");
+      if (wanted && topicSelect) {
+        const exact = Array.from(topicSelect.options).find((o) => o.value === wanted);
+        const byFamily = Array.from(topicSelect.options).find((o) => familyOf(o.value) === wanted);
+        const match = exact ?? byFamily;
+        if (match) {
+          topicSelect.value = match.value;
+          form.querySelector(".form-more")?.setAttribute("open", "");
+        }
+      }
+      syncHints();
+      grow();
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = {
+          topic: value("topic") || "jev-project",
+          url: value("url"),
+          summary: value("summary"),
+          numbers: value("numbers"),
+          name: value("name"),
+          email: value("email"),
+          note: value("note"),
+          company: value("company"),
+        };
+        if (!/https?:\/\/|\S+\.\S{2,}/.test(payload.url)) {
+          set("No link found — one URL per line.", "err");
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+          set("That does not look like an email address.", "err");
+          return;
+        }
+        if (button) button.disabled = true;
+        set("Sending…", "");
+        gtagEvent("submission_submit", { page_path: location.pathname, topic: payload.topic });
+        try {
+          const response = await fetch("/api/submissions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const body = await response.json().catch(() => ({}));
+          if (response.ok) {
+            gtagEvent("submission_result", { result: "ok", http_status: response.status, mailed: String(body.mailed) });
+            /* The dialog listens for this and closes itself: the form should not
+               know whether it is inside a modal. */
+            form.dispatchEvent(new CustomEvent("submission:sent", { bubbles: true, detail: { mailed: Boolean(body.mailed) } }));
+            set(
+              body.mailed
+                ? "Sent. It is in our inbox and somebody will read it."
+                : `Stored, but the notification did not go out (${body.note ?? "see the server"}). It is not lost.`,
+              body.mailed ? "ok" : "err",
+            );
+            form.reset();
+            syncHints();
+            grow();
+            detect();
+            return;
+          }
+          gtagEvent("submission_result", { result: "error", http_status: response.status });
+          set(body.detail || body.error || "That did not go through — please try again.", "err");
+        } catch {
+          gtagEvent("submission_result", { result: "error" });
+          set("That did not go through — please try again.", "err");
+        } finally {
+          if (button) button.disabled = false;
+        }
+      });
+    }
+</script>

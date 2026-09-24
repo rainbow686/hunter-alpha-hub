@@ -1,81 +1,34 @@
 ---
 /**
- * /submit — the one intake, and it lives at the root on purpose.
+ * /submit — the page, and why it is no longer the whole intake.
  *
- * Two ways to get this wrong, and both are wrong for the same reason. Put it only
- * under /typesafe-jev/ and nobody finds it: submission is a site-level function,
- * the same tier as /contact and /privacy (writing contract §5, "D 类：办一件事"),
- * not a chapter of one model's topic. Put it nowhere and a reader who built
- * something has to guess which of eleven columns wanted it.
+ * The dialog in the header is the primary way in (2026-09-24): a sender is
+ * usually mid-read with a link on the clipboard, and a navigation plus a page of
+ * six fields and three explanatory sections is a much worse offer than a small
+ * box. This page still has a job — the two things a dialog cannot do are explain
+ * what happens afterwards and be a stable destination for `?topic=` links from
+ * the columns — but it opens with the form, not with an essay about the form.
  *
- * So: one page at the root, one endpoint, and a `topic` field that says which
- * part of the site the thing belongs to. That is also the answer to "what about
- * the next model" — a section that wants submissions adds options to the list
- * below and links here with `?topic=<family>`; a section that does not (the
- * OpenRouter catalogue is synced from the API, not crowdsourced) simply has no
- * options and no link, and needs no change to this page.
- *
- * The field set stays identical across topics deliberately. The hint text under
- * the fields changes, because "what it does" means something different for a
- * repository than for a wrong context length — but a schema per topic would be a
- * form per topic, and the second model topic would fork it again.
+ * The form is the same component the dialog uses (`SubmitForm.astro`), with a
+ * second id prefix so two copies can live on one page.
  */
 import System from "../../layouts/System.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import SubmitForm from "../../components/SubmitForm.astro";
+import Provenance from "../../components/Provenance.astro";
 import { SITE, SITE_NAME } from "../../lib/schema";
-import { allSources, inferSource } from "@repo/lib/submission-sources";
+import { allSources } from "@repo/lib/submission-sources";
 
 const title = "Submit Something";
 const description =
-  "Send a project built with Jev, a correction to a model page, or a problem with the site. What to include, what we check, and what happens to it.";
+  "Send a project built with Jev, a correction to a model page, or a problem with the site. Two fields are required, everything else is optional, and here is what happens to it.";
 const canonical = `${SITE}/submit`;
-
-/**
- * The list is the routing table. `family` picks which hint text shows; `value` is
- * what the row records. Adding a topic is adding a line — nothing else in this
- * page or the endpoint needs to know it exists.
- */
-const TOPICS = [
-  { value: "jev-project", family: "jev", label: "A project or repository built with Jev" },
-  { value: "jev-demo", family: "jev", label: "A demo or screencast built with Jev" },
-  { value: "jev-thread", family: "jev", label: "A thread, post or article about Jev" },
-  { value: "jev-video", family: "jev", label: "A video about Jev" },
-  { value: "catalogue", family: "catalogue", label: "A correction to a model page" },
-  { value: "stealth", family: "stealth", label: "A tip about an anonymous release" },
-  { value: "site", family: "site", label: "A problem with the site" },
-] as const;
-
-const HINTS = {
-  jev: {
-    summary: "One or two sentences about what it does, in your words. We write the entry ourselves.",
-    numbers: "Cost, latency, a benchmark — anything you measured. We attribute these to you.",
-    note: "Where it runs, what it needs, what it gives up, and whether it uses the hosted API or an open model.",
-  },
-  catalogue: {
-    summary: "Which model, which field, and what it should say instead.",
-    numbers: "The correct value, as it appears in the source you are reading it from.",
-    note: "A link to that source, and when you read it. A dated link is worth more than a confident sentence.",
-  },
-  stealth: {
-    summary: "What you saw, and where you saw it.",
-    numbers: "Anything with a timestamp — an endpoint, a listing date, a price.",
-    note: "Public links only. We do not publish anything we cannot point at.",
-  },
-  site: {
-    summary: "What you saw, and the page it happened on.",
-    numbers: "",
-    note: "The device or browser, if it looks specific to one.",
-  },
-} as const;
 
 /**
  * Where a platform's rows land, keyed by the `column` in
  * `lib/data/submission-sources.json` — or, when the platform has no column of
- * ours, by the topic it usually means.
- *
- * This map plus that file is the whole of "which platforms do you accept": add a
- * platform there, add its destination here, and the table below picks it up.
- * Nothing else on this page enumerates platforms, so the second model topic does
- * not need a second table.
+ * ours, by the topic it usually means. Adding a platform to that file and a
+ * destination here is the whole job: nothing else on this page enumerates them.
  */
 const DESTINATION: Record<string, { label: string; href: string | null }> = {
   "jev-builds.json": { label: "Built with Jev", href: "/typesafe-jev/builds" },
@@ -89,10 +42,7 @@ const DESTINATION: Record<string, { label: string; href: string | null }> = {
   stealth: { label: "A lead for the stealth register", href: "/stealth-models" },
   site: { label: "A fix for the page you were on", href: null },
 };
-/**
- * By name, so a row can be found without reading the table — except the catch-all,
- * which goes last because it is not a platform, it is the absence of one.
- */
+/** By name, with the catch-all last — it is not a platform, it is the absence of one. */
 const CATCH_ALL = "web";
 const PLATFORMS = [...allSources()]
   .sort((a, b) =>
@@ -106,132 +56,84 @@ const PLATFORMS = [...allSources()]
 ---
 
 <System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical}>
+  <Breadcrumbs schema={true} items={[{ name: "Submit", url: canonical }]} />
+
   <article class="col">
-    <p class="eyebrow">Contribute</p>
-    <h1>Send us something</h1>
-    <p class="lede">
-      A project built with Jev, a correction to a model page, a tip about an anonymised release, or a
-      broken page. We read everything that arrives, check it against the source, and write the entry or
-      the fix ourselves.
-    </p>
-
-    <form data-submission novalidate>
-      <div class="field">
-        <label for="s-topic">What are you sending <span class="req">required</span></label>
-        <select id="s-topic" name="topic" data-topic>
-          {TOPICS.map((topic) => <option value={topic.value}>{topic.label}</option>)}
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="s-url">The link or links <span class="req">required</span></label>
-        <textarea id="s-url" name="url" rows="5" required
-          placeholder={"https://github.com/…\nhttps://x.com/…/status/…\n\nOne per line. Paste as many as you like."}></textarea>
-        <p class="form-note" data-detected aria-live="polite"></p>
-        <p class="form-note">
-          One link per line, as many as you like, and mixed platforms are fine — the
-          platform is read off the link rather than asked for. <a href="#platforms">Which
-          platforms work, and where each one lands →</a>
-        </p>
-      </div>
-
-      <div class="field">
-        <label for="s-summary">What it is <span class="opt">optional</span></label>
-        <textarea id="s-summary" name="summary" rows="4"></textarea>
-        <p class="form-note" data-hint="summary">{HINTS.jev.summary}</p>
-      </div>
-
-      <div class="field">
-        <label for="s-numbers">The numbers <span class="opt">optional</span></label>
-        <input type="text" id="s-numbers" name="numbers" />
-        <p class="form-note" data-hint="numbers">{HINTS.jev.numbers}</p>
-      </div>
-
-      <div class="field-pair">
-        <div class="field">
-          <label for="s-name">Your name <span class="opt">optional</span></label>
-          <input type="text" id="s-name" name="name" autocomplete="name" />
-        </div>
-        <div class="field">
-          <label for="s-email">Where a reply goes <span class="req">required</span></label>
-          <input type="email" id="s-email" name="email" required autocomplete="email" />
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="s-note">Anything else <span class="opt">optional</span></label>
-        <textarea id="s-note" name="note" rows="3"></textarea>
-        <p class="form-note" data-hint="note">{HINTS.jev.note}</p>
-      </div>
-
-      {/* Honeypot: hidden from people and from the accessibility tree; a value in
-          it means a script filled it, and the endpoint answers 201 storing nothing. */}
-      <div class="hp" aria-hidden="true">
-        <label for="s-company">Company</label>
-        <input type="text" id="s-company" name="company" tabindex="-1" autocomplete="off" />
-      </div>
-
-      <div class="form-row">
-        <button class="btn primary" type="submit" data-submission-button>Send it over</button>
-      </div>
-      <p class="form-status" data-submission-status role="status" aria-live="polite"></p>
-      <p class="form-note">
-        We store what you type here and email it to ourselves so somebody reads it. No IP address, no
-        user agent, no referrer — the same rule as the mailing list, and the reason abuse control on
-        this endpoint is a daily cap on sending rather than tracking who asked.
+    <header class="page-head">
+      <p class="card-eyebrow">Contribute</p>
+      <h1>Send us a link</h1>
+      <p class="lede">
+        A project built with Jev, a post, a video, a correction, a tip about an anonymised release, a
+        broken page. Two fields, and the rest is there if you have more to say.
       </p>
-    </form>
+    </header>
 
-    <h2>What happens next</h2>
-    <p>
-      We open the link, check that it exists and says what you said it says, and write the entry — or
-      fix the page. If we cannot verify a number we either drop it or say in the entry that it is
-      yours. Nothing publishes automatically, and a submission that does not make it in usually means
-      we could not open the link.
-    </p>
+    <SubmitForm id="page" />
 
-    <h2>Where submissions end up</h2>
-    <ul>
-      <li><strong>Built with Jev</strong> — <a href="/typesafe-jev/builds">repositories</a> and <a href="/typesafe-jev/x-posts">posts</a>, checked before they appear.</li>
-      <li><strong>Model pages</strong> — corrections go into the snapshot in <code>lib/openrouter-models.ts</code> with the date moved, so the page says when it was last read.</li>
-      <li><strong>Anonymous releases</strong> — <a href="/stealth-models">the register</a> records public listings only.</li>
-    </ul>
-    <p class="form-note">
-      The catalogue itself is synced from OpenRouter's own API rather than submitted by hand, so a
-      model that is missing from it is a correction like any other, not a new page.
-    </p>
+    <section>
+      <h2>What happens next</h2>
+      <p>
+        We open the link, check that it exists and says what you said it says, and write the entry —
+        or fix the page. If we cannot verify a number we either drop it or say in the entry that it
+        is yours. Nothing publishes automatically, and a submission that does not make it in usually
+        means we could not open the link.
+      </p>
+      <ul>
+        <li><strong>Built with Jev</strong> — <a href="/typesafe-jev/builds">repositories</a> and <a href="/typesafe-jev/x-posts">posts</a>, checked before they appear.</li>
+        <li><strong>Model pages</strong> — corrections go into the snapshot in <code>lib/openrouter-models.ts</code> with the date moved, so the page says when it was last read.</li>
+        <li><strong>Anonymous releases</strong> — <a href="/stealth-models">the register</a> records public listings only.</li>
+      </ul>
+      <p class="form-note">
+        The catalogue itself is synced from OpenRouter's own API rather than submitted by hand, so a
+        model that is missing from it is a correction like any other, not a new page.
+      </p>
+    </section>
 
-    <h2 id="platforms">Which platforms work</h2>
-    <p>
-      All of them. GitHub, X and some blog nobody has heard of are the same act of typing a
-      link, and which one it is gets read off the link rather than asked of you — so a paste
-      can mix them, and you never have to work out where a thing "belongs". What differs is
-      only what happens next:
-    </p>
-    <div class="table-scroll">
-      <table class="data">
-        <thead>
-          <tr>
-            <th>Platform</th>
-            <th>Where it lands</th>
-            <th>What we fill in</th>
-          </tr>
-        </thead>
-        <tbody>
-          {PLATFORMS.map((platform) => (
+    {/*
+      The platform table is reference material, not part of the ask, so it is folded
+      away: a sender does not need to know where GitHub lands before pasting a link,
+      and eleven rows of routing table in front of the form is what made the first
+      version of this page feel long.
+    */}
+    <details class="more">
+      <summary>Which platforms work, and where each one lands</summary>
+      <p>
+        All of them. The platform is read off the link rather than asked of you — so a paste can mix
+        them, and you never have to work out where a thing "belongs". What differs is only what
+        happens next:
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
             <tr>
-              <td>{platform.label}</td>
-              <td>
-                {platform.destination.href
-                  ? <a href={platform.destination.href}>{platform.destination.label}</a>
-                  : platform.destination.label}
-              </td>
-              <td>{platform.enrich}</td>
+              <th>Platform</th>
+              <th>Where it lands</th>
+              <th>What we fill in</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {PLATFORMS.map((platform) => (
+              <tr>
+                <td>{platform.label}</td>
+                <td>
+                  {platform.destination.href
+                    ? <a href={platform.destination.href}>{platform.destination.label}</a>
+                    : platform.destination.label}
+                </td>
+                <td>{platform.enrich}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <Provenance
+      source="lib/data/submission-sources.json"
+      verified="2026-09-24"
+      extra={["Stored in D1; the notification is a summary email, at most one every fifteen minutes."]}
+    />
+
     <p class="provenance">
       <span><a href="/typesafe-jev/builds">Built with Jev</a></span>
       <span><a href="/typesafe-jev/x-posts">Seen on X</a></span>
@@ -239,183 +141,17 @@ const PLATFORMS = [...allSources()]
       <span><a href="/privacy">What we store</a></span>
     </p>
   </article>
-
-  <script>
-    import { gtagEvent } from "../../lib/analytics";
-
-    const HINTS: Record<string, Record<string, string>> = {
-      jev: {
-        url: "",
-        summary: "One or two sentences about what it does, in your words. We write the entry ourselves.",
-        numbers: "Cost, latency, a benchmark — anything you measured. We attribute these to you.",
-        note: "Where it runs, what it needs, what it gives up, and whether it uses the hosted API or an open model.",
-      },
-      catalogue: {
-        url: "",
-        summary: "Which model, which field, and what it should say instead.",
-        numbers: "The correct value, as it appears in the source you are reading it from.",
-        note: "A link to that source, and when you read it. A dated link is worth more than a confident sentence.",
-      },
-      stealth: {
-        url: "",
-        summary: "What you saw, and where you saw it.",
-        numbers: "Anything with a timestamp — an endpoint, a listing date, a price.",
-        note: "Public links only. We do not publish anything we cannot point at.",
-      },
-      site: {
-        url: "",
-        summary: "What you saw, and the page it happened on.",
-        numbers: "",
-        note: "The device or browser, if it looks specific to one.",
-      },
-    };
-    /** Which family an option belongs to, read off the option value's prefix. */
-    const familyOf = (value: string) => (value.startsWith("jev-") ? "jev" : value);
-
-    for (const form of document.querySelectorAll<HTMLFormElement>("form[data-submission]")) {
-      const button = form.querySelector<HTMLButtonElement>("[data-submission-button]");
-      const status = form.querySelector<HTMLElement>("[data-submission-status]");
-      const topicSelect = form.querySelector<HTMLSelectElement>("[data-topic]");
-      let touched = false;
-      const set = (text: string, kind: "" | "ok" | "err") => {
-        if (status) {
-          status.textContent = text;
-          status.className = `form-status ${kind}`.trim();
-        }
-      };
-      const value = (name: string) =>
-        (form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null)?.value?.trim() ?? "";
-
-      /* The hint text follows the topic, so the same three fields ask the right
-         question whichever part of the site the sender came from. */
-      const syncHints = () => {
-        const hints = HINTS[familyOf(topicSelect?.value ?? "jev-project")] ?? HINTS.jev;
-        for (const el of form.querySelectorAll<HTMLElement>("[data-hint]")) {
-          const key = el.dataset.hint ?? "";
-          const text = hints[key] ?? "";
-          el.textContent = text;
-          el.style.display = text ? "" : "none";
-        }
-      };
-      topicSelect?.addEventListener("change", () => {
-        touched = true;
-        syncHints();
-      });
-
-      /*
-       * Detection, not a required field. The value is read off the hosts, the same
-       * table the endpoint stamps rows with, so what the sender sees here is what
-       * gets recorded — and the topic moves itself to match while they have not
-       * picked one. A paste of 200 X links answers the whole question by itself.
-       */
-      const detected = form.querySelector<HTMLElement>("[data-detected]");
-      const urlBox = form.elements.namedItem("url") as HTMLTextAreaElement | null;
-      const counts = (raw: string) => {
-        const out = new Map<string, { label: string; topic: string; n: number }>();
-        for (const token of raw.split(/[\s,]+/)) {
-          if (!token || !/\S+\.\S{2,}/.test(token)) continue;
-          const url = /^https?:\/\//i.test(token) ? token : `https://${token}`;
-          const src = inferSource(url);
-          const row = out.get(src.source) ?? { label: src.label, topic: src.topic, n: 0 };
-          row.n += 1;
-          out.set(src.source, row);
-        }
-        return out;
-      };
-      const detect = () => {
-        const found = counts(urlBox?.value ?? "");
-        if (!detected) return;
-        if (!found.size) {
-          detected.textContent = "";
-          return;
-        }
-        const total = [...found.values()].reduce((sum, r) => sum + r.n, 0);
-        detected.textContent =
-          `${total} link${total === 1 ? "" : "s"} read: ` +
-          [...found.values()].map((r) => `${r.n} × ${r.label}`).join(", ");
-        // Only the first platform moves the topic, and only until the sender has
-        // touched the select themselves — a mixed paste has no single right answer.
-        if (!touched && found.size === 1 && topicSelect) {
-          const wanted2 = [...found.values()][0].topic;
-          // Read the options out of the DOM rather than the frontmatter: this is
-          // a client script and `TOPICS` does not exist here.
-          const option = Array.from(topicSelect.options).find((o) => o.value === wanted2);
-          if (option) {
-            topicSelect.value = option.value;
-            syncHints();
-          }
-        }
-      };
-      urlBox?.addEventListener("input", detect);
-
-      /* A link from a section arrives as ?topic=jev (a family) or ?topic=jev-demo
-         (an exact option). Either way the page opens on the right choice, which is
-         the whole reason the links can stay short and stable. */
-      const wanted = new URLSearchParams(location.search).get("topic");
-      if (wanted && topicSelect) {
-        const exact = Array.from(topicSelect.options).find((o) => o.value === wanted);
-        const byFamily = Array.from(topicSelect.options).find((o) => familyOf(o.value) === wanted);
-        const match = exact ?? byFamily;
-        if (match) topicSelect.value = match.value;
-      }
-      syncHints();
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const payload = {
-          topic: value("topic") || "jev-project",
-          url: value("url"),
-          summary: value("summary"),
-          numbers: value("numbers"),
-          name: value("name"),
-          email: value("email"),
-          note: value("note"),
-          company: value("company"),
-        };
-        if (!/https?:\/\/|\S+\.\S{2,}/.test(payload.url)) {
-          set("No link found — one URL per line.", "err");
-          return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-          set("That does not look like an email address.", "err");
-          return;
-        }
-        if (button) button.disabled = true;
-        set("Sending…", "");
-        // Fired before the request, so a submit that dies in flight still counts
-        // as a submit — same reason the mailing-list form does it.
-        gtagEvent("submission_submit", { page_path: location.pathname, topic: payload.topic });
-        try {
-          const response = await fetch("/api/submissions", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-          const body = (await response.json().catch(() => ({}))) as {
-            detail?: string; error?: string; mailed?: boolean; note?: string;
-          };
-          if (response.ok) {
-            gtagEvent("submission_result", { result: "ok", http_status: response.status, mailed: String(body.mailed) });
-            set(
-              body.mailed
-                ? "Sent. It is in our inbox and somebody will read it."
-                : `Stored, but the notification did not go out (${body.note ?? "see the server"}). It is not lost.`,
-              body.mailed ? "ok" : "err",
-            );
-            form.reset();
-            syncHints();
-            detect();
-            return;
-          }
-          gtagEvent("submission_result", { result: "error", http_status: response.status });
-          set(body.detail || body.error || "That did not go through — please try again.", "err");
-        } catch {
-          gtagEvent("submission_result", { result: "error" });
-          set("That did not go through — please try again.", "err");
-        } finally {
-          if (button) button.disabled = false;
-        }
-      });
-    }
-  </script>
 </System>
+
+<style>
+  .more { margin: var(--space-8) 0; border-top: 1px solid var(--border); padding-top: var(--space-4); }
+  .more summary {
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .more[open] summary { margin-bottom: var(--space-4); }
+</style>

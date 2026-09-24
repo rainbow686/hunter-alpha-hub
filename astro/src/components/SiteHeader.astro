@@ -2,6 +2,7 @@
 import Logo from "./Logo.astro";
 import { DATA_AS_OF, openrouterModels } from "@repo/lib/openrouter-models";
 import { stealthLine } from "@repo/lib/stealth-models";
+import { spotlight } from "@repo/lib/spotlight";
 
 /**
  * Masthead header that folds into a single row on scroll.
@@ -16,10 +17,19 @@ const path = Astro.url.pathname;
  * A codename's status is a claim about the world, so it lives in one field a human
  * updates with evidence (lib/stealth-models.ts), and the date comes from the same
  * catalogue snapshot the model pages use.
+ *
+ * Two states, decided 2026-09-24. The slot exists for one moment — a new stealth
+ * codename going live, which is the only time this site has news — and it used to
+ * fill the rest of the time by printing "Union Alpha revealed" next to "no live
+ * codename": a permanent badge for an event that was over, plus a sentence that
+ * tells a reader nothing is happening. A reader does not need to be told that.
+ * When nothing is live the slot carries the newest thing on the site instead, from
+ * one hand-maintained field (lib/spotlight.ts), so the space is a link rather than
+ * a tombstone.
  */
-const liveSlots = stealthLine.liveCodename
-  ? [`${stealthLine.liveCodename} live`]
-  : [`${stealthLine.lastRevealed.codename} revealed`, "no live codename"];
+const statusSlot = stealthLine.liveCodename
+  ? { live: true, label: `${stealthLine.liveCodename} live`, href: "/stealth-models" }
+  : { live: false, label: spotlight.label, href: spotlight.href };
 const sections = [
   { href: "/comparison", label: "Comparison" },
   { href: "/openrouter-models", label: "Models" },
@@ -41,11 +51,15 @@ const sections = [
         <span class="line2">Facts from the public catalogue, dated and labelled</span>
       </div>
       <div class="live-slot">
-        {liveSlots.map((slot, index) => (
-          <span class={index === 0 ? "badge live" : "badge"}>
-            <span class="dot"></span> {slot}
-          </span>
-        ))}
+        {/*
+          One badge, two meanings: a live codename (green dot, the moment the slot
+          was built for) or the newest thing on the site (no dot — it is not live,
+          it is new). Both are links, because both are places to go.
+        */}
+        <a class={statusSlot.live ? "badge live" : "badge"} href={statusSlot.href}>
+          {statusSlot.live && <span class="dot"></span>}
+          {statusSlot.label}
+        </a>
         <span class="stamp">Verified<br />{DATA_AS_OF}</span>
       </div>
     </div>
@@ -88,7 +102,30 @@ const sections = [
         it right — it sat against the nav on every phone.
       */}
       <div class="nav-tools">
-        <span class="meta">{openrouterModels.length} models · drift-checked 06:00 CST</span>
+        {/*
+          "18 models" and nothing else, as of 2026-09-24. The full string
+          ("18 models · drift-checked 06:00 CST") needs ~200px, and the intake
+          button above needs ~100 of the 360px this row has beside the nav: with
+          both, "Articles" wrapped onto a second line at 1440 — the same
+          regression the comment below records from adding "tracked" back in
+          September. The drift-check time is not lost: the footer carries
+          "Drift check daily 06:00 CST" on every page, and the masthead stamp
+          carries the date. The count stays because it is the one number that
+          says how big the catalogue is.
+        */}
+        <span class="meta">{openrouterModels.length} models</span>
+        {/*
+          The intake, on every page. It is the one thing this site asks a reader to
+          do, and it used to cost them a navigation to a page with six fields on it.
+          The dialog is the primary surface now; /submit is where the explanation
+          and the topic links live.
+        */}
+        <button type="button" class="submit-trigger" data-submit-open aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+            <path d="M4 12h12M12 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Submit</span>
+        </button>
         <button type="button" class="search-trigger" data-search-open aria-haspopup="dialog">
           <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
             <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2" />

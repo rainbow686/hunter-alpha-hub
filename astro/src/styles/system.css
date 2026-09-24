@@ -82,6 +82,41 @@
   cursor: pointer;
 }
 .navrow .search-trigger:hover { color: var(--text); border-color: var(--text-faint); }
+/*
+ * The intake button. Same shape as the search button and the same progressive
+ * surrender of its label, but outlined in the accent rather than the hairline:
+ * search finds something you already have, submit is the one thing this site
+ * asks a reader to do, and on a page of small caps that difference should be
+ * visible without being loud. It keeps its label down to 760px — the model count
+ * is what gives up its room first, at 1000px — because an arrow alone is not a
+ * word anybody reads as "send us a link".
+ */
+.navrow .submit-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.navrow .submit-trigger:hover {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+@media (max-width: 760px) {
+  /* A phone has 334px for the brand, a scrolling nav and these tools: the arrow
+     carries it, and the label goes with the ⌘K hint. */
+  .navrow .submit-trigger span { display: none; }
+  .navrow .submit-trigger { padding: 5px var(--space-2); }
+}
 .navrow .search-trigger kbd {
   font: inherit;
   letter-spacing: 0.04em;
@@ -303,7 +338,34 @@ select { appearance: none; padding-right: var(--space-8); background-image: none
    by screen reader without extra ARIA. */
 .field { margin: 0 0 var(--space-5); }
 .field label { display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); }
-.field .req, .field .opt { font-weight: 400; font-size: var(--text-xs); color: var(--text-faint); }
+/*
+ * Required vs optional as tags, not as a whisper. Both used to be the same faint
+ * grey at 12px — the same colour as the helper notes under the fields — so the
+ * only way to know which two fields actually stop the form was to read every
+ * label. A form that reads as six required fields is one people close.
+ */
+.field label .req, .field label .opt, .form-legend .req, .form-legend .opt {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+.field label .req, .form-legend .req { color: var(--on-accent); background: var(--accent); border: 1px solid var(--accent); }
+.field label .opt, .form-legend .opt { color: var(--text-faint); background: transparent; border: 1px solid var(--border-strong); }
+/* The sentence above the first field: two required, the rest optional. */
+.form-legend { font-size: var(--text-sm); color: var(--text-muted); margin: 0 0 var(--space-5); }
+/* Everything that is not the link or the email, folded away by default. */
+.form-more { margin: var(--space-6) 0 var(--space-5); border-top: 1px solid var(--border); padding-top: var(--space-4); }
+.form-more summary { cursor: pointer; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.form-more[open] summary { margin-bottom: var(--space-5); }
+form[data-submission][data-variant="dialog"] .field { margin-bottom: var(--space-4); }
 .field-pair { display: flex; gap: var(--space-4); flex-wrap: wrap; }
 .field-pair .field { flex: 1 1 240px; }
 /* The honeypot: out of the visual flow and out of the accessibility tree, but

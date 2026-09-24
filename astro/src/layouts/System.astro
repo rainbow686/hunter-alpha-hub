@@ -4,6 +4,7 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Analytics from "../components/Analytics.astro";
 import SearchDialog from "../components/SearchDialog.astro";
+import SubmitDialog from "../components/SubmitDialog.astro";
 import { SITE, SITE_NAME } from "../lib/schema";
 
 interface Props {
@@ -173,6 +174,9 @@ const ogLocale = lang.startsWith("zh") ? "zh_CN" : "en_US";
     </main>
     <SiteFooter />
     <SearchDialog />
+    {/* The intake, reachable from every page: the one thing the site asks a reader to do,
+        and it should not cost a navigation to do it. */}
+    <SubmitDialog />
     <script is:inline>
       const header = document.querySelector("header.site");
       const CONDENSE_AT = 120;
