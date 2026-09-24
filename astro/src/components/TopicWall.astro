@@ -34,6 +34,16 @@ export interface WallItem {
   thumbW?: number;
   thumbH?: number;
   avatar?: string;
+  /**
+   * A progressive mp4 on X's CDN, when the row has one that fits the size cap
+   * (`scripts/ingest-x-video.mjs`). Present means the frame becomes a player instead of a
+   * poster — the same `XClipWall` behaviour the column pages have had since 2026-09-23.
+   *
+   * The front page was the one wall still showing a still image over a clip, which nobody
+   * noticed until the video attach ran on 2026-09-24 and the cards did not change: a wall
+   * that is a sample of the columns should behave like them.
+   */
+  video?: string;
 }
 
 interface Props {
@@ -57,7 +67,20 @@ const ratio = (w?: number, h?: number) => {
       {item.thumb && (
         <div class="card-media" style={`--ratio: ${ratio(item.thumbW, item.thumbH)}`}>
           <span class="card-src">{item.kind}</span>
-          <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+          {item.video ? (
+            <button
+              class="xvideo-facade"
+              type="button"
+              data-xvideo={item.video}
+              data-poster={item.thumb}
+              aria-label={`Play the clip in this entry: ${item.headline}`}
+            >
+              <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              <span class="xvideo-play" aria-hidden="true">▶</span>
+            </button>
+          ) : (
+            <img src={item.thumb} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+          )}
         </div>
       )}
       <div class="card-body">

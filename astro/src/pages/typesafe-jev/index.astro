@@ -22,6 +22,7 @@ import TimelineList from "../../components/TimelineList.astro";
 import Faq from "../../components/Faq.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
 import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
+import XClipWall from "../../components/XClipWall.astro";
 import { jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
 import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
 import { jevVideos } from "@repo/lib/jev-videos";
@@ -166,6 +167,11 @@ const wallX: WallItem[] = jevXPosts.slice(0, WALL_PER_COLUMN).map((post) => ({
   thumbW: post.thumbW,
   thumbH: post.thumbH,
   avatar: post.avatar || undefined,
+  /*
+   * Only the X rows carry a clip: a `<video>` on X's CDN is a progressive mp4 we can
+   * hotlink, while the videos column is YouTube, which stays click-to-load (ADR-0022).
+   */
+  video: post.video?.url,
 }));
 
 const wallBuilds: WallItem[] = jevBuilds.slice(0, WALL_PER_COLUMN).map((build) => ({
@@ -231,7 +237,13 @@ const heroStats = [
   { value: "783 ms", label: "median from our own run", note: `${JEV_OURS_SAMPLES} calls, from this machine, 2026-09-20` },
 ];
 ---
-<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article">
+<System title={`${title} | ${SITE_NAME}`} description={description} canonical={canonical} ogType="article" noReferrer>
+  {/*
+    `noReferrer` is required the moment the wall carries a clip: video.twimg.com answers 403 to
+    any request with a third-party Referer, and a media element cannot opt out on its own (see
+    System.astro). The column pages have carried it since the clips went in; the front page
+    picked up the same clips on 2026-09-24.
+  */}
   <Breadcrumbs schema={false} items={[
     { name: "Jev", url: canonical },
   ]} />
@@ -1389,6 +1401,8 @@ const heroStats = [
 
   <h2>FAQ</h2>
   <Faq items={jevFaqs} />
+  {/* The player for any clip the wall above rendered (see TopicWall.astro). */}
+  <XClipWall />
 
   <section class="card" style="margin-top: var(--space-12);">
     <h2 style="margin-top: 0;">When the next model lands, you will hear about it</h2>
