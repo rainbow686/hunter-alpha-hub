@@ -487,12 +487,12 @@ const heroStats = [
       the cards already are, changes no URL, and works without JavaScript (the chips stay hidden
       and the plain wall renders).
     */}
-    <CardFilter
-      chips={wallTagChips}
-      noun="records"
-      total={wall.length}
-      groups={[{ key: "tag", label: "use case" }]}
-    />
+    {/*
+      No group label: with one group the word "use case" cost 75px and pushed the row onto two
+      lines, and the note under the wall names the axis anyway. The chips still carry
+      `data-cf-group="tag"`, so the behaviour does not depend on the label.
+    */}
+    <CardFilter chips={wallTagChips} noun="records" total={wall.length} />
     <TopicWall items={wall} columns={columns} />
     {/*
       The number that keeps the chips honest. The six use cases cover {JEV_TAGGED_TOTAL} of the
