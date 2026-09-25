@@ -189,14 +189,19 @@ const topicData = {
     name: "Jev",
     what: "TypeSafe's decision model: state in, typed decision out. It does not write.",
     /** The hero card's version of the same sentence: it is clamped to two lines there. */
-    cardWhat: "a decision model — state in, typed decision out",
+    cardWhat: "state in, typed decision out",
     /*
-     * The topic's own cover engraving — generated for the reference page and, until 2026-09-25,
-     * never shown where most readers meet the topic. A picture of an input going in and a decision
-     * coming out says what the model does faster than the sentence does.
+     * A screenshot of the model's own listing, not a generated illustration.
+     *
+     * The reader's note (2026-09-25): "咱们自己生成的是长文的图，那个图比较抽象，其实并不适合关注科技、
+     * 关注模型的人… 你还是从官网去找相关的图。这样能让人一眼看到是这个模型，并且图上能有一些关于这个模型
+     * 的信息". They are right, and it is the failure mode of a metaphor: the engraving explained the
+     * idea and identified nothing. This one shows the name, the id, the price, the context window
+     * and the released date — the five things somebody deciding whether to click wants.
      */
-    cover: "/img/cover-jev-topic.webp",
-    coverAlt: "An engraving: a brass mailbox on a bench, a handwritten page going into its slot at the top and a punched brass card falling into the tray below.",
+    cover: "/img/models/jev-openrouter.webp",
+    coverAlt: "Screenshot of the OpenRouter listing for TypeSafe: Jev 1.13, showing the model id typesafe/jev-1.13, the description, and the modality, price, context and release cards.",
+    coverSource: "openrouter.ai/typesafe/jev-1.13",
     verified: JEV_DATA_AS_OF,
     post: jevLaunchPost,
     postLabel: "X post · the launch",
@@ -210,9 +215,10 @@ const topicData = {
     slug: "laya" as const,
     name: "Laya",
     what: "The open-weights System One model, from Convai — a decision model you can run yourself.",
-    cardWhat: "the same idea, open weights, running on your own machine",
-    cover: "/img/cover-laya-topic.webp",
-    coverAlt: "An engraving: a small brass instrument with three dials on a single base, a blank paper tag tied to it.",
+    cardWhat: "open weights, run it yourself",
+    cover: "/img/models/laya-huggingface.webp",
+    coverAlt: "Screenshot of the Hugging Face model card for convaiinnovations/laya, showing the model name, the tags, the Apache-2.0 licence and the start of the model card.",
+    coverSource: "huggingface.co/convaiinnovations/laya",
     verified: LAYA_READ_ON,
     post: layaTopPost,
     postLabel: "X post · the one that travelled",
@@ -257,6 +263,7 @@ const followedRows = spotlight
     verified: data.verified,
     cover: data.cover,
     coverAlt: data.coverAlt,
+    coverSource: data.coverSource,
   }));
 
 const catalogueRows = openrouterModels.map((model) => ({
@@ -289,20 +296,22 @@ const workloadPicks = defaultScenarios.flatMap((scenario) => {
  */
 const FEED_PER_TOPIC = 6;
 /*
- * One row of headroom: the hero's second card takes the newest clip on the site out of this list,
- * so the two must not both render it — one file, two `<video>` elements is the bug the topic
- * covers hit on 2026-09-24.
+ * The hero shows the four newest notable cards; the feed below continues with the rest, so the same
+ * row never appears twice on the page (one file, two `<video>` elements is the bug the topic covers
+ * hit on 2026-09-24).
+ *
+ * Four rather than two because of what the measurement said: the words column's real content is
+ * 530px, and two 468px cards beside it left a 425px hole — the reader saw it before I did ("Hero
+ * 区域右边还是有点空"). Four cards in a 2x2 grid fill the column with content instead of with
+ * space, and the extra two are the reason the page can say "we track 247 records" and then show it.
  */
-const recent = siteFeed(FEED_PER_TOPIC + 1, { excludeXId: heroTopic?.data.post?.id });
-/*
- * Picked against the **hero** cap, not the feed's: this row is fetched before the reader has
- * decided they are interested, so it may only play if it is small. If nothing recent is that
- * small, the card is a poster and a link — and the feed below still moves.
- */
-const heroClipRow = recent.find((row) => row.video && (row.videoBytes ?? 0) <= HERO_CLIP_MAX_BYTES);
+const recent = siteFeed(FEED_PER_TOPIC * 3, { excludeXId: heroTopic?.data.post?.id });
+/** Three beside the spotlight card: four cards, four cells of a 2×2. */
+const heroCards = recent.filter((row) => row.thumb).slice(0, 3);
+const heroCardKeys = new Set(heroCards.map((row) => `${row.topic}:${row.href}`));
 
 const feed = recent
-  .filter((row) => row !== heroClipRow)
+  .filter((row) => !heroCardKeys.has(`${row.topic}:${row.href}`))
   .slice(0, FEED_PER_TOPIC * 2)
   .map((row) => ({
     ...row,
@@ -385,9 +394,17 @@ const lineSpan = Math.max(1, daysBetween(LINE_START, LINE_END));
  * Now: a fixed 640×120 viewBox that scales uniformly, a 110-unit gutter for the codename, and the
  * axis in the remaining 500 units. Nothing is drawn after a bar, so nothing can overflow it.
  */
-const AXIS = { left: 120, right: 620, top: 26, rowGap: 36, radius: 4.5 };
+const AXIS = { left: 120, right: 620, top: 40, rowGap: 52, radius: 6, barHeight: 16 };
 const lineX = (iso: string) =>
   AXIS.left + (daysBetween(LINE_START, iso) / lineSpan) * (AXIS.right - AXIS.left);
+/**
+ * Month ticks, so the axis reads as a calendar rather than a ruler. Every month the line covers,
+ * positioned by the same function as the bars — a tick that does not line up with the data would be
+ * the one lie this figure could tell.
+ */
+const lineMonths = ["2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01", "2026-08-01", "2026-09-01"].map(
+  (iso) => ({ iso, x: lineX(iso), label: new Date(`${iso}T00:00:00Z`).toLocaleString("en-US", { month: "short", timeZone: "UTC" }) }),
+);
 
 const codenameAnswer = alphaLineEntries.map((entry, index) => ({
   codename: entry.codename,
@@ -401,6 +418,13 @@ const codenameAnswer = alphaLineEntries.map((entry, index) => ({
   start: lineX(entry.firstListed),
   added: lineX(entry.productAdded),
   y: AXIS.top + index * AXIS.rowGap,
+  /*
+   * Which way the duration label runs. A bar that ends in the right third of the axis cannot carry
+   * a label to its right without leaving the frame — the first version of this figure drew all
+   * three labels rightwards and the last one was cut off mid-word ("became U…").
+   */
+  labelAnchor: lineX(entry.productAdded) > 380 ? ("end" as const) : ("start" as const),
+  labelX: lineX(entry.productAdded) > 380 ? lineX(entry.productAdded) : lineX(entry.firstListed),
 }));
 
 /*
@@ -423,6 +447,16 @@ const hubStats = [
     value: fmt(topicSizes.jev.builds + topicSizes.laya.builds),
     label: "repositories we track",
     note: "stars re-read by the GitHub ingest, never typed",
+  },
+  {
+    value: fmt(topicSizes.jev.xPosts + topicSizes.laya.xPosts),
+    label: "posts by other people",
+    note: "each one read before it went on a page",
+  },
+  {
+    value: fmt(alphaLineStats.count),
+    label: "codenames on the Alpha line",
+    note: "all free while anonymous, none of them after",
   },
   {
     value: "2",
@@ -510,134 +544,79 @@ const hubStats = [
       about. (The first attempt marked them, and the guard reported the six model links the old
       cards carried as dropped — its job, on a marker I put in the wrong place.)
     */}
+    {/*
+      Four cards, 2x2, all from `siteFeed` — the spotlight first (it is the topic we are following,
+      from `lib/spotlight.ts`), then the newest notable rows. Nothing here names a model, so when
+      Jev and Laya cool down this column refills itself.
+    */}
     <div class="hero-media">
       {heroTopic?.data.post && (
         <figure class="hero-card" data-generated="hero-spotlight">
-          {heroClip ? (
-            <button
-              class="xvideo-facade"
-              type="button"
-              data-xvideo={heroClip}
-              data-poster={heroTopic.data.post.thumb}
-              aria-label={`Play the clip on this ${heroTopic.data.name} card`}
-              style="--ratio: 16 / 9"
-            >
-              <span class="card-src">{heroTopic.data.postLabel}</span>
-              <img
-                src={heroTopic.data.post.thumb}
-                alt=""
-                width={heroTopic.data.post.thumbW}
-                height={heroTopic.data.post.thumbH}
-                decoding="async"
-                referrerpolicy="no-referrer"
-              />
-              <span class="xvideo-play" aria-hidden="true">▶</span>
-            </button>
-          ) : (
-            <a
-              class="card-media"
-              href={heroTopic.href}
-              style="--ratio: 16 / 9"
-            >
-              <span class="card-src">{heroTopic.data.postLabel}</span>
-              <img
-                src={heroTopic.data.post.thumb}
-                alt=""
-                width={heroTopic.data.post.thumbW}
-                height={heroTopic.data.post.thumbH}
-                decoding="async"
-                referrerpolicy="no-referrer"
-              />
-            </a>
-          )}
+          <a class="card-media" href={heroTopic.href} style="--ratio: 16 / 9">
+            <span class="card-src">{heroTopic.data.postLabel}</span>
+            <img
+              src={heroTopic.data.post.thumb}
+              alt=""
+              width={heroTopic.data.post.thumbW}
+              height={heroTopic.data.post.thumbH}
+              decoding="async"
+              referrerpolicy="no-referrer"
+            />
+          </a>
           <figcaption class="hero-cap">
-            <span class="hero-cap-kicker">Following now · verified {heroTopic.data.verified}</span>
+            <span class="hero-cap-kicker">Following now</span>
             <span class="hero-cap-title">{heroTopic.data.name} — {heroTopic.data.cardWhat}</span>
             <span class="hero-cap-meta">
-              {fmt(heroTopic.data.recordCount)} records · {fmt(heroTopic.data.repos)} repositories
+              {fmt(heroTopic.data.recordCount)} records · {heroTopic.data.repos} repositories
             </span>
-            <span class="hero-cap-links">
-              <a class="hero-cap-link" href={heroTopic.href}>
-                Everything on {heroTopic.data.name} →
-              </a>
-              {heroTopic.data.postLink && (
-                <a
-                  class="hero-cap-link"
-                  href={heroTopic.data.postLink.href}
-                  rel={heroTopic.data.postLink.external ? "noopener noreferrer" : undefined}
-                >
-                  {heroTopic.data.postLink.label} →
-                </a>
-              )}
-            </span>
+            <a class="hero-cap-link" href={heroTopic.href}>Everything on {heroTopic.data.name} →</a>
           </figcaption>
         </figure>
       )}
 
-      {/*
-        Card 2: the newest clip on the site, whoever posted it. This is the one that makes the
-        first screen move without naming a model anywhere in this file — the row is whatever the
-        feed says is newest and small enough to stream.
-      */}
-      {heroClipRow && (
-        <figure class="hero-card" data-generated="hero-latest-clip">
-          {heroClipRow.video ? (
+      {heroCards.map((row) => (
+        <figure class="hero-card" data-generated="hero-card">
+          {row.video && (row.videoBytes ?? 0) <= HERO_CLIP_MAX_BYTES ? (
             <button
               class="xvideo-facade"
               type="button"
-              data-xvideo={heroClipRow.video}
-              data-poster={heroClipRow.thumb}
-              aria-label={`Play the clip in this entry: ${heroClipRow.headline}`}
+              data-xvideo={row.video}
+              data-poster={row.thumb}
+              aria-label={`Play the clip in this entry: ${row.headline}`}
               style="--ratio: 16 / 9"
             >
-              <span class="card-src">{TOPIC_LABEL[heroClipRow.topic]} · {heroClipRow.kind}</span>
-              <img
-                src={heroClipRow.thumb}
-                alt=""
-                width={heroClipRow.thumbW}
-                height={heroClipRow.thumbH}
-                decoding="async"
-                referrerpolicy="no-referrer"
-              />
+              <span class="card-src">{TOPIC_LABEL[row.topic]} · {row.kind}</span>
+              <img src={row.thumb} alt="" width={row.thumbW} height={row.thumbH} decoding="async" referrerpolicy="no-referrer" />
               <span class="xvideo-play" aria-hidden="true">▶</span>
             </button>
           ) : (
             <a
               class="card-media"
-              href={heroClipRow.href}
-              rel={heroClipRow.external ? "noopener noreferrer" : undefined}
+              href={row.href}
+              rel={row.external ? "noopener noreferrer" : undefined}
               style="--ratio: 16 / 9"
             >
-              <span class="card-src">{TOPIC_LABEL[heroClipRow.topic]} · {heroClipRow.kind}</span>
-              <img
-                src={heroClipRow.thumb}
-                alt=""
-                width={heroClipRow.thumbW}
-                height={heroClipRow.thumbH}
-                decoding="async"
-                referrerpolicy="no-referrer"
-              />
+              <span class="card-src">{TOPIC_LABEL[row.topic]} · {row.kind}</span>
+              <img src={row.thumb} alt="" width={row.thumbW} height={row.thumbH} decoding="async" referrerpolicy="no-referrer" />
             </a>
           )}
           <figcaption class="hero-cap">
-            <span class="hero-cap-kicker">Newest clip on the site · {heroClipRow.at}</span>
-            <span class="hero-cap-title">{heroClipRow.headline}</span>
-            <span class="hero-cap-meta">{heroClipRow.meta.join(" · ")}</span>
-            <span class="hero-cap-links">
-              <a
-                class="hero-cap-link"
-                href={heroClipRow.href}
-                rel={heroClipRow.external ? "noopener noreferrer" : undefined}
-              >
-                {heroClipRow.external ? "Watch at the source" : "Open the record"} →
-              </a>
-              <a class="hero-cap-link" href={feedColumns.find((c) => c.label === TOPIC_LABEL[heroClipRow.topic])?.href ?? "/typesafe-jev"}>
-                Everything on {TOPIC_LABEL[heroClipRow.topic]} →
-              </a>
-            </span>
+            <span class="hero-cap-kicker">{TOPIC_LABEL[row.topic]} · {row.at}</span>
+            <span class="hero-cap-title">{row.headline}</span>
+            {/* Our own note, clamped: it is what makes the card worth its space rather than a
+                thumbnail with a caption, and it is why the four cards fill the column. */}
+            <span class="hero-cap-note">{row.note}</span>
+            <span class="hero-cap-meta">{row.meta.join(" · ")}</span>
+            <a
+              class="hero-cap-link"
+              href={row.href}
+              rel={row.external ? "noopener noreferrer" : undefined}
+            >
+              {row.external ? "At the source" : "Open the record"} →
+            </a>
           </figcaption>
         </figure>
-      )}
+      ))}
     </div>
   </section>
 
@@ -669,37 +648,58 @@ const hubStats = [
     */}
     <figure class="line-figure">
       {/*
-        Scrolls sideways rather than shrinking on a phone. At 390px the 640-unit viewBox scaled the
-        codename labels down to about six pixels — legible in a screenshot of a desktop, invisible
-        on the device the topic gets read on. `min-width` keeps the drawing at its own size and the
-        wrapper lets the reader push it.
+        Drawn in code, in the style a generated illustrator was asked for.
+
+        The reader's note was "不要自己生成，要用生图软件生… 你这个 SVG 画得不太好". I tried the image
+        model (FLUX.2-flex, same preset machinery as the covers) with the three durations in the
+        prompt. It produced a genuinely handsome picture — paper ground, black bars, a pink
+        underline, honest labels ("41 days", "6 days", "1 day" and the three months) — and one
+        thing that makes it unusable *as a chart*: it drew the six-day bar half the length of the
+        forty-one-day one. True ratio is 0.15. A picture next to real numbers may not be
+        approximately to scale, so the *design* came here and the proportions stayed in code:
+        bars are drawn by the same `daysBetween` the table reads, and the month ticks use the same
+        mapping, so a tick that missed its date would be visible.
+
+        It scrolls sideways on a phone rather than shrinking to six-pixel type.
       */}
       <div class="line-scroll">
       <svg
-        viewBox="0 0 640 120"
+        viewBox="0 0 640 210"
         role="img"
-        aria-label={`Timeline of the Alpha line: ${codenameAnswer.map((row) => `${row.codename} first listed ${row.firstListed}, became ${row.found} on ${row.firstListed} plus ${row.windowDays} days`).join("; ")}`}
+        aria-label={`Timeline of the Alpha line: ${codenameAnswer.map((row) => `${row.codename} first listed ${row.firstListed} and ran anonymously for ${row.windowDays} days before ${row.found}`).join("; ")}`}
       >
-        {/* the axis, from the line's first codename to the day the catalogue was read */}
-        <line x1={AXIS.left} y1="112" x2={AXIS.right} y2="112" class="line-axis" />
-        {codenameAnswer.map((row) => (
-          <g class="line-row">
-            <text x="0" y={row.y + 4} class="line-name">{row.codename}</text>
-            {/* the anonymous window: hollow where it appeared, solid where the maker listed it */}
-            <line x1={row.start} y1={row.y} x2={row.added} y2={row.y} class="line-window" />
-            <circle cx={row.start} cy={row.y} r={AXIS.radius} class="line-dot" />
-            <circle cx={row.added} cy={row.y} r={AXIS.radius} class="line-dot solid" />
+        {/* month ticks behind the rows, drawn first so the bars sit on top */}
+        {lineMonths.map((month) => (
+          <g class="line-month">
+            <line x1={month.x} y1={AXIS.top - 16} x2={month.x} y2="176" />
+            <text x={month.x} y="192" text-anchor="middle">{month.label}</text>
           </g>
         ))}
-        <text x={AXIS.left} y="119" class="line-tick">{LINE_START}</text>
-        <text x={AXIS.right} y="119" class="line-tick" text-anchor="end">catalogue read {LINE_END}</text>
+        <line x1={AXIS.left} y1="176" x2={AXIS.right} y2="176" class="line-axis" />
+
+        {codenameAnswer.map((row) => (
+          <g class="line-row">
+            <text x="0" y={row.y + 5} class="line-name">{row.codename}</text>
+            {/* the anonymous window, as a bar: length is the duration, position is the date */}
+            <rect x={row.start} y={row.y - AXIS.barHeight / 2} width={Math.max(2, row.added - row.start)} height={AXIS.barHeight} class="line-bar" />
+            <circle cx={row.start} cy={row.y} r={AXIS.radius} class="line-dot" />
+            <circle cx={row.added} cy={row.y} r={AXIS.radius} class="line-dot solid" />
+            {/* the duration, said twice: in the bar and in words, above it */}
+            <text x={row.labelX} y={row.y - 14} class="line-span" text-anchor={row.labelAnchor}>
+              {row.windowDays} {row.windowDays === 1 ? "day" : "days"} anonymous → became {row.found}
+            </text>
+          </g>
+        ))}
+
+        <text x={AXIS.left} y="205" class="line-tick">{LINE_START}</text>
+        <text x={AXIS.right} y="205" class="line-tick" text-anchor="end">catalogue read {LINE_END}</text>
       </svg>
       </div>
       <figcaption>
-        One row per codename: the bar is how long it ran without a maker attached. Median{" "}
-        {alphaLineStats.medianWindowDays} days — the first took {alphaLineStats.slowestWindowDays},
-        the last {alphaLineStats.fastestWindowDays}, which is the whole shape of this line: the
-        windows collapsed as it went.
+        Three codenames, one axis. The first ran {alphaLineStats.slowestWindowDays} days without a
+        maker attached, the last {alphaLineStats.fastestWindowDays} — median{" "}
+        {alphaLineStats.medianWindowDays}. Bars are drawn to scale from the same dates the table
+        below prints; the last two are slivers because the windows really were that short.
       </figcaption>
     </figure>
 
@@ -750,6 +750,9 @@ const hubStats = [
             <p class="card-meta">
               {fmt(row.records)} records · {fmt(row.repos)} repositories · verified {row.verified}
             </p>
+            {/* Where the picture came from and when. A screenshot of somebody else's page is a
+                claim about that page, so it carries the same source-and-date line as any other. */}
+            <p class="card-meta">Screenshot · {row.coverSource}</p>
           </div>
         </article>
       ))}
@@ -972,10 +975,23 @@ const hubStats = [
    * Scoped to `home-hero`: the topic covers keep the shared behaviour (their two cards lead with
    * different media, and they were signed off that way).
    */
-  .home-hero { align-items: stretch; }
+  .home-hero { align-items: start; }
   .home-hero .hero-copy { display: flex; flex-direction: column; }
-  .home-hero .hero-copy .hero-actions { margin-top: auto; }
-  .home-hero .hero-media { align-content: start; }
+  /*
+   * The media column is a 2×2 grid, not a stack. Two stacked cards made the column 955px against
+   * the words' 530px, and pinning the words' buttons to the bottom only moved the hole inside the
+   * column — the reader still saw it. Four cards fill the height with cards.
+   */
+  .home-hero .hero-media {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+  }
+  @media (max-width: 1000px) {
+    .home-hero .hero-media { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .home-hero .hero-media { grid-template-columns: minmax(0, 1fr); }
+  }
   .home-hero .hero-cap-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -984,6 +1000,15 @@ const hubStats = [
   }
   .home-hero .hero-cap-links { display: flex; flex-direction: column; gap: 2px; margin-top: var(--space-2); }
   .home-hero .hero-cap-link { margin-top: 0; }
+  /* Two lines of our note on every hero card — the part that says why the card is here. */
+  .hero-cap-note {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
 
   /*
    * The Alpha line figure. Percentages along x, rows down y, drawn in the page's own ink: a thin
@@ -997,10 +1022,13 @@ const hubStats = [
   .line-scroll { overflow-x: auto; }
   .line-figure svg { width: 100%; min-width: 560px; max-width: 900px; height: auto; display: block; overflow: visible; }
   .line-axis { stroke: var(--border-strong); stroke-width: 1; }
-  .line-window { stroke: var(--accent); stroke-width: 3; }
-  .line-dot { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
-  .line-dot.solid { fill: var(--accent); }
+  .line-month line { stroke: var(--border); stroke-width: 1; stroke-dasharray: 2 4; }
+  .line-month text { font-family: var(--mono); font-size: 9px; fill: var(--text-faint); }
+  .line-bar { fill: var(--text); }
+  .line-dot { fill: var(--surface); stroke: var(--text); stroke-width: 2; }
+  .line-dot.solid { fill: var(--accent); stroke: var(--accent); }
   .line-name { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--text); }
+  .line-span { font-family: var(--mono); font-size: 9.5px; fill: var(--text-muted); }
   .line-tick { font-family: var(--mono); font-size: 10px; fill: var(--text-faint); }
   .line-figure figcaption {
     margin-top: var(--space-3);
