@@ -145,12 +145,18 @@ const usedInCards = new Set<string>();
 const fmt = (n: number) => n.toLocaleString("en-US");
 
 /*
- * The hero's right-hand card: what we are following right now.
+ * The hero's right-hand column: two cards, both from data.
  *
- * Its topic comes from `lib/spotlight.ts` — the same list the masthead badges read — so "what is
- * hot" is edited in one data file and never in this page. The media is the post the topic itself
- * leads with, because a picture of the thing somebody actually posted says more than a generated
- * illustration of "a decision model".
+ * The reader's note on the previous version was that the page had the content but not the pull:
+ * "观感上不如动态的效果…轮播、卡片墙里有动态视频". They were right — the wall had moved below an
+ * eighteen-row table, which is the least visual thing on the site, and the first screen had one
+ * still picture on it. So the columns, top to bottom, are now pictures, pictures, motion, then the
+ * reference table.
+ *
+ * Card 1 is the spotlight: its topic comes from `lib/spotlight.ts` — the same list the masthead
+ * badges read — so "what is hot" is edited in one data file and never in this page. The media is
+ * the post the topic itself leads with, because a picture of the thing somebody actually posted
+ * says more than a generated illustration of "a decision model".
  *
  * It is playable only when the clip is small enough to be worth it. The first version of this page
  * played whatever the lead post carried, and that one file was 6.19 MB of a 7.43 MB first load
@@ -158,8 +164,12 @@ const fmt = (n: number) => n.toLocaleString("en-US");
  * the row rather than a taste call. A poster-only card is still a link into the section.
  */
 const HERO_CLIP_MAX_BYTES = 1_500_000;
-/** The feed's clip cap, the same number for the same reason. */
-const FEED_CLIP_MAX_BYTES = 1_500_000;
+/*
+ * The feed's cap is higher, and deliberately: the feed is the page's motion block, and a reader who
+ * has scrolled this far has asked for it. The hero's is lower because that one is fetched before
+ * anybody has decided they are interested.
+ */
+const FEED_CLIP_MAX_BYTES = 2_000_000;
 
 /*
  * Everything a spotlight entry needs to become a card. Kept keyed by href rather than by label,
@@ -171,6 +181,13 @@ const topicData = {
     slug: "jev" as const,
     name: "Jev",
     what: "TypeSafe's decision model: state in, typed decision out. It does not write.",
+    /*
+     * The topic's own cover engraving — generated for the reference page and, until 2026-09-25,
+     * never shown where most readers meet the topic. A picture of an input going in and a decision
+     * coming out says what the model does faster than the sentence does.
+     */
+    cover: "/img/cover-jev-topic.webp",
+    coverAlt: "An engraving: a brass mailbox on a bench, a handwritten page going into its slot at the top and a punched brass card falling into the tray below.",
     verified: JEV_DATA_AS_OF,
     post: jevLaunchPost,
     postLabel: "X post · the launch",
@@ -184,6 +201,8 @@ const topicData = {
     slug: "laya" as const,
     name: "Laya",
     what: "The open-weights System One model, from Convai — a decision model you can run yourself.",
+    cover: "/img/cover-laya-topic.webp",
+    coverAlt: "An engraving: a small brass instrument with three dials on a single base, a blank paper tag tied to it.",
     verified: LAYA_READ_ON,
     post: layaTopPost,
     postLabel: "X post · the one that travelled",
@@ -224,7 +243,10 @@ const followedRows = spotlight
     note: data.what,
     href: entry.href,
     records: data.recordCount,
+    repos: data.repos,
     verified: data.verified,
+    cover: data.cover,
+    coverAlt: data.coverAlt,
   }));
 
 const catalogueRows = openrouterModels.map((model) => ({
@@ -256,18 +278,33 @@ const workloadPicks = defaultScenarios.flatMap((scenario) => {
  * `siteFeed` with the numbers that calibrated them.
  */
 const FEED_PER_TOPIC = 6;
-const feed = siteFeed(FEED_PER_TOPIC, { excludeXId: heroTopic?.data.post?.id }).map((row) => ({
-  ...row,
-  kind: `${TOPIC_LABEL[row.topic]} · ${row.kind}`,
-  /*
-   * Same rule as the hero card, and for the same reason: playing a clip in place is a choice the
-   * page makes per row, and a 2.6 MB clip in a twelve-card feed is not the same offer as a 0.3 MB
-   * one. Measured on this page: every clip plays and the whole scroll cost 11.2 MB, with two files
-   * making up 6.5 of it. Over the cap the card keeps its poster and links to the source, which is
-   * what a reader who wants the video is going to do anyway.
-   */
-  video: row.videoBytes !== undefined && row.videoBytes <= FEED_CLIP_MAX_BYTES ? row.video : undefined,
-}));
+/*
+ * One row of headroom: the hero's second card takes the newest clip on the site out of this list,
+ * so the two must not both render it — one file, two `<video>` elements is the bug the topic
+ * covers hit on 2026-09-24.
+ */
+const recent = siteFeed(FEED_PER_TOPIC + 1, { excludeXId: heroTopic?.data.post?.id });
+/*
+ * Picked against the **hero** cap, not the feed's: this row is fetched before the reader has
+ * decided they are interested, so it may only play if it is small. If nothing recent is that
+ * small, the card is a poster and a link — and the feed below still moves.
+ */
+const heroClipRow = recent.find((row) => row.video && (row.videoBytes ?? 0) <= HERO_CLIP_MAX_BYTES);
+
+const feed = recent
+  .filter((row) => row !== heroClipRow)
+  .slice(0, FEED_PER_TOPIC * 2)
+  .map((row) => ({
+    ...row,
+    kind: `${TOPIC_LABEL[row.topic]} · ${row.kind}`,
+    /*
+     * Playing a clip in place is a choice the page makes per row, and a 2.6 MB clip in a
+     * twelve-card feed is not the same offer as a 0.3 MB one. Measured with everything playing:
+     * 11.2 MB for a full scroll, two files making up 6.5 of it. Over the cap the card keeps its
+     * poster and links to the source, which is what a reader who wants the video does anyway.
+     */
+    video: row.videoBytes !== undefined && row.videoBytes <= FEED_CLIP_MAX_BYTES ? row.video : undefined,
+  }));
 const feedColumns = [
   { label: "Jev", href: "/typesafe-jev", count: topicRecords("jev") },
   { label: "Laya", href: "/laya", count: topicRecords("laya") },
@@ -461,6 +498,65 @@ const hubStats = [
           </figcaption>
         </figure>
       )}
+
+      {/*
+        Card 2: the newest clip on the site, whoever posted it. This is the one that makes the
+        first screen move without naming a model anywhere in this file — the row is whatever the
+        feed says is newest and small enough to stream.
+      */}
+      {heroClipRow && (
+        <figure class="hero-card" data-generated="hero-latest-clip">
+          {heroClipRow.video ? (
+            <button
+              class="xvideo-facade"
+              type="button"
+              data-xvideo={heroClipRow.video}
+              data-poster={heroClipRow.thumb}
+              aria-label={`Play the clip in this entry: ${heroClipRow.headline}`}
+            >
+              <span class="card-src">{TOPIC_LABEL[heroClipRow.topic]} · {heroClipRow.kind}</span>
+              <img
+                src={heroClipRow.thumb}
+                alt=""
+                width={heroClipRow.thumbW}
+                height={heroClipRow.thumbH}
+                decoding="async"
+                referrerpolicy="no-referrer"
+              />
+              <span class="xvideo-play" aria-hidden="true">▶</span>
+            </button>
+          ) : (
+            <a
+              class="card-media"
+              href={heroClipRow.href}
+              rel={heroClipRow.external ? "noopener noreferrer" : undefined}
+              style={`--ratio: ${heroClipRow.thumbW} / ${heroClipRow.thumbH}`}
+            >
+              <span class="card-src">{TOPIC_LABEL[heroClipRow.topic]} · {heroClipRow.kind}</span>
+              <img
+                src={heroClipRow.thumb}
+                alt=""
+                width={heroClipRow.thumbW}
+                height={heroClipRow.thumbH}
+                decoding="async"
+                referrerpolicy="no-referrer"
+              />
+            </a>
+          )}
+          <figcaption class="hero-cap">
+            <span class="hero-cap-kicker">Newest clip on the site · {heroClipRow.at}</span>
+            <span class="hero-cap-title">{heroClipRow.headline}</span>
+            <span class="hero-cap-meta">{heroClipRow.meta.join(" · ")}</span>
+            <a
+              class="hero-cap-link"
+              href={heroClipRow.href}
+              rel={heroClipRow.external ? "noopener noreferrer" : undefined}
+            >
+              {heroClipRow.external ? "Watch at the source" : "Open the record"} →
+            </a>
+          </figcaption>
+        </figure>
+      )}
     </div>
   </section>
 
@@ -496,35 +592,69 @@ const hubStats = [
   </section>
 
   {/*
-    The models index: every model this site covers, in one place, and the reason this page does not
-    need editing when a model lands. Followed topics first (they have sections, records and counts),
-    then the catalogue snapshot (what OpenRouter serves, which we compare and price).
+    What we follow: the two sections, as pictures.
+
+    Their cover engravings were generated for the reference pages and, until now, never appeared
+    where most readers meet the topic — the first screen of the site. These are the only two images
+    on this page that belong to a *section* rather than to a record, so they are what makes "the
+    things this site follows" visible instead of described.
+  */}
+  <section class="followed">
+    <h2>What we follow</h2>
+    <div class="followed-cards">
+      {followedRows.map((row) => (
+        <article class="card">
+          <a class="card-media" href={row.href} style="--ratio: 16 / 9">
+            <img src={row.cover} alt={row.coverAlt} width="1024" height="576" loading="lazy" decoding="async" />
+          </a>
+          <div class="card-body">
+            <h3 class="card-title"><a href={row.href}>{row.name}</a></h3>
+            <p class="card-body-text">{row.note}</p>
+            <p class="card-meta">
+              {fmt(row.records)} records · {fmt(row.repos)} repositories · verified {row.verified}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/*
+    The feed: what landed last, anywhere on the site — twelve cards, each labelled with the topic it
+    came from, and the page's motion block. It sits above the catalogue table on purpose: the reader
+    said the page "有内容但不够吸引人", and the fix was to lead with pictures and movement and keep
+    the reference layer underneath.
+  */}
+  <section class="topic-wall" data-generated="site-feed">
+    <h2>Latest across the site</h2>
+    <p class="wall-note">
+      The strongest recent records, newest first — projects, posts, recordings and threads from
+      every model we follow. A row gets here once somebody other than us has looked at it: a post
+      with a hundred likes, a repository with a hundred stars, a thread with fifteen points. Each
+      card links to our own page where we have one and to the source where we do not — a card
+      marked <strong>source</strong> leaves this site.
+    </p>
+    <TopicWall items={feed} columns={feedColumns} footPrefix="Both sections, in full:" />
+  </section>
+
+  {/* The player for any clip the hero or the feed rendered (see TopicWall.astro). */}
+  <XClipWall />
+
+  {/*
+    The reference layer: every model this site covers, in one place, and the reason this page does
+    not need editing when a model lands. A table, not cards — a price list is read down a column —
+    and it comes after the pictures rather than in front of them.
   */}
   <section class="models-index">
-    <h2>Every model on this site</h2>
+    <h2>All {catalogueRows.length} models we compare</h2>
     <p class="wall-note">
-      Two kinds of row. The ones we <strong>follow</strong> have a section of their own — a page per
-      record, our own measurements, and the projects people built. The rest are served by OpenRouter
-      and read from its catalogue, which is what the comparison and the calculator price.
+      Served by OpenRouter and read from its catalogue on {modelHubDataAsOf}, which is what the
+      comparison and the calculator price. A model we <strong>follow</strong> — Jev, Laya — has a
+      section of its own above; these are the rest, with the numbers that decide a choice.
     </p>
-
-    <h3 class="index-sub">We follow these</h3>
-    <ul class="followed-list">
-      {followedRows.map((row) => (
-        <li>
-          <a class="followed-name" href={row.href}>{row.name}</a>
-          <span class="followed-note">{row.note}</span>
-          <span class="followed-meta">
-            {fmt(row.records)} records · verified {row.verified}
-          </span>
-        </li>
-      ))}
-    </ul>
-
-    <h3 class="index-sub">All {catalogueRows.length} models in the catalogue</h3>
     {/*
-      A table, not cards: this is a price list, and a price list is read down a column. `data-label`
-      carries the column name into the narrow-screen layout, where each row becomes a block.
+      `data-label` carries the column name into the narrow-screen layout, where each row becomes a
+      block and the heading row is hidden.
     */}
     <table class="model-table">
       <thead>
@@ -564,27 +694,6 @@ const hubStats = [
       <a href="/openrouter-models">the directory</a>.
     </p>
   </section>
-
-  {/*
-    The feed: what landed last, anywhere on the site — date-ordered, twelve cards, each labelled
-    with the topic it came from. It is the one view of these records that no topic page has (a
-    topic cover shows its *best* rows per column, not the newest rows anywhere), and it is the band
-    that keeps working when a third model arrives.
-  */}
-  <section class="topic-wall" data-generated="site-feed">
-    <h2>Latest across the site</h2>
-    <p class="wall-note">
-      The strongest recent records, newest first — projects, posts, recordings and threads from
-      every model we follow. A row gets here once somebody other than us has looked at it: a post
-      with a hundred likes, a repository with a hundred stars, a thread with fifteen points. Each
-      card links to our own page where we have one and to the source where we do not — a card
-      marked <strong>source</strong> leaves this site.
-    </p>
-    <TopicWall items={feed} columns={feedColumns} footPrefix="Both sections, in full:" />
-  </section>
-
-  {/* The player for any clip the hero or the feed rendered (see TopicWall.astro). */}
-  <XClipWall />
 
   {/*
     The routing row. It used to carry a fifth card for the Jev topic; that card went when the hero
@@ -712,33 +821,20 @@ const hubStats = [
    * is the one thing a stacked table otherwise loses.
    */
   .models-index { margin-bottom: var(--space-12); }
-  .index-sub {
-    margin: var(--space-6) 0 var(--space-3);
-    font-size: var(--text-sm);
-    font-family: var(--mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-  .followed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
-  .followed-list li {
+
+  /* The two followed sections, as pictures. Two up on a desktop, stacked on a phone. */
+  .followed { margin-bottom: var(--space-10); }
+  .followed-cards {
     display: grid;
-    grid-template-columns: minmax(120px, 160px) minmax(0, 1fr) minmax(0, 200px);
-    gap: var(--space-2) var(--space-5);
-    align-items: baseline;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    padding: var(--space-4) var(--space-5);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-5);
   }
-  .followed-name { font-family: var(--sans); font-size: var(--text-lg); font-weight: 600; }
-  .followed-note { color: var(--text-muted); font-size: var(--text-sm); }
-  .followed-meta { color: var(--text-faint); font-size: var(--text-xs); font-variant-numeric: tabular-nums; text-align: right; }
   @media (max-width: 760px) {
-    .followed-list li { grid-template-columns: minmax(0, 1fr); }
-    .followed-meta { text-align: left; }
+    .followed-cards { grid-template-columns: minmax(0, 1fr); }
   }
+  .followed-cards .card { margin-bottom: 0; }
+  .card-body-text { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
 
   .model-table {
     width: 100%;
