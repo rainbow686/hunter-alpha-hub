@@ -60,6 +60,30 @@ export interface WallColumn {
   count: number;
 }
 
+/**
+ * A card with the two facts the *ordering* needs, which the rendered card never shows: which
+ * topic it came from and the day it carried. The topic covers sort by a column's own rank (likes,
+ * views, points) and never ask; the site feed sorts by `at` across both topics, which is the one
+ * thing the home page's timeline does that no topic page does.
+ */
+export interface WallRow extends WallItem {
+  topic: TopicSlug;
+  /** ISO day, from the row's own `publishedAt` — never from the day we read it. */
+  at: string;
+  /**
+   * The row's own count — likes, stars, views or points — kept so an ordering can filter on it.
+   * `meta` carries a *formatted* version of the same number ("76,000 likes"), which is right for
+   * the card and wrong for a comparison, so the raw value travels beside it.
+   */
+  signal: number;
+  /**
+   * Size of the row's clip, when it has one, so a page can decide whether playing it in place is
+   * worth the bytes. `video` on the card is the URL; this is what it costs. Kept on the row rather
+   * than looked up because the caller that cares (the home page) never sees the source record.
+   */
+  videoBytes?: number;
+}
+
 export type TopicSlug = "jev" | "laya";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -97,12 +121,14 @@ export function topicRecords(topic: TopicSlug): number {
  * slug cut out of a tweet is a truncation. Laya's do not: that column links out, and says so on
  * the card. Everything else about the two is the same shape.
  */
-function jevColumns(perColumn: number, excludeXId?: string): WallItem[][] {
+function jevColumns(excludeXId?: string): WallRow[][] {
   return [
     jevXPosts
       .filter((post) => post.id !== excludeXId)
-      .slice(0, perColumn)
       .map((post) => ({
+        topic: "jev" as const,
+        at: post.publishedAt,
+        signal: post.likes,
         kind: "X post",
         headline: post.page?.headline ?? post.title,
         href: post.page ? `/typesafe-jev/x-posts/${post.page.slug}` : post.url,
@@ -115,8 +141,12 @@ function jevColumns(perColumn: number, excludeXId?: string): WallItem[][] {
         avatar: post.avatar || undefined,
         tags: jevTagsById[post.id] ?? [],
         video: post.video?.url,
+        videoBytes: post.video?.bytes,
       })),
-    jevBuilds.slice(0, perColumn).map((build) => ({
+    jevBuilds.map((build) => ({
+      topic: "jev" as const,
+      at: build.publishedAt,
+      signal: build.stars,
       kind: "Repository",
       headline: build.title,
       href: build.dossier ? `/typesafe-jev/builds/${build.dossier.slug}` : build.url,
@@ -126,7 +156,10 @@ function jevColumns(perColumn: number, excludeXId?: string): WallItem[][] {
       thumb: build.card ?? undefined,
       tags: jevTagsById[build.id] ?? [],
     })),
-    jevVideos.slice(0, perColumn).map((video) => ({
+    jevVideos.map((video) => ({
+      topic: "jev" as const,
+      at: video.publishedAt,
+      signal: video.views,
       kind: "Video",
       headline: video.title,
       href: video.url,
@@ -138,7 +171,10 @@ function jevColumns(perColumn: number, excludeXId?: string): WallItem[][] {
       thumbH: video.thumbH,
       tags: jevTagsById[video.id] ?? [],
     })),
-    jevThreads.slice(0, perColumn).map((thread) => ({
+    jevThreads.map((thread) => ({
+      topic: "jev" as const,
+      at: thread.publishedAt,
+      signal: thread.score,
       kind: thread.source === "hn" ? "Hacker News" : "dev.to",
       headline: thread.title,
       href: thread.url,
@@ -150,12 +186,14 @@ function jevColumns(perColumn: number, excludeXId?: string): WallItem[][] {
   ];
 }
 
-function layaColumns(perColumn: number, excludeXId?: string): WallItem[][] {
+function layaColumns(excludeXId?: string): WallRow[][] {
   return [
     layaXPosts
       .filter((post) => post.id !== excludeXId)
-      .slice(0, perColumn)
       .map((post) => ({
+        topic: "laya" as const,
+        at: post.publishedAt,
+        signal: post.likes,
         kind: "X post",
         headline: post.title,
         href: post.url,
@@ -168,8 +206,12 @@ function layaColumns(perColumn: number, excludeXId?: string): WallItem[][] {
         avatar: post.avatar || undefined,
         tags: layaTagsById[post.id] ?? [],
         video: post.video?.url,
+        videoBytes: post.video?.bytes,
       })),
-    layaBuilds.slice(0, perColumn).map((build) => ({
+    layaBuilds.map((build) => ({
+      topic: "laya" as const,
+      at: build.publishedAt,
+      signal: build.stars,
       kind: "Repository",
       headline: build.title,
       href: build.dossier ? `/laya/builds/${build.dossier.slug}` : build.url,
@@ -179,7 +221,10 @@ function layaColumns(perColumn: number, excludeXId?: string): WallItem[][] {
       thumb: build.card ?? undefined,
       tags: layaTagsById[build.id] ?? [],
     })),
-    layaVideos.slice(0, perColumn).map((video) => ({
+    layaVideos.map((video) => ({
+      topic: "laya" as const,
+      at: video.publishedAt,
+      signal: video.views,
       kind: "Video",
       headline: video.title,
       href: video.url,
@@ -191,7 +236,10 @@ function layaColumns(perColumn: number, excludeXId?: string): WallItem[][] {
       thumbH: video.thumbH,
       tags: layaTagsById[video.id] ?? [],
     })),
-    layaThreads.slice(0, perColumn).map((thread) => ({
+    layaThreads.map((thread) => ({
+      topic: "laya" as const,
+      at: thread.publishedAt,
+      signal: thread.score,
       kind: thread.source === "hn" ? "Hacker News" : "dev.to",
       headline: thread.title,
       href: thread.url,
@@ -204,6 +252,35 @@ function layaColumns(perColumn: number, excludeXId?: string): WallItem[][] {
 }
 
 /**
+ * Every row of a topic, in its four columns, at full length. Both callers below start here:
+ * `topicWall` slices and interleaves, `siteFeed` sorts across topics. One mapping, two orders.
+ */
+export function topicRows(topic: TopicSlug, options: { excludeXId?: string } = {}): WallRow[][] {
+  return topic === "jev" ? jevColumns(options.excludeXId) : layaColumns(options.excludeXId);
+}
+
+/** The label a card wears on the home page, where a reader cannot tell the two topics apart. */
+export const TOPIC_LABEL: Record<TopicSlug, string> = { jev: "Jev", laya: "Laya" };
+
+/**
+ * What a row has to have earned before the front page's feed will show it, by what kind of row it
+ * is. One number per kind because the platforms count different things — a repository with 100
+ * stars and a post with 100 likes are not the same amount of attention, they are just the points
+ * at which each stops being noise.
+ *
+ * Calibrated on the corpus as it stands (2026-09-25): the floors keep the launch post (76,000
+ * likes), the MLX port (14,035), `laya` itself (22,757 stars) and the 1,349-point Hacker News
+ * thread, and they drop the dev.to posts with zero reactions that pure date ordering put on top.
+ */
+const SIGNAL_FLOOR: Record<string, number> = {
+  "X post": 100,
+  Repository: 100,
+  Video: 2_000,
+  "Hacker News": 15,
+  "dev.to": 15,
+};
+
+/**
  * `perColumn` rows from each of the four columns, interleaved rather than concatenated: one card
  * from each column, `perColumn` times over, so the first screen alone shows a post, a repository,
  * a recording and a discussion. Sorting the whole set by one number would put four X posts at the
@@ -214,8 +291,7 @@ export function topicWall(
   perColumn: number,
   options: { excludeXId?: string } = {},
 ): { items: WallItem[]; columns: WallColumn[] } {
-  const parts =
-    topic === "jev" ? jevColumns(perColumn, options.excludeXId) : layaColumns(perColumn, options.excludeXId);
+  const parts = topicRows(topic, options).map((column) => column.slice(0, perColumn));
 
   const items: WallItem[] = [];
   for (let i = 0; i < perColumn; i += 1) {
@@ -240,4 +316,40 @@ export function topicWall(
         ];
 
   return { items, columns };
+}
+
+/**
+ * What landed last that was worth looking at, across every topic, newest first.
+ *
+ * This is the home page's own view and the reason it has a card band at all. A topic cover shows
+ * its *best* rows per column, picked in advance; the feed shows the rows that earned attention
+ * anywhere on the site, in the order they happened, each card labelled with the topic it came from.
+ *
+ * Two rules, and both were learned by looking at the first attempt:
+ *
+ *   1. **Pure date order does not work.** Sorted by date alone, the first version printed twelve
+ *      Jev cards — most of them dev.to posts with zero reactions — because Jev simply has the most
+ *      recent rows and a blog post is published every day. A front-page feed that a reader never
+ *      wants to click is not "the newest", it is the noise floor. `SIGNAL_FLOOR` is that fix: a
+ *      row has to have been read by somebody before it can sit on this page.
+ *   2. **Both topics get their turn.** The rows are picked per topic and then merged, so one model
+ *      having a loud week cannot empty the band of the other.
+ *
+ * With two topics this still overlaps the covers on most cards — that is arithmetic, not a design
+ * failure — but the feed is the version that keeps working when a third model arrives, because it
+ * never had a per-topic shape to begin with.
+ *
+ * A card that carries a clip is left in: the hero excludes the row it already shows, so nothing
+ * is fetched twice (the 2026-09-24 bug on the topic covers — see `docs/lessons/`).
+ */
+export function siteFeed(perTopic: number, options: { excludeXId?: string } = {}): WallRow[] {
+  const newestFirst = (a: WallRow, b: WallRow) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0);
+  const notable = (topic: TopicSlug) =>
+    topicRows(topic, options)
+      .flat()
+      .filter((row) => row.signal >= (SIGNAL_FLOOR[row.kind] ?? 0))
+      .sort(newestFirst)
+      .slice(0, perTopic);
+
+  return [...notable("jev"), ...notable("laya")].sort(newestFirst);
 }

@@ -17,34 +17,49 @@
  * to route into the second tier — the live codename, the register, the
  * comparison — not to be a third copy of them.
  *
- * ## The 2026-09-25 pass: it stopped being the plain page
+ * ## The 2026-09-25 pass (second attempt): a hub that does not need editing
  *
- * The reader's note was "咱们把专题页做的很好，网站首页显得反而有点简陋了". They
- * were right, and the cause was structural rather than cosmetic: the two model
- * covers had grown a hero, a numbers strip and a wall of real cards, and the page
- * most people land on first had none of them — it was five rows of text cards.
+ * First attempt: copy the topic covers' shapes onto the front page — a cover card
+ * per live topic in the hero, and a wall interleaved from both. It looked right and
+ * it was wrong in two ways the reader named before I did:
  *
- * So the front page took the same three shapes (they now live in the "front pages"
- * section of `system.css`, and the card mapping in `lib/topic-wall.ts`, because
- * three callers is where duplication stops being cheaper than sharing):
+ *   1. **It hard-codes the two hot models.** A page whose hero names Jev and Laya
+ *      has to be edited again when they cool down and something else lands.
+ *   2. **Its wall was the topic pages' content again.** Two topics means any card
+ *      band on this page overlaps with them; a *sample of each column* — which is
+ *      what a topic cover shows — was the worst possible choice, because it is the
+ *      same selection in the same order.
  *
- *   1. the hero is words left, **something real right** — one cover card per live
- *      topic, so the page shows what it tracks rather than describing it;
- *   2. the numbers strip counts what the whole site holds, not one topic;
- *   3. a wall of twenty-four cards interleaved from both topics, which is the
- *      answer to "is there anything here?" in one screen.
+ * The fix is to make the page read its own data and to give every band a job the
+ * topic pages do not already do:
  *
- * What it did not do, deliberately: change the title, the description, the h1 or
- * the canonical. This page carries 232 of the site's 237 clicks over 90 days
- * (position 2.8 for "hunter alpha ai"), and a redesign is not a reason to rewrite
- * the strings that earn them.
+ *   - **the hero's card is the spotlight**, read from `lib/spotlight.ts` — the same
+ *     file the masthead badges read, so "what is hot" is edited in one data file,
+ *     and the card plays its clip only when the clip is small enough to be worth it
+ *     (the first attempt fetched 6.19 MB for one hero video);
+ *   - **the models index lists every model we cover**, followed topics first, then
+ *     the catalogue snapshot — which is the "all models in one place" layer. It
+ *     grows by itself; nothing here is hand-listed;
+ *   - **the card band is a date-ordered site feed** (`siteFeed`), not a per-column
+ *     sample: *what landed last, anywhere*, which is the one thing no topic page
+ *     says. With two topics it still mostly shows Jev and Laya — that is
+ *     arithmetic, and it stops being true when a third model arrives;
+ *   - **the codename answer sits above the fold.** GSC says this page is found for
+ *     "hunter alpha" (1,423 impressions, position 6.9) and "hunter alpha ai"
+ *     (position 3.4, 20% CTR) — and neither the h1 nor the title contains the
+ *     phrase, so the first screen now states codename → model, dated.
+ *
+ * What it did not do, deliberately: change the title, the description, the h1, the
+ * canonical or the structured data. `verify:pages` compares all of those against the
+ * live page, and this page is where the site's search traffic is; a redesign is not
+ * a reason to rewrite the strings that earn it.
  */
 import System from "../layouts/System.astro";
 import JsonLd from "../components/JsonLd.astro";
 import Provenance from "../components/Provenance.astro";
 import TopicWall from "../components/TopicWall.astro";
 import XClipWall from "../components/XClipWall.astro";
-import { topicRecords, topicSizes, topicWall } from "../lib/topic-wall";
+import { TOPIC_LABEL, siteFeed, topicRecords, topicSizes } from "../lib/topic-wall";
 import { breadcrumbSchema, SITE, SITE_NAME, webSiteSchema } from "../lib/schema";
 import {
   defaultScenarios,
@@ -55,10 +70,12 @@ import {
   modelsForScenario,
   modelHubDataAsOf,
 } from "@repo/lib/openrouter-models";
-import { jevLaunchPost } from "@repo/lib/jev-x-posts";
-import { layaTopPost } from "@repo/lib/laya-x-posts";
-import { JEV_DATA_AS_OF } from "@repo/lib/jev";
+import { jevLaunchPost, jevXPosts } from "@repo/lib/jev-x-posts";
+import { layaTopPost, layaXPosts } from "@repo/lib/laya-x-posts";
+import { JEV_DATA_AS_OF, JEV_INPUT_PRICE_PER_MILLION, JEV_MODEL_ID } from "@repo/lib/jev";
 import { LAYA_READ_ON } from "@repo/lib/laya";
+import { topics as spotlight } from "@repo/lib/spotlight";
+import { UNION_ALPHA_REVEAL } from "@repo/lib/union-alpha";
 import { JEV_OURS_MEASURED_ON, oursLatency } from "@repo/lib/jev-our-measurements";
 import { LAYA_OURS_MEASURED_ON, latencyCpu } from "@repo/lib/laya-our-measurements";
 
@@ -69,42 +86,17 @@ const description =
 const canonical = SITE;
 
 /**
- * Six, not four. The card set is "the first models in scenario order", so when
- * the MiMo-V2.6 line went in at the top of the snapshot it pushed Gemini 3.7
- * Flash and GLM 5.3 Flash off the home page entirely — a silent internal-link
- * loss that the link-parity check caught and that four cards could not absorb.
- * Six cards restore both and still fit two rows of three.
- */
-const featuredModels = [
-  ...modelsForScenario("Overall", 3),
-  ...modelsForScenario("Budget", 3),
-].slice(0, 6);
-
-/**
  * The codename this domain is named after. Its numbers come from the catalogue
  * entry it became, so the section cannot drift from the model page.
  */
 const hunterAlpha = getModelBySlug("mimo-v2.5");
 
+/*
+ * Where to go next: the sections that are not already on this page. The model directory, the two
+ * topics and the comparison each have a block of their own above, so repeating them here would be
+ * the same link twice on one screen — which is how this page got to eleven cards the last time.
+ */
 const entryPoints = [
-  {
-    href: "/comparison",
-    kicker: "decide",
-    title: "Compare before you commit",
-    body: "Price, context window and modality side by side — including the free anonymous model next to paid ones.",
-  },
-  {
-    href: "/openrouter-pricing-calculator",
-    kicker: "tool",
-    title: "Estimate your monthly cost",
-    body: "Set token volume and the input/output mix to estimate monthly spend across several models at once.",
-  },
-  {
-    href: "/openrouter-models",
-    kicker: "directory",
-    title: "Every model we track",
-    body: "The list behind the comparison: price, context window, modality support and the workloads each model is good for.",
-  },
   {
     href: "/stealth-models",
     kicker: "register",
@@ -128,29 +120,57 @@ const entryPoints = [
     */
     body: "When a model lands, we read the projects built on it — their code, their measurement files, their limits sections — and write down what holds up. Every entry says what we ran and what we did not.",
   },
+  {
+    href: "/comparison",
+    kicker: "decide",
+    title: "Compare before you commit",
+    body: "Price, context window and modality side by side, fifteen models wide — including the free anonymous model next to paid ones.",
+  },
+  {
+    href: "/openrouter-pricing-calculator",
+    kicker: "tool",
+    title: "Estimate your monthly cost",
+    body: "Set token volume and the input/output mix to estimate monthly spend across several models at once.",
+  },
+  {
+    href: "/alpha-line-report",
+    kicker: "data",
+    title: "The line, as a citable report",
+    body: "Every dated fact we publish about the Alpha line — models, prices, reveals — as a plain page and plain JSON, CC BY 4.0.",
+  },
 ];
-/** Which models the workload cards have already shown, so no two cards repeat. */
+/** Which models the workload strip has already named, so no two entries repeat. */
 const usedInCards = new Set<string>();
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
 /*
- * The two live topics, as cover cards in the hero.
+ * The hero's right-hand card: what we are following right now.
  *
- * The picture on each is the post the topic itself leads with — Jev's launch post, Laya's most
- * liked — because a generated illustration of "a decision model" would say less than the thing
- * somebody actually posted. Each card is playable when the post carries a clip we can hotlink,
- * and each one links to the section, not to the post: the hero's job on this page is routing.
+ * Its topic comes from `lib/spotlight.ts` — the same list the masthead badges read — so "what is
+ * hot" is edited in one data file and never in this page. The media is the post the topic itself
+ * leads with, because a picture of the thing somebody actually posted says more than a generated
+ * illustration of "a decision model".
  *
- * The numbers are read from the same files the columns render (see `lib/topic-wall.ts`), so the
- * counts on the front page cannot drift from the counts inside.
+ * It is playable only when the clip is small enough to be worth it. The first version of this page
+ * played whatever the lead post carried, and that one file was 6.19 MB of a 7.43 MB first load
+ * (`docs/lessons/measure-the-first-screen.md`); the threshold is the fix, and it is a fact about
+ * the row rather than a taste call. A poster-only card is still a link into the section.
  */
-const topics = [
-  {
+const HERO_CLIP_MAX_BYTES = 1_500_000;
+/** The feed's clip cap, the same number for the same reason. */
+const FEED_CLIP_MAX_BYTES = 1_500_000;
+
+/*
+ * Everything a spotlight entry needs to become a card. Kept keyed by href rather than by label,
+ * because the label is editorial and the href is the identity; an entry with no data here is
+ * skipped by the markup instead of printing a card with holes in it.
+ */
+const topicData = {
+  "/typesafe-jev": {
     slug: "jev" as const,
     name: "Jev",
-    href: "/typesafe-jev",
-    blurb: "TypeSafe's decision model, and what people built with it",
+    what: "TypeSafe's decision model: state in, typed decision out. It does not write.",
     verified: JEV_DATA_AS_OF,
     post: jevLaunchPost,
     postLabel: "X post · the launch",
@@ -160,17 +180,16 @@ const topics = [
     recordCount: topicRecords("jev"),
     repos: topicSizes.jev.builds,
   },
-  {
+  "/laya": {
     slug: "laya" as const,
     name: "Laya",
-    href: "/laya",
-    blurb: "The open-weights System One model, and where it runs",
+    what: "The open-weights System One model, from Convai — a decision model you can run yourself.",
     verified: LAYA_READ_ON,
     post: layaTopPost,
     postLabel: "X post · the one that travelled",
     /*
      * Jev's X rows mostly have a page of ours; Laya's link out, and the card says which. Without
-     * this the two hero cards would carry a different number of links (2026-09-25).
+     * this the card would be one link short of the same card for the other topic.
      */
     postLink: layaTopPost
       ? { href: layaTopPost.url, external: true, label: "Read the post on X" }
@@ -178,38 +197,106 @@ const topics = [
     recordCount: topicRecords("laya"),
     repos: topicSizes.laya.builds,
   },
-];
+} as const;
+
+const heroTopic = spotlight.map((entry) => ({ ...entry, data: topicData[entry.href as keyof typeof topicData] })).find((entry) => entry.data);
+
+/** The clip on the hero card, when it is small enough that a first impression is worth the bytes. */
+const heroClip =
+  heroTopic?.data.post?.video && heroTopic.data.post.video.bytes <= HERO_CLIP_MAX_BYTES
+    ? heroTopic.data.post.video.url
+    : undefined;
 
 /*
- * The hub wall: three rows from each of the two topics' four columns, interleaved so no two
- * neighbouring cards come from the same place. Twenty-four cards, which is the sample size the
- * topic covers use *per column* — here it covers both sections at once, and the foot of the wall
- * sends the reader to whichever one they want in full.
+ * The models index: everything this site covers, in one place, and the reason the front page does
+ * not need editing when a model lands.
+ *
+ * Two kinds of row, and the difference matters: the followed topics have a section of their own
+ * (counts, records, a page per record), the catalogue rows are what OpenRouter serves and we
+ * compare. A reader who wants "all the models" gets both; a reader who wants "what are you
+ * following" can tell which is which.
  */
-const WALL_ROWS = 3;
+const followedRows = spotlight
+  .map((entry) => ({ entry, data: topicData[entry.href as keyof typeof topicData] }))
+  .filter((row): row is { entry: (typeof spotlight)[number]; data: NonNullable<(typeof topicData)[keyof typeof topicData]> } => Boolean(row.data))
+  .map(({ entry, data }) => ({
+    name: entry.label,
+    note: data.what,
+    href: entry.href,
+    records: data.recordCount,
+    verified: data.verified,
+  }));
+
+const catalogueRows = openrouterModels.map((model) => ({
+  name: model.name,
+  href: `/openrouter-models/${model.slug}`,
+  vendor: model.formerAlias ? `${model.vendor} · formerly ${model.formerAlias}` : model.vendor,
+  input: formatPrice(model.inputPricePerMillion),
+  output: formatPrice(model.outputPricePerMillion),
+  context: formatContextWindow(model.contextWindow),
+  bestFor: model.bestFor.slice(0, 3).join(" · "),
+}));
+
 /*
- * The two posts the hero already shows are excluded, exactly as the topic covers exclude their
- * own hero row. Without it the launch post is on this page twice — first as a hero card, then as
- * the first card of the wall — which builds two `<video>` elements for one file and makes the
- * reader fetch it twice. That was a real bug on the topic covers (12.2 MB of a 6.5 MB page,
- * found 2026-09-24); it is not being reintroduced here for the sake of a tidier call.
+ * The headline picks, one per workload, as a strip rather than as six cards: the card grid said
+ * the same thing the index below says, one screen further down. Each entry names a different
+ * model — the first version took the top model per scenario and printed Xiaomi MiMo-V2.5 twice.
  */
-const jevWall = topicWall("jev", WALL_ROWS, { excludeXId: jevLaunchPost?.id }).items;
-const layaWall = topicWall("laya", WALL_ROWS, { excludeXId: layaTopPost?.id }).items;
-/** One row of Jev beside one row of Laya, so both sections appear in every band of the wall. */
-const hubWall: typeof jevWall = [];
-for (let row = 0; row < WALL_ROWS; row += 1) {
-  for (let column = 0; column < 4; column += 1) {
-    const jev = jevWall[row * 4 + column];
-    const laya = layaWall[row * 4 + column];
-    if (jev) hubWall.push({ ...jev, kind: `Jev · ${jev.kind}` });
-    if (laya) hubWall.push({ ...laya, kind: `Laya · ${laya.kind}` });
-  }
-}
-const wallColumns = [
+const workloadPicks = defaultScenarios.flatMap((scenario) => {
+  const model = modelsForScenario(scenario.scenario, 4).find((candidate) => !usedInCards.has(candidate.slug));
+  if (!model) return [];
+  usedInCards.add(model.slug);
+  return [{ scenario: scenario.title, model: model.name, href: `/openrouter-models/${model.slug}` }];
+});
+
+/*
+ * The site feed: what landed last that was worth looking at, anywhere. Six cards per topic, merged
+ * by date, each labelled with the topic it came from — the one view of these records that no topic
+ * page provides. The rules (a signal floor per kind, and both topics getting their turn) live in
+ * `siteFeed` with the numbers that calibrated them.
+ */
+const FEED_PER_TOPIC = 6;
+const feed = siteFeed(FEED_PER_TOPIC, { excludeXId: heroTopic?.data.post?.id }).map((row) => ({
+  ...row,
+  kind: `${TOPIC_LABEL[row.topic]} · ${row.kind}`,
+  /*
+   * Same rule as the hero card, and for the same reason: playing a clip in place is a choice the
+   * page makes per row, and a 2.6 MB clip in a twelve-card feed is not the same offer as a 0.3 MB
+   * one. Measured on this page: every clip plays and the whole scroll cost 11.2 MB, with two files
+   * making up 6.5 of it. Over the cap the card keeps its poster and links to the source, which is
+   * what a reader who wants the video is going to do anyway.
+   */
+  video: row.videoBytes !== undefined && row.videoBytes <= FEED_CLIP_MAX_BYTES ? row.video : undefined,
+}));
+const feedColumns = [
   { label: "Jev", href: "/typesafe-jev", count: topicRecords("jev") },
   { label: "Laya", href: "/laya", count: topicRecords("laya") },
 ];
+
+/*
+ * What the codenames turned out to be, on the first screen.
+ *
+ * This is the page's search intent, stated as a fact: GSC has the site at position 6.9 for
+ * "hunter alpha" and 3.4 for "hunter alpha ai" (20% CTR), and neither the h1 nor the title carries
+ * the phrase. The answer was on this page all along — nine screens down, in the Hunter Alpha
+ * section. Both rows are read from the catalogue, so a price change moves them.
+ */
+const codenameAnswer = [
+  hunterAlpha
+    ? {
+        codename: "Hunter Alpha",
+        found: hunterAlpha.name,
+        detail: `${hunterAlpha.vendor} · listed March 2026 · ${formatContextWindow(hunterAlpha.contextWindow)} context · ${formatPrice(hunterAlpha.inputPricePerMillion)} in / ${formatPrice(hunterAlpha.outputPricePerMillion)} out per million`,
+        href: "/hunter-alpha",
+      }
+    : null,
+  {
+    codename: "Union Alpha",
+    found: UNION_ALPHA_REVEAL.name,
+    detail: `${UNION_ALPHA_REVEAL.vendor} · listed 16 September 2026 · revealed ${UNION_ALPHA_REVEAL.modelId} · ${formatPrice(UNION_ALPHA_REVEAL.inputPricePerMillion)} in / ${formatPrice(UNION_ALPHA_REVEAL.outputPricePerMillion)} out per million`,
+    href: "/union-alpha",
+  },
+].filter((row): row is NonNullable<typeof row> => Boolean(row));
 
 /*
  * Four numbers about the whole site rather than about one model. The pattern is the topic covers'
@@ -299,83 +386,204 @@ const hubStats = [
       </p>
     </div>
 
-    <div class="hero-media">
-      {topics.map(
-        (topic) =>
-          topic.post && (
-            <figure class="hero-card">
-              {/*
-                A poster, not a player, and that is a weight decision with a number behind it
-                (2026-09-25). The topic covers play their hero clip in place, and the launch post's
-                mp4 is 6.19 MB — on the cover that is the page's subject, but on the front page it
-                would be most of the download for a card whose job is routing. Measured on this
-                page before the change: 7.43 MB on load, 6.19 of it that one file. The wall below
-                still plays its clips (the largest is 0.25 MB), so the page keeps the "it is
-                moving" effect without the hero paying for it.
+    {/*
+      One card, not a slide deck: **what we are following right now**, from `lib/spotlight.ts`.
+      The card is the whole right column so the picture is worth looking at, and it carries the
+      topic's own counts and its own date.
 
-                The picture is a link into the section, so the card has one obvious action: click
-                the cover, land on the topic.
-              */}
-              <a class="card-media hero-media-link" href={topic.href} style={`--ratio: ${topic.post.thumbW} / ${topic.post.thumbH}`}>
-                <span class="card-src">{topic.postLabel}</span>
-                <img
-                  src={topic.post.thumb}
-                  alt=""
-                  width={topic.post.thumbW}
-                  height={topic.post.thumbH}
-                  decoding="async"
-                  referrerpolicy="no-referrer"
-                />
-              </a>
-              <figcaption class="hero-cap">
-                <span class="hero-cap-title">{topic.name}: {topic.blurb}</span>
-                <span class="hero-cap-meta">
-                  {fmt(topic.recordCount)} records · {fmt(topic.repos)} repositories · verified{" "}
-                  {topic.verified}
-                </span>
-                <a class="hero-cap-link" href={topic.href}>
-                  Everything on {topic.name} →
+      Marked `data-generated`: the spotlight is a sample of one, and the record page it links to
+      changes when the spotlight does — so the link-parity guard has to ignore it. The codename
+      strip and the models index are navigation and are deliberately *not* marked: a link missing
+      from those means a model left the catalogue, which is what the guard should stop and ask
+      about. (The first attempt marked them, and the guard reported the six model links the old
+      cards carried as dropped — its job, on a marker I put in the wrong place.)
+    */}
+    <div class="hero-media">
+      {heroTopic?.data.post && (
+        <figure class="hero-card" data-generated="hero-spotlight">
+          {heroClip ? (
+            <button
+              class="xvideo-facade"
+              type="button"
+              data-xvideo={heroClip}
+              data-poster={heroTopic.data.post.thumb}
+              aria-label={`Play the clip on this ${heroTopic.data.name} card`}
+            >
+              <span class="card-src">{heroTopic.data.postLabel}</span>
+              <img
+                src={heroTopic.data.post.thumb}
+                alt=""
+                width={heroTopic.data.post.thumbW}
+                height={heroTopic.data.post.thumbH}
+                decoding="async"
+                referrerpolicy="no-referrer"
+              />
+              <span class="xvideo-play" aria-hidden="true">▶</span>
+            </button>
+          ) : (
+            <a
+              class="card-media"
+              href={heroTopic.href}
+              style={`--ratio: ${heroTopic.data.post.thumbW} / ${heroTopic.data.post.thumbH}`}
+            >
+              <span class="card-src">{heroTopic.data.postLabel}</span>
+              <img
+                src={heroTopic.data.post.thumb}
+                alt=""
+                width={heroTopic.data.post.thumbW}
+                height={heroTopic.data.post.thumbH}
+                decoding="async"
+                referrerpolicy="no-referrer"
+              />
+            </a>
+          )}
+          <figcaption class="hero-cap">
+            <span class="hero-cap-kicker">Following now · verified {heroTopic.data.verified}</span>
+            <span class="hero-cap-title">{heroTopic.data.name} — {heroTopic.data.what}</span>
+            <span class="hero-cap-meta">
+              {fmt(heroTopic.data.recordCount)} records · {fmt(heroTopic.data.repos)} repositories
+            </span>
+            <a class="hero-cap-link" href={heroTopic.href}>
+              Everything on {heroTopic.data.name} →
+            </a>
+            {heroTopic.data.postLink && (
+              <>
+                {" "}
+                <a
+                  class="hero-cap-link"
+                  href={heroTopic.data.postLink.href}
+                  rel={heroTopic.data.postLink.external ? "noopener noreferrer" : undefined}
+                >
+                  {heroTopic.data.postLink.label} →
                 </a>
-                {topic.postLink && (
-                  <>
-                    {" "}
-                    <a
-                      class="hero-cap-link"
-                      href={topic.postLink.href}
-                      rel={topic.postLink.external ? "noopener noreferrer" : undefined}
-                    >
-                      {topic.postLink.label} →
-                    </a>
-                  </>
-                )}
-              </figcaption>
-            </figure>
-          ),
+              </>
+            )}
+          </figcaption>
+        </figure>
       )}
     </div>
   </section>
 
   {/*
-    The wall. This is the section the reader was asking for: the front page should show that the
-    site is alive, the way the topic covers do, without becoming a copy of either one. It is a
-    sample, it says so, and its foot sends you into whichever section you came for.
+    The codename answer, on the first screen after the fold.
+
+    This page is found for "hunter alpha" (1,423 impressions, position 6.9) and "hunter alpha ai"
+    (position 3.4, 20% CTR), and until now the answer lived nine screens down in the Hunter Alpha
+    section — while the h1 and the title never said the phrase at all. A reader who searched a
+    codename now gets codename → model, dated, before they scroll.
   */}
-  <section class="topic-wall" data-generated="hub-wall">
-    <h2>What people are building, both sections</h2>
-    <p class="wall-note">
-      The newest cards from the two model sections, mixed: projects, posts, recordings and threads.
-      Every card links to our own page where we have one and to the source where we do not — a card
-      marked <strong>source</strong> leaves this site. The lists behind these twenty-four are the
-      columns, and each column has its own filters.
-    </p>
-    <TopicWall
-      items={hubWall}
-      columns={wallColumns}
-      footPrefix="Both sections, in full:"
-    />
+  {/*
+    Not marked `data-generated`, and that is deliberate: the marker tells the link-parity guard to
+    ignore everything inside, and this block's two links are fixed navigation, not a sample. The
+    same goes for the models index below — it lists every model, so a link missing from it is a
+    model that left the catalogue, which is exactly what the guard should stop and ask about.
+    (First attempt marked both. It reported the six model links the old cards used to carry as
+    "dropped", which is the guard doing its job on a marker I put in the wrong place.)
+  */}
+  <section class="answer-strip">
+    <h2 class="answer-strip-title">What the codenames turned out to be</h2>
+    <dl class="answer-list">
+      {codenameAnswer.map((row) => (
+        <div class="answer-row">
+          <dt><a href={row.href}>{row.codename}</a></dt>
+          <dd>
+            <span class="answer-found">→ {row.found}</span>
+            <span class="answer-detail">{row.detail}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
   </section>
 
-  {/* The player for any clip the hero or the wall rendered (see TopicWall.astro). */}
+  {/*
+    The models index: every model this site covers, in one place, and the reason this page does not
+    need editing when a model lands. Followed topics first (they have sections, records and counts),
+    then the catalogue snapshot (what OpenRouter serves, which we compare and price).
+  */}
+  <section class="models-index">
+    <h2>Every model on this site</h2>
+    <p class="wall-note">
+      Two kinds of row. The ones we <strong>follow</strong> have a section of their own — a page per
+      record, our own measurements, and the projects people built. The rest are served by OpenRouter
+      and read from its catalogue, which is what the comparison and the calculator price.
+    </p>
+
+    <h3 class="index-sub">We follow these</h3>
+    <ul class="followed-list">
+      {followedRows.map((row) => (
+        <li>
+          <a class="followed-name" href={row.href}>{row.name}</a>
+          <span class="followed-note">{row.note}</span>
+          <span class="followed-meta">
+            {fmt(row.records)} records · verified {row.verified}
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="index-sub">All {catalogueRows.length} models in the catalogue</h3>
+    {/*
+      A table, not cards: this is a price list, and a price list is read down a column. `data-label`
+      carries the column name into the narrow-screen layout, where each row becomes a block.
+    */}
+    <table class="model-table">
+      <thead>
+        <tr>
+          <th scope="col">Model</th>
+          <th scope="col">In / out per 1M</th>
+          <th scope="col">Context</th>
+          <th scope="col">Best for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {catalogueRows.map((row) => (
+          <tr>
+            <th scope="row">
+              <a href={row.href}>{row.name}</a>
+              <span class="model-vendor">{row.vendor}</span>
+            </th>
+            <td data-label="In / out per 1M">
+              {row.input} / {row.output}
+            </td>
+            <td data-label="Context">{row.context}</td>
+            <td data-label="Best for">{row.bestFor}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <p class="wall-note">
+      The pick for each workload, named:{" "}
+      {workloadPicks.map((pick, index) => (
+        <>
+          {index > 0 && " · "}
+          <a href={pick.href}>{pick.model}</a> <span class="pick-scenario">({pick.scenario})</span>
+        </>
+      ))}{" "}
+      — see <a href="/best-openrouter-models">the full reasoning</a> or{" "}
+      <a href="/openrouter-models">the directory</a>.
+    </p>
+  </section>
+
+  {/*
+    The feed: what landed last, anywhere on the site — date-ordered, twelve cards, each labelled
+    with the topic it came from. It is the one view of these records that no topic page has (a
+    topic cover shows its *best* rows per column, not the newest rows anywhere), and it is the band
+    that keeps working when a third model arrives.
+  */}
+  <section class="topic-wall" data-generated="site-feed">
+    <h2>Latest across the site</h2>
+    <p class="wall-note">
+      The strongest recent records, newest first — projects, posts, recordings and threads from
+      every model we follow. A row gets here once somebody other than us has looked at it: a post
+      with a hundred likes, a repository with a hundred stars, a thread with fifteen points. Each
+      card links to our own page where we have one and to the source where we do not — a card
+      marked <strong>source</strong> leaves this site.
+    </p>
+    <TopicWall items={feed} columns={feedColumns} footPrefix="Both sections, in full:" />
+  </section>
+
+  {/* The player for any clip the hero or the feed rendered (see TopicWall.astro). */}
   <XClipWall />
 
   {/*
@@ -392,52 +600,6 @@ const hubStats = [
         <p class="card-kicker">{entry.kicker}</p>
         <h3 class="card-title"><a href={entry.href}>{entry.title}</a></h3>
         <p class="card-body">{entry.body}</p>
-      </article>
-    ))}
-  </div>
-
-  <h2>Best pick by workload</h2>
-  <div class="grid-cards">
-    {/*
-      Six scenarios, not four (2026-09-25): four cards in a three-column grid left the last row
-      two-thirds empty on the page most people land on. The catalogue has six scenarios; the grid
-      has three columns; the arithmetic was the whole argument.
-    */}
-    {defaultScenarios.slice(0, 6).map((scenario) => {
-      /*
-       * Each card must name a different model: the first version took
-       * modelsForScenario(...)[0] for each, so "Best for long context" and "Best
-       * for budget" both printed Xiaomi MiMo-V2.5 — the two cards a reader
-       * compares side by side were the same model, which reads as a bug in the
-       * page and undermines the recommendation.
-       */
-      const model = modelsForScenario(scenario.scenario, 4).find((candidate) => !usedInCards.has(candidate.slug));
-      if (!model) return null;
-      usedInCards.add(model.slug);
-      return (
-        <article class="card">
-          <p class="card-kicker">{scenario.title}</p>
-          <h3 class="card-title"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></h3>
-          {/*
-            What the scenario means, then who makes the model. Before 2026-09-25 the body was the
-            vendor alone, so a reader comparing "Best for coding" with "Best for long context" got
-            two cards saying "Anthropic" and "Xiaomi" — the one thing they could already see in the
-            model name above.
-          */}
-          <p class="card-body">{scenario.description}</p>
-          <p class="card-meta">{model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}</p>
-        </article>
-      );
-    })}
-  </div>
-
-  <h2>A few models worth a look</h2>
-  <div class="grid-cards">
-    {featuredModels.map((model) => (
-      <article class="card">
-        <h3 class="card-title"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></h3>
-        <p class="card-body">{model.bestFor.join(" · ")}</p>
-        <p class="card-meta">{model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}</p>
       </article>
     ))}
   </div>
@@ -479,11 +641,9 @@ const hubStats = [
 
 <style>
   /*
-   * `.feature` / `.pill` / `.feature-note` / `.feature-cta` were the Union Alpha banner's styles
-   * and went with it on 2026-09-25 — the codename is one of the routing cards below, and a banner
-   * for a model that was revealed a week ago is a page that has stopped reading its own data.
-   * The hero, the numbers strip and the wall band come from `system.css`; nothing in this page's
-   * own style block is new except the two card grids that were already here.
+   * The hero, the numbers strip and the card band come from the "front pages" section of
+   * `system.css` — three callers now, so they are shared rather than copied. What is left here is
+   * what only this page has: the codename answer, the model index, and the routing cards.
    */
   .grid-cards {
     display: grid;
@@ -491,27 +651,136 @@ const hubStats = [
     gap: var(--space-4);
     margin-bottom: var(--space-8);
   }
-  .card-kicker {
-    margin: 0;
+  .card-kicker { margin: 0; font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); }
+  .card-title { margin: var(--space-1) 0 var(--space-2); font-size: var(--text-lg); }
+  .card-body { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .card-meta { margin: var(--space-2) 0 0; color: var(--text-faint); font-size: var(--text-xs); }
+
+  /* The hero card's eyebrow: "Following now", which is the one thing on the card that changes
+     week to week, so it is labelled rather than implied. */
+  .hero-cap-kicker {
+    font-family: var(--mono);
     font-size: var(--text-xs);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-faint);
   }
-  .card-title {
-    margin: var(--space-1) 0 var(--space-2);
-    font-size: var(--text-lg);
+
+  /*
+   * The codename answer. A definition list, because that is what it is — two terms and two
+   * answers — and it reads as one line per codename rather than as two more cards.
+   */
+  .answer-strip {
+    border-top: 2px solid var(--border-strong);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-5) 0;
+    margin: var(--space-8) 0 var(--space-10);
   }
-  .card-body {
-    margin: 0;
+  .answer-strip-title {
+    margin: 0 0 var(--space-4);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--text-muted);
+    font-weight: 400;
+  }
+  .answer-list { margin: 0; display: grid; gap: var(--space-4); }
+  .answer-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 180px) minmax(0, 1fr);
+    gap: var(--space-2) var(--space-5);
+    align-items: baseline;
+  }
+  .answer-row dt { font-family: var(--sans); font-size: var(--text-lg); font-weight: 600; }
+  .answer-row dd { margin: 0; display: flex; flex-direction: column; gap: 2px; }
+  .answer-found { font-weight: 600; }
+  .answer-detail { font-size: var(--text-sm); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 620px) {
+    .answer-row { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /*
+   * The models index.
+   *
+   * This is the "all the models in one place" layer the reader asked for, and the answer to "does
+   * the front page need editing when a model lands": no — the catalogue half is the snapshot, and
+   * the followed half is the spotlight list, so neither is typed here.
+   *
+   * A table for the catalogue half rather than cards, because a price list is read down a column.
+   * On a narrow screen each row becomes a block and `data-label` supplies the column name, which
+   * is the one thing a stacked table otherwise loses.
+   */
+  .models-index { margin-bottom: var(--space-12); }
+  .index-sub {
+    margin: var(--space-6) 0 var(--space-3);
+    font-size: var(--text-sm);
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .followed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+  .followed-list li {
+    display: grid;
+    grid-template-columns: minmax(120px, 160px) minmax(0, 1fr) minmax(0, 200px);
+    gap: var(--space-2) var(--space-5);
+    align-items: baseline;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: var(--space-4) var(--space-5);
+  }
+  .followed-name { font-family: var(--sans); font-size: var(--text-lg); font-weight: 600; }
+  .followed-note { color: var(--text-muted); font-size: var(--text-sm); }
+  .followed-meta { color: var(--text-faint); font-size: var(--text-xs); font-variant-numeric: tabular-nums; text-align: right; }
+  @media (max-width: 760px) {
+    .followed-list li { grid-template-columns: minmax(0, 1fr); }
+    .followed-meta { text-align: left; }
+  }
+
+  .model-table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: var(--text-sm);
   }
-  .card-meta {
-    margin: var(--space-2) 0 0;
-    color: var(--text-faint);
-    font-size: var(--text-xs);
+  .model-table th,
+  .model-table td {
+    text-align: left;
+    vertical-align: baseline;
+    padding: var(--space-3) var(--space-3) var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
   }
+  .model-table thead th {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 400;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .model-table tbody th { font-weight: 600; }
+  .model-table td { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .model-vendor { display: block; font-weight: 400; font-size: var(--text-xs); color: var(--text-faint); }
+  @media (max-width: 760px) {
+    .model-table thead { display: none; }
+    .model-table tr { display: block; padding: var(--space-4) 0; border-bottom: 1px solid var(--border); }
+    .model-table th, .model-table td { display: block; border: 0; padding: 0; }
+    .model-table tbody td::before {
+      content: attr(data-label) " · ";
+      font-family: var(--mono);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-faint);
+    }
+    .model-table tbody td { margin-top: var(--space-2); }
+  }
+  /* The workload picks: one sentence under the table, not six cards above it. */
+  .pick-scenario { color: var(--text-faint); }
+
   .hunter {
     margin-bottom: var(--space-10);
   }
