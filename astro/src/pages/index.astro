@@ -16,19 +16,51 @@
  * Structure follows ADR-0012: the homepage is the [primary] layer, and its job is
  * to route into the second tier — the live codename, the register, the
  * comparison — not to be a third copy of them.
+ *
+ * ## The 2026-09-25 pass: it stopped being the plain page
+ *
+ * The reader's note was "咱们把专题页做的很好，网站首页显得反而有点简陋了". They
+ * were right, and the cause was structural rather than cosmetic: the two model
+ * covers had grown a hero, a numbers strip and a wall of real cards, and the page
+ * most people land on first had none of them — it was five rows of text cards.
+ *
+ * So the front page took the same three shapes (they now live in the "front pages"
+ * section of `system.css`, and the card mapping in `lib/topic-wall.ts`, because
+ * three callers is where duplication stops being cheaper than sharing):
+ *
+ *   1. the hero is words left, **something real right** — one cover card per live
+ *      topic, so the page shows what it tracks rather than describing it;
+ *   2. the numbers strip counts what the whole site holds, not one topic;
+ *   3. a wall of twenty-four cards interleaved from both topics, which is the
+ *      answer to "is there anything here?" in one screen.
+ *
+ * What it did not do, deliberately: change the title, the description, the h1 or
+ * the canonical. This page carries 232 of the site's 237 clicks over 90 days
+ * (position 2.8 for "hunter alpha ai"), and a redesign is not a reason to rewrite
+ * the strings that earn them.
  */
 import System from "../layouts/System.astro";
 import JsonLd from "../components/JsonLd.astro";
 import Provenance from "../components/Provenance.astro";
+import TopicWall from "../components/TopicWall.astro";
+import XClipWall from "../components/XClipWall.astro";
+import { topicRecords, topicSizes, topicWall } from "../lib/topic-wall";
 import { breadcrumbSchema, SITE, SITE_NAME, webSiteSchema } from "../lib/schema";
 import {
   defaultScenarios,
+  openrouterModels,
   formatContextWindow,
   formatPrice,
   getModelBySlug,
   modelsForScenario,
   modelHubDataAsOf,
 } from "@repo/lib/openrouter-models";
+import { jevLaunchPost } from "@repo/lib/jev-x-posts";
+import { layaTopPost } from "@repo/lib/laya-x-posts";
+import { JEV_DATA_AS_OF } from "@repo/lib/jev";
+import { LAYA_READ_ON } from "@repo/lib/laya";
+import { JEV_OURS_MEASURED_ON, oursLatency } from "@repo/lib/jev-our-measurements";
+import { LAYA_OURS_MEASURED_ON, latencyCpu } from "@repo/lib/laya-our-measurements";
 
 const title = "OpenRouter Model Hub — Compare AI Models: Pricing, Context & Benchmarks";
 const description =
@@ -56,10 +88,22 @@ const hunterAlpha = getModelBySlug("mimo-v2.5");
 
 const entryPoints = [
   {
-    href: "/union-alpha",
-    kicker: "revealed",
-    title: "Union Alpha",
-    body: "The third Alpha-line codename: listed 16 September, revealed as Unbiased Pareto on the 18th, with the specs, the timeline and the new price.",
+    href: "/comparison",
+    kicker: "decide",
+    title: "Compare before you commit",
+    body: "Price, context window and modality side by side — including the free anonymous model next to paid ones.",
+  },
+  {
+    href: "/openrouter-pricing-calculator",
+    kicker: "tool",
+    title: "Estimate your monthly cost",
+    body: "Set token volume and the input/output mix to estimate monthly spend across several models at once.",
+  },
+  {
+    href: "/openrouter-models",
+    kicker: "directory",
+    title: "Every model we track",
+    body: "The list behind the comparison: price, context window, modality support and the workloads each model is good for.",
   },
   {
     href: "/stealth-models",
@@ -68,16 +112,10 @@ const entryPoints = [
     body: "Each anonymous model, what it turned out to be, and what it costs after the reveal.",
   },
   {
-    href: "/typesafe-jev",
-    kicker: "topic",
-    title: "Jev, and what people built with it",
-    body: "A model that does not write: the specs and our own measurements, plus the resources, the Hacker News threads, the recordings and the projects people put it inside.",
-  },
-  {
-    href: "/comparison",
-    kicker: "decide",
-    title: "Compare before you commit",
-    body: "Price, context window and modality side by side — including the free anonymous model next to paid ones.",
+    href: "/union-alpha",
+    kicker: "revealed",
+    title: "Union Alpha",
+    body: "The third Alpha-line codename: listed 16 September, revealed as Unbiased Pareto on the 18th, with the specs, the timeline and the new price.",
   },
   {
     href: "/field-notes",
@@ -94,13 +132,124 @@ const entryPoints = [
 /** Which models the workload cards have already shown, so no two cards repeat. */
 const usedInCards = new Set<string>();
 
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+/*
+ * The two live topics, as cover cards in the hero.
+ *
+ * The picture on each is the post the topic itself leads with — Jev's launch post, Laya's most
+ * liked — because a generated illustration of "a decision model" would say less than the thing
+ * somebody actually posted. Each card is playable when the post carries a clip we can hotlink,
+ * and each one links to the section, not to the post: the hero's job on this page is routing.
+ *
+ * The numbers are read from the same files the columns render (see `lib/topic-wall.ts`), so the
+ * counts on the front page cannot drift from the counts inside.
+ */
+const topics = [
+  {
+    slug: "jev" as const,
+    name: "Jev",
+    href: "/typesafe-jev",
+    blurb: "TypeSafe's decision model, and what people built with it",
+    verified: JEV_DATA_AS_OF,
+    post: jevLaunchPost,
+    postLabel: "X post · the launch",
+    postLink: jevLaunchPost?.page
+      ? { href: `/typesafe-jev/x-posts/${jevLaunchPost.page.slug}`, external: false, label: "What this post claims, and what we make of it" }
+      : undefined,
+    recordCount: topicRecords("jev"),
+    repos: topicSizes.jev.builds,
+  },
+  {
+    slug: "laya" as const,
+    name: "Laya",
+    href: "/laya",
+    blurb: "The open-weights System One model, and where it runs",
+    verified: LAYA_READ_ON,
+    post: layaTopPost,
+    postLabel: "X post · the one that travelled",
+    /*
+     * Jev's X rows mostly have a page of ours; Laya's link out, and the card says which. Without
+     * this the two hero cards would carry a different number of links (2026-09-25).
+     */
+    postLink: layaTopPost
+      ? { href: layaTopPost.url, external: true, label: "Read the post on X" }
+      : undefined,
+    recordCount: topicRecords("laya"),
+    repos: topicSizes.laya.builds,
+  },
+];
+
+/*
+ * The hub wall: three rows from each of the two topics' four columns, interleaved so no two
+ * neighbouring cards come from the same place. Twenty-four cards, which is the sample size the
+ * topic covers use *per column* — here it covers both sections at once, and the foot of the wall
+ * sends the reader to whichever one they want in full.
+ */
+const WALL_ROWS = 3;
+/*
+ * The two posts the hero already shows are excluded, exactly as the topic covers exclude their
+ * own hero row. Without it the launch post is on this page twice — first as a hero card, then as
+ * the first card of the wall — which builds two `<video>` elements for one file and makes the
+ * reader fetch it twice. That was a real bug on the topic covers (12.2 MB of a 6.5 MB page,
+ * found 2026-09-24); it is not being reintroduced here for the sake of a tidier call.
+ */
+const jevWall = topicWall("jev", WALL_ROWS, { excludeXId: jevLaunchPost?.id }).items;
+const layaWall = topicWall("laya", WALL_ROWS, { excludeXId: layaTopPost?.id }).items;
+/** One row of Jev beside one row of Laya, so both sections appear in every band of the wall. */
+const hubWall: typeof jevWall = [];
+for (let row = 0; row < WALL_ROWS; row += 1) {
+  for (let column = 0; column < 4; column += 1) {
+    const jev = jevWall[row * 4 + column];
+    const laya = layaWall[row * 4 + column];
+    if (jev) hubWall.push({ ...jev, kind: `Jev · ${jev.kind}` });
+    if (laya) hubWall.push({ ...laya, kind: `Laya · ${laya.kind}` });
+  }
+}
+const wallColumns = [
+  { label: "Jev", href: "/typesafe-jev", count: topicRecords("jev") },
+  { label: "Laya", href: "/laya", count: topicRecords("laya") },
+];
+
+/*
+ * Four numbers about the whole site rather than about one model. The pattern is the topic covers'
+ * pattern — three counts and one figure of our own — because that last tile is the argument this
+ * site is making: at least one number on the page came out of a machine we own.
+ */
+const hubStats = [
+  {
+    value: fmt(openrouterModels.length),
+    label: "models in the directory",
+    note: `price, context and modality, read ${modelHubDataAsOf}`,
+  },
+  {
+    value: fmt(topicRecords("jev") + topicRecords("laya")),
+    label: "records in the two sections",
+    note: `${fmt(topicRecords("jev"))} Jev · ${fmt(topicRecords("laya"))} Laya, every one dated`,
+  },
+  {
+    value: fmt(topicSizes.jev.builds + topicSizes.laya.builds),
+    label: "repositories we track",
+    note: "stars re-read by the GitHub ingest, never typed",
+  },
+  {
+    value: "2",
+    label: "models we ran ourselves",
+    note: `Jev ${oursLatency.median} ms (${JEV_OURS_MEASURED_ON}) and Laya ${latencyCpu[0].p50} s (${LAYA_OURS_MEASURED_ON}) per question`,
+  },
+];
 ---
 {/*
   No `| OpenRouter Model Hub` suffix here, unlike every other page: the live
   homepage title is used verbatim, and the root title is the single most
   valuable indexed string on the site. The parity check caught this.
 */}
-<System title={title} description={description} canonical={canonical} wide>
+{/*
+  `noReferrer` is required from this build onwards: the hero and the wall hotlink clips from X's
+  CDN, and video.twimg.com answers 403 to any request carrying a third-party Referer (see the prop
+  in System.astro — the topic covers have carried it since their clips went in).
+*/}
+<System title={title} description={description} canonical={canonical} wide noReferrer>
   <JsonLd
     slot="head"
     data={webSiteSchema({
@@ -112,34 +261,136 @@ const usedInCards = new Set<string>();
   />
   <JsonLd slot="head" data={breadcrumbSchema([{ name: "Home", url: canonical }])} />
 
-  <p class="kicker">OpenRouter model index</p>
-  <h1 class="display">Find the Right AI Model</h1>
-  <p class="lede">
-    Compare 15+ AI models on OpenRouter side-by-side. Pricing, context windows, modality support and
-    practical recommendations — read from the public catalogue and dated.
-  </p>
-  <div class="byline">
-    <span>Snapshot {modelHubDataAsOf}</span>
-    <span>Drift-checked daily</span>
-  </div>
+  {/*
+    The hero: words left, something real right. The right column is one cover card per live topic
+    — the picture the topic itself leads with, playable when that post carries a clip, and linking
+    into the section rather than into the post.
 
-  <p class="hero-actions">
-    <a class="btn primary" href="/comparison">Compare models</a>
-    <a class="btn ghost" href="/best-openrouter-models">See best picks</a>
-  </p>
+    The reader asked for this shape on the topic covers on 2026-09-24 ("一般网站左侧是文字介绍，
+    右侧是图") and asked why the front page did not have it on 2026-09-25. It is the same shape:
+    `.topic-hero` from `system.css`.
+  */}
+  <section class="topic-hero">
+    <div class="hero-copy">
+      <p class="card-eyebrow">OpenRouter model index</p>
+      <h1 class="display">Find the Right AI Model</h1>
+      <p class="lede">
+        Compare 15+ AI models on OpenRouter side-by-side. Pricing, context windows, modality support
+        and practical recommendations — read from the public catalogue and dated.
+      </p>
+      <p class="provenance">
+        <span>Snapshot {modelHubDataAsOf}</span>
+        <span>Drift-checked daily</span>
+      </p>
 
-  <a class="feature" href="/union-alpha">
-    <span class="pill">Revealed 2026-09-18</span>
-    <strong>Union Alpha turned out to be Unbiased Pareto</strong>
-    <span class="feature-note">256K context · image input · free for two days, billed since</span>
-    <span class="feature-cta">Read the reveal →</span>
-  </a>
+      <ul class="stat-row">
+        {hubStats.map((stat) => (
+          <li>
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+            <span class="stat-note">{stat.note}</span>
+          </li>
+        ))}
+      </ul>
 
+      <p class="hero-actions">
+        <a class="btn primary" href="/comparison">Compare models</a>
+        <a class="btn ghost" href="/best-openrouter-models">See best picks</a>
+      </p>
+    </div>
+
+    <div class="hero-media">
+      {topics.map(
+        (topic) =>
+          topic.post && (
+            <figure class="hero-card">
+              {/*
+                A poster, not a player, and that is a weight decision with a number behind it
+                (2026-09-25). The topic covers play their hero clip in place, and the launch post's
+                mp4 is 6.19 MB — on the cover that is the page's subject, but on the front page it
+                would be most of the download for a card whose job is routing. Measured on this
+                page before the change: 7.43 MB on load, 6.19 of it that one file. The wall below
+                still plays its clips (the largest is 0.25 MB), so the page keeps the "it is
+                moving" effect without the hero paying for it.
+
+                The picture is a link into the section, so the card has one obvious action: click
+                the cover, land on the topic.
+              */}
+              <a class="card-media hero-media-link" href={topic.href} style={`--ratio: ${topic.post.thumbW} / ${topic.post.thumbH}`}>
+                <span class="card-src">{topic.postLabel}</span>
+                <img
+                  src={topic.post.thumb}
+                  alt=""
+                  width={topic.post.thumbW}
+                  height={topic.post.thumbH}
+                  decoding="async"
+                  referrerpolicy="no-referrer"
+                />
+              </a>
+              <figcaption class="hero-cap">
+                <span class="hero-cap-title">{topic.name}: {topic.blurb}</span>
+                <span class="hero-cap-meta">
+                  {fmt(topic.recordCount)} records · {fmt(topic.repos)} repositories · verified{" "}
+                  {topic.verified}
+                </span>
+                <a class="hero-cap-link" href={topic.href}>
+                  Everything on {topic.name} →
+                </a>
+                {topic.postLink && (
+                  <>
+                    {" "}
+                    <a
+                      class="hero-cap-link"
+                      href={topic.postLink.href}
+                      rel={topic.postLink.external ? "noopener noreferrer" : undefined}
+                    >
+                      {topic.postLink.label} →
+                    </a>
+                  </>
+                )}
+              </figcaption>
+            </figure>
+          ),
+      )}
+    </div>
+  </section>
+
+  {/*
+    The wall. This is the section the reader was asking for: the front page should show that the
+    site is alive, the way the topic covers do, without becoming a copy of either one. It is a
+    sample, it says so, and its foot sends you into whichever section you came for.
+  */}
+  <section class="topic-wall" data-generated="hub-wall">
+    <h2>What people are building, both sections</h2>
+    <p class="wall-note">
+      The newest cards from the two model sections, mixed: projects, posts, recordings and threads.
+      Every card links to our own page where we have one and to the source where we do not — a card
+      marked <strong>source</strong> leaves this site. The lists behind these twenty-four are the
+      columns, and each column has its own filters.
+    </p>
+    <TopicWall
+      items={hubWall}
+      columns={wallColumns}
+      footPrefix="Both sections, in full:"
+    />
+  </section>
+
+  {/* The player for any clip the hero or the wall rendered (see TopicWall.astro). */}
+  <XClipWall />
+
+  {/*
+    The routing row. It used to carry a fifth card for the Jev topic; that card went when the hero
+    grew a cover per topic (2026-09-25), because the same link twice on one screen is the page
+    arguing with itself about which one is the entrance. The Union Alpha banner that sat above this
+    row went for the same reason: it is one of these cards, and the codename stopped being the news
+    the moment it was revealed.
+  */}
+  <h2>Where to go next</h2>
   <div class="grid-cards">
     {entryPoints.map((entry) => (
       <article class="card">
         <p class="card-kicker">{entry.kicker}</p>
-        <h2 class="card-title"><a href={entry.href}>{entry.title}</a></h2>
+        <h3 class="card-title"><a href={entry.href}>{entry.title}</a></h3>
         <p class="card-body">{entry.body}</p>
       </article>
     ))}
@@ -147,13 +398,18 @@ const usedInCards = new Set<string>();
 
   <h2>Best pick by workload</h2>
   <div class="grid-cards">
-    {defaultScenarios.slice(0, 4).map((scenario) => {
+    {/*
+      Six scenarios, not four (2026-09-25): four cards in a three-column grid left the last row
+      two-thirds empty on the page most people land on. The catalogue has six scenarios; the grid
+      has three columns; the arithmetic was the whole argument.
+    */}
+    {defaultScenarios.slice(0, 6).map((scenario) => {
       /*
-       * Four scenarios, and each card must name a different model: the first
-       * version took modelsForScenario(...)[0] for each, so "Best for long
-       * context" and "Best for budget" both printed Xiaomi MiMo-V2.5 — the two
-       * cards a reader compares side by side were the same model, which reads as
-       * a bug in the page and undermines the recommendation.
+       * Each card must name a different model: the first version took
+       * modelsForScenario(...)[0] for each, so "Best for long context" and "Best
+       * for budget" both printed Xiaomi MiMo-V2.5 — the two cards a reader
+       * compares side by side were the same model, which reads as a bug in the
+       * page and undermines the recommendation.
        */
       const model = modelsForScenario(scenario.scenario, 4).find((candidate) => !usedInCards.has(candidate.slug));
       if (!model) return null;
@@ -162,28 +418,17 @@ const usedInCards = new Set<string>();
         <article class="card">
           <p class="card-kicker">{scenario.title}</p>
           <h3 class="card-title"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></h3>
-          <p class="card-body">{model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}</p>
+          {/*
+            What the scenario means, then who makes the model. Before 2026-09-25 the body was the
+            vendor alone, so a reader comparing "Best for coding" with "Best for long context" got
+            two cards saying "Anthropic" and "Xiaomi" — the one thing they could already see in the
+            model name above.
+          */}
+          <p class="card-body">{scenario.description}</p>
+          <p class="card-meta">{model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}</p>
         </article>
       );
     })}
-  </div>
-
-  <div class="grid-cards">
-    <article class="card">
-      <h2>Compare every important field</h2>
-      <p class="card-body">
-        See context window, input/output pricing per 1M tokens, modality support and the workloads each
-        model is actually good for.
-      </p>
-      <p><a href="/comparison">Open comparison →</a></p>
-    </article>
-    <article class="card">
-      <h2>Estimate your monthly cost</h2>
-      <p class="card-body">
-        Set token volume and input/output mix to estimate monthly spend across several models at once.
-      </p>
-      <p><a href="/openrouter-pricing-calculator">Open calculator →</a></p>
-    </article>
   </div>
 
   <h2>A few models worth a look</h2>
@@ -233,41 +478,13 @@ const usedInCards = new Set<string>();
 </System>
 
 <style>
-  .feature {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius, 6px);
-    background: var(--surface);
-    padding: var(--space-4) var(--space-5);
-    margin: var(--space-8) 0;
-    text-decoration: none;
-    color: var(--text);
-  }
-  .feature:hover {
-    border-color: var(--border-strong);
-  }
-  .pill {
-    border: 1px solid var(--warn);
-    background: var(--warn-soft);
-    color: var(--warn);
-    border-radius: 999px;
-    padding: 2px var(--space-3);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .feature-note {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-  }
-  .feature-cta {
-    margin-left: auto;
-    color: var(--accent);
-    font-size: var(--text-sm);
-  }
+  /*
+   * `.feature` / `.pill` / `.feature-note` / `.feature-cta` were the Union Alpha banner's styles
+   * and went with it on 2026-09-25 — the codename is one of the routing cards below, and a banner
+   * for a model that was revealed a week ago is a page that has stopped reading its own data.
+   * The hero, the numbers strip and the wall band come from `system.css`; nothing in this page's
+   * own style block is new except the two card grids that were already here.
+   */
   .grid-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

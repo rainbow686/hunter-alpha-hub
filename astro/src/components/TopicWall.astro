@@ -20,47 +20,31 @@
  * contract §3) and every one is lazy: the wall is tall, and only the first screens
  * are ever fetched by most readers.
  */
-export interface WallItem {
-  /** What this is, in the reader's words: "X post", "Repository", "Video", "Thread". */
-  kind: string;
-  headline: string;
-  /** Our page for the record when we have one, otherwise the source itself. */
-  href: string;
-  external: boolean;
-  note: string;
-  /** Two short facts for the footer line: a count and a date. */
-  meta: string[];
-  thumb?: string;
-  thumbW?: number;
-  thumbH?: number;
-  avatar?: string;
-  /**
-   * A progressive mp4 on X's CDN, when the row has one that fits the size cap
-   * (`scripts/ingest-x-video.mjs`). Present means the frame becomes a player instead of a
-   * poster — the same `XClipWall` behaviour the column pages have had since 2026-09-23.
-   *
-   * The front page was the one wall still showing a still image over a clip, which nobody
-   * noticed until the video attach ran on 2026-09-24 and the cards did not change: a wall
-   * that is a sample of the columns should behave like them.
-   */
-  video?: string;
-  /**
-   * The facets this row belongs to, so a wall can be filtered where it stands.
-   *
-   * They are passed in rather than looked up here because the wall is used by more than one topic
-   * and each topic has its own vocabulary (ADR-0018): Jev's six use cases are not Laya's.
-   * `check:intake` already refuses a tag that is not in the vocabulary, so this attribute can only
-   * ever carry slugs a facet page exists for.
-   */
-  tags: string[];
-}
+/*
+ * The card shape lives in `lib/topic-wall.ts` as of 2026-09-25, next to the builders that produce
+ * it — the home page became a third wall, and a type that three callers share is not this
+ * component's to own. Re-exported here so the pages that have always imported it from the
+ * component keep working.
+ */
+import type { WallColumn, WallItem } from "../lib/topic-wall";
+export type { WallColumn, WallItem };
 
 interface Props {
   items: WallItem[];
   /** One line under the wall: "see all 62 →" per column. */
-  columns: { label: string; href: string; count: number }[];
+  columns: WallColumn[];
+  /**
+   * The sentence the column links hang off. A topic cover's foot names its four columns; the home
+   * page's foot names the two sections the same cards came from, and saying "columns" there would
+   * be wrong (2026-09-25).
+   */
+  footPrefix?: string;
 }
-const { items, columns } = Astro.props;
+const {
+  items,
+  columns,
+  footPrefix = "Every entry on this page is in one of the columns, with the full list and its filters:",
+} = Astro.props;
 
 /** The card's media frame takes the poster's own shape, within limits. */
 const ratio = (w?: number, h?: number) => {
@@ -115,7 +99,7 @@ const ratio = (w?: number, h?: number) => {
 </ul>
 
 <p class="wall-foot">
-  Every entry on this page is in one of the columns, with the full list and its filters:
+  {footPrefix}
   {columns.map((column, index) => (
     <>
       {index > 0 && " · "}

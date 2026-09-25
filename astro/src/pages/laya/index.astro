@@ -23,15 +23,16 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import Faq from "../../components/Faq.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
-import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
+import TopicWall from "../../components/TopicWall.astro";
 import CardFilter from "../../components/CardFilter.astro";
 import XClipWall from "../../components/XClipWall.astro";
 import YouTubeFacade from "../../components/YouTubeFacade.astro";
+import { topicWall } from "../../lib/topic-wall";
 import { layaBuilds, layaBuildsWithPages } from "@repo/lib/laya-builds";
 import { layaVideos } from "@repo/lib/laya-videos";
 import { layaThreads } from "@repo/lib/laya-threads";
 import { layaTopPost, layaXPosts, LAYA_X_READ_ON } from "@repo/lib/laya-x-posts";
-import { LAYA_KIND_COUNTS, LAYA_ITEMS_TOTAL, LAYA_TAGGED_TOTAL, layaTagsById } from "@repo/lib/laya-kinds";
+import { LAYA_KIND_COUNTS, LAYA_ITEMS_TOTAL, LAYA_TAGGED_TOTAL } from "@repo/lib/laya-kinds";
 import {
   checkpoints,
   layaFaqs,
@@ -61,13 +62,6 @@ const tldr = [
   ["Speed", "32.8 ms", "publisher's T4 figure"],
   ["Ours", `${latencyCpu[0].p50} s`, "one question, our CPU, no GPU"],
   ["Writes text?", "No", "gives up string generation"],
-];
-
-const columns = [
-  { label: "Built with Laya", href: "/laya/builds", count: layaBuilds.length },
-  { label: "Seen on X", href: "/laya/x-posts", count: layaXPosts.length },
-  { label: "Videos", href: "/laya/videos", count: layaVideos.length },
-  { label: "Threads", href: "/laya/threads", count: layaThreads.length },
 ];
 
 const recordCount = layaBuilds.length + layaXPosts.length + layaVideos.length + layaThreads.length;
@@ -111,65 +105,12 @@ const WALL_PER_COLUMN = 24;
  * rendering both put the same card on the page twice and built two `<video>` elements for one file.
  * `layaTopPost` is what the hero below uses, so the filter and the hero cannot drift apart.
  */
-const wallX: WallItem[] = layaXPosts
-  .filter((post) => post.id !== layaTopPost?.id)
-  .slice(0, WALL_PER_COLUMN)
-  .map((post) => ({
-  kind: "X post",
-  headline: post.title,
-  href: post.url,
-  external: true,
-  note: post.ourNote,
-  meta: [`${fmt(post.likes)} likes`, post.publishedAt],
-  thumb: post.thumb || undefined,
-  thumbW: post.thumbW,
-  thumbH: post.thumbH,
-  avatar: post.avatar || undefined,
-  tags: layaTagsById[post.id] ?? [],
-    video: post.video?.url,
-  }));
-
-const wallBuilds: WallItem[] = layaBuilds.slice(0, WALL_PER_COLUMN).map((build) => ({
-  kind: "Repository",
-  headline: build.title,
-  href: build.dossier ? `/laya/builds/${build.dossier.slug}` : build.url,
-  external: !build.dossier,
-  note: build.ourNote,
-  meta: [`${fmt(build.stars)} stars`, build.language ?? "—"],
-  thumb: build.card ?? undefined,
-  tags: layaTagsById[build.id] ?? [],
-}));
-
-const wallVideos: WallItem[] = layaVideos.slice(0, WALL_PER_COLUMN).map((video) => ({
-  kind: "Video",
-  headline: video.title,
-  href: video.url,
-  external: true,
-  note: video.ourNote,
-  meta: [`${fmt(video.views)} views`, video.channel],
-  thumb: video.thumb || undefined,
-  thumbW: video.thumbW,
-  thumbH: video.thumbH,
-  tags: layaTagsById[video.id] ?? [],
-}));
-
-const wallThreads: WallItem[] = layaThreads.slice(0, WALL_PER_COLUMN).map((thread) => ({
-  kind: thread.source === "hn" ? "Hacker News" : "dev.to",
-  headline: thread.title,
-  href: thread.url,
-  external: true,
-  note: thread.ourNote,
-  meta: [`${fmt(thread.score)} ${thread.scoreLabel}`, thread.publishedAt],
-  tags: layaTagsById[thread.id] ?? [],
-}));
-
-/** Interleaved, so the first screen shows a post, a repository, a video and a thread. */
-const wall: WallItem[] = [];
-for (let i = 0; i < WALL_PER_COLUMN; i += 1) {
-  for (const column of [wallX, wallBuilds, wallVideos, wallThreads]) {
-    if (column[i]) wall.push(column[i]);
-  }
-}
+/*
+ * The cards are built in `lib/topic-wall.ts` (2026-09-25), shared with the Jev cover and with the
+ * home page, which renders a wall of the same cards. Passed in: the sample size, and the row the
+ * hero below already shows so it does not appear twice.
+ */
+const { items: wall, columns } = topicWall("laya", WALL_PER_COLUMN, { excludeXId: layaTopPost?.id });
 
 const wallChips = LAYA_KIND_COUNTS.map((kind) => ({
   group: "tag",
@@ -376,49 +317,12 @@ const heroVideo = layaVideos[0] ?? null;
 
 <style>
   /*
-   * The hero, the chips, the stat row and the four-across short table are the same shapes the Jev
-   * front page uses, and they are duplicated here rather than extracted into a component because
-   * this site has exactly two topic covers and a component with two callers is a third thing to
-   * keep working. The one difference is `.hero-copy { max-width: 62ch }`: a wide frame is right for
-   * a grid and wrong for a paragraph.
+   * The hero, the numbers strip and the wall band moved to `system.css` on 2026-09-25 (the "front
+   * pages" section). This comment used to say the duplication was cheaper than a component
+   * "because this site has exactly two topic covers" — true until the home page grew the same
+   * shapes, which made three. The chips and the four-across short table stay here: the chips are
+   * per-topic reading, and `.stats` is the shared tile grid that this page narrows to four.
    */
-  .topic-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
-    gap: var(--space-10);
-    align-items: start;
-    margin: var(--space-5) 0 var(--space-8);
-  }
-  @media (max-width: 1000px) {
-    .topic-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
-  }
-  .hero-copy { max-width: 62ch; }
-  .hero-copy .provenance { margin: var(--space-4) 0 var(--space-5); }
-  .hero-media { display: grid; gap: var(--space-5); }
-  .hero-card {
-    margin: 0;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    overflow: hidden;
-  }
-  .hero-cap { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5) var(--space-5); }
-  .hero-cap-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-lg); }
-  .hero-cap-meta { font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
-  .hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
-    list-style: none;
-    margin: 0 0 var(--space-5);
-    padding: 0;
-  }
-  .stat-row li { border-top: 2px solid var(--border-strong); padding-top: var(--space-3); }
-  .stat-value { display: block; font-family: var(--sans); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .stat-label { display: block; font-size: var(--text-sm); color: var(--text-muted); margin-top: 2px; }
-  .stat-note { display: block; font-size: var(--text-xs); color: var(--text-faint); margin-top: var(--space-2); }
-
   .topic-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
   .topic-chips a {
     display: inline-flex;
@@ -440,7 +344,4 @@ const heroVideo = layaVideos[0] ?? null;
      a loading state. Two across below 760 keeps the labels from wrapping. */
   .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .topic-wall { margin-top: var(--space-10); }
-  .wall-note { margin-top: var(--space-5); font-size: var(--text-sm); color: var(--text-muted); max-width: var(--measure); }
-  .topic-wall h2 { margin-bottom: var(--space-5); }
 </style>

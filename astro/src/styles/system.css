@@ -626,6 +626,74 @@ ul, ol { padding-left: var(--space-6); }
    3. Unverified statements use `.tag.claimed`, never plain body text.
    4. The brand lockup is `Hunter` + italic `Alpha` + `Hub`, Title Case, no frames. */
 
+/* -------------------------------------------------------------- front pages
+ * The cover-page vocabulary: a two-column hero, the numbers strip under its words,
+ * and the section that holds a wall.
+ *
+ * It lived in the two topic pages until 2026-09-25, with a comment saying the
+ * duplication was fine "because this site has exactly two topic covers and a component
+ * with two callers is a third thing to keep working". The home page then wanted the
+ * same hero and the same numbers strip, which makes three callers — the point at which
+ * a third copy is the third thing to keep working. `lib/topic-wall.ts` moved for the
+ * same reason on the same day.
+ *
+ * Scoped by class, not by page: any front page can take the hero, and the long-form
+ * pages (which read at `--column`) do not use these names at all.
+ */
+.topic-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  gap: var(--space-10);
+  align-items: start;
+  margin: var(--space-5) 0 var(--space-8);
+}
+@media (max-width: 1000px) {
+  /* One column, and the media keeps its order: on a phone the reader gets the headline,
+     the lede and the numbers first, then the picture. */
+  .topic-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+}
+/*
+ * The measure. A wide frame is right for a grid and wrong for a paragraph: at 1048 this
+ * lede ran ~110 characters a line. `--measure` is `none` site-wide (ADR-0019), so the
+ * hero sets its own — it is the one place on a front page with continuous prose.
+ */
+.hero-copy { max-width: 62ch; }
+/* The hero's dated line uses the same `.provenance` as every other page head; only the margin
+   is tightened here, because it sits between the lede and the numbers rather than under a title. */
+.hero-copy .provenance { margin: var(--space-4) 0 var(--space-5); }
+.hero-media { display: grid; gap: var(--space-5); }
+.hero-card {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.hero-cap { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5) var(--space-5); }
+.hero-cap-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-lg); }
+.hero-cap-meta { font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
+/* Both hero cards are the same figure: poster, then caption. The widths match because the
+   column gives them one column, and the heights match because the posters share a 16:9 frame. */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+}
+.stat-row li { border-top: 2px solid var(--border-strong); padding-top: var(--space-3); }
+.stat-value { display: block; font-family: var(--sans); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat-label { display: block; font-size: var(--text-sm); color: var(--text-muted); margin-top: 2px; }
+.stat-note { display: block; font-size: var(--text-xs); color: var(--text-faint); margin-top: var(--space-2); }
+
+/* The band that holds a wall, and the line under it. The two topic covers and the home page
+   all say a version of "this is a sample" there, so the shape is shared and the words are not. */
+.topic-wall { margin-top: var(--space-10); }
+.topic-wall h2 { margin-bottom: var(--space-5); }
+.wall-note { margin-top: var(--space-5); font-size: var(--text-sm); color: var(--text-muted); max-width: var(--measure); }
+
 /* ------------------------------------------------------------------ covers
  * A page cover (contract §5–§6): one engraving at the top of a long-form page.
  * Two things this rule is doing:
