@@ -75,9 +75,16 @@ import { layaTopPost, layaXPosts } from "@repo/lib/laya-x-posts";
 import { JEV_DATA_AS_OF, JEV_INPUT_PRICE_PER_MILLION, JEV_MODEL_ID } from "@repo/lib/jev";
 import { LAYA_READ_ON } from "@repo/lib/laya";
 import { topics as spotlight } from "@repo/lib/spotlight";
-import { UNION_ALPHA_REVEAL } from "@repo/lib/union-alpha";
-import { JEV_OURS_MEASURED_ON, oursLatency } from "@repo/lib/jev-our-measurements";
+import { ALPHA_LINE_CITATION, ALPHA_LINE_LICENSE, alphaLineEntries, alphaLineStats, daysBetween } from "@repo/lib/alpha-line";
+import {
+  JEV_OURS_MEASURED_ON,
+  oursAmbiguity,
+  oursLabelStability,
+  oursLatency,
+  oursSpread,
+} from "@repo/lib/jev-our-measurements";
 import { LAYA_OURS_MEASURED_ON, latencyCpu } from "@repo/lib/laya-our-measurements";
+import { determinism, ambiguity as layaAmbiguity, temperatureClamp } from "@repo/lib/laya-our-measurements";
 
 const title = "OpenRouter Model Hub — Compare AI Models: Pricing, Context & Benchmarks";
 const description =
@@ -181,6 +188,8 @@ const topicData = {
     slug: "jev" as const,
     name: "Jev",
     what: "TypeSafe's decision model: state in, typed decision out. It does not write.",
+    /** The hero card's version of the same sentence: it is clamped to two lines there. */
+    cardWhat: "a decision model — state in, typed decision out",
     /*
      * The topic's own cover engraving — generated for the reference page and, until 2026-09-25,
      * never shown where most readers meet the topic. A picture of an input going in and a decision
@@ -201,6 +210,7 @@ const topicData = {
     slug: "laya" as const,
     name: "Laya",
     what: "The open-weights System One model, from Convai — a decision model you can run yourself.",
+    cardWhat: "the same idea, open weights, running on your own machine",
     cover: "/img/cover-laya-topic.webp",
     coverAlt: "An engraving: a small brass instrument with three dials on a single base, a blank paper tag tied to it.",
     verified: LAYA_READ_ON,
@@ -311,29 +321,87 @@ const feedColumns = [
 ];
 
 /*
- * What the codenames turned out to be, on the first screen.
+ * What we measured ourselves, on both models, side by side.
  *
- * This is the page's search intent, stated as a fact: GSC has the site at position 6.9 for
- * "hunter alpha" and 3.4 for "hunter alpha ai" (20% CTR), and neither the h1 nor the title carries
- * the phrase. The answer was on this page all along — nine screens down, in the Hunter Alpha
- * section. Both rows are read from the catalogue, so a price change moves them.
+ * Four rows, one per question a reader actually has: how slow is it, does it answer the same way
+ * twice, does it survive hostile input, and what did we fail to check. Every number is our own run
+ * (`lib/jev-our-measurements.ts` on 2026-09-20/21, `lib/laya-our-measurements.ts` on 2026-09-24)
+ * and each row carries its own condition, because the two were not run the same way: Jev went over
+ * the network and Laya ran on this laptop's CPU, and a table that hides that is how a site ends up
+ * printing a race that did not happen.
+ *
+ * The third row is the one worth the block: the same ten arguable cases, both models defensible
+ * ten times out of ten, and confidence means of 0.71 and 0.411 — a difference in *manner* that no
+ * vendor publishes and only a side-by-side run shows.
  */
-const codenameAnswer = [
-  hunterAlpha
-    ? {
-        codename: "Hunter Alpha",
-        found: hunterAlpha.name,
-        detail: `${hunterAlpha.vendor} · listed March 2026 · ${formatContextWindow(hunterAlpha.contextWindow)} context · ${formatPrice(hunterAlpha.inputPricePerMillion)} in / ${formatPrice(hunterAlpha.outputPricePerMillion)} out per million`,
-        href: "/hunter-alpha",
-      }
-    : null,
+const measured = [
   {
-    codename: "Union Alpha",
-    found: UNION_ALPHA_REVEAL.name,
-    detail: `${UNION_ALPHA_REVEAL.vendor} · listed 16 September 2026 · revealed ${UNION_ALPHA_REVEAL.modelId} · ${formatPrice(UNION_ALPHA_REVEAL.inputPricePerMillion)} in / ${formatPrice(UNION_ALPHA_REVEAL.outputPricePerMillion)} out per million`,
-    href: "/union-alpha",
+    label: "What one call costs in time",
+    jev: `${oursLatency.median} ms median, ${oursLatency.note}`,
+    laya: `${latencyCpu[0].p50} s for one question on this laptop's CPU, no GPU — ${latencyCpu[2].perQuestion} s each once batched to fifty`,
   },
-].filter((row): row is NonNullable<typeof row> => Boolean(row));
+  {
+    label: "The same call, twenty times",
+    jev: `label never moved, ${oursLabelStability.runs} of ${oursLabelStability.of} — but ${oursSpread[3].signal.toLowerCase()} ranged ${oursSpread[3].min.toFixed(2)}–${oursSpread[3].max.toFixed(2)}, which crosses the vendor's own routing bands`,
+    laya: `all four signals byte-identical on all ${determinism.calls} calls (range 0.0000)`,
+  },
+  {
+    label: "Forty adversarial calls (30 clear, 10 arguable)",
+    jev: `every answer defensible: ${oursAmbiguity.clear.defensible} of ${oursAmbiguity.clear.n} and ${oursAmbiguity.ambiguous.defensible} of ${oursAmbiguity.ambiguous.n}, mean confidence ${oursAmbiguity.clear.meanConfidence} and ${oursAmbiguity.ambiguous.meanConfidence}`,
+    laya: `defensible ${layaAmbiguity.clear.defensible} of ${layaAmbiguity.clear.n} and ${layaAmbiguity.arguable.defensible} of ${layaAmbiguity.arguable.n}, mean confidence ${layaAmbiguity.clear.meanConfidence} and ${layaAmbiguity.arguable.meanConfidence} — the same cases, answered far less confidently`,
+  },
+  {
+    label: "What we could not check",
+    jev: `the live browser agent in browser-use/jev-ultrafast — its harness needed a daemon and a second API key we chose not to spend`,
+    laya: `confidence in the choice:11+ bucket: that checkpoint ships a temperature of ${temperatureClamp.shipped} and its own library clamps it to ${temperatureClamp.applied}, so we treat those confidences as uncalibrated`,
+  },
+];
+
+/*
+ * The Alpha line, resolved — every codename this site is named for, on one axis.
+ *
+ * This is the page's search intent stated as a fact. GSC has the site at position 6.9 for
+ * "hunter alpha" and 3.4 for "hunter alpha ai" (20% CTR), and neither the h1 nor the title carries
+ * the phrase; until now the answer was nine screens down in one codename's section. It is also the
+ * one dataset on this site that nobody else keeps (see `lib/alpha-line.ts`), which is why it is a
+ * table and a figure rather than two lines of prose: the *line* is the story, not any one codename.
+ *
+ * The second version of this block printed two rows, Hunter and Union, and the reader asked what
+ * had actually changed. They were right: two rows are an answer to "what is this site about" only
+ * if you already know there are three. The dates below drive the figure, so a fourth codename puts
+ * itself on the axis without an edit here.
+ */
+const LINE_START = "2026-03-01";
+const LINE_END = alphaLineStats.dataAsOf;
+const lineSpan = Math.max(1, daysBetween(LINE_START, LINE_END));
+/*
+ * The figure's geometry, in the SVG's own coordinates.
+ *
+ * The first version mapped the dates onto 0–100 with `preserveAspectRatio="none"` and put the
+ * model's name after the bar — so the text ran off the right edge and every dot was stretched into
+ * an ellipse. Screenshotting it (which `docs/lessons/hand-drawn-svg-must-be-photographed.md`
+ * insists on) is the only reason that did not ship.
+ *
+ * Now: a fixed 640×120 viewBox that scales uniformly, a 110-unit gutter for the codename, and the
+ * axis in the remaining 500 units. Nothing is drawn after a bar, so nothing can overflow it.
+ */
+const AXIS = { left: 120, right: 620, top: 26, rowGap: 36, radius: 4.5 };
+const lineX = (iso: string) =>
+  AXIS.left + (daysBetween(LINE_START, iso) / lineSpan) * (AXIS.right - AXIS.left);
+
+const codenameAnswer = alphaLineEntries.map((entry, index) => ({
+  codename: entry.codename,
+  href: entry.href,
+  found: entry.became,
+  modelId: entry.modelId,
+  firstListed: entry.firstListed,
+  windowDays: daysBetween(entry.firstListed, entry.productAdded),
+  price: `${formatPrice(entry.inputPricePerMillion)} in / ${formatPrice(entry.outputPricePerMillion)} out per million tokens`,
+  priceStory: entry.priceStory,
+  start: lineX(entry.firstListed),
+  added: lineX(entry.productAdded),
+  y: AXIS.top + index * AXIS.rowGap,
+}));
 
 /*
  * Four numbers about the whole site rather than about one model. The pattern is the topic covers'
@@ -394,7 +462,14 @@ const hubStats = [
     右侧是图") and asked why the front page did not have it on 2026-09-25. It is the same shape:
     `.topic-hero` from `system.css`.
   */}
-  <section class="topic-hero">
+  {/*
+    `home-hero` is this page's own modifier on the shared hero: the reader's note was that the two
+    cards and the text beside them did not line up ("这又不是照片墙，要参差不齐"). Two fixes, both
+    structural rather than cosmetic — the words column is a flex column with its buttons pushed to
+    the bottom, so it ends where the cards end, and both cards are pinned to one 16:9 frame with a
+    two-line title, so they are the same height as each other.
+  */}
+  <section class="topic-hero home-hero">
     <div class="hero-copy">
       <p class="card-eyebrow">OpenRouter model index</p>
       <h1 class="display">Find the Right AI Model</h1>
@@ -445,6 +520,7 @@ const hubStats = [
               data-xvideo={heroClip}
               data-poster={heroTopic.data.post.thumb}
               aria-label={`Play the clip on this ${heroTopic.data.name} card`}
+              style="--ratio: 16 / 9"
             >
               <span class="card-src">{heroTopic.data.postLabel}</span>
               <img
@@ -461,7 +537,7 @@ const hubStats = [
             <a
               class="card-media"
               href={heroTopic.href}
-              style={`--ratio: ${heroTopic.data.post.thumbW} / ${heroTopic.data.post.thumbH}`}
+              style="--ratio: 16 / 9"
             >
               <span class="card-src">{heroTopic.data.postLabel}</span>
               <img
@@ -476,16 +552,15 @@ const hubStats = [
           )}
           <figcaption class="hero-cap">
             <span class="hero-cap-kicker">Following now · verified {heroTopic.data.verified}</span>
-            <span class="hero-cap-title">{heroTopic.data.name} — {heroTopic.data.what}</span>
+            <span class="hero-cap-title">{heroTopic.data.name} — {heroTopic.data.cardWhat}</span>
             <span class="hero-cap-meta">
               {fmt(heroTopic.data.recordCount)} records · {fmt(heroTopic.data.repos)} repositories
             </span>
-            <a class="hero-cap-link" href={heroTopic.href}>
-              Everything on {heroTopic.data.name} →
-            </a>
-            {heroTopic.data.postLink && (
-              <>
-                {" "}
+            <span class="hero-cap-links">
+              <a class="hero-cap-link" href={heroTopic.href}>
+                Everything on {heroTopic.data.name} →
+              </a>
+              {heroTopic.data.postLink && (
                 <a
                   class="hero-cap-link"
                   href={heroTopic.data.postLink.href}
@@ -493,8 +568,8 @@ const hubStats = [
                 >
                   {heroTopic.data.postLink.label} →
                 </a>
-              </>
-            )}
+              )}
+            </span>
           </figcaption>
         </figure>
       )}
@@ -513,6 +588,7 @@ const hubStats = [
               data-xvideo={heroClipRow.video}
               data-poster={heroClipRow.thumb}
               aria-label={`Play the clip in this entry: ${heroClipRow.headline}`}
+              style="--ratio: 16 / 9"
             >
               <span class="card-src">{TOPIC_LABEL[heroClipRow.topic]} · {heroClipRow.kind}</span>
               <img
@@ -530,7 +606,7 @@ const hubStats = [
               class="card-media"
               href={heroClipRow.href}
               rel={heroClipRow.external ? "noopener noreferrer" : undefined}
-              style={`--ratio: ${heroClipRow.thumbW} / ${heroClipRow.thumbH}`}
+              style="--ratio: 16 / 9"
             >
               <span class="card-src">{TOPIC_LABEL[heroClipRow.topic]} · {heroClipRow.kind}</span>
               <img
@@ -547,13 +623,18 @@ const hubStats = [
             <span class="hero-cap-kicker">Newest clip on the site · {heroClipRow.at}</span>
             <span class="hero-cap-title">{heroClipRow.headline}</span>
             <span class="hero-cap-meta">{heroClipRow.meta.join(" · ")}</span>
-            <a
-              class="hero-cap-link"
-              href={heroClipRow.href}
-              rel={heroClipRow.external ? "noopener noreferrer" : undefined}
-            >
-              {heroClipRow.external ? "Watch at the source" : "Open the record"} →
-            </a>
+            <span class="hero-cap-links">
+              <a
+                class="hero-cap-link"
+                href={heroClipRow.href}
+                rel={heroClipRow.external ? "noopener noreferrer" : undefined}
+              >
+                {heroClipRow.external ? "Watch at the source" : "Open the record"} →
+              </a>
+              <a class="hero-cap-link" href={feedColumns.find((c) => c.label === TOPIC_LABEL[heroClipRow.topic])?.href ?? "/typesafe-jev"}>
+                Everything on {TOPIC_LABEL[heroClipRow.topic]} →
+              </a>
+            </span>
           </figcaption>
         </figure>
       )}
@@ -577,18 +658,74 @@ const hubStats = [
     "dropped", which is the guard doing its job on a marker I put in the wrong place.)
   */}
   <section class="answer-strip">
-    <h2 class="answer-strip-title">What the codenames turned out to be</h2>
+    <h2 class="answer-strip-title">The Alpha line, resolved — every codename, what it became</h2>
+
+    {/*
+      The figure. A hand-drawn SVG timeline: one row per codename, from the day it appeared
+      anonymously to the day the maker's own listing showed up, positioned on a shared axis
+      (March 2026 → the catalogue's own date). It is drawn from the same entries as the table
+      below, so a fourth codename puts itself on the axis. Per `docs/lessons/`, a hand-drawn
+      SVG is only verified by looking at it — screenshots in `memory/2026-09-25.md`.
+    */}
+    <figure class="line-figure">
+      {/*
+        Scrolls sideways rather than shrinking on a phone. At 390px the 640-unit viewBox scaled the
+        codename labels down to about six pixels — legible in a screenshot of a desktop, invisible
+        on the device the topic gets read on. `min-width` keeps the drawing at its own size and the
+        wrapper lets the reader push it.
+      */}
+      <div class="line-scroll">
+      <svg
+        viewBox="0 0 640 120"
+        role="img"
+        aria-label={`Timeline of the Alpha line: ${codenameAnswer.map((row) => `${row.codename} first listed ${row.firstListed}, became ${row.found} on ${row.firstListed} plus ${row.windowDays} days`).join("; ")}`}
+      >
+        {/* the axis, from the line's first codename to the day the catalogue was read */}
+        <line x1={AXIS.left} y1="112" x2={AXIS.right} y2="112" class="line-axis" />
+        {codenameAnswer.map((row) => (
+          <g class="line-row">
+            <text x="0" y={row.y + 4} class="line-name">{row.codename}</text>
+            {/* the anonymous window: hollow where it appeared, solid where the maker listed it */}
+            <line x1={row.start} y1={row.y} x2={row.added} y2={row.y} class="line-window" />
+            <circle cx={row.start} cy={row.y} r={AXIS.radius} class="line-dot" />
+            <circle cx={row.added} cy={row.y} r={AXIS.radius} class="line-dot solid" />
+          </g>
+        ))}
+        <text x={AXIS.left} y="119" class="line-tick">{LINE_START}</text>
+        <text x={AXIS.right} y="119" class="line-tick" text-anchor="end">catalogue read {LINE_END}</text>
+      </svg>
+      </div>
+      <figcaption>
+        One row per codename: the bar is how long it ran without a maker attached. Median{" "}
+        {alphaLineStats.medianWindowDays} days — the first took {alphaLineStats.slowestWindowDays},
+        the last {alphaLineStats.fastestWindowDays}, which is the whole shape of this line: the
+        windows collapsed as it went.
+      </figcaption>
+    </figure>
+
     <dl class="answer-list">
       {codenameAnswer.map((row) => (
         <div class="answer-row">
           <dt><a href={row.href}>{row.codename}</a></dt>
           <dd>
             <span class="answer-found">→ {row.found}</span>
-            <span class="answer-detail">{row.detail}</span>
+            <span class="answer-detail">
+              {row.modelId} · first listed {row.firstListed} · anonymous for {row.windowDays} days · {row.price}
+            </span>
+            <span class="answer-detail">{row.priceStory}</span>
           </dd>
         </div>
       ))}
     </dl>
+    <p class="wall-note">
+      Every one of the {alphaLineStats.count} was free while it was anonymous, and none of them
+      stayed free: input price now ranges {formatPrice(alphaLineStats.inputPriceFloor)} to{" "}
+      {formatPrice(alphaLineStats.inputPriceCeiling)} per million tokens across the same line, a{" "}
+      {alphaLineStats.priceSpreadFactor}× spread. {alphaLineStats.disclosedCount} of{" "}
+      {alphaLineStats.count} had a public disclosure day we could point at — the rest we leave
+      blank rather than estimate. Source:{" "}
+      <a href="/alpha-line-report">the Alpha Line Report</a>, {ALPHA_LINE_LICENSE}.
+    </p>
   </section>
 
   {/*
@@ -696,6 +833,54 @@ const hubStats = [
   </section>
 
   {/*
+    What we measured ourselves, on both models. Four rows, Jev beside Laya, no chart — the figure
+    on this page is the Alpha line, and a second one would be decoration.
+
+    Why it is here at all: it is the one block on this page whose numbers exist nowhere else on the
+    internet, and the reader's own question after the last version was "what actually changed?".
+    This is the change: a comparison nobody else can print, because it needs both models run
+    through one set of cases, and we did that.
+  */}
+  {/*
+    Not marked `data-generated` either: the rows are fixed facts with two navigation links in them,
+    and the marker would tell the parity guard to ignore those links. Only the hero's two cards and
+    the feed are samples.
+  */}
+  <section class="measured">
+    <h2>We ran both, on the same cases</h2>
+    <p class="wall-note">
+      Jev went over the network from this machine on {JEV_OURS_MEASURED_ON}; Laya ran on its CPU on{" "}
+      {LAYA_OURS_MEASURED_ON}. Each row carries the condition it was measured under — the two were
+      not run the same way, and a table that hides that is how a site ends up printing a race that
+      did not happen.
+    </p>
+    <table class="model-table measured-table">
+      <thead>
+        <tr>
+          <th scope="col">Question</th>
+          <th scope="col">Jev (TypeSafe)</th>
+          <th scope="col">Laya (Convai, open weights)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {measured.map((row) => (
+          <tr>
+            <th scope="row" data-label="Question">{row.label}</th>
+            <td data-label="Jev">{row.jev}</td>
+            <td data-label="Laya">{row.laya}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="wall-note">
+      The whole runs, including the payloads and the answers, are on{" "}
+      <a href={`/typesafe-jev/reference`}>Jev's reference page</a> and{" "}
+      <a href="/laya/reference">Laya's</a>. The runner is in the repository, so the forty calls can
+      be repeated by anyone with a laptop and half an hour.
+    </p>
+  </section>
+
+  {/*
     The routing row. It used to carry a fifth card for the Jev topic; that card went when the hero
     grew a cover per topic (2026-09-25), because the same link twice on one screen is the page
     arguing with itself about which one is the entrance. The Union Alpha banner that sat above this
@@ -773,6 +958,62 @@ const hubStats = [
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-faint);
+  }
+
+  /*
+   * Hero alignment — the reader's complaint (2026-09-25): "两个图片、两个视频和文字都没有对齐…
+   * 这又不是照片墙，要参差不齐".
+   *
+   *   1. the words column becomes a flex column and its buttons are pushed to the bottom, so it
+   *      ends on the same line as the second card instead of floating 200px above it;
+   *   2. both cards are pinned to one 16:9 frame and a two-line title, so they are exactly the
+   *      same height as each other regardless of how long the caption is.
+   *
+   * Scoped to `home-hero`: the topic covers keep the shared behaviour (their two cards lead with
+   * different media, and they were signed off that way).
+   */
+  .home-hero { align-items: stretch; }
+  .home-hero .hero-copy { display: flex; flex-direction: column; }
+  .home-hero .hero-copy .hero-actions { margin-top: auto; }
+  .home-hero .hero-media { align-content: start; }
+  .home-hero .hero-cap-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .home-hero .hero-cap-links { display: flex; flex-direction: column; gap: 2px; margin-top: var(--space-2); }
+  .home-hero .hero-cap-link { margin-top: 0; }
+
+  /*
+   * The Alpha line figure. Percentages along x, rows down y, drawn in the page's own ink: a thin
+   * line for the anonymous window, a hollow dot where the codename appeared, a solid one where the
+   * maker's listing did. `preserveAspectRatio="none"` lets it stretch to the column, which is why
+   * the y axis is left un-annotated — every row carries its own label in the table below.
+   */
+  .line-figure { margin: var(--space-6) 0 var(--space-8); }
+  /* Uniform scaling (`height: auto`), so a dot is a dot: `preserveAspectRatio="none"` turned them
+     into ellipses in the first version. */
+  .line-scroll { overflow-x: auto; }
+  .line-figure svg { width: 100%; min-width: 560px; max-width: 900px; height: auto; display: block; overflow: visible; }
+  .line-axis { stroke: var(--border-strong); stroke-width: 1; }
+  .line-window { stroke: var(--accent); stroke-width: 3; }
+  .line-dot { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
+  .line-dot.solid { fill: var(--accent); }
+  .line-name { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--text); }
+  .line-tick { font-family: var(--mono); font-size: 10px; fill: var(--text-faint); }
+  .line-figure figcaption {
+    margin-top: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+  }
+
+  /* The measured table: three columns, the middle two wide, the question column a label. */
+  .measured { margin-bottom: var(--space-12); }
+  .measured-table td { vertical-align: top; }
+  .measured-table tbody th { width: 22%; }
+  @media (max-width: 760px) {
+    .measured-table tbody th { width: auto; }
   }
 
   /*
