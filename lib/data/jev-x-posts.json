@@ -1,16 +1,16 @@
 {
   "meta": {
-    "generatedAt": "2026-09-24T03:53:07.425Z",
+    "generatedAt": "2026-09-24T19:48:13.991Z",
     "source": "x-syndication",
     "queries": [
-      "83 curated links"
+      "106 curated links"
     ],
     "intake": "X has no read API we can afford (ADR-0023), so posts are entered by hand from a curated list and resolved through the public syndication endpoint. A post is published only after somebody reads it and writes the note.",
-    "candidates": 83,
-    "published": 82,
+    "candidates": 106,
+    "published": 101,
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 0,
-    "refreshedAt": "2026-09-23T03:26:17.878Z"
+    "refreshedAt": "2026-09-24T19:51:16.554Z"
   },
   "entries": [
     {
@@ -37,8 +37,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2054197823738871808/3M0Lf362_normal.jpg"
       },
       "metrics": {
-        "likes": 2199,
-        "asOf": "2026-09-23"
+        "likes": 2292,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -73,8 +73,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2064453666661441536/nj8n8Mei_normal.jpg"
       },
       "metrics": {
-        "likes": 3097,
-        "asOf": "2026-09-23"
+        "likes": 3251,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -109,8 +109,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2083261639135244288/KoOQO6zp_normal.jpg"
       },
       "metrics": {
-        "likes": 1636,
-        "asOf": "2026-09-23"
+        "likes": 1632,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -144,8 +144,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1998148360478322688/851J4fBL_normal.jpg"
       },
       "metrics": {
-        "likes": 773,
-        "asOf": "2026-09-23"
+        "likes": 822,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -182,8 +182,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_normal.jpg"
       },
       "metrics": {
-        "likes": 312,
-        "asOf": "2026-09-23"
+        "likes": 315,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -227,8 +227,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2014389251580813312/ke_dI_-z_normal.jpg"
       },
       "metrics": {
-        "likes": 1634,
-        "asOf": "2026-09-23"
+        "likes": 1620,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -263,8 +263,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2091957221253173248/kB_huM5C_normal.jpg"
       },
       "metrics": {
-        "likes": 1079,
-        "asOf": "2026-09-23"
+        "likes": 1080,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -297,8 +297,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1967672234056523776/FoFd2843_normal.jpg"
       },
       "metrics": {
-        "likes": 2152,
-        "asOf": "2026-09-23"
+        "likes": 2156,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -334,7 +334,7 @@
       },
       "metrics": {
         "likes": 54,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -378,8 +378,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2002004911635210240/14rERQZ7_normal.jpg"
       },
       "metrics": {
-        "likes": 37,
-        "asOf": "2026-09-23"
+        "likes": 36,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -422,7 +422,7 @@
       },
       "metrics": {
         "likes": 71,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -459,7 +459,7 @@
       },
       "metrics": {
         "likes": 206,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -492,8 +492,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1846325112402071557/JpWNvwoO_normal.jpg"
       },
       "metrics": {
-        "likes": 7524,
-        "asOf": "2026-09-23"
+        "likes": 7530,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -537,8 +537,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2076693957258727424/AyRghTGJ_normal.jpg"
       },
       "metrics": {
-        "likes": 3862,
-        "asOf": "2026-09-23"
+        "likes": 3877,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -580,8 +580,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2072451349061533696/vwo_gqSQ_normal.jpg"
       },
       "metrics": {
-        "likes": 2846,
-        "asOf": "2026-09-23"
+        "likes": 2845,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -617,8 +617,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
       },
       "metrics": {
-        "likes": 5240,
-        "asOf": "2026-09-23"
+        "likes": 5335,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -661,8 +661,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
       },
       "metrics": {
-        "likes": 2972,
-        "asOf": "2026-09-23"
+        "likes": 2996,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -696,8 +696,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1578327351544360960/YFpWSWIX_normal.jpg"
       },
       "metrics": {
-        "likes": 525,
-        "asOf": "2026-09-23"
+        "likes": 550,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -742,8 +742,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1812743569746055168/AxCp7bZa_normal.jpg"
       },
       "metrics": {
-        "likes": 3140,
-        "asOf": "2026-09-23"
+        "likes": 3147,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -778,8 +778,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2022567054579228672/Ofvtmqi0_normal.jpg"
       },
       "metrics": {
-        "likes": 8406,
-        "asOf": "2026-09-23"
+        "likes": 8408,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -815,7 +815,7 @@
       },
       "metrics": {
         "likes": 795,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -850,8 +850,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1957502976521826305/41Pxt7lY_normal.jpg"
       },
       "metrics": {
-        "likes": 633,
-        "asOf": "2026-09-23"
+        "likes": 635,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -887,7 +887,7 @@
       },
       "metrics": {
         "likes": 650,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -932,8 +932,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1577116785656139776/5mi0qgTz_normal.jpg"
       },
       "metrics": {
-        "likes": 1553,
-        "asOf": "2026-09-23"
+        "likes": 1574,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -975,8 +975,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1980037752797175809/cTfw6IDz_normal.jpg"
       },
       "metrics": {
-        "likes": 9047,
-        "asOf": "2026-09-23"
+        "likes": 9072,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1011,8 +1011,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2086792107327373312/jDpbJDfS_normal.jpg"
       },
       "metrics": {
-        "likes": 2603,
-        "asOf": "2026-09-23"
+        "likes": 2602,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1048,7 +1048,7 @@
       },
       "metrics": {
         "likes": 259,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1082,7 +1082,7 @@
       },
       "metrics": {
         "likes": 437,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1117,8 +1117,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1967524274161487872/3ha2ag9N_normal.jpg"
       },
       "metrics": {
-        "likes": 341,
-        "asOf": "2026-09-23"
+        "likes": 345,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1163,8 +1163,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1945848027115130880/5V7GQKEB_normal.jpg"
       },
       "metrics": {
-        "likes": 1100,
-        "asOf": "2026-09-23"
+        "likes": 1126,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1207,7 +1207,7 @@
       },
       "metrics": {
         "likes": 839,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1252,8 +1252,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
       },
       "metrics": {
-        "likes": 3099,
-        "asOf": "2026-09-23"
+        "likes": 3139,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1286,8 +1286,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2092589554997886976/jn-XHoeL_normal.jpg"
       },
       "metrics": {
-        "likes": 4451,
-        "asOf": "2026-09-23"
+        "likes": 4450,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1321,7 +1321,7 @@
       },
       "metrics": {
         "likes": 427,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1356,7 +1356,7 @@
       },
       "metrics": {
         "likes": 418,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1390,7 +1390,7 @@
       },
       "metrics": {
         "likes": 2300,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1423,8 +1423,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2095218586046652416/pyuFtKH0_normal.jpg"
       },
       "metrics": {
-        "likes": 2254,
-        "asOf": "2026-09-23"
+        "likes": 2253,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1460,8 +1460,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/2089145858608566272/rUORWtmK_normal.jpg"
       },
       "metrics": {
-        "likes": 1394,
-        "asOf": "2026-09-23"
+        "likes": 1393,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1494,8 +1494,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1909353910130950147/EeSGdgA5_normal.jpg"
       },
       "metrics": {
-        "likes": 2583,
-        "asOf": "2026-09-23"
+        "likes": 2584,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1540,7 +1540,7 @@
       },
       "metrics": {
         "likes": 378,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1574,7 +1574,7 @@
       },
       "metrics": {
         "likes": 480,
-        "asOf": "2026-09-23"
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1618,8 +1618,8 @@
         "avatar": "https://pbs.twimg.com/profile_images/1999509933302124544/ABxY9N7S_normal.jpg"
       },
       "metrics": {
-        "likes": 387,
-        "asOf": "2026-09-23"
+        "likes": 435,
+        "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
       "status": "published",
@@ -1661,7 +1661,7 @@
         }
       },
       "metrics": {
-        "likes": 954,
+        "likes": 956,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1706,7 +1706,7 @@
         }
       },
       "metrics": {
-        "likes": 1108,
+        "likes": 1112,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1752,7 +1752,7 @@
         }
       },
       "metrics": {
-        "likes": 3877,
+        "likes": 3876,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1797,7 +1797,7 @@
         }
       },
       "metrics": {
-        "likes": 4323,
+        "likes": 4329,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1842,7 +1842,7 @@
         }
       },
       "metrics": {
-        "likes": 7946,
+        "likes": 7942,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1887,7 +1887,7 @@
         }
       },
       "metrics": {
-        "likes": 459,
+        "likes": 460,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1932,7 +1932,7 @@
         }
       },
       "metrics": {
-        "likes": 917,
+        "likes": 922,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -1977,7 +1977,7 @@
         }
       },
       "metrics": {
-        "likes": 259,
+        "likes": 277,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2068,7 +2068,7 @@
         }
       },
       "metrics": {
-        "likes": 109,
+        "likes": 108,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2113,7 +2113,7 @@
         }
       },
       "metrics": {
-        "likes": 209,
+        "likes": 237,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2158,7 +2158,7 @@
         }
       },
       "metrics": {
-        "likes": 192,
+        "likes": 194,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2203,7 +2203,7 @@
         }
       },
       "metrics": {
-        "likes": 4834,
+        "likes": 4838,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2248,7 +2248,7 @@
         }
       },
       "metrics": {
-        "likes": 6776,
+        "likes": 6791,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2338,7 +2338,7 @@
         }
       },
       "metrics": {
-        "likes": 10195,
+        "likes": 10214,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2383,7 +2383,7 @@
         }
       },
       "metrics": {
-        "likes": 1380,
+        "likes": 1381,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2501,7 +2501,7 @@
         "avatar": "https://pbs.twimg.com/profile_images/2002463997820342272/0F6s0iDn_normal.jpg"
       },
       "metrics": {
-        "likes": 5500,
+        "likes": 5503,
         "asOf": "2026-09-24"
       },
       "candidateReason": "found through the directory crawl of madewithjev.com (used as a lead, not as a source), then resolved through the public syndication endpoint",
@@ -2546,7 +2546,7 @@
         }
       },
       "metrics": {
-        "likes": 1095,
+        "likes": 1098,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -2627,7 +2627,7 @@
         "avatar": "https://pbs.twimg.com/profile_images/2061800276835606528/mIa47fN9_normal.jpg"
       },
       "metrics": {
-        "likes": 2065,
+        "likes": 2064,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -2709,7 +2709,7 @@
         }
       },
       "metrics": {
-        "likes": 3382,
+        "likes": 3389,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -2754,7 +2754,7 @@
         }
       },
       "metrics": {
-        "likes": 1983,
+        "likes": 1988,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -2844,7 +2844,7 @@
         }
       },
       "metrics": {
-        "likes": 1094,
+        "likes": 1095,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -2934,7 +2934,7 @@
         }
       },
       "metrics": {
-        "likes": 924,
+        "likes": 925,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -2979,7 +2979,7 @@
         }
       },
       "metrics": {
-        "likes": 5032,
+        "likes": 5036,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3024,7 +3024,7 @@
         }
       },
       "metrics": {
-        "likes": 772,
+        "likes": 773,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3114,7 +3114,7 @@
         }
       },
       "metrics": {
-        "likes": 3552,
+        "likes": 3551,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3195,7 +3195,7 @@
         }
       },
       "metrics": {
-        "likes": 10814,
+        "likes": 10829,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3240,7 +3240,7 @@
         }
       },
       "metrics": {
-        "likes": 870,
+        "likes": 871,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3285,7 +3285,7 @@
         }
       },
       "metrics": {
-        "likes": 2834,
+        "likes": 2836,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3330,7 +3330,7 @@
         }
       },
       "metrics": {
-        "likes": 2044,
+        "likes": 2061,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3375,7 +3375,7 @@
         }
       },
       "metrics": {
-        "likes": 1175,
+        "likes": 1177,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3420,7 +3420,7 @@
         }
       },
       "metrics": {
-        "likes": 75869,
+        "likes": 76000,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -3438,6 +3438,801 @@
         "text": "After co-inventing ChatGPT, I kept asking myself: why have superhuman chat models not led to AGI? I’ve spent the last 2 years in stealth building a new way to train models (RLCD), and a new type of frontier AI model that we are releasing today: Jev • 20-200x faster • 40-400x…",
         "chars": 299,
         "from": "https://x.com/CompleteSkeptic/status/2099925682726002904",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102837166267146548",
+      "source": "x",
+      "url": "https://x.com/Argona0x/status/2102837166267146548",
+      "title": "Opus 5.5 + Jev = a $100k+ MRR agency i've watched every Opus 5.5 and Jev video on the interne…",
+      "author": "@Argona0x",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102836574626934784/img/fYrBvFeygjXlHFFX.jpg",
+        "thumbW": 1280,
+        "thumbH": 720
+      },
+      "metrics": {
+        "likes": 54,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "engagement bait — an earnings claim, a leaked-system hook, and no method or artefact",
+      "tags": []
+    },
+    {
+      "id": "x:2103017408407441506",
+      "source": "x",
+      "url": "https://x.com/JamLee423/status/2103017408407441506",
+      "title": "@savipww Built your JEV/Grok desk — here’s where I landed I took your setup guide and rebuilt…",
+      "author": "@JamLee423",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a reply describing a private desk rebuild, with no link and nothing a reader can check",
+      "tags": []
+    },
+    {
+      "id": "x:2101454284927959080",
+      "source": "x",
+      "url": "https://x.com/LangChain/status/2101454284927959080",
+      "title": "We tested Jev against LLM judges on accuracy, repeatability, latency, and cost to see whether…",
+      "author": "@LangChain",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2028336270431453184/jRRpLAdG_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2987,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most consequential post in this batch, and not because of the numbers: a framework company ran the comparison everyone else has been arguing about from intuitions. They tested Jev against LLM judges on accuracy, repeatability, latency and cost, and published the method rather than the conclusion.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "We tested Jev against LLM judges on accuracy, repeatability, latency, and cost to see whether System One models could offer a new approach to agent evaluation. https://t.co/hrqdNpm0g8",
+        "chars": 183,
+        "from": "https://x.com/LangChain/status/2101454284927959080",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100088523403432357",
+      "source": "x",
+      "url": "https://x.com/N8Programs/status/2100088523403432357",
+      "title": "Tested @typesafeai's claim that their new model Jev delivered \"comparable... intelligence\" to…",
+      "author": "@N8Programs",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSUDVTZXUAAAld0.jpg",
+        "thumbW": 2000,
+        "thumbH": 2000,
+        "avatar": "https://pbs.twimg.com/profile_images/1568651323838431234/Tm_l4w0Y_normal.png"
+      },
+      "metrics": {
+        "likes": 910,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Somebody finally tested the sentence rather than the demo. He took Jev's claim of intelligence comparable to a frontier model on System One tasks and ran both on multiple-choice benchmarks with reasoning turned off — and came back with \"Jev is Terra-tier\", which is a stronger result than the claim it was checking.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Tested @typesafeai's claim that their new model Jev delivered \"comparable... intelligence\" to GPT-5.6 Terra on \"System 1\" tasks. To do this, I compare both models on multiple-choice benchmarks (MMLU, GPQA, etc.). Set reasoning=none for Terra for sys 1. Result: Jev is Terra-tier.…",
+        "chars": 303,
+        "from": "https://x.com/N8Programs/status/2100088523403432357",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100256512471916748",
+      "source": "x",
+      "url": "https://x.com/NatalieMarleny/status/2100256512471916748",
+      "title": "Seems to me that the best application for @typesafeai System One models will be: *the AI rout…",
+      "author": "@NatalieMarleny",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2023693667836346368/14-l97U6_normal.jpg"
+      },
+      "metrics": {
+        "likes": 31,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The argument that the model's home is the router rather than the task: every automation stack already has a controller, and that controller is where the cheap decisions pile up. It is a post about architecture, and it is the clearest statement of the case in this batch.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Seems to me that the best application for @typesafeai System One models will be: *the AI router / controller* of the system. Let me explain... This demo by @allietheicon of Jev's real-world capabilities is incredibly cool. Traditionally in automation engineering there are 3",
+        "chars": 274,
+        "from": "https://x.com/NatalieMarleny/status/2100256512471916748",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100859259915227358",
+      "source": "x",
+      "url": "https://x.com/Orus_agent/status/2100859259915227358",
+      "title": "As promised, Jev is now integrated into Orus agents. What is Jev, and how can it help our age…",
+      "author": "@Orus_agent",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100852121105006592/img/NlvQ4G9nQNYzq8zZ.jpg",
+        "thumbW": 1658,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2097776240081944585/3cP5g_R2_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100852121105006592/vid/avc1/1104x720/PAClylbI7JdtmxEz.mp4",
+          "width": 1104,
+          "height": 719,
+          "durationS": 22,
+          "bitrate": 2176000,
+          "bytes": 1455561,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 51,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "An integration rather than a demo: Jev now reviews the trades an agent's strategy proposes before they happen, and can refuse them. The interesting part is where the model sits — after the strategy, before the order — which is the opposite of letting it generate the strategy.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "trading-and-markets"
+      ],
+      "quote": {
+        "text": "As promised, Jev is now integrated into Orus agents. What is Jev, and how can it help our agents? Jev is a model from TypeSafe AI, built to answer precise questions with structured answers. In Orus, it reviews the trades your strategy proposes, before they happen. It approves…",
+        "chars": 300,
+        "from": "https://x.com/Orus_agent/status/2100859259915227358",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102801981735637354",
+      "source": "x",
+      "url": "https://x.com/Pepper588/status/2102801981735637354",
+      "title": "Browser-use turned it into an agent — jev-ultrafast, choose→click→gone. 18K+ stars in days. h…",
+      "author": "@Pepper588",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 1,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a one-line pointer to the browser agent repository; the repository is already on this wall",
+      "tags": []
+    },
+    {
+      "id": "x:2101311813908652069",
+      "source": "x",
+      "url": "https://x.com/RohOnChain/status/2101311813908652069",
+      "title": "Jev is the FASTEST AI model ever built for trading It makes calibrated buy/sell decisions in …",
+      "author": "@RohOnChain",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2015696704448704512/IqwOwcRn_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1872,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The trading post with numbers rather than adjectives: a decision per block, under 100 ms, 24/7, with a written walkthrough of building the loop. It also shows how this model gets sold on X — as a latency story first and a calibration story second, which is not the order the vendor's own benchmark uses.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "trading-and-markets"
+      ],
+      "quote": {
+        "text": "Jev is the FASTEST AI model ever built for trading It makes calibrated buy/sell decisions in under 100 ms That is one real decision on every single block, 24/7 In this article I've shown EXACTLY how to build HFT trading system with Jev (from scratch) https://t.co/4hmZDzN00Z",
+        "chars": 274,
+        "from": "https://x.com/RohOnChain/status/2101311813908652069",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2103197818467102733",
+      "source": "x",
+      "url": "https://x.com/RoundtableSpace/status/2103197818467102733",
+      "title": "TOP 5 GITHUBS TO IMPROVE YOUR JEV WORKFLOWS: 1. Jev Ultrafast: Jev for browser agents. https:…",
+      "author": "@RoundtableSpace",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HTAPRDFbYAANj08.jpg",
+        "thumbW": 1168,
+        "thumbH": 784,
+        "avatar": "https://pbs.twimg.com/profile_images/2012162102283407360/U-fPj6wg_normal.jpg"
+      },
+      "metrics": {
+        "likes": 19,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A five-item list of repositories, and worth a card because it is what a newcomer sees when they search: ultrafast for browsers, skills for agent plumbing, a trader, and two more. Lists like this are how most readers meet the ecosystem, so we track them.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "TOP 5 GITHUBS TO IMPROVE YOUR JEV WORKFLOWS: 1. Jev Ultrafast: Jev for browser agents. https://t.co/cQfIlAs1kb 2. Hermes Jev Skills: Jev routing, memory, compaction and skill selection for AI agents. https://t.co/qCvRq2s3O8 3. Jev Trader: Real-time trading loop for Jev.…",
+        "chars": 294,
+        "from": "https://x.com/RoundtableSpace/status/2103197818467102733",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100619653995532366",
+      "source": "x",
+      "url": "https://x.com/VaibhavSisinty/status/2100619653995532366",
+      "title": "Browser agent that finds flights in 7 seconds for $0.003. Connected Jev to Browser Use. Built…",
+      "author": "@VaibhavSisinty",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1466482275361562626/jP_Sgq2A_normal.jpg"
+      },
+      "metrics": {
+        "likes": 12,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A browser agent that searches flights in seven seconds for under half a cent, built on the open harness. The cost figure is the part worth keeping: it is the same shape as the launch number we measured against, but from somebody with no stake in either model.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "Browser agent that finds flights in 7 seconds for $0.003. Connected Jev to Browser Use. Built an open source browser agent. Searches flights at 1x speed in 7 seconds. Cost per search: less than half a cent.",
+        "chars": 206,
+        "from": "https://x.com/VaibhavSisinty/status/2100619653995532366",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100630563422085416",
+      "source": "x",
+      "url": "https://x.com/YouWareAI/status/2100630563422085416",
+      "title": "🎉Amazing~ Meet Jev — TypeSafe’s System One model. State in → typed decisions out. &gt; 27 qu…",
+      "author": "@YouWareAI",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2100630495013076992/img/3NfFyCVocCJpsaCd.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/2094623348902989824/p7DSaL3N_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2100630495013076992/vid/avc1/640x360/n1Ohq097CSvM95cX.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 46,
+          "bitrate": 832000,
+          "bytes": 1022801,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 9,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A demo post that names its own inputs: twenty-seven questions in one parallel call, a Doom bot driven by structured game state, and a WikiRace run in 0.419 seconds. The last one is the same benchmark a sceptic in this batch used to argue the model is short on world knowledge, which is why both are on the wall.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "🎉Amazing~ Meet Jev — TypeSafe’s System One model. State in → typed decisions out. > 27 questions in one parallel call > Doom bot on structured game state > WikiRace: Baseball → Sun in 0.419s / 3 hops Demo from @typesafeai. We’ll be cooking more fun + useful Jev × YouWare…",
+        "chars": 296,
+        "from": "https://x.com/YouWareAI/status/2100630563422085416",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101311769113178270",
+      "source": "x",
+      "url": "https://x.com/airesearch12/status/2101311769113178270",
+      "title": "Introducing JevBench. The first benchmark for Jev class models. Original Jev by @typesafeai i…",
+      "author": "@airesearch12",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101311146871476224/img/7iObyfH5AUq_DC_q.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1942340330314956800/iTdMDC7t_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101311146871476224/vid/avc1/640x360/mdSSw8wi2wdndhFk.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 90,
+          "bitrate": 832000,
+          "bytes": 1731475,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 226,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The launch of JevBench, a reproducible benchmark for this class of model, with Jev's first score on it. Whatever one thinks of a benchmark written by the community it measures, this is the artefact that made comparison possible — before it, every number in this topic came from a different ruler.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Introducing JevBench. The first benchmark for Jev class models. Original Jev by @typesafeai in the lead at 75.3. SemIf #2 at 74.6. All results at https://t.co/hFQ5fX4JEb https://t.co/nXYfCrZnwO",
+        "chars": 193,
+        "from": "https://x.com/airesearch12/status/2101311769113178270",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100519512730738871",
+      "source": "x",
+      "url": "https://x.com/decapostos/status/2100519512730738871",
+      "title": "Just found Jev. Jev looks at the page, sees the real buttons, and just picks: click this one,…",
+      "author": "@fullctx",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2102318291016675328/vwy9G7id_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1934,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The plainest description of what the model does in a browser, and it is almost a specification: look at the page, see the real buttons, pick one of seven actions. Worth a card because it explains the category without a benchmark in sight.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "browser-agents"
+      ],
+      "quote": {
+        "text": "Just found Jev. Jev looks at the page, sees the real buttons, and just picks: click this one, type here, scroll, wait, or done. - Click this - Scroll down - Type this - Buy / sell - Retry or stop - Send the job to another agent That’s it. This is useful for: • Browser",
+        "chars": 268,
+        "from": "https://x.com/decapostos/status/2100519512730738871",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2100409794276520341",
+      "source": "x",
+      "url": "https://x.com/h_nilforoshan/status/2100409794276520341",
+      "title": "Stanford CS PhD here 👋. I rigorously benchmark Jev/Typesafe on my consumer AI app serving 2.…",
+      "author": "@h_nilforoshan",
+      "publishedAt": "2026-09-17",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1624843052744589312/YKeAr_5R_normal.jpg"
+      },
+      "metrics": {
+        "likes": 809,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A Stanford PhD running a hiring product with 2.5 million monthly users benchmarked the model on the task his company actually pays for: scoring how well a résumé matches a job. Production numbers on a real workload are rare in this topic, and he shows the method.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Stanford CS PhD here 👋. I rigorously benchmark Jev/Typesafe on my consumer AI app serving 2.5 million monthly active users https://t.co/b52LE8B3yN. At HiringCafe we score user resume x job description relevance. Here's how it does 🧵",
+        "chars": 234,
+        "from": "https://x.com/h_nilforoshan/status/2100409794276520341",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102075332014624819",
+      "source": "x",
+      "url": "https://x.com/ilijabogunovic/status/2102075332014624819",
+      "title": "@TypeSafeAI just released Jev, a new System 1 model, with Wikirace as a headline demo. So we …",
+      "author": "@ilijabogunovic",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSwP1Z3XoAADcnY.png",
+        "thumbW": 579,
+        "thumbH": 445,
+        "avatar": "https://pbs.twimg.com/profile_images/1503868878388183040/UmHs1P-X_normal.jpg"
+      },
+      "metrics": {
+        "likes": 22,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Somebody ran the vendor's headline demo on their own benchmark and published the verdict that hurts: fast and absurdly cheap, and short on the world knowledge and planning the demo implies. Four hundred and fifty games, eight hours, under a dollar — the cost claim holds even where the capability one does not.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "@TypeSafeAI just released Jev, a new System 1 model, with Wikirace as a headline demo. So we ran it on ours: LLM-Wikirace benchmark. 450 games. 8 hours of wall-clock time. Under $1 total. Verdict: fast and absurdly cheap, but short on the world knowledge and planning that…",
+        "chars": 296,
+        "from": "https://x.com/ilijabogunovic/status/2102075332014624819",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101028325472841920",
+      "source": "x",
+      "url": "https://x.com/jaredpalmer/status/2101028325472841920",
+      "title": "Kev-0.5B: A tiny open source Jev-like decision model with a TypeSafe-compatible API based on …",
+      "author": "@jaredpalmer",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HShaIHuWsAAU9fy.jpg",
+        "thumbW": 1996,
+        "thumbH": 647,
+        "avatar": "https://pbs.twimg.com/profile_images/2093015076261306369/IcbZLSLm_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2599,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The release of the most-starred open imitation: a 0.5B Jev-like decision model with a TypeSafe-compatible API, trainable on a laptop. Posted by a developer whose projects are usually infrastructure, which is a signal about who is watching this category.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "Kev-0.5B: A tiny open source Jev-like decision model with a TypeSafe-compatible API based on Qwen2.5-0.5B that you can train and run on a MacBook Pro. Model card and weights are available on GitHub https://t.co/53wZQYhhmu https://t.co/6BXJQ8rSHt",
+        "chars": 245,
+        "from": "https://x.com/jaredpalmer/status/2101028325472841920",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101896621524914485",
+      "source": "x",
+      "url": "https://x.com/kraayenJon/status/2101896621524914485",
+      "title": "@alex_verem I’ve been documenting all these cool use cases at Made With JEV There are over 30…",
+      "author": "@kraayenJon",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HStv1ivXYAACJw3.jpg",
+        "thumbW": 1792,
+        "thumbH": 592,
+        "avatar": "https://pbs.twimg.com/profile_images/1996912063403139072/-8qmmOXU_normal.png"
+      },
+      "metrics": {
+        "likes": 2,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The author of the directory this site's topic pages were modelled on, saying he has documented over three hundred demos. We cite this because the reference is real: our own X column exists because that listing showed what a model's week looks like when somebody collects it.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "@alex_verem I’ve been documenting all these cool use cases at Made With JEV There are over 300 demos https://t.co/bWrNDaIROs",
+        "chars": 124,
+        "from": "https://x.com/kraayenJon/status/2101896621524914485",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102009736501551390",
+      "source": "x",
+      "url": "https://x.com/kraayenJon/status/2102009736501551390",
+      "title": "3 days ago I launched made with jev. 205 people are on it right now. I still cannot believe t…",
+      "author": "@kraayenJon",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102009640380772352/img/8L82VMUjgAuwd_Uc.jpg",
+        "thumbW": 3088,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1996912063403139072/-8qmmOXU_normal.png",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102009640380772352/vid/avc1/1028x720/RR_GTfucI2wbTaq4.mp4?tag=14",
+          "width": 1028,
+          "height": 719,
+          "durationS": 11,
+          "bitrate": 2176000,
+          "bytes": 985912,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 13,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Three days after launching, the same author posted his traffic: 205 people on the site at once. It is a post about a website rather than about the model, and it is here because the demand for a place to look at what people built is itself the finding.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "3 days ago I launched made with jev. 205 people are on it right now. I still cannot believe the visitors and the LLM mentions. Live analytics and the site, below 🤯 https://t.co/XyUS3NcjvO",
+        "chars": 188,
+        "from": "https://x.com/kraayenJon/status/2102009736501551390",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101325394532266139",
+      "source": "x",
+      "url": "https://x.com/manish_fp/status/2101325394532266139",
+      "title": "I read 10+ articles and watched 5 hours of content to understand what Jev actually is. This i…",
+      "author": "@manish_fp",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2103058272030986240/fBR8MLsg_normal.jpg"
+      },
+      "metrics": {
+        "likes": 650,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Ten articles and five hours of video, compressed into one explanation with a reading list at the end. The genre is new enough that the explainers are still being written, and this one is explicit about what it read to write itself.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "I read 10+ articles and watched 5 hours of content to understand what Jev actually is. This is my attempt to put it all in one place, from how it works and what you can build + list of useful resources needed to go deeper. https://t.co/0Ofz3KKlQz",
+        "chars": 246,
+        "from": "https://x.com/manish_fp/status/2101325394532266139",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101511813581910516",
+      "source": "x",
+      "url": "https://x.com/minchoi/status/2101511813581910516",
+      "title": "6. Browser agents where Jev picks the click. https://t.co/zEvxn5fc8v",
+      "author": "@minchoi",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 5,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a numbered list fragment (\"6. Browser agents where Jev picks the click\") with no post of its own",
+      "tags": []
+    },
+    {
+      "id": "x:2101387410172993992",
+      "source": "x",
+      "url": "https://x.com/openjevai/status/2101387410172993992",
+      "title": "OpenJEV is live: A public door to Jev, TypeSafe’s System One model. Sign in. Get a key. Call.…",
+      "author": "@openjevai",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 18,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a token launch with a contract address printed under it, using the model's name",
+      "tags": []
+    },
+    {
+      "id": "x:2102078925644108051",
+      "source": "x",
+      "url": "https://x.com/vesko_st/status/2102078925644108051",
+      "title": "Everyone has been impressed by TypeSafe AI’s Jev — I wanted to see for myself how good it is …",
+      "author": "@vesko_st",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1152354533441298432/5rimNOxT_normal.jpg"
+      },
+      "metrics": {
+        "likes": 22,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A product engineer testing the model on the part of the job everything else depends on: whether it understands the text before it decides anything about it. The post is a sequence of measured probes rather than a verdict, which is why it is on the wall.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "quote": {
+        "text": "Everyone has been impressed by TypeSafe AI’s Jev — I wanted to see for myself how good it is — and how useful it could be for a product like @lightfld. I started with text understanding, because it is the foundation of everything a decision model does: it has to understand the",
+        "chars": 277,
+        "from": "https://x.com/vesko_st/status/2102078925644108051",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2099927802405654900",
+      "source": "x",
+      "url": "https://x.com/wallstengine/status/2099927802405654900",
+      "title": "TYPESAFE AI LAUNCHES JEV, ITS FIRST “SYSTEM ONE” AI MODEL Instead of generating text token by…",
+      "author": "@wallstengine",
+      "publishedAt": "2026-09-15",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2099925575637057536/img/l4J_ZhkaxAe8FJXv.jpg",
+        "thumbW": 1920,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1691846947857178624/oZp5wB4r_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2099925575637057536/vid/avc1/640x360/uvGD_dS_Y0awQHqj.mp4",
+          "width": 640,
+          "height": 360,
+          "durationS": 176,
+          "bitrate": 832000,
+          "bytes": 6194727,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 58,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Launch-day coverage from a markets account, and the cleanest statement of the three headline claims that were repeated all week: twenty to two hundred times faster, forty to four hundred times cheaper, and a price per million tokens. All three are the vendor's; the post is how they travelled.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ],
+      "quote": {
+        "text": "TYPESAFE AI LAUNCHES JEV, ITS FIRST “SYSTEM ONE” AI MODEL Instead of generating text token by token, it answers structured questions in parallel and returns typed outputs with probabilities and confidence scores. - 20-200x faster - 40-400x cheaper - $0.042 per 1M input tokens -",
+        "chars": 278,
+        "from": "https://x.com/wallstengine/status/2099927802405654900",
         "readOn": "2026-09-24"
       }
     }

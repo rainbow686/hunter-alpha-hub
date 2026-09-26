@@ -16,7 +16,7 @@
       "exclude": "/(layabox|layair|layar\\b)/i"
     },
     "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
-    "generatedAt": "2026-09-24T09:52:26.370Z",
+    "generatedAt": "2026-09-24T19:53:02.459Z",
     "candidates": 6,
     "published": 6
   },

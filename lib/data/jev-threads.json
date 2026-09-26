@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-23T04:39:18.987Z",
+    "generatedAt": "2026-09-24T19:53:01.714Z",
     "source": "hn-algolia",
     "queries": [
       "jev",
@@ -14,11 +14,12 @@
       "minPoints": 20,
       "minComments": 10,
       "minDate": "2026-06-01",
-      "relevance": "/(\\bjev\\b(?!ons)|\\bkev\\b|typesafe|system one)/i"
+      "relevance": "/(\\bjev\\b(?!ons)|\\bkev\\b|typesafe|system one)/i",
+      "exclude": ""
     },
-    "candidates": 91,
-    "published": 14,
-    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs; carries two sources since 2026-09-23 (Hacker News and dev.to)",
+    "candidates": 115,
+    "published": 45,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
     "candidatesRemaining": 0,
     "sources": [
       "hn-algolia",
@@ -440,9 +441,11 @@
       "what": "If you spend time browsing open-source LLM communities, you’ve seen the same pattern repeat every few...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4716496",
@@ -466,9 +469,11 @@
       "what": "It wants to make the decision, return a probability, and get out of the way.   TypeSafe's...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4705325",
@@ -526,9 +531,11 @@
       "what": "Modelo Jev chegou ao mesmo tempo que eu estudava a técnica de Destilação. E isso me deixou com uma...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4703103",
@@ -552,9 +559,15 @@
       "what": "Jev does not generate an answer string. It makes a typed decision in one forward pass.           So,...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A reproduction of the architecture rather than the results, with the distinction in the title. Worth a row because that difference is the thing most 'I rebuilt it' posts blur, and this one does not.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4702726",
@@ -578,9 +591,15 @@
       "what": "TL;DR: I ran three Japanese classification tasks (250 rows each, same gold labels) through six...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Somebody trained their own small encoder and compared it to the hosted model on three Japanese classification tasks. No reactions and no marketing — a person with a dataset, a hypothesis and a result, which is the kind of row this column exists for.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4705970",
@@ -604,9 +623,15 @@
       "what": "Debugging KaLM-Jev decision-override conflicts in AI agents. A Flutter/Node.js blueprint for robust jev decision model ai agent integration.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A debugging write-up: an agent's override logic fighting the model's decisions, and the pattern that fixed it across two runtimes. Narrow, concrete, and the kind of thing that only exists once somebody has actually shipped.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "devto:4701751",
@@ -630,9 +655,15 @@
       "what": "My own code was steering a language model toward the same twenty popular games on one page in ten. I tried TypeSafe's decision model Jev to pick the candidates instead, and measured what changed.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A personal project using the model to score game recommendations, including the part where the author's own code was steering the model toward the answer it expected. Catching that in your own pipeline is the value here.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "media-and-content"
+      ]
     },
     {
       "id": "devto:4703157",
@@ -656,9 +687,15 @@
       "what": "A visual guide to Jev projects: nine directory READMEs, repository overlap, a 358-entry category breakdown, and practical examples.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Nine directories read in one sitting, with what each one collects. It is the closest thing to a census of the ecosystem's first week, and it is explicit that it is reading lists rather than testing projects.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4699410",
@@ -682,9 +719,11 @@
       "what": "The problem that kept finding me was mapping unstructured data into an existing corpus. Supplier...",
       "aiDisclosure": "some_ai",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4705332",
@@ -708,9 +747,11 @@
       "what": "Jev wirkt nur aus der Entfernung wie ein direkter Konkurrent zu GPT-5 und Claude. Alle drei können...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4705331",
@@ -734,9 +775,11 @@
       "what": "Jev looks like a direct competitor to GPT-5 and Claude only from a distance. All three can classify...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4698208",
@@ -760,9 +803,11 @@
       "what": "TypeSafe's Jev put a name on something real: \"System One\" models that return typed, calibrated...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4700529",
@@ -786,9 +831,15 @@
       "what": "TypeSafe's Jev came out of stealth this month and every demo I see is the same: browsers, games, toy...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Three hundred calls to a simulated robot fleet for well under a cent, with the calls and the invoice kept separate so a reader can check the arithmetic. The cheapest demonstration in this batch of what the pricing model implies.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4697166",
@@ -812,9 +863,11 @@
       "what": "fuzzyif puts a plain-language question in an if condition. Replacing 418 lines of if/elif in Ansible's distribution detection with two calls, scored by Ansible's 90 official fixtures.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4699166",
@@ -838,9 +891,15 @@
       "what": "Every certificate team has read this ticket:   We renewed the certificate yesterday and I can see the...",
       "aiDisclosure": "some_ai",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "Certificate renewals mapped to the tickets that track them, with the model deciding which ticket belongs to which certificate. Unglamorous operations work, stated plainly, which is what most adoption of this model will look like.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "devto:4694743",
@@ -864,9 +923,15 @@
       "what": "Jev is getting wired into agents everywhere as the cheap typed-judgment layer (Choice/Score/Boolean...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The calibration question written for people about to put a model in a compliance path: a confidence number is only useful if somebody checked what it means. It asks the question our own probe answers for this model, and it asks it generally.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4697723",
@@ -890,9 +955,11 @@
       "what": "I recently came across an interesting problem while thinking about AI agents.  Imagine an enterprise...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4698531",
@@ -916,9 +983,11 @@
       "what": "When working with System One models like Jev, we may need decision-making algorithms such as...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4686212",
@@ -942,9 +1011,11 @@
       "what": "Look at where the model calls sit in your systems. Not the chat feature, the plumbing.  Something...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4687173",
@@ -968,9 +1039,11 @@
       "what": "When TypeSafe AI came out of stealth in September 2026 with founder Diogo Almeida, a name attached to...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4685254",
@@ -994,9 +1067,11 @@
       "what": "TypeSafe AI has released a model called Jev that doesn't generate text, but delivers typed decisions with calibrated confidence. 20–200x faster and 40–400x cheaper than traditional LLMs – but it's no ",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4678319",
@@ -1020,9 +1095,11 @@
       "what": "The obvious way to use Jev (TypeSafe AI's System One judgment API) is one question per row, then...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4709278",
@@ -1046,9 +1123,11 @@
       "what": "What if the future of AI isn't about generating better text, but making better decisions?  We've...",
       "aiDisclosure": "no_ai",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4667420",
@@ -1072,9 +1151,15 @@
       "what": "Near Here got early access to TypeSafe Jev, so we tested it against Mistral Small 4 and Gemini 3.5...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A team with early access tested all three on their own task: validating local event data. The comparison is narrow and the write-up says so, which is more useful than another sweep of public benchmarks.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "devto:4720662",
@@ -1098,9 +1183,11 @@
       "what": "Cleaning a large synthetic or pretraining dataset is a pain nobody talks about enough. You end up...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4720739",
@@ -1124,9 +1211,11 @@
       "what": "Semrush and Ahrefs cost upwards of $130/month. Most of what you're paying for is a web dashboard...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4717944",
@@ -1150,9 +1239,15 @@
       "what": "TL;DR   I built scrapy-jev, a Scrapy pipeline that asks a fast, cheap AI model whether each...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A scraper that asks the model whether the page it just fetched still looks like real data, and stops the crawl when the answer is no. A homely, specific use of the pattern, which is how most of this model's real adoption looks.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4717285",
@@ -1176,9 +1271,15 @@
       "what": "TypeSafe's Jev vs 5 flash LLMs, measured: 5-37x cheaper and 11-27x faster on 12-question workflows, same cost as Qwen or GLM on one label, never most accurate.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "The comparison that matters for a bill rather than a benchmark: on one label the cheap chat models are competitive, on a workflow of several questions the decision model pulls away. The crossover is the finding, and the post shows where it is.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4715018",
@@ -1202,9 +1303,11 @@
       "what": "Originally published on andrew.ooo — visit the original for any updates, code snippets that aged...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4713671",
@@ -1228,9 +1331,11 @@
       "what": "When you add AI to an agent, support system, workflow, or SaaS product, the hardest part is often not...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4711212",
@@ -1254,9 +1359,11 @@
       "what": "Introduction    \"A decision doesn't need to write a sentence to explain itself — it just...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4705602",
@@ -1280,9 +1387,11 @@
       "what": "The software industry has spent the last three years trying to make large language models behave like...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4702836",
@@ -1306,9 +1415,11 @@
       "what": "Jev is now open to everyone with a $5 free credit. Here's how to make your first Jev API call, what the credit really buys, and what to test first with it.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4698946",
@@ -1332,9 +1443,15 @@
       "what": "Poke is an AI assistant. OpenPoke is Shlok Khemani's simplified, open-source take on it, with email...",
       "aiDisclosure": "some_ai",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A small, honest test — one task, a handful of emails, a stated speed ratio — from somebody building an assistant. Small tests like this are how adoption actually happens, and the post does not dress it up as a benchmark.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "devto:4695132",
@@ -1358,9 +1475,11 @@
       "what": "Jev vs Fable 5.1 vs GPT-6 Astra isn't a normal model race: one classifies, two reason. Here's how they compare on cost, speed, accuracy, and best use.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4687464",
@@ -1384,9 +1503,11 @@
       "what": "A common confusion: “Can’t I get structured output from GPT/Claude with JSON schema? Then what is Jev...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4687380",
@@ -1410,9 +1531,11 @@
       "what": "TypeSafe shipped Jev, their first public System One model. Short version:    Not a chat LLM. It...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4687390",
@@ -1436,9 +1559,11 @@
       "what": "People keep demos of TypeSafe Jev next to browser agents. That doesn’t mean Jev is “another Computer...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4682479",
@@ -1462,9 +1587,15 @@
       "what": "Jev is one of those models that makes more sense once you stop comparing it with chatbots.  It does...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A hands-on tour by somebody who had not read the launch material first, which makes it a useful check on how far a reader gets without the vendor's framing. One of the few first-person walkthroughs with the output shown.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4704280",
@@ -1488,9 +1619,15 @@
       "what": "Last week we wrote about the classification problem hiding in your LLM bill, and about how to read a...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A team trying to reproduce the price-performance headline, getting it wrong twice, and publishing both misses before the number they eventually stand behind. Method-first measurement writing is rare in this topic; this is the standard.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     },
     {
       "id": "devto:4710008",
@@ -1514,9 +1651,11 @@
       "what": "TypeSafe AI's Jev returns typed decisions with probabilities instead of text. How to get access, use it, and what it costs vs LLMs.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4669574",
@@ -1540,9 +1679,11 @@
       "what": "Originally published at norvik.tech            Introduction   Explore the technical aspects of...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4692094",
@@ -1566,9 +1707,11 @@
       "what": "Jev doesn't generate text. It might be the piece Flash Onyx 3 was actually missing.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4694928",
@@ -1592,9 +1735,11 @@
       "what": "If you're building on someone else's LLM API, you've probably had this experience: your app has been...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4695263",
@@ -1618,9 +1763,15 @@
       "what": "Schema-valid is not content-correct · Part 1/3           It starts with a storyboard a...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A three-part write-up of putting the model in front of an agent as a guard, and discovering the failure mode that matters: the answer had the right shape and the wrong content. The schema was never the hard part.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "devto:4694915",
@@ -1644,9 +1795,11 @@
       "what": "Jev returns a probability, not prose. That made it possible to model-check the consensus around it, then try to break it. Two of the bugs were mine.",
       "aiDisclosure": "some_ai",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4701517",
@@ -1670,9 +1823,15 @@
       "what": "We gave our LLM trading bot an auditor that never sees the chart   Every hour, on the hour,...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A trading bot with the model as an auditor that never sees the strategy, only the proposed trade. Five comments for a reason: the split between proposing and approving is the interesting half, and the post says which side the model is on.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "trading-and-markets"
+      ]
     },
     {
       "id": "devto:4701659",
@@ -1696,9 +1855,11 @@
       "what": "Clasificación, puntuación y enrutamiento de decisiones con jev, LangChain y la API TypeSafe-compatible de Vercel AI Gateway.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4694079",
@@ -1722,9 +1883,15 @@
       "what": "I use Claude and GPT to review each other's work. Adding Jev did not replace that arrangement. It...",
       "aiDisclosure": "some_ai",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
-      "ourNote": "",
-      "checked": []
+      "status": "published",
+      "ourNote": "A team adding the model to a review process without letting it take over the review, and describing where the human stayed in the loop. Most integration posts skip that half; this one is about it.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
     },
     {
       "id": "devto:4694646",
@@ -1748,9 +1915,11 @@
       "what": "Personal research note for AItier readers — not TypeSafe documentation and not a benchmark.          ...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4687707",
@@ -1774,9 +1943,11 @@
       "what": "After the release of the TypeSafe AI Jev model and its availability in OpenRouter, I decided to...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged jev on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
     },
     {
       "id": "devto:4375204",
@@ -1800,9 +1971,11 @@
       "what": "String-based field references are the silent killer of JPA projects. They compile. They run. Then...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:4175609",
@@ -1826,9 +1999,11 @@
       "what": "Learn how Kotlin inline classes give you type‑safe IDs with zero runtime overhead — practical...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3598942",
@@ -1852,9 +2027,11 @@
       "what": "How to Use TypeScript 5.6 and Zod 3.23 for Type-Safe AI API Development with...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3561494",
@@ -1878,9 +2055,11 @@
       "what": "After auditing 47 production TypeScript stacks in Q3 2024, we found that API client bloat accounts...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3560246",
@@ -1904,9 +2083,11 @@
       "what": "In 2025, 72% of startup API outages traced back to type mismatches between request validation and...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3560154",
@@ -1930,9 +2111,11 @@
       "what": "In 2026, type-safe ORMs handle 72% of new Node.js backend projects, but choosing between Drizzle 0.30...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3401994",
@@ -1956,9 +2139,11 @@
       "what": "In the recent Rakudo Weekly post, there was an illustration of the Allomorph type as an educational...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3027547",
@@ -1982,9 +2167,11 @@
       "what": "Throughout my career, I've primarily worked with two main programming languages - C# and Kotlin (plus...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:3105318",
@@ -2008,9 +2195,11 @@
       "what": "Define your API contract once, get type-safe handlers, automatic validation, and OpenAPI docs. itty-spec makes building robust APIs effortless.",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:2633138",
@@ -2034,9 +2223,11 @@
       "what": "Over the last few years, Node.js and React have become the default stack for many new applications....",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:2346900",
@@ -2060,9 +2251,11 @@
       "what": "Principal devs hate this one weird trick...   Have you felt frustrated by how hard recursion is?  If...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1982457",
@@ -2086,9 +2279,11 @@
       "what": "Hello everyone  Today, we will discuss one of the most challenging tasks in working with a GraphQL...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1980290",
@@ -2112,9 +2307,11 @@
       "what": "TypedSQL is a powerful feature in Prisma that allows developers to write raw SQL queries while...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1947280",
@@ -2138,9 +2335,11 @@
       "what": "What are Java Generics?   According to Javadocs    A generic type is a generic class or...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1890490",
@@ -2164,9 +2363,11 @@
       "what": "Ensuring that HTTP requests and responses are typesafe is crucial in modern web development. It...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1884480",
@@ -2190,9 +2391,11 @@
       "what": "TL;DR   This guide shows you how to build and deploy a type-safe, event-driven, uptime...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1875349",
@@ -2216,9 +2419,11 @@
       "what": "Introduction   Flutter's popularity has surged thanks to its ability to build beautiful and...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1819677",
@@ -2242,9 +2447,11 @@
       "what": "Say hello to the tsd npm package, the tool that lets you write tests for your type definitions.  Lets...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1823192",
@@ -2268,9 +2475,11 @@
       "what": "In this tutorial you will create a REST API for a URL Shortener service using Encore for TypeScript,...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1716100",
@@ -2294,9 +2503,11 @@
       "what": "By now you are likely familiar with the concept of type-safety in programming. If not — here's the...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1668758",
@@ -2320,9 +2531,11 @@
       "what": "There's a lot of talk about Type-Safety in programming these days. Yet a lot of programs, especially...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1665266",
@@ -2346,9 +2559,11 @@
       "what": "TL;DR   Building microservices applications can be a pain because you normally have to deal...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1662898",
@@ -2372,9 +2587,11 @@
       "what": "TL;DR   This guide shows you how to build a fully Type-Safe event-driven backend in Go,...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1653318",
@@ -2398,9 +2615,11 @@
       "what": "Most developers are by now familiar with the concept of type-safety in programming. It brings...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:1629568",
@@ -2424,9 +2643,11 @@
       "what": "The big idea   Type Safety helps ensure the correctness of a codebase by catching type...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
     },
     {
       "id": "devto:884312",
@@ -2450,9 +2671,704 @@
       "what": "https://github.com/geirolz/fly4s  The most famous library to handle database migrations in Java is...",
       "aiDisclosure": "not_disclosed",
       "candidateReason": "tagged typesafe on dev.to",
-      "status": "candidate",
+      "status": "rejected",
       "ourNote": "",
-      "checked": []
+      "checked": [],
+      "reason": "a general article about type safety in another language or framework — the dev.to `typesafe` tag matched, the article predates this model by years and is not about it",
+      "tags": []
+    },
+    {
+      "id": "hn:49812769",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49812769",
+      "title": "Jev in 25 Lines of Python",
+      "author": "bashbjorn",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 666,
+        "comments": 208,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "published",
+      "ourNote": "The most-read thread of the week, and it is a parody: a local Qwen model reproducing Jev's visible behaviour in twenty-five lines of Python. The discussion is better than the joke — the top comment asks for the latency and compute comparison the parody leaves out, which is exactly the measurement Jev's own case rests on.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://www.nobodywho.ai/posts/jev-in-25-lines/",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "hn:49802161",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49802161",
+      "title": "OpenAI is well positioned to fast-follow Jev",
+      "author": "JohnBerryman",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 323,
+        "comments": 225,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "published",
+      "ourNote": "A 323-point argument that OpenAI is well positioned to fast-follow this shape of model, from a blog that writes about model economics. Whether or not the prediction lands, the thread is the clearest statement of the strategic question the launch raised.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://arcturus-labs.com/blog/2026/09/21/will-openai-eat-jevs-lunch/",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "hn:49800574",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49800574",
+      "title": "Show HN: JevBench, a reproducible benchmark for typed decision models",
+      "author": "florianstandhar",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 145,
+        "comments": 36,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "published",
+      "ourNote": "The Hacker News thread for JevBench, the community benchmark that made comparison between these models possible. The most interesting comment quotes the vendor's own reasoning for not publishing benchmarks — which is a fair thing to have next to a benchmark somebody else wrote.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://benchmarkheaven.com/jev-models",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "hn:49802160",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49802160",
+      "title": "Jev – A curation of Jev demos on X, tools, skills, and integrations",
+      "author": "frostbyte7",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 93,
+        "comments": 34,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "published",
+      "ourNote": "A curation of demos, tools and integrations, submitted as a repository and argued about in the comments. Our own X column is the same idea with a person reading each row first; this is the version that scales by not reading them, and the comments show where that shows.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://github.com/Amal-David/awesome-jev",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "hn:49816899",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49816899",
+      "title": "Jev Can't Be Calibrated",
+      "author": "alexmolas",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 62,
+        "comments": 60,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "published",
+      "ourNote": "The sceptic's post, and the most valuable one in this topic's discussion: four hundred rolls of a fair die, and the model's probabilities never moved off the first face. It is a one-experiment argument, so read it as a sharp case rather than a verdict — and note that it lands on the same failure the model's own card warns about.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://www.alexmolas.com/2026/09/23/jev-cant-be-calibrated.html",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "hn:49829625",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49829625",
+      "title": "What Is RLCD? The Secret Behind Jev",
+      "author": "tnspacetime",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 60,
+        "comments": 8,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"jev\" (the model itself)",
+      "status": "published",
+      "ourNote": "An explainer for the training method behind this class of model, with the objection attached: the top comment points out that the piece never defines the acronym in its own title. Useful as a pointer to the technique, not as the reference for it.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://di-zhang-llm.github.io/blog/what-is-rlcd-the-secret-behind-jev/",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "hn:49796843",
+      "source": "hn",
+      "url": "https://news.ycombinator.com/item?id=49796843",
+      "title": "Jev introduces a new shape of LLM",
+      "author": "benwerd",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "score": 52,
+        "comments": 20,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "matched \"kev jev\" (the derivative family (Kev))",
+      "status": "published",
+      "ourNote": "Simon Willison's note on the launch, and the thread underneath is about what a closed decision model means for bias and audit: a probability you cannot interrogate is still a judgement. Worth reading for the questions rather than the answers.",
+      "checked": [
+        "the thread page and its top-level comments on Hacker News, read 2026-09-25",
+        "score and comment count read from the Algolia HN API the same day"
+      ],
+      "_externalUrl": "https://simonwillison.net/2026/Sep/21/jev/",
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "devto:4735739",
+      "source": "devto",
+      "url": "https://dev.to/gaurav_talesara/jev-ai-for-decisions-not-just-generation-3j88",
+      "title": "Jev: AI for Decisions, Not Just Generation",
+      "author": "Gaurav Talesara",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F030yegm6gcoetfe3edcr.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 2,
+        "asOf": "2026-09-24"
+      },
+      "what": "Most AI applications today are built around generation.  Give a model some context → ask a question →...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4734544",
+      "source": "devto",
+      "url": "https://dev.to/shweta_mishra_b3c97874de9/your-ai-agent-doesnt-need-an-llm-for-every-decision-meet-jev-and-the-rise-of-system-one-models-4ie2",
+      "title": "Your AI Agent Doesn’t Need an LLM for Every Decision — Meet Jev and the Rise of System One Models",
+      "author": "Shweta Mishra",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frvq7ma7582nufpdegg2j.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 1,
+        "comments": 0,
+        "readingMinutes": 5,
+        "asOf": "2026-09-24"
+      },
+      "what": "Most AI applications have a hidden architectural problem:  We use a language model for decisions that...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4729130",
+      "source": "devto",
+      "url": "https://dev.to/plastikelectrik/why-most-type-safe-validation-fails-in-production-and-how-jev-fixes-it-4b9o",
+      "title": "Why Most Type-Safe Validation Fails in Production (And How JEV Fixes It)",
+      "author": "Plastik Electrik",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F15c4djo48r3yi09c4604.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 2,
+        "comments": 0,
+        "readingMinutes": 4,
+        "asOf": "2026-09-24"
+      },
+      "what": "If you've shipped a production system that handles structured data — API payloads, form submissions,...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "published",
+      "ourNote": "The practical version of the argument: validation rules written as code rot, and a decision model is one way to move the judgement without moving the structure. The title overpromises and the body is a decent field report from a production system.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
+    },
+    {
+      "id": "devto:4735407",
+      "source": "devto",
+      "url": "https://dev.to/kantahayashiai/jev-does-not-play-dice-83-probability-19-accuracy-on-a-hidden-fair-die-roll-283",
+      "title": "Jev Does Not Play Dice: 83% probability, 19% accuracy on a hidden fair die roll",
+      "author": "Kanta Hayashi",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fh9kenam2hqbqvnuukq9l.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 8,
+        "asOf": "2026-09-24"
+      },
+      "what": "Jev gave a hidden fair die roll an 83% probability and was right 19% of the time. A check of its calibrated probabilities, with code and data.",
+      "aiDisclosure": "some_ai",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "published",
+      "ourNote": "The same fair-die experiment the Hacker News post above ran, written up from the other direction: the model was confident and wrong on a genuinely random process. Two independent people found the same edge in the same week, which is why both rows are here.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "devto:4726988",
+      "source": "devto",
+      "url": "https://dev.to/mbarcia/it-took-me-18-hours-to-add-jev-lk7",
+      "title": "It took me 18 hours to add Jev",
+      "author": "Mariano Barcia",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fgu07d146b57hkh11qwve.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 1,
+        "asOf": "2026-09-24"
+      },
+      "what": "It took me 18 months to build The Pipeline Framework.  18 days to turn it into an AI operating...",
+      "aiDisclosure": "some_ai",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "published",
+      "ourNote": "Eighteen months to build the pipeline and eighteen hours to add the decision model to it, retold without a victory lap. The ratio is the point: this model's integration cost is small enough to be a weekend, and that is why so many of these rows exist.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ]
+    },
+    {
+      "id": "devto:4725916",
+      "source": "devto",
+      "url": "https://dev.to/programmerraja/how-jev-works-the-logit-trick-behind-typesafes-system-one-model-4lpd",
+      "title": "How Jev Works: The Logit Trick Behind TypeSafe's System One Model",
+      "author": "Boopathi",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fsivsf773o564bnv7lceh.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 5,
+        "comments": 0,
+        "readingMinutes": 14,
+        "asOf": "2026-09-24"
+      },
+      "what": "For the last few weeks my timeline has been nothing but Jev.  TypeSafe AI shipped it, and within days...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "published",
+      "ourNote": "An explanation of the mechanism rather than the marketing: how a bounded answer space becomes a probability without generating a token. Written by somebody who read the paper, and it is the piece to send anyone who asks what the model actually does.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "devto:4726238",
+      "source": "devto",
+      "url": "https://dev.to/rebornace/after-jev-blew-up-i-brought-its-system-one-judgment-idea-into-my-open-source-ai-agent-584e",
+      "title": "After Jev Blew Up, I Brought Its \"System One Judgment\" Idea Into My Open-Source AI Agent",
+      "author": "rebornace",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjf5h1onwp8190gqikee9.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 1,
+        "comments": 0,
+        "readingMinutes": 7,
+        "asOf": "2026-09-24"
+      },
+      "what": "Project: Baize — an AI assistant runtime for your team (Go 1.25+, MIT) Repo:...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4721125",
+      "source": "devto",
+      "url": "https://dev.to/devrchancay/what-is-jev-typesafe-ais-model-that-decides-instead-of-writing-1ndd",
+      "title": "What is Jev: TypeSafe AI's model that decides instead of writing",
+      "author": "Ramón Chancay 👨🏻‍💻",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fwww.ramonchancay.me%2Fblog%2Fwhat-is-jev-typesafe-ai-og.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 3,
+        "asOf": "2026-09-24"
+      },
+      "what": "What is Jev, TypeSafe AI's System One model: it returns typed decisions with probabilities instead of text. How to call its API, what it costs and when to use it.",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4721126",
+      "source": "devto",
+      "url": "https://dev.to/devrchancay/que-es-jev-el-modelo-de-typesafe-ai-que-decide-en-vez-de-escribir-67n",
+      "title": "Qué es Jev: el modelo de TypeSafe AI que decide en vez de escribir",
+      "author": "Ramón Chancay 👨🏻‍💻",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fwww.ramonchancay.me%2Fblog%2Fque-es-jev-typesafe-ai-og.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 4,
+        "asOf": "2026-09-24"
+      },
+      "what": "Qué es Jev, el modelo System One de TypeSafe AI: devuelve decisiones tipadas con probabilidades en lugar de texto. Cómo se llama su API, cuánto cuesta y cuándo usarlo.",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4730864",
+      "source": "devto",
+      "url": "https://dev.to/thesnehamk/meet-jev-the-ai-that-refuses-to-chat-with-you-on-purpose-3d8a",
+      "title": "Meet Jev: The AI That Refuses to Chat With You (On Purpose)",
+      "author": "Sneha M K",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fourk47i0hgja68o3x7rp.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 3,
+        "asOf": "2026-09-24"
+      },
+      "what": "Every AI model you've heard of talks. This one was built to never say a word — and that's exactly why...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4723234",
+      "source": "devto",
+      "url": "https://dev.to/partick/jev-was-full-so-my-agent-moved-into-my-browser-instead-4h3i",
+      "title": "Jev Was Full, So My Agent Moved Into My Browser Instead",
+      "author": "partick",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjk64imicif9w31kkeghc.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 7,
+        "asOf": "2026-09-24"
+      },
+      "what": "\"Whoops, we're full - check https://x.com/typesafeai for more information!\"    too much demand, one...",
+      "aiDisclosure": "some_ai",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "published",
+      "ourNote": "What happened when the hosted model hit its rate limit: the agent moved into the browser and kept working locally. A practical answer to the capacity question, found by a person who hit it rather than by a load test.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "browser-agents"
+      ]
+    },
+    {
+      "id": "devto:4721991",
+      "source": "devto",
+      "url": "https://dev.to/tmseidel/jev-is-not-a-faster-llm-it-is-a-bill-for-the-architecture-you-skipped-4k36",
+      "title": "Jev Is Fast Because the Reasoning Moved Into Your Architecture",
+      "author": "Tom Seidel",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnjalq90p6ux4zaioau0l.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 9,
+        "asOf": "2026-09-24"
+      },
+      "what": "The hype train is packed again. Ever since TypeSafe AI released Jev, the internet has been full of...",
+      "aiDisclosure": "some_ai",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4731403",
+      "source": "devto",
+      "url": "https://dev.to/safdarali25/jev-is-not-an-llm-that-is-the-point-2hd7",
+      "title": "Jev Is Not an LLM. That Is the Point.",
+      "author": "Safdar Ali",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Foh3hlnzev7936vzexbof.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 6,
+        "comments": 0,
+        "readingMinutes": 5,
+        "asOf": "2026-09-24"
+      },
+      "what": "Most \"AI features\" are not writing tasks. They are decisions.  Is this ticket urgent? Which queue...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "published",
+      "ourNote": "An argument about category rather than capability: most of what people call AI features are decisions, and decisions are the wrong thing to generate token by token. The framing is the same one the vendor uses; the post is included because it says it without the product around it.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
+    },
+    {
+      "id": "devto:4727270",
+      "source": "devto",
+      "url": "https://dev.to/u11d/typesafe-ai-jev-explained-examples-use-cases-and-llm-comparisons-2k4o",
+      "title": "TypeSafe AI Jev explained: examples, use cases, and LLM comparisons",
+      "author": "Paweł Swiridow",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fvvp17e2sk2vyd7wpmowx.jpeg",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 1,
+        "comments": 0,
+        "readingMinutes": 12,
+        "asOf": "2026-09-24"
+      },
+      "what": "TypeSafe AI Jev is a model for making bounded decisions inside software. You give it text or...",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4725100",
+      "source": "devto",
+      "url": "https://dev.to/shresthapandey/jev-vs-llms-what-happens-when-you-strip-text-generation-out-of-a-language-model-2lce",
+      "title": "Jev vs. LLMs: What Happens When You Strip Text Generation Out of a Language Model",
+      "author": "Shrestha Pandey",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Foh27l6oobsu5t7u0ybmq.png",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 1,
+        "comments": 0,
+        "readingMinutes": 6,
+        "asOf": "2026-09-24"
+      },
+      "what": "If you spent any time on AI, Twitter/X or Hacker News around September 15, 2026, you probably saw the...",
+      "aiDisclosure": "some_ai",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4724281",
+      "source": "devto",
+      "url": "https://dev.to/shimo4228/moving-my-research-pipelines-judgment-calls-from-an-llm-to-jev-a-judgment-only-model-4ncj",
+      "title": "Moving My Research Pipeline's Judgment Calls from an LLM to Jev, a Judgment-Only Model",
+      "author": "shimo4228",
+      "publishedAt": "2026-09-23",
+      "media": {
+        "kind": "article",
+        "thumb": "",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 11,
+        "asOf": "2026-09-24"
+      },
+      "what": "My daily research agent spends most of its time deciding whether each source is relevant and whether it says anything new. I moved those closed judgments from Claude Opus to Jev, a model that writes no text, and the key was to pass the question being judged against every time. Here is the pipeline, the Pydantic AI types, three papers Jev placed on a four-step relevance ladder, and why writing stays with an LLM.",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged jev on dev.to",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "an explainer that restates the announcement in the author's own words, with no measurement and no artefact to check; the same ground is covered by a row above that carries one",
+      "tags": []
+    },
+    {
+      "id": "devto:4730043",
+      "source": "devto",
+      "url": "https://dev.to/breachprotocol/a-25-line-jev-parody-shows-why-closed-choices-are-not-calibrated-decisions-2e9e",
+      "title": "A 25-line Jev parody shows why closed choices are not calibrated decisions",
+      "author": "Breach Protocol",
+      "publishedAt": "2026-09-24",
+      "media": {
+        "kind": "article",
+        "thumb": "",
+        "thumbW": 1000,
+        "thumbH": 420
+      },
+      "metrics": {
+        "reactions": 0,
+        "comments": 0,
+        "readingMinutes": 3,
+        "asOf": "2026-09-24"
+      },
+      "what": "A local-Qwen demonstration can reproduce Jev's visible closed-choice probability interface, but it does not evaluate the specialized model's claimed decision quality, calibration, or parallel serving.",
+      "aiDisclosure": "not_disclosed",
+      "candidateReason": "tagged typesafe on dev.to",
+      "status": "published",
+      "ourNote": "An analysis of the twenty-five-line parody: what it does and does not reproduce, and why the visible behaviour of answering a bounded question is not the same thing as calibration. It reads the parody closely instead of retweeting it.",
+      "checked": [
+        "the article on dev.to, read 2026-09-25",
+        "the author's description and the reaction count, read from the dev.to API the same day"
+      ],
+      "tags": [
+        "research-and-data"
+      ]
     }
   ]
 }

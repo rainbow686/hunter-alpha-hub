@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-22T08:57:57.576Z",
+    "generatedAt": "2026-09-24T19:38:19.203Z",
     "source": "github-search",
     "queries": [
       "jev in:name,description created:>2026-06-01",
@@ -9,10 +9,11 @@
     "thresholds": {
       "minStars": 25
     },
-    "candidates": 24,
-    "published": 18,
-    "note": "candidate-only queue — publish requires a written ourNote AND a dossier (what it does, how it works, what we read, what we did NOT check); both are enforced by scripts/check-intake.mjs. Every dossier claim was read off the repository on its readOn date.",
-    "candidatesRemaining": 0
+    "candidates": 31,
+    "published": 22,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "candidatesRemaining": 0,
+    "refreshedAt": "2026-09-24T19:50:11.390Z"
   },
   "entries": [
     {
@@ -27,12 +28,14 @@
         "card": "/img/cards/browser-use-jev-ultrafast.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 17034,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-18"
+        "stars": 19738,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-18",
+        "forks": 1315,
+        "language": "Python"
       },
       "what": "Fastest and cheapest web agent",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -74,12 +77,14 @@
         "card": "/img/cards/OpenByteInc-QuantDinger.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 11974,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-21"
+        "stars": 12104,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 2473,
+        "language": "Python"
       },
       "what": "Open-source AI Trading OS, agent trading, and vibe trading, with Jev System One integration. Research, build Python strategies, backtest, and paper/live trade across crypto, stocks, and forex. Launch your own multi-tenant trading SaaS with built-in user management, billing, payments, and settlement.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
@@ -121,12 +126,14 @@
         "card": "/img/cards/tamaratran-fast-jev-compaction.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 6135,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-18"
+        "stars": 6703,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-18",
+        "forks": 392,
+        "language": "TypeScript"
       },
       "what": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -168,7 +175,7 @@
         "card": "/img/cards/TheoLeeCJ-SemIf.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 3496,
@@ -215,12 +222,14 @@
         "card": "/img/cards/jaredpalmer-kev.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 2857,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-22"
+        "stars": 6698,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 383,
+        "language": "Python"
       },
       "what": "tiny Jev-like family of decision models built on top of Qwen3.5 you can train and run on your own",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -262,12 +271,14 @@
         "card": "/img/cards/jev-chat-jev-chat-jarvis.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 2336,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-22"
+        "stars": 5994,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 1093,
+        "language": "Kotlin"
       },
       "what": "装在手机上的对话副驾：在微信 / QQ / X / 飞书里读懂对方、给出候选回复、一键填入输入框，发不发由你。非侵入，只读屏幕，不 hook 不改包。",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -309,12 +320,14 @@
         "card": "/img/cards/jarrodwatts-jev-trader.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 1929,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-17"
+        "stars": 2322,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-17",
+        "forks": 435,
+        "language": "TypeScript"
       },
       "what": "One AI trade decision every Monad block. Jev on Kuru MON-USDC.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -356,12 +369,14 @@
         "card": "/img/cards/TianyuCodings-NanoJev.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 1910,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-21"
+        "stars": 2190,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-21",
+        "forks": 235,
+        "language": "Python"
       },
       "what": "A nano replica of Jev: parallel decisions, dynamic candidates, and an end-to-end training pipeline.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -404,7 +419,7 @@
         "card": "/img/cards/yibie-awesome-jev.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 1131,
@@ -430,12 +445,14 @@
         "card": "/img/cards/reticlehq-reticle.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 811,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-22"
+        "stars": 834,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 143,
+        "language": "TypeScript"
       },
       "what": "AI agents can generate code, but still struggle to understand what they build. Reticle brings Jev-style machine-native runtime perception to web & desktop applications.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -478,7 +495,7 @@
         "card": "/img/cards/Anil-matcha-awesome-jev-by-typesafe.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 779,
@@ -504,12 +521,14 @@
         "card": "/img/cards/awlevin-typesafe-computer-use.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 779,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-21"
+        "stars": 950,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23",
+        "forks": 77,
+        "language": "Python"
       },
       "what": "Computer use for about $0.0002 a step: OCR the screen, classify the next action with TypeSafe, click. macOS.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
@@ -552,12 +571,14 @@
         "card": "/img/cards/kitfunso-hippo-memory.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 752,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-21"
+        "stars": 756,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 44,
+        "language": "TypeScript"
       },
       "what": "Biologically-inspired memory for AI agents. Decay, retrieval strengthening, consolidation. Zero runtime deps, SQLite, MCP. Benchmarked retrieval with an opt-in TypeSafe Jev reranker.",
       "candidateReason": "matched \"jev typesafe in:readme\"",
@@ -601,7 +622,7 @@
         "card": "/img/cards/v-modal-awesome-jev-tools.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 634,
@@ -627,12 +648,14 @@
         "card": "/img/cards/Sac-Y-Jev-cu.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 564,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-22"
+        "stars": 596,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-22",
+        "forks": 62,
+        "language": "JavaScript"
       },
       "what": "No description published.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -676,12 +699,14 @@
         "card": "/img/cards/devagrawal09-jev-review.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 518,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-17"
+        "stars": 597,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-17",
+        "forks": 37,
+        "language": "TypeScript"
       },
       "what": "A staged code-review workflow and local dashboard built with TypeSafe Jev.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -725,12 +750,14 @@
         "card": "/img/cards/rmalde-minecraft-agent.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 493,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-20"
+        "stars": 541,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-20",
+        "forks": 52,
+        "language": "JavaScript"
       },
       "what": "Astra planner and JEV controller for Minecraft, with native recording, tested routes, and run verification.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -772,9 +799,11 @@
         "kind": "none"
       },
       "metrics": {
-        "stars": 486,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-20"
+        "stars": 546,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 42,
+        "language": "Python"
       },
       "what": "Software factory foreman based on TypeSafe's Jev model",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -818,12 +847,14 @@
         "card": "/img/cards/featherless-ai-simple-jev.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 469,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-21"
+        "stars": 519,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 60,
+        "language": "Python"
       },
       "what": "Turn any open model into a classifier/jev endpoint",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -866,7 +897,7 @@
         "card": "/img/cards/AbdelStark-awesome-typesafe-jev.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 437,
@@ -892,7 +923,7 @@
         "card": "/img/cards/kerpopule-hermes-jev-skills.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 414,
@@ -918,7 +949,7 @@
         "card": "/img/cards/wuyoscar-jev-skill.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
         "stars": 401,
@@ -944,12 +975,14 @@
         "card": "/img/cards/wfzyx-von.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 399,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-21"
+        "stars": 629,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24",
+        "forks": 46,
+        "language": "Python"
       },
       "what": "The open-source System One decision model. Sub-15ms, non-autoregressive, local drop-in alternative to TypeSafe Jev.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -992,12 +1025,14 @@
         "card": "/img/cards/superagents-lab-jev-search.png",
         "cardW": 1280,
         "cardH": 640,
-        "cardAsOf": "2026-09-22"
+        "cardAsOf": "2026-09-24"
       },
       "metrics": {
-        "stars": 394,
-        "asOf": "2026-09-22",
-        "pushedAt": "2026-09-20"
+        "stars": 450,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-20",
+        "forks": 54,
+        "language": "TypeScript"
       },
       "what": "Search the web with TypeSafe's Jev: source selection, query understanding and relevance ranking. Built with Search1API.",
       "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
@@ -1026,6 +1061,258 @@
         ],
         "whatWeDidNotCheck": "We did not run a search ourselves, so we have not judged the ranking.",
         "bestFor": "the one row in this column you can try in a browser"
+      }
+    },
+    {
+      "id": "gh:NandhaKishorM/laya",
+      "source": "github",
+      "url": "https://github.com/NandhaKishorM/laya",
+      "title": "NandhaKishorM/laya",
+      "author": "NandhaKishorM",
+      "publishedAt": "2026-09-18",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/NandhaKishorM-laya.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 22753,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "Non-autoregressive System 1 decision engine. Typed choice, score and yes/no decisions over any text in a single forward pass, in 100+ languages, with a router that picks the right checkpoint per request.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "the Laya model's own repository, which this queue found because its description names Jev; it is tracked, and built on, in the Laya topic",
+      "tags": []
+    },
+    {
+      "id": "gh:YaoApp/yao",
+      "source": "github",
+      "url": "https://github.com/YaoApp/yao",
+      "title": "YaoApp/yao",
+      "author": "YaoApp",
+      "publishedAt": "2021-09-06",
+      "media": {
+        "kind": "card",
+        "card": "/img/cards/YaoApp-yao.png",
+        "cardW": 1280,
+        "cardH": 640,
+        "cardAsOf": "2026-09-24"
+      },
+      "metrics": {
+        "stars": 8003,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "✨ All your agents and workspaces in one place, on every device you own. Track tasks on a board, accessible from desktop, mobile, browser, or API. Self-hosted.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "published",
+      "ourNote": "A self-hosted agent workspace with eight thousand stars that added Jev as one of its decision models, announced in the README rather than in a launch post. Useful as evidence of the pattern reaching infrastructure other people already run.",
+      "checked": [
+        "the README and the Jev section it links, read 2026-09-25",
+        "the repository's licence file",
+        "the star count and last push, read from the GitHub search API the same day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "dossier": {
+        "slug": "yao-agents",
+        "readOn": "2026-09-25",
+        "license": "Apache-2.0",
+        "stack": "Go · self-hosted · desktop, mobile, browser",
+        "whatItDoes": "Runs agents and their workspaces in one self-hosted board, reachable from desktop, mobile, browser or API. Jev is offered as the model that returns typed decisions with confidence, alongside the harnesses the product already supported.",
+        "howItWorks": "Decisions the user or the agent needs to make inside a task are sent to Jev as bounded questions, and the answer comes back as a value the workspace can act on, rather than as text shown to a person.",
+        "whatWeChecked": [
+          "the README and the Jev section it links, read 2026-09-25",
+          "the repository's licence file",
+          "the star count and last push, read from the GitHub search API the same day"
+        ],
+        "whatWeDidNotCheck": "How much of the product actually routes through Jev rather than through the other harnesses it lists, and whether the integration is load-bearing or an option in a settings screen.",
+        "bestFor": "seeing how a mature self-hosted product absorbs this model"
+      }
+    },
+    {
+      "id": "gh:TheoLeeCJ/SemIf-OpenJev",
+      "source": "github",
+      "url": "https://github.com/TheoLeeCJ/SemIf-OpenJev",
+      "title": "TheoLeeCJ/SemIf-OpenJev",
+      "author": "TheoLeeCJ",
+      "publishedAt": "2026-09-16",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 4221,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "Semantic ifs from open models, on a 3090 at home. Independent; not affiliated with Jev or TypeSafe.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "the same project as TheoLeeCJ/SemIf, which is already published here — its README says SemIf was formerly called OpenJev, so this row is a second URL for one build",
+      "tags": []
+    },
+    {
+      "id": "gh:zilliztech/memsearch",
+      "source": "github",
+      "url": "https://github.com/zilliztech/memsearch",
+      "title": "zilliztech/memsearch",
+      "author": "zilliztech",
+      "publishedAt": "2026-02-09",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 2651,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "A persistent, unified memory layer for all your AI agents (e.g. Claude Code, Codex, DSH), backed by Markdown and Milvus.",
+      "candidateReason": "matched \"jev typesafe in:readme\"",
+      "status": "published",
+      "ourNote": "The largest company-backed project in this batch: a semantic memory layer for coding agents from the team behind Milvus, with Jev as an opt-in reranker. Worth a row because the integration is one bullet in a long feature list, which is how adoption looks when it stops being news.",
+      "checked": [
+        "the README and the configuration documentation it links, read 2026-09-25",
+        "the licence file",
+        "the star count and last push, read from the GitHub search API the same day"
+      ],
+      "tags": [
+        "triage-and-routing",
+        "coding-and-context"
+      ],
+      "dossier": {
+        "slug": "memsearch",
+        "readOn": "2026-09-25",
+        "license": "MIT",
+        "stack": "Python · Claude Code / Codex plugins",
+        "whatItDoes": "Gives coding agents a cross-platform semantic memory that survives sessions, shipped as plugins for several harnesses. Memory results can be reranked by Jev through the hosted API, with no local model to download.",
+        "howItWorks": "Memories are embedded and stored, and a search returns candidates; when reranking is enabled, those candidates go to Jev as one request that scores their relevance, and the order is rewritten before the agent sees it.",
+        "whatWeChecked": [
+          "the README and the configuration documentation it links, read 2026-09-25",
+          "the licence file",
+          "the star count and last push, read from the GitHub search API the same day"
+        ],
+        "whatWeDidNotCheck": "Whether the reranker improves retrieval on any given corpus. It is an optional switch in a config file, and the repository does not publish an evaluation of it.",
+        "bestFor": "agents that already keep memory and want a cheap filter over what they recall"
+      }
+    },
+    {
+      "id": "gh:heyjunpenn/awesome-jev",
+      "source": "github",
+      "url": "https://github.com/heyjunpenn/awesome-jev",
+      "title": "heyjunpenn/awesome-jev",
+      "author": "heyjunpenn",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 805,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "A verified, community-maintained catalog of 896 open-source projects built with Jev.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a curated list; the resources column already carries the collections, the same reason six awesome-* lists were rejected on 2026-09-22",
+      "tags": []
+    },
+    {
+      "id": "gh:anishfn/shapeshift",
+      "source": "github",
+      "url": "https://github.com/anishfn/shapeshift",
+      "title": "anishfn/shapeshift",
+      "author": "anishfn",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 556,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-23"
+      },
+      "what": "An input that becomes what you mean: one text box that morphs into the right UI as you type. Powered by TypeSafe Jev, works offline.",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "The clearest design pattern in the batch, and the author states it in one line: Jev decides, code computes. Fourteen typed questions in a single call decide what the text box should become, while dates, amounts and units are parsed by deterministic code.",
+      "checked": [
+        "the README and the architecture diagram it links, read 2026-09-25",
+        "the live demo URL, opened the same day",
+        "the licence file",
+        "the star count and last push, read from the GitHub search API that day"
+      ],
+      "tags": [
+        "triage-and-routing"
+      ],
+      "dossier": {
+        "slug": "shapeshift",
+        "readOn": "2026-09-25",
+        "license": "MIT",
+        "stack": "TypeScript · Next.js · one Jev call per input",
+        "whatItDoes": "Turns one text box into the interface the sentence implies — an event card, a checklist, a timer, a poll, a bill splitter — by classifying the intent as the reader types. There is a live demo, which makes it the one row in this batch anybody can try without cloning anything.",
+        "howItWorks": "Every keystroke-batch produces one Jev call answering fourteen typed questions in parallel — which card, plus signals like urgency — and the answers select a component; everything arithmetic or date-shaped is left to ordinary code, deliberately.",
+        "whatWeChecked": [
+          "the README and the architecture diagram it links, read 2026-09-25",
+          "the live demo URL, opened the same day",
+          "the licence file",
+          "the star count and last push, read from the GitHub search API that day"
+        ],
+        "whatWeDidNotCheck": "How it behaves on ambiguous input. The demo shows clean sentences; the repository does not report what happens when the classifier answers with low confidence.",
+        "bestFor": "the pattern to copy: a model for the judgement, code for the arithmetic"
+      }
+    },
+    {
+      "id": "gh:jev-chat/jev-chat-windows",
+      "source": "github",
+      "url": "https://github.com/jev-chat/jev-chat-windows",
+      "title": "jev-chat/jev-chat-windows",
+      "author": "jev-chat",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none"
+      },
+      "metrics": {
+        "stars": 528,
+        "asOf": "2026-09-24",
+        "pushedAt": "2026-09-24"
+      },
+      "what": "JevChat-Windows：聊天窗口旁挂的回复辅助。窗口截图 + 本地离线 OCR 读对方消息 → Jev 判断意图 → 3 条候选一键填入，发送永远手动",
+      "candidateReason": "matched \"jev in:name,description created:>2026-06-01\"",
+      "status": "published",
+      "ourNote": "The Windows build of the chat assistant that reads a conversation off the screen with local OCR, asks Jev what the other person means, and offers three replies. The decision kernel is shared with the Android version already on this wall, which is why this row is short.",
+      "checked": [
+        "the README (in Chinese) and the related Android repository it names, read 2026-09-25",
+        "the release link for the downloadable build",
+        "the licence file"
+      ],
+      "tags": [
+        "media-and-content"
+      ],
+      "dossier": {
+        "slug": "jev-chat-windows",
+        "readOn": "2026-09-25",
+        "license": "MIT",
+        "stack": "Windows · local OCR · Jev",
+        "whatItDoes": "Sits beside a chat window on Windows, reads the conversation through local OCR, and proposes three replies for the user to pick from, so the model never writes into the conversation by itself.",
+        "howItWorks": "Screenshots are read on the machine, the text goes to Jev with a bounded question about intent and tone, and the answers are rendered as three candidates the person can edit or ignore.",
+        "whatWeChecked": [
+          "the README (in Chinese) and the related Android repository it names, read 2026-09-25",
+          "the release link for the downloadable build",
+          "the licence file"
+        ],
+        "whatWeDidNotCheck": "Whether the OCR and the model hold up in a real conversation. We did not install the application, and the repository publishes no accuracy figures for either half.",
+        "bestFor": "the read-the-screen pattern, in a package a non-developer can install"
       }
     }
   ]

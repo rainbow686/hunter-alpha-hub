@@ -1,12 +1,16 @@
 [
   {
     "page": "/typesafe-jev/x-posts/*",
-    "links": ["/typesafe-jev/x-posts/*"],
+    "links": [
+      "/typesafe-jev/x-posts/*"
+    ],
     "reason": "On a record page, the \"More like this\" block is computed (three nearest posts sharing a use case), so adding a record to the column can displace one of the three. That is a recommendation changing, not a navigation link being dropped: the displaced page is still linked from the column hub, from the sitemap, and from its own related blocks. 2026-09-24, when batch 1 added twenty records and the guard read it as seventeen dropped links. The block itself is now marked `data-generated`, which makes this exemption redundant on the live site once this build has shipped — kept because the guard compares against production, and production will keep changing under us."
   },
   {
     "page": "/typesafe-jev",
-    "links": ["/alpha-line-report"],
+    "links": [
+      "/alpha-line-report"
+    ],
     "reason": "The front page was split on 2026-09-24: the long reference moved to /typesafe-jev/reference, and the sentence that carried this link (the CC BY 4.0 licence paragraph, which points at the Alpha Line Report as the other machine-readable report) moved with it. The link is not dropped from the site — it is on the new page, which production has never had, so the guard cannot see it and reads the move as a deletion. Restoring the sentence here would mean keeping an appendix paragraph on a cover page to satisfy a link checker."
   },
   {
@@ -17,5 +21,34 @@
       "/typesafe-jev/x-posts/jev-in-security-engineering"
     ],
     "reason": "Same split, same day, one level down: /typesafe-jev/use-cases became the section's front door (six facet cards, wide) and the explainer that cites these three rows moved to /typesafe-jev/use-cases/jobs. The rows are still linked from the page that cites them — a page production has never seen, so the guard counts the move as three deletions."
+  },
+  {
+    "page": "/typesafe-jev/builds/*",
+    "links": [
+      "/typesafe-jev/builds/*"
+    ],
+    "reason": "The \"More like this\" rail on a build page is computed (the three nearest rows sharing a kind), and this batch added four builds to the column, which displaced some of the three. The block is now marked `data-generated`, so the parity guard will ignore it from this build onwards; this rule covers the comparison against production, where the marker does not exist yet. Nothing was dropped: a displaced page is still linked from the builds hub, from the sitemap and from its own related rails."
+  },
+  {
+    "page": "/laya/builds/*",
+    "links": [
+      "/laya/builds/*"
+    ],
+    "reason": "Same computed rail, same batch: the Laya column gained a build (keel) and the three-nearest list reshuffled on several pages. Marked `data-generated` in this build; the rule covers the pages production is still serving without that marker. The displaced rows remain in the column hub and the sitemap."
+  },
+  {
+    "page": "/typesafe-jev",
+    "links": [
+      "/typesafe-jev/x-posts/*",
+      "/typesafe-jev/builds/*"
+    ],
+    "reason": "The front page's wall is a sample — up to twenty-four rows per column, ordered by likes, views and points — so adding records to the columns displaces cards that used to be on it. This batch added eighteen X posts and four builds, which is why 42 sampled links changed. The wall is now marked `data-generated` so the guard ignores it on both sides; this rule covers the comparison against production, whose copy predates the marker."
+  },
+  {
+    "page": "/laya",
+    "links": [
+      "/laya/builds/*"
+    ],
+    "reason": "Same wall, same reason: the Laya front page samples its builds column and this batch added one (keel), reshuffling the sample. Marked `data-generated` in this build; production still serves the unmarked version."
   }
 ]

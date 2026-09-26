@@ -1,5 +1,5 @@
 {
-  "note": "Seeds read from the reference site's /x-posts list on 2026-09-22, then resolved one by one through the public syndication endpoint. Kept only as leads: an entry reaches a page only after we write our own sentence about it. Batch 2 seeds added 2026-09-24 from the madewithjev directory crawl (60 pages read, 1 req/s).",
+  "note": "Seeds read from the reference site's /x-posts list on 2026-09-22, then resolved one by one through the public syndication endpoint. Kept only as leads: an entry reaches a page only after we write our own sentence about it. Batch 2 seeds added 2026-09-24 from the madewithjev directory crawl (60 pages read, 1 req/s). Batch added 2026-09-25: the whole list is re-read by ingest-x.mjs, which resolves each link through the public syndication endpoint and writes a candidate; a seed is a lead, not a record.",
   "sources": [
     {
       "url": "https://x.com/0xCodez/status/2101294219633529030"
@@ -249,6 +249,75 @@
     },
     {
       "url": "https://x.com/CompleteSkeptic/status/2099925682726002904"
+    },
+    {
+      "url": "https://x.com/Argona0x/status/2102837166267146548"
+    },
+    {
+      "url": "https://x.com/JamLee423/status/2103017408407441506"
+    },
+    {
+      "url": "https://x.com/LangChain/status/2101454284927959080"
+    },
+    {
+      "url": "https://x.com/N8Programs/status/2100088523403432357"
+    },
+    {
+      "url": "https://x.com/NatalieMarleny/status/2100256512471916748"
+    },
+    {
+      "url": "https://x.com/Orus_agent/status/2100859259915227358"
+    },
+    {
+      "url": "https://x.com/Pepper588/status/2102801981735637354"
+    },
+    {
+      "url": "https://x.com/RohOnChain/status/2101311813908652069"
+    },
+    {
+      "url": "https://x.com/RoundtableSpace/status/2103197818467102733"
+    },
+    {
+      "url": "https://x.com/VaibhavSisinty/status/2100619653995532366"
+    },
+    {
+      "url": "https://x.com/YouWareAI/status/2100630563422085416"
+    },
+    {
+      "url": "https://x.com/airesearch12/status/2101311769113178270"
+    },
+    {
+      "url": "https://x.com/decapostos/status/2100519512730738871"
+    },
+    {
+      "url": "https://x.com/h_nilforoshan/status/2100409794276520341"
+    },
+    {
+      "url": "https://x.com/ilijabogunovic/status/2102075332014624819"
+    },
+    {
+      "url": "https://x.com/jaredpalmer/status/2101028325472841920"
+    },
+    {
+      "url": "https://x.com/kraayenJon/status/2101896621524914485"
+    },
+    {
+      "url": "https://x.com/kraayenJon/status/2102009736501551390"
+    },
+    {
+      "url": "https://x.com/manish_fp/status/2101325394532266139"
+    },
+    {
+      "url": "https://x.com/minchoi/status/2101511813581910516"
+    },
+    {
+      "url": "https://x.com/openjevai/status/2101387410172993992"
+    },
+    {
+      "url": "https://x.com/vesko_st/status/2102078925644108051"
+    },
+    {
+      "url": "https://x.com/wallstengine/status/2099927802405654900"
     }
   ]
 }

@@ -3,8 +3,8 @@
     "what": "One canonical page per X post: the slug and the headline. Hand-written, because a slug cut out of a tweet is `jev-will-make-agents-10-x-faster-and-cheaper-her` and a headline cut out of one is a truncation.",
     "why": "The reference site links every card to an internal record. Ours linked out to X, which made the hub a doorway: a reader who left rarely came back, and nothing on the site accumulated the link.",
     "rule": "The slug describes the subject of the post, not the author or the date. The headline is a sentence we can stand behind: where the post makes an unverified claim, the headline says it is a claim (the '10x' routing claim, the 'up to 193x' figure), not a fact.",
-    "written": "2026-09-24",
-    "note": " Twenty records added 2026-09-24 in content batch 1 (leads from the madewithjev directory crawl), forty in batch 2 the same day. Both batches were read one row at a time against the post text."
+    "written": "2026-09-25",
+    "note": " Twenty records added 2026-09-24 in content batch 1 (leads from the madewithjev directory crawl), forty in batch 2 the same day. Both batches were read one row at a time against the post text. Third batch (2026-09-25): eighteen records added after the second round of collection, each read in full before the headline was written."
   },
   "pages": {
     "x:2100411066966749359": {
@@ -338,6 +338,78 @@
     "x:2099925682726002904": {
       "slug": "jev-launch-announcement",
       "headline": "The launch post: 20–200× faster, and it cannot write"
+    },
+    "x:2101454284927959080": {
+      "slug": "langchain-tested-jev-against-llm-judges",
+      "headline": "LangChain benchmarked Jev against LLM judges"
+    },
+    "x:2100088523403432357": {
+      "slug": "jev-terra-tier-on-system-one-tasks",
+      "headline": "Somebody tested the Terra-tier claim, and it held"
+    },
+    "x:2100256512471916748": {
+      "slug": "jev-as-the-router-not-the-task",
+      "headline": "The case for Jev as the router rather than the task"
+    },
+    "x:2100859259915227358": {
+      "slug": "orus-uses-jev-to-review-trades",
+      "headline": "Orus put Jev in front of its trades as a reviewer"
+    },
+    "x:2101311813908652069": {
+      "slug": "jev-trading-loop-under-100ms",
+      "headline": "A trading loop built on Jev's sub-100 ms claim"
+    },
+    "x:2103197818467102733": {
+      "slug": "five-repositories-for-jev-workflows",
+      "headline": "Five repositories a newcomer is told to start with"
+    },
+    "x:2100619653995532366": {
+      "slug": "flight-search-agent-seven-seconds",
+      "headline": "A flight-search agent that answers in seven seconds"
+    },
+    "x:2100630563422085416": {
+      "slug": "twenty-seven-questions-in-one-call",
+      "headline": "Twenty-seven questions in one call, and three demos"
+    },
+    "x:2101311769113178270": {
+      "slug": "jevbench-published-its-first-results",
+      "headline": "JevBench published its first leaderboard"
+    },
+    "x:2100519512730738871": {
+      "slug": "what-jev-does-in-a-browser",
+      "headline": "What Jev does in a browser, in seven actions"
+    },
+    "x:2100409794276520341": {
+      "slug": "hiringcafe-benchmarked-jev-on-resumes",
+      "headline": "A 2.5-million-user product benchmarked Jev on résumés"
+    },
+    "x:2102075332014624819": {
+      "slug": "wikirace-450-games-cheap-but-shallow",
+      "headline": "Jev on 450 WikiRace games: cheap, fast, short on world knowledge"
+    },
+    "x:2101028325472841920": {
+      "slug": "kev-half-billion-decision-model",
+      "headline": "Kev-0.5B: a Jev-like model you can train on a laptop"
+    },
+    "x:2101896621524914485": {
+      "slug": "three-hundred-demos-collected",
+      "headline": "The directory of Jev demos passed three hundred entries"
+    },
+    "x:2102009736501551390": {
+      "slug": "directory-traffic-after-three-days",
+      "headline": "Three days after launch, 205 people were on the directory at once"
+    },
+    "x:2101325394532266139": {
+      "slug": "jev-explained-with-a-reading-list",
+      "headline": "Ten articles and five hours of video, compressed into one explainer"
+    },
+    "x:2102078925644108051": {
+      "slug": "testing-jev-on-text-understanding",
+      "headline": "A product engineer testing whether Jev understands the text first"
+    },
+    "x:2099927802405654900": {
+      "slug": "launch-day-headline-claims",
+      "headline": "Launch-day coverage: the three claims that travelled"
     }
   }
 }

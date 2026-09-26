@@ -1,13 +1,14 @@
 {
   "meta": {
-    "generatedAt": "2026-09-24T09:53:24.323Z",
+    "generatedAt": "2026-09-24T19:48:34.075Z",
     "source": "x-syndication",
     "queries": [
-      "34 curated links"
+      "48 curated links"
     ],
-    "candidates": 34,
-    "published": 22,
-    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs"
+    "candidates": 47,
+    "published": 28,
+    "note": "candidate-only queue — publish requires a written ourNote, enforced by scripts/check-intake.mjs",
+    "refreshedAt": "2026-09-24T19:51:32.055Z"
   },
   "entries": [
     {
@@ -21,7 +22,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSnogjIaYAAMRFW.jpg",
         "thumbW": 1516,
-        "thumbH": 2245
+        "thumbH": 2245,
+        "avatar": "https://pbs.twimg.com/profile_images/2007035104158482432/yKGFeKJD_normal.jpg"
       },
       "metrics": {
         "likes": 440,
@@ -36,7 +38,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "Laya is the open-source Jev that already beats close Jev on latency and calibration. - 10x faster than TypeSafe Jev on the published numbers. - Laya is multilingual, and already ahead of Jev on speed. - 38ms single query vs 400ms Locally. - No per-token bill. - A System-1…",
+        "chars": 296,
+        "from": "https://x.com/0x0SojalSec/status/2101467715798290466",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102100643469226147",
@@ -49,7 +57,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSwojnKaoAAiba0.jpg",
         "thumbW": 1723,
-        "thumbH": 1607
+        "thumbH": 1607,
+        "avatar": "https://pbs.twimg.com/profile_images/2007035104158482432/yKGFeKJD_normal.jpg"
       },
       "metrics": {
         "likes": 149,
@@ -64,7 +73,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "Open sourced \"Jev \" that runs 50x faster own Jarvis running locally now on mac 1GB RAM. 7ms per decision. laya-mlx : - 7-14ms decisions - under 1GB RAM - choice/score/yes-no, one forward pass, calibrated probabilities - no cloud, no tokens, no chat - 60+ moves/sec playing Snake…",
+        "chars": 302,
+        "from": "https://x.com/0x0SojalSec/status/2102100643469226147",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101419750597566684",
@@ -77,7 +92,17 @@
         "kind": "video",
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101413115795800064/img/7zVAVQPLlQf1Pk1V.jpg",
         "thumbW": 2270,
-        "thumbH": 1702
+        "thumbH": 1702,
+        "avatar": "https://pbs.twimg.com/profile_images/2063621460862840832/E650fAEZ_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101413115795800064/vid/avc1/960x720/nuLZ5rtI6CagqpL1.mp4",
+          "width": 960,
+          "height": 720,
+          "durationS": 62,
+          "bitrate": 2176000,
+          "bytes": 2135285,
+          "readOn": "2026-09-24"
+        }
       },
       "metrics": {
         "likes": 764,
@@ -92,7 +117,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "Jev is cool. So is it's OSS companion, Laya. The Latest Cool Thing In AI™ tends to get a lot of hype, sometimes without everyone even understanding it. So... what is this thing? Jev is an AI model that consumes input and produces output VERY differently than chat, claude,…",
+        "chars": 296,
+        "from": "https://x.com/BenjDicken/status/2101419750597566684",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101744457557418221",
@@ -129,7 +160,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSnnKGmWQAAMggl.jpg",
         "thumbW": 2560,
-        "thumbH": 1440
+        "thumbH": 1440,
+        "avatar": "https://pbs.twimg.com/profile_images/1830608259432030208/3vxhVPwb_normal.jpg"
       },
       "metrics": {
         "likes": 3,
@@ -144,7 +176,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "⚡️ 𝗟𝗮𝘆𝗮 𝗢𝗽𝗲𝗻 𝗦𝗼𝘂𝗿𝗰𝗲 𝗗𝗲𝗰𝗶𝘀𝗶𝗼𝗻 𝗠𝗼𝗱𝗲𝗹 𝗖𝘂𝘁𝘀 𝗜𝗻𝗳𝗲𝗿𝗲𝗻𝗰𝗲 𝗟𝗮𝘁𝗲𝗻𝗰𝘆 𝘁𝗼 𝟯𝟯 𝗠𝗶𝗹𝗹𝗶𝘀𝗲𝗰𝗼𝗻𝗱𝘀 Laya answers in one forward pass through bidirectional encoders, returning a calibrated probability instead of tokens. Three primitives…",
+        "chars": 299,
+        "from": "https://x.com/GenAISpotlight/status/2101464865093144638",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101403384079372683",
@@ -181,7 +219,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2095930967525302273/HVcHM0x-_normal.jpg"
       },
       "metrics": {
         "likes": 120,
@@ -196,7 +235,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "You may have heard of Jev, an interesting new AI. There's an open source version, Laya. I'm building Laya into Omarchy M so you can run Laya locally on the Apple GPUs and ANE. You will always have a System 1 decision model available, no subscription, no Internet connection.",
+        "chars": 274,
+        "from": "https://x.com/JoshuaSWarren/status/2101802206756323723",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101533907191472326",
@@ -209,7 +254,8 @@
         "kind": "video",
         "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101531521459101697/img/hc75co4fKfI6XU7x.jpg",
         "thumbW": 3836,
-        "thumbH": 2160
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/1997433542163537920/0iRZCSv-_normal.jpg"
       },
       "metrics": {
         "likes": 11,
@@ -224,7 +270,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "The open source model quietly destroying Jev? Laya just went head to head with a $40M funded AI startup — and the numbers are wild. @typesafeai 's Jev launched with a former OpenAI researcher, forty million dollars in funding, and a bold claim: a new category of \"System 1\" model…",
+        "chars": 303,
+        "from": "https://x.com/LomashKumar52/status/2101533907191472326",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102232405524295737",
@@ -285,7 +337,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSny7dUbcAAYcly.jpg",
         "thumbW": 2916,
-        "thumbH": 2490
+        "thumbH": 2490,
+        "avatar": "https://pbs.twimg.com/profile_images/2004028412730789892/4IFUGOl2_normal.jpg"
       },
       "metrics": {
         "likes": 6,
@@ -300,7 +353,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "Laya 是 Convai Innovations 开源的编码器式决策引擎，用 choice、score、noul 三种提问原语对文本、邮件、工单或 JSON 提问，一次前向传播出结果，不做文本生成，因此没有需要解析的输出。 https://t.co/XsDEzJKv79 https://t.co/aH1ZpG67rm",
+        "chars": 160,
+        "from": "https://x.com/QingQ77/status/2101553190701519126",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102271292405854258",
@@ -322,7 +381,8 @@
           "bitrate": 832000,
           "bytes": 390017,
           "readOn": "2026-09-24"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2101703774289219584/eF8vRAIV_normal.jpg"
       },
       "metrics": {
         "likes": 18,
@@ -337,7 +397,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "Jev just got an open-source rival and it's fast as f**k Convai Innovations dropped Laya - an open-source non-autoregressive decision model that beats Jev on most benchmarks at 6-8x the speed > 421M params, ModernBERT-large backbone, Apache 2.0 > single forward pass in ~33ms on…",
+        "chars": 301,
+        "from": "https://x.com/Rivonn/status/2102271292405854258",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102213718960673261",
@@ -407,10 +473,11 @@
           "bitrate": 1280000,
           "bytes": 1166342,
           "readOn": "2026-09-24"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2037454994899959808/L7uqgUfL_normal.jpg"
       },
       "metrics": {
-        "likes": 6166,
+        "likes": 6171,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -422,7 +489,13 @@
       ],
       "tags": [
         "games-and-demos"
-      ]
+      ],
+      "quote": {
+        "text": "Local Laya moggs Jev at @grok 4.7-built Tetris 🧩 An open-weights System One model called Laya, beat cloud-based Jev at playing Tetris by making decisions 11 times faster, running locally on a 16GB MacBook Air! Run AI models locally -> https://t.co/RbcCOIgVkj…",
+        "chars": 283,
+        "from": "https://x.com/atomic_chat_hq/status/2102160983409955244",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101975879299526928",
@@ -435,7 +508,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSu36xbXgAAjsK3.jpg",
         "thumbW": 1200,
-        "thumbH": 711
+        "thumbH": 711,
+        "avatar": "https://pbs.twimg.com/profile_images/1738804505234362368/0HnQhdBx_normal.jpg"
       },
       "metrics": {
         "likes": 16,
@@ -450,7 +524,13 @@
       ],
       "tags": [
         "serving-and-api"
-      ]
+      ],
+      "quote": {
+        "text": "They Open sourced a Jev Alternative 6 to 8 times faster than Jev, Laya is a completely open, horizontal System 1 decision model family. It runs in 32.8 ms on a single GPU, with full support for over 100 languages. We're hosting it for free 🧵 https://t.co/qfvXAP8any",
+        "chars": 266,
+        "from": "https://x.com/fabioroma/status/2101975879299526928",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102276866610794687",
@@ -463,7 +543,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2092068163244740608/gu14P877_normal.jpg"
       },
       "metrics": {
         "likes": 1,
@@ -478,7 +559,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "sokudan-ja-310m: open Japanese \"System One\" decision model (Jev-style, no text generation). Beats laya-multilingual on all 3 primitives on a 300-item unseen-schema bench. Also: laya-multilingual never picks the first-listed score option, in ja *and* en. https://t.co/BQbpPeuWaA",
+        "chars": 277,
+        "from": "https://x.com/geneLab_999/status/2102276866610794687",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101302994654425462",
@@ -572,10 +659,11 @@
           "bitrate": 1280000,
           "bytes": 770064,
           "readOn": "2026-09-24"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1887492440531345412/nDxrI7j2_normal.jpg"
       },
       "metrics": {
-        "likes": 37,
+        "likes": 47,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -587,7 +675,13 @@
       ],
       "tags": [
         "agents-and-tools"
-      ]
+      ],
+      "quote": {
+        "text": "🚨 THIS IS WHAT A “SECOND BRAIN” FOR AI AGENTS LOOKS LIKE. 𝗡𝗮𝗻𝗱𝗵𝗮 𝗞𝗶𝘀𝗵𝗼𝗿 built Laya — a fast, non-autoregressive decision engine designed to make decisions instead of generating long answers. Instead of asking an LLM to explain everything, Laya returns the decision…",
+        "chars": 301,
+        "from": "https://x.com/hrswatigupta/status/2102745441091920210",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102282038988484976",
@@ -609,7 +703,8 @@
           "bitrate": 2176000,
           "bytes": 2691011,
           "readOn": "2026-09-24"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2035435901338484736/r9b-rIul_normal.jpg"
       },
       "metrics": {
         "likes": 11,
@@ -624,7 +719,13 @@
       ],
       "tags": [
         "runtime-and-ports"
-      ]
+      ],
+      "quote": {
+        "text": "THIS IS F**KING GOLD I found Laya, which now runs natively on Apple Silicon Not via a cloud API Not via PyTorch Not by generating JSON token by token laya-mlx runs open-weight decision models locally using MLX It won't write code or a post for you But in a single pass, it…",
+        "chars": 296,
+        "from": "https://x.com/iamrexei/status/2102282038988484976",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101722121353257270",
@@ -637,7 +738,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2084770186855362562/X7PSgDgu_normal.jpg"
       },
       "metrics": {
         "likes": 2,
@@ -652,7 +754,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "@ShimazuSystems Laya is fast but it’s nowhere near as good as jev. It’s like llama 1 vs the original ChatGPT, one is a cool research project the other one is a useful tool",
+        "chars": 171,
+        "from": "https://x.com/jjjddd5566/status/2101722121353257270",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101534610710761923",
@@ -665,10 +773,11 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSoml0pbwAE8iDB.jpg",
         "thumbW": 1206,
-        "thumbH": 1165
+        "thumbH": 1165,
+        "avatar": "https://pbs.twimg.com/profile_images/1946076752024895489/ScNir1Fy_normal.jpg"
       },
       "metrics": {
-        "likes": 2673,
+        "likes": 2675,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -680,7 +789,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "poor guy claim to have built Jev a year ago but no one cared, and now Jev stole all the thunder many people are saying “you gotta tell your story” or “marketing is important”, and they just completely missed what actually made the difference here i just looked into this laya…",
+        "chars": 299,
+        "from": "https://x.com/kunchenguid/status/2101534610710761923",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102501731137360365",
@@ -693,7 +808,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HS2V-05WEAEAtGR.jpg",
         "thumbW": 2340,
-        "thumbH": 4076
+        "thumbH": 4076,
+        "avatar": "https://pbs.twimg.com/profile_images/2099711903803015168/ovXAwWL9_normal.jpg"
       },
       "metrics": {
         "likes": 0,
@@ -708,7 +824,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "Can a classifier stop an AI coding agent from running dangerous or malicious shell commands? I tested @typesafeai's Jev against Laya, run locally on CPU and GPU. Laya on GPU: 4.5× faster. Attacks let through: 44 of 111. Jev: 6. At 856 attempts: 114 vs 9. Faster isn't safer.…",
+        "chars": 298,
+        "from": "https://x.com/lovelylogicss/status/2102501731137360365",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102009737034575968",
@@ -721,7 +843,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1007090954497486849/w-mkQQ9P_normal.jpg"
       },
       "metrics": {
         "likes": 91,
@@ -736,7 +859,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "I just discovered Laya, an open-source Jev-like model, and went down the rabbit hole. The more I look, the more Jev feels like exceptional marketing around ideas that already existed. Before Jev, open-source projects like GLiClass were already doing general-purpose zero-shot",
+        "chars": 275,
+        "from": "https://x.com/marouane53/status/2102009737034575968",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101473552956555427",
@@ -758,10 +887,11 @@
           "bitrate": 832000,
           "bytes": 246489,
           "readOn": "2026-09-24"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/1987888073292881921/_qmTL0fK_normal.jpg"
       },
       "metrics": {
-        "likes": 14028,
+        "likes": 14035,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -774,7 +904,13 @@
       "tags": [
         "runtime-and-ports",
         "games-and-demos"
-      ]
+      ],
+      "quote": {
+        "text": "介绍比Jev快50倍，在你设备上跑的laya-mlx! 只在你的设备上占用最高1G内存 Laya是一个开源的类似于Jev的,基于文本输出概率的分类系统 我将其移植到MLX,并且做了一些性能优化! 视频中就是这个模型在我的本地M3Max上玩贪吃蛇 这个模型能够以每秒决策60次的速度玩贪吃蛇！ https://t.co/31KGUiNunb https://t.co/5kAXnrrdUA",
+        "chars": 193,
+        "from": "https://x.com/mizorewww/status/2101473552956555427",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101276606803354013",
@@ -835,7 +971,8 @@
         "kind": "image",
         "thumb": "https://pbs.twimg.com/media/HSlD0zSa8AAep2O.jpg",
         "thumbW": 1592,
-        "thumbH": 1610
+        "thumbH": 1610,
+        "avatar": "https://pbs.twimg.com/profile_images/1982070651423694848/0vUKWPER_normal.jpg"
       },
       "metrics": {
         "likes": 176,
@@ -850,7 +987,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "Benchmarked Jev with Qwen3-4B and Laya (400M parameter model). Based on results here and others I've seen online, strongly suspect Jev to be in 30Bn range (compare 4bn results on MMLU vs Jev). Latency I got was 300ms, same as you'd get for a 30bn model on a good GPU. Also…",
+        "chars": 296,
+        "from": "https://x.com/paraschopra/status/2101285278782824735",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2102076320846840204",
@@ -872,10 +1015,11 @@
           "bitrate": 832000,
           "bytes": 3732341,
           "readOn": "2026-09-24"
-        }
+        },
+        "avatar": "https://pbs.twimg.com/profile_images/2103029782451453952/s9TrDpJ5_normal.jpg"
       },
       "metrics": {
-        "likes": 82,
+        "likes": 83,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -887,7 +1031,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "The problem isn't the models, it's how you define the problem space, design the movements / decisions and optimize for it (batching e.g.) Jev wins for a network-based model any day. Local models tied - Laya-mlx and my custom build Jax. Look at them go. https://t.co/fhg1vMpjzf",
+        "chars": 276,
+        "from": "https://x.com/tomhacks/status/2102076320846840204",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2100923960493818177",
@@ -900,10 +1050,11 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2006310479975858176/PWGiJqg9_normal.jpg"
       },
       "metrics": {
-        "likes": 481,
+        "likes": 480,
         "asOf": "2026-09-24"
       },
       "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
@@ -915,7 +1066,13 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "Jev 发布没几天，开源社区已经开始疯狂复刻了🔥 最值得推荐的五个模型： 1、Laya 421M：原生决策模型，支持 Mac 2、Decider-2B：最像 Jev，基于 Qwen3.5 3、NanoJev 0.6B：专门的 Decision Head 4、Reflex：Qwen3.5 + Direct Logits 5、System-One 4B：专门做概率校准",
+        "chars": 184,
+        "from": "https://x.com/xiaomovps/status/2100923960493818177",
+        "readOn": "2026-09-24"
+      }
     },
     {
       "id": "x:2101553680889598094",
@@ -952,7 +1109,8 @@
         "kind": "none",
         "thumb": "",
         "thumbW": 0,
-        "thumbH": 0
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/600475846747389952/3oVDhklx_normal.jpg"
       },
       "metrics": {
         "likes": 0,
@@ -967,7 +1125,409 @@
       ],
       "tags": [
         "benchmarks-and-evaluation"
-      ]
+      ],
+      "quote": {
+        "text": "我做的这个测试，值得一看，因为 Laya 的出现正好回答了：能否在本地运行类似 Jev 这样的模型？ 所以这个测试主要测试 Jev 和 Laya 的能力，从实测数据来看，对于同一个测试机，Jev 的判断力还是要比 Laya 更全面——这句话的意思是，Jev 问题的覆盖面更广，某些问题中 Laya 的判断力不如 Jev。 但是否",
+        "chars": 164,
+        "from": "https://x.com/yibie/status/2101695257477886060",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102081414292533726",
+      "source": "x",
+      "url": "https://x.com/MadhavSz/status/2102081414292533726",
+      "title": "Laya shipped right after Jev claiming to be faster for AI agent decisions. curious if it was …",
+      "author": "@MadhavSz",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/2060451295702736896/phLLHzpC_normal.jpg"
+      },
+      "metrics": {
+        "likes": 2,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The most valuable Laya post in this batch, because it reports a loss. Same agent, same thirty labelled tickets, only the engine swapped: Jev 422 ms at 53%, Laya 152 ms at 10%. Three times faster and five times worse, written as a warning.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ],
+      "quote": {
+        "text": "Laya shipped right after Jev claiming to be faster for AI agent decisions. curious if it was accurate too I built a POC same Google ADK triage agent, same 30 labeled tickets, only the engine swapped. Jev: 422ms, 53% accuracy. Laya: 152ms 10% accuracy Faster not more accurate",
+        "chars": 275,
+        "from": "https://x.com/MadhavSz/status/2102081414292533726",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101919265481957817",
+      "source": "x",
+      "url": "https://x.com/NirantK/status/2101919265481957817",
+      "title": "Please welcome @Nandakishorm1, the guy behind Laya, a key open-weight, open-research predeces…",
+      "author": "@NirantK",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0,
+        "avatar": "https://pbs.twimg.com/profile_images/1716473928590512128/F7cyV0D1_normal.jpg"
+      },
+      "metrics": {
+        "likes": 299,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A well-known practitioner introducing the person who built Laya, framing the work as the open-research predecessor to Jev. Worth a card for the framing alone: it is the credit argument this model's whole reception has turned on.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ],
+      "quote": {
+        "text": "Please welcome @Nandakishorm1, the guy behind Laya, a key open-weight, open-research predecessor to Jev and broader auto-regressive models with RL workstram!",
+        "chars": 157,
+        "from": "https://x.com/NirantK/status/2101919265481957817",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102317280897995237",
+      "source": "x",
+      "url": "https://x.com/OrcaRouter/status/2102317280897995237",
+      "title": "We spent the last few days testing JEV internally. We tried to reproduce it, break it, and im…",
+      "author": "@OrcaRouter",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "about Jev, not Laya — internal testing notes on the hosted model; the Laya topic is not where that belongs",
+      "tags": []
+    },
+    {
+      "id": "x:2102271300890747293",
+      "source": "x",
+      "url": "https://x.com/RonfortMartin/status/2102271300890747293",
+      "title": "@andrew4ranting The race for efficiency in open weights is getting intense. We actually went …",
+      "author": "@RonfortMartin",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a reply pointing at a list, with no content of its own",
+      "tags": []
+    },
+    {
+      "id": "x:2102234988041416866",
+      "source": "x",
+      "url": "https://x.com/ZachSents/status/2102234988041416866",
+      "title": "@atomic_chat_hq @grok are you comparing a local model vs. a cloud model? what exactly are you…",
+      "author": "@ZachSents",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 81,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a question asking somebody else what they tested",
+      "tags": []
+    },
+    {
+      "id": "x:2101311992984199580",
+      "source": "x",
+      "url": "https://x.com/airesearch12/status/2101311992984199580",
+      "title": "JevBench results are in. Jev still in the lead, but it's close. https://t.co/8P4lbHBfhd",
+      "author": "@airesearch12",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSlcDnPXkAAHTH1.jpg",
+        "thumbW": 2100,
+        "thumbH": 1515,
+        "avatar": "https://pbs.twimg.com/profile_images/1942340330314956800/iTdMDC7t_normal.jpg"
+      },
+      "metrics": {
+        "likes": 1006,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "The same benchmark account posting its results: Jev still in the lead, but close. It is here in the Laya column because \"close\" is the finding that matters for an open model running on your own machine — and because the number moves the moment a fine-tune lands.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ],
+      "quote": {
+        "text": "JevBench results are in. Jev still in the lead, but it's close. https://t.co/8P4lbHBfhd",
+        "chars": 87,
+        "from": "https://x.com/airesearch12/status/2101311992984199580",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102189071032312146",
+      "source": "x",
+      "url": "https://x.com/grok/status/2102189071032312146",
+      "title": "@ric_guia @atomic_chat_hq Yes. Laya is an open-weights System One model that works like Jev: …",
+      "author": "@grok",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 2,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "written by the platform's own model rather than by a person",
+      "tags": []
+    },
+    {
+      "id": "x:2102300645529100524",
+      "source": "x",
+      "url": "https://x.com/grok/status/2102300645529100524",
+      "title": "@Westxrnfn @atomic_chat_hq Laya ranks among the leading open-weight fine-tunable typed-decisi…",
+      "author": "@grok",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 0,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "also written by the platform's model; its Laya summary repeats the model card",
+      "tags": []
+    },
+    {
+      "id": "x:2101734191289471321",
+      "source": "x",
+      "url": "https://x.com/m_newhaus/status/2101734191289471321",
+      "title": "Looked deeply into Laya. It's interesting. The timeline claims are fuzzy and benchmarks are m…",
+      "author": "@m_newhaus",
+      "publishedAt": "2026-09-20",
+      "media": {
+        "kind": "image",
+        "thumb": "https://pbs.twimg.com/media/HSrcDklXEAEi7DB.jpg",
+        "thumbW": 4094,
+        "thumbH": 4096,
+        "avatar": "https://pbs.twimg.com/profile_images/2051274130196996096/rGvfyA1r_normal.jpg"
+      },
+      "metrics": {
+        "likes": 55,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A careful reader's summary that refuses both camps: the timeline claims are fuzzy, the benchmarks are mixed, and the model is worth following anyway. He puts the numbers beside the cost advantage, which is the trade most of this corpus argues about without stating.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "benchmarks-and-evaluation"
+      ],
+      "quote": {
+        "text": "Looked deeply into Laya. It's interesting. The timeline claims are fuzzy and benchmarks are mixed but the model is worth following. Laya, as compared to Jev by the author and @benchmarkheaven: -#4 overall w/ 70.1 vs Jev’s 75.4 -Much stronger cost score: 86 vs 52 -Weaker…",
+        "chars": 294,
+        "from": "https://x.com/m_newhaus/status/2101734191289471321",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102063736630706454",
+      "source": "x",
+      "url": "https://x.com/melophile0646/status/2102063736630706454",
+      "title": "💥Exploded! The open-source local version of Laya crushes Jev in response speed, with millise…",
+      "author": "@melophile0646",
+      "publishedAt": "2026-09-21",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2102063591591653376/img/gLb3rkCCKpbJPpHd.jpg",
+        "thumbW": 2936,
+        "thumbH": 2160,
+        "avatar": "https://pbs.twimg.com/profile_images/2071963446111797248/ijQGIsrO_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2102063591591653376/vid/avc1/978x720/CT4cTL__V3n4wIdY.mp4",
+          "width": 978,
+          "height": 720,
+          "durationS": 17,
+          "bitrate": 2176000,
+          "bytes": 903314,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 6,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "Another Snake comparison, this one with the loop's own numbers: 86.5 decisions a second, a score and a snake length recorded alongside. A game is not a benchmark, and the post does not pretend otherwise — but the rate is real and so is the recording.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "games-and-demos"
+      ],
+      "quote": {
+        "text": "💥Exploded! The open-source local version of Laya crushes Jev in response speed, with millisecond-level decisions flying by! Same Snake game. Same typed decisions. 30 seconds of testing: 🔹 Laya — 421M open-source local model → Score: 46 → Length: 52 → 86.5 decisions/sec →…",
+        "chars": 297,
+        "from": "https://x.com/melophile0646/status/2102063736630706454",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2101451056727077358",
+      "source": "x",
+      "url": "https://x.com/mernit/status/2101451056727077358",
+      "title": "ANNOUNCING: Open Jev Playground Try all the open-source alternatives to Jev as APIs &gt; 50% …",
+      "author": "@mernit",
+      "publishedAt": "2026-09-19",
+      "media": {
+        "kind": "video",
+        "thumb": "https://pbs.twimg.com/amplify_video_thumb/2101450358732038144/img/IWBr1GtmmWvWmX4H.jpg",
+        "thumbW": 1680,
+        "thumbH": 1080,
+        "avatar": "https://pbs.twimg.com/profile_images/1462180814993637381/YPonWOXz_normal.jpg",
+        "video": {
+          "url": "https://video.twimg.com/amplify_video/2101450358732038144/vid/avc1/1120x720/mW4ov_P51PlnZM9T.mp4",
+          "width": 1120,
+          "height": 720,
+          "durationS": 16,
+          "bitrate": 2176000,
+          "bytes": 1693311,
+          "readOn": "2026-09-24"
+        }
+      },
+      "metrics": {
+        "likes": 153,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "published",
+      "ourNote": "A hosted playground for the open alternatives, announced with a price and a compatibility claim: OpenAI-shaped endpoints at half the cost of the hosted model or less. It is the first post here that treats these open weights as something to resell rather than something to run.",
+      "checked": [
+        "the post read through X's public syndication endpoint, 2026-09-25",
+        "like count and date read from the same endpoint the same day"
+      ],
+      "tags": [
+        "serving-and-api"
+      ],
+      "quote": {
+        "text": "ANNOUNCING: Open Jev Playground Try all the open-source alternatives to Jev as APIs > 50% cheaper than Jev 🤯 > $0.021 per 1M tokens > Hosted as OpenAI-compatible endpoints Explore the playground ↓ https://t.co/yTcmwoN2tm",
+        "chars": 221,
+        "from": "https://x.com/mernit/status/2101451056727077358",
+        "readOn": "2026-09-24"
+      }
+    },
+    {
+      "id": "x:2102208074299941116",
+      "source": "x",
+      "url": "https://x.com/neko23423/status/2102208074299941116",
+      "title": "@atomic_chat_hq @grok @grok how to use laya in opencode",
+      "author": "@neko23423",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 5,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a question about running it in a particular editor, with no answer",
+      "tags": []
+    },
+    {
+      "id": "x:2102188962072658192",
+      "source": "x",
+      "url": "https://x.com/ric_guia/status/2102188962072658192",
+      "title": "@atomic_chat_hq @grok @grok this is like jev but local?",
+      "author": "@ric_guia",
+      "publishedAt": "2026-09-22",
+      "media": {
+        "kind": "none",
+        "thumb": "",
+        "thumbW": 0,
+        "thumbH": 0
+      },
+      "metrics": {
+        "likes": 10,
+        "asOf": "2026-09-24"
+      },
+      "candidateReason": "read from the X list we curated, then resolved through the public syndication endpoint",
+      "status": "rejected",
+      "ourNote": "",
+      "checked": [],
+      "reason": "a one-line question (\"this is like jev but local?\") with no content",
+      "tags": []
     }
   ]
 }

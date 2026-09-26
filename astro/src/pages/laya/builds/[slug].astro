@@ -150,8 +150,9 @@ const description = `${build.title} — ${dossier.bestFor}. Stars, licence and s
     </aside>
   </article>
 
+  {/* `data-generated`: three nearest rows sharing a kind — see the Jev build pages. */}
   {related.length > 0 && (
-    <section class="related">
+    <section class="related" data-generated="related-builds">
       <h2>More like this</h2>
       <ul class="card-grid">
         {related.map((other) => (

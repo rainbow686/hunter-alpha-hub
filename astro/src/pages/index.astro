@@ -16,19 +16,75 @@
  * Structure follows ADR-0012: the homepage is the [primary] layer, and its job is
  * to route into the second tier — the live codename, the register, the
  * comparison — not to be a third copy of them.
+ *
+ * ## The 2026-09-25 pass (second attempt): a hub that does not need editing
+ *
+ * First attempt: copy the topic covers' shapes onto the front page — a cover card
+ * per live topic in the hero, and a wall interleaved from both. It looked right and
+ * it was wrong in two ways the reader named before I did:
+ *
+ *   1. **It hard-codes the two hot models.** A page whose hero names Jev and Laya
+ *      has to be edited again when they cool down and something else lands.
+ *   2. **Its wall was the topic pages' content again.** Two topics means any card
+ *      band on this page overlaps with them; a *sample of each column* — which is
+ *      what a topic cover shows — was the worst possible choice, because it is the
+ *      same selection in the same order.
+ *
+ * The fix is to make the page read its own data and to give every band a job the
+ * topic pages do not already do:
+ *
+ *   - **the hero's card is the spotlight**, read from `lib/spotlight.ts` — the same
+ *     file the masthead badges read, so "what is hot" is edited in one data file,
+ *     and the card plays its clip only when the clip is small enough to be worth it
+ *     (the first attempt fetched 6.19 MB for one hero video);
+ *   - **the models index lists every model we cover**, followed topics first, then
+ *     the catalogue snapshot — which is the "all models in one place" layer. It
+ *     grows by itself; nothing here is hand-listed;
+ *   - **the card band is a date-ordered site feed** (`siteFeed`), not a per-column
+ *     sample: *what landed last, anywhere*, which is the one thing no topic page
+ *     says. With two topics it still mostly shows Jev and Laya — that is
+ *     arithmetic, and it stops being true when a third model arrives;
+ *   - **the codename answer sits above the fold.** GSC says this page is found for
+ *     "hunter alpha" (1,423 impressions, position 6.9) and "hunter alpha ai"
+ *     (position 3.4, 20% CTR) — and neither the h1 nor the title contains the
+ *     phrase, so the first screen now states codename → model, dated.
+ *
+ * What it did not do, deliberately: change the title, the description, the h1, the
+ * canonical or the structured data. `verify:pages` compares all of those against the
+ * live page, and this page is where the site's search traffic is; a redesign is not
+ * a reason to rewrite the strings that earn it.
  */
 import System from "../layouts/System.astro";
 import JsonLd from "../components/JsonLd.astro";
 import Provenance from "../components/Provenance.astro";
+import TopicWall from "../components/TopicWall.astro";
+import XClipWall from "../components/XClipWall.astro";
+import { TOPIC_LABEL, siteFeed, topicRecords, topicSizes } from "../lib/topic-wall";
 import { breadcrumbSchema, SITE, SITE_NAME, webSiteSchema } from "../lib/schema";
 import {
   defaultScenarios,
+  openrouterModels,
   formatContextWindow,
   formatPrice,
   getModelBySlug,
   modelsForScenario,
   modelHubDataAsOf,
 } from "@repo/lib/openrouter-models";
+import { jevLaunchPost, jevXPosts } from "@repo/lib/jev-x-posts";
+import { layaTopPost, layaXPosts } from "@repo/lib/laya-x-posts";
+import { JEV_DATA_AS_OF, JEV_INPUT_PRICE_PER_MILLION, JEV_MODEL_ID } from "@repo/lib/jev";
+import { LAYA_READ_ON } from "@repo/lib/laya";
+import { topics as spotlight } from "@repo/lib/spotlight";
+import { ALPHA_LINE_CITATION, ALPHA_LINE_LICENSE, alphaLineEntries, alphaLineStats, daysBetween } from "@repo/lib/alpha-line";
+import {
+  JEV_OURS_MEASURED_ON,
+  oursAmbiguity,
+  oursLabelStability,
+  oursLatency,
+  oursSpread,
+} from "@repo/lib/jev-our-measurements";
+import { LAYA_OURS_MEASURED_ON, latencyCpu } from "@repo/lib/laya-our-measurements";
+import { determinism, ambiguity as layaAmbiguity, temperatureClamp } from "@repo/lib/laya-our-measurements";
 
 const title = "OpenRouter Model Hub — Compare AI Models: Pricing, Context & Benchmarks";
 const description =
@@ -37,30 +93,17 @@ const description =
 const canonical = SITE;
 
 /**
- * Six, not four. The card set is "the first models in scenario order", so when
- * the MiMo-V2.6 line went in at the top of the snapshot it pushed Gemini 3.7
- * Flash and GLM 5.3 Flash off the home page entirely — a silent internal-link
- * loss that the link-parity check caught and that four cards could not absorb.
- * Six cards restore both and still fit two rows of three.
- */
-const featuredModels = [
-  ...modelsForScenario("Overall", 3),
-  ...modelsForScenario("Budget", 3),
-].slice(0, 6);
-
-/**
  * The codename this domain is named after. Its numbers come from the catalogue
  * entry it became, so the section cannot drift from the model page.
  */
 const hunterAlpha = getModelBySlug("mimo-v2.5");
 
+/*
+ * Where to go next: the sections that are not already on this page. The model directory, the two
+ * topics and the comparison each have a block of their own above, so repeating them here would be
+ * the same link twice on one screen — which is how this page got to eleven cards the last time.
+ */
 const entryPoints = [
-  {
-    href: "/union-alpha",
-    kicker: "revealed",
-    title: "Union Alpha",
-    body: "The third Alpha-line codename: listed 16 September, revealed as Unbiased Pareto on the 18th, with the specs, the timeline and the new price.",
-  },
   {
     href: "/stealth-models",
     kicker: "register",
@@ -68,16 +111,10 @@ const entryPoints = [
     body: "Each anonymous model, what it turned out to be, and what it costs after the reveal.",
   },
   {
-    href: "/typesafe-jev",
-    kicker: "topic",
-    title: "Jev, and what people built with it",
-    body: "A model that does not write: the specs and our own measurements, plus the resources, the Hacker News threads, the recordings and the projects people put it inside.",
-  },
-  {
-    href: "/comparison",
-    kicker: "decide",
-    title: "Compare before you commit",
-    body: "Price, context window and modality side by side — including the free anonymous model next to paid ones.",
+    href: "/union-alpha",
+    kicker: "revealed",
+    title: "Union Alpha",
+    body: "The third Alpha-line codename: listed 16 September, revealed as Unbiased Pareto on the 18th, with the specs, the timeline and the new price.",
   },
   {
     href: "/field-notes",
@@ -90,17 +127,355 @@ const entryPoints = [
     */
     body: "When a model lands, we read the projects built on it — their code, their measurement files, their limits sections — and write down what holds up. Every entry says what we ran and what we did not.",
   },
+  {
+    href: "/comparison",
+    kicker: "decide",
+    title: "Compare before you commit",
+    body: "Price, context window and modality side by side, fifteen models wide — including the free anonymous model next to paid ones.",
+  },
+  {
+    href: "/openrouter-pricing-calculator",
+    kicker: "tool",
+    title: "Estimate your monthly cost",
+    body: "Set token volume and the input/output mix to estimate monthly spend across several models at once.",
+  },
+  {
+    href: "/alpha-line-report",
+    kicker: "data",
+    title: "The line, as a citable report",
+    body: "Every dated fact we publish about the Alpha line — models, prices, reveals — as a plain page and plain JSON, CC BY 4.0.",
+  },
 ];
-/** Which models the workload cards have already shown, so no two cards repeat. */
+/** Which models the workload strip has already named, so no two entries repeat. */
 const usedInCards = new Set<string>();
 
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+/*
+ * The hero's right-hand column: two cards, both from data.
+ *
+ * The reader's note on the previous version was that the page had the content but not the pull:
+ * "观感上不如动态的效果…轮播、卡片墙里有动态视频". They were right — the wall had moved below an
+ * eighteen-row table, which is the least visual thing on the site, and the first screen had one
+ * still picture on it. So the columns, top to bottom, are now pictures, pictures, motion, then the
+ * reference table.
+ *
+ * Card 1 is the spotlight: its topic comes from `lib/spotlight.ts` — the same list the masthead
+ * badges read — so "what is hot" is edited in one data file and never in this page. The media is
+ * the post the topic itself leads with, because a picture of the thing somebody actually posted
+ * says more than a generated illustration of "a decision model".
+ *
+ * It is playable only when the clip is small enough to be worth it. The first version of this page
+ * played whatever the lead post carried, and that one file was 6.19 MB of a 7.43 MB first load
+ * (`docs/lessons/measure-the-first-screen.md`); the threshold is the fix, and it is a fact about
+ * the row rather than a taste call. A poster-only card is still a link into the section.
+ */
+const HERO_CLIP_MAX_BYTES = 1_500_000;
+/*
+ * The feed's cap is higher, and deliberately: the feed is the page's motion block, and a reader who
+ * has scrolled this far has asked for it. The hero's is lower because that one is fetched before
+ * anybody has decided they are interested.
+ */
+const FEED_CLIP_MAX_BYTES = 2_000_000;
+
+/*
+ * Everything a spotlight entry needs to become a card. Kept keyed by href rather than by label,
+ * because the label is editorial and the href is the identity; an entry with no data here is
+ * skipped by the markup instead of printing a card with holes in it.
+ */
+const topicData = {
+  "/typesafe-jev": {
+    slug: "jev" as const,
+    name: "Jev",
+    what: "TypeSafe's decision model: state in, typed decision out. It does not write.",
+    /** The hero card's version of the same sentence: it is clamped to two lines there. */
+    cardWhat: "state in, typed decision out",
+    /*
+     * A screenshot of the model's own listing, not a generated illustration.
+     *
+     * The reader's note (2026-09-25): "咱们自己生成的是长文的图，那个图比较抽象，其实并不适合关注科技、
+     * 关注模型的人… 你还是从官网去找相关的图。这样能让人一眼看到是这个模型，并且图上能有一些关于这个模型
+     * 的信息". They are right, and it is the failure mode of a metaphor: the engraving explained the
+     * idea and identified nothing. This one shows the name, the id, the price, the context window
+     * and the released date — the five things somebody deciding whether to click wants.
+     */
+    cover: "/img/models/jev-openrouter.webp",
+    coverAlt: "Screenshot of the OpenRouter listing for TypeSafe: Jev 1.13, showing the model id typesafe/jev-1.13, the description, and the modality, price, context and release cards.",
+    coverSource: "openrouter.ai/typesafe/jev-1.13",
+    verified: JEV_DATA_AS_OF,
+    post: jevLaunchPost,
+    postLabel: "X post · the launch",
+    postLink: jevLaunchPost?.page
+      ? { href: `/typesafe-jev/x-posts/${jevLaunchPost.page.slug}`, external: false, label: "What this post claims, and what we make of it" }
+      : undefined,
+    recordCount: topicRecords("jev"),
+    repos: topicSizes.jev.builds,
+  },
+  "/laya": {
+    slug: "laya" as const,
+    name: "Laya",
+    what: "The open-weights System One model, from Convai — a decision model you can run yourself.",
+    cardWhat: "open weights, run it yourself",
+    cover: "/img/models/laya-huggingface.webp",
+    coverAlt: "Screenshot of the Hugging Face model card for convaiinnovations/laya, showing the model name, the tags, the Apache-2.0 licence and the start of the model card.",
+    coverSource: "huggingface.co/convaiinnovations/laya",
+    verified: LAYA_READ_ON,
+    post: layaTopPost,
+    postLabel: "X post · the one that travelled",
+    /*
+     * Jev's X rows mostly have a page of ours; Laya's link out, and the card says which. Without
+     * this the card would be one link short of the same card for the other topic.
+     */
+    postLink: layaTopPost
+      ? { href: layaTopPost.url, external: true, label: "Read the post on X" }
+      : undefined,
+    recordCount: topicRecords("laya"),
+    repos: topicSizes.laya.builds,
+  },
+} as const;
+
+const heroTopic = spotlight.map((entry) => ({ ...entry, data: topicData[entry.href as keyof typeof topicData] })).find((entry) => entry.data);
+
+/** The clip on the hero card, when it is small enough that a first impression is worth the bytes. */
+const heroClip =
+  heroTopic?.data.post?.video && heroTopic.data.post.video.bytes <= HERO_CLIP_MAX_BYTES
+    ? heroTopic.data.post.video.url
+    : undefined;
+
+/*
+ * The models index: everything this site covers, in one place, and the reason the front page does
+ * not need editing when a model lands.
+ *
+ * Two kinds of row, and the difference matters: the followed topics have a section of their own
+ * (counts, records, a page per record), the catalogue rows are what OpenRouter serves and we
+ * compare. A reader who wants "all the models" gets both; a reader who wants "what are you
+ * following" can tell which is which.
+ */
+const followedRows = spotlight
+  .map((entry) => ({ entry, data: topicData[entry.href as keyof typeof topicData] }))
+  .filter((row): row is { entry: (typeof spotlight)[number]; data: NonNullable<(typeof topicData)[keyof typeof topicData]> } => Boolean(row.data))
+  .map(({ entry, data }) => ({
+    name: entry.label,
+    note: data.what,
+    href: entry.href,
+    records: data.recordCount,
+    repos: data.repos,
+    verified: data.verified,
+    cover: data.cover,
+    coverAlt: data.coverAlt,
+    coverSource: data.coverSource,
+  }));
+
+const catalogueRows = openrouterModels.map((model) => ({
+  name: model.name,
+  href: `/openrouter-models/${model.slug}`,
+  vendor: model.formerAlias ? `${model.vendor} · formerly ${model.formerAlias}` : model.vendor,
+  input: formatPrice(model.inputPricePerMillion),
+  output: formatPrice(model.outputPricePerMillion),
+  context: formatContextWindow(model.contextWindow),
+  bestFor: model.bestFor.slice(0, 3).join(" · "),
+}));
+
+/*
+ * The headline picks, one per workload, as a strip rather than as six cards: the card grid said
+ * the same thing the index below says, one screen further down. Each entry names a different
+ * model — the first version took the top model per scenario and printed Xiaomi MiMo-V2.5 twice.
+ */
+const workloadPicks = defaultScenarios.flatMap((scenario) => {
+  const model = modelsForScenario(scenario.scenario, 4).find((candidate) => !usedInCards.has(candidate.slug));
+  if (!model) return [];
+  usedInCards.add(model.slug);
+  return [{ scenario: scenario.title, model: model.name, href: `/openrouter-models/${model.slug}` }];
+});
+
+/*
+ * The site feed: what landed last that was worth looking at, anywhere. Six cards per topic, merged
+ * by date, each labelled with the topic it came from — the one view of these records that no topic
+ * page provides. The rules (a signal floor per kind, and both topics getting their turn) live in
+ * `siteFeed` with the numbers that calibrated them.
+ */
+const FEED_PER_TOPIC = 6;
+/*
+ * The hero shows the four newest notable cards; the feed below continues with the rest, so the same
+ * row never appears twice on the page (one file, two `<video>` elements is the bug the topic covers
+ * hit on 2026-09-24).
+ *
+ * Four rather than two because of what the measurement said: the words column's real content is
+ * 530px, and two 468px cards beside it left a 425px hole — the reader saw it before I did ("Hero
+ * 区域右边还是有点空"). Four cards in a 2x2 grid fill the column with content instead of with
+ * space, and the extra two are the reason the page can say "we track 247 records" and then show it.
+ */
+const recent = siteFeed(FEED_PER_TOPIC * 3, { excludeXId: heroTopic?.data.post?.id });
+/** Three beside the spotlight card: four cards, four cells of a 2×2. */
+const heroCards = recent.filter((row) => row.thumb).slice(0, 3);
+const heroCardKeys = new Set(heroCards.map((row) => `${row.topic}:${row.href}`));
+
+const feed = recent
+  .filter((row) => !heroCardKeys.has(`${row.topic}:${row.href}`))
+  .slice(0, FEED_PER_TOPIC * 2)
+  .map((row) => ({
+    ...row,
+    kind: `${TOPIC_LABEL[row.topic]} · ${row.kind}`,
+    /*
+     * Playing a clip in place is a choice the page makes per row, and a 2.6 MB clip in a
+     * twelve-card feed is not the same offer as a 0.3 MB one. Measured with everything playing:
+     * 11.2 MB for a full scroll, two files making up 6.5 of it. Over the cap the card keeps its
+     * poster and links to the source, which is what a reader who wants the video does anyway.
+     */
+    video: row.videoBytes !== undefined && row.videoBytes <= FEED_CLIP_MAX_BYTES ? row.video : undefined,
+  }));
+const feedColumns = [
+  { label: "Jev", href: "/typesafe-jev", count: topicRecords("jev") },
+  { label: "Laya", href: "/laya", count: topicRecords("laya") },
+];
+
+/*
+ * What we measured ourselves, on both models, side by side.
+ *
+ * Four rows, one per question a reader actually has: how slow is it, does it answer the same way
+ * twice, does it survive hostile input, and what did we fail to check. Every number is our own run
+ * (`lib/jev-our-measurements.ts` on 2026-09-20/21, `lib/laya-our-measurements.ts` on 2026-09-24)
+ * and each row carries its own condition, because the two were not run the same way: Jev went over
+ * the network and Laya ran on this laptop's CPU, and a table that hides that is how a site ends up
+ * printing a race that did not happen.
+ *
+ * The third row is the one worth the block: the same ten arguable cases, both models defensible
+ * ten times out of ten, and confidence means of 0.71 and 0.411 — a difference in *manner* that no
+ * vendor publishes and only a side-by-side run shows.
+ */
+const measured = [
+  {
+    label: "What one call costs in time",
+    jev: `${oursLatency.median} ms median, ${oursLatency.note}`,
+    laya: `${latencyCpu[0].p50} s for one question on this laptop's CPU, no GPU — ${latencyCpu[2].perQuestion} s each once batched to fifty`,
+  },
+  {
+    label: "The same call, twenty times",
+    jev: `label never moved, ${oursLabelStability.runs} of ${oursLabelStability.of} — but ${oursSpread[3].signal.toLowerCase()} ranged ${oursSpread[3].min.toFixed(2)}–${oursSpread[3].max.toFixed(2)}, which crosses the vendor's own routing bands`,
+    laya: `all four signals byte-identical on all ${determinism.calls} calls (range 0.0000)`,
+  },
+  {
+    label: "Forty adversarial calls (30 clear, 10 arguable)",
+    jev: `every answer defensible: ${oursAmbiguity.clear.defensible} of ${oursAmbiguity.clear.n} and ${oursAmbiguity.ambiguous.defensible} of ${oursAmbiguity.ambiguous.n}, mean confidence ${oursAmbiguity.clear.meanConfidence} and ${oursAmbiguity.ambiguous.meanConfidence}`,
+    laya: `defensible ${layaAmbiguity.clear.defensible} of ${layaAmbiguity.clear.n} and ${layaAmbiguity.arguable.defensible} of ${layaAmbiguity.arguable.n}, mean confidence ${layaAmbiguity.clear.meanConfidence} and ${layaAmbiguity.arguable.meanConfidence} — the same cases, answered far less confidently`,
+  },
+  {
+    label: "What we could not check",
+    jev: `the live browser agent in browser-use/jev-ultrafast — its harness needed a daemon and a second API key we chose not to spend`,
+    laya: `confidence in the choice:11+ bucket: that checkpoint ships a temperature of ${temperatureClamp.shipped} and its own library clamps it to ${temperatureClamp.applied}, so we treat those confidences as uncalibrated`,
+  },
+];
+
+/*
+ * The Alpha line, resolved — every codename this site is named for, on one axis.
+ *
+ * This is the page's search intent stated as a fact. GSC has the site at position 6.9 for
+ * "hunter alpha" and 3.4 for "hunter alpha ai" (20% CTR), and neither the h1 nor the title carries
+ * the phrase; until now the answer was nine screens down in one codename's section. It is also the
+ * one dataset on this site that nobody else keeps (see `lib/alpha-line.ts`), which is why it is a
+ * table and a figure rather than two lines of prose: the *line* is the story, not any one codename.
+ *
+ * The second version of this block printed two rows, Hunter and Union, and the reader asked what
+ * had actually changed. They were right: two rows are an answer to "what is this site about" only
+ * if you already know there are three. The dates below drive the figure, so a fourth codename puts
+ * itself on the axis without an edit here.
+ */
+const LINE_START = "2026-03-01";
+const LINE_END = alphaLineStats.dataAsOf;
+const lineSpan = Math.max(1, daysBetween(LINE_START, LINE_END));
+/*
+ * The figure's geometry, in the SVG's own coordinates.
+ *
+ * The first version mapped the dates onto 0–100 with `preserveAspectRatio="none"` and put the
+ * model's name after the bar — so the text ran off the right edge and every dot was stretched into
+ * an ellipse. Screenshotting it (which `docs/lessons/hand-drawn-svg-must-be-photographed.md`
+ * insists on) is the only reason that did not ship.
+ *
+ * Now: a fixed 640×120 viewBox that scales uniformly, a 110-unit gutter for the codename, and the
+ * axis in the remaining 500 units. Nothing is drawn after a bar, so nothing can overflow it.
+ */
+const AXIS = { left: 120, right: 620, top: 40, rowGap: 52, radius: 6, barHeight: 16 };
+const lineX = (iso: string) =>
+  AXIS.left + (daysBetween(LINE_START, iso) / lineSpan) * (AXIS.right - AXIS.left);
+/**
+ * Month ticks, so the axis reads as a calendar rather than a ruler. Every month the line covers,
+ * positioned by the same function as the bars — a tick that does not line up with the data would be
+ * the one lie this figure could tell.
+ */
+const lineMonths = ["2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01", "2026-08-01", "2026-09-01"].map(
+  (iso) => ({ iso, x: lineX(iso), label: new Date(`${iso}T00:00:00Z`).toLocaleString("en-US", { month: "short", timeZone: "UTC" }) }),
+);
+
+const codenameAnswer = alphaLineEntries.map((entry, index) => ({
+  codename: entry.codename,
+  href: entry.href,
+  found: entry.became,
+  modelId: entry.modelId,
+  firstListed: entry.firstListed,
+  windowDays: daysBetween(entry.firstListed, entry.productAdded),
+  price: `${formatPrice(entry.inputPricePerMillion)} in / ${formatPrice(entry.outputPricePerMillion)} out per million tokens`,
+  priceStory: entry.priceStory,
+  start: lineX(entry.firstListed),
+  added: lineX(entry.productAdded),
+  y: AXIS.top + index * AXIS.rowGap,
+  /*
+   * Which way the duration label runs. A bar that ends in the right third of the axis cannot carry
+   * a label to its right without leaving the frame — the first version of this figure drew all
+   * three labels rightwards and the last one was cut off mid-word ("became U…").
+   */
+  labelAnchor: lineX(entry.productAdded) > 380 ? ("end" as const) : ("start" as const),
+  labelX: lineX(entry.productAdded) > 380 ? lineX(entry.productAdded) : lineX(entry.firstListed),
+}));
+
+/*
+ * Four numbers about the whole site rather than about one model. The pattern is the topic covers'
+ * pattern — three counts and one figure of our own — because that last tile is the argument this
+ * site is making: at least one number on the page came out of a machine we own.
+ */
+const hubStats = [
+  {
+    value: fmt(openrouterModels.length),
+    label: "models in the directory",
+    note: `price, context and modality, read ${modelHubDataAsOf}`,
+  },
+  {
+    value: fmt(topicRecords("jev") + topicRecords("laya")),
+    label: "records in the two sections",
+    note: `${fmt(topicRecords("jev"))} Jev · ${fmt(topicRecords("laya"))} Laya, every one dated`,
+  },
+  {
+    value: fmt(topicSizes.jev.builds + topicSizes.laya.builds),
+    label: "repositories we track",
+    note: "stars re-read by the GitHub ingest, never typed",
+  },
+  {
+    value: fmt(topicSizes.jev.xPosts + topicSizes.laya.xPosts),
+    label: "posts by other people",
+    note: "each one read before it went on a page",
+  },
+  {
+    value: fmt(alphaLineStats.count),
+    label: "codenames on the Alpha line",
+    note: "all free while anonymous, none of them after",
+  },
+  {
+    value: "2",
+    label: "models we ran ourselves",
+    note: `Jev ${oursLatency.median} ms (${JEV_OURS_MEASURED_ON}) and Laya ${latencyCpu[0].p50} s (${LAYA_OURS_MEASURED_ON}) per question`,
+  },
+];
 ---
 {/*
   No `| OpenRouter Model Hub` suffix here, unlike every other page: the live
   homepage title is used verbatim, and the root title is the single most
   valuable indexed string on the site. The parity check caught this.
 */}
-<System title={title} description={description} canonical={canonical} wide>
+{/*
+  `noReferrer` is required from this build onwards: the hero and the wall hotlink clips from X's
+  CDN, and video.twimg.com answers 403 to any request carrying a third-party Referer (see the prop
+  in System.astro — the topic covers have carried it since their clips went in).
+*/}
+<System title={title} description={description} canonical={canonical} wide noReferrer>
   <JsonLd
     slot="head"
     data={webSiteSchema({
@@ -112,87 +487,416 @@ const usedInCards = new Set<string>();
   />
   <JsonLd slot="head" data={breadcrumbSchema([{ name: "Home", url: canonical }])} />
 
-  <p class="kicker">OpenRouter model index</p>
-  <h1 class="display">Find the Right AI Model</h1>
-  <p class="lede">
-    Compare 15+ AI models on OpenRouter side-by-side. Pricing, context windows, modality support and
-    practical recommendations — read from the public catalogue and dated.
-  </p>
-  <div class="byline">
-    <span>Snapshot {modelHubDataAsOf}</span>
-    <span>Drift-checked daily</span>
-  </div>
+  {/*
+    The hero: words left, something real right. The right column is one cover card per live topic
+    — the picture the topic itself leads with, playable when that post carries a clip, and linking
+    into the section rather than into the post.
 
-  <p class="hero-actions">
-    <a class="btn primary" href="/comparison">Compare models</a>
-    <a class="btn ghost" href="/best-openrouter-models">See best picks</a>
-  </p>
+    The reader asked for this shape on the topic covers on 2026-09-24 ("一般网站左侧是文字介绍，
+    右侧是图") and asked why the front page did not have it on 2026-09-25. It is the same shape:
+    `.topic-hero` from `system.css`.
+  */}
+  {/*
+    `home-hero` is this page's own modifier on the shared hero: the reader's note was that the two
+    cards and the text beside them did not line up ("这又不是照片墙，要参差不齐"). Two fixes, both
+    structural rather than cosmetic — the words column is a flex column with its buttons pushed to
+    the bottom, so it ends where the cards end, and both cards are pinned to one 16:9 frame with a
+    two-line title, so they are the same height as each other.
+  */}
+  <section class="topic-hero home-hero">
+    <div class="hero-copy">
+      <p class="card-eyebrow">OpenRouter model index</p>
+      <h1 class="display">Find the Right AI Model</h1>
+      <p class="lede">
+        Compare 15+ AI models on OpenRouter side-by-side. Pricing, context windows, modality support
+        and practical recommendations — read from the public catalogue and dated.
+      </p>
+      <p class="provenance">
+        <span>Snapshot {modelHubDataAsOf}</span>
+        <span>Drift-checked daily</span>
+      </p>
 
-  <a class="feature" href="/union-alpha">
-    <span class="pill">Revealed 2026-09-18</span>
-    <strong>Union Alpha turned out to be Unbiased Pareto</strong>
-    <span class="feature-note">256K context · image input · free for two days, billed since</span>
-    <span class="feature-cta">Read the reveal →</span>
-  </a>
+      <ul class="stat-row">
+        {hubStats.map((stat) => (
+          <li>
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+            <span class="stat-note">{stat.note}</span>
+          </li>
+        ))}
+      </ul>
 
+      <p class="hero-actions">
+        <a class="btn primary" href="/comparison">Compare models</a>
+        <a class="btn ghost" href="/best-openrouter-models">See best picks</a>
+      </p>
+    </div>
+
+    {/*
+      One card, not a slide deck: **what we are following right now**, from `lib/spotlight.ts`.
+      The card is the whole right column so the picture is worth looking at, and it carries the
+      topic's own counts and its own date.
+
+      Marked `data-generated`: the spotlight is a sample of one, and the record page it links to
+      changes when the spotlight does — so the link-parity guard has to ignore it. The codename
+      strip and the models index are navigation and are deliberately *not* marked: a link missing
+      from those means a model left the catalogue, which is what the guard should stop and ask
+      about. (The first attempt marked them, and the guard reported the six model links the old
+      cards carried as dropped — its job, on a marker I put in the wrong place.)
+    */}
+    {/*
+      Four cards, 2x2, all from `siteFeed` — the spotlight first (it is the topic we are following,
+      from `lib/spotlight.ts`), then the newest notable rows. Nothing here names a model, so when
+      Jev and Laya cool down this column refills itself.
+    */}
+    <div class="hero-media">
+      {heroTopic?.data.post && (
+        <figure class="hero-card" data-generated="hero-spotlight">
+          <a class="card-media" href={heroTopic.href} style="--ratio: 16 / 9">
+            <span class="card-src">{heroTopic.data.postLabel}</span>
+            <img
+              src={heroTopic.data.post.thumb}
+              alt=""
+              width={heroTopic.data.post.thumbW}
+              height={heroTopic.data.post.thumbH}
+              decoding="async"
+              referrerpolicy="no-referrer"
+            />
+          </a>
+          <figcaption class="hero-cap">
+            <span class="hero-cap-kicker">Following now</span>
+            <span class="hero-cap-title">{heroTopic.data.name} — {heroTopic.data.cardWhat}</span>
+            <span class="hero-cap-meta">
+              {fmt(heroTopic.data.recordCount)} records · {heroTopic.data.repos} repositories
+            </span>
+            <a class="hero-cap-link" href={heroTopic.href}>Everything on {heroTopic.data.name} →</a>
+          </figcaption>
+        </figure>
+      )}
+
+      {heroCards.map((row) => (
+        <figure class="hero-card" data-generated="hero-card">
+          {row.video && (row.videoBytes ?? 0) <= HERO_CLIP_MAX_BYTES ? (
+            <button
+              class="xvideo-facade"
+              type="button"
+              data-xvideo={row.video}
+              data-poster={row.thumb}
+              aria-label={`Play the clip in this entry: ${row.headline}`}
+              style="--ratio: 16 / 9"
+            >
+              <span class="card-src">{TOPIC_LABEL[row.topic]} · {row.kind}</span>
+              <img src={row.thumb} alt="" width={row.thumbW} height={row.thumbH} decoding="async" referrerpolicy="no-referrer" />
+              <span class="xvideo-play" aria-hidden="true">▶</span>
+            </button>
+          ) : (
+            <a
+              class="card-media"
+              href={row.href}
+              rel={row.external ? "noopener noreferrer" : undefined}
+              style="--ratio: 16 / 9"
+            >
+              <span class="card-src">{TOPIC_LABEL[row.topic]} · {row.kind}</span>
+              <img src={row.thumb} alt="" width={row.thumbW} height={row.thumbH} decoding="async" referrerpolicy="no-referrer" />
+            </a>
+          )}
+          <figcaption class="hero-cap">
+            <span class="hero-cap-kicker">{TOPIC_LABEL[row.topic]} · {row.at}</span>
+            <span class="hero-cap-title">{row.headline}</span>
+            {/* Our own note, clamped: it is what makes the card worth its space rather than a
+                thumbnail with a caption, and it is why the four cards fill the column. */}
+            <span class="hero-cap-note">{row.note}</span>
+            <span class="hero-cap-meta">{row.meta.join(" · ")}</span>
+            <a
+              class="hero-cap-link"
+              href={row.href}
+              rel={row.external ? "noopener noreferrer" : undefined}
+            >
+              {row.external ? "At the source" : "Open the record"} →
+            </a>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  {/*
+    The codename answer, on the first screen after the fold.
+
+    This page is found for "hunter alpha" (1,423 impressions, position 6.9) and "hunter alpha ai"
+    (position 3.4, 20% CTR), and until now the answer lived nine screens down in the Hunter Alpha
+    section — while the h1 and the title never said the phrase at all. A reader who searched a
+    codename now gets codename → model, dated, before they scroll.
+  */}
+  {/*
+    Not marked `data-generated`, and that is deliberate: the marker tells the link-parity guard to
+    ignore everything inside, and this block's two links are fixed navigation, not a sample. The
+    same goes for the models index below — it lists every model, so a link missing from it is a
+    model that left the catalogue, which is exactly what the guard should stop and ask about.
+    (First attempt marked both. It reported the six model links the old cards used to carry as
+    "dropped", which is the guard doing its job on a marker I put in the wrong place.)
+  */}
+  <section class="answer-strip">
+    <h2 class="answer-strip-title">The Alpha line, resolved — every codename, what it became</h2>
+
+    {/*
+      The figure. A hand-drawn SVG timeline: one row per codename, from the day it appeared
+      anonymously to the day the maker's own listing showed up, positioned on a shared axis
+      (March 2026 → the catalogue's own date). It is drawn from the same entries as the table
+      below, so a fourth codename puts itself on the axis. Per `docs/lessons/`, a hand-drawn
+      SVG is only verified by looking at it — screenshots in `memory/2026-09-25.md`.
+    */}
+    <figure class="line-figure">
+      {/*
+        Drawn in code, in the style a generated illustrator was asked for.
+
+        The reader's note was "不要自己生成，要用生图软件生… 你这个 SVG 画得不太好". I tried the image
+        model (FLUX.2-flex, same preset machinery as the covers) with the three durations in the
+        prompt. It produced a genuinely handsome picture — paper ground, black bars, a pink
+        underline, honest labels ("41 days", "6 days", "1 day" and the three months) — and one
+        thing that makes it unusable *as a chart*: it drew the six-day bar half the length of the
+        forty-one-day one. True ratio is 0.15. A picture next to real numbers may not be
+        approximately to scale, so the *design* came here and the proportions stayed in code:
+        bars are drawn by the same `daysBetween` the table reads, and the month ticks use the same
+        mapping, so a tick that missed its date would be visible.
+
+        It scrolls sideways on a phone rather than shrinking to six-pixel type.
+      */}
+      <div class="line-scroll">
+      <svg
+        viewBox="0 0 640 210"
+        role="img"
+        aria-label={`Timeline of the Alpha line: ${codenameAnswer.map((row) => `${row.codename} first listed ${row.firstListed} and ran anonymously for ${row.windowDays} days before ${row.found}`).join("; ")}`}
+      >
+        {/* month ticks behind the rows, drawn first so the bars sit on top */}
+        {lineMonths.map((month) => (
+          <g class="line-month">
+            <line x1={month.x} y1={AXIS.top - 16} x2={month.x} y2="176" />
+            <text x={month.x} y="192" text-anchor="middle">{month.label}</text>
+          </g>
+        ))}
+        <line x1={AXIS.left} y1="176" x2={AXIS.right} y2="176" class="line-axis" />
+
+        {codenameAnswer.map((row) => (
+          <g class="line-row">
+            <text x="0" y={row.y + 5} class="line-name">{row.codename}</text>
+            {/* the anonymous window, as a bar: length is the duration, position is the date */}
+            <rect x={row.start} y={row.y - AXIS.barHeight / 2} width={Math.max(2, row.added - row.start)} height={AXIS.barHeight} class="line-bar" />
+            <circle cx={row.start} cy={row.y} r={AXIS.radius} class="line-dot" />
+            <circle cx={row.added} cy={row.y} r={AXIS.radius} class="line-dot solid" />
+            {/* the duration, said twice: in the bar and in words, above it */}
+            <text x={row.labelX} y={row.y - 14} class="line-span" text-anchor={row.labelAnchor}>
+              {row.windowDays} {row.windowDays === 1 ? "day" : "days"} anonymous → became {row.found}
+            </text>
+          </g>
+        ))}
+
+        <text x={AXIS.left} y="205" class="line-tick">{LINE_START}</text>
+        <text x={AXIS.right} y="205" class="line-tick" text-anchor="end">catalogue read {LINE_END}</text>
+      </svg>
+      </div>
+      <figcaption>
+        Three codenames, one axis. The first ran {alphaLineStats.slowestWindowDays} days without a
+        maker attached, the last {alphaLineStats.fastestWindowDays} — median{" "}
+        {alphaLineStats.medianWindowDays}. Bars are drawn to scale from the same dates the table
+        below prints; the last two are slivers because the windows really were that short.
+      </figcaption>
+    </figure>
+
+    <dl class="answer-list">
+      {codenameAnswer.map((row) => (
+        <div class="answer-row">
+          <dt><a href={row.href}>{row.codename}</a></dt>
+          <dd>
+            <span class="answer-found">→ {row.found}</span>
+            <span class="answer-detail">
+              {row.modelId} · first listed {row.firstListed} · anonymous for {row.windowDays} days · {row.price}
+            </span>
+            <span class="answer-detail">{row.priceStory}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <p class="wall-note">
+      Every one of the {alphaLineStats.count} was free while it was anonymous, and none of them
+      stayed free: input price now ranges {formatPrice(alphaLineStats.inputPriceFloor)} to{" "}
+      {formatPrice(alphaLineStats.inputPriceCeiling)} per million tokens across the same line, a{" "}
+      {alphaLineStats.priceSpreadFactor}× spread. {alphaLineStats.disclosedCount} of{" "}
+      {alphaLineStats.count} had a public disclosure day we could point at — the rest we leave
+      blank rather than estimate. Source:{" "}
+      <a href="/alpha-line-report">the Alpha Line Report</a>, {ALPHA_LINE_LICENSE}.
+    </p>
+  </section>
+
+  {/*
+    What we follow: the two sections, as pictures.
+
+    Their cover engravings were generated for the reference pages and, until now, never appeared
+    where most readers meet the topic — the first screen of the site. These are the only two images
+    on this page that belong to a *section* rather than to a record, so they are what makes "the
+    things this site follows" visible instead of described.
+  */}
+  <section class="followed">
+    <h2>What we follow</h2>
+    <div class="followed-cards">
+      {followedRows.map((row) => (
+        <article class="card">
+          <a class="card-media" href={row.href} style="--ratio: 16 / 9">
+            <img src={row.cover} alt={row.coverAlt} width="1024" height="576" loading="lazy" decoding="async" />
+          </a>
+          <div class="card-body">
+            <h3 class="card-title"><a href={row.href}>{row.name}</a></h3>
+            <p class="card-body-text">{row.note}</p>
+            <p class="card-meta">
+              {fmt(row.records)} records · {fmt(row.repos)} repositories · verified {row.verified}
+            </p>
+            {/* Where the picture came from and when. A screenshot of somebody else's page is a
+                claim about that page, so it carries the same source-and-date line as any other. */}
+            <p class="card-meta">Screenshot · {row.coverSource}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/*
+    The feed: what landed last, anywhere on the site — twelve cards, each labelled with the topic it
+    came from, and the page's motion block. It sits above the catalogue table on purpose: the reader
+    said the page "有内容但不够吸引人", and the fix was to lead with pictures and movement and keep
+    the reference layer underneath.
+  */}
+  <section class="topic-wall" data-generated="site-feed">
+    <h2>Latest across the site</h2>
+    <p class="wall-note">
+      The strongest recent records, newest first — projects, posts, recordings and threads from
+      every model we follow. A row gets here once somebody other than us has looked at it: a post
+      with a hundred likes, a repository with a hundred stars, a thread with fifteen points. Each
+      card links to our own page where we have one and to the source where we do not — a card
+      marked <strong>source</strong> leaves this site.
+    </p>
+    <TopicWall items={feed} columns={feedColumns} footPrefix="Both sections, in full:" />
+  </section>
+
+  {/* The player for any clip the hero or the feed rendered (see TopicWall.astro). */}
+  <XClipWall />
+
+  {/*
+    The reference layer: every model this site covers, in one place, and the reason this page does
+    not need editing when a model lands. A table, not cards — a price list is read down a column —
+    and it comes after the pictures rather than in front of them.
+  */}
+  <section class="models-index">
+    <h2>All {catalogueRows.length} models we compare</h2>
+    <p class="wall-note">
+      Served by OpenRouter and read from its catalogue on {modelHubDataAsOf}, which is what the
+      comparison and the calculator price. A model we <strong>follow</strong> — Jev, Laya — has a
+      section of its own above; these are the rest, with the numbers that decide a choice.
+    </p>
+    {/*
+      `data-label` carries the column name into the narrow-screen layout, where each row becomes a
+      block and the heading row is hidden.
+    */}
+    <table class="model-table">
+      <thead>
+        <tr>
+          <th scope="col">Model</th>
+          <th scope="col">In / out per 1M</th>
+          <th scope="col">Context</th>
+          <th scope="col">Best for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {catalogueRows.map((row) => (
+          <tr>
+            <th scope="row">
+              <a href={row.href}>{row.name}</a>
+              <span class="model-vendor">{row.vendor}</span>
+            </th>
+            <td data-label="In / out per 1M">
+              {row.input} / {row.output}
+            </td>
+            <td data-label="Context">{row.context}</td>
+            <td data-label="Best for">{row.bestFor}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <p class="wall-note">
+      The pick for each workload, named:{" "}
+      {workloadPicks.map((pick, index) => (
+        <>
+          {index > 0 && " · "}
+          <a href={pick.href}>{pick.model}</a> <span class="pick-scenario">({pick.scenario})</span>
+        </>
+      ))}{" "}
+      — see <a href="/best-openrouter-models">the full reasoning</a> or{" "}
+      <a href="/openrouter-models">the directory</a>.
+    </p>
+  </section>
+
+  {/*
+    What we measured ourselves, on both models. Four rows, Jev beside Laya, no chart — the figure
+    on this page is the Alpha line, and a second one would be decoration.
+
+    Why it is here at all: it is the one block on this page whose numbers exist nowhere else on the
+    internet, and the reader's own question after the last version was "what actually changed?".
+    This is the change: a comparison nobody else can print, because it needs both models run
+    through one set of cases, and we did that.
+  */}
+  {/*
+    Not marked `data-generated` either: the rows are fixed facts with two navigation links in them,
+    and the marker would tell the parity guard to ignore those links. Only the hero's two cards and
+    the feed are samples.
+  */}
+  <section class="measured">
+    <h2>We ran both, on the same cases</h2>
+    <p class="wall-note">
+      Jev went over the network from this machine on {JEV_OURS_MEASURED_ON}; Laya ran on its CPU on{" "}
+      {LAYA_OURS_MEASURED_ON}. Each row carries the condition it was measured under — the two were
+      not run the same way, and a table that hides that is how a site ends up printing a race that
+      did not happen.
+    </p>
+    <table class="model-table measured-table">
+      <thead>
+        <tr>
+          <th scope="col">Question</th>
+          <th scope="col">Jev (TypeSafe)</th>
+          <th scope="col">Laya (Convai, open weights)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {measured.map((row) => (
+          <tr>
+            <th scope="row" data-label="Question">{row.label}</th>
+            <td data-label="Jev">{row.jev}</td>
+            <td data-label="Laya">{row.laya}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="wall-note">
+      The whole runs, including the payloads and the answers, are on{" "}
+      <a href={`/typesafe-jev/reference`}>Jev's reference page</a> and{" "}
+      <a href="/laya/reference">Laya's</a>. The runner is in the repository, so the forty calls can
+      be repeated by anyone with a laptop and half an hour.
+    </p>
+  </section>
+
+  {/*
+    The routing row. It used to carry a fifth card for the Jev topic; that card went when the hero
+    grew a cover per topic (2026-09-25), because the same link twice on one screen is the page
+    arguing with itself about which one is the entrance. The Union Alpha banner that sat above this
+    row went for the same reason: it is one of these cards, and the codename stopped being the news
+    the moment it was revealed.
+  */}
+  <h2>Where to go next</h2>
   <div class="grid-cards">
     {entryPoints.map((entry) => (
       <article class="card">
         <p class="card-kicker">{entry.kicker}</p>
-        <h2 class="card-title"><a href={entry.href}>{entry.title}</a></h2>
+        <h3 class="card-title"><a href={entry.href}>{entry.title}</a></h3>
         <p class="card-body">{entry.body}</p>
-      </article>
-    ))}
-  </div>
-
-  <h2>Best pick by workload</h2>
-  <div class="grid-cards">
-    {defaultScenarios.slice(0, 4).map((scenario) => {
-      /*
-       * Four scenarios, and each card must name a different model: the first
-       * version took modelsForScenario(...)[0] for each, so "Best for long
-       * context" and "Best for budget" both printed Xiaomi MiMo-V2.5 — the two
-       * cards a reader compares side by side were the same model, which reads as
-       * a bug in the page and undermines the recommendation.
-       */
-      const model = modelsForScenario(scenario.scenario, 4).find((candidate) => !usedInCards.has(candidate.slug));
-      if (!model) return null;
-      usedInCards.add(model.slug);
-      return (
-        <article class="card">
-          <p class="card-kicker">{scenario.title}</p>
-          <h3 class="card-title"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></h3>
-          <p class="card-body">{model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}</p>
-        </article>
-      );
-    })}
-  </div>
-
-  <div class="grid-cards">
-    <article class="card">
-      <h2>Compare every important field</h2>
-      <p class="card-body">
-        See context window, input/output pricing per 1M tokens, modality support and the workloads each
-        model is actually good for.
-      </p>
-      <p><a href="/comparison">Open comparison →</a></p>
-    </article>
-    <article class="card">
-      <h2>Estimate your monthly cost</h2>
-      <p class="card-body">
-        Set token volume and input/output mix to estimate monthly spend across several models at once.
-      </p>
-      <p><a href="/openrouter-pricing-calculator">Open calculator →</a></p>
-    </article>
-  </div>
-
-  <h2>A few models worth a look</h2>
-  <div class="grid-cards">
-    {featuredModels.map((model) => (
-      <article class="card">
-        <h3 class="card-title"><a href={`/openrouter-models/${model.slug}`}>{model.name}</a></h3>
-        <p class="card-body">{model.bestFor.join(" · ")}</p>
-        <p class="card-meta">{model.formerAlias ? `formerly ${model.formerAlias}` : model.vendor}</p>
       </article>
     ))}
   </div>
@@ -233,68 +937,215 @@ const usedInCards = new Set<string>();
 </System>
 
 <style>
-  .feature {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius, 6px);
-    background: var(--surface);
-    padding: var(--space-4) var(--space-5);
-    margin: var(--space-8) 0;
-    text-decoration: none;
-    color: var(--text);
-  }
-  .feature:hover {
-    border-color: var(--border-strong);
-  }
-  .pill {
-    border: 1px solid var(--warn);
-    background: var(--warn-soft);
-    color: var(--warn);
-    border-radius: 999px;
-    padding: 2px var(--space-3);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .feature-note {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-  }
-  .feature-cta {
-    margin-left: auto;
-    color: var(--accent);
-    font-size: var(--text-sm);
-  }
+  /*
+   * The hero, the numbers strip and the card band come from the "front pages" section of
+   * `system.css` — three callers now, so they are shared rather than copied. What is left here is
+   * what only this page has: the codename answer, the model index, and the routing cards.
+   */
   .grid-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: var(--space-4);
     margin-bottom: var(--space-8);
   }
-  .card-kicker {
-    margin: 0;
+  .card-kicker { margin: 0; font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); }
+  .card-title { margin: var(--space-1) 0 var(--space-2); font-size: var(--text-lg); }
+  .card-body { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+  .card-meta { margin: var(--space-2) 0 0; color: var(--text-faint); font-size: var(--text-xs); }
+
+  /* The hero card's eyebrow: "Following now", which is the one thing on the card that changes
+     week to week, so it is labelled rather than implied. */
+  .hero-cap-kicker {
+    font-family: var(--mono);
     font-size: var(--text-xs);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-faint);
   }
-  .card-title {
-    margin: var(--space-1) 0 var(--space-2);
-    font-size: var(--text-lg);
+
+  /*
+   * Hero alignment — the reader's complaint (2026-09-25): "两个图片、两个视频和文字都没有对齐…
+   * 这又不是照片墙，要参差不齐".
+   *
+   *   1. the words column becomes a flex column and its buttons are pushed to the bottom, so it
+   *      ends on the same line as the second card instead of floating 200px above it;
+   *   2. both cards are pinned to one 16:9 frame and a two-line title, so they are exactly the
+   *      same height as each other regardless of how long the caption is.
+   *
+   * Scoped to `home-hero`: the topic covers keep the shared behaviour (their two cards lead with
+   * different media, and they were signed off that way).
+   */
+  .home-hero { align-items: start; }
+  .home-hero .hero-copy { display: flex; flex-direction: column; }
+  /*
+   * The media column is a 2×2 grid, not a stack. Two stacked cards made the column 955px against
+   * the words' 530px, and pinning the words' buttons to the bottom only moved the hole inside the
+   * column — the reader still saw it. Four cards fill the height with cards.
+   */
+  .home-hero .hero-media {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
   }
-  .card-body {
-    margin: 0;
+  @media (max-width: 1000px) {
+    .home-hero .hero-media { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .home-hero .hero-media { grid-template-columns: minmax(0, 1fr); }
+  }
+  .home-hero .hero-cap-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .home-hero .hero-cap-links { display: flex; flex-direction: column; gap: 2px; margin-top: var(--space-2); }
+  .home-hero .hero-cap-link { margin-top: 0; }
+  /* Two lines of our note on every hero card — the part that says why the card is here. */
+  .hero-cap-note {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: var(--text-sm);
     color: var(--text-muted);
+  }
+
+  /*
+   * The Alpha line figure. Percentages along x, rows down y, drawn in the page's own ink: a thin
+   * line for the anonymous window, a hollow dot where the codename appeared, a solid one where the
+   * maker's listing did. `preserveAspectRatio="none"` lets it stretch to the column, which is why
+   * the y axis is left un-annotated — every row carries its own label in the table below.
+   */
+  .line-figure { margin: var(--space-6) 0 var(--space-8); }
+  /* Uniform scaling (`height: auto`), so a dot is a dot: `preserveAspectRatio="none"` turned them
+     into ellipses in the first version. */
+  .line-scroll { overflow-x: auto; }
+  .line-figure svg { width: 100%; min-width: 560px; max-width: 900px; height: auto; display: block; overflow: visible; }
+  .line-axis { stroke: var(--border-strong); stroke-width: 1; }
+  .line-month line { stroke: var(--border); stroke-width: 1; stroke-dasharray: 2 4; }
+  .line-month text { font-family: var(--mono); font-size: 9px; fill: var(--text-faint); }
+  .line-bar { fill: var(--text); }
+  .line-dot { fill: var(--surface); stroke: var(--text); stroke-width: 2; }
+  .line-dot.solid { fill: var(--accent); stroke: var(--accent); }
+  .line-name { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--text); }
+  .line-span { font-family: var(--mono); font-size: 9.5px; fill: var(--text-muted); }
+  .line-tick { font-family: var(--mono); font-size: 10px; fill: var(--text-faint); }
+  .line-figure figcaption {
+    margin-top: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+  }
+
+  /* The measured table: three columns, the middle two wide, the question column a label. */
+  .measured { margin-bottom: var(--space-12); }
+  .measured-table td { vertical-align: top; }
+  .measured-table tbody th { width: 22%; }
+  @media (max-width: 760px) {
+    .measured-table tbody th { width: auto; }
+  }
+
+  /*
+   * The codename answer. A definition list, because that is what it is — two terms and two
+   * answers — and it reads as one line per codename rather than as two more cards.
+   */
+  .answer-strip {
+    border-top: 2px solid var(--border-strong);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-5) 0;
+    margin: var(--space-8) 0 var(--space-10);
+  }
+  .answer-strip-title {
+    margin: 0 0 var(--space-4);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .answer-list { margin: 0; display: grid; gap: var(--space-4); }
+  .answer-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 180px) minmax(0, 1fr);
+    gap: var(--space-2) var(--space-5);
+    align-items: baseline;
+  }
+  .answer-row dt { font-family: var(--sans); font-size: var(--text-lg); font-weight: 600; }
+  .answer-row dd { margin: 0; display: flex; flex-direction: column; gap: 2px; }
+  .answer-found { font-weight: 600; }
+  .answer-detail { font-size: var(--text-sm); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 620px) {
+    .answer-row { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /*
+   * The models index.
+   *
+   * This is the "all the models in one place" layer the reader asked for, and the answer to "does
+   * the front page need editing when a model lands": no — the catalogue half is the snapshot, and
+   * the followed half is the spotlight list, so neither is typed here.
+   *
+   * A table for the catalogue half rather than cards, because a price list is read down a column.
+   * On a narrow screen each row becomes a block and `data-label` supplies the column name, which
+   * is the one thing a stacked table otherwise loses.
+   */
+  .models-index { margin-bottom: var(--space-12); }
+
+  /* The two followed sections, as pictures. Two up on a desktop, stacked on a phone. */
+  .followed { margin-bottom: var(--space-10); }
+  .followed-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+  @media (max-width: 760px) {
+    .followed-cards { grid-template-columns: minmax(0, 1fr); }
+  }
+  .followed-cards .card { margin-bottom: 0; }
+  .card-body-text { margin: 0; color: var(--text-muted); font-size: var(--text-sm); }
+
+  .model-table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: var(--text-sm);
   }
-  .card-meta {
-    margin: var(--space-2) 0 0;
-    color: var(--text-faint);
-    font-size: var(--text-xs);
+  .model-table th,
+  .model-table td {
+    text-align: left;
+    vertical-align: baseline;
+    padding: var(--space-3) var(--space-3) var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
   }
+  .model-table thead th {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 400;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .model-table tbody th { font-weight: 600; }
+  .model-table td { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .model-vendor { display: block; font-weight: 400; font-size: var(--text-xs); color: var(--text-faint); }
+  @media (max-width: 760px) {
+    .model-table thead { display: none; }
+    .model-table tr { display: block; padding: var(--space-4) 0; border-bottom: 1px solid var(--border); }
+    .model-table th, .model-table td { display: block; border: 0; padding: 0; }
+    .model-table tbody td::before {
+      content: attr(data-label) " · ";
+      font-family: var(--mono);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-faint);
+    }
+    .model-table tbody td { margin-top: var(--space-2); }
+  }
+  /* The workload picks: one sentence under the table, not six cards above it. */
+  .pick-scenario { color: var(--text-faint); }
+
   .hunter {
     margin-bottom: var(--space-10);
   }

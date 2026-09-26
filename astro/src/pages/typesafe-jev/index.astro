@@ -21,12 +21,13 @@ import ClaimList from "../../components/ClaimList.astro";
 import TimelineList from "../../components/TimelineList.astro";
 import Faq from "../../components/Faq.astro";
 import SubscribeForm from "../../components/SubscribeForm.astro";
-import TopicWall, { type WallItem } from "../../components/TopicWall.astro";
+import TopicWall from "../../components/TopicWall.astro";
 import CardFilter from "../../components/CardFilter.astro";
 import XClipWall from "../../components/XClipWall.astro";
 import YouTubeFacade from "../../components/YouTubeFacade.astro";
+import { topicWall } from "../../lib/topic-wall";
 import { jevLaunchPost, jevXPosts, jevXPostsWithPages } from "@repo/lib/jev-x-posts";
-import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL, jevTagsById } from "@repo/lib/jev-facets";
+import { JEV_FACET_COUNTS, JEV_ITEMS_TOTAL, JEV_TAGGED_TOTAL } from "@repo/lib/jev-facets";
 import { jevBuilds, jevBuildsWithPages } from "@repo/lib/jev-builds";
 import { jevVideos } from "@repo/lib/jev-videos";
 import { jevThreads } from "@repo/lib/jev-threads";
@@ -194,74 +195,12 @@ const WALL_PER_COLUMN = 24;
  * looked like a mistake. Measured on the preview before the fix: the front page pulled 12.2 MB on
  * load, 11.9 MB of it the same 640x360 mp4 fetched twice.
  */
-const wallX: WallItem[] = jevXPosts
-  .filter((post) => post.id !== heroLaunch?.id)
-  .slice(0, WALL_PER_COLUMN)
-  .map((post) => ({
-  kind: "X post",
-  headline: post.page?.headline ?? post.title,
-  href: post.page ? `/typesafe-jev/x-posts/${post.page.slug}` : post.url,
-  external: !post.page,
-  note: post.ourNote,
-  meta: [`${fmt(post.likes)} likes`, post.publishedAt],
-  thumb: post.thumb || undefined,
-  thumbW: post.thumbW,
-  thumbH: post.thumbH,
-  avatar: post.avatar || undefined,
-  tags: jevTagsById[post.id] ?? [],
-  /*
-   * Only the X rows carry a clip: a `<video>` on X's CDN is a progressive mp4 we can
-   * hotlink, while the videos column is YouTube, which stays click-to-load (ADR-0022).
-   */
-    video: post.video?.url,
-  }));
-
-const wallBuilds: WallItem[] = jevBuilds.slice(0, WALL_PER_COLUMN).map((build) => ({
-  kind: "Repository",
-  headline: build.title,
-  href: build.dossier ? `/typesafe-jev/builds/${build.dossier.slug}` : build.url,
-  external: !build.dossier,
-  note: build.ourNote,
-  meta: [`${fmt(build.stars)} stars`, build.language ?? "—"],
-  thumb: build.card ?? undefined,
-  tags: jevTagsById[build.id] ?? [],
-}));
-
-const wallVideos: WallItem[] = jevVideos.slice(0, WALL_PER_COLUMN).map((video) => ({
-  kind: "Video",
-  headline: video.title,
-  href: video.url,
-  external: true,
-  note: video.ourNote,
-  meta: [`${fmt(video.views)} views`, video.channel],
-  thumb: video.thumb || undefined,
-  thumbW: video.thumbW,
-  thumbH: video.thumbH,
-  tags: jevTagsById[video.id] ?? [],
-}));
-
-const wallThreads: WallItem[] = jevThreads.slice(0, WALL_PER_COLUMN).map((thread) => ({
-  kind: thread.source === "hn" ? "Hacker News" : "dev.to",
-  headline: thread.title,
-  href: thread.url,
-  external: true,
-  note: thread.ourNote,
-  meta: [`${fmt(thread.score)} ${thread.scoreLabel}`, thread.publishedAt],
-  tags: jevTagsById[thread.id] ?? [],
-}));
-
 /*
- * Interleaved rather than concatenated: one card from each column, four times
- * over, so the first screen alone shows an X post, a repository, a video and a
- * discussion. Sorting all 48 by one number would put four X posts at the top and
- * make the page look like one column.
+ * The cards themselves are built in `lib/topic-wall.ts`, because the home page renders a wall of
+ * the same cards as of 2026-09-25 and three callers is where duplication stops being cheaper than
+ * sharing. Passed in here: how big a sample to take, and which row the hero already shows.
  */
-const wall: WallItem[] = [];
-for (let i = 0; i < WALL_PER_COLUMN; i += 1) {
-  for (const column of [wallX, wallBuilds, wallVideos, wallThreads]) {
-    if (column[i]) wall.push(column[i]);
-  }
-}
+const { items: wall, columns } = topicWall("jev", WALL_PER_COLUMN, { excludeXId: heroLaunch?.id });
 
 /**
  * The use-case filter over the wall (2026-09-24). Counted **off the wall**, not off the corpus:
@@ -281,14 +220,6 @@ const wallTagChips = JEV_FACET_COUNTS.map((facet) => ({
    */
   count: facet.count,
 })).filter((chip) => chip.count > 0);
-
-/** The four columns, in the order a reader meets them, with their real counts. */
-const columns = [
-  { label: "Built with Jev", href: "/typesafe-jev/builds", count: jevBuilds.length },
-  { label: "Seen on X", href: "/typesafe-jev/x-posts", count: jevXPosts.length },
-  { label: "Videos", href: "/typesafe-jev/videos", count: jevVideos.length },
-  { label: "Threads and write-ups", href: "/typesafe-jev/threads", count: jevThreads.length },
-];
 
 const recordCount = jevBuilds.length + jevXPosts.length + jevVideos.length + jevThreads.length;
 const withPages = jevBuildsWithPages.length + jevXPostsWithPages.length;
@@ -491,7 +422,13 @@ const heroStats = [
     which put eight questions between the numbers and the thing the page is for. The FAQ now follows
     the wall, where it reads as the closing of the page rather than a detour in the middle of it.
   */}
-  <section class="topic-wall">
+  {/*
+    `data-generated`: the wall is a **sample** — up to twenty-four rows per column, by likes, views
+    and points — so adding an X post or a video displaces a card that used to be on it. That is the
+    sample working, not a link being dropped; every displaced row keeps its place in its column and
+    in the sitemap.
+  */}
+  <section class="topic-wall" data-generated="topic-wall">
     <h2>What people are building</h2>
     {/*
       The use-case axis over the wall. Measured against the reference site (2026-09-24): its left
@@ -567,60 +504,12 @@ const heroStats = [
 
 <style>
   /*
-   * The hero: words left, media right — the ordinary shape of a front page, and the one the
-   * reader asked for on 2026-09-24. Scoped to this page because both halves are this model's:
-   * the numbers are counts of *this* topic, and the right column is this model's launch post.
+   * The hero, the numbers strip and the wall band are in `system.css` as of 2026-09-25 (the
+   * "front pages" section): the home page grew the same three shapes, and a third copy is the
+   * third thing to keep working. What stays here is what is only this page's — the chips.
    *
-   * It collapses to one column at 1000px. The media column keeps its natural order, so on a
-   * phone the reader gets the headline and the lede first and the clip after them, which is
-   * the order the single-column version had.
+   * The mark-up is unchanged, so the reader sees no difference from the day the styles moved.
    */
-  .topic-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
-    gap: var(--space-10);
-    align-items: start;
-    margin: var(--space-5) 0 var(--space-8);
-  }
-  @media (max-width: 1000px) {
-    .topic-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
-  }
-  /*
-   * The measure. A wide frame is right for a grid and wrong for a paragraph: at 1048 this
-   * lede ran ~110 characters a line. `--measure` is `none` site-wide (ADR-0019), so the
-   * hero sets its own — the one place on this page with continuous prose.
-   */
-  .hero-copy { max-width: 62ch; }
-  /* The hero's dated line uses the same `.provenance` as every other page head; only the margin
-     is tightened here, because it sits between the lede and the numbers rather than under a title. */
-  .hero-copy .provenance { margin: var(--space-4) 0 var(--space-5); }
-  .hero-media { display: grid; gap: var(--space-5); }
-  .hero-card {
-    margin: 0;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    overflow: hidden;
-  }
-  .hero-cap { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5) var(--space-5); }
-  .hero-cap-title { font-family: var(--sans); font-weight: 600; font-size: var(--text-lg); }
-  .hero-cap-meta { font-size: var(--text-xs); color: var(--text-faint); font-variant-numeric: tabular-nums; }
-  .hero-cap-link { font-size: var(--text-sm); margin-top: var(--space-2); }
-  /* Both hero cards are the same figure: poster, then caption. The widths match because the
-     column gives them one column, and the heights match because the posters share a 16:9 frame. */
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
-    list-style: none;
-    margin: 0 0 var(--space-5);
-    padding: 0;
-  }
-  .stat-row li { border-top: 2px solid var(--border-strong); padding-top: var(--space-3); }
-  .stat-value { display: block; font-family: var(--sans); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .stat-label { display: block; font-size: var(--text-sm); color: var(--text-muted); margin-top: 2px; }
-  .stat-note { display: block; font-size: var(--text-xs); color: var(--text-faint); margin-top: var(--space-2); }
-
   .topic-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
   .topic-chips a {
     display: inline-flex;
@@ -646,7 +535,4 @@ const heroStats = [
    */
   .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .topic-wall { margin-top: var(--space-10); }
-  .wall-note { margin-top: var(--space-5); font-size: var(--text-sm); color: var(--text-muted); max-width: var(--measure); }
-  .topic-wall h2 { margin-bottom: var(--space-5); }
 </style>

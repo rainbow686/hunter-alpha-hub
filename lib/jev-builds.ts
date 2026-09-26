@@ -26,6 +26,14 @@ export interface JevBuild {
   /** The day the stars above were read (ADR-0024 — every third-party number carries one). */
   starsAsOf: string;
   pushedAt: string;
+  /**
+   * The day the repository itself was published, when GitHub reports one.
+   *
+   * Added 2026-09-25 for the home page's feed, which orders cards by date across topics. It is a
+   * different fact from `starsAsOf` (the day *we* read the row) and from `pushedAt` (the last
+   * commit), and the feed must not present either of those as "when this landed".
+   */
+  publishedAt: string;
   what: string;
   ourNote: string;
   card: string | null;
@@ -58,6 +66,7 @@ const RAW = queue as unknown as {
                 whatWeChecked: string[]; whatWeDidNotCheck: string; bestFor: string };
     media?: { card?: string };
     metrics: { stars: number; asOf: string; pushedAt: string; forks?: number | null; language?: string | null };
+    publishedAt?: string;
   }[];
 };
 
@@ -68,7 +77,8 @@ export const jevBuilds: JevBuild[] = RAW.entries
   .map((e) => ({
     id: e.id, url: e.url, title: e.title, author: e.author,
     stars: e.metrics.stars, forks: e.metrics.forks ?? null, language: e.metrics.language ?? null,
-    starsAsOf: e.metrics.asOf, pushedAt: e.metrics.pushedAt, what: e.what, ourNote: e.ourNote,
+    starsAsOf: e.metrics.asOf, pushedAt: e.metrics.pushedAt, publishedAt: e.publishedAt ?? e.metrics.pushedAt,
+    what: e.what, ourNote: e.ourNote,
     card: e.media?.card ?? null,
     tags: e.tags ?? [],
     dossier: e.dossier ?? null,
